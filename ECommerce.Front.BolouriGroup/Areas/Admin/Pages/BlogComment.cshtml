@@ -1,0 +1,79 @@
+﻿@page "/Admin/BlogComment/{handler?}"
+@model ArshaHamrah.Areas.Admin.Pages.BlogCommentModel
+@{
+    ViewData["Title"] = "کامنت ها";
+}
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container">
+
+
+        <div class="row g-5 g-xl-8">
+            <div class="col-xl-6">
+                <div class="card card-xl-stretch mb-xl-8">
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">افزودن کامنت</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_table_widget_5_tab_1">
+
+                                <label class="fs-5 fw-bold mb-2">نام</label><br/>
+                                <input class="form-control form-control-solid" placeholder="نام"/>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">آدرس</label><br/>
+                                <textarea id="editor1" name="editor1">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+                                <br/>
+                                <div class="separator mb-8"></div>
+                                <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
+                                    <span class="indicator-label">افزودن</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card card-xl-stretch mb-5 mb-xl-8">
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">ویرایش کامنت</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_table_widget_6_tab_1">
+
+                                <label class="fs-5 fw-bold mb-2 mt-1"></label>
+                                <input class="form-control form-control-solid mb-10" placeholder="فیلتر"/>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold m-3">نام</label>
+                                <input class="form-control form-control-solid" placeholder="" name="Title" id="Title"/>
+                                <br/>
+
+                                <div class="separator mb-8"></div>
+                                <button type="submit" class="btn btn-warning" id="kt_careerیs_submit_button">
+                                    <span class="indicator-label">ویرایش</span>
+                                </button>
+                                <button type="submit" class="btn btn-danger" id="kt_careerیss_submit_button">
+                                    <span class="indicator-label">حذف</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::جداول Widget 6-->
+            </div>
+        </div>
+
+
+    </div>
+</div>

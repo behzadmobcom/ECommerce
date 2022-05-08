@@ -1,0 +1,79 @@
+﻿@page "/Compare"
+@model ArshaHamrah.Pages.CompareModel
+@{
+    ViewData["Title"] = "مقایسه";
+}
+
+<div class="container table-responsive" style="margin-top: 100px;">
+    @if (Model.Message.Length == 0)
+    {
+        <table class="table table-bordered table-hover sticky-header">
+            <thead>
+            <tr style="background-color: #9EC9D4">
+                <th scope="col"></th>
+                @foreach (var product in Model.CompareProducts)
+                {
+                    <th scope="col">
+                        <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
+                        <div class="del-icon">
+                            <a href="#" class="delete">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                        </div>
+                        <h3 class="vmsNowrap">@product.Name</h3>
+                    </th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+            @for (var g = 0; g < Model.GroupCount; g++)
+            {
+                <tr>
+                    <th>
+                        <h3>@Model.CompareProducts[0].AttributeGroupProducts[g].Name</h3>
+                    </th>
+                </tr>
+
+                @for (var att = 0; att < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; att++)
+                {
+                    <tr>
+                        <th scope="row">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].Title</th>
+
+                        @for (var v = 0; v < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count; v++)
+                        {
+                            <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[v].Value </td>
+                        }
+                    </tr>
+                }
+            }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1>@Model.Message</h1>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/js/StickyHeader.js"></script>
+    <script>
+        $(document).on("click",
+            ".delete",
+            function(event) {
+
+                var cart_item = 0;
+                $(this).parent().parent().remove();
+
+                cart_item = $('.product_qty').length;
+                if (cart_item <= 0) {
+                    $("#total_amount").html('0');
+                    $("#discount_amount").html(0);
+                } else {
+                    $('.product_qty').trigger('keyup');
+                }
+            });
+    </script>
+}

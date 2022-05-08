@@ -1,0 +1,158 @@
+﻿@page
+@model Bolouri.Pages.OrderdetailModel
+@{
+    ViewData["Title"] = "جزئیات سفارش";
+}
+
+<section class="inner-section single-banner">
+    <div class="container">
+        <h2>جزئیات سفارش</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">جزئیات سفارش</li>
+        </ol>
+    </div>
+</section>
+
+
+<section class="inner-section orderlist-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="orderlist">
+                    <div class="orderlist-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="order-track">
+                                    <ul class="order-track-list">
+                                        <li class="order-track-item active"><i class="far fa-check"></i><span>سفارش دریافت شد</span></li>
+                                        <li class="order-track-item active"><i class="far fa-check"></i><span>سفارش پردازش شد</span></li>
+                                        <li class="order-track-item"><i class="far fa-times"></i><span>سفارش حمل شده است</span></li>
+                                        <li class="order-track-item"><i class="far fa-times"></i><span>سفارش تحویل داده شده است</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <ul class="orderlist-details">
+                                    <li>
+                                        <h6>شماره سفارش</h6>
+                                        <p>12345</p>
+                                    </li>
+                                    <li>
+                                        <h6>کل مورد</h6>
+                                        <p>3 مورد</p>
+                                    </li>
+                                    <li>
+                                        <h6>زمان سفارش</h6>
+                                        <p>5.00 بعد از ظهر 16-6-1400</p>
+                                    </li>
+                                    <li>
+                                        <h6>شرکت تحویل</h6>
+                                        <p>شرکت یک</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <ul class="orderlist-details">
+                                    <li>
+                                        <h6>زیر کل</h6>
+                                        <p>500.000 تومان</p>
+                                    </li>
+                                    <li>
+                                        <h6>تخفیف</h6>
+                                        <p>10000تومان</p>
+                                    </li>
+                                    <li>
+                                        <h6>نرخ تحویل</h6>
+                                        <p>20000تومان</p>
+                                    </li>
+                                    <li>
+                                        <h6>مالیات</h6>
+                                        <p>10000تومان</p>
+                                    </li>
+                                    <li>
+                                        <h6>جمع</h6>
+                                        <p>530000تومان</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="orderlist-deliver">
+                                    <h6>نشانی تحویل</h6>
+                                    <p>ایران - تهران - خیابان بهار</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="table-scroll p-0">
+                                    <table class="table-list">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">تولید - محصول</th>
+                                                <th scope="col">نام</th>
+                                                <th scope="col">قیمت</th>
+                                                <th scope="col">نام تجاری</th>
+                                                <th scope="col">تعداد</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
+                                                <td class="table-name"><h6>سیب تازه</h6></td>
+                                                <td class="table-price">
+                                                    <h6>25 تومان </h6>
+                                                </td>
+                                                <td class="table-brand"><h6>تلیسیو</h6></td>
+                                                <td class="table-quantity"><h6>10</h6></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
+                                                <td class="table-name"><h6>سیب تازه</h6></td>
+                                                <td class="table-price">
+                                                    <h6>25 تومان </h6>
+                                                </td>
+                                                <td class="table-brand"><h6>تلیسیو</h6></td>
+                                                <td class="table-quantity"><h6>10</h6></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
+                                                <td class="table-name"><h6>سیب تازه</h6></td>
+                                                <td class="table-price">
+                                                    <h6>25 تومان </h6>
+                                                </td>
+                                                <td class="table-brand"><h6>تلیسیو</h6></td>
+                                                <td class="table-quantity"><h6>10</h6></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="news-part">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-5 col-lg-6 col-xl-7">
+                <div class="news-text">
+                    <h2>برای به روزرسانی خبرنامه ما مشترک شوید</h2>
+                    <p>تنوع زیادی از معابر سنگ معدن سنگ معدن موجود است</p>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-6 col-xl-5">
+                <form class="news-form">
+                    <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
+                    <button>
+                        <span>  اشتراک <i class="far fa-paper-plane"></i> </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

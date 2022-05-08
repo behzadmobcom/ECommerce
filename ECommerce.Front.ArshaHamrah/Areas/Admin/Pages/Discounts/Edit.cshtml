@@ -1,0 +1,96 @@
+﻿@page "/Admin/EditDiscount/{handler?}"
+@model ArshaHamrah.Areas.Admin.Pages.Discounts.EditModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ویرایش تخفیف
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input hidden="hidden" asp-for="@Model.Discount.Id" />
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>درصد</label>
+                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>مبلغ</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ شروع</label>
+                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ پایان</label>
+                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>>مبلغ حداکثر تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked" />
+                                <span></span>
+                                فعال
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>کد تخفیف</label>
+                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
+                        <a class="btn btn-secondary" asp-Page="/discounts/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/Admin/js/bootstrap-touchspin.js"></script>
+}

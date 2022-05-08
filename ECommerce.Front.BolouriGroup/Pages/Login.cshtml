@@ -1,0 +1,49 @@
+﻿@page  "/Login"
+@model Bolouri.Pages.LoginModel
+@{
+    ViewData["Title"] = "ورود";
+}
+
+
+<section class="user-form-part">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                <div class="user-form-logo">
+                    <a asp-area="" asp-page="/Index"><img src="~/img/logo.png" alt="لوگو"></a>
+                </div>
+                <div class="user-form-card">
+                    <div class="user-form-title">
+                        <h2>خوش آمدید!</h2>
+                        <p>حساب خود را با ایمیل و رمز ورود وارد کنید</p>
+                    </div>
+                    <form method="post" class="user-form">
+                        <div class="form-group"><label>پست الکترونیک</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="ایمیل خود را وارد کنید"></div>
+                        <div class="form-group"><label>کلمه عبور</label><input type="password"  asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید"></div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        مرا به خاطر بسپار
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <a href="#" class="forgot-pass">رمز عبور خود را فراموش کرده اید؟</a>
+                            </div>
+                        </div>
+                        <div class="form-button">
+                            <button type="submit" asp-page-handler="Submit">ورود</button>
+                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="user-form-footer">
+                    <p>     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+                </div>
+            </div>
+        </div>
+        <partial name="_ValidationScriptsPartial"/>
+    </div>
+</section>

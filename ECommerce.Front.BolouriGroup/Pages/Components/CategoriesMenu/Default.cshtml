@@ -1,0 +1,26 @@
+﻿@model List<Entities.ViewModel.CategoryParentViewModel>
+
+@if (Model != null)
+{
+    @foreach (var category in Model)
+    {
+        var path = $"/Shop/{category.Path}";
+        <div class="col">
+            <div class="megamenu-wrap">
+                @if (category.Depth == 0)
+                {
+                    <a href="@path">
+                        <h5 class="megamenu-title">@category.Name</h5>
+                    </a>
+                }
+
+                @*  @if (category.Children != null)
+                    {
+                    <ul class="megamenu-list">
+                    <partial name="_categoriesMenu" model="category.Children"/>
+                    </ul>
+                    }*@
+            </div>
+        </div>
+    }
+}

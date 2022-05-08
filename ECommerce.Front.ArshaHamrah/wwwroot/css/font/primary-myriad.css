@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "primary-font";
+    font-weight: 400;
+    src: url("../../fonts/myriad-400.eot");
+    src: url("../../fonts/myriad-400.eot?#iefix") format("embedded-opentype"),
+         url("../../fonts/myriad-400.woff2") format("woff2"),
+         url("../../fonts/myriad-400.woff") format("woff"),
+         url("../../fonts/myriad-400.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "primary-font";
+    font-weight: 700;
+    src: url("../../fonts/myriad-700.eot");
+    src: url("../../fonts/myriad-700.eot?#iefix") format("embedded-opentype"),
+         url("../../fonts/myriad-700.woff2") format("woff2"),
+         url("../../fonts/myriad-700.woff") format("woff"),
+         url("../../fonts/myriad-700.ttf") format("truetype");
+}

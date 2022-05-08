@@ -1,0 +1,182 @@
+﻿@page "{handler?}"
+@using Entities
+@model ArshaHamrah.Areas.Admin.Pages.Products.PriceModel
+@{
+    var i = 1 + ((Model.Prices.PaginationDetails.CurrentPage - 1) * Model.Prices.PaginationDetails.PageSize);
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <!--begin::نمونه-->
+                @if (Model.Message != null)
+                {
+                    switch (Model.Code)
+                    {
+                        case "Error":
+                            <div class="alert alert-danger"> @Model.Message </div>
+                            break;
+                        case "Warning":
+                            <div class="alert alert-warning"> @Model.Message </div>
+                            break;
+                        case "Info":
+                            <div class="alert alert-info"> @Model.Message </div>
+                            break;
+                        default:
+                            <div class="alert alert-success"> @Model.Message </div>
+                            break;
+                    }
+
+                    Model.Message = null;
+                    Model.Code = null;
+                }
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ایجاد محصولات جدید
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input asp-for="@Model.Price.Id" hidden="hidden" />
+                    <input asp-for="@Model.Price.ProductId" hidden="hidden" />
+                    <label class="form-control-label">واحد</label>
+                    <select asp-for="@Model.Price.UnitId" asp-items="@Model.Units" class="col-md-10 js-example-basic-single  form-control"></select>
+
+                    <label class="form-control-label">رنگ</label>
+                    <select asp-for="@Model.Price.ColorId" asp-items="@Model.Colors" class="col-md-10 js-example-basic-single  form-control"></select>
+
+                    <label class="form-control-label">اندازه</label>
+                    <select asp-for="@Model.Price.SizeId" asp-items="@Model.Sizes" class="col-md-10 js-example-basic-single  form-control"></select>
+
+                    <label class="form-control-label">واحد پول</label>
+                    <select asp-for="@Model.Price.CurrencyId" asp-items="@Model.Currencies" class="col-md-10 js-example-basic-single  form-control"></select>
+
+                    <label class="form-control-label">مبلغ</label>
+                    <input asp-for="@Model.Price.Amount" class="form-control form-control-solid" />
+
+                    <label class="form-control-label">حداقل سفارش</label>
+                    <input asp-for="@Model.Price.MinQuantity" class="form-control form-control-solid" />
+
+                    <label class="form-control-label">حدکثر سفارش</label>
+                    <input asp-for="@Model.Price.MaxQuantity" class="form-control form-control-solid" />
+
+                    <label class="form-control-label">اگر کالا در هلو موجود هست، شماره قیمت را انتخاب کنید</label>
+                    <select id="statusIs" class="col-md-10 js-example-basic-single  form-control">
+                        @foreach (var status in Enum.GetValues(typeof(Price.HolooSellNumber)))
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+
+                    <div class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="colleaguePriceId" type="checkbox" />
+                            <span></span>
+                            این قیمت فقط برای همکار است
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                    <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
+                </form>
+                <!--end::Form-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست برند ها</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="example mb-10">
+            <div class="form-actions no-color">
+                <p>
+                    تعداد رکورد ها در صفحه :
+                    <a asp-page="/Product/Price" asp-route-pageSize=10>10</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize=20>20</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize=30>30</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize=40>40</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize=50>50</a>
+                </p>
+            </div>
+            <div class="example-preview">
+                
+                    <table class="table table-bordered mb-6">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">رنگ</th>
+                                <th scope="col">حداقل سفارش</th>
+                                <th scope="col">حداکثر سفارش</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var price in Model.Prices.ReturnData)
+                            {
+                                <tr>
+                                    <th scope="row">@(i++)</th>
+                                    <td>@price.Amount</td>
+                                    <td>@price.Color.Name</td>
+                                    <td>@price.MinQuantity</td>
+                                    <td>@price.MaxQuantity</td>
+
+                                    <td>
+                                        <form method="post">
+                                            <button asp-page-handler="Edit" class="label label-inline label-light-success font-weight-bold">ویرایش</button>
+                                            <button asp-page-handler="Delete" class="label label-inline label-light-danger font-weight-bold">حذف</button>
+                                            <input type="hidden" name="id" value="@price.Id" />
+                                            <input type="hidden" name="productId" value="@price.ProductId" />
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+              
+                @{
+                    var prevDisabled = Model.Prices.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
+                    var nextDisabled = Model.Prices.PaginationDetails.TotalPages <= Model.Prices.PaginationDetails.CurrentPage ? "disabled" : "";
+                }
+
+                <a asp-page="/Product/Price"
+                   asp-route-pageNumber="@(Model.Prices.PaginationDetails.CurrentPage - 1)"
+                   asp-route-search="@(Model.Prices.PaginationDetails.Search)"
+                   asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                   class="btn btn-primary @prevDisabled">
+                    قبلی
+                </a>
+                @for (var pageIndex = 1; pageIndex <= Model.Prices.PaginationDetails.TotalPages; pageIndex++)
+                {
+                    var activePage = Model.Prices.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
+                    <a asp-page="/Product/Price"
+                       asp-route-pageNumber="@pageIndex"
+                       asp-route-search="@Model.Prices.PaginationDetails.Search"
+                       asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                       class="btn @activePage">
+                        @pageIndex
+                    </a>
+                }
+                <a asp-page="/Product/Price"
+                   asp-route-pageNumber="@(Model.Prices.PaginationDetails.CurrentPage + 1)"
+                   asp-route-search="@(Model.Prices.PaginationDetails.Search)"
+                   asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                   class="btn btn-primary @nextDisabled">
+                    بعدی
+                </a>
+
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>

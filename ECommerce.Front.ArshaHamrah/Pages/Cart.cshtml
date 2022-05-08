@@ -1,0 +1,221 @@
+﻿@page "/cart"
+@model ArshaHamrah.Pages.CartModel
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+<!-- BREADCRUMBS SETCTION START -->
+<div class="breadcrumbs-section plr-200 mb-80">
+    <div class="breadcrumbs overlay-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="breadcrumbs-inner">
+                        <h1 class="breadcrumbs-title">سبد خرید</h1>
+                        <ul class="breadcrumb-list">
+                            <li>
+                                <a asp-page="index">خانه</a>
+                            </li>
+                            <li>سبد خرید</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMBS SETCTION END -->
+<!-- Start page content -->
+<section id="page-content" class="page-wrapper">
+
+    <!-- SHOP SECTION START -->
+    <div class="shop-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-sm-12">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <!-- shopping-cart start -->
+                        <div class="tab-pane active" id="shopping-cart">
+                            <div class="shopping-cart-content">
+                                <form action="#">
+                                    <div class="table-content table-responsive mb-50">
+                                        <table class="text-center">
+                                            <thead>
+                                            <tr>
+                                                <th class="product-thumbnail">محصول</th>
+                                                <th class="product-price">قیمت</th>
+                                                <th class="product-quantity">تعداد</th>
+                                                <th class="product-subtotal">جمع کل</th>
+                                                <th class="product-remove">حذف</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @{ var sum = 0; }
+                                            @foreach (var product in Model.CartList.ReturnData)
+                                            {
+                                                sum = sum + product.Price * product.Quantity;
+                                                <!-- tr -->
+                                                <tr id="Cart-@product.ProductId">
+                                                    <td class="product-thumbnail">
+                                                        <div class="pro-thumbnail-img">
+                                                            <img src="~/@product.ImagePath" alt="@product.Alt">
+                                                        </div>
+                                                        <div class="pro-thumbnail-info text-left">
+                                                            <h6 class="product-title-2">
+                                                                <a asp-page="Product" asp-route-productId="@product.Url">@product.Name</a>
+                                                            </h6>
+                                                            <p>برند: @product.Brand</p>
+                                                        </div>
+                                                    </td>
+                                                    <td>@product.Price.ToString("N0") تومان</td>
+                                                    <input hidden="hidden" id="price-@product.ProductId" value="@product.Price"/>
+
+                                                    <td class="product-quantity">
+                                                        <div id="@product.ProductId" class="cart-plus-minus f-left product_qty">
+                                                            <input type="text" value="@product.Quantity" id="quantity-@product.ProductId" name="qty" class="cart-plus-minus-box" readonly>
+
+                                                        </div>
+                                                        <input hidden="hidden" id="quantity-old-@product.ProductId" value="@product.Quantity"/>
+                                                    </td>
+
+                                                    <td id="sum-@product.ProductId">@product.SumPrice.ToString("N0") تومان</td>
+
+                                                    <td class="product-remove" id="product-remove">
+                                                        <a href="javascript:void(0)" class="delete" onclick="RemoveCart(@product.ProductId)">
+                                                            <i class="zmdi zmdi-close"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        @*<div class="col-md-6">
+                                                <div class="coupon-discount box-shadow p-30 mb-50">
+                                                    <h6 class="widget-title border-left mb-20">کد تخفیف</h6>
+                                                    <p>اگر کد تخفیف دارید وارد کنید!</p>
+                                                    <input type="text" name="name" placeholder="کد تخفیف را وارد کنید">
+                                                    <button class="submit-btn-1 black-bg btn-hover-2" type="submit">اعمال کد تخفیف</button>
+                                                </div>
+                                            </div>*@
+                                        <div class="col-md-6">
+                                            <div class="payment-details box-shadow p-30 mb-50">
+                                                <h6 class="widget-title border-left mb-20">جزئیات پرداخت</h6>
+                                                <table>
+                                                    <tr>
+                                                        <td class="td-title-1">جمع سبد</td>
+                                                        <td class="td-title-2">@sum.ToString("N0") تومان</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="td-title-1">حمل و نقل</td>
+                                                        <td class="td-title-2">0 تومان</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="td-title-1">مالیات</td>
+                                                        <td class="td-title-2">0 تومان</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="order-total">مجموع سفارش</td>
+                                                        <td class="order-total-price">@sum.ToString("N0") تومان</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                                            <div class="col-md-12">
+                                                <div class="culculate-shipping box-shadow p-30">
+                                                    <h6 class="widget-title border-left mb-20">محاسبه هزینه ارسال</h6>
+                                                    <p>اگر کد تخفیف دارید وارد کنید!</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-xs-12">
+                                                            <input type="text" placeholder="کشور">
+                                                        </div>
+                                                        <div class="col-sm-4 col-xs-12">
+                                                            <input type="text" placeholder="منطقه / استان">
+                                                        </div>
+                                                        <div class="col-sm-4 col-xs-12">
+                                                            <input type="text" placeholder="کد پستی">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button class="submit-btn-1 black-bg btn-hover-2">محاسبه</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </form>
+                            </div>
+                        </div>
+                        <!-- shopping-cart end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SHOP SECTION END -->
+
+</section>
+<!-- End page content -->
+
+@section Scripts
+{
+    <script>
+
+        function AddCart(id) {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=AddCart&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    /*swal(result.message);*/
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+        }
+
+        function RemoveCart(id) {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=DeleteCart&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        var elementId = "#Cart-" + id;
+                        $(elementId).remove();
+                    }
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+        }
+
+        $(".product_qty").click(function(event) {
+            var id = $(this).attr('id');
+            var quantityId = "#quantity-" + id;;
+            var quantityOldId = "#quantity-old-" + id;;
+            var quantity = parseInt($(quantityId).val());
+            var quantityOld = parseInt($(quantityOldId).val());
+            if (quantityOld > quantity) {
+                RemoveCart(id);
+            }
+            if (quantityOld < quantity) {
+                AddCart(id);
+            }
+            $(quantityOldId).val(quantity);
+            var priceId = "#price-" + id;
+            var price = parseInt($(priceId).val());
+            var sum = price * parseInt(quantity);
+            var sumId = "#sum-" + id;
+            $(sumId).text(sum + ' تومان');
+        });
+
+    </script>
+}

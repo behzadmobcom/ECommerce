@@ -1,0 +1,52 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "ارور";
+}
+
+
+<section class="inner-section single-banner">
+    <div class="container">
+        <h2>خطای 404</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">خطای 404</li>
+        </ol>
+    </div>
+</section>
+
+
+<section class="error-part">
+    <div class="container">
+        <div class="col-lg-6 mx-auto">
+            <img class="img-fluid" src="~/img/error.svg" alt="خطا">
+        </div>
+        <h3>اوه این صفحه یافت نمی شود</h3>
+        <p>این صفحه پیدا نشده است شما به دنبال آن ممکن است وجود نداشته باشد و یا حذف شده است.</p>
+        <a asp-area="" asp-page="/Index">به خانه برو</a>
+    </div>
+</section>
+
+
+<section class="news-part">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-5 col-lg-6 col-xl-7">
+                <div class="news-text">
+                    <h2>برای به روزرسانی خبرنامه ما مشترک شوید</h2>
+                    <p>تنوع زیادی از معابر سنگ معدن سنگ معدن موجود است</p>
+                </div>
+            </div>
+            <div class="col-md-7 col-lg-6 col-xl-5">
+                <form class="news-form">
+                    <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
+                    <button>
+                        <span>  اشتراک <i class="far fa-paper-plane"></i> </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+

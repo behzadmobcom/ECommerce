@@ -1,0 +1,138 @@
+﻿@page
+@model ArshaHamrah.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "پرداخت";
+    var sum = 0;
+}
+<!-- BREADCRUMBS SETCTION START -->
+<div class="breadcrumbs-section plr-200 mb-80">
+    <div class="breadcrumbs overlay-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="breadcrumbs-inner">
+                        <h1 class="breadcrumbs-title">پرداخت</h1>
+                        <ul class="breadcrumb-list">
+                            <li>
+                                <a asp-page="index">خانه</a>
+                            </li>
+                            <li>پرداخت</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMBS SETCTION END -->
+<!-- checkout start -->
+<div class="tab-pane" id="checkout">
+    <div class="checkout-content box-shadow p-30">
+        <form method="post" asp-page-handler="OnPost">
+            <div class="row">
+                <!-- billing details -->
+                <div class="col-md-6">
+                    <div class="billing-details pr-10">
+                        <h6 class="widget-title border-left mb-20">جزئیات پرداخت</h6>
+                        <select asp-for="SendInformation.Id" class="custom-select">
+                            @foreach (var sendInfo in Model.SendInformationList)
+                            {
+                                <option value="@sendInfo.Value">@sendInfo.Text</option>
+                            }
+                        </select>
+                        <input type="text" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
+                        <input type="text" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr">
+                        <input type="text" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr">
+                        <select asp-for="SendInformation.StateId" class="custom-select" id="state" onchange="setCities();">
+                            @foreach (var state in Model.StateList.ReturnData)
+                            {
+                                <option value="@state.Id">@state.Name</option>
+                            }
+                        </select>
+
+                        <select asp-for="SendInformation.CityId" class="custom-select" id="city">
+                            @foreach (var city in Model.CityList.ReturnData)
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
+                        </select>
+
+                        <textarea asp-for="SendInformation.Address" class="custom-textarea" placeholder="آدرس شما ..."></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- our order -->
+                    <div class="payment-details mb-50">
+                        <h6 class="widget-title border-left mb-20">سفارش شما</h6>
+                        <table>
+                            @foreach (var product in Model.CartList.ReturnData)
+                            {
+                                sum = sum + product.SumPrice;
+                                <tr>
+                                    <td class="td-title-1">@product.Name × @product.Quantity</td>
+                                    <td class="td-title-2">@product.SumPrice.ToString("N0") تومان</td>
+                                </tr>
+                            }
+
+
+                            <tr>
+                                <td class="order-total">مجموع سفارش</td>
+                                <td class="order-total-price">@sum.ToString("N0") تومان</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- payment-method -->
+                    <div class="payment-method">
+                        <h6 class="widget-title border-left mb-20">نحوه پرداخت</h6>
+                        <div id="accordion">
+                            <div class="panel">
+                                <h4 class="payment-title box-shadow">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                        پرداخت آنلاین
+                                    </a>
+                                </h4>
+                                <div id="collapseThree" class="panel-collapse collapse">
+                                    <div class="payment-content">
+                                        <p>درگاه پرداخت بانک مورد نظر خود را انتخاب کنید</p>
+                                        <ul class="payent-type mt-10">
+                                            <li>
+                                                <a href="#">
+                                                    <img src="img/payment/zarinpal.jpg" alt="">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- payment-method end -->
+                    <button class="submit-btn-1 mt-30 btn-hover-1" type="submit">ثبت سفارش</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- checkout end -->
+
+@section Scripts
+{
+    <script>
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Checkout?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    $("#city").html(result);
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
+}

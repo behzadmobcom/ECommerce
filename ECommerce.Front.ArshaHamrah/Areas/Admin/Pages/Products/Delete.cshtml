@@ -1,0 +1,187 @@
+﻿@page "/Admin/DeleteProduct"
+@model ArshaHamrah.Areas.Admin.Pages.Products.DeleteModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        حذف محصولات
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input hidden="hidden" name="id" asp-for="@Model.Product.Id" />
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>انتخاب تگ ها</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Tags)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب کلمات کلیدی</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Keywords)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب دسته ها</label>
+                            <div class="checkbox-list">
+                                @foreach (var parent in Model.CategoriesTreeViewModels.Where(x => x.ParentId == null))
+                                {
+                                    var children = Model.CategoriesTreeViewModels.Where(c => c.ParentId == parent.Id).ToList();
+                                    if (children.Any())
+                                    {
+                                        <input type="checkbox" value="@parent.Id" disabled="disabled">
+                                        <label for="@parent.Id"> @parent.Name</label>
+                                        foreach (var child in children)
+                                        {
+                                            <input type="checkbox" value="@child.Id">
+                                            <label for="@child.Id"> @child.Name</label>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" value="@parent.Id">
+                                        <label for="@parent.Id"> @parent.Name</label>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>نام کالا</label>
+                            <label class="form-control form-control-solid">@Model.Product.Name</label>
+                        </div>
+                        @*<div class="form-group">
+                            <label>کد دیتابیس کالا در هلو</label>
+                            <label class="form-control form-control-solid">@Model.Product.ArticleCode</label>
+                        </div>
+                        <div class="form-group">
+                            <label>کد کالا در هلو</label>
+                            <label class="form-control form-control-solid">@Model.Product.ArticleCodeCustomer</label>
+                        </div>*@
+                        <div class="form-group">
+                            <label>توضیحات</label>
+                            <label class="form-control form-control-solid">@Model.Product.Description</label>
+                        </div>
+                        @*<div class="form-group">
+                            <label>موجودی</label>
+                            <label class="form-control form-control-solid">@Model.Product.Exist</label>
+                        </div>*@
+                        <div class="form-group">
+                            <label>حداقل سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MaxOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل در انبار</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinInStore</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد سفارش مجدد</label>
+                            <label class="form-control form-control-solid">@Model.Product.ReorderingLevel</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued" />
+                                <span></span>
+                                توقف تولید
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsActive" />
+                                <span></span>
+                                فعال بودن
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>آدرس محصول در سایت</label>
+                        </div>
+                        <div class="form-group">
+                            <label>برند</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Brands)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تخفیف</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Discounts)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>انبار</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Stores)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تامین کننده</label>
+                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Suppliers)
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر برند</label>
+                            <div class="custom-file">
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" />
+                                <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">حذف</button>
+                        <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

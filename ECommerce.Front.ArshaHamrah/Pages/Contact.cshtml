@@ -1,0 +1,124 @@
+﻿@page "/Contact"
+@model ContactModel
+@{
+    ViewData["Title"] = "تماس با ما";
+}
+<!-- BREADCRUMBS SETCTION START -->
+<div class="breadcrumbs-section plr-200 mb-80">
+    <div class="breadcrumbs overlay-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="breadcrumbs-inner">
+                        <h1 class="breadcrumbs-title">تماس</h1>
+                        <ul class="breadcrumb-list">
+                            <li>
+                                <a asp-page="index">خانه</a>
+                            </li>
+                            <li>تماس</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMBS SETCTION END -->
+<!-- Start page content -->
+<section id="page-content" class="page-wrapper">
+
+    <!-- ADDRESS SECTION START -->
+    <div class="address-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="contact-address box-shadow">
+                        <i class="zmdi zmdi-pin"></i>
+                        <h6>رشت : خیابان مطهری .کوچه شهید علی رضا منعم</h6>
+                        <h6>ساختمان صبا.طبقه دوم.واحد4</h6>
+                        <h6>کد پستی :4183694337</h6>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="contact-address box-shadow">
+                        <i class="zmdi zmdi-phone"></i>
+                        <h6>
+                            <a class="ltr-text" href="tel:01333341072">01333341072</a>
+                        </h6>
+                        <h6>
+                            <a class="ltr-text" href="tel:09371316151">09371316151</a>
+                        </h6>
+                        <h6>
+                            <a class="ltr-text" href="tel:09371316020">09371316020</a>
+                        </h6>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="contact-address box-shadow">
+                        <i class="zmdi zmdi-email"></i>
+                        <h6>info@arshahamrah.com</h6>
+                        <h6>support@arshahamrah.com</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ADDRESS SECTION END -->
+    <!-- GOOGLE MAP SECTION START -->
+    <div class="google-map-section">
+        <div class="container-fluid">
+            <div class="google-map plr-185">
+                <div id="googleMap"></div>
+            </div>
+        </div>
+    </div>
+    <!-- GOOGLE MAP SECTION END -->
+    <!-- MESSAGE BOX SECTION START -->
+    <div class="message-box-section mt--50 mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="message-box box-shadow white-bg">
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="blog-section-title border-left mb-30">در ارتباط باشید</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <input asp-for="UserMessage.Name" type="text" placeholder="نام شما">
+                                </div>
+                                <div class="col-md-6">
+                                    <input asp-for="UserMessage.Email" type="email" placeholder="ایمیل شما" dir="ltr">
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea asp-for="UserMessage.Body" class="custom-textarea" placeholder="پیام"></textarea>
+                                    <button id="submit" class="submit-btn-1 mt-30 btn-hover-1">ثبت پیام</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="form-messege"></p>
+                        @*@if (Model.Result != null)
+                        {
+                            <label class="@Model.Result.Code == 0? label-success  : label.label-danger">@Model.Result.GetBody()</label>
+                            
+                        }*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MESSAGE BOX SECTION END -->
+</section>
+
+
+<!-- End page content -->
+
+@section Scripts {
+    <!-- Google Map js -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDacJcoyPCr-jdlP9HK93h3YKNyf710J0&language=fa"></script>
+    <script src="~/js/map.js"></script>
+
+    <!-- ajax-mail js -->
+    <script src="~/js/ajax-mail.js"></script>
+
+}

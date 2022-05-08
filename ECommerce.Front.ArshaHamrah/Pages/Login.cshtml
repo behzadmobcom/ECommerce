@@ -1,0 +1,149 @@
+﻿@page "/Login"
+@model ArshaHamrah.Pages.LoginModel
+@{
+    ViewData["Title"] = "ورود";
+}
+
+<!-- BREADCRUMBS SETCTION START -->
+<div class="breadcrumbs-section plr-200 mb-80">
+    <div class="breadcrumbs overlay-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="breadcrumbs-inner">
+                        <h1 class="breadcrumbs-title">ورود / ثبت نام</h1>
+                        <ul class="breadcrumb-list">
+                            <li>
+                                <a asp-page="index">خانه</a>
+                            </li>
+                            <li>ورود / ثبت نام</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BREADCRUMBS SETCTION END -->
+<!-- Start page content -->
+<div id="page-content" class="page-wrapper">
+    <!-- LOGIN SECTION START -->
+    <div class="login-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="registered-customers">
+                        <h6 class="widget-title border-left mb-40">مشتریان عضو</h6>
+                        <form method="post">
+                            <div class="login-account p-30 box-shadow">
+                                <p>اگر حساب کاربری دارید، لطفا وارد شوید.</p>
+                                <input type="text" asp-for="LoginViewModel.Username" placeholder="نام کاربری" dir="ltr">
+                                <input type="password" asp-for="LoginViewModel.Password" placeholder="رمز عبور" dir="ltr">
+                                <p>
+                                    <small>
+                                        <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
+                                    </small>
+                                </p>
+                                <button class="submit-btn-1 btn-hover-1" type="submit" asp-page-handler="Submit">ورود</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- new-customers -->
+                <div class="col-md-6">
+                    <div class="new-customers">
+                        <form method="post">
+                            <h6 class="widget-title border-left mb-40">مشتریان جدید</h6>
+                            <div class="login-account p-30 box-shadow">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName">
+                                        <span asp-validation-for="RegisterViewModel.FirstName"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName">
+                                        <span asp-validation-for="RegisterViewModel.LastName"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span asp-validation-for="RegisterViewModel.Mobile"></span>
+                                        <input type="text" placeholder="... شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile">
+                                    </div>
+                                </div>
+                                <span asp-validation-for="RegisterViewModel.Name"></span>
+                                <input type="text" placeholder="نام شرکت ..." asp-for="RegisterViewModel.Name">
+
+                                <span asp-validation-for="RegisterViewModel.Email" style="color: red"></span>
+                                <input type="text" placeholder="... آدرس ایمیل" dir="ltr" asp-for="RegisterViewModel.Email">
+
+                                <span asp-validation-for="RegisterViewModel.Username"></span>
+                                <input type="text" placeholder="... نام کاربری" dir="ltr" asp-for="RegisterViewModel.Username">
+
+                                <span asp-validation-for="RegisterViewModel.Password"></span>
+                                <input type="password" placeholder="رمز عبور" dir="ltr" asp-for="RegisterViewModel.Password">
+
+                                <span asp-validation-for="RegisterViewModel.ConfirmPassword"></span>
+                                <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword">
+
+
+                                <div class="checkbox">
+                                    <label class="mr-10">
+                                        <br/>
+                                        <p class="text-muted font-weight-bold">در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید.</p>
+                                        <input laceholder="شماره مشتری" dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer"/>
+                                        <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br/>
+                                    </label>
+                                    <label>
+                                        <small>
+                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode">آیا شما در قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
+                                            <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
+                                        </small>
+                                    </label>
+                                    <label>
+                                        <small>
+                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsColleague">آیا شما بعنوان همکار خرید میکنید؟
+                                            <span asp-validation-for="RegisterViewModel.IsColleague"></span>
+                                        </small>
+                                        <uploadimage asp-for="RegisterViewModel.PicturePath"/>
+                                        <span asp-validation-for="RegisterViewModel.PicturePath"></span>
+                                    </label>
+                                    <label>
+                                        <small>
+                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsFeeder">عضویت در خبرنامه!
+                                            <span asp-validation-for="RegisterViewModel.IsFeeder"></span>
+                                        </small>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="checkbox-inline">
+                                            <label class="checkbox">
+                                                <input type="checkbox"/>
+                                                <span></span>
+                                                می پذیرم <a href="#">قوانین و مقررات</a>.
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" asp-page-handler="Register">ثبت نام</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">پاکسازی</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- LOGIN SECTION END -->
+    <partial name="_ValidationScriptsPartial"/>
+</div>
+<!-- End page content -->
+
+@section scripts{
+
+}

@@ -1,0 +1,43 @@
+﻿@page
+@model ArshaHamrah.Areas.Admin.Pages.BlogAuthors.DetailModel
+@{
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        جزئیات نویسنده
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام:</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.Name</label>
+                        </div>
+                            <div class="form-group">
+                            <label>نام انگلیسی:</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.EnglishName</label>
+                        </div>
+                        <div class="form-group">
+                            <label>توضیحات:</label>
+                            <label class="form-control form-control-solid" style="height: auto">@Html.Raw(Model.BlogAuthor.Description)</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر نویسنده:</label>
+                            <img src="@Model.BlogAuthor.ImagePath">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary mr-2" asp-Page="/BlogAuthors/edit" asp-area="Admin" asp-route-id="@Model.BlogAuthor.Id">ویرایش</a>
+                        <a class="btn btn-secondary" asp-Page="/BlogAuthors/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

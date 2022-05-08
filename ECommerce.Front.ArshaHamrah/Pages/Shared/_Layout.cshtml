@@ -1,0 +1,722 @@
+﻿@inject ICategoryService _categoryService
+@inject ICartService _cartService
+
+<!DOCTYPE html>
+<html class="no-js" lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewData["Title"] - آرشا همراه</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ff7f00">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/icon/apple-icon-60x60.png">
+    <!-- All CSS Files
+
+    <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <!-- Nivo-slider css -->
+    <link rel="stylesheet" href="~/css/nivo-slider.css">
+    <!-- This core.css file contents all plugings css file. -->
+    <link rel="stylesheet" href="~/css/core.css">
+    <!-- Theme shortcodes/elements style -->
+    <link rel="stylesheet" href="~/css/shortcode/shortcodes.css">
+    <!-- Theme main style -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="~/css/responsive.css">
+    <!-- User style -->
+    <link rel="stylesheet" href="~/css/custom.css">
+
+    <!-- Style customizer (Remove these two lines please) -->
+    <link rel="stylesheet" href="~/css/style-customizer.css">
+    <link href="#" data-style="styles" rel="stylesheet">
+
+
+    <!-- Modernizr JS -->
+    <script src="~/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+
+<body>
+<!--[if lt IE 8]>
+    <p class="browserupgrade">شما از یک مرورگر <strong>قدیمی</strong> استفاده میکنید. لطفا مرورگر خود را <a href="http://browsehappy.com/">به روز نمایید</a> تا تجربه بهتری کسب کنید.</p>
+<![endif]-->
+<!-- Body main wrapper start -->
+<div class="wrapper">
+
+<!-- START HEADER AREA -->
+<header class="header-area header-wrapper header-2">
+<!-- header-middle-area -->
+<div id="sticky-header" class="header-middle-area plr-185">
+<div class="container-fluid">
+<div class="full-width-mega-dropdown">
+<div class="row">
+<!-- logo -->
+<div class="col-md-2 col-sm-6 col-xs-12">
+    <div class="logo">
+        <a asp-page="index">
+            <img src="~/img/logo/logo.png" alt="main logo">
+        </a>
+    </div>
+</div>
+<!-- primary-menu -->
+<div class="col-md-8 hidden-sm hidden-xs">
+    <nav id="primary-menu">
+        <ul class="main-menu text-center">
+            <li>
+                <a asp-page="index">خانه</a>
+
+            </li>
+            <li class="mega-parent">
+                <a asp-page="Shop">دسته بندی</a>
+                <div class="mega-menu-area clearfix">
+                    <div class="mega-menu-link f-left">
+                        @{ var categories = await _categoryService.Load(); }
+                        @if (categories.Code == 0)
+                        {
+                            @foreach (var parent in categories.ReturnData.Where(x => x.ParentId == null))
+                            {
+                                <ul class="single-mega-item " style="height: 100%;">
+                                    <a asp-page="Shop" asp-route-categoryUrl="@parent.Path">@parent.Name</a>
+                                    @{ var children = categories.ReturnData.Where(c => c.ParentId == parent.Id); }
+                                    @foreach (var child in children)
+                                    {
+                                        <li style="display: inline-block">
+                                            <a asp-page="Shop" asp-route-categoryUrl="@child.Path">@child.Name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                    <div class="mega-menu-photo f-left">
+                        <a href="#">
+                            <img src="~/img/mega-menu/1.jpg" alt="mega menu image">
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="blog.html">بلاگ</a>
+                <ul class="dropdwn">
+                    <li>
+                        <a href="blog-right-sidebar.html">تکرار منوی باز شونده</a>
+                        <ul class="dropdwn-repeat">
+                            <li>
+                                <a href="blog.html">بلاگ</a>
+                            </li>
+                            <li>
+                                <a href="blog-right-sidebar.html">بلاگ نوار کناری راست</a>
+                            </li>
+                            <li>
+                                <a href="blog-left-sidebar.html">بلاگ نوار کناری چپ</a>
+                            </li>
+                            <li>
+                                <a href="blog-2.html">بلاگ طرح 2</a>
+                            </li>
+                            <li>
+                                <a href="blog-2-right-sidebar.html">بلاگ 2 نوار کناری راست</a>
+                            </li>
+                            <li>
+                                <a href="blog-2-left-sidebar.html">بلاگ 2 نوار کناری چپ</a>
+                            </li>
+                            <li>
+                                <a href="single-blog.html">جزئیات مطلب بلاگ</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="blog.html">بلاگ</a>
+                    </li>
+                    <li>
+                        <a href="blog-right-sidebar.html">بلاگ نوار کناری راست</a>
+                    </li>
+                    <li>
+                        <a href="blog-left-sidebar.html">بلاگ نوار کناری چپ</a>
+                    </li>
+                    <li>
+                        <a href="blog-2.html">بلاگ طرح 2</a>
+                    </li>
+                    <li>
+                        <a href="blog-2-right-sidebar.html">بلاگ 2 نوار کناری راست</a>
+                    </li>
+                    <li>
+                        <a href="blog-2-left-sidebar.html">بلاگ 2 نوار کناری چپ</a>
+                    </li>
+                    <li>
+                        <a href="single-blog.html">جزئیات مطلب بلاگ</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a asp-page="AboutUs">درباره ما</a>
+            </li>
+            <li>
+                <a asp-page="Contact">تماس</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- header-search & total-cart -->
+<div class="col-md-2 col-sm-6 col-xs-12">
+    <div class="search-top-cart  f-right">
+        <!-- header-search -->
+        <div class="header-search header-search-2 f-left">
+            <div class="header-search-inner">
+                <button class="search-toggle">
+                    <i class="zmdi zmdi-search"></i>
+                </button>
+                <form action="#">
+                    <div class="top-search-box">
+                        <input type="text" placeholder="جستجوی محصول ...">
+                        <button type="submit">
+                            <i class="zmdi zmdi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="header-account header-account-2 f-left">
+            <ul class="user-meta">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="#">
+                            <i class="zmdi zmdi-view-headline"></i>
+                        </a>
+                        <ul>
+                            @if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a asp-page="index" asp-area="Admin">مدیریت</a>
+                                </li>
+                            }
+                            <li>
+                                <a asp-page="UserProfile">حساب کاربری</a>
+                            </li>
+                            <li>
+                                <a asp-page="WishList">علاقه‌مندی‌ها</a>
+                            </li>
+                            <li>
+                                <a asp-page="Checkout">پرداخت</a>
+                            </li>
+                            <li>
+                                <a asp-page="Index" asp-page-handler="Logout">خروج</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a asp-page="Login">
+                            <i class="zmdi zmdi-view-headline"></i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a asp-page="Login">ورود</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- total-cart -->
+        @{
+            var result = await _cartService.Load(Context);
+            var cartList = result.ReturnData;
+            var allPrice = 0;
+        }
+        <div class="total-cart total-cart-2 f-left">
+            <div class="total-cart-in">
+                <div class="cart-toggler">
+                    <a asp-page="cart">
+                        <span class="cart-quantity" id="Cart-Count">@cartList.Count</span><br>
+                        <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value"/>
+                        <span class="cart-icon">
+                            <i class="zmdi zmdi-shopping-cart-plus"></i>
+                        </span>
+                    </a>
+                </div>
+                <ul>
+                    <li>
+                        <div class="top-cart-inner your-cart">
+                            <h5 class="text-capitalize">سبد شما</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="total-cart-pro" id="Cart-List">
+                            @foreach (var product in cartList)
+                            {
+                                <!-- single-cart -->
+                                <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
+                                    <h6 class="text-capitalize">
+                                        <a asp-page="Product" asp-route-productUrl="@product.Url"> @product.Name</a>
+                                    </h6>
+                                    <div class="cart-img f-left">
+                                        <a asp-page="Product" asp-route-productId="@product.Url">
+                                            @if (product.ImagePath.Any())
+                                            {
+                                                <img width="100px" src="/@product.ImagePath" alt="@product.Alt">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/img/product/NoImage.png" alt="NoImage">
+                                            }
+
+
+                                        </a>
+                                        <div class="del-icon">
+                                            <a href="javascript:void(0)" onclick="DeleteCart(@product.ProductId)">
+                                                <i class="zmdi zmdi-close"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="cart-info f-left">
+
+                                        <p>
+                                            <span>برند <strong>:</strong></span>@product.Brand
+                                        </p>
+                                        <p>
+                                            <span>قیمت <strong>:</strong></span>@product.Price.ToString("N0")
+                                        </p>
+                                        <p>
+                                            <span>تعداد <strong>:</strong></span>@product.Quantity
+                                        </p>
+                                        <p>
+                                            <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId"/>
+                                            <span>جمع <strong>:</strong></span>@product.SumPrice.ToString("N0")
+                                        </p>
+                                    </div>
+                                </div>
+                                allPrice = allPrice + product.SumPrice;
+                            }
+                        </div>
+                    </li>
+                    <li>
+                        <div class="top-cart-inner subtotal">
+                            <h4>
+                                جمع =
+                                <span id="All-Price">@allPrice.ToString("N0") تومان</span>
+                                <input hidden="hidden" id="AllPrice-Value" value="@allPrice"/>
+                            </h4>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="top-cart-inner view-cart">
+                            <h4>
+                                <a asp-page="cart">مشاهده سبد</a>
+                            </h4>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- END HEADER AREA -->
+<!-- START MOBILE MENU AREA -->
+<div class="mobile-menu-area hidden-lg hidden-md">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="mobile-menu">
+                    <nav id="dropdown">
+                        <ul>
+                            <li>
+                                <a asp-page="index">خانه</a>
+                            </li>
+                            <li>
+                                <a href="shop.html">محصولات</a>
+                            </li>
+                            <li>
+                                <a href="#">صفحات</a>
+                                <ul>
+                                    <li>
+                                        <a href="shop.html">فروشگاه</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop-right-sidebar.html">فروشگاه نوار کناری راست</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop-left-sidebar.html">فروشگاه نوار کناری چپ</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop-list.html">فروشگاه نمایش لیست</a>
+                                    </li>
+                                    <li>
+                                        <a href="shop-list-left-sidebar.html">فروشگاه نمایش لیست نوار کناری چپ</a>
+                                    </li>
+                                    <li>
+                                        <a href="single-product.html">جزئیات محصول</a>
+                                    </li>
+                                    <li>
+                                        <a href="single-product-right-sidebar.html">جزئیات محصول نوار کناری راست</a>
+                                    </li>
+                                    <li>
+                                        <a href="single-product-no-sidebar.html">جزئیات محصول بدون نوار کناری</a>
+                                    </li>
+                                    <li>
+                                        <a href="cart.html">سبد خرید</a>
+                                    </li>
+                                    <li>
+                                        <a href="wishlist.html">لیست علاقه‌مندی‌ها</a>
+                                    </li>
+                                    <li>
+                                        <a href="checkout.html">پرداخت</a>
+                                    </li>
+                                    <li>
+                                        <a href="order.html">سفارش</a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">ورود</a>
+                                    </li>
+                                    <li>
+                                        <a href="My-account.html">حساب کاربری</a>
+                                    </li>
+                                    <li>
+                                        <a asp-page="AboutUs">درباره ما</a>
+                                    </li>
+                                    <li>
+                                        <a href="404.html">404</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="blog.html">بلاگ</a>
+                                <ul>
+                                    <li>
+                                        <a href="blog.html">بلاگ</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-right-sidebar.html">بلاگ نوار کناری راست</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-left-sidebar.html">بلاگ نوار کناری چپ</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-2.html">بلاگ طرح 2</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-2-right-sidebar.html">بلاگ 2 نوار کناری راست</a>
+                                    </li>
+                                    <li>
+                                        <a href="blog-2-left-sidebar.html">بلاگ 2 نوار کناری چپ</a>
+                                    </li>
+                                    <li>
+                                        <a href="single-blog.html">جزئیات مطلب بلاگ</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a asp-page="AboutUs">درباره ما</a>
+                            </li>
+                            <li>
+                                <a asp-page="Contact">تماس ما</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MOBILE MENU AREA -->
+<!-- START PAGE CONTENT -->
+@RenderBody()
+<!-- END PAGE CONTENT -->
+<!-- START FOOTER AREA -->
+<footer id="footer" class="footer-area footer-2">
+    <div class="footer-top footer-top-2 text-center ptb-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="footer-logo">
+                        <img src="~/img/logo/logo.png" alt="">
+                    </div>
+                    <ul class="footer-menu-2">
+                        <li>
+                            <a href="#">خانه</a>
+                        </li>
+                        <li>
+                            <a href="#">محصولات</a>
+                        </li>
+                        <li>
+                            <a href="#">بلاگ</a>
+                        </li>
+                        <li>
+                            <a href="#">صفحات</a>
+                        </li>
+                        <li>
+                            <a href="#">درباره ما</a>
+                        </li>
+                        <li>
+                            <a href="#">تماس</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom footer-bottom-2 text-center gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-5">
+                    <div class="copyright-text copyright-text-2">
+                        <p>ارائه شده توسط تیم <a href="https://www.sunflowersystem.ir" target="_blank">آفتابگردان‌</a></p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <ul class="footer-social footer-social-2">
+                        <li>
+                            <a class="facebook" href="" title="Facebook">
+                                <i class="zmdi zmdi-facebook"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="google-plus" href="" title="Google Plus">
+                                <i class="zmdi zmdi-google-plus"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="twitter" href="" title="Twitter">
+                                <i class="zmdi zmdi-twitter"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="rss" href="" title="RSS">
+                                <i class="zmdi zmdi-rss"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-sm-3">
+                    <a referrerpolicy="origin" target="_blank" href="https://trustseal.enamad.ir/?id=274606&amp;Code=EbyTUprHQIQT7FdkHPBK"><img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=274606&amp;Code=EbyTUprHQIQT7FdkHPBK" alt="" style="cursor:pointer" id="EbyTUprHQIQT7FdkHPBK"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END FOOTER AREA -->
+<!-- START QUICKVIEW PRODUCT -->
+<div id="quickview-wrapper">
+    <!-- Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-product clearfix">
+                        <div class="product-images">
+                            <div class="main-image images">
+                                <img alt="" src="~/img/product/quickview.jpg">
+                            </div>
+                        </div><!-- .product-images -->
+
+                        <div class="product-info">
+                            <h1>لورم ایپسوم متن ساختگی</h1>
+                            <div class="price-box-3">
+                                <div class="s-price-box">
+                                    <span class="new-price">2,600,000 تومان</span>
+                                    <span class="old-price">3,400,000 تومان</span>
+                                </div>
+                            </div>
+                            <a href="single-product-right-sidebar.html" class="see-all">مشاهده همه ویژگی ها</a>
+                            <div class="quick-add-to-cart">
+                                <form method="post" class="cart">
+                                    <div class="numbers-row">
+                                        <input type="number" id="french-hens" value="3">
+                                    </div>
+                                    <button class="single_add_to_cart_button" type="submit">افزودن به سبد</button>
+                                </form>
+                            </div>
+                            <div class="quick-desc">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله
+                            </div>
+                            <div class="social-sharing">
+                                <div class="widget widget_socialsharing_widget">
+                                    <h3 class="widget-title-modal">اشتراک گذاری این محصول</h3>
+                                    <ul class="social-icons clearfix">
+                                        <li>
+                                            <a class="facebook" href="#" target="_blank" title="Facebook">
+                                                <i class="zmdi zmdi-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="google-plus" href="#" target="_blank" title="Google +">
+                                                <i class="zmdi zmdi-google-plus"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="twitter" href="#" target="_blank" title="Twitter">
+                                                <i class="zmdi zmdi-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="pinterest" href="#" target="_blank" title="Pinterest">
+                                                <i class="zmdi zmdi-pinterest"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="rss" href="#" target="_blank" title="RSS">
+                                                <i class="zmdi zmdi-rss"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div><!-- .product-info -->
+                    </div><!-- .modal-product -->
+                </div><!-- .modal-body -->
+            </div><!-- .modal-content -->
+        </div><!-- .modal-dialog -->
+    </div>
+    <!-- END Modal -->
+</div>
+<!-- END QUICKVIEW PRODUCT -->
+<!--style-customizer start -->
+<div class="style-customizer closed">
+    <div class="buy-button">
+        <a asp-page="index" class="customizer-logo">
+            <img src="~/img/logo/logo.png" alt="Theme Logo">
+        </a>
+        <a class="opener" href="#">
+            <i class="zmdi zmdi-settings"></i>
+        </a>
+    </div>
+    <div class="clearfix content-chooser">
+        <h3>اختیارات طرح</h3>
+        <p>چه نوع طرح بندی میخواهید استفاده کنید؟</p>
+        <ul class="layoutstyle clearfix">
+            <li class="wide-layout selected" data-style="wide" title="wide"> تمام عرض </li>
+            <li class="boxed-layout" data-style="boxed" title="boxed"> چارچوب </li>
+        </ul>
+        <h3>رنگ بندی</h3>
+        <p>رنگ مورد نظر خود را انتخاب کنید.</p>
+        <ul class="styleChange clearfix">
+            <li class="skin-default selected" title="skin-default" data-style="skin-default"> </li>
+            <li class="skin-green" title="green" data-style="skin-green"> </li>
+            <li class="skin-purple" title="purple" data-style="skin-purple"> </li>
+            <li class="skin-blue" title="dark blue" data-style="skin-dark-blue"> </li>
+            <li class="skin-cyan" title="cyan" data-style="skin-cyan"> </li>
+            <li class="skin-amber" title="amber" data-style="skin-amber"> </li>
+            <li class="skin-blue-grey" title="blue-grey" data-style="skin-blue-grey"> </li>
+            <li class="skin-teal" title="light blue" data-style="skin-light-blue"> </li>
+        </ul>
+        <h3>الگو های پس زمینه</h3>
+        <p>چه الگویی برای پس زمینه میخواهید استفاده کنید؟</p>
+        <ul class="patternChange clearfix">
+            <li class="pattern-1" data-style="pattern-1" title="pattern-1"> </li>
+            <li class="pattern-2" data-style="pattern-2" title="pattern-2"> </li>
+            <li class="pattern-3" data-style="pattern-3" title="pattern-3"> </li>
+            <li class="pattern-4" data-style="pattern-4" title="pattern-4"> </li>
+            <li class="pattern-5" data-style="pattern-5" title="pattern-5"> </li>
+            <li class="pattern-6" data-style="pattern-6" title="pattern-6"> </li>
+            <li class="pattern-7" data-style="pattern-7" title="pattern-7"> </li>
+            <li class="pattern-8" data-style="pattern-8" title="pattern-8"> </li>
+        </ul>
+        <h3>تصاویر پس زمینه</h3>
+        <p>چه تصویری برای پس زمینه میخواهید استفاده کنید؟</p>
+        <ul class="patternChange main-bg-change clearfix">
+            <li class="main-bg-1" data-style="main-bg-1" title="Background 1">
+                <img src="~/img/customizer/bodybg/01.jpg" alt="">
+            </li>
+            <li class="main-bg-2" data-style="main-bg-2" title="Background 2">
+                <img src="~/img/customizer/bodybg/02.jpg" alt="">
+            </li>
+            <li class="main-bg-3" data-style="main-bg-3" title="Background 3">
+                <img src="~/img/customizer/bodybg/03.jpg" alt="">
+            </li>
+            <li class="main-bg-4" data-style="main-bg-4" title="Background 4">
+                <img src="~/img/customizer/bodybg/04.jpg" alt="">
+            </li>
+            <li class="main-bg-5" data-style="main-bg-5" title="Background 5">
+                <img src="~/img/customizer/bodybg/05.jpg" alt="">
+            </li>
+            <li class="main-bg-6" data-style="main-bg-6" title="Background 6">
+                <img src="~/img/customizer/bodybg/06.jpg" alt="">
+            </li>
+            <li class="main-bg-7" data-style="main-bg-7" title="Background 7">
+                <img src="~/img/customizer/bodybg/07.jpg" alt="">
+            </li>
+            <li class="main-bg-8" data-style="main-bg-8" title="Background 8">
+                <img src="~/img/customizer/bodybg/08.jpg" alt="">
+            </li>
+        </ul>
+        <ul class="resetAll">
+            <li>
+                <a class="button button-border button-reset" href="#">بازنشانی همه</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--style-customizer end -->
+</div>
+<!-- Body main wrapper end -->
+<!-- Placed JS at the end of the document so the pages load faster -->
+<!-- jquery latest version -->
+<script src="~/js/vendor/jquery-3.1.1.min.js"></script>
+<!-- Bootstrap framework js -->
+<script src="~/js/bootstrap.min.js"></script>
+<!-- jquery.nivo.slider js -->
+<script src="~/js/jquery.nivo.slider.js"></script>
+<!-- All js plugins included in this file. -->
+<script src="~/js/plugins.js"></script>
+<!-- Main js file that contents all jQuery plugins activation. -->
+<script src="~/js/main.js"></script>
+
+<script src="~/js/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/js/sweetalert/sweetalert.min.js"></script>
+@await RenderSectionAsync("Scripts", false);
+
+<!--[if lt IE 10]>
+    <script src="~/js/jquery.placeholder.min.js" type="text/javascript"></script>
+    <script type="text/javascript">$('input, textarea').placeholder();</script>
+<![endif]-->
+<script>
+    function DeleteCart(id) {
+        var elementId = "#CartDrop-" + id;
+        var sumPriceId = "#SumPrice-" + id;
+        var price = parseInt($(sumPriceId).val());
+        var count = parseInt($("#Cart-Count-Value").val());
+        var allPrice = parseInt($("#AllPrice-Value").val());
+        $.ajax({
+            type: "Get",
+            url: "index?handler=DeleteCart&id=" + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(result) {
+                swal(result.message);
+                if (result.code === 0) {
+                    $(elementId).remove();
+                    count--;
+                    allPrice = allPrice - price;
+                    $('#Cart-Count').text(count);
+                    $('#All-Price').text(allPrice + ' تومان');
+                    $("#Cart-Count-Value").val(count);
+                    $("#AllPrice-Value").val(allPrice);
+                }
+            },
+            failure: function(response) {
+                alert(response);
+            }
+        });
+    }
+
+      
+    </script>
+</body>
+
+</html>

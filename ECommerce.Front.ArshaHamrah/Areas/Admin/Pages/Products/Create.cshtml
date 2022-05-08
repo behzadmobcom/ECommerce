@@ -1,0 +1,314 @@
+﻿@page "/Admin/CreateProduct"
+@using Entities
+@model ArshaHamrah.Areas.Admin.Pages.Products.CreateModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ایجاد محصولات جدید
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalSelectArticle">انتخاب کالا از هلو</button>
+                            <button type="button" class="btn btn-outline-success">افزودن اتوماتیک</button>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب تگ ها</label>
+                            <select asp-for="@Model.Product.TagsId" asp-items="@Model.Tags" class="col-md-10 js-example-basic-multiple  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب کلمات کلیدی</label>
+                            <select asp-for="@Model.Product.KeywordsId" asp-items="@Model.Keywords" class="col-md-10 js-example-basic-multiple  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب دسته ها</label>
+                            <div class="checkbox-list">
+                                <partial name="_categoriesTree" model="Model.CategoryParentViewModel" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>نام کالا</label>
+                            <input asp-for="@Model.Product.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Product.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>کد دیتابیس کالا در هلو</label>
+                            <input asp-for="@Model.Product.ArticleCode" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Product.ArticleCode" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>کد کالا در هلو</label>
+                            <input asp-for="@Model.Product.ArticleCodeCustomer" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Product.ArticleCodeCustomer" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>توضیحات</label>
+                            <textarea id="Description_Add" asp-for="@Model.Product.Description" class="form-control form-control-solid"></textarea>
+                            <span asp-validation-for="@Model.Product.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>موجودی</label>
+                            <input asp-for="@Model.Product.Exist" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <span asp-validation-for="@Model.Product.Exist" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل سفارش</label>
+                            <input asp-for="@Model.Product.MinOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" value="0" />
+                            <span asp-validation-for="@Model.Product.MinOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر سفارش</label>
+                            <input asp-for="@Model.Product.MaxOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <span asp-validation-for="@Model.Product.MaxOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل در انبار</label>
+                            <input asp-for="@Model.Product.MinInStore" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <span asp-validation-for="@Model.Product.MinInStore" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد سفارش مجدد</label>
+                            <input asp-for="@Model.Product.ReorderingLevel" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <span asp-validation-for="@Model.Product.ReorderingLevel" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued" />
+                                <span></span>
+                                توقف تولید
+                            </label>
+                            <input asp-for="@Model.Product.IsDiscontinued" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Product.IsDiscontinued" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsActive" />
+                                <span></span>
+                                فعال بودن
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>آدرس محصول در سایت</label>
+                            <input asp-for="@Model.Product.Url" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Product.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>برند</label>
+                            <select asp-for="@Model.Product.BrandId" asp-items="@Model.Brands" class="col-md-10 js-example-basic-single  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>تخفیف</label>
+                            <select asp-for="@Model.Product.DiscountId" asp-items="@Model.Discounts" class="col-md-10 js-example-basic-single  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>انبار</label>
+                            <select asp-for="@Model.Product.StoreId" asp-items="@Model.Stores" class="col-md-10 js-example-basic-single  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>تامین کننده</label>
+                            <select asp-for="@Model.Product.SupplierId" asp-items="@Model.Suppliers" class="col-md-10 js-example-basic-single  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر برند</label>
+                            <div class="custom-file">
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png" />
+                                <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalAddPrice">افزودن قیمت کالا</button>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                        <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Select Article-->
+<div class="modal fade" id="ModalSelectArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ModalSelectArticleBodyId">
+                <select id="mGroupId" class="col-md-10 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooMGroups)
+                    {
+                        <option value="@mGroup.M_groupcode">@mGroup.M_groupname</option>
+                    }
+                </select>
+                <select id="sGroupId" class="col-md-10 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooSGroups)
+                    {
+                        <option value="@mGroup.S_groupcode">@mGroup.S_groupname</option>
+                    }
+                </select>
+                <input type="text" id="searchId" name="search" placeholder="جستجو کالا . . ." title="نام مورد نظر را وارد کنید"  class="form-control form-control-solid" onkeyup="filter()">
+                <select id="articleId" class="col-md-10 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooArticle)
+                    {
+                        <option value="@mGroup.Id">@mGroup.Name</option>
+                    }
+                </select>
+                <div id="articleDescriptionId"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="selectArticleId" class="btn btn-primary">انتخاب کالا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Admin/js/select2.min.js"></script>
+    <script src="~/Admin/js/bootstrap-touchspin.js"></script>
+    @*<script src="~/Admin/js/dropzonejs.js"></script>*@
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+    var holooArticles = new Array();
+    var article = new Object();
+    window.onload = function() {
+        CKEDITOR.replace('Description_Add');
+    };
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
+
+    $('#mGroupId').on("change",
+        function() {
+            $("#searchId").val("");
+            var mCode = $('#mGroupId').val();
+            $("#sGroupId").empty();
+            $("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
+            $.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
+                (data) => {
+                    $.each(data,
+                        function(i, item) {
+                            $("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
+                        });
+                });
+        });
+    $('#sGroupId').on("change",
+        function() {
+            $("#searchId").val("");
+            var code = $('#sGroupId').val();
+            $("#articleId").empty();
+            $("#articleId").append("<option value=''>انتخاب کالا</option>");
+            $.getJSON(`?handler=ReturnArticle&code=${code}`,
+                (data) => {
+                    holooArticles = data;
+                    $.each(data,
+                        function(i, holooArticles) {
+                            $("#articleId").append(`<option value="${holooArticles.articleCode}">${holooArticles.name}</option>`);
+                        });
+                });
+        });
+    $('#articleId').on('change',
+        function(e) {
+            var valueSelected = this.value;
+            //var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
+            article = holooArticles.find(obj => {
+                return obj.articleCode === valueSelected;
+            });
+            $("#articleDescriptionId").html(
+                "<p>" +
+                "کد کالا : " +
+                article.articleCodeCustomer +
+                "</p>" +
+                "<p>" +
+                "نام : " +
+                article.name +
+                "</p>" +
+                "<p>" +
+                "موجودی : " +
+                article.exist +
+                "</p>"
+            );
+        });
+    $("#selectArticleId").on("click",
+        function() {
+            $("#Product_Name").val(article.name);
+            $("#Product_ArticleCode").val(article.articleCode);
+            $("#Product_ArticleCodeCustomer").val(article.articleCodeCustomer);
+            CKEDITOR.instances['Description_Add'].setData(article.description);
+            $("#kt_touchspin_4").val(article.exist);
+            console.log(article);
+            $('#ModalSelectArticle').modal('toggle');
+        }
+    );
+
+    function filter() {
+        var keyword = $("#searchId").val();
+        var select = document.getElementById("articleId");
+        for (var i = 0; i < select.length; i++) {
+            var txt = select.options[i].text;
+            if (!txt.match(keyword)) {
+                $(select.options[i]).attr('disabled', 'disabled').hide();
+            } else {
+                $(select.options[i]).removeAttr('disabled').show();
+            }
+
+        }
+    }
+
+        //$('#addPriceId').on("click",
+        //    function () {
+        //        alert("asd");
+        //    var unitId = $('#unitId').val();
+        //    var sizeId = $('#sizeId').val();
+        //    var colorId = $('#colorId').val();
+        //    var currencyId = $('#currencyId').val();
+        //    var priceAmount = $('#priceAmountId').val();
+        //    var priceMinQuantity = $('#priceMinQuantityId').val();
+        //    var priceMaxQuantity = $('#priceMaxQuantityId').val();
+        //    var colleaguePrice = $('#colleaguePriceId').val();
+
+        //    var myobj = document.getElementById(priceAmount + "Id");
+        //    if (myobj !== null) {
+        //        swal("این قیمت قبلا برای این کالا وارشد شده است");
+        //        alert("این قیمت قبلا برای این کالا وارشد شده است");
+        //        return;
+        //    }
+
+        //        $("#priceAddId").append('<input type="radio" value="' + priceAmount + '" id="' + priceAmount+'Id" >' );
+        //        $("#priceAddId").append('<label for="' + priceAmount + '" id="' + priceAmount + 'LabelId" >' + priceAmount+'</label>' );
+        //    });
+    </script>
+}

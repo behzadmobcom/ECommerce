@@ -1,0 +1,46 @@
+﻿@model Entities.ViewModel.ProductIndexPageViewModel
+
+
+<div class="col">
+    <div class="product-card">
+        <div class="product-media">
+            <div class="product-label"><label class="label-text new">جدید</label></div>
+            <button class="product-wish wish">
+                <i class="far fa-heart"></i>
+            </button>
+            <a class="product-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
+                <img src="~/@Model.ImagePath" alt="@Model.Alt">
+            </a>
+            <div class="product-widget">
+                @*  <a title="فیلم محصول" href="https://www.youtube.com/watch?v=ckHzmP1evNU" class="venobox far fa-play" data-autoplay="true" data-vbtype="video"></a>*@
+                <a title="نمای محصول" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
+                <a title="مقایسه محصول" asp-area="" asp-page="/Compare" class="far fa-exchange"></a>
+            </div>
+        </div>
+        <div class="product-content">
+            <h6 class="product-name"><a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a></h6>
+            <div class="product-rating">
+                
+                @for (var i = 0; i < Model.Stars; i++)
+                {
+                    <i class="active fas fa-star"></i>
+                }
+                @for (var i =  Model.Stars; i < 5; i++)
+                {
+                    <i class="far fa-star"></i>
+                }
+               
+                
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)</a>
+            </div>
+            <div class="product-price">
+                <div>
+                    @*<del>5000 تومان</del>*@
+                    <span>@Model.Price.ToString("N0") تومان </span>
+                </div>
+                <a class="product-add" title="افزودن به سبد خرید"  href="javascript:void(0)" onclick="AddCart(@Model.Id)"><i class="far fa-shopping-cart"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+

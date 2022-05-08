@@ -1,0 +1,121 @@
+﻿@page "/Admin/CreateDiscount"
+@model ArshaHamrah.Areas.Admin.Pages.Discounts.CreateModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<link href="~/Admin/css/persian-datepicker.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ایجاد تخفیف جدید
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>درصد</label>
+                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>مبلغ</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ شروع</label>
+                            <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ پایان</label>
+                             <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان" />
+                        </div>
+                        <div class="form-group">
+                            <label>مبلغ حداکثر تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                        </div>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked" />
+                                <span></span>
+                                فعال
+                            </label>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label>کد تخفیف</label>
+                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                        <a class="btn btn-secondary" asp-Page="/Discounts/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script src="~/Admin/js/bootstrap-touchspin.js"></script>
+ <script src="~/Admin/js/persianDatepicker.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+      $('#startDatepicker').persianDatepicker({
+          theme:'latoja',
+          fontSize: 15,
+          formatDate: "YYYY/MM/DD",
+           onSelect: function () {
+           $("#startDate").val($("#startDatepicker").attr("data-gdate"));
+           }
+       });
+          $('#endDatepicker').persianDatepicker({
+         theme:'latoja',
+          fontSize: 15,
+          formatDate: "YYYY/MM/DD",
+           onSelect: function () {
+           $("#endDate").val($("#endDatepicker").attr("data-gdate"));
+           }
+       });
+    });
+</script>
+}

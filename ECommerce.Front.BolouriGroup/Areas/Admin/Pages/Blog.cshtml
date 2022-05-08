@@ -1,0 +1,178 @@
+﻿@page "/Admin/Blog/{handler?}"
+@model ArshaHamrah.Areas.Admin.Pages.BlogModel
+@{
+    ViewData["Title"] = "مقالات";
+}
+<link href="~/Admin/css/persian-datepicker.css" rel="stylesheet"/>
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container">
+        <div class="row g-5 g-xl-8">
+            <div class="col-xl-6">
+                <div class="card card-xl-stretch mb-xl-8">
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">اضافه کردن مقاله</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_table_widget_5_tab_1">
+                                <label class="fs-5 fw-bold mb-2">انتخاب دسته ها</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">انتخاب تگ ها</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">انتخاب کلمات کلیدی</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">نام نویسنده</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">عنوان مقاله</label><br/>
+                                <input class="form-control form-control-solid" placeholder="عنوان مقاله"/>
+
+                                <label class="fs-5 fw-bold mb-2 mt-2">خلاصه</label><br/>
+                                <textarea id="Description_Add" name="DescriptionAdd"></textarea>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">متن</label><br/>
+                                <textarea id="Description_Add2" name="DescriptionAdd"></textarea>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">تاریخ ایجاد</label><br/>
+                                <input class="form-control form-control-solid example1" placeholder="تاریخ ایجاد"/>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">تاریخ انتشار</label><br/>
+                                <input class="form-control form-control-solid example1" placeholder="تاریخ انتشار"/>
+
+                                <label class="fs-5 fw-bold mb-2 mt-2">مسیر نهایی</label><br/>
+                                <input class="form-control form-control-solid" placeholder="مسیر نهایی"/>
+
+                                <div class="separator mb-8"></div>
+                                <button type="submit" class="btn btn-primary" id="kt_careers_submit_button">
+                                    <span class="indicator-label">افزودن</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card card-xl-stretch mb-5 mb-xl-8">
+                    <div class="card-header border-0 pt-5">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label fw-bolder fs-3 mb-1">ویرایش مقاله</span>
+                        </h3>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="kt_table_widget_6_tab_1">
+
+                                <label class="fs-5 fw-bold mb-2">انتخاب دسته ها</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">انتخاب تگ ها</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">انتخاب کلمات کلیدی</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">نام نویسنده</label>
+                                <select class="form-control form-control-solid">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                                <label class="fs-5 fw-bold mb-2 mt-2">عنوان مقاله</label><br/>
+                                <input class="form-control form-control-solid" placeholder="عنوان مقاله"/>
+
+                                <label class="fs-5 fw-bold mb-2 mt-2 mt-2">خلاصه</label><br/>
+                                <textarea id="Description_Edit" name="Description"></textarea><br/>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2 mt-2">متن</label><br/>
+                                <textarea id="Description_Edit2" name="Description"></textarea><br/>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">تاریخ ایجاد</label><br/>
+                                <input class="form-control form-control-solid example1" placeholder="تاریخ ایجاد"/>
+                                <br/>
+                                <label class="fs-5 fw-bold mb-2 mt-2">تاریخ انتشار</label><br/>
+                                <input class="form-control form-control-solid example1" placeholder="تاریخ انتشار"/>
+
+                                <label class="fs-5 fw-bold mb-2 mt-2">مسیر نهایی</label><br/>
+                                <input class="form-control form-control-solid" placeholder="مسیر نهایی"/>
+                                <div class="separator mb-8"></div>
+                                <button type="submit" class="btn btn-warning" id="kt_careerیs_submit_button">
+                                    <span class="indicator-label">ویرایش</span>
+                                </button>
+                                <button type="submit" class="btn btn-danger" id="kt_careerیss_submit_button">
+                                    <span class="indicator-label">حذف</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::جداول Widget 6-->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Admin/js/persian-date.js"></script>
+    <script src="~/Admin/js/persian-datepicker.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".example1").pDatepicker();
+        });
+    </script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            CKEDITOR.replace('Description_Add');
+            CKEDITOR.replace('Description_Add2');
+            CKEDITOR.replace('Description_Edit');
+            CKEDITOR.replace('Description_Edit2');
+        };
+    </script>
+}

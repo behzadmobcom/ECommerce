@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "primary-font";
+    font-weight: 400;
+    src: url("../../fonts/gandom-400.eot");
+    src: url("../../fonts/gandom-400.eot?#iefix") format("embedded-opentype"),
+         url("../../fonts/gandom-400.woff2") format("woff2"),
+         url("../../fonts/gandom-400.woff") format("woff"),
+         url("../../fonts/gandom-400.ttf") format("truetype");
+}

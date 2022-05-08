@@ -1,0 +1,362 @@
+/*
+ * jQuery Nivo Slider v3.2
+ * http://nivo.dev7studios.com
+ *
+ * Copyright 2012, Dev7studios
+ * Free to use and abuse under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+ 
+/* The Nivo Slider styles */
+/* #container {
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    position:fixed;
+    top:0px;
+    left:0px;
+}
+.nivoSlider {
+    position:fixed;
+    top:-16px;
+    left:0px;
+}
+.nivoSlider img {position:absolute;
+    top:0px;
+    left:0px;
+} */
+.nivoSlider {
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.nivoSlider img {
+    max-width: none;
+    position: absolute;
+    top: 0px;
+}
+
+.nivo-main-image {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+
+.nivoSlider a.nivo-imageLink {
+    background: white;
+    border: 0;
+    display: none;
+    filter: alpha(opacity=0);
+    height: 100%;
+    left: 0px;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    z-index: 6;
+}
+
+/* The slices and boxes in the Slider */
+
+.nivo-slice {
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+}
+
+.nivo-box {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    z-index: 5;
+}
+
+.nivo-box img { display: block; }
+
+/* Caption styles */
+
+.nivo-caption {
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    -moz-opacity: 0.8;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    bottom: 0px;
+    box-sizing: border-box; /* Opera/IE 8+ */
+    color: #fff;
+    display: none;
+    filter: alpha(opacity=8);
+    left: 0px;
+    opacity: 0.8;
+    overflow: hidden;
+    padding: 5px 10px;
+    position: absolute;
+    width: 100%;
+    z-index: 8;
+}
+
+.nivo-caption p { }
+
+.nivo-caption a { display: inline-block; }
+
+.nivo-html-caption { display: none; }
+
+/* Direction nav styles (e.g. Next & Prev) */
+
+.nivo-directionNav a {
+    color: #cccccc;
+    cursor: pointer;
+    font-size: 30px;
+    position: absolute;
+    right: 30px;
+    text-align: center;
+    top: 47%;
+    width: 20px;
+    z-index: 9;
+}
+
+.nivo-nextNav { margin-top: 48px; }
+
+.nivo-nextNav::before {
+    background: #cccccc none repeat scroll 0 0;
+    content: "";
+    height: 2px;
+    left: 0;
+    position: absolute;
+    top: -10px;
+    width: 18px;
+}
+
+/*.nivo-prevNav {
+	left:0px;
+}
+.nivo-nextNav {
+	right:0px;
+}*/
+
+/* Control nav styles (e.g. 1,2,3...) */
+
+.nivo-controlNav {
+    left: 50px;
+    position: absolute;
+    top: 50%;
+    z-index: 999;
+}
+
+.nivo-controlNav a {
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    background: #cccccc none repeat scroll 0 0;
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 3px;
+    margin-bottom: 5px;
+    transition: all 0.3s ease 0s;
+    width: 25px;
+}
+
+.nivo-controlNav a.active {
+    background: #ff7f00 none repeat scroll 0 0;
+    width: 35px;
+}
+
+/* ------------------------------
+Default Theme
+---------------------------------*/
+
+.slider-direction {
+    background: none;
+    color: #fff;
+    display: none;
+    font-size: 16px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+/* If an image is wrapped in a link */
+
+.nivoSlider a.nivo-imageLink {
+    background: white;
+    border: 0;
+    display: none;
+    filter: alpha(opacity=0);
+    height: 100%;
+    left: 0px;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    z-index: 6;
+}
+
+/* The slices and boxes in the Slider */
+
+.nivo-slice {
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+}
+
+.nivo-box {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    z-index: 5;
+}
+
+.nivo-box img { display: block; }
+
+.nivo-caption {
+    color: #fff;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 8;
+}
+
+.nivo-main-image {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* The slices and boxes in the Slider */
+
+.nivo-slice {
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+}
+
+.nivo-box {
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    z-index: 5;
+}
+
+@-webkit-keyframes myfirst {
+    from { width: 0; }
+
+    to { width: 100%; }
+}
+
+@-moz-keyframes myfirst {
+    from { width: 0; }
+
+    to { width: 100%; }
+}
+
+@-o-keyframes myfirst {
+    from { width: 0; }
+
+    to { width: 100%; }
+}
+
+@keyframes myfirst {
+    from { width: 0; }
+
+    to { width: 100%; }
+}
+
+.slider-progress.pos_hover {
+    -moz-animation-play-state: paused;
+    -o-animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}
+
+/* ------------------------------
+custom slider
+---------------------------------*/
+
+.slider-progress {
+    -moz-animation: myfirst 5000ms ease-in-out;
+    -o-animation: myfirst 5000ms ease-in-out;
+    -webkit-animation: myfirst 5000ms ease-in-out;
+    animation: myfirst 5000ms ease-in-out;
+    background-color: rgba(255, 255, 255, .7);
+    height: 5px;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.s-tb {
+    display: table;
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+
+.s-tb-c {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.t-cn { text-align: center }
+
+.t-lft { text-align: left }
+
+.t-lfr { text-align: right }
+/* ------------------------------
+slider animation
+---------------------------------*/
+/* -------------- Home 2  ---------------- *//*
+.slider2-title-2{
+        -webkit-animation: fadeInLeft 500ms ease-in-out;
+    -moz-animation: fadeInLeft 500ms ease-in-out;
+    -ms-animation: fadeInLeft 500ms ease-in-out;
+    animation: fadeInLeft 500ms ease-in-out;
+}
+.slider2-title-3{
+        -webkit-animation: fadeInLeft 1500ms ease-in-out;
+    -moz-animation: fadeInLeft 1500ms ease-in-out;
+    -ms-animation: fadeInLeft 1500ms ease-in-out;
+    animation: fadeInLeft 1500ms ease-in-out;
+}
+.slider-2 .layer-1-1{
+    -webkit-animation: fadeInRight 1500ms ease-in-out;
+    -moz-animation: fadeInRight 1500ms ease-in-out;
+    -ms-animation: fadeInRight 1500ms ease-in-out;
+    animation: fadeInRight 1500ms ease-in-out;
+}
+
+
+.slider-2 .layer-1{
+	 -webkit-animation: fadeInLeft 1500ms ease-in-out;
+    -moz-animation: fadeInLeft 1500ms ease-in-out;
+    -ms-animation: fadeInLeft 1500ms ease-in-out;
+    animation: fadeInLeft 1500ms ease-in-out;
+}
+.slider-2 .layer-2{
+	-webkit-animation: bounceInUp 1000ms ease-in-out;
+    -moz-animation: bounceInUp 1000ms ease-in-out;
+    -ms-animation: bounceInUp 1000ms ease-in-out;
+    animation: bounceInUp 1000ms ease-in-out;
+}
+.slider-2 .layer-3{
+	 -webkit-animation: fadeInRight 1500ms ease-in-out;
+    -moz-animation: fadeInRight 1500ms ease-in-out;
+    -ms-animation: fadeInRight 1500ms ease-in-out;
+    animation: fadeInRight 1500ms ease-in-out;
+}*/

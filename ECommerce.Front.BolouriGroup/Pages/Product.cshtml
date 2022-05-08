@@ -1,0 +1,326 @@
+﻿@page "/product/{productUrl}"
+@model Bolouri.Pages.ProductdetailsModel
+@{
+    ViewData["Title"] = "جزئیات محصول";
+}
+
+<section class="inner-section single-banner">
+    <div class="container">
+        <h2>جزئیات محصول</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page">جزئیات محصول</li>
+        </ol>
+    </div>
+</section>
+
+
+<section class="inner-section">
+    <div class="container">
+        <div class="row">
+            @if (Model.Product.Images.Any())
+            {
+                <div class="col-lg-5">
+                    <div class="details-gallery">
+                        <div class="details-label-group"><label class="details-label new">جدید</label></div>
+                        <ul class="details-preview">
+                            @foreach (var image in Model.Product.Images)
+                            {
+                                <li><img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"></li>
+                            }
+                        </ul>
+                        <ul class="details-thumb">
+                            @foreach (var image in Model.Product.Images)
+                            {
+                                <li><img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+            <div class="col-lg-7">
+                <div class="details-content">
+                    <h3 class="details-name"><a href="#">@Model.Product.Name</a></h3>
+                    <div class="details-meta">
+                        <p>کد محصول: <span>@Model.Product.ArticleCodeCustomer</span></p>
+                        <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand.Name</a></p>
+                    </div>
+                    <div class="details-rating">
+                        <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
+                        <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
+                    </div>
+                    <h3 class="details-price">
+                        <span>@Model.Product.Prices.FirstOrDefault(x=>!x.IsColleague).Amount.ToString("N0") تومان  </span>
+                    </h3>
+                    <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
+                    <br/>
+                    <div class="details-list-group">
+                        <label class="details-list-title">برچسب ها:</label>
+                        <ul class="details-tag-list">
+                            @if (Model.Product.Tags != null)
+                            {
+                                @foreach (var tag in Model.Product.Tags)
+                                {
+                                    <li><a href="#">@tag.TagText</a></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="details-list-group">
+                        <label class="details-list-title">در انبار:</label>
+                        <div>در دسترس</div>
+                    </div>
+                    <div class="details-list-group">
+                        <label class="details-list-title">تعداد:</label>
+                        <div class="cart-action-group">
+                            <div class="product-action">
+                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-add-group">
+                        <button class="product-add w-100" title="افزودن به سبد خرید"><i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span></button>
+                    </div>
+                    <div class="details-action-group">
+                        <a class="view-wish wish" href="#" title="لیست علاقه مندی های خود را اضافه کنید"><i class="far fa-heart"></i><span>به آرزو اضافه کردن</span></a>
+                        <a class="view-compare" asp-area="" asp-page="/Compare" title="مقایسه این مورد"><i class="far fa-exchange"></i><span>افزودن برای مقایسه</span></a>
+                    </div>
+                    <div class="details-list-group mt-4">
+                        <label class="details-list-title">اشتراک گذاری:</label>
+                        <ul class="details-share-list">
+                            <li><a href="#" class="fab fa-facebook-f" title="فیس بوک"></a></li>
+                            <li><a href="#" class="fab fa-twitter" title="توییتر"></a></li>
+                            <li><a href="#" class="fab fa-linkedin-in" title="لینک شده"></a></li>
+                            <li><a href="#" class="fab fa-instagram" title="اینستاگرام"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="inner-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs">
+                    <li><a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a></li>
+                    <li><a href="#tab-reve" class="tab-link" data-bs-toggle="tab">نظرات (05)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane active" id="tab-spec">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-details-frame">
+                        <table class="table table-bordered">
+                            
+                              
+                            @for (var g = 0; g < Model.AttributeGroups.Count;g++)
+                            {
+                              @*  <thead>
+                                <tr>
+                                    <th>@Model.AttributeGroups[g].Name</th>
+                                </tr>
+                                </thead>*@
+                              
+                                <tbody>
+                                @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count;i++)
+                                {
+                                    <tr>
+                                    <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
+
+                                        @for (int j = 0; j <  Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
+                                        {
+                                            <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
+                                        }
+                                    </tr>
+                                }
+                                </tbody>
+                            }
+                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab-reve">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product-details-frame">
+                        <ul class="review-list">
+                            <li class="review-item">
+                                <div class="review-media">
+                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
+                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                </div>
+                                <ul class="review-rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <p class="review-desc">
+                                    این یک واقعیت ثابت شده طولانی است که خواننده هنگام مشاهده صفحه آن ، از محتوای قابل خواندن صفحه منحرف می شود. نکته استفاده از متن ساختگی این است که توزیع حروف کم و بیش عادی دارد ، در مقابل استفاده از "محتوا در اینجا ، محتوای اینجا" ، باعث می شود انگلیسی شبیه به نظر برسد.
+                                </p>
+                            </li>
+                            <li class="review-item">
+                                <div class="review-media">
+                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
+                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                </div>
+                                <ul class="review-rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <p class="review-desc">
+                                    این یک واقعیت ثابت شده طولانی است که خواننده هنگام مشاهده صفحه آن ، از محتوای قابل خواندن صفحه منحرف می شود. نکته استفاده از متن ساختگی این است که توزیع حروف کم و بیش عادی دارد ، در مقابل استفاده از "محتوا در اینجا ، محتوای اینجا" ، باعث می شود انگلیسی شبیه به نظر برسد.
+                                </p>
+                            </li>
+                            <li class="review-item">
+                                <div class="review-media">
+                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
+                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                </div>
+                                <ul class="review-rating">
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="fas fa-star"></li>
+                                    <li class="far fa-star"></li>
+                                </ul>
+                                <p class="review-desc">
+                                    این یک واقعیت ثابت شده طولانی است که خواننده هنگام مشاهده صفحه آن ، از محتوای قابل خواندن صفحه منحرف می شود. نکته استفاده از متن ساختگی این است که توزیع حروف کم و بیش عادی دارد ، در مقابل استفاده از "محتوا در اینجا ، محتوای اینجا" ، باعث می شود انگلیسی شبیه به نظر برسد.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product-details-frame p-5">
+                        <h3 class="frame-title">بررسی خود را اضافه کنید</h3>
+                        <form class="review-form">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="star-rating">
+                                        <input type="radio" name="rating" id="star-1"><label for="star-1"></label><input type="radio" name="rating" id="star-2"><label for="star-2"></label>
+                                        <input type="radio" name="rating" id="star-3"><label for="star-3"></label><input type="radio" name="rating" id="star-4"><label for="star-4"></label>
+                                        <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group"><input type="text" class="form-control" placeholder="نام"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group"><input type="email" class="form-control" placeholder="پست الکترونیک"></div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group"><textarea class="form-control" placeholder="بررسی شما"></textarea></div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button class="btn btn-inline"><i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="inner-section">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="section-heading"><h2>آیتم های مرتبط</h2></div>
+            </div>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+            
+            @foreach (var relatedProduct in @Model.RelatedProducts)
+            {
+                <partial name="Components/_productCard" model="relatedProduct"/>
+            }
+            
+
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <script>
+
+        function AddCart(id) {
+            $.ajax({
+                type: "Get",
+                url: "Product?handler=AddCart&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        var count = 0;
+                        var allPrice = 0;
+                        $('#Cart-List').text('');
+                        $.get('Product?handler=LoadCart').done(function(products) {
+
+                            $.each(products.returnData,
+                                function(i, product) {
+                                    var item =
+                                        '<div class="single-cart clearfix"> id="CartDrop-' +
+                                            product.productId +
+                                            '"' +
+                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
+                                            product.url +
+                                            '">' +
+                                            product.name +
+                                            '</a> </h6>' +
+                                            '<div class="cart-img f-left">' +
+                                            '<a asp-page="Product" asp-route-productId="' +
+                                            product.Url +
+                                            '">' +
+                                            '<img width="100px" src="/' +
+                                            product.imagePath +
+                                            '" alt="' +
+                                            product.alt +
+                                            '"> </a>' +
+                                            '<div class="del-icon">' +
+                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
+                                            product.productId +
+                                            ')"> ' +
+                                            '<i class="zmdi zmdi-close"></i> </a>' +
+                                            '</div></div><div class="cart-info f-left"> <p>' +
+                                            '<span>برند <strong>:</strong></span>' +
+                                            product.brand +
+                                            '</p><p><span>قیمت <strong>:</strong></span>' +
+                                            product.price +
+                                            '</p><p><span>تعداد <strong>:</strong></span>' +
+                                            product.quantity +
+                                            '</p><p> <input hidden="hidden" value="' +
+                                            product.sumPrice +
+                                            '" id="SumPrice-' +
+                                            product.productId +
+                                            '"/><span>جمع <strong>:</strong></span>' +
+                                            product.sumPrice +
+                                            '</p></div></div>';
+                                    $('#Cart-List').append(item);
+                                    count++;
+                                    allPrice = allPrice + product.sumPrice;
+                                });
+                            $('#Cart-Count').text(count);
+                            $('#All-Price').text(allPrice + ' تومان');
+                        });
+                    }
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
+}

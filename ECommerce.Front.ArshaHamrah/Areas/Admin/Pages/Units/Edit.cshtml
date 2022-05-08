@@ -1,0 +1,70 @@
+﻿@page "/Admin/EditUnit/{handler?}"
+@model ArshaHamrah.Areas.Admin.Pages.Units.EditModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ویرایش واحد
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input hidden="hidden" asp-for="@Model.Unit.Id" />
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="@Model.Unit.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Unit.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد در واحد</label>
+                            <input asp-for="@Model.Unit.Few" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
+                            <span asp-validation-for="@Model.Unit.Few" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>عیار</label>
+                            <input asp-for="@Model.Unit.assay" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
+                        </div>
+                        <div class="form-group">
+                            <label>وزن واحد</label>
+                            <input asp-for="@Model.Unit.UnitWeight" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
+                        <a class="btn btn-secondary" asp-Page="/Units/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="/Admin/js/bootstrap-touchspin.js"></script>
+}

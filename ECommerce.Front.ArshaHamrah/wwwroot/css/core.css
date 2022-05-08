@@ -1,0 +1,43 @@
+/*------------------------------------------------------------------------------
+
+  Template Name: Subas Ecommerce Responsive Bootstrap Template
+  Description: This is html5 template
+  Author: codecarnival
+  Version: 1.0
+  Design and Developed by: codecarnival
+
+Note: This core style file includes all external plugins css file.
+
+-------------------------------------------------------------------------------*/
+
+
+/* --------------------------------------------------
+    Fonts 
+-------------------------------------------------- */
+@import url("font/primary-iran-yekan.css");
+
+@import url("font/secondary-iran-yekan.css");
+
+@import url("material-design-iconic-font.css");
+
+/* --------------------------------------------------
+    Plugins 
+-------------------------------------------------- */
+
+@import url("plugins/animate.css");
+
+@import url("plugins/slick.css");
+
+@import url("plugins/jquery-ui.min.css");
+
+@import url("plugins/meanmenu.min.css");
+
+@import url("plugins/jquery.fancybox.css");
+
+@import url("plugins/textanimate.css");
+
+/* --------------------------------------------------
+    Shortcode 
+-------------------------------------------------- */
+
+@import url("shortcode/default.css");

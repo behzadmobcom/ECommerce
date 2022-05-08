@@ -1,0 +1,72 @@
+﻿@page
+@model ArshaHamrah.Areas.Admin.Pages.Discounts.DetailModel
+@{
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        جزئیات تخفیف
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>درصد</label>
+                            <input asp-for="@Model.Discount.Percent" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>مبلغ</label>
+                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ شروع</label>
+                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ پایان</label>
+                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>>مبلغ حداکثر تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid" />
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
+                            <input asp-for="@Model.Discount.Amount" type="text" class="form-control form-control-solid" />
+                        </div>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked" />
+                                <span></span>
+                                فعال
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>کد تخفیف</label>
+                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red;margin-top:10px"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary mr-2" asp-Page="/Discounts/edit" asp-area="Admin" asp-route-id="@Model.Discount.Id">ویرایش</a>
+                        <a class="btn btn-secondary" asp-Page="/Discounts/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+﻿@page
+@model ArshaHamrah.Areas.Admin.Pages.Products.DetailModel
+@{
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        جزئیات محصولات
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>تگ ها</label>
+                            <select disabled="disabled" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Product.Tags)
+                                {
+                                    <option value="@item.Id">@item.TagText</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>کلمات کلیدی</label>
+                            <select disabled="disabled" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Product.Keywords)
+                                {
+                                    <option value="@item.Id">@item.KeywordText</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>دسته ها</label>
+                            <div class="checkbox-list">
+                                @foreach (var parent in Model.Product.ProductCategories)
+                                {
+                                    <label class="form-control form-control-solid">@parent.Name</label>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>نام کالا</label>
+                            <label class="form-control form-control-solid">@Model.Product.Name</label>
+                        </div>
+                       @* <div class="form-group">
+                            <label>کد دیتابیس کالا در هلو</label>
+                            <label class="form-control form-control-solid">@Model.Product.ArticleCode</label>
+                        </div>
+                        <div class="form-group">
+                            <label>کد کالا در هلو</label>
+                            <label class="form-control form-control-solid">@Model.Product.ArticleCodeCustomer</label>
+                        </div>*@
+                        <div class="form-group">
+                            <label>توضیحات</label>
+                            <label class="form-control form-control-solid">@Model.Product.Description</label>
+                        </div>
+                      @*  <div class="form-group">
+                            <label>موجودی</label>
+                            <label class="form-control form-control-solid">@Model.Product.Exist</label>
+                        </div>*@
+                        <div class="form-group">
+                            <label>حداقل سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MaxOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل در انبار</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinInStore</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد سفارش مجدد</label>
+                            <label class="form-control form-control-solid">@Model.Product.ReorderingLevel</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued" />
+                                <span></span>
+                                توقف تولید
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsActive" />
+                                <span></span>
+                                فعال بودن
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>آدرس محصول در سایت</label>
+                        </div>
+                        <div class="form-group">
+                            <label>برند</label>
+                            <label class="form-control form-control-solid">@Model.Product.Brand.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تخفیف</label>
+                            <label class="form-control form-control-solid">@Model.Product.Discount?.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>انبار</label>
+                            <label class="form-control form-control-solid">@Model.Product.Store.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تامین کننده</label>
+                            <label class="form-control form-control-solid">@Model.Product.Supplier.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر کالا</label>
+                            <ul class="details-preview">
+                                @foreach (var image in Model.Product.Images)
+                                {
+                                    <li><img style="width: 50%" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@page
+@model Bolouri.Pages.ResetModel
+@{
+    ViewData["Title"] = "reset";
+}
+
+
+<section class="user-form-part">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                <div class="user-form-logo">
+                    <a asp-area="" asp-page="/Index"><img src="~/img/logo.png" alt="لوگو"></a>
+                </div>
+                <div class="user-form-card">
+                    <div class="user-form-title">
+                        <h2>رمز فراموش شده</h2>
+                        <p>ایمیل معتبر خود را وارد کنید</p>
+                    </div>
+                    <form class="user-form">
+                        <div class="form-group"><label>پست الکترونیک</label><input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید"></div>
+                        <div class="form-button">
+                            <button type="submit">ارسال پیوند تنظیم مجدد</button>
+                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="user-form-footer">
+                    <p>     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

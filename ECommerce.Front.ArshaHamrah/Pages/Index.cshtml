@@ -1,0 +1,698 @@
+﻿@page "{handler?}"
+@model IndexModel
+
+@{
+    ViewData["Title"] = "خانه";
+}
+<!-- START SLIDER AREA -->
+<div class="slider-area slider-2">
+    <div class="bend niceties preview-2">
+        <div id="nivoslider-2" class="slides">
+            <img src="~/img/slider/slider-2/slider-1.jpg" alt="" title="#slider-direction-1">
+            <img src="~/img/slider/slider-2/slider-1.jpg" alt="" title="#slider-direction-2">
+            <img src="~/img/slider/slider-2/slider-1.jpg" alt="" title="#slider-direction-3">
+            <img src="~/img/slider/slider-2/slider-1.jpg" alt="" title="#slider-direction-4">
+            <img src="~/img/slider/slider-2/slider-1.jpg" alt="" title="#slider-direction-5">
+        </div>
+        <!-- ===== direction ===== -->
+        @{
+            var i = 1;
+        }
+     @if (Model.SlideShowViewModels!= null)
+     {
+            @foreach (var slide in Model.SlideShowViewModels)
+        {
+            var id = $"slider-direction-{i}";
+            var classStr = $"slider-content-{(i % 2 == 1 ? "1" : "2")}";
+            var imageClass = i % 2 == 0 ? "layer-2-1" : "";
+            i++;
+
+
+            <div id="@id" class="slider-direction">
+                <div class="@classStr">
+                    <div class="title-container">
+                        <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
+                            <h6 class="slider2-title-1">بهترین قیمت : @slide.Price?.ToString("N2") تومان</h6>
+                        </div>
+                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
+                            <h1 class="slider2-title-2">@slide.Title</h1>
+                        </div>
+                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
+                            <h2 class="slider2-title-3">@slide.Name</h2>
+                        </div>
+                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
+                            <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
+                        </div>
+                        <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
+                            <a asp-page="Product" asp-route-productId="@slide.Url" class="button extra-small button-black">
+                                <span>هم اکنون بخرید</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- layer 1 -->
+                <div class="slider-content-1-image">
+                    <div class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
+                        <div class="layer-1-1 @imageClass">
+                            <img src=@slide.ImagePath alt="@slide.Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+     }
+        <!-- ==== -->
+    </div>
+</div>
+<!-- END SLIDER AREA -->
+<section id="page-content" class="page-wrapper">
+
+<!-- BANNER-SECTION START -->
+<div class="banner-section ptb-60">
+    <div class="container">
+        <div class="row">
+            <!-- banner-item start -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="banner-item banner-2">
+                    <div class="banner-img">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">
+                            <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[0].Alt"/>
+                        </a>
+                    </div>
+                    <h3 class="banner-title-2 vmsNowrap">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
+                    </h3>
+                    <h3 class="pro-price">@Model.ExpensiveProducts[0].Price.ToString("N0") تومان</h3>
+                    <div class="banner-button">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- banner-item end -->
+            <!-- banner-item start -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="banner-item banner-3">
+                    <div class="banner-img">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                            <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
+                        </a>
+                    </div>
+                    <div class="banner-info">
+                        <h3 class="banner-title-2 vmsNowrap">
+                            <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                        </h3>
+                        <ul class="banner-featured-list vmsNowrapList">
+                            @Html.Raw(Model.ExpensiveProducts[1].Brand)
+                        </ul>
+                        <div class="banner-button">
+                            <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">مشاهده <i class="zmdi zmdi-long-arrow-left"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- banner-item end -->
+            <!-- banner-item start -->
+            <div class="col-md-4 hidden-sm col-xs-12">
+                <div class="banner-item banner-4">
+                    <div class="banner-img">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                            <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
+                        </a>
+                    </div>
+                    <h3 class="banner-title-2 vmsNowrap">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                    </h3>
+                    <div class="banner-button">
+                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- banner-item end -->
+        </div>
+    </div>
+</div>
+<!-- BANNER-SECTION END -->
+<!-- FEATURED PRODUCT SECTION START -->
+<div class="featured-product-section section-bg-tb pt-80 pb-55">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-left mb-20">
+                    <h2>کالای جدید</h2>
+                    <h6>کالای جدید اضافه شده به فروشگاه ما</h6>
+                    <a asp-page="Compare" class="btn-default">مقایسه</a>
+                </div>
+            </div>
+        </div>
+        <div class="featured-product">
+            <div class="row active-featured-product slick-arrow-2">
+                @foreach (var newProduct in Model.NewProducts)
+                {
+                    <!-- product-item start -->
+                    <div class="col-xs-12">
+                        <div class="product-item product-item-2">
+                            <div class="product-img">
+                                <a asp-page="Product" asp-route-productUrl="@newProduct.Url">
+                                    <img src="~/@newProduct.ImagePath" alt="@newProduct.Alt">
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <h6 class="product-title">
+                                    <a asp-page="Product" asp-route-productUrl="@newProduct.Url"> @newProduct.Name</a>
+                                </h6>
+                                <h6 class="brand-name">@newProduct.Brand</h6>
+                                <h3 class="pro-price">@newProduct.Price.ToString("N0") تومان</h3>
+                            </div>
+                            <ul class="action-button">
+                                <li>
+                                    @*<a asp-page="Index" asp-page-handler="Wish" asp-route-id="@newProduct.Id" title="لیست علاقمندی ها"><i class="zmdi zmdi-favorite"></i></a>*@
+                                    <a href="javascript:void(0)" onclick="AddWishList(@newProduct.Id)" title="لیست علاقمندی ها">
+                                        <i class="zmdi zmdi-favorite"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" onclick="OpenProductModal(@newProduct.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                        <i class="zmdi zmdi-zoom-in"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" onclick="AddCompareList(@newProduct.Id)" title="مقایسه">
+                                        <i class="zmdi zmdi-refresh"></i>
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)" onclick="AddCart(@newProduct.Id)" title="اضافه کردن به سبد خرید">
+                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- product-item end -->
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FEATURED PRODUCT SECTION END -->
+<!-- UP COMMING PRODUCT SECTION START -->
+<div class="up-comming-product-section ptb-60">
+    <div class="container">
+        <div class="row">
+            <!-- up-comming-pro -->
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="up-comming-pro gray-bg up-comming-pro-2 clearfix">
+                    <div class="up-comming-pro-img f-left">
+                        <a href="#">
+                            <img src="~/img/up-comming/2.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="up-comming-pro-info f-left">
+                        <h3>
+                            <a href="#">نام محصول نمایشی</a>
+                        </h3>
+                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+                        <div class="up-comming-time-2 clearfix">
+                            <div data-countdown="2022/06/15"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 hidden-sm col-xs-12">
+                <div class="banner-item banner-1">
+                    <div class="ribbon-price">
+                        <span>896,000 تومان</span>
+                    </div>
+                    <div class="banner-img">
+                        <a href="#">
+                            <img src="~/img/banner/1.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="banner-info">
+                        <h3>
+                            <a href="#">نام محصول</a>
+                        </h3>
+                        <ul class="banner-featured-list">
+                            <li>
+                                <i class="zmdi zmdi-check"></i><span>لورم ایپسوم متن</span>
+                            </li>
+                            <li>
+                                <i class="zmdi zmdi-check"></i><span>لورم ایپسوم متن</span>
+                            </li>
+                            <li>
+                                <i class="zmdi zmdi-check"></i><span>لورم ایپسوم متن</span>
+                            </li>
+                            <li>
+                                <i class="zmdi zmdi-check"></i><span>لورم ایپسوم متن</span>
+                            </li>
+                            <li>
+                                <i class="zmdi zmdi-check"></i><span>لورم ایپسوم متن</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- UP COMMING PRODUCT SECTION END -->
+<!-- PRODUCT TAB SECTION START -->
+<div class="product-tab-section section-bg-tb pt-80 pb-55">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="section-title text-left mb-40">
+                    <h2>لیست محصولات</h2>
+                    <h6>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و</h6>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="pro-tab-menu pro-tab-menu-2 text-right">
+                    <!-- Nav tabs -->
+                    <ul class="">
+                        <li class="active">
+                            <a href="#popular-product" data-toggle="tab">محصولات محبوب </a>
+                        </li>
+                        <li>
+                            <a href="#new-arrival" data-toggle="tab">کالای جدید</a>
+                        </li>
+                        <li>
+                            <a href="#best-seller" data-toggle="tab">پرفروشترین ها</a>
+                        </li>
+                        @*<li><a href="#special-offer" data-toggle="tab">پیشنهاد ویژه</a></li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="product-tab">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- popular-product start -->
+                <div class="tab-pane active" id="popular-product">
+                    <div class="row">
+                        @foreach (var starProduct in Model.StarProducts)
+                        {
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                                <div class="product-item product-item-2">
+                                    <div class="product-img">
+                                        <a asp-page="Product" asp-route-productId="@starProduct.Id">
+                                            <img src="~/@starProduct.ImagePath" alt="@starProduct.Alt">
+                                        </a>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="product-title">
+                                            <a asp-page="Product" asp-route-productId="@starProduct.Url">@starProduct.Name</a>
+                                        </h6>
+                                        <h6 class="brand-name">@starProduct.Brand</h6>
+                                        <h3 class="pro-price">@starProduct.Price.ToString("N0") تومان</h3>
+                                    </div>
+                                    <ul class="action-button">
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddWishList(@starProduct.Id)" title="لیست علاقمندی ها">
+                                                <i class="zmdi zmdi-favorite"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="OpenProductModal(@starProduct.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                                <i class="zmdi zmdi-zoom-in"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCompareList(@starProduct.Id)" title="مقایسه">
+                                                <i class="zmdi zmdi-refresh"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCart(@starProduct.Id)" title="اضافه کردن به سبد خرید">
+                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- popular-product end -->
+                <!-- new-arrival start -->
+                <div class="tab-pane" id="new-arrival">
+                    <div class="row">
+                        @foreach (var newTop8Products in Model.NewTop8Products)
+                        {
+                            <!-- product-item start -->
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                                <div class="product-item product-item-2">
+                                    <div class="product-img">
+                                        <a asp-page="Product" asp-route-productId="@newTop8Products.Id">
+                                            <img src="~/@newTop8Products.ImagePath" alt="@newTop8Products.Alt">
+                                        </a>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="product-title">
+                                            <a asp-page="Product" asp-route-productId="@newTop8Products.Url">@newTop8Products.Name</a>
+                                        </h6>
+                                        <h6 class="brand-name">@newTop8Products.Brand</h6>
+                                        <h3 class="pro-price">@newTop8Products.Price.ToString("N0") تومان</h3>
+                                    </div>
+                                    <ul class="action-button">
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddWishList(@newTop8Products.Id)" title="لیست علاقمندی ها">
+                                                <i class="zmdi zmdi-favorite"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="OpenProductModal(@newTop8Products.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                                <i class="zmdi zmdi-zoom-in"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCompareList(@newTop8Products.Id)" title="مقایسه">
+                                                <i class="zmdi zmdi-refresh"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCart(@newTop8Products.Id)" title="اضافه کردن به سبد خرید">
+                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product-item end -->
+                        }
+
+                    </div>
+                </div>
+                <!-- new-arrival end -->
+                <!-- best-seller start -->
+                <div class="tab-pane" id="best-seller">
+                    <div class="row">
+                        @foreach (var sellProducts in Model.SellProducts)
+                        {
+                            <!-- product-item start -->
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                                <div class="product-item product-item-2">
+                                    <div class="product-img">
+                                        <a asp-page="Product" asp-route-productId="@sellProducts.Id">
+                                            <img src="~/@sellProducts.ImagePath" alt="@sellProducts.Alt">
+                                        </a>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="product-title">
+                                            <a asp-page="Product" asp-route-productId="@sellProducts.Url">@sellProducts.Name</a>
+                                        </h6>
+                                        <h6 class="brand-name">@sellProducts.Brand</h6>
+                                        <h3 class="pro-price">@sellProducts.Price.ToString("N0") تومان</h3>
+                                    </div>
+                                    <ul class="action-button">
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddWishList(@sellProducts.Id)" title="لیست علاقمندی ها">
+                                                <i class="zmdi zmdi-favorite"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="OpenProductModal(@sellProducts.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                                <i class="zmdi zmdi-zoom-in"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCompareList(@sellProducts.Id)" title="مقایسه">
+                                                <i class="zmdi zmdi-refresh"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCart(@sellProducts.Id)" title="اضافه کردن به سبد خرید">
+                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product-item end -->
+                        }
+                    </div>
+                </div>
+                <!-- best-seller end -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PRODUCT TAB SECTION END -->
+<!-- BLOG SECTION START -->
+<div class="blog-section-2 pt-60 pb-30">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-title text-left mb-40">
+                    <h2>مطالب اخیر بلاگ</h2>
+                    <h6>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و</h6>
+                </div>
+            </div>
+        </div>
+        <div class="blog">
+            <div class="row active-blog-2">
+                <!-- blog-item start -->
+                <div class="col-xs-12">
+                    <div class="blog-item-2">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-image">
+                                    <a href="single-blog.html">
+                                        <img src="~/img/blog/4.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-desc">
+                                    <h5 class="blog-title-2">
+                                        <a href="#">عنوان بلاگ نمایشی</a>
+                                    </h5>
+                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
+                                    <div class="read-more">
+                                        <a href="#">بیشتر بخوانید</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-item end -->
+                <!-- blog-item start -->
+                <div class="col-xs-12">
+                    <div class="blog-item-2">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-image">
+                                    <a href="single-blog.html">
+                                        <img src="~/img/blog/5.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-desc">
+                                    <h5 class="blog-title-2">
+                                        <a href="#">عنوان بلاگ نمایشی</a>
+                                    </h5>
+                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
+                                    <div class="read-more">
+                                        <a href="#">بیشتر بخوانید</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-item end -->
+                <!-- blog-item start -->
+                <div class="col-xs-12">
+                    <div class="blog-item-2">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-image">
+                                    <a href="single-blog.html">
+                                        <img src="~/img/blog/4.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="blog-desc">
+                                    <h5 class="blog-title-2">
+                                        <a href="#">عنوان بلاگ نمایشی</a>
+                                    </h5>
+                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
+                                    <div class="read-more">
+                                        <a href="#">بیشتر بخوانید</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- blog-item end -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BLOG SECTION END -->
+<!-- NEWSLETTER SECTION START -->
+<div class="newsletter-section section-bg-tb pt-60 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 col-xs-12">
+                <div class="newsletter">
+                    <div class="newsletter-info text-center">
+                        <h2 class="newsletter-title">در خبرنامه مشترک شوید</h2>
+                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت <br class="hidden-xs">لورم ایپسوم متن ساختگی با تولید سادگی</p>
+                    </div>
+                    <div class="subcribe clearfix">
+                        <form action="#">
+                            <input type="email" name="email" placeholder="... ایمیل خود را وارد کنید" dir="ltr">
+                            <button class="submit-btn-2 btn-hover-2" type="submit">اشتراک</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- NEWSLETTER SECTION END -->
+</section>
+
+@section Scripts
+{
+    <script>
+        function AddWishList(id) {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=AddWishList&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    swal(response);
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function AddCompareList(id) {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=AddCompareList&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    swal(response);
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function AddCart(id) {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=AddCart&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        var count = 0;
+                        var allPrice = 0;
+                        $('#Cart-List').text('');
+                        $.get('/index?handler=LoadCart').done(function(products) {
+
+                            $.each(products.returnData,
+                                function(i, product) {
+
+                                    var item =
+                                        '<div class="single-cart clearfix"> id="CartDrop-' +
+                                            product.productId +
+                                            '"' +
+                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
+                                            product.url +
+                                            '">' +
+                                            product.name +
+                                            '</a> </h6>' +
+                                            '<div class="cart-img f-left">' +
+                                            '<a asp-page="Product" asp-route-productId="' +
+                                            product.Url +
+                                            '">' +
+                                            '<img width="100px" src="/' +
+                                            product.imagePath +
+                                            '" alt="' +
+                                            product.alt +
+                                            '"> </a>' +
+                                            '<div class="del-icon">' +
+                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
+                                            product.productId +
+                                            ')"> ' +
+                                            '<i class="zmdi zmdi-close"></i> </a>' +
+                                            '</div></div><div class="cart-info f-left"> <p>' +
+                                            '<span>برند <strong>:</strong></span>' +
+                                            product.brand +
+                                            '</p><p><span>قیمت <strong>:</strong></span>' +
+                                            product.price +
+                                            '</p><p><span>تعداد <strong>:</strong></span>' +
+                                            product.quantity +
+                                            '</p><p> <input hidden="hidden" value="' +
+                                            product.sumPrice +
+                                            '" id="SumPrice-' +
+                                            product.productId +
+                                            '"/><span>جمع <strong>:</strong></span>' +
+                                            product.sumPrice +
+                                            '</p></div></div>';
+                                    $('#Cart-List').append(item);
+                                    count++;
+                                    allPrice = allPrice + product.sumPrice;
+                                });
+                            $('#Cart-Count').text(count);
+                            $('#All-Price').text(allPrice + ' تومان');
+                        });
+                    }
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+
+        function OpenProductModal() {
+            $.ajax({
+                type: "Get",
+                url: "index?handler=wish",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(response) {
+                    swal(response);
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function TestPost(a) {
+            $.ajax({
+                type: "Post",
+                url: "index",
+                headers: { "XSRF-TOKEN": $('input:hidden[name="__RequestVerificationToken"]').val() },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: a,
+                success: function(response) {
+                    swal(response);
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
+    </script>
+}
