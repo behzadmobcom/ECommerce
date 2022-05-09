@@ -58,10 +58,10 @@ builder.Services.AddDbContext<HolooDbContext>(option => option.UseSqlServer(buil
 
 builder.Services.AddSwaggerGen(swagger =>
 {
-    swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    swagger.IncludeXmlComments(xmlPath);
+    //swagger.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    //swagger.IncludeXmlComments(xmlPath);
     swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
     {
         Name = "Authorization",
@@ -210,9 +210,6 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
-
-
-
 
 
 
