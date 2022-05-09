@@ -45,22 +45,22 @@ namespace Bolouri.Pages
         public async Task OnGetAsync()
         {
             SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
-            NewProducts = (await _productService.TopProducts()).ReturnData;
-            ExpensiveProducts = (await _productService.TopProducts("", 0, 4, 4)).ReturnData;
-            StarProducts = (await _productService.TopProducts("", 0, 10, 2)).ReturnData;
-            SellProducts = (await _productService.TopProducts("", 0, 10, 5)).ReturnData;
-            NewTopProducts = (await _productService.TopProducts()).ReturnData;
+            //NewProducts = (await _productService.TopProducts()).ReturnData;
+            //ExpensiveProducts = (await _productService.TopProducts("", 0, 4, 4)).ReturnData;
+            //StarProducts = (await _productService.TopProducts("", 0, 10, 2)).ReturnData;
+            //SellProducts = (await _productService.TopProducts("", 0, 10, 5)).ReturnData;
+            //NewTopProducts = (await _productService.TopProducts()).ReturnData;
             Brands = (await _brandService.Load()).ReturnData;
 
             var result = _cookieService.GetCurrentUser();
             if (result.Id > 0) IsColleague = result.IsColleague;
             IsColleague = false;
 
-            //NewProducts = (await _productService.TopProducts()).ReturnData;
-            //ExpensiveProducts = NewProducts;
-            //StarProducts = NewProducts;
-            //SellProducts = NewProducts;
-            //NewTopProducts = NewProducts;
+            NewProducts = (await _productService.TopProducts()).ReturnData;
+            ExpensiveProducts = NewProducts;
+            StarProducts = NewProducts;
+            SellProducts = NewProducts;
+            NewTopProducts = NewProducts;
         }
 
         //public async Task<IActionResult> OnGetAddWishList(int id)
@@ -112,7 +112,7 @@ namespace Bolouri.Pages
 
         public async Task<IActionResult> OnGetLogout()
         {
-            await HttpContext.SignOutAsync();
+            await _cookieService.LogOut();
             return RedirectToPage("/index");
         }
     }

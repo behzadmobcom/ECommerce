@@ -148,7 +148,7 @@
                                     <li><a asp-area="" asp-page="/Profile">پروفایل من</a></li>
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                        <li><a asp-area="" asp-page="/Login">خروج</a></li>
+                                        <li><a href="index?handler=Logout">خروج</a></li>
                                     }
                                     else
                                     {

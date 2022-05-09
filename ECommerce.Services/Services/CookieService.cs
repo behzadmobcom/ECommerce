@@ -131,7 +131,7 @@ namespace Services.Services
         }
         public async Task LogOut()
         {
-            await _httpContextAccessor.HttpContext.SignOutAsync();
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         public LoginViewModel GetCurrentUser()
