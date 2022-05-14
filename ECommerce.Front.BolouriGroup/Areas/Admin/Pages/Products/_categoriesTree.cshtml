@@ -1,23 +1,32 @@
 ﻿@model List<Entities.ViewModel.CategoryParentViewModel>
 <div>
-   @if(Model != null)
-   {
-        @foreach (var category in Model)
+    @if (Model != null)
     {
-        @if (category.Depth > 0)
+        @foreach (var category in Model)
         {
-            for (int i = 0; i <= category.Depth; i++)
+            @if (category.Depth > 0)
             {
-                <text> &nbsp; &nbsp; </text>
+                for (var i = 0; i <= category.Depth; i++)
+                {
+                    <text> &nbsp; &nbsp; </text>
+                }
+            }
+            <input
+                @if (category.Checked)
+                {
+                    <text>checked="checked"</text>
+                }
+                type="checkbox" name="Product.CategoriesId" id="cat-@category.Id" value="@category.Id"
+                @if (category.Children != null && category.Children.Count > 0)
+                {
+                    <text> disabled="disabled" </text>
+                }>
+            <label for="cat-@category.Id"> @category.Name</label>
+
+            if (category.Children != null)
+            {
+                <partial name="_categoriesTree" model="category.Children"/>
             }
         }
-        <input @if (category.Checked){<text>checked="checked"</text>}  type="checkbox" name="Product.CategoriesId" id="cat-@category.Id" value="@category.Id" @if (category.Children != null && category.Children.Count > 0) { <text> disabled="disabled" </text> }>
-        <label for="cat-@category.Id"> @category.Name</label>
-
-        if (category.Children != null)
-        {
-            <partial name="_categoriesTree" model="category.Children " />
-        }
     }
-   }
 </div>

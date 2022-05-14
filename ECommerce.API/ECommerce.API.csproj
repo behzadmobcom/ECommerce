@@ -27,6 +27,7 @@
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.1" />
   </ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\ECommerce.Application\ECommerce.Application.csproj" />
 		<ProjectReference Include="..\Ecommerce.Entities\Ecommerce.Entities.csproj" />
 		<ProjectReference Include="..\PersianTranslation\PersianTranslation.csproj" />
 	</ItemGroup>

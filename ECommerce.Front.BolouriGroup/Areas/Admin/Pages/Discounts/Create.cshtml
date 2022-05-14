@@ -22,7 +22,7 @@
 
     Model.Message = null;
 }
-<link href="~/Admin/css/persian-datepicker.css" rel="stylesheet" />
+<link href="~/Admin/css/persian-datepicker.css" rel="stylesheet"/>
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
@@ -37,50 +37,50 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
                             <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
-                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع" />
+                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                             <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
-                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان" />
+                            <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ حداکثر تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked" />
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked"/>
                                 <span></span>
                                 فعال
                             </label>
                         </div>
                         <div class="form-group mt-4">
                             <label>کد تخفیف</label>
-                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -95,27 +95,27 @@
 </div>
 
 @section Scripts{
-<script src="~/Admin/js/bootstrap-touchspin.js"></script>
- <script src="~/Admin/js/persianDatepicker.min.js"></script>
+    <script src="~/Admin/js/bootstrap-touchspin.js"></script>
+    <script src="~/Admin/js/persianDatepicker.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-      $('#startDatepicker').persianDatepicker({
-          theme:'latoja',
-          fontSize: 15,
-          formatDate: "YYYY/MM/DD",
-           onSelect: function () {
-           $("#startDate").val($("#startDatepicker").attr("data-gdate"));
-           }
-       });
-          $('#endDatepicker').persianDatepicker({
-         theme:'latoja',
-          fontSize: 15,
-          formatDate: "YYYY/MM/DD",
-           onSelect: function () {
-           $("#endDate").val($("#endDatepicker").attr("data-gdate"));
-           }
-       });
-    });
-</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#startDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#startDate").val($("#startDatepicker").attr("data-gdate"));
+                }
+            });
+            $('#endDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#endDate").val($("#endDatepicker").attr("data-gdate"));
+                }
+            });
+        });
+    </script>
 }

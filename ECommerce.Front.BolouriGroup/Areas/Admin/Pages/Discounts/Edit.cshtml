@@ -33,52 +33,52 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.Discount.Id" />
+                    <input hidden="hidden" asp-for="@Model.Discount.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
-                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid"/>
                         </div>
                         <div class="form-group">
                             <label>>مبلغ حداکثر تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
                         </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked" />
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked"/>
                                 <span></span>
                                 فعال
                             </label>
                         </div>
                         <div class="form-group">
                             <label>کد تخفیف</label>
-                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -91,6 +91,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts{
     <script src="~/Admin/js/bootstrap-touchspin.js"></script>
 }

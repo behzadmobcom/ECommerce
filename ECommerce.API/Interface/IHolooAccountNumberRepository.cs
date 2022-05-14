@@ -1,11 +1,8 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Entities.HolooEntity;
+﻿using Entities.HolooEntity;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IHolooAccountNumberRepository : IHolooRepository<HolooAccountNumber>
 {
-    public interface IHolooAccountNumberRepository : IHolooRepository<HolooAccountNumber>
-    {
-        Task<HolooAccountNumber> GetByAccountNumberAndBankCode(string code, CancellationToken cancellationToken);
-    }
+    Task<HolooAccountNumber> GetByAccountNumberAndBankCode(string code, CancellationToken cancellationToken);
 }

@@ -40,7 +40,7 @@
             <form asp-page="/ProductAttributes/Index" method="get">
                 <div class="form-actions no-color">
                     <label>انتخاب دسته بندی خصوصیات</label>
-                    <select onchange="this.form.submit()"  name="attributeGroupId" class="col-md-12 js-example-basic-single  form-control">
+                    <select onchange="this.form.submit()" name="attributeGroupId" class="col-md-12 js-example-basic-single  form-control">
                         @foreach (var attributeGroup in Model.AttributeGroup)
                         {
                             <option value="@attributeGroup.Value">@attributeGroup.Text</option>
@@ -51,25 +51,25 @@
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">عنوان</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">عنوان</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var productAttribute in Model.ProductAttributes)
-                        {
-                            <tr>
-                                <th scope="row">@(i++)</th>
-                                <td>@productAttribute.Title</td>
-                                <td>
-                                    <a asp-page="Edit" asp-route-id="@productAttribute.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                    <a asp-page="Delete" asp-route-id="@productAttribute.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                    <a asp-page="Detail" asp-route-id="@productAttribute.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var productAttribute in Model.ProductAttributes)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@productAttribute.Title</td>
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@productAttribute.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@productAttribute.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Detail" asp-route-id="@productAttribute.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
 

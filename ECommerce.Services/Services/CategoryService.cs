@@ -1,119 +1,118 @@
-﻿using Services.IServices;
-using Entities;
-using Entities.ViewModel;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Entities;
 using Entities.Helper;
+using Entities.ViewModel;
+using Services.IServices;
 
-namespace Services.Services
+namespace Services.Services;
+
+public class CategoryService : EntityService<Category>, ICategoryService
 {
-    public class CategoryService : EntityService<Category>, ICategoryService
+    private const string Url = "api/Categories";
+    private readonly IEntityService<CategoryViewModel> _categoryViewModelEntityService;
+    private readonly IHttpService _http;
+
+
+    public CategoryService(IHttpService http, IEntityService<CategoryViewModel> categoryViewModelEntityService) :
+        base(http)
     {
-        private const string Url = "api/Categories";
-        private readonly IHttpService _http;
-        private readonly IEntityService<CategoryViewModel> _categoryViewModelEntityService;
+        _http = http;
+        _categoryViewModelEntityService = categoryViewModelEntityService;
+    }
 
-
-        public CategoryService(IHttpService http, IEntityService<CategoryViewModel> categoryViewModelEntityService) : base(http)
-        {
-            _http = http;
-            _categoryViewModelEntityService = categoryViewModelEntityService;
-        }
-
-        public async Task<ServiceResult<CategoryViewModel>> GetByUrl(string url)
-        {
-            var result =await _http.GetAsync<CategoryViewModel>(Url, $"GetByUrl?url={url}");
-            if (result.Code == ResultCode.Success)
-                return new ServiceResult<CategoryViewModel>
-                {
-                    Code = ServiceCode.Success,
-                    ReturnData = result.ReturnData
-                };
+    public async Task<ServiceResult<CategoryViewModel>> GetByUrl(string url)
+    {
+        var result = await _http.GetAsync<CategoryViewModel>(Url, $"GetByUrl?url={url}");
+        if (result.Code == ResultCode.Success)
             return new ServiceResult<CategoryViewModel>
             {
-                Code = ServiceCode.Error,
-                Message = result.GetBody()
-            }; 
-        }
-
-        public async Task<ServiceResult<List<CategoryParentViewModel>>> GetParents(int productId=0)
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData
+            };
+        return new ServiceResult<CategoryViewModel>
         {
-            var result = await _http.GetAsync<List<CategoryParentViewModel>>(Url, $"GetParents?productId={productId}");
-            if (result.Code == ResultCode.Success)
-                return new ServiceResult<List<CategoryParentViewModel>>
-                {
-                    Code = ServiceCode.Success,
-                    ReturnData = result.ReturnData
-                };
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
+    }
+
+    public async Task<ServiceResult<List<CategoryParentViewModel>>> GetParents(int productId = 0)
+    {
+        var result = await _http.GetAsync<List<CategoryParentViewModel>>(Url, $"GetParents?productId={productId}");
+        if (result.Code == ResultCode.Success)
             return new ServiceResult<List<CategoryParentViewModel>>
             {
-                Code = ServiceCode.Error,
-                Message = result.GetBody()
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData
             };
-        }
-        public async Task<ServiceResult<List<Category>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
+        return new ServiceResult<List<CategoryParentViewModel>>
         {
-            var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
-            if (result.Code == ResultCode.Success)
-                return new ServiceResult<List<Category>>
-                {
-                    Code = ServiceCode.Success,
-                    ReturnData = result.ReturnData,
-                    PaginationDetails=result.PaginationDetails
-                };
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
+    }
+
+    public async Task<ServiceResult<List<Category>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
+    {
+        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        if (result.Code == ResultCode.Success)
             return new ServiceResult<List<Category>>
             {
-                Code = ServiceCode.Error,
-                Message = result.GetBody()
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData,
+                PaginationDetails = result.PaginationDetails
             };
-        }
-
-        public async Task<ServiceResult<List<TreeViewModel>>> LoadTree()
+        return new ServiceResult<List<Category>>
         {
-            var result = await ReadList(Url);
-            if (result.Code == ResultCode.Success)
-                return new ServiceResult<List<TreeViewModel>>
-                {
-                    Code = ServiceCode.Success,
-                    ReturnData = result.ReturnData.Select(x => new TreeViewModel()
-                    { Id = x.Id, Name = x.Name, ParentId = x.ParentId }).ToList()
-                };
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
+    }
+
+    public async Task<ServiceResult<List<TreeViewModel>>> LoadTree()
+    {
+        var result = await ReadList(Url);
+        if (result.Code == ResultCode.Success)
             return new ServiceResult<List<TreeViewModel>>
             {
-                Code = ServiceCode.Error,
-                Message = result.GetBody()
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData
+                    .Select(x => new TreeViewModel {Id = x.Id, Name = x.Name, ParentId = x.ParentId}).ToList()
             };
-
-        }
-
-        public async Task<ServiceResult> Add(Category category)
+        return new ServiceResult<List<TreeViewModel>>
         {
-            var result = await Create(Url, category);
-            return Return(result);
-        }
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
+    }
 
-        public async Task<ServiceResult> Edit(Category category)
-        {
-            var result = await Update(Url, category);
-            return Return(result);
-        }
+    public async Task<ServiceResult> Add(Category category)
+    {
+        var result = await Create(Url, category);
+        return Return(result);
+    }
 
-        public async Task<ServiceResult> Delete(int id)
-        {
-            var result = await Delete(Url, id);
-            return Return(result);
-        }
+    public async Task<ServiceResult> Edit(Category category)
+    {
+        var result = await Update(Url, category);
+        return Return(result);
+    }
 
-        public async Task<ServiceResult<List<CategoryViewModel>>> GetCategoriesByProductId(int productId)
-        {
-            var result = await _categoryViewModelEntityService.ReadList(Url,$"GetCategoriesByProduct?productId={productId}");
-            return Return<List<CategoryViewModel>>(result);
-        }
-        public async Task<ServiceResult<Category>> GetById(int id)
-        {
-            var result = await _http.GetAsync<Category>(Url, $"GetById?id={id}");
-            return Return<Category>(result);
-        }
+    public async Task<ServiceResult> Delete(int id)
+    {
+        var result = await Delete(Url, id);
+        return Return(result);
+    }
+
+    public async Task<ServiceResult<List<CategoryViewModel>>> GetCategoriesByProductId(int productId)
+    {
+        var result =
+            await _categoryViewModelEntityService.ReadList(Url, $"GetCategoriesByProduct?productId={productId}");
+        return Return(result);
+    }
+
+    public async Task<ServiceResult<Category>> GetById(int id)
+    {
+        var result = await _http.GetAsync<Category>(Url, $"GetById?id={id}");
+        return Return(result);
     }
 }

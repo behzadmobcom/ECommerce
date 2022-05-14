@@ -1,7 +1,7 @@
 ﻿@page
 @model ArshaHamrah.Areas.Admin.Pages.Keywords.IndexModel
 @{
-    var i = 1 + ((Model.Keywords.PaginationDetails.CurrentPage - 1) * Model.Keywords.PaginationDetails.PageSize);
+    var i = 1 + (Model.Keywords.PaginationDetails.CurrentPage - 1) * Model.Keywords.PaginationDetails.PageSize;
 }
 
 <div class="card card-custom gutter-b">
@@ -41,43 +41,43 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.Keywords.PaginationDetails.Search" />
-                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
-                        <input type="submit" value="بجو" class="btn btn-primary" /> |
+                        <input type="text" name="search" value="@Model.Keywords.PaginationDetails.Search"/>
+                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+                        <input type="submit" value="بجو" class="btn btn-primary"/> |
                         تعداد رکورد ها در صفحه :
-                        <a asp-page="/Keywords/Index" asp-route-pageSize=10>10</a> -
-                        <a asp-page="/Keywords/Index" asp-route-pageSize=20>20</a> -
-                        <a asp-page="/Keywords/Index" asp-route-pageSize=30>30</a> -
-                        <a asp-page="/Keywords/Index" asp-route-pageSize=40>40</a> -
-                        <a asp-page="/Keywords/Index" asp-route-pageSize=50>50</a>
+                        <a asp-page="/Keywords/Index" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Keywords/Index" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Keywords/Index" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Keywords/Index" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Keywords/Index" asp-route-pageSize="50">50</a>
                     </p>
                 </div>
             </form>
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var Keyword in Model.Keywords.ReturnData)
-                        {
-                            <tr>
-                                <th scope="row">@(i++)</th>
-                                <td>@Keyword.KeywordText</td>
-                                <td>
-                                    <a asp-page="Edit" asp-route-id="@Keyword.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                    <a asp-page="Delete" asp-route-id="@Keyword.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                    <a asp-page="Detail" asp-route-id="@Keyword.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var Keyword in Model.Keywords.ReturnData)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@Keyword.KeywordText</td>
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@Keyword.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@Keyword.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Detail" asp-route-id="@Keyword.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
-                <partial name="_Pagination" model="@Model.Keywords.PaginationDetails" />
+                <partial name="_Pagination" model="@Model.Keywords.PaginationDetails"/>
 
             </div>
 

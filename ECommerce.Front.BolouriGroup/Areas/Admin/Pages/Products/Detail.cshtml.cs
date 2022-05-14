@@ -1,38 +1,33 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Entities;
-using Entities.ViewModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Hosting;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Products
+namespace ArshaHamrah.Areas.Admin.Pages.Products;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly IProductService _productService;
+
+
+    public DetailModel(IProductService productService)
     {
-        private readonly IProductService _productService;
-      
+        _productService = productService;
+    }
 
-        public DetailModel(IProductService productService)
+    [BindProperty] public Product Product { get; set; }
+    [BindProperty] public IFormFile Upload { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _productService.GetById(id);
+        if (result.Code == 0)
         {
-            _productService = productService;
+            Product = result.ReturnData;
+            return Page();
         }
-        [BindProperty] public Product Product { get; set; }
-        [BindProperty] public IFormFile Upload { get; set; }
 
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _productService.GetById(id);
-            if (result.Code == 0)
-            {
-                Product = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/Products/Index",
-                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-        }
+        return RedirectToPage("/Products/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

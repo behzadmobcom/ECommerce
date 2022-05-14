@@ -1,203 +1,198 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using API.Interface;
+﻿using API.Interface;
 using Entities;
 using Entities.Helper;
-using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class BrandsController : ControllerBase
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    
-    public class BrandsController : ControllerBase
+    private readonly IBrandRepository _brandRepository;
+    private readonly ILogger<BrandsController> _logger;
+
+    public BrandsController(IBrandRepository brandRepository, ILogger<BrandsController> logger)
     {
-        private readonly IBrandRepository _brandRepository;
-        private readonly ILogger<BrandsController> _logger;
-        public BrandsController(IBrandRepository brandRepository, ILogger<BrandsController> logger)
-        {
-            _brandRepository = brandRepository;
-            _logger = logger;
-        }
+        _brandRepository = brandRepository;
+        _logger = logger;
+    }
 
-        /// <summary>
-        /// Get All Brands.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    /// <summary>
+    ///     Get All Brands.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
         {
-            try
+            return Ok(new ApiResult
             {
+                Code = ResultCode.Success,
+                ReturnData = await _brandRepository.GetAll(cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _brandRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
+
+            //var metadata = new
+            //{
+            //    entity.TotalCount,
+            //    entity.PageSize,
+            //    entity.CurrentPage,
+            //    entity.TotalPages,
+            //    entity.HasNext,
+            //    entity.HasPrevious
+            //};
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Brand>> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var x = User.Identity.Name;
+            var result = await _brandRepository.GetByIdAsync(cancellationToken, id);
+            if (result == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _brandRepository.GetAll(cancellationToken)
+                    Code = ResultCode.NotFound
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-                var entity = await _brandRepository.Search(paginationParameters, cancellationToken);
-                var paginationDetails = new PaginationDetails
-                {
-                    TotalCount = entity.TotalCount,
-                    PageSize = entity.PageSize,
-                    CurrentPage = entity.CurrentPage,
-                    TotalPages = entity.TotalPages,
-                    HasNext = entity.HasNext,
-                    HasPrevious = entity.HasPrevious,
-                    Search = paginationParameters.Search
-                };
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
 
-                //var metadata = new
-                //{
-                //    entity.TotalCount,
-                //    entity.PageSize,
-                //    entity.CurrentPage,
-                //    entity.TotalPages,
-                //    entity.HasNext,
-                //    entity.HasPrevious
-                //};
-                //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
+    [HttpPost]
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public async Task<IActionResult> Post(Brand brand, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (brand == null)
                 return Ok(new ApiResult
                 {
-                    PaginationDetails = paginationDetails,
-                    Code = ResultCode.Success,
-                    ReturnData = entity
+                    Code = ResultCode.BadRequest
                 });
-            }
-            catch (Exception e)
-            {
-                _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-            }
-        }
+            brand.Name = brand.Name.Trim();
 
-        [HttpGet]
-       
-        public async Task<ActionResult<Brand>> GetById(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var x = User.Identity.Name;
-                var result = await _brandRepository.GetByIdAsync(cancellationToken,id);
-                if (result == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.NotFound
-                    });
-                }
-
+            var repetitiveBrand = await _brandRepository.GetByName(brand.Name, cancellationToken);
+            if (repetitiveBrand != null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = result
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"نام برند تکراری است"}
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success,
+                ReturnData = await _brandRepository.AddAsync(brand, cancellationToken)
+            });
         }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> Post(Brand brand, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                if (brand == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.BadRequest
-                    });
-                }
-                brand.Name = brand.Name.Trim();
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
 
-                var repetitiveBrand = await _brandRepository.GetByName(brand.Name, cancellationToken);
-                if (repetitiveBrand != null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "نام برند تکراری است" }
-                    });
-                }
-
+    [HttpPut]
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Put(Brand brand, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var repetitive = await _brandRepository.GetByName(brand.Name, cancellationToken);
+            if (repetitive != null && repetitive.Id != brand.Id)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _brandRepository.AddAsync(brand, cancellationToken)
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"نام برند تکراری است"}
                 });
-            }
-            catch (Exception e)
+            if (repetitive != null) _brandRepository.Detach(repetitive);
+            await _brandRepository.UpdateAsync(brand, cancellationToken);
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success
+            });
         }
-
-        [HttpPut]
-        [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<ActionResult<bool>> Put(Brand brand, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var repetitive = await _brandRepository.GetByName(brand.Name, cancellationToken);
-                if (repetitive != null && repetitive.Id != brand.Id)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "نام برند تکراری است" }
-                    });
-                }
-                if (repetitive != null) { _brandRepository.Detach(repetitive); }
-                await _brandRepository.UpdateAsync(brand, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
+    }
 
-        [HttpDelete]
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    [HttpDelete]
+    [Authorize(Roles = "SuperAdmin")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
+            await _brandRepository.DeleteAsync(id, cancellationToken);
+            return Ok(new ApiResult
             {
-                await _brandRepository.DeleteAsync(id, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 }

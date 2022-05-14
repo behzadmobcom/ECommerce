@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Pages
+namespace ArshaHamrah.Pages;
+
+public class PaymentSuccessfulModel : PageModel
 {
-    public class PaymentSuccessfulModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
 }

@@ -33,30 +33,30 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.Category.Id" />
+                    <input hidden="hidden" asp-for="@Model.Category.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Category.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Category.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Category.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Category.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>مسیر</label>
-                            <input asp-for="@Model.Category.Path" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Category.Path" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Category.Path" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Category.Path" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="checkbox-list">
                             <label class="checkbox">
-                                <input type="checkbox" asp-for="@Model.Category.IsActive" />
+                                <input type="checkbox" asp-for="@Model.Category.IsActive"/>
                                 <span></span>
                                 فعال بودن
                             </label>
                         </div>
                         <div class="form-group mt-5">
                             <label>ترتیب نمایش در منو برای سردسته ها </label>
-                            @Html.TextBoxFor(x => x.Category.DisplayOrder, new { @Value = "0",@Class="form-control form-control-solid"})
+                            @Html.TextBoxFor(x => x.Category.DisplayOrder, new {Value = "0", Class = "form-control form-control-solid"})
                             @*<input  value="0" asp-for="@Model.Category.DisplayOrder" class="form-control form-control-solid"/>*@
-                            <span asp-validation-for="@Model.Category.DisplayOrder" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <span asp-validation-for="@Model.Category.DisplayOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">

@@ -1,33 +1,31 @@
-using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Units
+namespace ArshaHamrah.Areas.Admin.Pages.Units;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly IUnitService _unitService;
+
+    public DetailModel(IUnitService unitService)
     {
-        private readonly IUnitService _unitService;
+        _unitService = unitService;
+    }
 
-        public DetailModel(IUnitService unitService)
+    public Unit Unit { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _unitService.GetById(id);
+        if (result.Code == 0)
         {
-            _unitService = unitService;
+            Unit = result.ReturnData;
+            return Page();
         }
 
-        public Unit Unit { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _unitService.GetById(id);
-            if (result.Code == 0)
-            {
-                Unit = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/Units/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
+        return RedirectToPage("/Units/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

@@ -1,52 +1,51 @@
-using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Currencies
+namespace ArshaHamrah.Areas.Admin.Pages.Currencies;
+
+public class DeleteModel : PageModel
 {
-    public class DeleteModel : PageModel
+    private readonly ICurrencyService _currencyService;
+
+    public DeleteModel(ICurrencyService currencyService)
     {
-        private readonly ICurrencyService _currencyService;
+        _currencyService = currencyService;
+    }
 
-        public DeleteModel(ICurrencyService currencyService)
+    public Currency Currency { get; set; }
+    [TempData] public string Message { get; set; }
+
+    [TempData] public string Code { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _currencyService.GetById(id);
+        if (result.Code == 0)
         {
-            _currencyService = currencyService;
-        }
-
-        public Currency Currency { get; set; }
-        [TempData] public string Message { get; set; }
-
-        [TempData] public string Code { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _currencyService.GetById(id);
-            if (result.Code == 0)
-            {
-                Currency = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/Currencies/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
-
-        public async Task<IActionResult> OnPost(int id)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _currencyService.Delete(id);
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
-                    return RedirectToPage("/Currencies/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-            Message = result.Message;
-            Code = result.Code.ToString();
-            }
+            Currency = result.ReturnData;
             return Page();
         }
+
+        return RedirectToPage("/Currencies/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+    }
+
+    public async Task<IActionResult> OnPost(int id)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _currencyService.Delete(id);
+            Message = result.Message;
+            Code = result.Code.ToString();
+            if (result.Code == 0)
+                return RedirectToPage("/Currencies/Index",
+                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            Message = result.Message;
+            Code = result.Code.ToString();
+        }
+
+        return Page();
     }
 }

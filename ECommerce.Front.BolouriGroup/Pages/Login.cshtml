@@ -10,7 +10,9 @@
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
                 <div class="user-form-logo">
-                    <a asp-area="" asp-page="/Index"><img src="~/img/logo.png" alt="لوگو"></a>
+                    <a asp-area="" asp-page="/Index">
+                        <img src="~/img/logo.png" alt="لوگو">
+                    </a>
                 </div>
                 <div class="user-form-card">
                     <div class="user-form-title">
@@ -18,8 +20,12 @@
                         <p>حساب خود را با ایمیل و رمز ورود وارد کنید</p>
                     </div>
                     <form method="post" class="user-form">
-                        <div class="form-group"><label>پست الکترونیک</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="ایمیل خود را وارد کنید"></div>
-                        <div class="form-group"><label>کلمه عبور</label><input type="password"  asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید"></div>
+                        <div class="form-group">
+                            <label>پست الکترونیک</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="ایمیل خود را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label>کلمه عبور</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
+                        </div>
                         <div class="row mb-3">
                             <div class="col-6">
                                 <div class="form-check">
@@ -40,7 +46,7 @@
                     </form>
                 </div>
                 <div class="user-form-footer">
-                    <p>     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+                    <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
                 </div>
             </div>
         </div>

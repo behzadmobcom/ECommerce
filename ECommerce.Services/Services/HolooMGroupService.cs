@@ -1,25 +1,19 @@
-﻿
-
-using Services.IServices;
+﻿using Entities.Helper;
 using Entities.HolooEntity;
+using Services.IServices;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Entities.Helper;
+namespace Services.Services;
 
-namespace Services.Services
+public class HolooMGroupService : EntityService<HolooMGroup>, IHolooMGroupService
 {
-    public class HolooMGroupService : EntityService<HolooMGroup>, IHolooMGroupService
+    private const string Url = "api/Products";
+
+    public HolooMGroupService(IHttpService http) : base(http)
     {
-        public HolooMGroupService(IHttpService http) : base(http)
-        {
-        }
+    }
 
-        private const string Url = "api/Products";
-
-        public async Task<ApiResult<List<HolooMGroup>>> Load()
-        {
-           return await ReadList(Url, "GetMGroup");
-        }
+    public async Task<ApiResult<List<HolooMGroup>>> Load()
+    {
+        return await ReadList(Url, "GetMGroup");
     }
 }

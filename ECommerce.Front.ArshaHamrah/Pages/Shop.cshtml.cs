@@ -1,62 +1,59 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Entities;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Pages
+namespace ArshaHamrah.Pages;
+
+public class ShopModel : PageModel
 {
-    public class ShopModel : PageModel
+    private readonly ICartService _cartService;
+    private readonly ICategoryService _categoryService;
+    private readonly ICookieService _cookieService;
+    private readonly IProductService _productService;
+
+
+    public ShopModel(IProductService productService, ICookieService cookieService, ICategoryService categoryService,
+        ICartService cartService)
     {
-        private readonly ICartService _cartService;
-        private readonly ICategoryService _categoryService;
-        private readonly IProductService _productService;
-        private readonly ICookieService _cookieService;
+        _productService = productService;
+        _cookieService = cookieService;
+        _categoryService = categoryService;
+        _cartService = cartService;
+    }
 
+    public List<Category> Categories { get; set; }
+    public bool IsColleague { get; set; }
+    public PaginationViewModel Pagination { get; set; }
 
-        public ShopModel(IProductService productService,ICookieService cookieService, ICategoryService categoryService,
-            ICartService cartService)
-        {
-            _productService = productService;
-            _cookieService = cookieService;
-            _categoryService = categoryService;
-            _cartService = cartService;
-        }
+    public async Task OnGet(string categoryUrl)
+    {
+        Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
 
-        public List<Category> Categories { get; set; }
-        public bool IsColleague { get; set; }
-        public PaginationViewModel Pagination { get; set; }
+        var result = _cookieService.GetCurrentUser();
+        if (result.Id > 0) IsColleague = result.IsColleague;
+        IsColleague = false;
 
-        public async Task OnGet(string categoryUrl)
-        {
-            Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
+        var categoryResult = await _categoryService.Load();
+        Categories = categoryResult.ReturnData;
+    }
 
-            var result = _cookieService.GetCurrentUser();
-            if (result.Id > 0) IsColleague = result.IsColleague;
-            IsColleague = false;
+    public async Task<JsonResult> OnGetAddCart(int id)
+    {
+        var result = await _cartService.Add(HttpContext, id);
+        return new JsonResult(result);
+    }
 
-            var categoryResult = await _categoryService.Load();
-            Categories = categoryResult.ReturnData;
-        }
+    public async Task<JsonResult> OnGetLoadCart(int id)
+    {
+        var result = await _cartService.Load(HttpContext);
+        return new JsonResult(result);
+    }
 
-        public async Task<JsonResult> OnGetAddCart(int id)
-        {
-            var result = await _cartService.Add(HttpContext, id);
-            return new JsonResult(result);
-        }
-
-        public async Task<JsonResult> OnGetLoadCart(int id)
-        {
-            var result = await _cartService.Load(HttpContext);
-            return new JsonResult(result);
-        }
-
-        public async Task<JsonResult> OnGetDeleteCart(int id)
-        {
-            var result = await _cartService.Delete(HttpContext, id);
-            return new JsonResult(result);
-        }
+    public async Task<JsonResult> OnGetDeleteCart(int id)
+    {
+        var result = await _cartService.Delete(HttpContext, id);
+        return new JsonResult(result);
     }
 }

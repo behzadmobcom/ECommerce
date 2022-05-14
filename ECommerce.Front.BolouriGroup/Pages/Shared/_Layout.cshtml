@@ -4,469 +4,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <title>@ViewData["Title"] - Bolouri</title>
 
-    <link rel="icon" href="~/img/favicon.png" />
+    <link rel="icon" href="~/img/favicon.png"/>
 
-    <link rel="stylesheet" href="~/css/flaticon.css" />
-    <link rel="stylesheet" href="~/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/css/flaticon.css"/>
+    <link rel="stylesheet" href="~/css/fontawesome.min.css"/>
 
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/nice-select.min.css" />
-    <link rel="stylesheet" href="~/css/jquery-ui.min.css" />
-    <link rel="stylesheet" href="~/css/venobox.min.css" />
-    <link rel="stylesheet" href="~/css/slick.min.css" />
-    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/nice-select.min.css"/>
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="~/css/venobox.min.css"/>
+    <link rel="stylesheet" href="~/css/slick.min.css"/>
+    <link rel="stylesheet" href="~/css/style.css"/>
 </head>
 
 <body>
 
-    <div class="preloader" id="preloader">
-        <div class="loader"></div>
-    </div>
+<div class="preloader" id="preloader">
+    <div class="loader"></div>
+</div>
 
 
-    <div class="header-top">
-        <div class="container">
-            <div class="row">
-                @* <div class="col-md-12 col-lg-5">
+<div class="header-top">
+    <div class="container">
+        <div class="row">
+            @* <div class="col-md-12 col-lg-5">
                     <div class="header-top-welcome"><p>برای اولین خرید خود 10٪ تخفیف بگیرید!</p></div>
                     </div>*@
-                <div class="col-md-7 col-lg-4">
-                    <ul class="header-top-list">
-                        <li><a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a></li>
-                        <li><a asp-area="" asp-page="/Offer">تخفیف</a></li>
-                        <li><a asp-area="" asp-page="/Faq">کمک خواستن؟</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-5 col-lg-3">
-                    <div class="header-top-select">
-                        <div class="header-select justify-content-lg-end">
-                            <i class="fal fa-sack-dollar"></i>
-                            <select class="select">
-                                <option value="dollar" selected="">ریال</option>
-                                <option value="dollar">خوب الان یعنی میخوای به دلار خرید کنی؟</option>
-                            </select>
-                        </div>
-                        <div class="header-select justify-content-lg-end">
-                            <i class="fal fa-globe-europe"></i>
-                            <select class="select">
-                                <option value="english" selected="">فعلا فقط فارسی!</option>
-                                <option value="english">گفتم که، فقط فارسی :)</option>
-                            </select>
-                        </div>
+            <div class="col-md-7 col-lg-4">
+                <ul class="header-top-list">
+                    <li>
+                        <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-page="/Offer">تخفیف</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-page="/Faq">کمک خواستن؟</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-5 col-lg-3">
+                <div class="header-top-select">
+                    <div class="header-select justify-content-lg-end">
+                        <i class="fal fa-sack-dollar"></i>
+                        <select class="select">
+                            <option value="dollar" selected="">ریال</option>
+                            <option value="dollar">خوب الان یعنی میخوای به دلار خرید کنی؟</option>
+                        </select>
+                    </div>
+                    <div class="header-select justify-content-lg-end">
+                        <i class="fal fa-globe-europe"></i>
+                        <select class="select">
+                            <option value="english" selected="">فعلا فقط فارسی!</option>
+                            <option value="english">گفتم که، فقط فارسی :)</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @{
-        var result = await _cartService.Load(Context);
-        var cartList = result.ReturnData;
-        var allPrice = 0;
-    }
+</div>
+@{
+    var result = await _cartService.Load(Context);
+    var cartList = result.ReturnData;
+    var allPrice = 0;
+}
 
-    <div class="header-part">
-        <div class="container">
-            <div class="header-content-group">
-                <div class="header-widget-group left">
-                    <button class="header-widget header-user" title="حساب من">
-                        <img src="~/img/user.jpg" alt="کاربر">
-                    </button>
-                    <a class="header-logo" asp-area="" asp-page="/Index"><img src="~/img/logo.png" alt="لوگو"></a>
-                    <button class="header-widget header-src" title="نوار جستجو"><i class="far fa-search"></i></button>
-                    <button class="header-widget header-cate" title="لیست دسته بندی"><i class="flaticon-menu-1"></i></button>
-                </div>
-                <form class="header-form">
-                    <input type="text" placeholder="مورد خود را در اینجا جستجو کنید ..."><button><i class="far fa-search"></i></button>
-                </form>
-                <div class="header-widget-group right">
-                    @if (User.Identity.IsAuthenticated)
+<div class="header-part">
+    <div class="container">
+        <div class="header-content-group">
+            <div class="header-widget-group left">
+                <button class="header-widget header-user" title="حساب من">
+                    <img src="~/img/user.jpg" alt="کاربر">
+                </button>
+                <a class="header-logo" asp-area="" asp-page="/Index">
+                    <img src="~/img/logo.png" alt="لوگو">
+                </a>
+                <button class="header-widget header-src" title="نوار جستجو">
+                    <i class="far fa-search"></i>
+                </button>
+                <button class="header-widget header-cate" title="لیست دسته بندی">
+                    <i class="flaticon-menu-1"></i>
+                </button>
+            </div>
+            <form class="header-form">
+                <input type="text" placeholder="مورد خود را در اینجا جستجو کنید ...">
+                <button>
+                    <i class="far fa-search"></i>
+                </button>
+            </form>
+            <div class="header-widget-group right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                        {
-                            <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من"><img src="~/img/user.jpg" alt="کاربر"></a>
-                        }
-                        else
-                        {
-                            <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من"><img src="~/img/user.jpg" alt="کاربر"></a>
-                        }
-
-                        <a class="header-widget" asp-area="" asp-page="/Compare" title="مقایسه لیست"><i class="far fa-exchange"></i><sup>2</sup></a>
-                        <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها"><i class="far fa-heart"></i><sup>3</sup></a>
-                        <button class="header-widget header-cart" title="سبد خرید"><i class="far fa-shopping-cart"></i><sup>@cartList.Count</sup></button>
+                        <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
+                            <img src="~/img/user.jpg" alt="کاربر">
+                        </a>
                     }
                     else
                     {
-                        <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من"><img src="~/img/user.jpg" alt="کاربر"></a>
+                        <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
+                            <img src="~/img/user.jpg" alt="کاربر">
+                        </a>
                     }
-                </div>
+
+                    <a class="header-widget" asp-area="" asp-page="/Compare" title="مقایسه لیست">
+                        <i class="far fa-exchange"></i><sup>2</sup>
+                    </a>
+                    <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+                        <i class="far fa-heart"></i><sup>3</sup>
+                    </a>
+                    <button class="header-widget header-cart" title="سبد خرید">
+                        <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
+                    </button>
+                }
+                else
+                {
+                    <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
+                        <img src="~/img/user.jpg" alt="کاربر">
+                    </a>
+                }
             </div>
         </div>
     </div>
+</div>
 
 
-    <nav class="navbar-part">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="navbar-content">
-                        <ul class="navbar-list">
-                            <li class="navbar-item dropdown">
-                                <a class="navbar-link" href="/">خانه</a>
-                            </li>
+<nav class="navbar-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="navbar-content">
+                    <ul class="navbar-list">
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link" href="/">خانه</a>
+                        </li>
 
-                            <li class="navbar-item dropdown-megamenu">
-                                <a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
-                                <div class="megamenu">
-                                    <div class="container">
-                                        <div class="row row-cols-4">
-                                            @await Component.InvokeAsync("CategoriesMenu")
-                                        </div>
+                        <li class="navbar-item dropdown-megamenu">
+                            <a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
+                            <div class="megamenu">
+                                <div class="container">
+                                    <div class="row row-cols-4">
+                                        @await Component.InvokeAsync("CategoriesMenu")
                                     </div>
                                 </div>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="navbar-link dropdown-arrow" href="#">صفحات</a>
-                                <ul class="dropdown-position-list">
-                                    <li><a asp-area="" asp-page="/AboutUs">درباره ما</a></li>
-                                    <li><a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a></li>
-                                    <li><a asp-area="" asp-page="/Offer">تخفیف</a></li>
-                                    <li><a asp-area="" asp-page="/Faq">سوالات متداول</a></li>
-                                    <li><a asp-area="" asp-page="/Privacy">حریم خصوصی</a></li>
-                                    <li><a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a></li>
-                                    <li><a asp-area="" asp-page="/Cart">سبد خرید</a></li>
-                                    <li><a asp-area="" asp-page="/Orderlist">لیست سفارش</a></li>
-                                </ul>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="navbar-link dropdown-arrow" href="#">حساب</a>
-                                <ul class="dropdown-position-list">
-                                    <li><a asp-area="" asp-page="/Profile">پروفایل من</a></li>
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li><a href="index?handler=Logout">خروج</a></li>
-                                    }
-                                    else
-                                    {
-                                        <li><a asp-area="" asp-page="/Login">ورود</a></li>
-                                    }
+                            </div>
+                        </li>
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link dropdown-arrow" href="#">صفحات</a>
+                            <ul class="dropdown-position-list">
+                                <li>
+                                    <a asp-area="" asp-page="/AboutUs">درباره ما</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Offer">تخفیف</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Faq">سوالات متداول</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Cart">سبد خرید</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link dropdown-arrow" href="#">حساب</a>
+                            <ul class="dropdown-position-list">
+                                <li>
+                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                </li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <a href="index?handler=Logout">خروج</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-area="" asp-page="/Login">ورود</a>
+                                    </li>
+                                }
 
-                                    <li><a asp-area="" asp-page="/Register">ثبت نام</a></li>
-                                    <li><a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a></li>
-                                    <li><a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a></li>
-                                </ul>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="navbar-link dropdown-arrow" href="#">وبلاگ ها</a>
-                                <ul class="dropdown-position-list">
-                                    <li><a href="blog-grid.html">شبکه وبلاگ</a></li>
-                                    <li><a href="blog-standard.html">استاندارد وبلاگ</a></li>
-                                    <li><a href="blog-details.html">جزئیات وبلاگ</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <div class="navbar-info-group">
-                            <div class="navbar-info">
-                                <i class="fal fa-phone"></i>
-                                <p><small>شماره تماس</small><span>۰۱۳-۳۳۹۵</span></p>
-                            </div>
-                            <div class="navbar-info">
-                                <i class="fal fa-envelope-open-text"></i>
-                                <p><small>برای ما ایمیل بزنید </small><span><a href="#" class="__cf_email__" data-cfemail="9cf5f2faf3dcf9e4fdf1ecf0f9b2fff3f1">bolouri.group@gmail.com</a></span></p>
-                            </div>
+                                <li>
+                                    <a asp-area="" asp-page="/Register">ثبت نام</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="navbar-item dropdown">
+                            <a class="navbar-link dropdown-arrow" href="#">وبلاگ ها</a>
+                            <ul class="dropdown-position-list">
+                                <li>
+                                    <a href="blog-grid.html">شبکه وبلاگ</a>
+                                </li>
+                                <li>
+                                    <a href="blog-standard.html">استاندارد وبلاگ</a>
+                                </li>
+                                <li>
+                                    <a href="blog-details.html">جزئیات وبلاگ</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="navbar-info-group">
+                        <div class="navbar-info">
+                            <i class="fal fa-phone"></i>
+                            <p>
+                                <small>شماره تماس</small><span>۰۱۳-۳۳۹۵</span>
+                            </p>
+                        </div>
+                        <div class="navbar-info">
+                            <i class="fal fa-envelope-open-text"></i>
+                            <p>
+                                <small>برای ما ایمیل بزنید </small>
+                                <span>
+                                    <a href="#" class="__cf_email__" data-cfemail="9cf5f2faf3dcf9e4fdf1ecf0f9b2fff3f1">bolouri.group@gmail.com</a>
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </nav>
-
-
-    <aside class="category-part">
-        <div class="category-container">
-            <div class="category-header">
-                <a href="#"><img src="~/img/logo.png" alt="لوگو"></a><button class="category-close"><i class="far fa-times"></i></button>
-            </div>
-            <ul class="category-list">
-                @await Component.InvokeAsync("CategoriesList")
-            </ul>
-            <div class="category-footer">
-                <p>     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-            </div>
-        </div>
-    </aside>
-
-
-    <aside class="cart-part">
-        <div class="cart-container">
-            <div class="cart-header">
-                <div class="cart-total"><i class="far fa-shopping-cart"></i><span>کل مورد (@cartList.Count)</span></div>
-                <button class="cart-close"><i class="far fa-times"></i></button>
-            </div>
-            <ul class="cart-list">
-                <li class="cart-item">
-                    <div class="cart-media">
-                        <a href="#"><img src="~/img/product/01.png" alt="تولید - محصول"></a><button class="cart-delete"><i class="far fa-times"></i></button>
-                    </div>
-                    <div class="cart-info-group">
-                        <div class="cart-info">
-                            <h6><a href="product-single.html">سیب ارگانیک تازه</a></h6>
-                            <p>قیمت - 15000 تومان</p>
-                        </div>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                            </div>
-                            <h6>40000 تومان</h6>
-                        </div>
-                    </div>
-                </li>
-                <li class="cart-item">
-                    <div class="cart-media">
-                        <a href="#"><img src="~/img/product/02.png" alt="تولید - محصول"></a><button class="cart-delete"><i class="far fa-times"></i></button>
-                    </div>
-                    <div class="cart-info-group">
-                        <div class="cart-info">
-                            <h6><a href="product-single.html">سیب ارگانیک تازه</a></h6>
-                            <p>قیمت - 15000 تومان</p>
-                        </div>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                            </div>
-                            <h6>40000 تومان</h6>
-                        </div>
-                    </div>
-                </li>
-                <li class="cart-item">
-                    <div class="cart-media">
-                        <a href="#"><img src="~/img/product/03.png" alt="تولید - محصول"></a><button class="cart-delete"><i class="far fa-times"></i></button>
-                    </div>
-                    <div class="cart-info-group">
-                        <div class="cart-info">
-                            <h6><a href="product-single.html">سیب ارگانیک تازه</a></h6>
-                            <p>قیمت - 15000 تومان</p>
-                        </div>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                            </div>
-                            <h6>40000 تومان</h6>
-                        </div>
-                    </div>
-                </li>
-                <li class="cart-item">
-                    <div class="cart-media">
-                        <a href="#"><img src="~/img/product/04.png" alt="تولید - محصول"></a><button class="cart-delete"><i class="far fa-times"></i></button>
-                    </div>
-                    <div class="cart-info-group">
-                        <div class="cart-info">
-                            <h6><a href="product-single.html">سیب ارگانیک تازه</a></h6>
-                            <p>قیمت - 15000 تومان</p>
-                        </div>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                            </div>
-                            <h6>40000 تومان</h6>
-                        </div>
-                    </div>
-                </li>
-                <li class="cart-item">
-                    <div class="cart-media">
-                        <a href="#"><img src="~/img/product/05.png" alt="تولید - محصول"></a><button class="cart-delete"><i class="far fa-times"></i></button>
-                    </div>
-                    <div class="cart-info-group">
-                        <div class="cart-info">
-                            <h6><a href="product-single.html">سیب ارگانیک تازه</a></h6>
-                            <p>قیمت - 15000 تومان</p>
-                        </div>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                            </div>
-                            <h6>40000 تومان</h6>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <div class="cart-footer">
-                <button class="coupon-btn">آیا کد تخفیف دارید؟</button>
-                <form class="coupon-form">
-                    <input type="text" placeholder="کد تخفیف خود را وارد کنید"><button type="submit"><span>درخواست دادن</span></button>
-                </form>
-                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span class="checkout-price">200.00 تومان</span></a>
-            </div>
-        </div>
-    </aside>
-
-
-    <aside class="mobile-nav">
-        <div class="nav-container">
-            <div class="nav-header">
-                <a href="#"><img src="~/img/logo.png" alt="لوگو"></a><button class="nav-close"><i class="fal fa-times"></i></button>
-            </div>
-            <div class="nav-content">
-                <div class="nav-profile">
-                    <a class="nav-user" href="#"><img src="~/img/user.jpg" alt="کاربر"></a>
-                    <h4 class="nav-name"><a asp-area="" asp-page="/Login">جیمز گلایدول</a></h4>
-                </div>
-                <ul class="nav-list">
-                    <li>
-                        <a class="nav-link dropdown-link" href="#">خانه</a>
-                        <ul class="dropdown-list">
-                            <li><a asp-area="" asp-page="/Index">صفحه اصلی</a></li>
-                            <li><a href="#">صفحه اصلی دو</a></li>
-                            <li><a href="#">صفحه اصلی سه</a></li>
-                            <li><a href="#">صفحه اصلی چهار</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link dropdown-link" href="#">خرید</a>
-                        <ul class="dropdown-list">
-                            <li><a asp-area="" asp-page="/Shopgrid">شبکه مغازه</a></li>
-                            <li><a href="shop-standard.html">استاندارد خرید</a></li>
-                            <li><a asp-area="" asp-page="/Productdetails">جزئیات محصول</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link dropdown-link" href="#">صفحات</a>
-                        <ul class="dropdown-list">
-                            <li><a asp-area="" asp-page="/AboutUs">درباره ما</a></li>
-                            <li><a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a></li>
-                            <li><a asp-area="" asp-page="/Offer">تخفیف</a></li>
-                            <li><a asp-area="" asp-page="/Faq">سوالات متداول</a></li>
-                            <li><a asp-area="" asp-page="/Compare">مقایسه کنید</a></li>
-                            <li><a asp-area="" asp-page="/Privacy">حریم خصوصی</a></li>
-                            <li><a asp-area="" asp-page="/Coming_Soon">به زودی</a></li>
-                            <li><a asp-area="" asp-page="/Error">خطای 404</a></li>
-                            <li><a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a></li>
-                            <li><a asp-area="" asp-page="/Checkout">پرداخت</a></li>
-                            <li><a asp-area="" asp-page="/Cart">سبد خرید</a></li>
-                            <li><a asp-area="" asp-page="/Orderlist">لیست سفارش</a></li>
-                            <li><a asp-area="" asp-page="/Orderdetail">جزئیات سفارش</a></li>
-                            <li><a asp-area="" asp-page="/Invoice">فاکتور سفارش</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link dropdown-link" href="#">حساب</a>
-                        <ul class="dropdown-list">
-                            <li><a asp-area="" asp-page="/Profile">پروفایل من</a></li>
-                            <li><a asp-area="" asp-page="/Login">ورود</a></li>
-                            <li><a asp-area="" asp-page="/Register">ثبت نام</a></li>
-                            <li><a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a></li>
-                            <li><a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
-                        <ul class="dropdown-list">
-                            <li><a href="blog-grid.html">شبکه وبلاگ</a></li>
-                            <li><a href="blog-standard.html">استاندارد وبلاگ</a></li>
-                            <li><a href="blog-details.html">جزئیات وبلاگ</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link" asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
-                    </li>
-                </ul>
-                <div class="nav-info-group">
-                    <div class="nav-info">
-                        <i class="icofont-ui-touch-phone"></i>
-                        <p><small>شماره تماس</small><span>021444676</span></p>
-                    </div>
-                    <div class="nav-info">
-                        <i class="icofont-ui-email"></i>
-                        <p><small>برای ما ایمیل بزنید </small><span><a href="#" class="__cf_email__" data-cfemail="9af3f4fcf5daffe2fbf7eaf6ffb4f9f5f7">info@gmail.com</a></span></p>
-                    </div>
-                </div>
-                <div class="nav-footer">
-                    <p>     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-
-    <div class="mobile-menu">
-        <a asp-area="" asp-page="/Index" title="صفحه نخست"><i class="far fa-home"></i><span>خانه</span></a>
-        <button class="cate-btn" title="لیست دسته بندی"><i class="far fa-th-large"></i><span>دسته بندی</span></button>
-        <button class="cart-btn" title="سبد خرید"><i class="far fa-shopping-cart"></i><span>کارتل </span><sup>5</sup></button>
-        <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها"><i class="far fa-heart"></i><span>لیست آرزوها </span><sup>3</sup></a>
-        <a asp-area="" asp-page="/Compare" title="مقایسه لیست"><i class="far fa-exchange"></i><span>مقایسه کنید </span><sup>2</sup></a>
     </div>
+</nav>
 
+
+<aside class="category-part">
+    <div class="category-container">
+        <div class="category-header">
+            <a href="#">
+                <img src="~/img/logo.png" alt="لوگو">
+            </a>
+            <button class="category-close">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+        <ul class="category-list">
+            @await Component.InvokeAsync("CategoriesList")
+        </ul>
+        <div class="category-footer">
+            <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+        </div>
+    </div>
+</aside>
+
+
+<aside class="cart-part">
+    <div class="cart-container">
+        <div class="cart-header">
+            <div class="cart-total">
+                <i class="far fa-shopping-cart"></i><span>کل مورد (@cartList.Count)</span>
+            </div>
+            <button class="cart-close">
+                <i class="far fa-times"></i>
+            </button>
+        </div>
+        <ul id="Cart-List" class="cart-list">
+        </ul>
+        <div class="cart-footer">
+            <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span>تومان</a>
+        </div>
+    </div>
+</aside>
+
+
+<aside class="mobile-nav">
+    <div class="nav-container">
+        <div class="nav-header">
+            <a href="#">
+                <img src="~/img/logo.png" alt="لوگو">
+            </a>
+            <button class="nav-close">
+                <i class="fal fa-times"></i>
+            </button>
+        </div>
+        <div class="nav-content">
+            <div class="nav-profile">
+                <a class="nav-user" href="#">
+                    <img src="~/img/user.jpg" alt="کاربر">
+                </a>
+                <h4 class="nav-name">
+                    <a asp-area="" asp-page="/Login">جیمز گلایدول</a>
+                </h4>
+            </div>
+            <ul class="nav-list">
+                <li>
+                    <a class="nav-link dropdown-link" href="#">خانه</a>
+                    <ul class="dropdown-list">
+                        <li>
+                            <a asp-area="" asp-page="/Index">صفحه اصلی</a>
+                        </li>
+                        <li>
+                            <a href="#">صفحه اصلی دو</a>
+                        </li>
+                        <li>
+                            <a href="#">صفحه اصلی سه</a>
+                        </li>
+                        <li>
+                            <a href="#">صفحه اصلی چهار</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-link" href="#">خرید</a>
+                    <ul class="dropdown-list">
+                        <li>
+                            <a asp-area="" asp-page="/Shopgrid">شبکه مغازه</a>
+                        </li>
+                        <li>
+                            <a href="shop-standard.html">استاندارد خرید</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Productdetails">جزئیات محصول</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-link" href="#">صفحات</a>
+                    <ul class="dropdown-list">
+                        <li>
+                            <a asp-area="" asp-page="/AboutUs">درباره ما</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Offer">تخفیف</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Faq">سوالات متداول</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Compare">مقایسه کنید</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Coming_Soon">به زودی</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Error">خطای 404</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Checkout">پرداخت</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Cart">سبد خرید</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Orderdetail">جزئیات سفارش</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Invoice">فاکتور سفارش</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-link" href="#">حساب</a>
+                    <ul class="dropdown-list">
+                        <li>
+                            <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Login">ورود</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Register">ثبت نام</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
+                    <ul class="dropdown-list">
+                        <li>
+                            <a href="blog-grid.html">شبکه وبلاگ</a>
+                        </li>
+                        <li>
+                            <a href="blog-standard.html">استاندارد وبلاگ</a>
+                        </li>
+                        <li>
+                            <a href="blog-details.html">جزئیات وبلاگ</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="nav-link" asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
+                </li>
+            </ul>
+            <div class="nav-info-group">
+                <div class="nav-info">
+                    <i class="icofont-ui-touch-phone"></i>
+                    <p>
+                        <small>شماره تماس</small><span>021444676</span>
+                    </p>
+                </div>
+                <div class="nav-info">
+                    <i class="icofont-ui-email"></i>
+                    <p>
+                        <small>برای ما ایمیل بزنید </small>
+                        <span>
+                            <a href="#" class="__cf_email__" data-cfemail="9af3f4fcf5daffe2fbf7eaf6ffb4f9f5f7">info@gmail.com</a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="nav-footer">
+                <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+            </div>
+        </div>
+    </div>
+</aside>
+
+
+<div class="mobile-menu">
+    <a asp-area="" asp-page="/Index" title="صفحه نخست">
+        <i class="far fa-home"></i><span>خانه</span>
+    </a>
+    <button class="cate-btn" title="لیست دسته بندی">
+        <i class="far fa-th-large"></i><span>دسته بندی</span>
+    </button>
+    <button class="cart-btn" title="سبد خرید">
+        <i class="far fa-shopping-cart"></i><span>کارتل </span><sup>5</sup>
+    </button>
+    <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+        <i class="far fa-heart"></i><span>لیست آرزوها </span><sup>3</sup>
+    </a>
+    <a asp-area="" asp-page="/Compare" title="مقایسه لیست">
+        <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup>2</sup>
+    </a>
+</div>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+
+<footer class="footer-part">
     <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-
-
-    <footer class="footer-part">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6 col-xl-3">
-                    <div class="footer-widget">
-                        <a class="footer-logo" href="#"><img src="~/img/logo.png" alt="لوگو"></a>
-                        <p class="footer-desc">ما بسیاری از معابر موجود هستیم اما اکثریت از طنز تزریق شده یا تصادفی باورنکردنی دچار تغییراتی شده اند.</p>
-                        <ul class="footer-social">
-                            <partial name="Components/_socialMedia" />
+        <div class="row">
+            <div class="col-sm-6 col-xl-3">
+                <div class="footer-widget">
+                    <a class="footer-logo" href="#">
+                        <img src="~/img/logo.png" alt="لوگو">
+                    </a>
+                    <p class="footer-desc">ما بسیاری از معابر موجود هستیم اما اکثریت از طنز تزریق شده یا تصادفی باورنکردنی دچار تغییراتی شده اند.</p>
+                    <ul class="footer-social">
+                        <partial name="Components/_socialMedia"/>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="footer-widget">
+                    <h3 class="footer-title">لینک های سریع</h3>
+                    <div class="footer-links">
+                        <ul>
+                            <li>
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Orderlist">تاریخچه سفارش ها</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Register">ایجاد حساب</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Login">ورود به سیستم</a>
+                            </li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="footer-widget">
-                        <h3 class="footer-title">لینک های سریع</h3>
-                        <div class="footer-links">
-                            <ul>
-                                <li><a asp-area="" asp-page="/Profile">پروفایل من</a></li>
-                                <li><a asp-area="" asp-page="/Orderlist">تاریخچه سفارش ها</a></li>
-                                <li><a asp-area="" asp-page="/Register">ایجاد حساب</a></li>
-                                <li><a asp-area="" asp-page="/Login">ورود به سیستم</a></li>
-                            </ul>
-                            <ul>
-                                <li><a asp-area="" asp-page="/AboutUs">درباره ما</a></li>
-                                <li><a asp-area="" asp-page="/contact">با ما تماس بگیرید</a></li>
-                                <li><a asp-area="" asp-page="/Privacy">حریم خصوصی</a></li>
-                                <li><a asp-area="" asp-page="/faq">پرسش و پاسخ</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="footer-widget contact">
-                        <h3 class="footer-title">با ما تماس بگیرید</h3>
-                        <ul class="footer-contact">
+                        <ul>
                             <li>
-                                <i class="fal fa-envelope-open-text"></i>
-                                <p><span><a href="#" class="__cf_email__" data-cfemail="3851565e57785d40595548545d165b5755">bolouri.group@gmail.com</a></span></p>
+                                <a asp-area="" asp-page="/AboutUs">درباره ما</a>
                             </li>
                             <li>
-                                <i class="fal fa-phone"></i>
-                                <p><span>۰۱۳-۳۳۹۵  خط ویژه</span><span>۰۱۳-۳۴۴۹۷۴۸۰</span><span>۰۱۳-۳۴۴۹۷۴۸1</span><span>۰۱۳-۳۴۴۹۷۴۸2</span></p>
+                                <a asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
                             </li>
                             <li>
-                                <i class="fal fa-map-marker-alt"></i>
-                                <p>
-                                    ایران - گیلان-رشت -خمام -جاده چوکام - جنب سایپا پور رستگار - خیابان شریفی
-                                    کدپستی : ۴۳۴۵۱۴۱۴۴۱
-                                </p>
+                                <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/faq">پرسش و پاسخ</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                @*  <div class="col-sm-6 col-xl-3">
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="footer-widget contact">
+                    <h3 class="footer-title">با ما تماس بگیرید</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fal fa-envelope-open-text"></i>
+                            <p>
+                                <span>
+                                    <a href="#" class="__cf_email__" data-cfemail="3851565e57785d40595548545d165b5755">bolouri.group@gmail.com</a>
+                                </span>
+                            </p>
+                        </li>
+                        <li>
+                            <i class="fal fa-phone"></i>
+                            <p>
+                                <span>۰۱۳-۳۳۹۵ خط ویژه</span><span>۰۱۳-۳۴۴۹۷۴۸۰</span><span>۰۱۳-۳۴۴۹۷۴۸1</span><span>۰۱۳-۳۴۴۹۷۴۸2</span>
+                            </p>
+                        </li>
+                        <li>
+                            <i class="fal fa-map-marker-alt"></i>
+                            <p>
+                                ایران - گیلان-رشت -خمام -جاده چوکام - جنب سایپا پور رستگار - خیابان شریفی
+                                کدپستی : ۴۳۴۵۱۴۱۴۴۱
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            @*  <div class="col-sm-6 col-xl-3">
                     <div class="footer-widget">
                     <h3 class="footer-title">بارگیری برنامه</h3>
                     <p class="footer-desc">بارگیری برنامه از مدت ها قبل ثابت کرده است که خواننده هنگام مطالعه در صفحه ای که دارای چیدمان صفحه است دارای حروف طبیعی است و حواس او به مطالعه خوانده می شود.</p>
@@ -476,42 +566,44 @@
                     </div>
                     </div>
                     </div>*@
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="footer-bottom">
-                        <p class="footer-copytext">     &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">حریم خصوصی</a></p>
-                    </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-bottom">
+                    <p class="footer-copytext"> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">حریم خصوصی</a></p>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
 
-    <a href="#" class="back-to-top"><i class="far fa-long-arrow-up"></i></a>
+<a href="#" class="back-to-top">
+    <i class="far fa-long-arrow-up"></i>
+</a>
 
-    @* <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
-    <script src="~/js/jquery-3.6.0.min.js"></script>
-    <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/nice-select.min.js"></script>
-    <script src="~/js/venobox.min.js"></script>
-    <script src="~/js/jquery-ui.js"></script>
-    <script src="~/js/finalcountdown.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
-    <script src="~/js/nice-select.js"></script>
-    <script src="~/js/price-range.js"></script>
-    <script src="~/js/accordion.js"></script>
-    <script src="~/js/venobox.js"></script>
-    <script src="~/js/slick.js"></script>
-    <script src="~/js/main.js"></script>
+@* <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/nice-select.min.js"></script>
+<script src="~/js/venobox.min.js"></script>
+<script src="~/js/jquery-ui.js"></script>
+<script src="~/js/finalcountdown.min.js"></script>
+<script src="~/js/slick.min.js"></script>
+<script src="~/js/nice-select.js"></script>
+<script src="~/js/price-range.js"></script>
+<script src="~/js/accordion.js"></script>
+<script src="~/js/venobox.js"></script>
+<script src="~/js/slick.js"></script>
+<script src="~/js/main.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
-
-
-    @await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", false)
 </body>
 
 <script>
+
     function DeleteCart(id) {
         var elementId = "#CartDrop-" + id;
         var sumPriceId = "#SumPrice-" + id;
@@ -540,118 +632,120 @@
             }
         });
     }
-      function AddWishList(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddWishList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
+
+    function AddWishList(id) {
+        $.ajax({
+            type: "Get",
+            url: "Shop?handler=AddWishList&id=" + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                swal(response);
+            },
+            failure: function(response) {
+                swal(response);
+            }
+        });
+    }
+
+    function AddCompareList(id) {
+        $.ajax({
+            type: "Get",
+            url: "Shop?handler=AddCompareList&id=" + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                swal(response);
+            },
+            failure: function(response) {
+                swal(response);
+            }
+        });
+    }
+
+    function OpenProductModal() {
+        $.ajax({
+            type: "Get",
+            url: "index?handler=wish",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                swal(response);
+            },
+            failure: function(response) {
+                swal(response);
+            }
+        });
+    }
+
+    function AddCart(id) {
+        $.ajax({
+            type: "Get",
+            url: "Shop?handler=AddCart&id=" + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(result) {
+                swal(result.message);
+                if (result.code === 0) {
+                    var count = 0;
+                    var allPrice = 0;
+                    $('#Cart-List').text('');
+                    $.get('Shop?handler=LoadCart').done(function(products) {
+
+                        $.each(products.returnData,
+                            function(i, product) {
+                                var item =
+                                    '<li class="cart-item">' +
+                                        ' <div class="cart-media">' +
+                                        '<a asp-page="Product" asp-route-productUrl="' +
+                                        product.Url +
+                                        '><img src="' +
+                                        product.imagePath +
+                                        '" alt="' +
+                                        product.alt +
+                                        '"></a><button class="cart-delete"><i class="far fa-times"></i></button>' +
+                                        '</div>' +
+                                        '  <div class="cart-info-group">' +
+                                        '<div class="cart-info">' +
+                                        '  <h5><a asp-page="Product" asp-route-productUrl="' +
+                                        product.Url +
+                                        '>' +
+                                        product.name +
+                                        '</a></h5>' +
+                                        '  <h6>برند' +
+                                        product.brand +
+                                        '</h6>' +
+                                        '<p>' +
+                                        product.price +
+                                        '</p>' +
+                                        '</div>' +
+                                        '<div class="cart-action-group">' +
+                                        '<div class="product-action">' +
+                                        '<button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
+                                        product.quantity +
+                                        '">' +
+                                        '<button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
+                                        '</div>' +
+                                        '<h6>' +
+                                        product.sumPrice +
+                                        '</h6><h6>تومان</h6>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</li>';
+                                $('#Cart-List').append(item);
+                                count++;
+                                allPrice = allPrice + product.sumPrice;
+                            });
+                        $('#Cart-Count').text(count);
+                        $('#All-Price').text(allPrice + ' تومان');
+                    });
                 }
-            });
-        }
+            },
+            failure: function(response) {
+                alert(response);
+            }
+        });
 
-        function AddCompareList(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddCompareList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function OpenProductModal() {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=wish",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function AddCart(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddCart&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(result) {
-                    swal(result.message);
-                    if (result.code === 0) {
-                        var count = 0;
-                        var allPrice = 0;
-                        $('#Cart-List').text('');
-                        $.get('Shop?handler=LoadCart').done(function(products) {
-
-                            $.each(products.returnData,
-                                function(i, product) {
-                                    var item =
-                                        '<div class="single-cart clearfix"> id="CartDrop-' +
-                                            product.productId +
-                                            '"' +
-                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
-                                            product.url +
-                                            '">' +
-                                            product.name +
-                                            '</a> </h6>' +
-                                            '<div class="cart-img f-left">' +
-                                            '<a asp-page="Product" asp-route-productId="' +
-                                            product.Url +
-                                            '">' +
-                                            '<img width="100px" src="/' +
-                                            product.imagePath +
-                                            '" alt="' +
-                                            product.alt +
-                                            '"> </a>' +
-                                            '<div class="del-icon">' +
-                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
-                                            product.productId +
-                                            ')"> ' +
-                                            '<i class="zmdi zmdi-close"></i> </a>' +
-                                            '</div></div><div class="cart-info f-left"> <p>' +
-                                            '<span>برند <strong>:</strong></span>' +
-                                            product.brand +
-                                            '</p><p><span>قیمت <strong>:</strong></span>' +
-                                            product.price +
-                                            '</p><p><span>تعداد <strong>:</strong></span>' +
-                                            product.quantity +
-                                            '</p><p> <input hidden="hidden" value="' +
-                                            product.sumPrice +
-                                            '" id="SumPrice-' +
-                                            product.productId +
-                                            '"/><span>جمع <strong>:</strong></span>' +
-                                            product.sumPrice +
-                                            '</p></div></div>';
-                                    $('#Cart-List').append(item);
-                                    count++;
-                                    allPrice = allPrice + product.sumPrice;
-                                });
-                            $('#Cart-Count').text(count);
-                            $('#All-Price').text(allPrice + ' تومان');
-                        });
-                    }
-                },
-                failure: function(response) {
-                    alert(response);
-                }
-            });
-
-        }
+    }
 </script>
 </html>

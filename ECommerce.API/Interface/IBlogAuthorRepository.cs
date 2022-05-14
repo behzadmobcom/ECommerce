@@ -1,15 +1,13 @@
-﻿using System.Threading;
+﻿using API.Utilities;
 using Entities;
-using System.Threading.Tasks;
-using API.Utilities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IBlogAuthorRepository : IAsyncRepository<BlogAuthor>
 {
-    public interface IBlogAuthorRepository : IAsyncRepository<BlogAuthor>
-    {
-        Task<PagedList<BlogAuthor>> Search(PaginationParameters paginationParameters,
-            CancellationToken cancellationToken);
-        Task<BlogAuthor> GetByName(string name, CancellationToken cancellationToken);
-    }
+    Task<PagedList<BlogAuthor>> Search(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken);
+
+    Task<BlogAuthor> GetByName(string name, CancellationToken cancellationToken);
 }

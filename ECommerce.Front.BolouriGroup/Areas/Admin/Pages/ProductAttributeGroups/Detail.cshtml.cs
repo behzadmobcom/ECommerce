@@ -1,33 +1,31 @@
-using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.ProductAttributeGroups
+namespace ArshaHamrah.Areas.Admin.Pages.ProductAttributeGroups;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly IProductAttributeGroupService _productAttributeGroupService;
+
+    public DetailModel(IProductAttributeGroupService productAttributeGroupService)
     {
-        private readonly IProductAttributeGroupService _productAttributeGroupService;
+        _productAttributeGroupService = productAttributeGroupService;
+    }
 
-        public DetailModel(IProductAttributeGroupService productAttributeGroupService)
+    public ProductAttributeGroup ProductAttributeGroup { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _productAttributeGroupService.GetById(id);
+        if (result.Code == 0)
         {
-            _productAttributeGroupService = productAttributeGroupService;
+            ProductAttributeGroup = result.ReturnData;
+            return Page();
         }
 
-        public ProductAttributeGroup ProductAttributeGroup { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _productAttributeGroupService.GetById(id);
-            if (result.Code == 0)
-            {
-                ProductAttributeGroup = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/ProductAttributeGroups/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
+        return RedirectToPage("/ProductAttributeGroups/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

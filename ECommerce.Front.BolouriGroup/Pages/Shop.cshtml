@@ -7,7 +7,9 @@
     <div class="container">
         <h2>لیست کالا</h2>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-page="/Index">خانه</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">لیست کالا</li>
         </ol>
     </div>
@@ -34,7 +36,9 @@
                             <div class="shop-widget-content">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="feat1">
-                                    <label class="form-check-label" for="feat1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></label>
+                                    <label class="form-check-label" for="feat1">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </label>
                                 </div>
                             </div>
                             <span class="shop-widget-number">(50)</span>
@@ -43,7 +47,9 @@
                             <div class="shop-widget-content">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="feat2">
-                                    <label class="form-check-label" for="feat2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></label>
+                                    <label class="form-check-label" for="feat2">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                    </label>
                                 </div>
                             </div>
                             <span class="shop-widget-number">(25)</span>
@@ -52,7 +58,9 @@
                             <div class="shop-widget-content">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="feat3">
-                                    <label class="form-check-label" for="feat3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></label>
+                                    <label class="form-check-label" for="feat3">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                    </label>
                                 </div>
                             </div>
                             <span class="shop-widget-number">(13)</span>
@@ -61,7 +69,9 @@
                             <div class="shop-widget-content">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="feat4">
-                                    <label class="form-check-label" for="feat4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></label>
+                                    <label class="form-check-label" for="feat4">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                    </label>
                                 </div>
                             </div>
                             <span class="shop-widget-number">(15)</span>
@@ -70,7 +80,9 @@
                             <div class="shop-widget-content">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="feat5">
-                                    <label class="form-check-label" for="feat5"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></label>
+                                    <label class="form-check-label" for="feat5">
+                                        <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                    </label>
                                 </div>
                             </div>
                             <span class="shop-widget-number">(02)</span>
@@ -141,7 +153,7 @@
                                 </div>
                             </li>
                         }
-                    
+
 
                     </ul>
                 </div>
@@ -151,17 +163,17 @@
                     <div class="col-lg-12">
                         <div class="shop-filter">
                             @{
-                                var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize+1;
+                                var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
                                 var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
                                 var total = Model.Products.PaginationDetails.TotalCount;
                                 if (endNumber > total) endNumber = total;
                             }
                             <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
-                           
-                            <a asp-page="/Shop" asp-route-productSort=1>مرتب سازی بر اساس جدیدترین</a>
-                            <a asp-page="/Shop" asp-route-productSort=2>مرتب سازی بر اساس پرطرفدارها</a>
-                            <a asp-page="/Shop" asp-route-productSort=3>قیمت پایین به بالا</a>
-                            <a asp-page="/Shop" asp-route-productSort=4>قیمت بالا به پایین</a>
+
+                            <a asp-page="/Shop" asp-route-productSort="1">مرتب سازی بر اساس جدیدترین</a>
+                            <a asp-page="/Shop" asp-route-productSort="2">مرتب سازی بر اساس پرطرفدارها</a>
+                            <a asp-page="/Shop" asp-route-productSort="3">قیمت پایین به بالا</a>
+                            <a asp-page="/Shop" asp-route-productSort="4">قیمت بالا به پایین</a>
                         </div>
                     </div>
                 </div>
@@ -173,12 +185,12 @@
                             <partial name="Components/_productCard" model="product"/>
                         }
                     }
-              
+
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="pagination">
-                            <partial name="_Pagination" model="@Model.Products.PaginationDetails" />
+                            <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
                         </ul>
                     </div>
                 </div>

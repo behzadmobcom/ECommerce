@@ -1,149 +1,141 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Entities;
+﻿using Entities;
 using Entities.Helper;
-using Entities.HolooEntity;
 using Entities.ViewModel;
-
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Hosting;
-
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Products
+namespace ArshaHamrah.Areas.Admin.Pages.Products;
+
+public class EditModel : PageModel
 {
-    public class EditModel : PageModel
+    private readonly IBrandService _brandService;
+    private readonly ICategoryService _categoryService;
+    private readonly IDiscountService _discountService;
+    private readonly IHostEnvironment _environment;
+    private readonly IImageService _imageService;
+    private readonly IKeywordService _keywordService;
+    private readonly IProductService _productService;
+    private readonly IStoreService _storeService;
+    private readonly ISupplierService _supplierService;
+    private readonly ITagService _tagService;
+
+    public EditModel(IProductService productService, ITagService tagService, ICategoryService categoryService,
+        IHostEnvironment environment,
+        IKeywordService keywordService, IBrandService brandService, IDiscountService discountService,
+        IStoreService storeService,
+        ISupplierService supplierService, IImageService imageService)
     {
-        private readonly IProductService _productService;
-        private readonly ITagService _tagService;
-        private readonly ICategoryService _categoryService;
-        private readonly IHostEnvironment _environment;
-        private readonly IImageService _imageService;
-        private readonly IKeywordService _keywordService;
-        private readonly IBrandService _brandService;
-        private readonly IDiscountService _discountService;
-        private readonly IStoreService _storeService;
-        private readonly ISupplierService _supplierService;
+        _productService = productService;
+        _tagService = tagService;
+        _categoryService = categoryService;
+        _environment = environment;
+        _keywordService = keywordService;
+        _brandService = brandService;
+        _discountService = discountService;
+        _storeService = storeService;
+        _supplierService = supplierService;
+        _imageService = imageService;
+    }
 
-        public EditModel(IProductService productService, ITagService tagService, ICategoryService categoryService, IHostEnvironment environment,
-            IKeywordService keywordService, IBrandService brandService, IDiscountService discountService, IStoreService storeService,
-            ISupplierService supplierService, IImageService imageService)
+    public List<Discount> Discounts { get; set; }
+    public List<Store> Stores { get; set; }
+    public List<Supplier> Suppliers { get; set; }
+    public List<Brand> Brands { get; set; }
+    public List<Tag> Tags { get; set; }
+    public List<Keyword> Keywords { get; set; }
+
+    public List<CategoryParentViewModel> CategoryParentViewModel { get; set; }
+
+    [BindProperty] public ProductViewModel Product { get; set; }
+    [BindProperty] public List<IFormFile> Uploads { get; set; }
+    [TempData] public string Message { get; set; }
+    [TempData] public string Code { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await Initial(id);
+        if (result.Code == 0) return Page();
+        return RedirectToPage("/Products/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        if (ModelState.IsValid)
         {
-            _productService = productService;
-            _tagService = tagService;
-            _categoryService = categoryService;
-            _environment = environment;
-            _keywordService = keywordService;
-            _brandService = brandService;
-            _discountService = discountService;
-            _storeService = storeService;
-            _supplierService = supplierService;
-            _imageService = imageService;
-        }
-        public List<Discount> Discounts { get; set; }
-        public List<Store> Stores { get; set; }
-        public List<Supplier> Suppliers { get; set; }
-        public List<Brand> Brands { get; set; }
-        public List<Tag> Tags { get; set; }
-        public List<Keyword> Keywords { get; set; }
-
-        public List<CategoryParentViewModel> CategoryParentViewModel { get; set; }
-
-        [BindProperty] public ProductViewModel Product { get; set; }
-        [BindProperty] public List<IFormFile> Uploads { get; set; }
-        [TempData] public string Message { get; set; }
-        [TempData] public string Code { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await Initial(id);
+            var result = await _productService.Edit(Product);
             if (result.Code == 0)
             {
-                return Page();
-            }
-            return RedirectToPage("/Products/Index",
-                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-        }
-
-        public async Task<IActionResult> OnPost()
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _productService.Edit(Product);
-                if (result.Code == 0)
+                foreach (var upload in Uploads)
                 {
-                    foreach (var upload in Uploads)
+                    var resultImage = await _imageService.Add(upload, Product.Id, "Images/Products",
+                        _environment.ContentRootPath);
+                    if (resultImage.Code > 0)
                     {
-                        var resultImage = await _imageService.Add(upload, Product.Id, "Images/Products", _environment.ContentRootPath);
-                        if (resultImage.Code > 0)
-                        {
-                            Message = resultImage.Message;
-                            Code = resultImage.Code.ToString();
-                            ModelState.AddModelError("", resultImage.Message);
-                            await Initial(Product.Id);
-                            return Page();
-                        }
+                        Message = resultImage.Message;
+                        Code = resultImage.Code.ToString();
+                        ModelState.AddModelError("", resultImage.Message);
+                        await Initial(Product.Id);
+                        return Page();
                     }
-                    return RedirectToPage("/Products/Index",
-                        new { area = "Admin", message = result.Message, code = result.Code.ToString() });
                 }
-                Message = result.Message;
-                Code = result.Code.ToString();
-                ModelState.AddModelError("", result.Message);
+
+                return RedirectToPage("/Products/Index",
+                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
             }
-            await Initial(Product.Id);
-            return Page();
+
+            Message = result.Message;
+            Code = result.Code.ToString();
+            ModelState.AddModelError("", result.Message);
         }
 
-        public async Task<IActionResult> OnPostDeleteImage(string imageName, int id, int productId)
+        await Initial(Product.Id);
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostDeleteImage(string imageName, int id, int productId)
+    {
         {
-            {
-                var result = await _imageService.Delete($"Images/Products/{imageName}", id, _environment.ContentRootPath);
+            var result = await _imageService.Delete($"Images/Products/{imageName}", id, _environment.ContentRootPath);
 
-                if (result.Code == 0)
-                    return RedirectToPage("/Products/Edit",
-                        new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-                Message = result.Message;
-                Code = result.Code.ToString();
-                ModelState.AddModelError("", result.Message);
-            }
-            await Initial(productId);
-            return Page();
+            if (result.Code == 0)
+                return RedirectToPage("/Products/Edit",
+                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            Message = result.Message;
+            Code = result.Code.ToString();
+            ModelState.AddModelError("", result.Message);
         }
+        await Initial(productId);
+        return Page();
+    }
 
-        private async Task<ServiceResult<ProductViewModel>> Initial(int id)
-        {
-            var result = await _productService.GetById(id);
-            if (result.Code > 0)
+    private async Task<ServiceResult<ProductViewModel>> Initial(int id)
+    {
+        var result = await _productService.GetById(id);
+        if (result.Code > 0)
+            return new ServiceResult<ProductViewModel>
             {
-                return new ServiceResult<ProductViewModel>
-                {
-                    Code = result.Code,
-                    Message = result.Message
-                };
-            }
-            Product = result.ReturnData;
+                Code = result.Code,
+                Message = result.Message
+            };
+        Product = result.ReturnData;
 
-            //Product = new ProductViewModel();
-            Stores = (await _storeService.Load()).ReturnData;
+        //Product = new ProductViewModel();
+        Stores = (await _storeService.Load()).ReturnData;
 
-            Discounts = (await _discountService.Load()).ReturnData;
+        Discounts = (await _discountService.Load()).ReturnData;
 
-            Suppliers = (await _supplierService.Load()).ReturnData;
+        Suppliers = (await _supplierService.Load()).ReturnData;
 
-            Brands = (await _brandService.Load()).ReturnData;
+        Brands = (await _brandService.Load()).ReturnData;
 
-            Tags = (await _tagService.GetAll()).ReturnData;
+        Tags = (await _tagService.GetAll()).ReturnData;
 
-            Keywords = (await _keywordService.GetAll()).ReturnData;
+        Keywords = (await _keywordService.GetAll()).ReturnData;
 
-            CategoryParentViewModel = (await _categoryService.GetParents(id)).ReturnData;
+        CategoryParentViewModel = (await _categoryService.GetParents(id)).ReturnData;
 
-            return result;
-        }
+        return result;
     }
 }

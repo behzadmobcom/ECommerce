@@ -33,27 +33,27 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.SlideShow.Id" />
-                    <input hidden="hidden" asp-for="@Model.SlideShow.ImagePath" />
+                    <input hidden="hidden" asp-for="@Model.SlideShow.Id"/>
+                    <input hidden="hidden" asp-for="@Model.SlideShow.ImagePath"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>عنوان</label>
-                            <input asp-for="@Model.SlideShow.Title" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.SlideShow.Title" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.SlideShow.Title" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.SlideShow.Title" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
                             <textarea  id="Description_Edit" asp-for="@Model.SlideShow.Description" class="form-control form-control-solid" rows="6"></textarea>
-                            <span asp-validation-for="@Model.SlideShow.Description" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <span asp-validation-for="@Model.SlideShow.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>ترتیب نمایش</label>
-                            <input id="kt_touchspin_4" asp-for="@Model.SlideShow.DisplayOrder" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <input id="kt_touchspin_4" asp-for="@Model.SlideShow.DisplayOrder" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
                         </div>
                         <div class="form-group">
-                            <label>تصویر اسلاید شو</label>   <img src="@Model.SlideShow.ImagePath">
+                            <label>تصویر اسلاید شو</label> <img src="@Model.SlideShow.ImagePath">
                             <div class="custom-file">
-                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل" />
+                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
@@ -68,6 +68,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts
 {
     <script src="/Admin/js/bootstrap-touchspin.js"></script>

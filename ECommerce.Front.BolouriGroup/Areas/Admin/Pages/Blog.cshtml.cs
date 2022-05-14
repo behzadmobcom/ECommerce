@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages
+namespace ArshaHamrah.Areas.Admin.Pages;
+
+public class BlogModel : PageModel
 {
-    public class BlogModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
 }

@@ -5,7 +5,7 @@
     var nextDisabled = Model.TotalPages == Model.CurrentPage ? "disabled" : "";
 }
 
-<a asp-page=@Model.Address
+<a asp-page="@Model.Address"
    asp-route-pageNumber="@(Model.CurrentPage - 1)"
    asp-route-search="@(Model.Search)"
    asp-route-pageSize="@Model.PageSize"
@@ -52,7 +52,7 @@ else
         </a>
     }
 }
-<a asp-page=@Model.Address
+<a asp-page="@Model.Address"
    asp-route-pageNumber="@(Model.CurrentPage + 1)"
    asp-route-search="@(Model.Search)"
    asp-route-pageSize="@Model.PageSize"

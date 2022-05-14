@@ -40,25 +40,25 @@
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var category in Model.Categories)
-                        {
-                            <tr>
-                                <th scope="row">@(i++)</th>
-                                <td>@category.Name</td>
-                                <td>
-                                    <a asp-page="Edit" asp-route-id="@category.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                    <a asp-page="Delete" asp-route-id="@category.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                    <a asp-page="Detail" asp-route-id="@category.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@category.Name</td>
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@category.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@category.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Detail" asp-route-id="@category.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>

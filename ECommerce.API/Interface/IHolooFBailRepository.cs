@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Entities.HolooEntity;
+﻿using Entities.HolooEntity;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IHolooFBailRepository : IHolooRepository<HolooFBail>
 {
-    public interface IHolooFBailRepository : IHolooRepository<HolooFBail>
-    {
-        Task<string> Add(HolooFBail bail, CancellationToken cancellationToken);
-    }
+    Task<string> Add(HolooFBail bail, CancellationToken cancellationToken);
 }

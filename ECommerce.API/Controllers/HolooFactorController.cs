@@ -1,74 +1,67 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using API.Interface;
-using Entities;
+﻿using API.Interface;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class HolooFactorController : ControllerBase
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class HolooFactorController : ControllerBase
+    private readonly IHolooABailRepository _aBailRepository;
+    private readonly IHolooFBailRepository _fBailRepository;
+    private readonly ILogger<FactorViewModel> _logger;
+
+    public HolooFactorController(IHolooFBailRepository fBailRepository, IHolooABailRepository aBailRepository,
+        ILogger<FactorViewModel> logger)
     {
-        private readonly IHolooFBailRepository _fBailRepository;
-        private readonly IHolooABailRepository _aBailRepository;
-        private readonly ILogger<FactorViewModel> _logger;
+        _fBailRepository = fBailRepository;
+        _aBailRepository = aBailRepository;
+        _logger = logger;
+    }
 
-        public HolooFactorController(IHolooFBailRepository fBailRepository, IHolooABailRepository aBailRepository, ILogger<FactorViewModel> logger)
+    [HttpPost]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<IActionResult> Post(FactorViewModel factor, CancellationToken cancellationToken)
+    {
+        try
         {
-            _fBailRepository = fBailRepository;
-            _aBailRepository = aBailRepository;
-            _logger = logger;
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<IActionResult> Post(FactorViewModel factor, CancellationToken cancellationToken)
-        {
-            try
-            {
-                if (factor == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.BadRequest
-                    });
-                }
-
-                factor.HolooFBail.Fac_Type = "P";
-                var repetitiveBrand = await _fBailRepository.Add(factor.HolooFBail, cancellationToken);
-                if (repetitiveBrand != null)
-                {
-                    for (int index = 0; index < factor.HolooABails.Count; index++)
-                    {
-                        factor.HolooABails[index].Fac_Code = repetitiveBrand;
-                        factor.HolooABails[index].Fac_Type ="P";
-                    }
-                    await _aBailRepository.Add(factor.HolooABails, cancellationToken);
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Success
-                    });
-                }
+            if (factor == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Error,
-                    Messages = new List<string> { "مشکل در ثبت فاکتور" }
+                    Code = ResultCode.BadRequest
+                });
+
+            factor.HolooFBail.Fac_Type = "P";
+            var repetitiveBrand = await _fBailRepository.Add(factor.HolooFBail, cancellationToken);
+            if (repetitiveBrand != null)
+            {
+                for (var index = 0; index < factor.HolooABails.Count; index++)
+                {
+                    factor.HolooABails[index].Fac_Code = repetitiveBrand;
+                    factor.HolooABails[index].Fac_Type = "P";
+                }
+
+                await _aBailRepository.Add(factor.HolooABails, cancellationToken);
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Success
                 });
             }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Error,
+                Messages = new List<string> {"مشکل در ثبت فاکتور"}
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 }

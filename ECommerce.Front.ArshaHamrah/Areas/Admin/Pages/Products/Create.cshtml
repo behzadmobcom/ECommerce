@@ -1,5 +1,4 @@
 ﻿@page "/Admin/CreateProduct"
-@using Entities
 @model ArshaHamrah.Areas.Admin.Pages.Products.CreateModel
 @{
 }
@@ -50,22 +49,22 @@
                         <div class="form-group">
                             <label>انتخاب دسته ها</label>
                             <div class="checkbox-list">
-                                <partial name="_categoriesTree" model="Model.CategoryParentViewModel" />
+                                <partial name="_categoriesTree" model="Model.CategoryParentViewModel"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>نام کالا</label>
-                            <input asp-for="@Model.Product.Name" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Product.Name" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.Product.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>کد دیتابیس کالا در هلو</label>
-                            <input asp-for="@Model.Product.ArticleCode" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Product.ArticleCode" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.Product.ArticleCode" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>کد کالا در هلو</label>
-                            <input asp-for="@Model.Product.ArticleCodeCustomer" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Product.ArticleCodeCustomer" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.Product.ArticleCodeCustomer" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
@@ -75,48 +74,48 @@
                         </div>
                         <div class="form-group">
                             <label>موجودی</label>
-                            <input asp-for="@Model.Product.Exist" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <input asp-for="@Model.Product.Exist" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
                             <span asp-validation-for="@Model.Product.Exist" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>حداقل سفارش</label>
-                            <input asp-for="@Model.Product.MinOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" value="0" />
+                            <input asp-for="@Model.Product.MinOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" value="0"/>
                             <span asp-validation-for="@Model.Product.MinOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>حداکثر سفارش</label>
-                            <input asp-for="@Model.Product.MaxOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <input asp-for="@Model.Product.MaxOrder" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
                             <span asp-validation-for="@Model.Product.MaxOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>حداقل در انبار</label>
-                            <input asp-for="@Model.Product.MinInStore" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <input asp-for="@Model.Product.MinInStore" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
                             <span asp-validation-for="@Model.Product.MinInStore" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>تعداد سفارش مجدد</label>
-                            <input asp-for="@Model.Product.ReorderingLevel" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
+                            <input asp-for="@Model.Product.ReorderingLevel" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
                             <span asp-validation-for="@Model.Product.ReorderingLevel" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label class="checkbox">
-                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued" />
+                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued"/>
                                 <span></span>
                                 توقف تولید
                             </label>
-                            <input asp-for="@Model.Product.IsDiscontinued" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Product.IsDiscontinued" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.Product.IsDiscontinued" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label class="checkbox">
-                                <input type="checkbox" asp-for="@Model.Product.IsActive" />
+                                <input type="checkbox" asp-for="@Model.Product.IsActive"/>
                                 <span></span>
                                 فعال بودن
                             </label>
                         </div>
                         <div class="form-group">
                             <label>آدرس محصول در سایت</label>
-                            <input asp-for="@Model.Product.Url" class="form-control form-control-solid" />
+                            <input asp-for="@Model.Product.Url" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.Product.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
@@ -138,7 +137,7 @@
                         <div class="form-group">
                             <label>تصویر برند</label>
                             <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png" />
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
@@ -177,7 +176,7 @@
                         <option value="@mGroup.S_groupcode">@mGroup.S_groupname</option>
                     }
                 </select>
-                <input type="text" id="searchId" name="search" placeholder="جستجو کالا . . ." title="نام مورد نظر را وارد کنید"  class="form-control form-control-solid" onkeyup="filter()">
+                <input type="text" id="searchId" name="search" placeholder="جستجو کالا . . ." title="نام مورد نظر را وارد کنید" class="form-control form-control-solid" onkeyup="filter()">
                 <select id="articleId" class="col-md-10 js-example-basic-single  form-control">
                     @foreach (var mGroup in Model.HolooArticle)
                     {
@@ -202,91 +201,91 @@
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 
     <script type="text/javascript">
-    var holooArticles = new Array();
-    var article = new Object();
-    window.onload = function() {
-        CKEDITOR.replace('Description_Add');
-    };
-    $(document).ready(function() {
-        $('.js-example-basic-multiple').select2();
-    });
+        var holooArticles = new Array();
+        var article = new Object();
+        window.onload = function() {
+            CKEDITOR.replace('Description_Add');
+        };
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
 
-    $('#mGroupId').on("change",
-        function() {
-            $("#searchId").val("");
-            var mCode = $('#mGroupId').val();
-            $("#sGroupId").empty();
-            $("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
-            $.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
-                (data) => {
-                    $.each(data,
-                        function(i, item) {
-                            $("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
-                        });
-                });
-        });
-    $('#sGroupId').on("change",
-        function() {
-            $("#searchId").val("");
-            var code = $('#sGroupId').val();
-            $("#articleId").empty();
-            $("#articleId").append("<option value=''>انتخاب کالا</option>");
-            $.getJSON(`?handler=ReturnArticle&code=${code}`,
-                (data) => {
-                    holooArticles = data;
-                    $.each(data,
-                        function(i, holooArticles) {
-                            $("#articleId").append(`<option value="${holooArticles.articleCode}">${holooArticles.name}</option>`);
-                        });
-                });
-        });
-    $('#articleId').on('change',
-        function(e) {
-            var valueSelected = this.value;
-            //var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
-            article = holooArticles.find(obj => {
-                return obj.articleCode === valueSelected;
+        $('#mGroupId').on("change",
+            function() {
+                $("#searchId").val("");
+                var mCode = $('#mGroupId').val();
+                $("#sGroupId").empty();
+                $("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
+                $.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
+                    (data) => {
+                        $.each(data,
+                            function(i, item) {
+                                $("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
+                            });
+                    });
             });
-            $("#articleDescriptionId").html(
-                "<p>" +
-                "کد کالا : " +
-                article.articleCodeCustomer +
-                "</p>" +
-                "<p>" +
-                "نام : " +
-                article.name +
-                "</p>" +
-                "<p>" +
-                "موجودی : " +
-                article.exist +
-                "</p>"
-            );
-        });
-    $("#selectArticleId").on("click",
-        function() {
-            $("#Product_Name").val(article.name);
-            $("#Product_ArticleCode").val(article.articleCode);
-            $("#Product_ArticleCodeCustomer").val(article.articleCodeCustomer);
-            CKEDITOR.instances['Description_Add'].setData(article.description);
-            $("#kt_touchspin_4").val(article.exist);
-            console.log(article);
-            $('#ModalSelectArticle').modal('toggle');
-        }
-    );
-
-    function filter() {
-        var keyword = $("#searchId").val();
-        var select = document.getElementById("articleId");
-        for (var i = 0; i < select.length; i++) {
-            var txt = select.options[i].text;
-            if (!txt.match(keyword)) {
-                $(select.options[i]).attr('disabled', 'disabled').hide();
-            } else {
-                $(select.options[i]).removeAttr('disabled').show();
+        $('#sGroupId').on("change",
+            function() {
+                $("#searchId").val("");
+                var code = $('#sGroupId').val();
+                $("#articleId").empty();
+                $("#articleId").append("<option value=''>انتخاب کالا</option>");
+                $.getJSON(`?handler=ReturnArticle&code=${code}`,
+                    (data) => {
+                        holooArticles = data;
+                        $.each(data,
+                            function(i, holooArticles) {
+                                $("#articleId").append(`<option value="${holooArticles.articleCode}">${holooArticles.name}</option>`);
+                            });
+                    });
+            });
+        $('#articleId').on('change',
+            function(e) {
+                var valueSelected = this.value;
+                //var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
+                article = holooArticles.find(obj => {
+                    return obj.articleCode === valueSelected;
+                });
+                $("#articleDescriptionId").html(
+                    "<p>" +
+                    "کد کالا : " +
+                    article.articleCodeCustomer +
+                    "</p>" +
+                    "<p>" +
+                    "نام : " +
+                    article.name +
+                    "</p>" +
+                    "<p>" +
+                    "موجودی : " +
+                    article.exist +
+                    "</p>"
+                );
+            });
+        $("#selectArticleId").on("click",
+            function() {
+                $("#Product_Name").val(article.name);
+                $("#Product_ArticleCode").val(article.articleCode);
+                $("#Product_ArticleCodeCustomer").val(article.articleCodeCustomer);
+                CKEDITOR.instances['Description_Add'].setData(article.description);
+                $("#kt_touchspin_4").val(article.exist);
+                console.log(article);
+                $('#ModalSelectArticle').modal('toggle');
             }
+        );
 
+        function filter() {
+            var keyword = $("#searchId").val();
+            var select = document.getElementById("articleId");
+            for (var i = 0; i < select.length; i++) {
+                var txt = select.options[i].text;
+                if (!txt.match(keyword)) {
+                    $(select.options[i]).attr('disabled', 'disabled').hide();
+                } else {
+                    $(select.options[i]).removeAttr('disabled').show();
+                }
+
+            }
         }
-    }
 
         //$('#addPriceId').on("click",
         //    function () {

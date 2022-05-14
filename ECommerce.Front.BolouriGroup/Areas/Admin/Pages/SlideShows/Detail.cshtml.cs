@@ -1,34 +1,31 @@
-using System.Threading.Tasks;
-using Entities;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.SlideShows
+namespace ArshaHamrah.Areas.Admin.Pages.SlideShows;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly ISlideShowService _slideShowService;
+
+    public DetailModel(ISlideShowService slideShowService)
     {
-        private readonly ISlideShowService _slideShowService;
+        _slideShowService = slideShowService;
+    }
 
-        public DetailModel(ISlideShowService slideShowService)
+    public SlideShowViewModel SlideShow { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _slideShowService.GetById(id);
+        if (result.Code == 0)
         {
-            _slideShowService = slideShowService;
+            SlideShow = result.ReturnData;
+            return Page();
         }
 
-        public SlideShowViewModel SlideShow { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _slideShowService.GetById(id);
-            if (result.Code == 0)
-            {
-                SlideShow = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/SlideShows/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
+        return RedirectToPage("/SlideShows/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

@@ -1,120 +1,110 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Entities;
 using Entities.Helper;
-using Entities.ViewModel;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Products
+namespace ArshaHamrah.Areas.Admin.Pages.Products;
+
+public class PriceModel : PageModel
 {
-    public class PriceModel : PageModel
+    private readonly IColorService _colorService;
+    private readonly ICurrencyService _currencyService;
+    private readonly IPriceService _priceService;
+    private readonly ISizeService _sizeService;
+    private readonly IUnitService _unitService;
+
+    public PriceModel(IPriceService priceService, IUnitService unitService, ISizeService sizeService,
+        IColorService colorService, ICurrencyService currencyService)
     {
-        private readonly IPriceService _priceService;
-        private readonly IUnitService _unitService;
-        private readonly ISizeService _sizeService;
-        private readonly IColorService _colorService;
-        private readonly ICurrencyService _currencyService;
-        public SelectList Units { get; set; }
-        public SelectList Sizes { get; set; }
-        public SelectList Colors { get; set; }
-        public SelectList Currencies { get; set; }
-        [BindProperty] public Price Price { get; set; } = new Price();
-        public ServiceResult<List<Price>> Prices { get; set; }
-        [TempData] public string Message { get; set; }
-        [TempData] public string Code { get; set; }
+        _priceService = priceService;
+        _unitService = unitService;
+        _sizeService = sizeService;
+        _colorService = colorService;
+        _currencyService = currencyService;
+    }
 
-        public PriceModel(IPriceService priceService, IUnitService unitService, ISizeService sizeService,
-            IColorService colorService, ICurrencyService currencyService)
+    public SelectList Units { get; set; }
+    public SelectList Sizes { get; set; }
+    public SelectList Colors { get; set; }
+    public SelectList Currencies { get; set; }
+    [BindProperty] public Price Price { get; set; } = new();
+    public ServiceResult<List<Price>> Prices { get; set; }
+    [TempData] public string Message { get; set; }
+    [TempData] public string Code { get; set; }
+
+    public async Task OnGet(int id, string search = "", int pageIndex = 1, int quantityPerPage = 10,
+        string message = null, string code = null)
+    {
+        Message = message;
+        Code = code;
+
+        await Initial(id, search, pageIndex, quantityPerPage, message, code);
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        if (ModelState.IsValid)
         {
-            _priceService = priceService;
-            _unitService = unitService;
-            _sizeService = sizeService;
-            _colorService = colorService;
-            _currencyService = currencyService;
-        }
-
-        public async Task OnGet(int id, string search = "", int pageIndex = 1, int quantityPerPage = 10, string message = null, string code = null)
-        {
-            Message = message;
-            Code = code;
-
-            await Initial(id, search, pageIndex, quantityPerPage, message, code);
-        }
-
-        public async Task<IActionResult> OnPost()
-        {
-            if (ModelState.IsValid)
-            {
-
-                ServiceResult result;
-                if (Price.Id > 0)
-                {
-                    result = await _priceService.Edit(Price);
-                   
-                }
-                else
-                {
-                     result = await _priceService.Add(Price);
-                }
-                if (result.Code == 0)
-                    return RedirectToPage("/Products/Price",
-                        new { area = "Admin", id= Price.ProductId, message = result.Message, code = result.Code.ToString() });
-                Message = result.Message;
-                Code = result.Code.ToString();
-                ModelState.AddModelError("", result.Message);
-            }
-            await Initial(Price.ProductId);
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostDelete(int id, int productId)
-        {
-            var result = await _priceService.Delete(id);
-            Message = result.Message;
-            Code = result.Code.ToString();
+            ServiceResult result;
+            if (Price.Id > 0)
+                result = await _priceService.Edit(Price);
+            else
+                result = await _priceService.Add(Price);
             if (result.Code == 0)
                 return RedirectToPage("/Products/Price",
-                    new { area = "Admin",id= productId, message = result.Message, code = result.Code.ToString() });
+                    new
+                    {
+                        area = "Admin", id = Price.ProductId, message = result.Message, code = result.Code.ToString()
+                    });
             Message = result.Message;
             Code = result.Code.ToString();
-            await Initial(productId);
-            return Page();
+            ModelState.AddModelError("", result.Message);
         }
 
-        public async Task<IActionResult> OnPostEdit(int id, int productId)
-        {
-            await Initial(productId);
-            Price = Prices.ReturnData.First(x=>x.Id== id);
-            return Page();
-        }
-        private async Task Initial(int productId, string search = "", int pageNumber = 1, int pageSize = 10, string message = null, string code = null)
-        {
-            Price.ProductId = productId;
-            var units = (await _unitService.Load()).ReturnData;
-            Units = new SelectList(units, nameof(Unit.Id), nameof(Unit.Name));
+        await Initial(Price.ProductId);
+        return Page();
+    }
 
-            var sizes = (await _sizeService.Load()).ReturnData;
-            Sizes = new SelectList(sizes, nameof(Size.Id), nameof(Size.Name));
+    public async Task<IActionResult> OnPostDelete(int id, int productId)
+    {
+        var result = await _priceService.Delete(id);
+        Message = result.Message;
+        Code = result.Code.ToString();
+        if (result.Code == 0)
+            return RedirectToPage("/Products/Price",
+                new {area = "Admin", id = productId, message = result.Message, code = result.Code.ToString()});
+        Message = result.Message;
+        Code = result.Code.ToString();
+        await Initial(productId);
+        return Page();
+    }
 
-            var colors = (await _colorService.Load()).ReturnData;
-            Colors = new SelectList(colors, nameof(Color.Id), nameof(Color.Name));
+    public async Task<IActionResult> OnPostEdit(int id, int productId)
+    {
+        await Initial(productId);
+        Price = Prices.ReturnData.First(x => x.Id == id);
+        return Page();
+    }
 
-            var currencies = (await _currencyService.Load()).ReturnData;
-            Currencies = new SelectList(currencies, nameof(Currency.Id), nameof(Currency.Name));
+    private async Task Initial(int productId, string search = "", int pageNumber = 1, int pageSize = 10,
+        string message = null, string code = null)
+    {
+        Price.ProductId = productId;
+        var units = (await _unitService.Load()).ReturnData;
+        Units = new SelectList(units, nameof(Unit.Id), nameof(Unit.Name));
 
-            var result = await _priceService.Load(productId.ToString(), pageNumber, pageSize);
-            if (result.Code == ServiceCode.Success)
-            {
-                Prices = result;
-            }
-        }
+        var sizes = (await _sizeService.Load()).ReturnData;
+        Sizes = new SelectList(sizes, nameof(Size.Id), nameof(Size.Name));
+
+        var colors = (await _colorService.Load()).ReturnData;
+        Colors = new SelectList(colors, nameof(Color.Id), nameof(Color.Name));
+
+        var currencies = (await _currencyService.Load()).ReturnData;
+        Currencies = new SelectList(currencies, nameof(Currency.Id), nameof(Currency.Name));
+
+        var result = await _priceService.Load(productId.ToString(), pageNumber, pageSize);
+        if (result.Code == ServiceCode.Success) Prices = result;
     }
 }

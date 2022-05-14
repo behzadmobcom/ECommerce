@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using API.DataContext;
@@ -16,31 +15,29 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 
-
-
 var config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.json", false)
     .Build();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-        .Enrich.FromLogContext()
-        .WriteTo.Console(formatter: new CustomLogFormatter(),
-            restrictedToMinimumLevel: LogEventLevel.Warning)
-        .WriteTo.MSSqlServer(
-            connectionString: builder.Configuration.GetConnectionString("SunflowerECommerce"),
-            sinkOptions: new MSSqlServerSinkOptions
-            {
-                TableName = "LogEvents",
-                SchemaName = "EventLogging",
-                AutoCreateSqlTable = true,
-                BatchPostingLimit = 1000,
-                BatchPeriod = new TimeSpan(00, 00, 30)
-            }
-            , restrictedToMinimumLevel: LogEventLevel.Warning)
-        .ReadFrom.Configuration(hostingContext.Configuration)
-        );
+    .Enrich.FromLogContext()
+    .WriteTo.Console(new CustomLogFormatter(),
+        LogEventLevel.Warning)
+    .WriteTo.MSSqlServer(
+        builder.Configuration.GetConnectionString("SunflowerECommerce"),
+        new MSSqlServerSinkOptions
+        {
+            TableName = "LogEvents",
+            SchemaName = "EventLogging",
+            AutoCreateSqlTable = true,
+            BatchPostingLimit = 1000,
+            BatchPeriod = new TimeSpan(00, 00, 30)
+        }
+        , restrictedToMinimumLevel: LogEventLevel.Warning)
+    .ReadFrom.Configuration(hostingContext.Configuration)
+);
 
 var _siteSetting = builder.Configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
@@ -53,8 +50,10 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<SunflowerECommerceDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("SunflowerECommerce")));
-builder.Services.AddDbContext<HolooDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("HolooConnectionString")));
+builder.Services.AddDbContext<SunflowerECommerceDbContext>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("SunflowerECommerce")));
+builder.Services.AddDbContext<HolooDbContext>(option =>
+    option.UseSqlServer(builder.Configuration.GetConnectionString("HolooConnectionString")));
 
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -62,30 +61,30 @@ builder.Services.AddSwaggerGen(swagger =>
     //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     //swagger.IncludeXmlComments(xmlPath);
-    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+        Description =
+            "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\""
     });
     swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
                 {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] {}
-
-                    }
-                });
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] { }
+        }
+    });
 });
 
 builder.Services.AddDataProtection();
@@ -93,11 +92,11 @@ builder.Services.AddDataProtection();
 builder.Services.AddSingleton(_siteSetting);
 
 builder.Services.AddIdentity<User, UserRole>(identityOption =>
-{
-    identityOption.User.RequireUniqueEmail = true;
-    identityOption.Password.RequiredLength = 8;
-    identityOption.Password.RequireUppercase = false;
-})
+    {
+        identityOption.User.RequireUniqueEmail = true;
+        identityOption.Password.RequiredLength = 8;
+        identityOption.Password.RequireUppercase = false;
+    })
     .AddEntityFrameworkStores<SunflowerECommerceDbContext>()
     .AddDefaultTokenProviders()
     .AddErrorDescriber<PersianIdentityErrorDescriber>();
@@ -117,7 +116,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = _siteSetting.IdentitySetting.Audience,
         ValidIssuer = _siteSetting.IdentitySetting.Issuer,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_siteSetting.IdentitySetting.IdentitySecretKey))
+        IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_siteSetting.IdentitySetting.IdentitySecretKey))
     };
 });
 
@@ -186,14 +186,10 @@ var app = builder.Build();
 //}
 
 
-
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(c =>
-    {
-        c.SerializeAsV2 = true;
-    });
+    app.UseSwagger(c => { c.SerializeAsV2 = true; });
 
     app.UseSwaggerUI(c =>
     {
@@ -212,7 +208,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -226,6 +221,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-

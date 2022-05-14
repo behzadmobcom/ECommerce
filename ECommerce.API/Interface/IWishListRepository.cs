@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Entities;
+﻿using Entities;
 using Entities.ViewModel;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IWishListRepository : IAsyncRepository<WishList>
 {
-    public interface IWishListRepository : IAsyncRepository<WishList>
-    {
-        Task<WishList> GetByProductUser(int productId, int userId, CancellationToken cancellationToken);
-        Task<List<WishListViewModel>> GetByIdWithInclude(int userId, CancellationToken cancellationToken);
-    }
+    Task<WishList> GetByProductUser(int productId, int userId, CancellationToken cancellationToken);
+    Task<List<WishListViewModel>> GetByIdWithInclude(int userId, CancellationToken cancellationToken);
 }

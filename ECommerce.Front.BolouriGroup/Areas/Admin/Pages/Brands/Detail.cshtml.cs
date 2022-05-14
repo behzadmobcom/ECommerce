@@ -1,33 +1,31 @@
-using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Brands
+namespace ArshaHamrah.Areas.Admin.Pages.Brands;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly IBrandService _brandService;
+
+    public DetailModel(IBrandService brandService)
     {
-        private readonly IBrandService _brandService;
+        _brandService = brandService;
+    }
 
-        public DetailModel(IBrandService brandService)
+    public Brand Brand { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _brandService.GetById(id);
+        if (result.Code == 0)
         {
-            _brandService = brandService;
+            Brand = result.ReturnData;
+            return Page();
         }
 
-        public Brand Brand { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _brandService.GetById(id);
-            if (result.Code == 0)
-            {
-                Brand = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/Brands/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
+        return RedirectToPage("/Brands/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

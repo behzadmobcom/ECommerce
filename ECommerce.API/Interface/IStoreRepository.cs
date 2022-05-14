@@ -1,14 +1,11 @@
-﻿using System.Threading;
+﻿using API.Utilities;
 using Entities;
-using System.Threading.Tasks;
-using API.Utilities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IStoreRepository : IAsyncRepository<Store>
 {
-    public interface IStoreRepository : IAsyncRepository<Store>
-    {
-        Task<PagedList<Store>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
-        Task<Store> GetByName(string name, CancellationToken cancellationToken);
-    }
+    Task<PagedList<Store>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
+    Task<Store> GetByName(string name, CancellationToken cancellationToken);
 }

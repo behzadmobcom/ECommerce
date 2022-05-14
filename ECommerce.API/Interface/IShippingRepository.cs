@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IShippingRepository : IAsyncRepository<Shipping>
 {
-    public interface IShippingRepository : IAsyncRepository<Shipping>
-    {
-    }
 }

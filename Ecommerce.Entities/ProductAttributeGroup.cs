@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+namespace Entities;
+
+public class ProductAttributeGroup : BaseEntity
 {
-    public class ProductAttributeGroup : BaseEntity
-    {
+    [StringLength(50, MinimumLength = 2, ErrorMessage = @"حداقل 2 و حداکثر 50 کاراکتر")]
+    [Required(ErrorMessage = @"{0} را وارد کنید")]
+    public string Name { get; set; }
 
-        [StringLength(50, MinimumLength = 2, ErrorMessage = @"حداقل 2 و حداکثر 50 کاراکتر")]
-        [Required(ErrorMessage = @"{0} را وارد کنید")]
-        public string Name { get; set; }
+    //ForeignKey
 
-        //ForeignKey
+    //public ICollection<Category> Categories { get; set; }
 
-        //public ICollection<Category> Categories { get; set; }
-
-        public List<ProductAttribute>? Attribute { get; set; } = new List<ProductAttribute>();
-        public ICollection<Product>? Products { get; set; }
-    }
+    public List<ProductAttribute>? Attribute { get; set; } = new();
+    public ICollection<Product>? Products { get; set; }
 }

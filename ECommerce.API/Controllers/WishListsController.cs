@@ -1,108 +1,99 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using API.Interface;
+﻿using API.Interface;
 using Entities;
 using Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+[Authorize(Roles = "Client,Admin,SuperAdmin")]
+public class WishListsController : ControllerBase
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    [Authorize(Roles = "Client,Admin,SuperAdmin")]
-    public class WishListsController : ControllerBase
+    private readonly ILogger<WishListsController> _logger;
+    private readonly IWishListRepository _wishListRepository;
+
+    public WishListsController(IWishListRepository wishListRepository, ILogger<WishListsController> logger)
     {
-        private readonly IWishListRepository _wishListRepository;
-        private readonly ILogger<WishListsController> _logger;
+        _wishListRepository = wishListRepository;
+        _logger = logger;
+    }
 
-        public WishListsController(IWishListRepository wishListRepository, ILogger<WishListsController> logger)
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
         {
-            this._wishListRepository = wishListRepository;
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                var result = await _wishListRepository.GetByIdWithInclude( id, cancellationToken);
-                if (result == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.NotFound
-                    });
-                }
-
+            var result = await _wishListRepository.GetByIdWithInclude(id, cancellationToken);
+            if (result == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = result
+                    Code = ResultCode.NotFound
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Post(WishList wishList, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                if (wishList == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.BadRequest
-                    });
-                }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
 
-                var repetitiveWishList = await _wishListRepository.GetByProductUser(wishList.ProductId, wishList.UserId, cancellationToken);
-                if (repetitiveWishList != null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { repetitiveWishList.Id.ToString() }
-                    });
-                }
-
+    [HttpPost]
+    public async Task<IActionResult> Post(WishList wishList, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (wishList == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _wishListRepository.AddAsync(wishList, cancellationToken)
+                    Code = ResultCode.BadRequest
                 });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
-        }
 
-
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-        {
-            try
-            {
-                await _wishListRepository.DeleteAsync(id, cancellationToken);
+            var repetitiveWishList =
+                await _wishListRepository.GetByProductUser(wishList.ProductId, wishList.UserId, cancellationToken);
+            if (repetitiveWishList != null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {repetitiveWishList.Id.ToString()}
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+                Code = ResultCode.Success,
+                ReturnData = await _wishListRepository.AddAsync(wishList, cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+
+    [HttpDelete]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _wishListRepository.DeleteAsync(id, cancellationToken);
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
 }

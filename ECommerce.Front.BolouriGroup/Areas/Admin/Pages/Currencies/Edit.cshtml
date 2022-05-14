@@ -33,17 +33,17 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.Currency.Id" />
+                    <input hidden="hidden" asp-for="@Model.Currency.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Currency.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Currency.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Currency.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Currency.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>قیمت</label>
-                            <input asp-for="@Model.Currency.Amount" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Currency.Amount" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Currency.Amount" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Currency.Amount" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">

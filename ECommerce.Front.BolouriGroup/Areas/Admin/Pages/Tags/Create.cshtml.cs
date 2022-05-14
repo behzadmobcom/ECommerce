@@ -1,47 +1,42 @@
-﻿using System.Threading.Tasks;
-using Entities;
-using Entities.Helper;
-using Microsoft.AspNetCore.Http;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Hosting;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Tags
+namespace ArshaHamrah.Areas.Admin.Pages.Tags;
+
+public class CreateModel : PageModel
 {
-    public class CreateModel : PageModel
+    private readonly ITagService _tagService;
+
+    public CreateModel(ITagService tagService)
     {
-        private readonly ITagService _tagService;
+        _tagService = tagService;
+    }
 
-        public CreateModel(ITagService tagService)
+    [BindProperty] public Tag Tag { get; set; }
+
+    [TempData] public string Message { get; set; }
+
+    [TempData] public string Code { get; set; }
+
+    public void OnGet()
+    {
+    }
+
+    public async Task<IActionResult> OnPost()
+    {
+        if (ModelState.IsValid)
         {
-            _tagService = tagService;
+            var result = await _tagService.Add(Tag);
+            if (result.Code == 0)
+                return RedirectToPage("/Tags/Index",
+                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            Message = result.Message;
+            Code = result.Code.ToString();
+            ModelState.AddModelError("", result.Message);
         }
 
-        [BindProperty] public Tag Tag { get; set; }
-
-        [TempData] public string Message { get; set; }
-
-        [TempData] public string Code { get; set; }
-
-        public void OnGet()
-        {
-        }
-
-        public async Task<IActionResult> OnPost()
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _tagService.Add(Tag);
-                if (result.Code == 0)
-                    return RedirectToPage("/Tags/Index",
-                        new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-                Message = result.Message;
-                Code = result.Code.ToString();
-                ModelState.AddModelError("", result.Message);
-            }
-
-            return Page();
-        }
+        return Page();
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface ISettingRepository : IAsyncRepository<Setting>
 {
-    public interface ISettingRepository : IAsyncRepository<Setting>
-    {
-        string IsDollar();
-    }
+    string IsDollar();
 }

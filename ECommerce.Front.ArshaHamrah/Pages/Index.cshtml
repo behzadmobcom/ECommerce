@@ -18,49 +18,49 @@
         @{
             var i = 1;
         }
-     @if (Model.SlideShowViewModels!= null)
-     {
-            @foreach (var slide in Model.SlideShowViewModels)
+        @if (Model.SlideShowViewModels != null)
         {
-            var id = $"slider-direction-{i}";
-            var classStr = $"slider-content-{(i % 2 == 1 ? "1" : "2")}";
-            var imageClass = i % 2 == 0 ? "layer-2-1" : "";
-            i++;
+            @foreach (var slide in Model.SlideShowViewModels)
+            {
+                var id = $"slider-direction-{i}";
+                var classStr = $"slider-content-{(i % 2 == 1 ? "1" : "2")}";
+                var imageClass = i % 2 == 0 ? "layer-2-1" : "";
+                i++;
 
 
-            <div id="@id" class="slider-direction">
-                <div class="@classStr">
-                    <div class="title-container">
-                        <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
-                            <h6 class="slider2-title-1">بهترین قیمت : @slide.Price?.ToString("N2") تومان</h6>
+                <div id="@id" class="slider-direction">
+                    <div class="@classStr">
+                        <div class="title-container">
+                            <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
+                                <h6 class="slider2-title-1">بهترین قیمت : @slide.Price?.ToString("N2") تومان</h6>
+                            </div>
+                            <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
+                                <h1 class="slider2-title-2">@slide.Title</h1>
+                            </div>
+                            <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
+                                <h2 class="slider2-title-3">@slide.Name</h2>
+                            </div>
+                            <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
+                                <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
+                            </div>
+                            <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
+                                <a asp-page="Product" asp-route-productId="@slide.Url" class="button extra-small button-black">
+                                    <span>هم اکنون بخرید</span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
-                            <h1 class="slider2-title-2">@slide.Title</h1>
-                        </div>
-                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                            <h2 class="slider2-title-3">@slide.Name</h2>
-                        </div>
-                        <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
-                            <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
-                        </div>
-                        <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                            <a asp-page="Product" asp-route-productId="@slide.Url" class="button extra-small button-black">
-                                <span>هم اکنون بخرید</span>
-                            </a>
+                    </div>
+                    <!-- layer 1 -->
+                    <div class="slider-content-1-image">
+                        <div class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <div class="layer-1-1 @imageClass">
+                                <img src=@slide.ImagePath alt="@slide.Name">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- layer 1 -->
-                <div class="slider-content-1-image">
-                    <div class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
-                        <div class="layer-1-1 @imageClass">
-                            <img src=@slide.ImagePath alt="@slide.Name">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         }
-     }
         <!-- ==== -->
     </div>
 </div>
@@ -82,7 +82,7 @@
                     <h3 class="banner-title-2 vmsNowrap">
                         <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
                     </h3>
-                    <h3 class="pro-price">@Model.ExpensiveProducts[0].Price.ToString("N0") تومان</h3>
+                    <h3 class="pro-price">@Model.ExpensiveProducts[0].Prices.First().Amount.ToString("N0") تومان</h3>
                     <div class="banner-button">
                         <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
                     </div>
@@ -161,7 +161,7 @@
                                     <a asp-page="Product" asp-route-productUrl="@newProduct.Url"> @newProduct.Name</a>
                                 </h6>
                                 <h6 class="brand-name">@newProduct.Brand</h6>
-                                <h3 class="pro-price">@newProduct.Price.ToString("N0") تومان</h3>
+                                <h3 class="pro-price">@newProduct.Prices.First().Amount.ToString("N0") تومان</h3>
                             </div>
                             <ul class="action-button">
                                 <li>
@@ -305,7 +305,7 @@
                                             <a asp-page="Product" asp-route-productId="@starProduct.Url">@starProduct.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@starProduct.Brand</h6>
-                                        <h3 class="pro-price">@starProduct.Price.ToString("N0") تومان</h3>
+                                        <h3 class="pro-price">@starProduct.Prices.First().Amount.ToString("N0") تومان</h3>
                                     </div>
                                     <ul class="action-button">
                                         <li>
@@ -353,7 +353,7 @@
                                             <a asp-page="Product" asp-route-productId="@newTop8Products.Url">@newTop8Products.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@newTop8Products.Brand</h6>
-                                        <h3 class="pro-price">@newTop8Products.Price.ToString("N0") تومان</h3>
+                                        <h3 class="pro-price">@newTop8Products.Prices.First().Amount.ToString("N0") تومان</h3>
                                     </div>
                                     <ul class="action-button">
                                         <li>
@@ -403,7 +403,7 @@
                                             <a asp-page="Product" asp-route-productId="@sellProducts.Url">@sellProducts.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@sellProducts.Brand</h6>
-                                        <h3 class="pro-price">@sellProducts.Price.ToString("N0") تومان</h3>
+                                        <h3 class="pro-price">@sellProducts.Prices.First().Amount.ToString("N0") تومان</h3>
                                     </div>
                                     <ul class="action-button">
                                         <li>

@@ -1,112 +1,104 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Entities.Helper;
 using Entities.ViewModel;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace API.Utilities
+namespace API.Utilities;
+
+public class ExceptionHandler : IActionFilter
 {
-    public class ExceptionHandler : IActionFilter
+    private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _environment;
+    private readonly ILogger<ExceptionHandler> _logger;
+
+    public ExceptionHandler(IWebHostEnvironment environment, ILogger<ExceptionHandler> logger,
+        IConfiguration configuration)
     {
-        private readonly IWebHostEnvironment _environment;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<ExceptionHandler> _logger;
+        _environment = environment;
+        _logger = logger;
+        _configuration = configuration;
+    }
 
-        public ExceptionHandler(IWebHostEnvironment environment, ILogger<ExceptionHandler> logger, IConfiguration configuration)
+    public void OnActionExecuting(ActionExecutingContext context)
+    {
+    }
+
+    public void OnActionExecuted(ActionExecutedContext context)
+    {
+        if (context.Exception == null)
+            return;
+
+        var exception = context.Exception.InnerException ?? context.Exception;
+
+        string message = null;
+        int status;
+
+        context.ExceptionHandled = true;
+
+        switch (exception)
         {
-            _environment = environment;
-            _logger = logger;
-            _configuration = configuration;
-        }
+            case CustomException businessException:
 
-        public void OnActionExecuting(ActionExecutingContext context)
-        {
-        }
+                status = businessException.Status;
+                message = businessException.Message;
 
-        public void OnActionExecuted(ActionExecutedContext context)
-        {
-            if (context.Exception == null)
-                return;
+                context.Result = new OkObjectResult(new ApiResult
+                {
+                    Status = status,
+                    Messages = new List<string> {message}
+                })
+                {
+                    StatusCode = status
+                };
 
-            var exception = context.Exception.InnerException ?? context.Exception;
+                break;
 
-            string message = null;
-            int status;
-
-            context.ExceptionHandled = true;
-
-            switch (exception)
+            default:
             {
-                case CustomException businessException:
+                status = 500;
 
-                    status = businessException.Status;
-                    message = businessException.Message;
+                var result = new ApiResult
+                {
+                    Status = status
+                };
 
-                    context.Result = new OkObjectResult(new ApiResult()
+                message = context.Exception.InnerException == null
+                    ? context.Exception.Message
+                    : context.Exception.InnerException.Message;
+
+                if (_environment.IsDevelopment())
+                    result = new ApiResult
                     {
-                        Status = status,
-                        Messages = new List<string> {message}
-                    })
-                    {
-                        StatusCode = status,
+                        Messages = new List<string> {message},
+                        StackTrace = context.Exception.StackTrace,
+                        Status = status
                     };
 
-                    break;
+                context.Result = new OkObjectResult(result)
+                {
+                    StatusCode = status
+                };
 
-                default:
-                    {
-                        status = 500;
-
-                        var result = new ApiResult()
-                        {
-                            Status = status
-                        };
-
-                        message = context.Exception.InnerException == null
-                            ? context.Exception.Message
-                            : context.Exception.InnerException.Message;
-
-                        if (_environment.IsDevelopment())
-                        {
-                            result = new ApiResult()
-                            {
-                                Messages = new List<string> {message},
-                                StackTrace = context.Exception.StackTrace,
-                                Status = status
-                            };
-                        }
-
-                        context.Result = new OkObjectResult(result)
-                        {
-                            StatusCode = status,
-                        };
-
-                        break;
-                    }
+                break;
             }
-
-
-            var logModel = new LogModel()
-            {
-                Method = context.HttpContext.Request.Method,
-                Messages = message,
-                Status = status,
-                Level = LogLevel.Error,
-                Date = DateTime.Now,
-                ApplicantId = context.HttpContext.User.Claims.Any() ? context.HttpContext.User?.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value : "",
-                Route = context.HttpContext.Request.Path
-            };
-
-            _logger.LogError(JsonConvert.SerializeObject(logModel));
         }
+
+
+        var logModel = new LogModel
+        {
+            Method = context.HttpContext.Request.Method,
+            Messages = message,
+            Status = status,
+            Level = LogLevel.Error,
+            Date = DateTime.Now,
+            ApplicantId = context.HttpContext.User.Claims.Any()
+                ? context.HttpContext.User?.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value
+                : "",
+            Route = context.HttpContext.Request.Path
+        };
+
+        _logger.LogError(JsonConvert.SerializeObject(logModel));
     }
 }

@@ -8,7 +8,9 @@
     <div class="container">
         <h2>جزئیات محصول</h2>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-page="/Index">خانه</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">جزئیات محصول</li>
         </ol>
     </div>
@@ -22,17 +24,23 @@
             {
                 <div class="col-lg-5">
                     <div class="details-gallery">
-                        <div class="details-label-group"><label class="details-label new">جدید</label></div>
+                        <div class="details-label-group">
+                            <label class="details-label new">جدید</label>
+                        </div>
                         <ul class="details-preview">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li><img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"></li>
+                                <li>
+                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                </li>
                             }
                         </ul>
                         <ul class="details-thumb">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li><img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"></li>
+                                <li>
+                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                </li>
                             }
                         </ul>
                     </div>
@@ -40,7 +48,9 @@
             }
             <div class="col-lg-7">
                 <div class="details-content">
-                    <h3 class="details-name"><a href="#">@Model.Product.Name</a></h3>
+                    <h3 class="details-name">
+                        <a href="#">@Model.Product.Name</a>
+                    </h3>
                     <div class="details-meta">
                         <p>کد محصول: <span>@Model.Product.ArticleCodeCustomer</span></p>
                         <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand.Name</a></p>
@@ -50,7 +60,7 @@
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
                     </div>
                     <h3 class="details-price">
-                        <span>@Model.Product.Prices.FirstOrDefault(x=>!x.IsColleague).Amount.ToString("N0") تومان  </span>
+                        <span>@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("N0") تومان </span>
                     </h3>
                     <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
                     <br/>
@@ -61,7 +71,9 @@
                             {
                                 @foreach (var tag in Model.Product.Tags)
                                 {
-                                    <li><a href="#">@tag.TagText</a></li>
+                                    <li>
+                                        <a href="#">@tag.TagText</a>
+                                    </li>
                                 }
                             }
                         </ul>
@@ -74,25 +86,43 @@
                         <label class="details-list-title">تعداد:</label>
                         <div class="cart-action-group">
                             <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
+                                <button class="action-minus" title="مقدار منهای">
+                                    <i class="far fa-minus"></i>
+                                </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                                <button class="action-plus" title="مقدار به علاوه">
+                                    <i class="far fa-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="details-add-group">
-                        <button class="product-add w-100" title="افزودن به سبد خرید"><i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span></button>
+                        <button class="product-add w-100" title="افزودن به سبد خرید">
+                            <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
+                        </button>
                     </div>
                     <div class="details-action-group">
-                        <a class="view-wish wish" href="#" title="لیست علاقه مندی های خود را اضافه کنید"><i class="far fa-heart"></i><span>به آرزو اضافه کردن</span></a>
-                        <a class="view-compare" asp-area="" asp-page="/Compare" title="مقایسه این مورد"><i class="far fa-exchange"></i><span>افزودن برای مقایسه</span></a>
+                        <a class="view-wish wish" href="#" title="لیست علاقه مندی های خود را اضافه کنید">
+                            <i class="far fa-heart"></i><span>به آرزو اضافه کردن</span>
+                        </a>
+                        <a class="view-compare" asp-area="" asp-page="/Compare" title="مقایسه این مورد">
+                            <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
+                        </a>
                     </div>
                     <div class="details-list-group mt-4">
                         <label class="details-list-title">اشتراک گذاری:</label>
                         <ul class="details-share-list">
-                            <li><a href="#" class="fab fa-facebook-f" title="فیس بوک"></a></li>
-                            <li><a href="#" class="fab fa-twitter" title="توییتر"></a></li>
-                            <li><a href="#" class="fab fa-linkedin-in" title="لینک شده"></a></li>
-                            <li><a href="#" class="fab fa-instagram" title="اینستاگرام"></a></li>
+                            <li>
+                                <a href="#" class="fab fa-facebook-f" title="فیس بوک"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-twitter" title="توییتر"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-linkedin-in" title="لینک شده"></a>
+                            </li>
+                            <li>
+                                <a href="#" class="fab fa-instagram" title="اینستاگرام"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -105,8 +135,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs">
-                    <li><a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a></li>
-                    <li><a href="#tab-reve" class="tab-link" data-bs-toggle="tab">نظرات (05)</a></li>
+                    <li>
+                        <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
+                    </li>
+                    <li>
+                        <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">نظرات (05)</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -115,23 +149,23 @@
                 <div class="col-lg-12">
                     <div class="product-details-frame">
                         <table class="table table-bordered">
-                            
-                              
-                            @for (var g = 0; g < Model.AttributeGroups.Count;g++)
+
+
+                            @for (var g = 0; g < Model.AttributeGroups.Count; g++)
                             {
                               @*  <thead>
                                 <tr>
                                     <th>@Model.AttributeGroups[g].Name</th>
                                 </tr>
                                 </thead>*@
-                              
+
                                 <tbody>
-                                @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count;i++)
+                                @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
                                 {
                                     <tr>
-                                    <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
+                                        <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
 
-                                        @for (int j = 0; j <  Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
+                                        @for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
                                         {
                                             <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
                                         }
@@ -139,7 +173,7 @@
                                 }
                                 </tbody>
                             }
-                           
+
                         </table>
                     </div>
                 </div>
@@ -152,8 +186,12 @@
                         <ul class="review-list">
                             <li class="review-item">
                                 <div class="review-media">
-                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
-                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                    <a class="review-avatar" href="#">
+                                        <img src="~/img/avatar/com.jpg" alt="مرور">
+                                    </a>
+                                    <h5 class="review-meta">
+                                        <a href="#">نیلوفر </a><span>24 خرداد 1400</span>
+                                    </h5>
                                 </div>
                                 <ul class="review-rating">
                                     <li class="fas fa-star"></li>
@@ -168,8 +206,12 @@
                             </li>
                             <li class="review-item">
                                 <div class="review-media">
-                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
-                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                    <a class="review-avatar" href="#">
+                                        <img src="~/img/avatar/com.jpg" alt="مرور">
+                                    </a>
+                                    <h5 class="review-meta">
+                                        <a href="#">نیلوفر </a><span>24 خرداد 1400</span>
+                                    </h5>
                                 </div>
                                 <ul class="review-rating">
                                     <li class="fas fa-star"></li>
@@ -184,8 +226,12 @@
                             </li>
                             <li class="review-item">
                                 <div class="review-media">
-                                    <a class="review-avatar" href="#"><img src="~/img/avatar/com.jpg" alt="مرور"></a>
-                                    <h5 class="review-meta"><a href="#">نیلوفر </a><span>24 خرداد 1400</span></h5>
+                                    <a class="review-avatar" href="#">
+                                        <img src="~/img/avatar/com.jpg" alt="مرور">
+                                    </a>
+                                    <h5 class="review-meta">
+                                        <a href="#">نیلوفر </a><span>24 خرداد 1400</span>
+                                    </h5>
                                 </div>
                                 <ul class="review-rating">
                                     <li class="fas fa-star"></li>
@@ -212,16 +258,24 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group"><input type="text" class="form-control" placeholder="نام"></div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="نام">
+                                    </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group"><input type="email" class="form-control" placeholder="پست الکترونیک"></div>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="پست الکترونیک">
+                                    </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <div class="form-group"><textarea class="form-control" placeholder="بررسی شما"></textarea></div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="بررسی شما"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12">
-                                    <button class="btn btn-inline"><i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span></button>
+                                    <button class="btn btn-inline">
+                                        <i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -235,16 +289,18 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <div class="section-heading"><h2>آیتم های مرتبط</h2></div>
+                <div class="section-heading">
+                    <h2>آیتم های مرتبط</h2>
+                </div>
             </div>
         </div>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            
-            @foreach (var relatedProduct in @Model.RelatedProducts)
+
+            @foreach (var relatedProduct in Model.RelatedProducts)
             {
                 <partial name="Components/_productCard" model="relatedProduct"/>
             }
-            
+
 
         </div>
     </div>

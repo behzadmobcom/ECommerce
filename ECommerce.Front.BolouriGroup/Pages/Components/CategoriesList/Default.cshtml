@@ -2,21 +2,22 @@
 
 @if (Model != null)
 {
-    
     <li>
-    @foreach (var category in Model)
-    {
-        @if (category.Depth == 0)
+        @foreach (var category in Model)
         {
-            <a class="cate-link dropdown-link" href="#"><i class="flaticon-vegetable"></i>@category.Name</a>
-        }
+            @if (category.Depth == 0)
+            {
+                <a class="cate-link dropdown-link" href="#">
+                    <i class="flaticon-vegetable"></i>@category.Name
+                </a>
+            }
 
-        @if (category.Children != null)
-        {
-            <ul class="dropdown-list">
-                <partial name="_categoriesMenu" model="category.Children" />
-            </ul>
+            @if (category.Children != null)
+            {
+                <ul class="dropdown-list">
+                    <partial name="_categoriesMenu" model="category.Children"/>
+                </ul>
+            }
         }
-    }
     </li>
 }

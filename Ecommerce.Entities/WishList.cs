@@ -1,18 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Entities
+namespace Entities;
+
+public class WishList : BaseEntity
 {
-    public class WishList : BaseEntity
-    {
+    [Required] public int UserId { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
-        [JsonIgnore]
-        public User User { get; set; }
+    [JsonIgnore] public User User { get; set; }
 
-        public int ProductId { get; set; }
-        [JsonIgnore]
-        public Product? Product { get; set; }
-    }
+    public int ProductId { get; set; }
+
+    [JsonIgnore] public Product? Product { get; set; }
 }

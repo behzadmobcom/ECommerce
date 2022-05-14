@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface ITransactionRepository : IAsyncRepository<Transaction>
 {
-    public interface ITransactionRepository : IAsyncRepository<Transaction>
-    {
-    }
 }

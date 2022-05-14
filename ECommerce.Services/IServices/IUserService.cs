@@ -1,14 +1,11 @@
-﻿using Entities.ViewModel;
+﻿using Entities.Helper;
+using Entities.ViewModel;
 
-using System.Threading.Tasks;
-using Entities.Helper;
+namespace Services.IServices;
 
-namespace Services.IServices
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<ServiceResult> Logout();
-        Task<ServiceResult<LoginViewModel>> Login(LoginViewModel loginViewModel);
-        Task<ServiceResult> Register(RegisterViewModel registerViewModel);
-    }
+    Task<ServiceResult> Logout();
+    Task<ServiceResult<LoginViewModel>> Login(LoginViewModel loginViewModel);
+    Task<ServiceResult> Register(RegisterViewModel registerViewModel);
 }

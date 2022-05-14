@@ -1,42 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Entities.Helper
+namespace Entities.Helper;
+
+public class CustomException : Exception
 {
-    public class CustomException : Exception
+    public CustomException(CustomHttpStatus customHttpStatus)
     {
-        public CustomException(CustomHttpStatus customHttpStatus)
-        {
-            Message = customHttpStatus.GetDescription();
-            Status = (int)customHttpStatus;
-        }
-
-        public CustomException(HttpStatusCode httpStatusCode)
-        {
-            Message = httpStatusCode.GetDescription();
-            Status = (int)httpStatusCode;
-        }
-
-        public override string Message { get; }
-        public int Status { get; set; }
+        Message = customHttpStatus.GetDescription();
+        Status = (int) customHttpStatus;
     }
-    public static class EnumerationExtension
+
+    public CustomException(HttpStatusCode httpStatusCode)
     {
-        public static string GetDescription(this Enum value)
-        {
-            var fieldInfo = value.GetType().GetField(value.ToString());
+        Message = httpStatusCode.GetDescription();
+        Status = (int) httpStatusCode;
+    }
 
-            if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
+    public override string Message { get; }
+    public int Status { get; set; }
+}
 
-            return value.ToString();
-        }
+public static class EnumerationExtension
+{
+    public static string GetDescription(this Enum value)
+    {
+        var fieldInfo = value.GetType().GetField(value.ToString());
+
+        if (fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) is DescriptionAttribute[] attributes &&
+            attributes.Any()) return attributes.First().Description;
+
+        return value.ToString();
     }
 }

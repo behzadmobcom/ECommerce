@@ -33,12 +33,12 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.Keyword.Id" />
+                    <input hidden="hidden" asp-for="@Model.Keyword.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Keyword.KeywordText" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Keyword.KeywordText" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Keyword.KeywordText" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Keyword.KeywordText" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">

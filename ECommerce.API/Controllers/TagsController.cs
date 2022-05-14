@@ -1,207 +1,197 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using API.Interface;
+﻿using API.Interface;
 using Entities;
 using Entities.Helper;
-using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class TagsController : ControllerBase
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class TagsController : ControllerBase
+    private readonly ILogger<TagsController> _logger;
+    private readonly ITagRepository _tagRepository;
+
+    public TagsController(ITagRepository tagRepository, ILogger<TagsController> logger)
     {
-        private readonly ITagRepository _tagRepository;
-        private readonly ILogger<TagsController> _logger;
+        _tagRepository = tagRepository;
+        _logger = logger;
+    }
 
-        public TagsController(ITagRepository tagRepository, ILogger<TagsController> logger)
+    [HttpGet]
+    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
+    {
+        try
         {
-            this._tagRepository = tagRepository;
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters , CancellationToken cancellationToken)
-        {
-            try
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _tagRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
             {
-                if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-                var entity = await _tagRepository.Search(paginationParameters, cancellationToken);
-                var paginationDetails = new PaginationDetails
-                {
-                    TotalCount = entity.TotalCount,
-                    PageSize = entity.PageSize,
-                    CurrentPage = entity.CurrentPage,
-                    TotalPages = entity.TotalPages,
-                    HasNext = entity.HasNext,
-                    HasPrevious = entity.HasPrevious,
-                    Search = paginationParameters.Search
-                };
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
 
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _tagRepository.GetAll(cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetByProductId(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var tagList = await _tagRepository.GetByProductId(id, cancellationToken);
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = tagList
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Tag>> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _tagRepository.GetByIdAsync(cancellationToken, id);
+            if (result == null)
                 return Ok(new ApiResult
                 {
-                    PaginationDetails = paginationDetails,
-                    Code = ResultCode.Success,
-                    ReturnData = entity
+                    Code = ResultCode.NotFound
                 });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
-        }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
-        {
-            try
+            return Ok(new ApiResult
             {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public async Task<IActionResult> Post(Tag tag, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (tag == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _tagRepository.GetAll(cancellationToken)
+                    Code = ResultCode.BadRequest
                 });
-            }
-            catch (Exception e)
-            {
-                _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-            }
-        }
+            tag.TagText = tag.TagText.Trim();
 
-        [HttpGet]
-        public async Task<IActionResult> GetByProductId(int id ,CancellationToken cancellationToken)
-        {
-            try
-            {
-                var tagList =await _tagRepository.GetByProductId(id,cancellationToken);
+            var repetitiveTag = await _tagRepository.GetByTagText(tag.TagText, cancellationToken);
+            if (repetitiveTag != null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = tagList
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"تگ تکراری است"}
                 });
-            }
-            catch (Exception e)
+
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+                Code = ResultCode.Success,
+                ReturnData = await _tagRepository.AddAsync(tag, cancellationToken)
+            });
         }
-
-        [HttpGet]
-        public async Task<ActionResult<Tag>> GetById(int id, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var result = await _tagRepository.GetByIdAsync(cancellationToken,id);
-                if (result == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.NotFound
-                    });
-                }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
 
+    [HttpPut]
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Put(Tag tag, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var repetitive = await _tagRepository.GetByTagText(tag.TagText, cancellationToken);
+            if (repetitive != null && repetitive.Id != tag.Id)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = result
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"تگ تکراری است"}
                 });
-            }
-            catch (Exception e)
+            if (repetitive != null) _tagRepository.Detach(repetitive);
+            await _tagRepository.UpdateAsync(tag, cancellationToken);
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+                Code = ResultCode.Success
+            });
         }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<IActionResult> Post(Tag tag, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                if (tag == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.BadRequest
-                    });
-                }
-                tag.TagText = tag.TagText.Trim();
-
-                var repetitiveTag = await _tagRepository.GetByTagText(tag.TagText,cancellationToken);
-                if (repetitiveTag != null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "تگ تکراری است" }
-                    });
-                }
-
-
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success,
-                    ReturnData = await _tagRepository.AddAsync(tag, cancellationToken)
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
+    }
 
-        [HttpPut]
-        [Authorize(Roles = "Admin,SuperAdmin")]
-        public async Task<ActionResult<bool>> Put(Tag tag, CancellationToken cancellationToken)
+    [HttpDelete]
+    [Authorize(Roles = "SuperAdmin")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        try
         {
-            try
+            await _tagRepository.DeleteAsync(id, cancellationToken);
+            return Ok(new ApiResult
             {
-                var repetitive = await _tagRepository.GetByTagText(tag.TagText, cancellationToken);
-                if (repetitive != null && repetitive.Id != tag.Id)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "تگ تکراری است" }
-                    });
-                }
-                if (repetitive != null) { _tagRepository.Detach(repetitive); }
-                await _tagRepository.UpdateAsync(tag, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+                Code = ResultCode.Success
+            });
         }
-
-        [HttpDelete]
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                await _tagRepository.DeleteAsync(id, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-            }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
 }

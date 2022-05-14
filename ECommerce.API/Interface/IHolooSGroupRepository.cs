@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using Entities.HolooEntity;
 
-using Entities.HolooEntity;
+namespace API.Interface;
 
-namespace API.Interface
+public interface IHolooSGroupRepository : IHolooRepository<HolooSGroup>
 {
-    public interface IHolooSGroupRepository : IHolooRepository<HolooSGroup>
-    {
-        Task<IEnumerable<HolooSGroup>> GetSGroupByMCode(string mCode, CancellationToken cancellationToken);
-    }
+    Task<IEnumerable<HolooSGroup>> GetSGroupByMCode(string mCode, CancellationToken cancellationToken);
 }

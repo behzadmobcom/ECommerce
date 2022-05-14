@@ -1,8 +1,6 @@
-﻿using System;
+﻿namespace API.Utilities;
 
-namespace API.Utilities
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class ProtectedAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public sealed class ProtectedAttribute : Attribute
-    { }
 }

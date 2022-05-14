@@ -2,14 +2,14 @@
 using API.Interface;
 using Entities;
 
-namespace API.Repository
+namespace API.Repository;
+
+public class EmployeeRepository : AsyncRepository<Employee>, IEmployeeRepository
 {
-    public class EmployeeRepository : AsyncRepository<Employee>, IEmployeeRepository
+    private readonly SunflowerECommerceDbContext _context;
+
+    public EmployeeRepository(SunflowerECommerceDbContext context) : base(context)
     {
-        private readonly SunflowerECommerceDbContext _context;
-        public EmployeeRepository(SunflowerECommerceDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        _context = context;
     }
 }

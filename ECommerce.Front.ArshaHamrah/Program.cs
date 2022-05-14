@@ -29,28 +29,18 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Cart");
     options.Conventions.AllowAnonymousToPage("/AboutUs");
     options.Conventions.AllowAnonymousToPage("/Login");
-
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Login";
-    });
+    .AddCookie(options => { options.LoginPath = "/Login"; });
 
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //If using Kestrel:
-builder.Services.Configure<KestrelServerOptions>(options =>
-{
-    options.AllowSynchronousIO = true;
-});
+builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
 
 
 //If using IIS:
-builder.Services.Configure<IISServerOptions>(options =>
-{
-    options.AllowSynchronousIO = true;
-});
+builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
 
 builder.Services.Configure<RouteOptions>(options =>
 {
@@ -59,7 +49,7 @@ builder.Services.Configure<RouteOptions>(options =>
     //options.AppendTrailingSlash = true;
 });
 
-builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
+builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
 builder.Services.AddHttpContextAccessor();
 
 #region DI

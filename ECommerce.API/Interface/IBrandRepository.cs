@@ -1,14 +1,11 @@
-﻿using System.Threading;
+﻿using API.Utilities;
 using Entities;
-using System.Threading.Tasks;
-using API.Utilities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IBrandRepository : IAsyncRepository<Brand>
 {
-    public interface IBrandRepository : IAsyncRepository<Brand>
-    {
-        Task<PagedList<Brand>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
-        Task<Brand> GetByName(string name, CancellationToken cancellationToken);
-    }
+    Task<PagedList<Brand>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
+    Task<Brand> GetByName(string name, CancellationToken cancellationToken);
 }

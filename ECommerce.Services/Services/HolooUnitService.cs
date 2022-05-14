@@ -1,24 +1,20 @@
-﻿
-
-using Services.IServices;
+﻿using Entities.Helper;
 using Entities.HolooEntity;
+using Services.IServices;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Entities.Helper;
+namespace Services.Services;
 
-namespace Services.Services
+public class HolooUnitService : EntityService<HolooUnit>, IHolooUnitService
 {
-    public class HolooUnitService : EntityService<HolooUnit>, IHolooUnitService
+    private const string Url = "api/Units";
+
+    public HolooUnitService(IHttpService http) : base(http)
     {
-        public HolooUnitService(IHttpService http) : base(http)
-        {
-        }
-        private const string Url = "api/Units";
-        public async Task<ServiceResult<List<HolooUnit>>> Load()
-        {
-            var result =await ReadList(Url, "GetHolooUnits");
-            return Return<List<HolooUnit>>(result);
-        }
+    }
+
+    public async Task<ServiceResult<List<HolooUnit>>> Load()
+    {
+        var result = await ReadList(Url, "GetHolooUnits");
+        return Return(result);
     }
 }

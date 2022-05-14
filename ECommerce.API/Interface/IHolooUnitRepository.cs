@@ -1,8 +1,7 @@
 ﻿using Entities.HolooEntity;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IHolooUnitRepository : IHolooRepository<HolooUnit>
 {
-   public interface IHolooUnitRepository: IHolooRepository<HolooUnit>
-    {
-    }
 }

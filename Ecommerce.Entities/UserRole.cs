@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Entities
+namespace Entities;
+
+public class UserRole : IdentityRole<int>, IBaseEntity<int>
 {
-    public class UserRole : IdentityRole<int>, IBaseEntity<int>
-    {
-    }
-  
 }

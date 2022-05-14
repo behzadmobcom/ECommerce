@@ -1,62 +1,49 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace Bolouri.Pages
+namespace Bolouri.Pages;
+
+public class LoginModel : PageModel
 {
-    public class LoginModel : PageModel
+    private readonly IUserService _userService;
+
+    public LoginModel(IUserService userService)
     {
-        private readonly IUserService _userService;
+        _userService = userService;
+    }
 
-        public LoginModel(IUserService userService)
-        {
-            _userService = userService;
-        }
+    [BindProperty] public RegisterViewModel RegisterViewModel { get; set; }
 
-        [BindProperty] public RegisterViewModel RegisterViewModel { get; set; }
+    [BindProperty] public LoginViewModel LoginViewModel { get; set; }
 
-        [BindProperty] public LoginViewModel LoginViewModel { get; set; }
+    [TempData] public string ReturnUrl { get; set; }
 
-        [TempData] public string ReturnUrl { get; set; }
+    public void OnGet(string returnUrl = null)
+    {
+        if (string.IsNullOrEmpty(returnUrl)) returnUrl = "/";
+        ReturnUrl = returnUrl;
+    }
 
-        public void OnGet(string returnUrl = null)
-        {
-            if(string.IsNullOrEmpty(returnUrl))
-            {
-                returnUrl = "/";
-            }
-            ReturnUrl = returnUrl;
-        }
+    public async Task<IActionResult> OnPostSubmit()
+    {
+        var result = await _userService.Login(LoginViewModel);
+        if (result.Code == 0)
+            // return RedirectToPage(ReturnUrl is null or "/" ? "Index" : ReturnUrl);
+            return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
 
-        public async Task<IActionResult> OnPostSubmit()
-        {
-            var result = await _userService.Login(LoginViewModel);
-            if (result.Code == 0)
-            {
-                // return RedirectToPage(ReturnUrl is null or "/" ? "Index" : ReturnUrl);
-                return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
-            }
+        ModelState.AddModelError("", result.Message);
 
-            ModelState.AddModelError("", result.Message);
+        return Page();
+    }
 
-            return Page();
-        }
+    public async Task<IActionResult> OnPostRegister()
+    {
+        if (!ModelState.IsValid) return Page();
+        var result = await _userService.Register(RegisterViewModel);
+        if (result.Code == 0) return RedirectToPage("Index");
 
-        public async Task<IActionResult> OnPostRegister()
-        {
-            if (!ModelState.IsValid) return Page();
-            var result = await _userService.Register(RegisterViewModel);
-            if (result.Code == 0)
-            {
-                return RedirectToPage("Index");
-            }
-
-            return Page();
-        }
+        return Page();
     }
 }

@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.IServices;
 
-namespace ECommerce.Front.Bolouri.ViewComponents
-{
-    public class CategoriesListViewComponent:ViewComponent
-    {
-        private readonly ICategoryService _categoryService;
-        public CategoriesListViewComponent(ICategoryService categoryService)
-        {
-            _categoryService = categoryService;
-        }
+namespace ECommerce.Front.Bolouri.ViewComponents;
 
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var result = (await _categoryService.GetParents()).ReturnData;
-            return View(result);
-        }
+public class CategoriesListViewComponent : ViewComponent
+{
+    private readonly ICategoryService _categoryService;
+
+    public CategoriesListViewComponent(ICategoryService categoryService)
+    {
+        _categoryService = categoryService;
+    }
+
+    public async Task<IViewComponentResult> InvokeAsync()
+    {
+        var result = (await _categoryService.GetParents()).ReturnData;
+        return View(result);
     }
 }

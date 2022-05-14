@@ -2,14 +2,14 @@
 using API.Interface;
 using Entities;
 
-namespace API.Repository
+namespace API.Repository;
+
+public class HolooCompanyRepository : AsyncRepository<HolooCompany>, IHolooCompanyRepository
 {
-    public class HolooCompanyRepository : AsyncRepository<HolooCompany>, IHolooCompanyRepository
+    private readonly SunflowerECommerceDbContext _context;
+
+    public HolooCompanyRepository(SunflowerECommerceDbContext context) : base(context)
     {
-        private readonly SunflowerECommerceDbContext _context;
-        public HolooCompanyRepository(SunflowerECommerceDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        _context = context;
     }
 }

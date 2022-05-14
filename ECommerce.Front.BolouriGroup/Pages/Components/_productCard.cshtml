@@ -4,7 +4,9 @@
 <div class="col">
     <div class="product-card">
         <div class="product-media">
-            <div class="product-label"><label class="label-text new">جدید</label></div>
+            <div class="product-label">
+                <label class="label-text new">جدید</label>
+            </div>
             <button class="product-wish wish">
                 <i class="far fa-heart"></i>
             </button>
@@ -18,29 +20,32 @@
             </div>
         </div>
         <div class="product-content">
-            <h6 class="product-name"><a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a></h6>
+            <h6 class="product-name">
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
+            </h6>
             <div class="product-rating">
-                
+
                 @for (var i = 0; i < Model.Stars; i++)
                 {
                     <i class="active fas fa-star"></i>
                 }
-                @for (var i =  Model.Stars; i < 5; i++)
+                @for (var i = Model.Stars; i < 5; i++)
                 {
                     <i class="far fa-star"></i>
                 }
-               
-                
+
+
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)</a>
             </div>
             <div class="product-price">
                 <div>
                     @*<del>5000 تومان</del>*@
-                    <span>@Model.Price.ToString("N0") تومان </span>
+                    <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
                 </div>
-                <a class="product-add" title="افزودن به سبد خرید"  href="javascript:void(0)" onclick="AddCart(@Model.Id)"><i class="far fa-shopping-cart"></i></a>
+                <a class="product-add" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Id)">
+                    <i class="far fa-shopping-cart"></i>
+                </a>
             </div>
         </div>
     </div>
 </div>
-

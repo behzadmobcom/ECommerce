@@ -33,27 +33,27 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.BlogAuthor.Id" />
-                    <input hidden="hidden" asp-for="@Model.BlogAuthor.ImagePath" />
+                    <input hidden="hidden" asp-for="@Model.BlogAuthor.Id"/>
+                    <input hidden="hidden" asp-for="@Model.BlogAuthor.ImagePath"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.BlogAuthor.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.BlogAuthor.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.BlogAuthor.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.BlogAuthor.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
-                            <div class="form-group">
+                        <div class="form-group">
                             <label>نام انگلیسی</label>
-                            <input asp-for="@Model.BlogAuthor.EnglishName" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.BlogAuthor.EnglishName" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.BlogAuthor.EnglishName" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.BlogAuthor.EnglishName" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
                             <textarea asp-for="@Model.BlogAuthor.Description" id="Description_Edit" class="form-control form-control-solid" rows="6"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>تصویر برند</label>   <img src="@Model.BlogAuthor.ImagePath">
+                            <label>تصویر برند</label> <img src="@Model.BlogAuthor.ImagePath">
                             <div class="custom-file">
-                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل" />
+                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
@@ -68,6 +68,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts
 {
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>

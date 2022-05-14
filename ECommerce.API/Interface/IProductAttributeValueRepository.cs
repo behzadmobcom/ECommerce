@@ -1,14 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using API.Utilities;
+﻿using API.Utilities;
 using Entities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IProductAttributeValueRepository : IAsyncRepository<ProductAttributeValue>
 {
-    public interface IProductAttributeValueRepository : IAsyncRepository<ProductAttributeValue>
-    {
-        Task<PagedList<ProductAttributeValue>> Search(PaginationParameters paginationParameters,
-            CancellationToken cancellationToken);
-    }
+    Task<PagedList<ProductAttributeValue>> Search(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken);
 }

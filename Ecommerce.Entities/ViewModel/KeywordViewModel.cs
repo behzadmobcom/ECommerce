@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+﻿namespace Entities.ViewModel;
 
-namespace Entities.ViewModel
+public class KeywordProductId
 {
-    public class KeywordProductId
-    {
-        public int Id { get; set; }
-        public IEnumerable<int> ProductsId { get; set; }
-    }
+    public int Id { get; set; }
+    public IEnumerable<int> ProductsId { get; set; }
 }

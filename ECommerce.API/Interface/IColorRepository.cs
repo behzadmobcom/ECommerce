@@ -1,14 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using API.Utilities;
+﻿using API.Utilities;
 using Entities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IColorRepository : IAsyncRepository<Color>
 {
-    public interface IColorRepository : IAsyncRepository<Color>
-    {
-        Task<PagedList<Color>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
-        Task<Color> GetByName(string name, CancellationToken cancellationToken);
-    }
+    Task<PagedList<Color>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
+    Task<Color> GetByName(string name, CancellationToken cancellationToken);
 }

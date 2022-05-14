@@ -1,6 +1,4 @@
 ﻿@page "/Admin/CreateCategory"
-@using Entities.Helper
-@using Entities
 @model ArshaHamrah.Areas.Admin.Pages.Categories.CreateModel
 @{
     ViewData["Title"] = "اضافه کردن دسنه بندی";
@@ -39,17 +37,17 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Category.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Category.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Category.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Category.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>مسیر</label>
-                            <input asp-for="@Model.Category.Path" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Category.Path" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Category.Path" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Category.Path" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="checkbox-list">
                             <label class="checkbox">
-                                <input type="checkbox" checked="checked" asp-for="@Model.Category.IsActive" />
+                                <input type="checkbox" checked="checked" asp-for="@Model.Category.IsActive"/>
                                 <span></span>
                                 فعال بودن
                             </label>
@@ -65,10 +63,10 @@
                             <br/>
                             <input type="radio" id="0" checked="checked" name="Category.ParentId" value="0">
                             <label for="0">بی پدر! :))</label>
-                            <input hidden="hidden" id="path_0" value="" />
-                            <input hidden="hidden" id="depth_0" value="-1" />
+                            <input hidden="hidden" id="path_0" value=""/>
+                            <input hidden="hidden" id="depth_0" value="-1"/>
 
-                            <partial name="_ParentCategory" model="@Model.Categories" />
+                            <partial name="_ParentCategory" model="@Model.Categories"/>
                         </div>
                     </div>
                     <div class="card-footer">

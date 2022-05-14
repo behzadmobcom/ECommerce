@@ -8,7 +8,9 @@
     <div class="container">
         <h2>پرداخت</h2>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-page="/Index">خانه</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">پرداخت</li>
         </ol>
     </div>
@@ -16,185 +18,240 @@
 
 
 <section class="inner-section checkout-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>نشانی تحویل</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#address-add"> <i class="fal fa-map-marker-alt"></i> اضافه کردن آدرس</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address active">
-                                    <h6>آدرس یک</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>آدرس دو</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>آدرس سه</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="account-card">
-                    <div class="account-title"><h4>شرکا تحویل</h4></div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact active">
-                                    <h6>پارنر یک</h6>
-                                    <p>تحویل یک روزه</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>پارنر دو</h6>
-                                    <p>تحویل یک روزه</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>پارنر سه</h6>
-                                    <p>تحویل یک روزه</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>شماره تماس</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#contact-add"> <i class="fal fa-phone"></i> افزودن مخاطب</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact active">
-                                    <h6>شماره تماس</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>با دو تماس بگیرید</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>با سه تماس بگیرید</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li><button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button></li>
-                                        <li><button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="account-card mb-0">
-                    <div class="account-title">
-                        <h4>گزینه پرداخت</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#payment-add"> <i class="fal fa-credit-card"></i> کارت اضافه کن</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment active">
-                                    <img src="~/img/payment/01.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p><span>**** </span><span>**** </span><span>**** </span><sup>5071</sup></p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment">
-                                    <img src="~/img/payment/02.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p><span>**** </span><span>**** </span><span>**** </span><sup>5071</sup></p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="payment-card payment">
-                                    <img src="~/img/payment/03.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p><span>**** </span><span>**** </span><span>**** </span><sup>5071</sup></p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="account-card">
-                    <div class="checkout-charge">
-                        <div class="account-title"><h4>خلاصه سفارش</h4></div>
-                        <ul>
-                            <li><span>زیر کل </span><span>250000تومان</span></li>
-                            <li><span>هزینه تحویل </span><span>20000تومان</span></li>
-                            <li><span>تخفیف</span><span>10000 تومان </span> </li>
-                            <li><span>مالیات </span><span>15000 تومان</span></li>
+<div class="container">
+<div class="row">
+<div class="col-lg-8">
+    <div class="account-card">
+        <div class="account-title">
+            <h4>نشانی تحویل</h4>
+            <button data-bs-toggle="modal" data-bs-target="#address-add"> <i class="fal fa-map-marker-alt"></i> اضافه کردن آدرس</button>
+        </div>
+        <div class="account-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card address active">
+                        <h6>آدرس یک</h6>
+                        <p>ایران - تهران - خیابان بهار</p>
+                        <ul class="user-action">
                             <li>
-                                <span>کل </span><span>295000 تومان</span>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
                             </li>
                         </ul>
                     </div>
-                    <div class="checkout-proced"><a asp-area="" asp-page="/Invoice" class="btn btn-inline">تهیه شده برای پرداخت</a></div>
-                    <div class="chekout-coupon">
-                        <form class="coupon-form">
-                            <input type="text" placeholder="کد تخفیف خود را وارد کنید"><button type="submit"><span>درخواست دادن</span></button>
-                        </form>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card address">
+                        <h6>آدرس دو</h6>
+                        <p>ایران - تهران - خیابان بهار</p>
+                        <ul class="user-action">
+                            <li>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card address">
+                        <h6>آدرس سه</h6>
+                        <p>ایران - تهران - خیابان بهار</p>
+                        <ul class="user-action">
+                            <li>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="account-card">
+        <div class="account-title">
+            <h4>شرکا تحویل</h4>
+        </div>
+        <div class="account-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact active">
+                        <h6>پارنر یک</h6>
+                        <p>تحویل یک روزه</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact">
+                        <h6>پارنر دو</h6>
+                        <p>تحویل یک روزه</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact">
+                        <h6>پارنر سه</h6>
+                        <p>تحویل یک روزه</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="account-card">
+        <div class="account-title">
+            <h4>شماره تماس</h4>
+            <button data-bs-toggle="modal" data-bs-target="#contact-add"> <i class="fal fa-phone"></i> افزودن مخاطب</button>
+        </div>
+        <div class="account-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact active">
+                        <h6>شماره تماس</h6>
+                        <p>021343555</p>
+                        <ul>
+                            <li>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact">
+                        <h6>با دو تماس بگیرید</h6>
+                        <p>021343555</p>
+                        <ul>
+                            <li>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="profile-card contact">
+                        <h6>با سه تماس بگیرید</h6>
+                        <p>021343555</p>
+                        <ul>
+                            <li>
+                                <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
+                            </li>
+                            <li>
+                                <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="account-card mb-0">
+        <div class="account-title">
+            <h4>گزینه پرداخت</h4>
+            <button data-bs-toggle="modal" data-bs-target="#payment-add"> <i class="fal fa-credit-card"></i> کارت اضافه کن</button>
+        </div>
+        <div class="account-content">
+            <div class="row">
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="payment-card payment active">
+                        <img src="~/img/payment/01.png" alt="پرداخت">
+                        <h4>شماره کارت</h4>
+                        <p>
+                            <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
+                        </p>
+                        <h5>نام کاربری</h5>
+                        <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="payment-card payment">
+                        <img src="~/img/payment/02.png" alt="پرداخت">
+                        <h4>شماره کارت</h4>
+                        <p>
+                            <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
+                        </p>
+                        <h5>نام کاربری</h5>
+                        <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 alert fade show">
+                    <div class="payment-card payment">
+                        <img src="~/img/payment/03.png" alt="پرداخت">
+                        <h4>شماره کارت</h4>
+                        <p>
+                            <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
+                        </p>
+                        <h5>نام کاربری</h5>
+                        <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4">
+    <div class="account-card">
+        <div class="checkout-charge">
+            <div class="account-title">
+                <h4>خلاصه سفارش</h4>
+            </div>
+            <ul>
+                <li>
+                    <span>زیر کل </span><span>250000تومان</span>
+                </li>
+                <li>
+                    <span>هزینه تحویل </span><span>20000تومان</span>
+                </li>
+                <li>
+                    <span>تخفیف</span><span>10000 تومان </span>
+                </li>
+                <li>
+                    <span>مالیات </span><span>15000 تومان</span>
+                </li>
+                <li>
+                    <span>کل </span><span>295000 تومان</span>
+                </li>
+            </ul>
+        </div>
+        <div class="checkout-proced">
+            <a asp-area="" asp-page="/Invoice" class="btn btn-inline">تهیه شده برای پرداخت</a>
+        </div>
+        <div class="chekout-coupon">
+            <form class="coupon-form">
+                <input type="text" placeholder="کد تخفیف خود را وارد کنید">
+                <button type="submit">
+                    <span>درخواست دادن</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
 </section>
 <div class="modal" id="contact-add">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal"><i class="far fa-times"></i></button>
+            <button class="modal-close" data-bs-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
             <form class="modal-form">
-                <div class="form-title"><h3>مخاطب جدید اضافه کنید</h3></div>
-                <div class="form-group"><label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید"></div>
-                <div class="form-group"><label class="form-label">عدد</label><input class="form-control" type="text" placeholder="شماره ات را وارد کن"></div>
+                <div class="form-title">
+                    <h3>مخاطب جدید اضافه کنید</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عدد</label><input class="form-control" type="text" placeholder="شماره ات را وارد کن">
+                </div>
                 <button class="form-btn" type="submit">اطلاعات تماس را ذخیره کنید</button>
             </form>
         </div>
@@ -203,11 +260,19 @@
 <div class="modal" id="address-add">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal"><i class="far fa-times"></i></button>
+            <button class="modal-close" data-bs-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
             <form class="modal-form">
-                <div class="form-title"><h3>آدرس جدید اضافه کنید</h3></div>
-                <div class="form-group"><label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید"></div>
-                <div class="form-group"><label class="form-label">نشانی</label><textarea class="form-control" placeholder="آدرس خود را وارد کنید"></textarea></div>
+                <div class="form-title">
+                    <h3>آدرس جدید اضافه کنید</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">نشانی</label><textarea class="form-control" placeholder="آدرس خود را وارد کنید"></textarea>
+                </div>
                 <button class="form-btn" type="submit">اطلاعات آدرس را ذخیره کنید</button>
             </form>
         </div>
@@ -216,10 +281,16 @@
 <div class="modal" id="payment-add">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal"><i class="far fa-times"></i></button>
+            <button class="modal-close" data-bs-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
             <form class="modal-form">
-                <div class="form-title"><h3>پرداخت جدید اضافه کنید</h3></div>
-                <div class="form-group"><label class="form-label">شماره کارت</label><input class="form-control" type="text" placeholder="شماره کارت"></div>
+                <div class="form-title">
+                    <h3>پرداخت جدید اضافه کنید</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">شماره کارت</label><input class="form-control" type="text" placeholder="شماره کارت">
+                </div>
                 <button class="form-btn" type="submit">اطلاعات کارت را ذخیره کنید</button>
             </form>
         </div>
@@ -228,11 +299,19 @@
 <div class="modal" id="contact-edit">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal"><i class="far fa-times"></i></button>
+            <button class="modal-close" data-bs-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
             <form class="modal-form">
-                <div class="form-title"><h3>ویرایش اطلاعات تماس</h3></div>
-                <div class="form-group"><label class="form-label">عنوان</label><input class="form-control" type="text" value=" تماس بگیرید"></div>
-                <div class="form-group"><label class="form-label">عدد</label><input class="form-control" type="text" value="021343555"></div>
+                <div class="form-title">
+                    <h3>ویرایش اطلاعات تماس</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عنوان</label><input class="form-control" type="text" value=" تماس بگیرید">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عدد</label><input class="form-control" type="text" value="021343555">
+                </div>
                 <button class="form-btn" type="submit">اطلاعات تماس را ذخیره کنید</button>
             </form>
         </div>
@@ -241,11 +320,19 @@
 <div class="modal" id="address-edit">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal"><i class="far fa-times"></i></button>
+            <button class="modal-close" data-bs-dismiss="modal">
+                <i class="far fa-times"></i>
+            </button>
             <form class="modal-form">
-                <div class="form-title"><h3>ویرایش اطلاعات آدرس</h3></div>
-                <div class="form-group"><label class="form-label">عنوان</label><input class="form-control" type="text" value="نشانی "></div>
-                <div class="form-group"><label class="form-label">نشانی</label><textarea class="form-control">ایران - تهران</textarea></div>
+                <div class="form-title">
+                    <h3>ویرایش اطلاعات آدرس</h3>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">عنوان</label><input class="form-control" type="text" value="نشانی ">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">نشانی</label><textarea class="form-control">ایران - تهران</textarea>
+                </div>
                 <button class="form-btn" type="submit">اطلاعات آدرس را ذخیره کنید</button>
             </form>
         </div>
@@ -266,11 +353,10 @@
                 <form class="news-form">
                     <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
                     <button>
-                        <span>  اشتراک <i class="far fa-paper-plane"></i> </span>
+                        <span> اشتراک <i class="far fa-paper-plane"></i> </span>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 </section>
-

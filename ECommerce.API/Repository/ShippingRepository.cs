@@ -2,14 +2,14 @@
 using API.Interface;
 using Entities;
 
-namespace API.Repository
+namespace API.Repository;
+
+public class ShippingRepository : AsyncRepository<Shipping>, IShippingRepository
 {
-    public class ShippingRepository : AsyncRepository<Shipping>, IShippingRepository
+    private readonly SunflowerECommerceDbContext _context;
+
+    public ShippingRepository(SunflowerECommerceDbContext context) : base(context)
     {
-        private readonly SunflowerECommerceDbContext _context;
-        public ShippingRepository(SunflowerECommerceDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        _context = context;
     }
 }

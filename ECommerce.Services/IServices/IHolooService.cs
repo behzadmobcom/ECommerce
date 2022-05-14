@@ -1,9 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿namespace Services.IServices;
 
-namespace Services.IServices
+public interface IHolooService
 {
-    public interface IHolooService
-    {
-        Task<string> ConvertHoloo(bool isAllMGroupConvert, string mGroupCode);
-    }
+    Task<string> ConvertHoloo(bool isAllMGroupConvert, string mGroupCode);
 }

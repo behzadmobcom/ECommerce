@@ -3,7 +3,7 @@
 @foreach (var category in Model)
 {
     var spcae = "";
-    for (int i = 0; i < category.Depth; i++)
+    for (var i = 0; i < category.Depth; i++)
     {
         spcae += "---";
     }
@@ -14,9 +14,8 @@
         @spcae
         <input type="radio" id="@category.Id" name="Category.ParentId" value="@category.Id">
         <label for="@category.Id">@category.Name</label>
-        <input hidden="hidden" id="path_@category.Id" value="@category.Path" />
-        <input hidden="hidden" id="depth_@category.Id" value="@category.Depth" />
-
+        <input hidden="hidden" id="path_@category.Id" value="@category.Path"/>
+        <input hidden="hidden" id="depth_@category.Id" value="@category.Depth"/>
     }
     else
     {
@@ -24,9 +23,8 @@
         @spcae
         <input type="radio" id="@category.Id" name="Category.ParentId" value="@category.Id">
         <label for="@category.Id">@category.Name</label>
-        <input hidden="hidden" id="path_@category.Id" value="@category.Path" />
-        <input hidden="hidden" id="depth_@category.Id" value="@category.Depth" />
-        <partial name="_ParentCategory" model="@category.Children" />
-
+        <input hidden="hidden" id="path_@category.Id" value="@category.Path"/>
+        <input hidden="hidden" id="depth_@category.Id" value="@category.Depth"/>
+        <partial name="_ParentCategory" model="@category.Children"/>
     }
 }

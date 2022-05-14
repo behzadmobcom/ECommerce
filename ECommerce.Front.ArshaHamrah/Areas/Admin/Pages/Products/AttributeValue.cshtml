@@ -1,6 +1,4 @@
 ﻿@page
-@using System.Linq
-@using Entities
 @model ArshaHamrah.Areas.Admin.Pages.Products.AttributeValueModel
 @{
     ViewData["Title"] = "اضافه کردن مشخثات";
@@ -10,16 +8,16 @@
     switch (Model.Code)
     {
         case "Error":
-<div class="alert alert-danger"> @Model.Message </div>
+            <div class="alert alert-danger"> @Model.Message </div>
             break;
         case "Warning":
-<div class="alert alert-warning"> @Model.Message </div>
+            <div class="alert alert-warning"> @Model.Message </div>
             break;
         case "Info":
-<div class="alert alert-info"> @Model.Message </div>
+            <div class="alert alert-info"> @Model.Message </div>
             break;
         default:
-<div class="alert alert-success"> @Model.Message </div>
+            <div class="alert alert-success"> @Model.Message </div>
             break;
     }
 
@@ -37,27 +35,27 @@
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
                     <div class="card-body">
-                        <input id="ProductId" name="ProductId" value="@Model.ProductId" hidden="hidden" />
-                        @for (var g = 0; g < Model.AttributeGroups.Count;g++)
-                   {
-                        @Html.HiddenFor(model => Model.AttributeGroups[g].Name)
-                        @Html.HiddenFor(model => Model.AttributeGroups[g].Id)
-                        <h1>@Model.AttributeGroups[g].Name</h1>
-                        @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count;i++)
-                       {
-                        <div class="form-group">
-                            @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].Id)
-                            @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].Title)
-                            <label for="@Model.AttributeGroups[g].Attribute[i].Title">@Model.AttributeGroups[g].Attribute[i].Title</label>
+                        <input id="ProductId" name="ProductId" value="@Model.ProductId" hidden="hidden"/>
+                        @for (var g = 0; g < Model.AttributeGroups.Count; g++)
+                        {
+                            @Html.HiddenFor(model => Model.AttributeGroups[g].Name)
+                            @Html.HiddenFor(model => Model.AttributeGroups[g].Id)
+                            <h1>@Model.AttributeGroups[g].Name</h1>
+                            @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
+                            {
+                                <div class="form-group">
+                                    @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].Id)
+                                    @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].Title)
+                                    <label for="@Model.AttributeGroups[g].Attribute[i].Title">@Model.AttributeGroups[g].Attribute[i].Title</label>
 
-                            @for (int j = 0; j <  Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
-                               {
-                            @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Id)
-                            @Html.TextBoxFor(model => Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value, new {@class = "form-control form-control-solid"})
-                               }
-                        </div>
-                       }
-                   }
+                                    @for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
+                                    {
+                                        @Html.HiddenFor(model => Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Id)
+                                        @Html.TextBoxFor(model => Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value, new {@class = "form-control form-control-solid"})
+                                    }
+                                </div>
+                            }
+                        }
                         @*@for (var i = 0; i < Model.ProductAttributeList.Count; i++)
         {
             <div class="form-group">

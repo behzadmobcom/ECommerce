@@ -1,158 +1,156 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using API.Interface;
+﻿using API.Interface;
 using Entities;
 using Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class SendInformationController : ControllerBase
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class SendInformationController : ControllerBase
+    private readonly ILogger<BrandsController> _logger;
+    private readonly ISendInformationRepository _sendInformationRepository;
+
+    public SendInformationController(ISendInformationRepository sendInformationRepository,
+        ILogger<BrandsController> logger)
     {
-        private readonly ISendInformationRepository _sendInformationRepository;
-        private readonly ILogger<BrandsController> _logger;
+        _sendInformationRepository = sendInformationRepository;
+        _logger = logger;
+    }
 
-        public SendInformationController(ISendInformationRepository sendInformationRepository, ILogger<BrandsController> logger)
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<IActionResult> GetByUserId(int id, CancellationToken cancellationToken)
+    {
+        try
         {
-            _sendInformationRepository = sendInformationRepository;
-            _logger = logger;
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<IActionResult> GetByUserId(int id, CancellationToken cancellationToken)
-        {
-            try
+            return Ok(new ApiResult
             {
+                Code = ResultCode.Success,
+                ReturnData = await _sendInformationRepository.Where(x => x.UserId == id, cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<SendInformation>> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _sendInformationRepository.GetByIdAsync(cancellationToken, id);
+            if (result == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _sendInformationRepository.Where(x => x.UserId == id, cancellationToken)
+                    Code = ResultCode.NotFound
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
         }
-
-        [HttpGet]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<ActionResult<SendInformation>> GetById(int id, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var result = await _sendInformationRepository.GetByIdAsync(cancellationToken,id);
-                if (result == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.NotFound
-                    });
-                }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
 
+    [HttpPost]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<IActionResult> Post(SendInformation sendInformation, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (sendInformation == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = result
+                    Code = ResultCode.BadRequest
                 });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
-        }
+            sendInformation.Address = sendInformation.Address.Trim();
 
-        [HttpPost]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<IActionResult> Post(SendInformation sendInformation, CancellationToken cancellationToken)
-        {
-            try
-            {
-                if (sendInformation == null)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.BadRequest
-                    });
-                }
-                sendInformation.Address = sendInformation.Address.Trim();
-
-                var repetitive =await _sendInformationRepository.Where(x=>x.UserId==sendInformation.UserId&& x.RecipientName.Equals(sendInformation.RecipientName) && x.Address.Equals(sendInformation.Address),cancellationToken);
-                if (repetitive.Any())
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "آدرس تکراری است" }
-                    });
-                }
-
+            var repetitive = await _sendInformationRepository.Where(
+                x => x.UserId == sendInformation.UserId && x.RecipientName.Equals(sendInformation.RecipientName) &&
+                     x.Address.Equals(sendInformation.Address), cancellationToken);
+            if (repetitive.Any())
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success,
-                    ReturnData = await _sendInformationRepository.AddAsync(sendInformation, cancellationToken)
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"آدرس تکراری است"}
                 });
-            }
-            catch (Exception e)
+
+            return Ok(new ApiResult
             {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success,
+                ReturnData = await _sendInformationRepository.AddAsync(sendInformation, cancellationToken)
+            });
         }
-
-        [HttpPut]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<ActionResult<bool>> Put(SendInformation sendInformation, CancellationToken cancellationToken)
+        catch (Exception e)
         {
-            try
-            {
-                var repetitive = await _sendInformationRepository.Where(x => x.UserId == sendInformation.UserId && x.RecipientName.Equals(sendInformation.RecipientName) && x.Address.Equals(sendInformation.Address), cancellationToken);
-                if (repetitive != null && repetitive.FirstOrDefault().Id != sendInformation.Id)
-                {
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Repetitive,
-                        Messages = new List<string> { "آدرس تکراری است" }
-                    });
-                }
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
 
-                await _sendInformationRepository.UpdateAsync(sendInformation, cancellationToken);
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Put(SendInformation sendInformation, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var repetitive = await _sendInformationRepository.Where(
+                x => x.UserId == sendInformation.UserId && x.RecipientName.Equals(sendInformation.RecipientName) &&
+                     x.Address.Equals(sendInformation.Address), cancellationToken);
+            if (repetitive != null && repetitive.FirstOrDefault().Id != sendInformation.Id)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.Success
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> {"آدرس تکراری است"}
                 });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
-        }
 
-        [HttpDelete]
-        [Authorize(Roles = "Client,Admin,SuperAdmin")]
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+            await _sendInformationRepository.UpdateAsync(sendInformation, cancellationToken);
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
         {
-            try
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+        }
+    }
+
+    [HttpDelete]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _sendInformationRepository.DeleteAsync(id, cancellationToken);
+            return Ok(new ApiResult
             {
-                await _sendInformationRepository.DeleteAsync(id, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
-            catch (Exception e)
-            {
-                 _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError,Messages = new List<string> {  "اشکال در سمت سرور" }});
-            }
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 }

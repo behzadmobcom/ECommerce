@@ -1,11 +1,8 @@
-﻿using System.Threading;
-using Entities;
-using System.Threading.Tasks;
+﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface ICityRepository : IAsyncRepository<City>
 {
-    public interface ICityRepository : IAsyncRepository<City>
-    {
-        Task<City> GetByName(string name, CancellationToken cancellationToken);
-    }
+    Task<City> GetByName(string name, CancellationToken cancellationToken);
 }

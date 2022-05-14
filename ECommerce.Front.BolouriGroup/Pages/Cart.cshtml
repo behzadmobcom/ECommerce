@@ -8,7 +8,9 @@
     <div class="container">
         <h2>سبد خرید</h2>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-page="/Index">خانه</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
         </ol>
     </div>
@@ -20,77 +22,115 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="account-card">
-                    <div class="account-title"><h4>سفارش شما</h4></div>
+                    <div class="account-title">
+                        <h4>سفارش شما</h4>
+                    </div>
                     <div class="account-content">
                         <div class="table-scroll">
                             <table class="table-list">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">تولید - محصول</th>
-                                        <th scope="col">نام</th>
-                                        <th scope="col">قیمت</th>
-                                        <th scope="col">تعداد</th>
-                                        <th scope="col">عمل</th>
-                                    </tr>
+                                <tr>
+                                    <th scope="col">تولید - محصول</th>
+                                    <th scope="col">نام</th>
+                                    <th scope="col">قیمت</th>
+                                    <th scope="col">تعداد</th>
+                                    <th scope="col">عمل</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                        <td class="table-name"><h6>سیب تازه</h6></td>
-                                        <td class="table-price">
-                                            <h6>25 تومان </h6>
-                                        </td>
-                                        <td class="table-quantity">
-                                            <div class="cart-action-group">
-                                                <div class="product-action">
-                                                    <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                                    <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                                                </div>
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="~/img/product/01.png" alt="تولید - محصول">
+                                    </td>
+                                    <td class="table-name">
+                                        <h6>سیب تازه</h6>
+                                    </td>
+                                    <td class="table-price">
+                                        <h6>25 تومان </h6>
+                                    </td>
+                                    <td class="table-quantity">
+                                        <div class="cart-action-group">
+                                            <div class="product-action">
+                                                <button class="action-minus" title="مقدار منهای">
+                                                    <i class="far fa-minus"></i>
+                                                </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                                                <button class="action-plus" title="مقدار به علاوه">
+                                                    <i class="far fa-plus"></i>
+                                                </button>
                                             </div>
-                                        </td>
-                                        <td class="table-action">
-                                            <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                            <a class="trash" href="#" title="لیست خواسته ها را حذف کنید"><i class="far fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                        <td class="table-name"><h6>سیب تازه</h6></td>
-                                        <td class="table-price">
-                                            <h6>25 تومان </h6>
-                                        </td>
-                                        <td class="table-quantity">
-                                            <div class="cart-action-group">
-                                                <div class="product-action">
-                                                    <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                                    <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                                                </div>
+                                        </div>
+                                    </td>
+                                    <td class="table-action">
+                                        <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        <a class="trash" href="#" title="لیست خواسته ها را حذف کنید">
+                                            <i class="far fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="~/img/product/01.png" alt="تولید - محصول">
+                                    </td>
+                                    <td class="table-name">
+                                        <h6>سیب تازه</h6>
+                                    </td>
+                                    <td class="table-price">
+                                        <h6>25 تومان </h6>
+                                    </td>
+                                    <td class="table-quantity">
+                                        <div class="cart-action-group">
+                                            <div class="product-action">
+                                                <button class="action-minus" title="مقدار منهای">
+                                                    <i class="far fa-minus"></i>
+                                                </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                                                <button class="action-plus" title="مقدار به علاوه">
+                                                    <i class="far fa-plus"></i>
+                                                </button>
                                             </div>
-                                        </td>
-                                        <td class="table-action">
-                                            <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                            <a class="trash" href="#" title="لیست خواسته ها را حذف کنید"><i class="far fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                        <td class="table-name"><h6>سیب تازه</h6></td>
-                                        <td class="table-price">
-                                            <h6>25 تومان </h6>
-                                        </td>
-                                        <td class="table-quantity">
-                                            <div class="cart-action-group">
-                                                <div class="product-action">
-                                                    <button class="action-minus" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                                    <button class="action-plus" title="مقدار به علاوه"><i class="far fa-plus"></i></button>
-                                                </div>
+                                        </div>
+                                    </td>
+                                    <td class="table-action">
+                                        <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        <a class="trash" href="#" title="لیست خواسته ها را حذف کنید">
+                                            <i class="far fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="~/img/product/01.png" alt="تولید - محصول">
+                                    </td>
+                                    <td class="table-name">
+                                        <h6>سیب تازه</h6>
+                                    </td>
+                                    <td class="table-price">
+                                        <h6>25 تومان </h6>
+                                    </td>
+                                    <td class="table-quantity">
+                                        <div class="cart-action-group">
+                                            <div class="product-action">
+                                                <button class="action-minus" title="مقدار منهای">
+                                                    <i class="far fa-minus"></i>
+                                                </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                                                <button class="action-plus" title="مقدار به علاوه">
+                                                    <i class="far fa-plus"></i>
+                                                </button>
                                             </div>
-                                        </td>
-                                        <td class="table-action">
-                                            <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                            <a class="trash" href="#" title="لیست خواسته ها را حذف کنید"><i class="far fa-times"></i></a>
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </td>
+                                    <td class="table-action">
+                                        <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                        <a class="trash" href="#" title="لیست خواسته ها را حذف کنید">
+                                            <i class="far fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -100,21 +140,36 @@
             <div class="col-lg-4">
                 <div class="account-card">
                     <div class="checkout-charge">
-                        <div class="account-title"><h4>خلاصه سفارش</h4></div>
+                        <div class="account-title">
+                            <h4>خلاصه سفارش</h4>
+                        </div>
                         <ul>
-                            <li><span>زیر کل </span><span>250000تومان</span></li>
-                            <li><span>هزینه تحویل </span><span>20000تومان</span></li>
-                            <li><span> تخفیف </span><span>10000تومان</span></li>
-                            <li><span>مالیات </span><span>15000 تومان</span></li>
+                            <li>
+                                <span>زیر کل </span><span>250000تومان</span>
+                            </li>
+                            <li>
+                                <span>هزینه تحویل </span><span>20000تومان</span>
+                            </li>
+                            <li>
+                                <span> تخفیف </span><span>10000تومان</span>
+                            </li>
+                            <li>
+                                <span>مالیات </span><span>15000 تومان</span>
+                            </li>
                             <li>
                                 <span>کل </span><span>295000 تومان</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="checkout-proced"><a asp-area="" asp-page="/Invoice" class="btn btn-inline">تهیه شده برای پرداخت</a></div>
+                    <div class="checkout-proced">
+                        <a asp-area="" asp-page="/Invoice" class="btn btn-inline">تهیه شده برای پرداخت</a>
+                    </div>
                     <div class="chekout-coupon">
                         <form class="coupon-form">
-                            <input type="text" placeholder="کد تخفیف خود را وارد کنید"><button type="submit"><span>درخواست دادن</span></button>
+                            <input type="text" placeholder="کد تخفیف خود را وارد کنید">
+                            <button type="submit">
+                                <span>درخواست دادن</span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -137,11 +192,10 @@
                 <form class="news-form">
                     <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
                     <button>
-                        <span>  اشتراک <i class="far fa-paper-plane"></i> </span>
+                        <span> اشتراک <i class="far fa-paper-plane"></i> </span>
                     </button>
                 </form>
             </div>
         </div>
     </div>
 </section>
-

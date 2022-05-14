@@ -1,33 +1,31 @@
-using System.Threading.Tasks;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Stores
+namespace ArshaHamrah.Areas.Admin.Pages.Stores;
+
+public class DetailModel : PageModel
 {
-    public class DetailModel : PageModel
+    private readonly IStoreService _storeService;
+
+    public DetailModel(IStoreService storeService)
     {
-        private readonly IStoreService _storeService;
+        _storeService = storeService;
+    }
 
-        public DetailModel(IStoreService storeService)
+    public Store Store { get; set; }
+
+    public async Task<IActionResult> OnGet(int id)
+    {
+        var result = await _storeService.GetById(id);
+        if (result.Code == 0)
         {
-            _storeService = storeService;
+            Store = result.ReturnData;
+            return Page();
         }
 
-        public Store Store { get; set; }
-
-        public async Task<IActionResult> OnGet(int id)
-        {
-            var result = await _storeService.GetById(id);
-            if (result.Code == 0)
-            {
-                Store = result.ReturnData;
-                return Page();
-            }
-
-            return RedirectToPage("/Stores/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-        }
+        return RedirectToPage("/Stores/Index",
+            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

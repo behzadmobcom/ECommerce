@@ -40,30 +40,34 @@
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">توضیحات</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">توضیحات</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @if (Model.SlideShows != null)
+                    @if (Model.SlideShows != null)
+                    {
+                        @foreach (var slideShow in Model.SlideShows)
                         {
-                            @foreach (var slideShow in Model.SlideShows)
-                            {
-                                <tr>
-                                    <th scope="row">@(i++)</th>
-                                    <td>@slideShow.Title</td>
-                                    <td><div class="shortened"><h2>@Html.Raw(@slideShow.Description)</h2></div></td>
-                                    <td>
-                                        <a asp-page="Edit" asp-route-id="@slideShow.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                        <a asp-page="Delete" asp-route-id="@slideShow.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                        <a asp-page="Detail" asp-route-id="@slideShow.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                                    </td>
-                                </tr>
-                            }
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@slideShow.Title</td>
+                                <td>
+                                    <div class="shortened">
+                                        <h2>@Html.Raw(slideShow.Description)</h2>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@slideShow.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@slideShow.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@slideShow.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                </td>
+                            </tr>
                         }
+                    }
                     </tbody>
                 </table>
 

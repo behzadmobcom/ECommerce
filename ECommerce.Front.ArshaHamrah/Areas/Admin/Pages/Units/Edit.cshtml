@@ -33,25 +33,25 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.Unit.Id" />
+                    <input hidden="hidden" asp-for="@Model.Unit.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Unit.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.Unit.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Unit.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Unit.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>تعداد در واحد</label>
-                            <input asp-for="@Model.Unit.Few" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
-                            <span asp-validation-for="@Model.Unit.Few" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.Unit.Few" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0"/>
+                            <span asp-validation-for="@Model.Unit.Few" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>عیار</label>
-                            <input asp-for="@Model.Unit.assay" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
+                            <input asp-for="@Model.Unit.assay" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0"/>
                         </div>
                         <div class="form-group">
                             <label>وزن واحد</label>
-                            <input asp-for="@Model.Unit.UnitWeight" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0" />
+                            <input asp-for="@Model.Unit.UnitWeight" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" name="demo0"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -64,6 +64,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts
 {
     <script src="/Admin/js/bootstrap-touchspin.js"></script>

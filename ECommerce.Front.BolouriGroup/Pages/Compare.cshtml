@@ -8,7 +8,9 @@
     <div class="container">
         <h2>مقایسه کنید</h2>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-area="" asp-page="/Index">خانه</a></li>
+            <li class="breadcrumb-item">
+                <a asp-area="" asp-page="/Index">خانه</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">مقایسه کنید</li>
         </ol>
     </div>
@@ -22,62 +24,110 @@
                 <div class="table-scroll">
                     <table class="table-list">
                         <thead>
-                            <tr>
-                                <th scope="col"># </th>
-                                <th scope="col">تولید - محصول</th>
-                                <th scope="col">نام</th>
-                                <th scope="col">قیمت</th>
-                                <th scope="col">نام تجاری</th>
-                                <th scope="col">وضعیت</th>
-                                <th scope="col">عمل</th>
-                            </tr>
+                        <tr>
+                            <th scope="col"># </th>
+                            <th scope="col">تولید - محصول</th>
+                            <th scope="col">نام</th>
+                            <th scope="col">قیمت</th>
+                            <th scope="col">نام تجاری</th>
+                            <th scope="col">وضعیت</th>
+                            <th scope="col">عمل</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="table-serial"><h6>1</h6></td>
-                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                <td class="table-name"><h6>غذای ارگانیک تازه</h6></td>
-                                <td class="table-price">
-                                    <h6>25 تومان </h6>
-                                </td>
-                                <td class="table-vendor"><a href="#">تلوگیلا</a></td>
-                                <td class="table-status"><h6 class="stock-out">ناموجود</h6></td>
-                                <td class="table-action">
-                                    <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-heart"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-shopping-cart"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table-serial"><h6>2</h6></td>
-                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                <td class="table-name"><h6>غذای ارگانیک تازه</h6></td>
-                                <td class="table-price">
-                                    <h6>20 تومان </h6>
-                                </td>
-                                <td class="table-vendor"><a href="#">تلوگیلا</a></td>
-                                <td class="table-status"><h6 class="stock-in">موجود</h6></td>
-                                <td class="table-action">
-                                    <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-heart"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-shopping-cart"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="table-serial"><h6>3</h6></td>
-                                <td class="table-image"><img src="~/img/product/01.png" alt="تولید - محصول"></td>
-                                <td class="table-name"><h6>غذای ارگانیک تازه</h6></td>
-                                <td class="table-price">
-                                    <h6>30 تومان </h6>
-                                </td>
-                                <td class="table-vendor"><a href="#">تلوگیلا</a></td>
-                                <td class="table-status"><h6 class="stock-out">ناموجود</h6></td>
-                                <td class="table-action">
-                                    <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view"><i class="far fa-eye"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-heart"></i></a>
-                                    <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها"><i class="far fa-shopping-cart"></i></a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td class="table-serial">
+                                <h6>1</h6>
+                            </td>
+                            <td class="table-image">
+                                <img src="~/img/product/01.png" alt="تولید - محصول">
+                            </td>
+                            <td class="table-name">
+                                <h6>غذای ارگانیک تازه</h6>
+                            </td>
+                            <td class="table-price">
+                                <h6>25 تومان </h6>
+                            </td>
+                            <td class="table-vendor">
+                                <a href="#">تلوگیلا</a>
+                            </td>
+                            <td class="table-status">
+                                <h6 class="stock-out">ناموجود</h6>
+                            </td>
+                            <td class="table-action">
+                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-shopping-cart"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-serial">
+                                <h6>2</h6>
+                            </td>
+                            <td class="table-image">
+                                <img src="~/img/product/01.png" alt="تولید - محصول">
+                            </td>
+                            <td class="table-name">
+                                <h6>غذای ارگانیک تازه</h6>
+                            </td>
+                            <td class="table-price">
+                                <h6>20 تومان </h6>
+                            </td>
+                            <td class="table-vendor">
+                                <a href="#">تلوگیلا</a>
+                            </td>
+                            <td class="table-status">
+                                <h6 class="stock-in">موجود</h6>
+                            </td>
+                            <td class="table-action">
+                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-shopping-cart"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-serial">
+                                <h6>3</h6>
+                            </td>
+                            <td class="table-image">
+                                <img src="~/img/product/01.png" alt="تولید - محصول">
+                            </td>
+                            <td class="table-name">
+                                <h6>غذای ارگانیک تازه</h6>
+                            </td>
+                            <td class="table-price">
+                                <h6>30 تومان </h6>
+                            </td>
+                            <td class="table-vendor">
+                                <a href="#">تلوگیلا</a>
+                            </td>
+                            <td class="table-status">
+                                <h6 class="stock-out">ناموجود</h6>
+                            </td>
+                            <td class="table-action">
+                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
+                                    <i class="far fa-eye"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-heart"></i>
+                                </a>
+                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
+                                    <i class="far fa-shopping-cart"></i>
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -100,7 +150,7 @@
                 <form class="news-form">
                     <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
                     <button>
-                        <span>  اشتراک <i class="far fa-paper-plane"></i> </span>
+                        <span> اشتراک <i class="far fa-paper-plane"></i> </span>
                     </button>
                 </form>
             </div>

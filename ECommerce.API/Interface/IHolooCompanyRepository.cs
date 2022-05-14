@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IHolooCompanyRepository : IAsyncRepository<HolooCompany>
 {
-    public interface IHolooCompanyRepository : IAsyncRepository<HolooCompany>
-    {
-    }
 }

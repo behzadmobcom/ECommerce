@@ -1,66 +1,53 @@
-﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 
-namespace API.Utilities
+namespace API.Utilities;
+
+public static class CookieHelper
 {
-    public static class CookieHelper
+    public static void SetCookie(this HttpContext context, string key, object value, double timeDifference,
+        TimeSpan? duration = null)
     {
-        public static void SetCookie(this HttpContext context, string key, object value, double timeDifference, TimeSpan? duration = null)
+        try
         {
-            try
-            {
-                CookieOptions option = new CookieOptions();
+            var option = new CookieOptions();
 
-                if (duration.HasValue)
-                {
-                    option.Expires = DateTime.Now.AddMinutes(timeDifference).Add(duration.Value);
-                }
-                else
-                {
-                    option.Expires = DateTime.Now.AddMinutes(timeDifference).AddDays(30);
-                }
-
-                //var val = JsonSerializer.Serialize(value);
-                var val = JsonConvert.SerializeObject(value);
-                context.Response.Cookies.Append(key, val, option);
-            }
-            catch
-            {
-
-            }
-        }
-
-        public static T GetCookie<T>(this HttpContext context, string key)
-        {
-            context.Request.Cookies.TryGetValue(key, out string value);
-            if (value == null)
-            {
-                return default;
-            }
+            if (duration.HasValue)
+                option.Expires = DateTime.Now.AddMinutes(timeDifference).Add(duration.Value);
             else
-            {
-                //var val = System.Text.Json.JsonSerializer.Deserialize<T>(value);
-                var val = JsonConvert.DeserializeObject<T>(value);
-                return val;
-            }
-        }
+                option.Expires = DateTime.Now.AddMinutes(timeDifference).AddDays(30);
 
-        public static void RemoveCookie(this HttpContext context, string key)
+            //var val = JsonSerializer.Serialize(value);
+            var val = JsonConvert.SerializeObject(value);
+            context.Response.Cookies.Append(key, val, option);
+        }
+        catch
         {
-            foreach (var cookie in context.Request.Cookies)
-            {
-                if (cookie.Key == key)
-                {
-                    context.Response.Cookies.Append(key, "", new CookieOptions()
-                    {
-                        Expires = DateTime.Now.AddDays(-1)
-                    });
-                    context.Response.Cookies.Delete(cookie.Key);
-                }
-
-            }
-
         }
+    }
+
+    public static T GetCookie<T>(this HttpContext context, string key)
+    {
+        context.Request.Cookies.TryGetValue(key, out var value);
+        if (value == null)
+        {
+            return default;
+        }
+
+        //var val = System.Text.Json.JsonSerializer.Deserialize<T>(value);
+        var val = JsonConvert.DeserializeObject<T>(value);
+        return val;
+    }
+
+    public static void RemoveCookie(this HttpContext context, string key)
+    {
+        foreach (var cookie in context.Request.Cookies)
+            if (cookie.Key == key)
+            {
+                context.Response.Cookies.Append(key, "", new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(-1)
+                });
+                context.Response.Cookies.Delete(cookie.Key);
+            }
     }
 }

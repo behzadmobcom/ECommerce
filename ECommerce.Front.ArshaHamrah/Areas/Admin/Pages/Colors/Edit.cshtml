@@ -33,12 +33,12 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.Color.Id" />
+                    <input hidden="hidden" asp-for="@Model.Color.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
                             <input asp-for="@Model.Color.Name" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Color.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <span asp-validation-for="@Model.Color.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>یک رنگ انتخاب کنید</label>

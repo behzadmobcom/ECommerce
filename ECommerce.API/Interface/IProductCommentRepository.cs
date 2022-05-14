@@ -1,14 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using API.Utilities;
+﻿using API.Utilities;
 using Entities;
 using Entities.Helper;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IProductCommentRepository : IAsyncRepository<ProductComment>
 {
-    public interface IProductCommentRepository : IAsyncRepository<ProductComment>
-    {
-        Task<PagedList<ProductComment>> Search(PaginationParameters paginationParameters,
-            CancellationToken cancellationToken);
-    }
+    Task<PagedList<ProductComment>> Search(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken);
 }

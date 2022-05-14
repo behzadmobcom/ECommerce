@@ -1,12 +1,11 @@
 ﻿@model Entities.Category
 
-@if(Model.Parent ==null)
-    {
-        <label >@Model.Name</label>
-    }
-    else
-    {
-        <label >@Model.Name &lArr;</label>
-        <partial name="_CategoryNameWithParent" model="@Model.Parent" />
-
-    }
+@if (Model.Parent == null)
+{
+    <label >@Model.Name</label>
+}
+else
+{
+    <label >@Model.Name &lArr;</label>
+    <partial name="_CategoryNameWithParent" model="@Model.Parent"/>
+}

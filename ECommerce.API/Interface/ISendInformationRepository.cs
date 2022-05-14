@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface ISendInformationRepository : IAsyncRepository<SendInformation>
 {
-    public interface ISendInformationRepository : IAsyncRepository<SendInformation>
-    {
-    }
 }

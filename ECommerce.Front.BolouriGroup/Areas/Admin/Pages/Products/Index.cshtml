@@ -1,7 +1,7 @@
 ﻿@page
 @model Bolouri.Areas.Admin.Pages.Products.IndexModel
 @{
-    var i =1+((Model.PaginationViewModel.Page-1) * Model.PaginationViewModel.QuantityPerPage);
+    var i = 1 + (Model.PaginationViewModel.Page - 1) * Model.PaginationViewModel.QuantityPerPage;
 }
 
 <div class="card card-custom gutter-b">
@@ -40,14 +40,14 @@
             <form asp-page="/Products/Index" method="get">
                 <div class="form-actions no-color">
                     <p>
-                        جستجو بر اساس نام: 
-                        <input type="text" name="search" value="@Model.PaginationViewModel.SearchText" />
-                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
-                        <input type="submit" value="بجو" class="btn btn-primary" /> |
+                        جستجو بر اساس نام:
+                        <input type="text" name="search" value="@Model.PaginationViewModel.SearchText"/>
+                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+                        <input type="submit" value="بجو" class="btn btn-primary"/> |
                         تعداد رکورد ها در صفحه :
-                        <a asp-page="/Products/Index" asp-route-quantityPerPage=5>5</a> - 
-                        <a asp-page="/Products/Index" asp-route-quantityPerPage=10>10</a> - 
-                        <a asp-page="/Products/Index" asp-route-quantityPerPage=15>15</a> 
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="5">5</a> -
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="10">10</a> -
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="15">15</a>
                     </p>
                 </div>
             </form>
@@ -70,7 +70,7 @@
                             <tr>
                                 <th scope="row">@(i++)</th>
                                 <td>@product.Name</td>
-                               @* <td>@product.Exist</td>*@
+                                @* <td>@product.Exist</td>*@
                                 <td>
                                     <a asp-page="Edit" asp-route-id="@product.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
                                     <a asp-page="Delete" asp-route-id="@product.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
@@ -123,7 +123,7 @@
 
 @section Scripts
 {
-    
+
     <script>
         function filter() {
             var input, filter, table, tr, td, i, txtValue;
@@ -140,7 +140,7 @@
                     } else {
                         tr[i].style.display = "none";
                     }
-                }       
+                }
             }
         }
     </script>

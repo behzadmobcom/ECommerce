@@ -1,59 +1,59 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Security.Claims;
 using System.Security.Principal;
+using ClaimsIdentity = System.Security.Claims.ClaimsIdentity;
 
-namespace API.Utilities
+namespace API.Utilities;
+
+public static class IdentityExtensions
 {
-    public static class IdentityExtensions
+    public static string FindFirstValue(this ClaimsIdentity identity, string claimType)
     {
-        public static string FindFirstValue(this ClaimsIdentity identity, string claimType)
-        {
-            return identity?.FindFirst(claimType)?.Value;
-        }
+        return identity?.FindFirst(claimType)?.Value;
+    }
 
-        public static string FindFirstValue(this IIdentity identity, string claimType)
-        {
-            var claimsIdentity = identity as ClaimsIdentity;
-            return claimsIdentity?.FindFirstValue(claimType);
-        }
+    public static string FindFirstValue(this IIdentity identity, string claimType)
+    {
+        var claimsIdentity = identity as ClaimsIdentity;
+        return claimsIdentity?.FindFirstValue(claimType);
+    }
 
-        public static string GetUserId(this IIdentity identity)
-        {
-            return identity?.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
+    public static string GetUserId(this IIdentity identity)
+    {
+        return identity?.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 
-        public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
-        {
-            var userId = identity?.GetUserId();
-            return userId.HasValue()
-                ? (T)Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
-                : default(T);
-        }
+    public static T GetUserId<T>(this IIdentity identity) where T : IConvertible
+    {
+        var userId = identity?.GetUserId();
+        return userId.HasValue()
+            ? (T) Convert.ChangeType(userId, typeof(T), CultureInfo.InvariantCulture)
+            : default;
+    }
 
-        public static string GetUserName(this IIdentity identity)
-        {
-            return identity?.FindFirstValue(ClaimTypes.Name);
-        }
-        public static bool? MustChangePassword(this IIdentity identity)
-        {
-            var mustChangePassword = identity.FindFirstValue("mustChangePassword");
+    public static string GetUserName(this IIdentity identity)
+    {
+        return identity?.FindFirstValue(ClaimTypes.Name);
+    }
 
-            return !string.IsNullOrEmpty(mustChangePassword) && bool.Parse(mustChangePassword);
-        }
+    public static bool? MustChangePassword(this IIdentity identity)
+    {
+        var mustChangePassword = identity.FindFirstValue("mustChangePassword");
 
-        public static bool IsUserActive(this IIdentity identity)
-        {
-            var isActive = identity.FindFirstValue("isActive");
+        return !string.IsNullOrEmpty(mustChangePassword) && bool.Parse(mustChangePassword);
+    }
 
-            return !string.IsNullOrEmpty(isActive) && bool.Parse(isActive);
-        }
+    public static bool IsUserActive(this IIdentity identity)
+    {
+        var isActive = identity.FindFirstValue("isActive");
 
-        public static bool IsAdmin(this IIdentity identity)
-        {
-            var isActive = identity.FindFirstValue("isAdmin");
+        return !string.IsNullOrEmpty(isActive) && bool.Parse(isActive);
+    }
 
-            return !string.IsNullOrEmpty(isActive) && bool.Parse(isActive);
-        }
+    public static bool IsAdmin(this IIdentity identity)
+    {
+        var isActive = identity.FindFirstValue("isAdmin");
+
+        return !string.IsNullOrEmpty(isActive) && bool.Parse(isActive);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IPurchaseOrderDetailRepository : IAsyncRepository<PurchaseOrderDetail>
 {
-    public interface IPurchaseOrderDetailRepository : IAsyncRepository<PurchaseOrderDetail>
-    {
-    }
 }

@@ -1,8 +1,7 @@
 ﻿using Entities;
 
-namespace API.Interface
+namespace API.Interface;
+
+public interface IEmployeeRepository : IAsyncRepository<Employee>
 {
-    public interface IEmployeeRepository : IAsyncRepository<Employee>
-    {
-    }
 }

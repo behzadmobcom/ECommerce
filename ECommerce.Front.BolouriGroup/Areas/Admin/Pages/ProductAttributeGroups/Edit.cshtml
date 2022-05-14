@@ -33,12 +33,12 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.ProductAttributeGroup.Id" />
+                    <input hidden="hidden" asp-for="@Model.ProductAttributeGroup.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.ProductAttributeGroup.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="@Model.ProductAttributeGroup.Name" class="mt-5" style="color: red;margin-top:10px"></span>
+                            <input asp-for="@Model.ProductAttributeGroup.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.ProductAttributeGroup.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">

@@ -1,4 +1,5 @@
 ﻿@page "/Admin/CreateProductAttribute"
+@using Entities
 @model ArshaHamrah.Areas.Admin.Pages.ProductAttributes.CreateModel
 @{
 }
@@ -45,7 +46,7 @@
                         </div>
                         <div class="form-group">
 
-                            <select asp-for="@Model.ProductAttribute.AttributeType" asp-items="Html.GetEnumSelectList<Entities.AttributeType>()" class="col-md-12 js-example-basic-multiple  form-control">
+                            <select asp-for="@Model.ProductAttribute.AttributeType" asp-items="Html.GetEnumSelectList<AttributeType>()" class="col-md-12 js-example-basic-multiple  form-control">
                                 <option selected="selected" value="">لطفا نوع فیلد را انتخاب کنید</option>
                             </select>
                         </div>

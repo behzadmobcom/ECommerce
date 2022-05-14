@@ -1,31 +1,34 @@
 ﻿@model List<Entities.ViewModel.CategoryParentViewModel>
 
-@if(Model != null)
+@if (Model != null)
 {
     @foreach (var category in Model)
     {
         var path = $"/Shop/{category.Path}";
         @if (category.Depth > 0)
         {
-           
-            <li><a href="@path">
-            @for (int i = 0; i <= category.Depth; i++)
-            {
+            <li>
+                <a href="@path">
+                    @for (var i = 0; i <= category.Depth; i++)
+                    {
+                        <text> &nbsp; &nbsp; </text>
+                    }
 
-                <text> &nbsp; &nbsp; </text>
-            }
-           
-          @category.Name</a></li>
+                    @category.Name
+                </a>
+            </li>
         }
         else
         {
-            <li><a href="@path">@category.Name</a></li>
+            <li>
+                <a href="@path">@category.Name</a>
+            </li>
         }
-      
+
 
         @if (category.Children != null)
         {
-            <partial name="_categoriesMenu" model="category.Children " />
+            <partial name="_categoriesMenu" model="category.Children"/>
         }
     }
 }

@@ -1,23 +1,20 @@
-﻿
-
+﻿using Entities.HolooEntity;
 using Services.IServices;
-using Entities.HolooEntity;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
+namespace Services.Services;
 
-namespace Services.Services
+public class HolooAccountNumberService : EntityService<HolooAccountNumber>, IHolooAccountNumberService
 {
-    public class HolooAccountNumberService : EntityService<HolooAccountNumber>, IHolooAccountNumberService
+    private const string Url = "api/PaymentMethods/HolooAccount";
+
+    public HolooAccountNumberService(IHttpService http) : base(http)
     {
-        public HolooAccountNumberService(IHttpService http) : base(http)
-        {
-        }
-        private const string Url = "api/PaymentMethods/HolooAccount";
-        public List<HolooAccountNumber> HolooAccountNumbers { get; set; }
-        public async Task Load()
-        {
-            HolooAccountNumbers = (await ReadList(Url)).ReturnData;
-        }
+    }
+
+    public List<HolooAccountNumber> HolooAccountNumbers { get; set; }
+
+    public async Task Load()
+    {
+        HolooAccountNumbers = (await ReadList(Url)).ReturnData;
     }
 }

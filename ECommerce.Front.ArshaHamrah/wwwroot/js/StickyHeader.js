@@ -4,7 +4,7 @@
             var d = j.width(),
                 e = f.debounce(function() {
                         var a = j.width();
-                        d != a && (d = a, c())
+                        d != a && (d = a, c());
                     },
                     a);
             j.on(b, e);
@@ -18,16 +18,16 @@
             '<div style="width:50px;height:50px;overflow-y:scroll;position:absolute;top:-200px;left:-200px;"><div style="height:100px;width:100%"></div>');
         a("body").append(b);
         var c = b.innerWidth(), d = a("div", b).innerWidth();
-        return b.remove(), c - d
+        return b.remove(), c - d;
     }
 
     function e(a) {
         if (a.dataTableSettings)
             for (var b = 0; b < a.dataTableSettings.length; b++) {
                 var c = a.dataTableSettings[b].nTable;
-                if (a[0] == c) return !0
+                if (a[0] == c) return !0;
             }
-        return !1
+        return !1;
     }
 
     a.floatThead = a.floatThead || {}, a.floatThead.defaults = {
@@ -51,7 +51,7 @@
             for (var a = 3, b = document.createElement("b"), c = b.all || [];
                 a = 1 + a, b.innerHTML = "<!--[if gt IE " + a + "]><i><![endif]-->", c[0];
             );
-            return a > 4 ? a : document.documentMode
+            return a > 4 ? a : document.documentMode;
         }(),
         h = null,
         i = function() {
@@ -59,7 +59,7 @@
             var b = a("<table><colgroup><col></colgroup><tbody><tr><td style='width:10px'></td></tbody></table>");
             a("body").append(b);
             var c = b.find("col").width();
-            return b.remove(), 0 == c
+            return b.remove(), 0 == c;
         },
         j = a(window),
         k = 0;
@@ -77,9 +77,9 @@
                 var b = a(this).data("floatThead-attached");
                 if (b && f.isFunction(b[m])) {
                     var c = b[m]();
-                    "undefined" != typeof c && (n = c)
+                    "undefined" != typeof c && (n = c);
                 }
-            }), n
+            }), n;
         }
         var o = a.extend({}, a.floatThead.defaults || {}, l);
         return a.each(l,
@@ -89,27 +89,27 @@
                     c("jQuery.floatThead: used [" +
                         b +
                         "] key to init plugin, but that param is not an option for the plugin. Valid options are: " +
-                        f.keys(a.floatThead.defaults).join(", "))
+                        f.keys(a.floatThead.defaults).join(", "));
             }), this.filter(":not(." + o.floatTableClass + ")").each(function() {
             function c(a) { return a + ".fth-" + y + ".floatTHead" }
 
             function i() {
                 var b = 0;
                 A.find("tr:visible").each(function() { b += a(this).outerHeight(!0) }), Z.outerHeight(b),
-                    $.outerHeight(b)
+                    $.outerHeight(b);
             }
 
             function l() {
                 var a = z.outerWidth(), b = I.width() || a;
                 if (X.width(b - F.vertical), O) {
                     var c = 100 * a / (b - F.vertical);
-                    S.css("width", c + "%")
-                } else S.outerWidth(a)
+                    S.css("width", c + "%");
+                } else S.outerWidth(a);
             }
 
             function m() {
                 C = (f.isFunction(o.scrollingTop) ? o.scrollingTop(z) : o.scrollingTop) || 0, D =
-                    (f.isFunction(o.scrollingBottom) ? o.scrollingBottom(z) : o.scrollingBottom) || 0
+                    (f.isFunction(o.scrollingBottom) ? o.scrollingBottom(z) : o.scrollingBottom) || 0;
             }
 
             function n() {
@@ -118,7 +118,7 @@
                 else {
                     var d;
                     d = null == o.cellTag && o.headerCellSelector ? o.headerCellSelector : "tr:first>" + o.cellTag, c =
-                        A.find(d), b = 0, c.each(function() { b += parseInt(a(this).attr("colspan") || 1, 10) })
+                        A.find(d), b = 0, c.each(function() { b += parseInt(a(this).attr("colspan") || 1, 10) });
                 }
                 if (b != H) {
                     H = b;
@@ -127,18 +127,18 @@
                             "<fthtd style='display:table-cell;height:0;width:auto;'/>");
                     f = f.join(""), e =
                         e.join(""), h && (g = g.join(""), W.html(g), bb = W.find("fthtd")), Z.html(e), $ =
-                        Z.find("th"), V || U.html(f), _ = U.find("col"), T.html(f), ab = T.find("col")
+                        Z.find("th"), V || U.html(f), _ = U.find("col"), T.html(f), ab = T.find("col");
                 }
-                return b
+                return b;
             }
 
             function p() {
                 if (!E) {
                     if (E = !0, J) {
                         var a = z.width(), b = Q.width();
-                        a > b && z.css("minWidth", a)
+                        a > b && z.css("minWidth", a);
                     }
-                    z.css(db), S.css(db), S.append(A), B.before(Y), i()
+                    z.css(db), S.css(db), S.append(A), B.before(Y), i();
                 }
             }
 
@@ -158,14 +158,14 @@
                         var d = [];
                         for (a = 0; b > a; a++) d[a] = c.get(a).offsetWidth;
                         for (a = 0; b > a; a++) ab.eq(a).width(d[a]), _.eq(a).width(d[a]);
-                        p()
-                    } else S.append(A), z.css(eb), S.css(eb), i()
-                }
+                        p();
+                    } else S.append(A), z.css(eb), S.css(eb), i();
+                };
             }
 
             function u(a) {
                 var b = I.css("border-" + a + "-width"), c = 0;
-                return b && ~b.indexOf("px") && (c = parseInt(b, 10)), c
+                return b && ~b.indexOf("px") && (c = parseInt(b, 10)), c;
             }
 
             function v() {
@@ -179,7 +179,7 @@
                     i = 0;
                 if (O) {
                     var k = I.offset();
-                    c = g.top - k.top + b, L && M && (c += d), c -= u("top"), i = u("left")
+                    c = g.top - k.top + b, L && M && (c += d), c -= u("top"), i = u("left");
                 } else a = g.top - C - f + D + F.horizontal;
                 var l = j.scrollTop(), m = j.scrollLeft(), n = I.scrollLeft();
                 return b = I.scrollTop(),
@@ -198,9 +198,9 @@
                             if (O && J) {
                                 if (c >= b) {
                                     var u = c - b;
-                                    o = u > 0 ? u : 0
+                                    o = u > 0 ? u : 0;
                                 } else o = P ? 0 : b;
-                                s = i
+                                s = i;
                             } else
                                 !O && J
                                     ? (l > a + t + e
@@ -218,7 +218,7 @@
                                         : g.top > l + C
                                         ? (o = g.top - l, p())
                                         : o = C, s = g.left - m);
-                            return { top: o, left: s }
+                            return { top: o, left: s };
                         }
                     };
             }
@@ -230,8 +230,8 @@
                         a == d.top && b == d.left ||
                         (X.css({ top: d.top, left: d.left }), a = d.top, b = d.left), e && l(), f && i();
                     var g = I.scrollLeft();
-                    J && c == g || (X.scrollLeft(g), c = g)
-                }
+                    J && c == g || (X.scrollLeft(g), c = g);
+                };
             }
 
             function x() {
@@ -242,7 +242,7 @@
                         d = z.width(),
                         e = d > a ? G : 0,
                         f = c > b ? G : 0;
-                    F.horizontal = d > a - f ? G : 0, F.vertical = c > b - e ? G : 0
+                    F.horizontal = d > a - f ? G : 0, F.vertical = c > b - e ? G : 0;
                 }
             }
 
@@ -296,11 +296,11 @@
                         X.css(e), a =
                             a.wrap("<div class='" +
                                 o.floatWrapperClass +
-                                "' style='position: relative; clear:both;'></div>").parent(), P = !0
+                                "' style='position: relative; clear:both;'></div>").parent(), P = !0;
                     }
-                    return a
+                    return a;
                 };
-                O ? (Q = cb(I, !0), Q.append(X)) : (Q = cb(z), z.after(X))
+                O ? (Q = cb(I, !0), Q.append(X)) : (Q = cb(z), z.after(X));
             } else z.after(X);
             X.css({ position: J ? "absolute" : "fixed", marginTop: 0, top: J ? 0 : "auto", zIndex: o.zIndex }),
                 X.addClass(o.floatContainerClass), m();
@@ -325,13 +325,13 @@
                             var a = ".fth-" + y;
                             q(), z.css(eb), U.remove(), h && N.remove(), Y.parent().length && Y.replaceWith(A),
                                 z.off("reflow"), I.off(a), P && (I.length ? I.unwrap() : z.unwrap()),
-                                J && z.css("minWidth", ""), X.remove(), z.data("floatThead-attached", !1), j.off(a)
+                                J && z.css("minWidth", ""), X.remove(), z.data("floatThead-attached", !1), j.off(a);
                         },
                         reflow: function() { ob() },
                         setHeaderHeight: function() { i() },
                         getFloatContainer: function() { return X },
                         getRowGroups: function() {
-                            return E ? X.find("thead").add(z.find("tbody,tfoot")) : z.find("thead,tbody,tfoot")
+                            return E ? X.find("thead").add(z.find("tbody,tfoot")) : z.find("thead,tbody,tfoot");
                         }
                     }), k++;
         }), this;
@@ -346,24 +346,24 @@
                 if (a !== Object(a)) throw new TypeError("Invalid object");
                 var c = [];
                 for (var d in a) b.has(a, d) && c.push(d);
-                return c
+                return c;
             }, a.each(d,
                 function() {
                     var a = this;
-                    b["is" + a] = function(b) { return Object.prototype.toString.call(b) == "[object " + a + "]" }
+                    b["is" + a] = function(b) { return Object.prototype.toString.call(b) == "[object " + a + "]" };
                 }), b.debounce = function(a, b, c) {
                 var d, e, f, g, h;
                 return function() {
                     f = this, e = arguments, g = new Date;
                     var i = function() {
                             var j = new Date - g;
-                            b > j ? d = setTimeout(i, b - j) : (d = null, c || (h = a.apply(f, e)))
+                            b > j ? d = setTimeout(i, b - j) : (d = null, c || (h = a.apply(f, e)));
                         },
                         j = c && !d;
-                    return d || (d = setTimeout(i, b)), j && (h = a.apply(f, e)), h
-                }
-            }, b
-        }()
+                    return d || (d = setTimeout(i, b)), j && (h = a.apply(f, e)), h;
+                };
+            }, b;
+        }();
 }(jQuery);
 
 
