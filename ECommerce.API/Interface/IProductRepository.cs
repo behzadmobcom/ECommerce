@@ -28,26 +28,25 @@ public interface IProductRepository : IAsyncRepository<Product>
 
     IQueryable<Product> GetProductByIdWithInclude(int productId);
 
+    IQueryable<Product?> GetProducts(List<int>? brandsId, List<int>? starsCount, List<int>? tagsId);
 
     Task<List<Product>> GetByCategoryId(int categoryId, CancellationToken cancellationToken);
-
-    IQueryable<Product?> GetProducts(List<int>? brandsId, List<int>? starsCount, List<int>? tagsId);
 
     #region Tops
 
     Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopPrices(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopPrices(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopChip(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopDiscounts(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopStars(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopSells(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopSells(int count, CancellationToken cancellationToken);
 
-    Task<List<Product?>> TopRelatives(int productId, int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopRelatives(int productId, int count, CancellationToken cancellationToken);
 
     #endregion
 }

@@ -207,7 +207,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public IQueryable<Product?> GetProducts(List<int>? brandsId, List<int>? starsCount, List<int>? tagsId)
     {
         //var products = _context.Products.Where(x => x.ProductCategories.Any(y => y.Id == categoryId));
-        var products = _context.Products.AsQueryable();
+        var products = _context.Products.Where(x=> x.Prices!.Any()).AsQueryable();
 
 
         if (brandsId is {Count: > 0}) products = products.Where(x => brandsId.Contains((int) x.BrandId));
@@ -219,13 +219,6 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             products = tagsId.Aggregate(products,
                 (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
 
-        products = products
-            .Include(x => x.Brand)
-            .Include(x => x.Images)
-            .Include(x => x.Prices)
-            .Include(x => x.ProductUserRanks);
-
-
         return products;
     }
 
@@ -234,7 +227,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken)
     {
-        var products = await _context.Products.Where(x => x.Images.Count > 0).OrderByDescending(x => x.Id).Take(count)
+        var products = await _context.Products.Where(x => x.Images!.Count > 0 && x.Prices!.Any()).OrderByDescending(x => x.Id).Take(count)
             .Select(p => new ProductIndexPageViewModel
             {
                 Prices = p.Prices!,
@@ -243,7 +236,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Name,
                 Description = p.Description,
                 Id = p.Id,
-                ImagePath = p.Images!.First().Path,
+                ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
                 Stars = p.Star,
                 Url = p.Url
             })
@@ -252,49 +245,71 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return products;
     }
 
-    public async Task<List<Product?>> TopPrices(int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, CancellationToken cancellationToken)
     {
         var products = await _context.Prices.OrderByDescending(x => x.Amount)
             .Where(x => x.Product.Images.Count > 0)
-            .Include(x => x.Product.Brand)
-            .Include(x => x.Product.Images)
-            .Include(x => x.Product.Prices)
-            .Include(x => x.Product.ProductUserRanks)
-            .Select(x => x.Product)
             .Take(count)
+            .Select(p => new ProductIndexPageViewModel
+            {
+                Prices = p.Product!.Prices!,
+                Alt = p.Product.Images!.First().Alt,
+                Brand = p.Product.Brand!.Name,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Id = p.Id,
+                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                Stars = p.Product.Star,
+                Url = p.Product.Url
+            })
             .ToListAsync(cancellationToken);
         return products;
     }
 
-    public async Task<List<Product?>> TopChip(int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken)
     {
         var products = await _context.Prices.OrderBy(x => x.Amount)
-            .Where(x => x.Product.Images.Count > 0)
-            .Include(x => x.Product.Brand)
-            .Include(x => x.Product.Images)
-            .Include(x => x.Product.Prices)
-            .Include(x => x.Product.ProductUserRanks)
-            .Select(x => x.Product)
+            .Where(x => x.Product!.Images!.Count > 0)
             .Take(count)
+            .Select(p => new ProductIndexPageViewModel
+            {
+                Prices = p.Product!.Prices!,
+                Alt = p.Product.Images!.First().Alt,
+                Brand = p.Product.Brand!.Name,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Id = p.Id,
+                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                Stars = p.Product.Star,
+                Url = p.Product.Url
+            })
             .ToListAsync(cancellationToken);
         return products;
     }
 
-    public async Task<List<Product?>> TopDiscounts(int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken)
     {
-        var products = new List<Product?>();
-        var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Products);
+        var products = new List<ProductIndexPageViewModel?>();
+        var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Products).Take(count);
         var i = 0;
         foreach (var discount in discounts)
         foreach (var product in discount)
         {
-            products.Add(_context.Products
-                .Where(x => x.Id == product.Id && x.Images.Count > 0)
-                .Include(x => x.Brand)
-                .Include(x => x.Images)
-                .Include(x => x.Prices)
-                .Include(x => x.ProductUserRanks)
-                .FirstOrDefault());
+            products.Add(await _context.Products
+                .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
+                .Select(p => new ProductIndexPageViewModel
+                {
+                    Prices = p.Prices!,
+                    Alt = p.Images!.First().Alt,
+                    Brand = p.Brand!.Name,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Id = p.Id,
+                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                    Stars = p.Star,
+                    Url = p.Url
+                })
+                .FirstOrDefaultAsync(cancellationToken));
             i++;
             if (i == count) break;
         }
@@ -306,41 +321,75 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return products;
     }
 
-    public async Task<List<Product?>> TopStars(int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken)
     {
         var products = await _context.ProductUserRanks.OrderByDescending(x => x.Stars)
-            .Where(x => x.Product.Images.Count > 0)
-            .Include(x => x.Product.Brand)
-            .Include(x => x.Product.Images)
-            .Include(x => x.Product.Prices)
-            .Select(x => x.Product)
+            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any())
             .Take(count)
+            .Select(p => new ProductIndexPageViewModel
+            {
+                Prices = p.Product!.Prices!,
+                Alt = p.Product.Images!.First().Alt,
+                Brand = p.Product.Brand!.Name,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Id = p.Id,
+                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                Stars = p.Product.Star,
+                Url = p.Product.Url
+            })
             .ToListAsync(cancellationToken);
         if (products.Count < 5) products = await TopChip(count - products.Count, cancellationToken);
 
         return products;
     }
 
-    public async Task<List<Product?>> TopSells(int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopSells(int count, CancellationToken cancellationToken)
     {
-        var products = await _context.ProductSellCounts.OrderByDescending(x => x.Count).Take(count)
-            .Select(x => x.Product)
+        var products = await _context.ProductSellCounts.OrderByDescending(x => x.Count)
+            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any())
+            .Take(count)
+            .Select(p => new ProductIndexPageViewModel
+            {
+                Prices = p.Product!.Prices!,
+                Alt = p.Product.Images!.First().Alt,
+                Brand = p.Product.Brand!.Name,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Id = p.Id,
+                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                Stars = p.Product.Star,
+                Url = p.Product.Url
+            })
             .ToListAsync(cancellationToken);
 
         if (products == null)
             products = await _context.Products.OrderByDescending(x => x.Prices.Any(p => p.IsDefault && p.Exist > 0))
+                .Where(x => x.Images!.Count > 0 && x.Prices!.Any())
                 .Take(count)
+                   .Select(p => new ProductIndexPageViewModel
+                   {
+                       Prices = p.Prices!,
+                       Alt = p.Images!.First().Alt,
+                       Brand = p.Brand!.Name,
+                       Name = p.Name,
+                       Description = p.Description,
+                       Id = p.Id,
+                       ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                       Stars = p.Star,
+                       Url = p.Url
+                   })
                 .ToListAsync(cancellationToken);
 
         return products;
     }
 
-    public async Task<List<Product?>> TopRelatives(int productId, int count, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopRelatives(int productId, int count, CancellationToken cancellationToken)
     {
         var categories = await _context.Categories
-            .Where(y => y.Products.Any(x => x.Id == productId))
+            .Where(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()))
             .ToListAsync(cancellationToken);
-        var products = new List<Product?>();
+        var products = new List<ProductIndexPageViewModel>();
         var countPerCategory = count;
         if (categories.Count > 1)
         {
@@ -352,11 +401,19 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             products = await _context.Products
                 .Where(x => x.ProductCategories.Any(x => x.Id == category.Id) && x.Id != productId)
                 .Take(countPerCategory)
-                .Include(x => x.Images)
-                .Include(x => x.Prices)
-                .Include(x => x.Brand)
-                .Include(x => x.ProductUserRanks)
-                .ToListAsync();
+                .Select(p => new ProductIndexPageViewModel
+                {
+                    Prices = p.Prices!,
+                    Alt = p.Images!.First().Alt,
+                    Brand = p.Brand!.Name,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Id = p.Id,
+                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                    Stars = p.Star,
+                    Url = p.Url
+                })
+                .ToListAsync(cancellationToken);
         //productsList.AddRange(temp);
 
         return products.Take(count).ToList();

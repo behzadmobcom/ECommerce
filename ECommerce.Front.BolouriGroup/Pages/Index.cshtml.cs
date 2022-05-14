@@ -33,8 +33,7 @@ public class IndexModel : PageModel
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
     public List<ProductIndexPageViewModel> ExpensiveProducts { get; set; }
     public List<ProductIndexPageViewModel> StarProducts { get; set; }
-    public List<ProductIndexPageViewModel> NewTopProducts { get; set; }
-    public List<ProductIndexPageViewModel> SellProducts { get; set; }
+    //public List<ProductIndexPageViewModel> SellProducts { get; set; }
     public List<Brand> Brands { get; set; }
 
     public bool IsColleague { get; set; }
@@ -42,22 +41,16 @@ public class IndexModel : PageModel
     public async Task OnGetAsync()
     {
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
-        //NewProducts = (await _productService.TopProducts()).ReturnData;
-        //ExpensiveProducts = (await _productService.TopProducts("", 0, 4, 4)).ReturnData;
-        //StarProducts = (await _productService.TopProducts("", 0, 10, 2)).ReturnData;
-        //SellProducts = (await _productService.TopProducts("", 0, 10, 5)).ReturnData;
-        //NewTopProducts = (await _productService.TopProducts()).ReturnData;
+        NewProducts = (await _productService.TopNew(8)).ReturnData;
+        ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
+        StarProducts = (await _productService.TopStars(10)).ReturnData;
+        //SellProducts = (await _productService.TopSells()).ReturnData;
         Brands = (await _brandService.Load()).ReturnData;
 
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
 
-        NewProducts = (await _productService.TopProducts()).ReturnData;
-        ExpensiveProducts = NewProducts;
-        StarProducts = NewProducts;
-        SellProducts = NewProducts;
-        NewTopProducts = NewProducts;
     }
 
     //public async Task<IActionResult> OnGetAddWishList(int id)

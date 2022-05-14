@@ -69,7 +69,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Search(PageViewModel pageViewModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> Search([FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -145,102 +145,140 @@ public class ProductsController : ControllerBase
     }
 
     /// <summary>
+    /// 
     /// </summary>
     /// <param name="productListFilteredViewModel"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    //[HttpGet]
-    //public async Task<IActionResult> GetProducts([FromQuery] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
-    //{
-    //    try
-    //    {
-    //        //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
+    [HttpGet]
+    public async Task<IActionResult> GetProducts([FromQuery] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
+    {
+        try
+        {
+            //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
 
-    //        var products = new List<Product?>();
-    //        var productQuery = _productRepository.GetProducts(productListFilteredViewModel.BrandsId,
-    //            productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
-    //        var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');
-    //        if (search is {Length: > 1})
-    //        {
-    //            switch (search[0])
-    //            {
-    //                case "CategoryId":
-    //                    var categoriesId = new List<int>();
-    //                    categoriesId = await _categoryRepository.ChildrenCategory(Convert.ToInt32(search[1]), cancellationToken);
-    //                    foreach (var categoryId in categoriesId)
-    //                    {
-    //                        products.AddRange(await productQuery
-    //                            .Where(x => x.ProductCategories.Any(y => y.Id == categoryId))
-    //                            .ToListAsync(cancellationToken));
-    //                    }
-    //                    break;
-    //                case "BrandId":
-    //                    products.AddRange(await productQuery
-    //                        .Where(x => x.BrandId== Convert.ToInt32(search[1]))
-    //                        .ToListAsync(cancellationToken));
-    //                    break;
-    //            }
+            var products = new List<Product>();
+            var productQuery = _productRepository.GetProducts(productListFilteredViewModel.BrandsId,
+                productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
+            var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');
+            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            if (search is { Length: > 1 })
+            {
+                switch (search[0])
+                {
+                    case "CategoryId":
+                        var categoriesId = new List<int>();
+                        categoriesId = await _categoryRepository.ChildrenCategory(Convert.ToInt32(search[1]), cancellationToken);
+                        foreach (var categoryId in categoriesId)
+                        {
+                            productIndexPageViewModel.AddRange(await productQuery
+                                .Where(x => x.ProductCategories.Any(y => y.Id == categoryId))
+                                .Select(p => new ProductIndexPageViewModel
+                                {
+                                    Prices = p.Prices!,
+                                    Alt = p.Images!.First().Alt,
+                                    Brand = p.Brand!.Name,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Id = p.Id,
+                                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                                    Stars = p.Star,
+                                    Url = p.Url
+                                })
+                                .ToListAsync(cancellationToken));
+                        }
+                        break;
+                    case "BrandId":
+                        productIndexPageViewModel.AddRange(await productQuery
+                            .Where(x => x.BrandId == Convert.ToInt32(search[1]))
+                            .Select(p => new ProductIndexPageViewModel
+                            {
+                                Prices = p.Prices!,
+                                Alt = p.Images!.First().Alt,
+                                Brand = p.Brand!.Name,
+                                Name = p.Name,
+                                Description = p.Description,
+                                Id = p.Id,
+                                ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                                Stars = p.Star,
+                                Url = p.Url
+                            })
+                            .ToListAsync(cancellationToken));
+                        break;
+                }
 
-    //        }
-    //        else
-    //        {
-    //            products =await productQuery.ToListAsync(cancellationToken);
-    //        }
+            }
+            else
+            {
+                productIndexPageViewModel = await productQuery
+                    .Select(p => new ProductIndexPageViewModel
+                    {
+                        Prices = p.Prices!,
+                        Alt = p.Images!.First().Alt,
+                        Brand = p.Brand!.Name,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Id = p.Id,
+                        ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                        Stars = p.Star,
+                        Url = p.Url
+                    })
+                    .ToListAsync(cancellationToken);
+            }
 
-    //        if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-    //        {
-    //            products = await AddPriceAndExistFromHolooList(products);
-    //        }
+            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            {
+                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel);
+            }
 
-    //        var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-    //        productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
+            switch (productListFilteredViewModel.ProductSort)
+            {
+                case ProductSort.New:
+                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Id).ToList();
+                    break;
+                case ProductSort.Star:
+                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Stars).ToList();
+                    break;
+                case ProductSort.HighToLowPrice:
+                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
+                    break;
+                case ProductSort.LowToHighPrice:
+                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p=>p.Amount)).ToList();
+                    break;
+                case ProductSort.Bestsellers:
+                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
+                    break;
+            }
 
-    //        switch (productListFilteredViewModel.ProductSort)
-    //        {
-    //            case ProductSort.New:
-    //                productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Id).ToList();
-    //                break;
-    //            case ProductSort.Star:
-    //                productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Stars).ToList();
-    //                break;
-    //            case ProductSort.HighToLowPrice:
-    //                productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Price).ToList();
-    //                break;
-    //            case ProductSort.LowToHighPrice:
-    //                productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Price).ToList();
-    //                break;
-    //            case ProductSort.Bestsellers:
-    //                productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Price).ToList();
-    //                break;
-    //        }
+            var entity = PagedList<ProductIndexPageViewModel>.ToPagedList(productIndexPageViewModel,
+                productListFilteredViewModel.PaginationParameters.PageNumber,
+                productListFilteredViewModel.PaginationParameters.PageSize);
 
-    //        var entity = PagedList<ProductIndexPageViewModel>.ToPagedList(productIndexPageViewModel,
-    //            productListFilteredViewModel.PaginationParameters.PageNumber,
-    //            productListFilteredViewModel.PaginationParameters.PageSize);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = productListFilteredViewModel.PaginationParameters.Search
+            };
 
-    //        var paginationDetails = new PaginationDetails
-    //        {
-    //            TotalCount = entity.TotalCount,
-    //            PageSize = entity.PageSize,
-    //            CurrentPage = entity.CurrentPage,
-    //            TotalPages = entity.TotalPages,
-    //            HasNext = entity.HasNext,
-    //            HasPrevious = entity.HasPrevious,
-    //            Search = productListFilteredViewModel.PaginationParameters.Search
-    //        };
 
-    //        return Ok(new ApiResult
-    //        {
-    //            PaginationDetails = paginationDetails,
-    //            Code = ResultCode.Success,
-    //            ReturnData = entity
-    //        });
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-    //    }
-    //}
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
     [HttpGet]
     public async Task<IActionResult> TopNew(int count, CancellationToken cancellationToken)
     {
@@ -265,7 +303,34 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopDiscountsProducts(int count, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopPrice(int count, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var products = await _productRepository.TopPrices(count, cancellationToken);
+
+            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
+
+            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel);
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = products
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> TopDiscounts(int count, CancellationToken cancellationToken)
     {
         try
         {
@@ -290,7 +355,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopRelativesProducts(int productId, int count, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopRelatives(int productId, int count, CancellationToken cancellationToken)
     {
         try
         {
@@ -315,7 +380,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopSellsProducts(int count, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopSells(int count, CancellationToken cancellationToken)
     {
         try
         {
@@ -340,7 +405,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopStarsProducts(int count, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopStars(int count, CancellationToken cancellationToken)
     {
         try
         {

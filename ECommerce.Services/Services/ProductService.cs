@@ -149,23 +149,37 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscountProducts(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopDiscountsProducts?count={count}");
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
         return Return(result);
     }
-
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelativesProduct(int productId, int count)
+     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count)
+    {
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopPrice?count={count}");
+        return Return(result);
+    }
+     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count)
+    {
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopStars?count={count}");
+        return Return(result);
+    }
+     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count)
+     {
+         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopDiscount?count={count}");
+         return Return(result);
+     }
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count)
     {
         var result =
             await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-                $"TopRelativesProducts?productId={productId}&count={count}");
+                $"TopRelatives?productId={productId}&count={count}");
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSellsProducts(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopSellsProducts?count={count}");
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopSells?count={count}");
         return Return(result);
     }
 

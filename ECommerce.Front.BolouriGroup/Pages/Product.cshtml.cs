@@ -43,7 +43,7 @@ public class ProductdetailsModel : PageModel
                     a.AttributeValue.Any(i =>
                         i.Value != null))).ToList();
 
-        RelatedProducts = (await _productService.TopRelativesProduct(Product.Id)).ReturnData;
+        RelatedProducts = (await _productService.TopRelatives(Product.Id)).ReturnData;
 
         Stars = await _starService.SumStarsByProductId(Product.Id);
     }
