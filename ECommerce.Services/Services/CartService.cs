@@ -43,7 +43,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var responseProduct = await _productService.ProductsWithIdsForCart(productIdList);
         if (responseProduct.Code > 0)
             return new ServiceResult<List<PurchaseOrderViewModel>>
-                {Code = ServiceCode.Error, Message = responseProduct.Message};
+            { Code = ServiceCode.Error, Message = responseProduct.Message };
         var cart = new List<PurchaseOrderViewModel>();
         for (var i = 0; i < responseProduct.ReturnData.Count; i++)
         {
@@ -70,16 +70,15 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         };
     }
 
-    public async Task<ServiceResult> Add(HttpContext context, int productId)
+    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
         {
-            var count = 1;
-            var product = _cookieService.GetCookie(context, $"{_key}-{productId}", false);
-            if (product != null) count = product.FirstOrDefault().Value + 1;
+            var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
+            var count = product.FirstOrDefault()!.Value + 1;
 
-            _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}", count));
+            _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", count));
             return new ServiceResult
             {
                 Code = ServiceCode.Success,
@@ -92,34 +91,35 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             IsColleague = currentUser.IsColleague,
             UserId = currentUser.Id,
             Quantity = 1,
-            ProductId = productId
+            ProductId = productId,
+            PriceId = priceId
         };
         var result = await Create(Url, purchaseOrderViewModel);
         //var result = await _http.PostAsync(Url, purchaseOrderViewModel);
         return Return(result);
     }
 
-    public async Task<ServiceResult> Delete(HttpContext context, int productId)
+    public async Task<ServiceResult> Decrease(HttpContext context, int id, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
         {
             var count = 0;
-            var product = _cookieService.GetCookie(context, $"{_key}-{productId}", false);
+            var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
             if (product != null)
             {
                 count = product.FirstOrDefault().Value - 1;
                 if (count == 0)
                 {
-                    _cookieService.Remove(context, new CookieData($"{_key}-{productId}", productId));
+                    _cookieService.Remove(context, new CookieData($"{_key}-{productId}-{priceId}", productId));
                     return new ServiceResult
                     {
                         Code = ServiceCode.Success,
-                        Message = "کالا با موفقیت از سبد شما حذف شد"
+                        Message = "کالا با موفقیت از سبد شما کم شد"
                     };
                 }
 
-                _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}", count));
+                _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", count));
                 return new ServiceResult
                 {
                     Code = ServiceCode.Success
@@ -127,9 +127,29 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             }
         }
 
-        var success = await Delete(Url, productId);
-        if (success.Code == ResultCode.Success) return new ServiceResult {Code = ServiceCode.Success};
-        return new ServiceResult {Code = ServiceCode.Error};
+        var success = await Update(Url, new PurchaseOrderViewModel{ Id = id}, "Decrease");
+        return Return(success);
+    }
+
+    public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId)
+    {
+        var currentUser = _cookieService.GetCurrentUser();
+        if (currentUser.Id == 0)
+        {
+            var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
+            if (product != null)
+            {
+                _cookieService.Remove(context, new CookieData($"{_key}-{productId}-{priceId}", productId));
+                return new ServiceResult
+                {
+                    Code = ServiceCode.Success,
+                    Message = "کالا با موفقیت از سبد شما حذف شد"
+                };
+            }
+        }
+
+        var success = await Delete(Url, id);
+        return Return(success);
     }
 
     public async Task<int> Count(HttpContext context)

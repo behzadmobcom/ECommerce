@@ -21,7 +21,12 @@ public class PurchaseOrderDetail : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public int SumPrice { get; set; }
 
-    [Display(Name = "تخفیف")] public int? DiscountAmount { get; set; }
+    [Display(Name = "شناسه قیمت")]
+    [Required(ErrorMessage = @"{0} را وارد کنید")]
+    public int PriceId { get; set; }
+
+    [Display(Name = "تخفیف")]
+    public int? DiscountAmount { get; set; }
 
     //ForeignKey
     public int? PurchaseOrderId { get; set; }

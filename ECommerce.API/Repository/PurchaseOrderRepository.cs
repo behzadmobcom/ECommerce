@@ -38,29 +38,24 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         CancellationToken cancellationToken)
     {
         var purchaseOrderViewModel = await _context.PurchaseOrderDetails
-            .Where(x => x.PurchaseOrder.UserId == userId && !x.PurchaseOrder.IsPaid &&
+            .Where(x => x.PurchaseOrder!.UserId == userId && !x.PurchaseOrder.IsPaid &&
                         x.PurchaseOrder.Status == Status.New)
-            .Include(x => x.PurchaseOrder)
-            .Include(x => x.PurchaseOrder.User)
-            .Include(x => x.Product)
-            .Include(x => x.Product.Images)
-            .Include(x => x.Product.Brand)
-            .Include(x => x.Product.Prices)
             .Select(p => new PurchaseOrderViewModel
             {
+                Id = p.Id,
                 ProductId = p.ProductId,
                 Url = p.Product.Url,
                 Name = p.Product.Name,
-                Price = p.Product.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
-                ImagePath = $"{p.Product.Images.FirstOrDefault().Path}/{p.Product.Images.FirstOrDefault().Name}",
-                Brand = p.Product.Brand.Name,
-                Alt = p.Product.Images.FirstOrDefault().Alt,
+                Price = p.UnitPrice,
+                PriceId = p.PriceId,
+                ImagePath = $"{p.Product.Images!.FirstOrDefault()!.Path}/{p.Product.Images!.FirstOrDefault()!.Name}",
+                Brand = p.Product.Brand!.Name,
+                Alt = p.Product.Images!.FirstOrDefault()!.Alt,
                 //Exist = p.Product.Exist,
-                IsColleague = p.PurchaseOrder.User.IsColleague,
-                UserId = p.PurchaseOrder.User.Id,
+                IsColleague = p.PurchaseOrder!.User!.IsColleague,
+                UserId = p.PurchaseOrder.UserId,
                 Quantity = p.Quantity,
-                SumPrice = p.Quantity *
-                           p.Product.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount
+                SumPrice = p.SumPrice
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;

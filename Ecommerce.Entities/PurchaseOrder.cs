@@ -49,7 +49,7 @@ public class PurchaseOrder : BaseEntity
     public Shipping? Shipping { get; set; }
 
     //ForeignKey
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
 
     [JsonIgnore] public User? User { get; set; }
 

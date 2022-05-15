@@ -46,7 +46,7 @@ public class SunflowerECommerceDbContext : IdentityDbContext<User, UserRole, int
     public virtual DbSet<ProductComment> ProductComments { get; set; }
     public virtual DbSet<ProductSellCount> ProductSellCounts { get; set; }
     public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-    public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+    public virtual DbSet<PurchaseOrder?> PurchaseOrders { get; set; }
     public virtual DbSet<SendInformation> SendInformation { get; set; }
     public virtual DbSet<Setting> Settings { get; set; }
     public virtual DbSet<Shipping> Shipping { get; set; }

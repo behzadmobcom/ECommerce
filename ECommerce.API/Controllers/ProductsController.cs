@@ -74,7 +74,7 @@ public class ProductsController : ControllerBase
         try
         {
             var pagination = new PaginationViewModel {SearchText = pageViewModel.SearchText};
-            var query = _productRepository.GetWithInclude(cancellationToken);
+            var query = _productRepository.Table;
 
             var cox = query.Count();
             if (string.IsNullOrEmpty(pageViewModel.SearchText))
@@ -226,7 +226,7 @@ public class ProductsController : ControllerBase
                     .ToListAsync(cancellationToken);
             }
 
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel);
             }
@@ -409,11 +409,13 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopStars(count, cancellationToken);
+            var productIndexPageViewModel = await _productRepository.TopStars(count, cancellationToken);
 
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel) product));
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            if(productIndexPageViewModel.Count<10)
+                productIndexPageViewModel.AddRange(await _productRepository.TopPrices(count*5, cancellationToken));
+
+            productIndexPageViewModel = productIndexPageViewModel.Distinct().Take(count).ToList();
+            if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel);
             return Ok(new ApiResult
             {

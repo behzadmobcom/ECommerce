@@ -47,22 +47,5 @@ public class ProductdetailsModel : PageModel
 
         Stars = await _starService.SumStarsByProductId(Product.Id);
     }
-
-    public async Task<JsonResult> OnGetAddCart(int id)
-    {
-        var result = await _cartService.Add(HttpContext, id);
-        return new JsonResult(result);
-    }
-
-    public async Task<JsonResult> OnGetLoadCart(int id)
-    {
-        var result = await _cartService.Load(HttpContext);
-        return new JsonResult(result);
-    }
-
-    public async Task<JsonResult> OnGetDeleteCart(int id)
-    {
-        var result = await _cartService.Delete(HttpContext, id);
-        return new JsonResult(result);
-    }
+  
 }

@@ -42,7 +42,7 @@
                     @*<del>5000 تومان</del>*@
                     <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
                 </div>
-                <a class="product-add" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Id)">
+                <a class="product-add" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id)">
                     <i class="far fa-shopping-cart"></i>
                 </a>
             </div>

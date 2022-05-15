@@ -62,9 +62,9 @@ public class IndexModel : PageModel
         return new JsonResult(result.Message);
     }
 
-    public async Task<JsonResult> OnGetAddCart(int id)
+    public async Task<JsonResult> OnGetAddCart(int id, int priceId)
     {
-        var result = await _cartService.Add(HttpContext, id);
+        var result = await _cartService.Add(HttpContext, id, priceId);
         return new JsonResult(result);
     }
 
@@ -91,9 +91,9 @@ public class IndexModel : PageModel
         return new JsonResult(ret);
     }
 
-    public async Task<JsonResult> OnGetDeleteCart(int id)
+    public async Task<JsonResult> OnGetDeleteCart(int id, int priceId)
     {
-        var result = await _cartService.Delete(HttpContext, id);
+        var result = await _cartService.Delete(HttpContext, id, priceId);
         return new JsonResult(result);
     }
 

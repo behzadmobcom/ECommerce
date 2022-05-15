@@ -7,5 +7,5 @@ public class PaginationViewModel
     public string? SearchText { get; set; }
     public int PagesQuantity { get; set; }
     public int ProductsCount { get; set; } = 0;
-    public List<Product>? Products { get; set; }
+    public List<Product> Products { get; set; }
 }

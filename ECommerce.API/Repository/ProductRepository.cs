@@ -257,7 +257,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Brand = p.Product.Brand!.Name,
                 Name = p.Product.Name,
                 Description = p.Product.Description,
-                Id = p.Id,
+                Id = p.Product.Id,
                 ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
@@ -278,7 +278,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Brand = p.Product.Brand!.Name,
                 Name = p.Product.Name,
                 Description = p.Product.Description,
-                Id = p.Id,
+                Id = p.Product.Id,
                 ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
@@ -333,14 +333,13 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Brand = p.Product.Brand!.Name,
                 Name = p.Product.Name,
                 Description = p.Product.Description,
-                Id = p.Id,
+                Id = p.Product.Id,
                 ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
             })
             .ToListAsync(cancellationToken);
-        if (products.Count < 5) products = await TopChip(count - products.Count, cancellationToken);
-
+        
         return products;
     }
 
@@ -356,7 +355,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Brand = p.Product.Brand!.Name,
                 Name = p.Product.Name,
                 Description = p.Product.Description,
-                Id = p.Id,
+                Id = p.Product.Id,
                 ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url

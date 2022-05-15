@@ -15,12 +15,19 @@ public class ColorService : EntityService<Color>, IColorService
         _http = http;
     }
 
-    public async Task<ServiceResult<List<Color>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
+    public async Task<ServiceResult<List<Color>>> Load()
     {
-        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        var result = await ReadList(Url, "GetAll");
         return Return(result);
     }
 
+    public async Task<ServiceResult<List<Color>>> GetAll(string search = "", int pageNumber = 0, int pageSize = 10)
+    {
+        var result = await ReadList(Url,
+            $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
+        return Return(result);
+    }
+ 
     public async Task<ServiceResult<List<Color>>> Filtering(string filter)
     {
         if (_colors == null)

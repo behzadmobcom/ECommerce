@@ -26,7 +26,7 @@ public class IndexModel : PageModel
     {
         Message = message;
         Code = code;
-        var result = await _colorService.Load(search, pageNumber, pageSize);
+        var result = await _colorService.GetAll(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;

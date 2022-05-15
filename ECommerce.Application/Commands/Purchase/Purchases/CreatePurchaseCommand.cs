@@ -6,6 +6,5 @@ public class CreatePurchaseCommand
     public int ProductId { get; set; }
     public int Quantity { get; set; }
     public bool IsColleague { get; set; }
-    public string? ArticleCode { get; set; }
-    public int SellNumber { get; set; }
+    public int PriceId { get; set; }
 }

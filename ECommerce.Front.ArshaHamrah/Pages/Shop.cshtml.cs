@@ -39,9 +39,9 @@ public class ShopModel : PageModel
         Categories = categoryResult.ReturnData;
     }
 
-    public async Task<JsonResult> OnGetAddCart(int id)
+    public async Task<JsonResult> OnGetAddCart(int id, int priceId)
     {
-        var result = await _cartService.Add(HttpContext, id);
+        var result = await _cartService.Add(HttpContext, id,  priceId);
         return new JsonResult(result);
     }
 
@@ -51,9 +51,9 @@ public class ShopModel : PageModel
         return new JsonResult(result);
     }
 
-    public async Task<JsonResult> OnGetDeleteCart(int id)
+    public async Task<JsonResult> OnGetDeleteCart(int id, int priceId)
     {
-        var result = await _cartService.Delete(HttpContext, id);
+        var result = await _cartService.Delete(HttpContext, id,  priceId);
         return new JsonResult(result);
     }
 }

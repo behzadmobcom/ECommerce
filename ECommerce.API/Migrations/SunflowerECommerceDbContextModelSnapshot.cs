@@ -3700,7 +3700,7 @@ namespace Ecommerce.API.Migrations
                     b.Property<int?>("TransactionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -3739,6 +3739,9 @@ namespace Ecommerce.API.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PriceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -4422,7 +4425,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "ecc608b0-97f8-4db6-8644-f9c227484692",
+                            ConcurrencyStamp = "d68c98e4-db93-4c97-8f04-4d287f94461e",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -4437,10 +4440,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIn6hpVH/6/0oDI7xVIxfYra1wiOREXBLvcV9LcXYNH1jhs4OuHknXf2ACxyWu9tQg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBefOGmJI+dbTy/UARLblqvzI8tHKIsNwTbtJS1xZoX4jXGKVGZC2lzS/ZLInBVcrw==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2022, 5, 14, 18, 28, 4, 955, DateTimeKind.Local).AddTicks(7015),
+                            RegisterDate = new DateTime(2022, 5, 15, 14, 10, 30, 380, DateTimeKind.Local).AddTicks(4626),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -4451,7 +4454,7 @@ namespace Ecommerce.API.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "80b793ea-031d-454b-9517-a05b297fda92",
+                            ConcurrencyStamp = "0c4a72d5-a98d-4ee1-8ce6-68b1643816a8",
                             Email = "sajjad.nazmi@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Sajjad",
@@ -4466,10 +4469,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAJJAD.NAZMI@GMAIL.COM",
                             NormalizedUserName = "SAJJADNAZMI",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOvr+EBB/v15bsRQYvn6MDSAFWBcq9QUC36QkrWdUl0Urs4M7SfVRa202LawCqyzdQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELmcmu1Ln3VCKd7GgpK5PRrVYcI3Ado1kUg0tEY4jWuNhXJM2iZ3QO0ebr7ZEcBt5g==",
                             PhoneNumber = "09119394726",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2022, 5, 14, 18, 28, 4, 967, DateTimeKind.Local).AddTicks(3556),
+                            RegisterDate = new DateTime(2022, 5, 15, 14, 10, 30, 391, DateTimeKind.Local).AddTicks(692),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "sajjadnazmi",
@@ -4510,21 +4513,21 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1001c56a-7634-4357-b3ad-506d40a3278f",
+                            ConcurrencyStamp = "0125fa97-be52-4082-94d9-d0875ecec70d",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "55358219-8862-44ae-8e35-31024aa34a6d",
+                            ConcurrencyStamp = "54acf78b-d848-42a6-a352-5baf38b296f7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "d0924059-3d82-4198-b753-e63ddfeb87ef",
+                            ConcurrencyStamp = "8fbc5a0c-03c8-4cfb-8eee-994e8217ec4d",
                             Name = "Client",
                             NormalizedName = "Client"
                         });
@@ -5062,7 +5065,9 @@ namespace Ecommerce.API.Migrations
 
                     b.HasOne("Entities.User", "User")
                         .WithMany("PurchaseOrders")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Accountant");
 

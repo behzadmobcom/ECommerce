@@ -16,18 +16,20 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IHolooArticleRepository _articleRepository;
     private readonly ILogger<PurchaseOrdersController> _logger;
     private readonly IProductRepository _productRepository;
+    private readonly IPriceRepository _priceRepository;
     private readonly IPurchaseOrderDetailRepository _purchaseOrderDetailRepository;
     private readonly IPurchaseOrderRepository _purchaseOrderRepository;
 
     public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
-        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository)
+        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository)
     {
         _purchaseOrderRepository = discountRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
         _productRepository = productRepository;
         _logger = logger;
         _articleRepository = articleRepository;
+        _priceRepository = priceRepository;
     }
 
     [HttpGet]
@@ -131,9 +133,9 @@ public class PurchaseOrdersController : ControllerBase
 
             var purchaseOrder = new PurchaseOrder();
             var purchaseOrderDetail = new PurchaseOrderDetail();
-            var product = await _productRepository.GetProductByIdWithInclude(createPurchaseCommand.ProductId)
-                .FirstOrDefaultAsync(cancellationToken);
-
+            var product = await _productRepository.GetByIdAsync(cancellationToken,createPurchaseCommand.ProductId);
+            var price = await _priceRepository.GetByIdAsync(cancellationToken, createPurchaseCommand.PriceId);
+          
             //var colleaguePrice = product.Prices.Where(x => x.IsColleague == createPurchaseCommand.IsColleague ).ToList();
             //var minPrice = colleaguePrice.Any()
             //    ? colleaguePrice.Where(x => x.MinQuantity <= createPurchaseCommand.Quantity).ToList()
@@ -144,24 +146,27 @@ public class PurchaseOrdersController : ControllerBase
             //var price = maxPrice ?? product.Prices.FirstOrDefault();
             var unitPrice = 0;
 
-            if (createPurchaseCommand.ArticleCode != null)
+            if (price.ArticleCode != null)
             {
-                var holooPrice = await _articleRepository.GetHolooPrice(createPurchaseCommand.ArticleCode,
-                    (Price.HolooSellNumber) createPurchaseCommand.SellNumber);
+                var holooPrice = await _articleRepository.GetHolooPrice(price.ArticleCode,
+                    (Price.HolooSellNumber)price.SellNumber);
                 if (holooPrice.exist - createPurchaseCommand.Quantity <= 0)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] {"کالا موجود نمی باشد"}
+                        Messages = new[] {"موجودی کالا به پایان رسید"}
                     });
                 unitPrice = holooPrice.price;
             }
             else
             {
-                var price = product?.Prices?.FirstOrDefault(prs =>
-                    prs.IsColleague == createPurchaseCommand.IsColleague &&
-                    prs.MinQuantity <= createPurchaseCommand.Quantity &&
-                    prs.MaxQuantity >= createPurchaseCommand.Quantity);
+              
+                if (price.Exist - createPurchaseCommand.Quantity <= 0)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.NotExist,
+                        Messages = new[] { "موجودی کالا به پایان رسید" }
+                    });
                 unitPrice = price?.Amount ?? 0;
             }
 
@@ -187,6 +192,7 @@ public class PurchaseOrdersController : ControllerBase
                         Name = product.Name,
                         UnitPrice = unitPrice,
                         ProductId = product.Id,
+                        PriceId = price!.Id,
                         Quantity = createPurchaseCommand.Quantity,
                         SumPrice = sumPrice
                     }, cancellationToken);
@@ -194,7 +200,12 @@ public class PurchaseOrdersController : ControllerBase
                     await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
                 }
 
-                return Ok(repetitivePurchaseOrder);
+                return Ok(new ApiResult()
+                {
+                    Messages = new[] { "کالا با موفقیت به سبد خرید اضافه شد" },
+                    Code = ResultCode.Success
+
+                });
             }
 
             purchaseOrder = await _purchaseOrderRepository.AddAsync(new PurchaseOrder
@@ -209,11 +220,17 @@ public class PurchaseOrdersController : ControllerBase
                 Name = product.Name,
                 UnitPrice = unitPrice,
                 ProductId = product.Id,
+                PriceId = price!.Id,
                 Quantity = createPurchaseCommand.Quantity,
                 SumPrice = sumPrice
             }, cancellationToken);
             purchaseOrder.PurchaseOrderDetails.Add(purchaseOrderDetail);
-            return Ok(purchaseOrder);
+            return Ok(new ApiResult()
+            {
+                Messages = new [] { "کالا با موفقیت به سبد خرید اضافه شد" },
+                Code = ResultCode.Success
+                    
+            });
         }
         catch (Exception e)
         {
@@ -247,7 +264,7 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-            await _purchaseOrderRepository.DeleteAsync(id, cancellationToken);
+            await _purchaseOrderDetailRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -257,6 +274,36 @@ public class PurchaseOrdersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Decrease(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    {
+        try
+        {
+           var purchaseOrderDetails =await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
+           purchaseOrderDetails.Quantity -= 1;
+            if (purchaseOrderDetails.Quantity <= 0)
+            {
+                await _purchaseOrderDetailRepository.DeleteAsync(purchaseOrderDetails.Id, cancellationToken);
+            }
+            else
+            {
+                await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
+            }
+            
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 }

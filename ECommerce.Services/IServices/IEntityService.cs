@@ -11,6 +11,7 @@ public interface IEntityService<T>
     Task<ApiResult<object>> Create(string url, T entity);
     Task<ApiResult<TResponse>> Create<TResponse>(string url, T entity);
     Task<ApiResult> Update(string url, T entity);
+    Task<ApiResult> Update(string url, T entity, string apiName);
     Task<ApiResult> UpdateWithReturnId(string url, T entity);
     Task<ApiResult> Delete(string url, int id);
     ServiceResult Return(ApiResult result);

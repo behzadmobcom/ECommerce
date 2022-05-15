@@ -99,6 +99,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<ProductViewModel>> Add(ProductViewModel productViewModel)
     {
+        if (productViewModel.BrandId == 0) productViewModel.BrandId = null;
         var result = await Create<ProductViewModel>(Url, productViewModel);
         return Return(result);
     }

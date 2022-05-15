@@ -27,10 +27,16 @@ public class BrandsController : ControllerBase
     {
         try
         {
+            var result = await _brandRepository.GetAll(cancellationToken);
+         var brands =   result.ToList();
+         brands.Insert(0,new Brand
+            {
+                Name = "بدون برند"
+            });
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _brandRepository.GetAll(cancellationToken)
+                ReturnData = brands
             });
         }
         catch (Exception e)

@@ -77,7 +77,14 @@ public class EntityService<T> : IEntityService<T>
             : new List<string> {"با موفقیت ویرایش شد"};
         return response;
     }
-
+    public async Task<ApiResult> Update(string url, T entity, string apiName)
+    {
+        var response = await _http.PutAsync(url, entity, apiName);
+        response.Messages = response.Code > 0
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ویرایش شد" };
+        return response;
+    }
     public async Task<ApiResult> Delete(string url, int entityId)
     {
         var response = await _http.DeleteAsync(url, entityId);
