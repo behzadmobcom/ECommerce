@@ -53,6 +53,12 @@ public class PurchaseOrder : BaseEntity
 
     [JsonIgnore] public User? User { get; set; }
 
+    public int? PaymentMethodId { get; set; }
+    public PaymentMethod? PaymentMethod { get; set; }
+
+    public int? SendInformationId { get; set; }
+    public SendInformation? SendInformation { get; set; }
+
     public ICollection<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }
 
     // نام مدیر فروش تائید کننده را باز میگرداند

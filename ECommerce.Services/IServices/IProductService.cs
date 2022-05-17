@@ -11,7 +11,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult> Edit(ProductViewModel productViewModel);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult<ProductViewModel>> FillProductEdit(ProductViewModel productViewModel);
-    Task<ServiceResult<PaginationViewModel>> Search(string searchText, int page, int quantityPerPage = 9);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string searchText, int page, int quantityPerPage = 9);
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1);

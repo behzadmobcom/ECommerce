@@ -1,7 +1,7 @@
 ﻿@page
 @model ArshaHamrah.Areas.Admin.Pages.Products.IndexModel
 @{
-    var i = 1 + (Model.PaginationViewModel.Page - 1) * Model.PaginationViewModel.QuantityPerPage;
+    var i = 1 + (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize;
 }
 
 <div class="card card-custom gutter-b">
@@ -41,7 +41,7 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.PaginationViewModel.SearchText"/>
+                        <input type="text" name="search" value="@Model.Products.PaginationDetails.Search"/>
                         <input type="text" hidden="hidden" name="pageIndex" value="1"/>
                         <input type="submit" value="بجو" class="btn btn-primary"/> |
                         تعداد رکورد ها در صفحه :
@@ -63,7 +63,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var product in Model.PaginationViewModel.Products)
+                    @foreach (var product in Model.Products.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
@@ -80,37 +80,7 @@
                     }
                     </tbody>
                 </table>
-
-                @{
-                    var prevDisabled = Model.PaginationViewModel.Page == 1 ? "disabled" : "";
-                    var nextDisabled = Model.PaginationViewModel.PagesQuantity == Model.PaginationViewModel.Page ? "disabled" : "";
-                }
-
-                <a asp-page="/Products/Index"
-                   asp-route-pageIndex="@(Model.PaginationViewModel.Page - 1)"
-                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
-                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex <= Model.PaginationViewModel.PagesQuantity; pageIndex++)
-                {
-                    var activePage = Model.PaginationViewModel.Page == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/Products/Index"
-                       asp-route-pageIndex="@pageIndex"
-                       asp-route-search="@Model.PaginationViewModel.SearchText"
-                       asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/Products/Index"
-                   asp-route-pageIndex="@(Model.PaginationViewModel.Page + 1)"
-                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
-                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>
+                <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
             </div>
 
         </div>

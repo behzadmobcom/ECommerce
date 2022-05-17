@@ -10,7 +10,8 @@ public class PurchaseOrderViewModel
     public string? ImagePath { get; set; }
     public string? Alt { get; set; }
     public int PriceId { get; set; }
-    public int Price { get; set; }
+    public Price Price { get; set; }
+    public int PriceAmount { get; set; }
     public int SumPrice { get; set; }
     public int Quantity { get; set; }
     public double Exist { get; set; }

@@ -70,7 +70,7 @@
     <!-- grid-view -->
     <div role="tabpanel" class="tab-pane active" id="grid-view">
         <div class="row">
-            @foreach (var product in Model.Pagination.Products)
+            @foreach (var product in Model.Products.ReturnData)
             {
                 <!-- product-item start -->
                 <div class="col-md-4 col-sm-4 col-xs-12">
@@ -78,9 +78,9 @@
                         <div class="product-img">
                             <a asp-page="Product" asp-route-productUrl="@product.Url">
 
-                                @if (product.Images.Any())
+                                @if (product.ImagePath!=null)
                                 {
-                                    <img src="~/@($"{product.Images.FirstOrDefault()?.Path}/{product.Images.FirstOrDefault()?.Name}")" alt="@product.Images.FirstOrDefault()?.Alt">
+                                    <img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
                                 }
                                 else
                                 {
@@ -145,7 +145,7 @@
     <!-- list-view -->
     <div role="tabpanel" class="tab-pane" id="list-view">
         <div class="row">
-            @foreach (var product in Model.Pagination.Products)
+            @foreach (var product in Model.Products.ReturnData)
             {
                 <!-- product-item start -->
                 <div class="col-md-12">
@@ -153,9 +153,9 @@
                         <div class="product-img">
                             <a asp-page="Product" asp-route-productUrl="@product.Url">
 
-                                @if (product.Images.Any())
+                                @if (product.ImagePath!=null)
                                 {
-                                    <img src="~/@($"{product.Images.FirstOrDefault()?.Path}/{product.Images.FirstOrDefault()?.Name}")" alt="@product.Images.FirstOrDefault()?.Alt">
+                                    <img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
                                 }
                                 else
                                 {
@@ -231,9 +231,9 @@
         </a>
     </li>
 
-    @for (var i = 1; i <= Model.Pagination.PagesQuantity; i++)
+    @for (var i = 1; i <= Model.Products.PaginationDetails.PageSize; i++)
     {
-        if (i == Model.Pagination.Page)
+        if (i == Model.Products.PaginationDetails.CurrentPage)
         {
             <li class="active">
                 <a href="#">@i.ToString("D2")</a>

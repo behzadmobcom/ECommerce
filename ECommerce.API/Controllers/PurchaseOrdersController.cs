@@ -31,7 +31,21 @@ public class PurchaseOrdersController : ControllerBase
         _articleRepository = articleRepository;
         _priceRepository = priceRepository;
     }
+    private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
+        List<PurchaseOrderViewModel> products)
+    {
+        foreach (var product in products.Where(x => x.Price.ArticleCode != null))
+            if (product.Price.SellNumber != null && product.Price.SellNumber != Price.HolooSellNumber.خالی)
+            {
+                var article = await _articleRepository.GetHolooPrice(product.Price.ArticleCode,
+                    product.Price.SellNumber!.Value);
+                product.PriceAmount = article.price / 10;
+                product.Exist = (double)article.exist;
+                product.SumPrice = product.PriceAmount * product.Quantity;
+            }
 
+        return products;
+    }
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
@@ -61,7 +75,7 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -87,7 +101,7 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -98,6 +112,7 @@ public class PurchaseOrdersController : ControllerBase
         try
         {
             var result = await _purchaseOrderRepository.GetProductListByUserId(userId, cancellationToken);
+           
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -105,6 +120,8 @@ public class PurchaseOrdersController : ControllerBase
                     ReturnData = new List<PurchaseOrderViewModel>()
                 });
 
+            if (result.Any(x => x.Price.ArticleCode != null))
+                result = await AddPriceAndExistFromHolooList(result.ToList());
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
@@ -114,7 +131,7 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -133,9 +150,9 @@ public class PurchaseOrdersController : ControllerBase
 
             var purchaseOrder = new PurchaseOrder();
             var purchaseOrderDetail = new PurchaseOrderDetail();
-            var product = await _productRepository.GetByIdAsync(cancellationToken,createPurchaseCommand.ProductId);
+            var product = await _productRepository.GetByIdAsync(cancellationToken, createPurchaseCommand.ProductId);
             var price = await _priceRepository.GetByIdAsync(cancellationToken, createPurchaseCommand.PriceId);
-          
+
             //var colleaguePrice = product.Prices.Where(x => x.IsColleague == createPurchaseCommand.IsColleague ).ToList();
             //var minPrice = colleaguePrice.Any()
             //    ? colleaguePrice.Where(x => x.MinQuantity <= createPurchaseCommand.Quantity).ToList()
@@ -154,13 +171,13 @@ public class PurchaseOrdersController : ControllerBase
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] {"موجودی کالا به پایان رسید"}
+                        Messages = new[] { "موجودی کالا به پایان رسید" }
                     });
                 unitPrice = holooPrice.price;
             }
             else
             {
-              
+
                 if (price.Exist - createPurchaseCommand.Quantity <= 0)
                     return Ok(new ApiResult
                     {
@@ -227,15 +244,15 @@ public class PurchaseOrdersController : ControllerBase
             purchaseOrder.PurchaseOrderDetails.Add(purchaseOrderDetail);
             return Ok(new ApiResult()
             {
-                Messages = new [] { "کالا با موفقیت به سبد خرید اضافه شد" },
+                Messages = new[] { "کالا با موفقیت به سبد خرید اضافه شد" },
                 Code = ResultCode.Success
-                    
+
             });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -254,7 +271,7 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -273,7 +290,7 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -284,8 +301,8 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-           var purchaseOrderDetails =await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
-           purchaseOrderDetails.Quantity -= 1;
+            var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
+            purchaseOrderDetails.Quantity -= 1;
             if (purchaseOrderDetails.Quantity <= 0)
             {
                 await _purchaseOrderDetailRepository.DeleteAsync(purchaseOrderDetails.Id, cancellationToken);
@@ -294,7 +311,7 @@ public class PurchaseOrdersController : ControllerBase
             {
                 await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
             }
-            
+
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success

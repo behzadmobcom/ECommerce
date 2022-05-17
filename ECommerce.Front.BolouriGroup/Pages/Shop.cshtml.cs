@@ -25,7 +25,7 @@ public class ShopModel : PageModel
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public Dictionary<int, string> Brands { get; set; }
 
-    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 12, int productSort = 1,
+    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 20, int productSort = 1,
         string message = null, string code = null)
     {
         string? categoryId = null;

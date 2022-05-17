@@ -1,6 +1,8 @@
 ﻿using API.DataContext;
 using API.Interface;
+using API.Utilities;
 using Entities;
+using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
@@ -222,6 +224,29 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return products;
     }
 
+    public async Task<PagedList<ProductIndexPageViewModel>> Search(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
+    {
+        return PagedList<ProductIndexPageViewModel>.ToPagedList(
+            await _context.Products.Where(x => x.Name.Contains(paginationParameters.Search))
+                .AsNoTracking()
+                .OrderBy(on => on.Id)
+                .Select(p => new ProductIndexPageViewModel
+                {
+                    Prices = p.Prices!,
+                    Alt = p.Images!.First().Alt,
+                    Brand = p.Brand!.Name,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Id = p.Id,
+                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                    Stars = p.Star,
+                    Url = p.Url
+                })
+                .ToListAsync(cancellationToken),
+            paginationParameters.PageNumber,
+            paginationParameters.PageSize);
+    }
 
     #region Tops
 

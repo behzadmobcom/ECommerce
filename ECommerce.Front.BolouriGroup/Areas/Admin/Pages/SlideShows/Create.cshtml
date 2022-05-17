@@ -35,7 +35,7 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" id="searchId" value="@Model.PaginationViewModel.SearchText"/>
+                        <input type="text" id="searchId" value="@Model.Products.PaginationDetails.Search"/>
                         <input type="button" id="searchBtn" value="بجو" class="btn btn-primary"/>
                     </p>
                 </div>
@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label>انتخاب نام کالا</label>
                             <select id="cmbProduct" name="SlideShow.ProductId">
-                                @foreach (var product in Model.PaginationViewModel.Products)
+                                @foreach (var product in Model.Products.ReturnData)
                                 {
                                     <option value="@product.Id">@product.Name</option>
                                 }

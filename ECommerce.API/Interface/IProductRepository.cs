@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using API.Utilities;
+using Entities;
+using Entities.Helper;
 using Entities.ViewModel;
 
 namespace API.Interface;
@@ -31,6 +33,9 @@ public interface IProductRepository : IAsyncRepository<Product>
     IQueryable<Product?> GetProducts(List<int>? brandsId, List<int>? starsCount, List<int>? tagsId);
 
     Task<List<Product>> GetByCategoryId(int categoryId, CancellationToken cancellationToken);
+
+    Task<PagedList<ProductIndexPageViewModel>> Search(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken);
 
     #region Tops
 

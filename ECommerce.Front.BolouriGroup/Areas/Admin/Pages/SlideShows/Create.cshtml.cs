@@ -27,8 +27,8 @@ public class CreateModel : PageModel
 
     [BindProperty] public IFormFile Upload { get; set; }
 
-    public PaginationViewModel PaginationViewModel { get; set; }
-
+    //public PaginationViewModel PaginationViewModel { get; set; }
+    public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
@@ -36,13 +36,23 @@ public class CreateModel : PageModel
     public async Task OnGet()
     {
         var result = await _productService.Search("", 1, 30);
-        PaginationViewModel = result.ReturnData;
+        if (result.Code == ServiceCode.Success)
+        {
+            Message = result.Message;
+            Code = result.Code.ToString();
+            Products = result;
+        }
     }
 
     public async Task<IActionResult> OnPost()
     {
         var resultProduct = await _productService.Search("", 1, 30);
-        PaginationViewModel = resultProduct.ReturnData;
+        if (resultProduct.Code == ServiceCode.Success)
+        {
+            Message = resultProduct.Message;
+            Code = resultProduct.Code.ToString();
+            Products = resultProduct;
+        }
 
         if (Upload == null)
         {
@@ -73,7 +83,12 @@ public class CreateModel : PageModel
     public async Task<JsonResult> OnGetReturnProducts(string search = "")
     {
         var result = await _productService.Search(search, 1, 30);
-        PaginationViewModel = result.ReturnData;
-        return new JsonResult(PaginationViewModel.Products);
+        if (result.Code == ServiceCode.Success)
+        {
+            Message = result.Message;
+            Code = result.Code.ToString();
+        }
+        return new JsonResult(result.ReturnData);
+
     }
 }

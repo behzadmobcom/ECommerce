@@ -53,7 +53,7 @@
                                             @{ var sum = 0; }
                                             @foreach (var product in Model.CartList.ReturnData)
                                             {
-                                                sum = sum + product.Price* product.Quantity;
+                                                sum = sum + product.PriceAmount* product.Quantity;
                                                 <!-- tr -->
                                                 <tr id="Cart-@product.ProductId">
                                                     <td class="product-thumbnail">
@@ -67,7 +67,7 @@
                                                             <p>برند: @product.Brand</p>
                                                         </div>
                                                     </td>
-                                                    <td>@product.Price.ToString("N0") تومان</td>
+                                                    <td>@product.PriceAmount.ToString("N0") تومان</td>
                                                     <input hidden="hidden" id="price-@product.ProductId" value="@product.Price"/>
 
                                                     <td class="product-quantity">

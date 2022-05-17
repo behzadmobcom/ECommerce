@@ -116,17 +116,24 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(result);
     }
 
-    public async Task<ServiceResult<PaginationViewModel>> Search(string searchText, int page, int quantityPerPage = 9)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string search = "", int pageNumber = 0, int pageSize = 9)
     {
-        var pageViewModel = new PageViewModel
-        {
-            Page = page,
-            QuantityPerPage = quantityPerPage,
-            SearchText = searchText
-        };
-        var result = await _http.PostAsync<PageViewModel, PaginationViewModel>(Url, pageViewModel, "Search");
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+            $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
         return Return(result);
     }
+
+    //public async Task<ServiceResult<PaginationViewModel>> Search(string searchText, int page, int quantityPerPage = 9)
+    //{
+    //    var pageViewModel = new PageViewModel
+    //    {
+    //        Page = page,
+    //        QuantityPerPage = quantityPerPage,
+    //        SearchText = searchText
+    //    };
+    //    var result = await _http.PostAsync<PageViewModel, PaginationViewModel>(Url, pageViewModel, "Search");
+    //    return Return(result);
+    //}
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1)

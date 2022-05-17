@@ -131,6 +131,16 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         return Return(success);
     }
 
+    public Task<Guid> PreFactor(int orderId, string refId, int amount)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Guid> PreFactor(HttpContext context)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
@@ -152,9 +162,5 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         return Return(success);
     }
 
-    public async Task<int> Count(HttpContext context)
-    {
-        var cartList = await Load(context);
-        return cartList.ReturnData.Count;
-    }
+   
 }

@@ -40,10 +40,10 @@ public class IndexModel : PageModel
     {
         NewTop8Products = (await _productService.TopProducts("", 0, 8)).ReturnData;
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
-        NewProducts = (await _productService.TopProducts()).ReturnData;
-        ExpensiveProducts = (await _productService.TopProducts("", 0, 4, 4)).ReturnData;
-        StarProducts = (await _productService.TopProducts("", 0, 10, 2)).ReturnData;
-        SellProducts = (await _productService.TopProducts("", 0, 10, 5)).ReturnData;
+        NewProducts = (await _productService.TopNew()).ReturnData;
+        ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
+        StarProducts = (await _productService.TopStars(10)).ReturnData;
+        SellProducts = (await _productService.TopSells(10)).ReturnData;
 
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
@@ -91,9 +91,9 @@ public class IndexModel : PageModel
         return new JsonResult(ret);
     }
 
-    public async Task<JsonResult> OnGetDeleteCart(int id, int priceId)
+    public async Task<JsonResult> OnGetDeleteCart(int id, int productId, int priceId)
     {
-        var result = await _cartService.Delete(HttpContext, id, priceId);
+        var result = await _cartService.Delete(HttpContext, id,  productId, priceId);
         return new JsonResult(result);
     }
 

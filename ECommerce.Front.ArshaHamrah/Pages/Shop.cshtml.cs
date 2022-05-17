@@ -1,4 +1,5 @@
 using Entities;
+using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,11 +26,17 @@ public class ShopModel : PageModel
 
     public List<Category> Categories { get; set; }
     public bool IsColleague { get; set; }
-    public PaginationViewModel Pagination { get; set; }
+    //public PaginationViewModel Pagination { get; set; }
+    public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
 
     public async Task OnGet(string categoryUrl)
     {
-        Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
+        // Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
+        var resultSearch = await _productService.Search(categoryUrl, 1, 10);
+        if (resultSearch.Code == ServiceCode.Success)
+        {
+            Products = resultSearch;
+        }
 
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
@@ -51,9 +58,9 @@ public class ShopModel : PageModel
         return new JsonResult(result);
     }
 
-    public async Task<JsonResult> OnGetDeleteCart(int id, int priceId)
+    public async Task<JsonResult> OnGetDeleteCart(int id,int productId, int priceId)
     {
-        var result = await _cartService.Delete(HttpContext, id,  priceId);
+        var result = await _cartService.Delete(HttpContext, id, productId, priceId);
         return new JsonResult(result);
     }
 }

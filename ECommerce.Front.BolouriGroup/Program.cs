@@ -20,7 +20,10 @@ builder.Services.AddRazorPages(options =>
     //options.Conventions.AuthorizeFolder("/Register");
     options.Conventions.AuthorizeFolder("/");
     options.Conventions.AllowAnonymousToPage("/Login");
+    options.Conventions.AllowAnonymousToPage("/Coming-Soon");
 });
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 builder.Services.AddMvc().AddRazorPagesOptions(options =>
 {
@@ -94,7 +97,7 @@ builder.Services.AddScoped<IWishListService, WishListService>();
 #endregion
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+var mvcBuilder =builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -102,6 +105,7 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+    mvcBuilder.AddRazorRuntimeCompilation();
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }

@@ -23,9 +23,9 @@ public class CartModel : PageModel
         CartList = await _cartService.Load(HttpContext);
     }
 
-    public async Task<JsonResult> OnGetRemoveCart(int id, int priceId)
+    public async Task<JsonResult> OnGetRemoveCart(int id,int productId, int priceId)
     {
-        var result = await _cartService.Delete(HttpContext, id, priceId);
+        var result = await _cartService.Delete(HttpContext, id, productId, priceId);
         return new JsonResult(result);
     }
 }

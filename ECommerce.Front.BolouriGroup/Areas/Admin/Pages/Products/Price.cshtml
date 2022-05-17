@@ -232,13 +232,17 @@
                         <option value="@mGroup.S_groupcode">@mGroup.S_groupname</option>
                     }
                 </select>
-                <input type="text" id="searchId" name="search" placeholder="جستجو کالا . . ." title="نام مورد نظر را وارد کنید" class="form-control form-control-solid" onkeyup="filter()">
+                <input type="text" id="searchNameId" name="search" placeholder="جستجو کالا براساس نام . . ." title="نام مورد نظر را وارد کنید" class="form-control form-control-solid" onkeyup="filterOnName()">
+               
                 <select id="articleId" class="col-md-12 js-example-basic-single  form-control">
                     @foreach (var mGroup in Model.HolooArticle)
                     {
                         <option value="@mGroup.Id">@mGroup.Name</option>
                     }
                 </select>
+                <br/>
+                <input type="text" id="searchCodeId" name="search" placeholder="جستجوری کالا براساس کد . . ." title="کد مورد نظر را وارد کنید" class="form-control form-control-solid">
+                <button type="button"  class="btn btn-secondary col-md-12"  onclick="filterOnCode()">جستجو براساس کد</button>
                 <div id="articleDescriptionId"></div>
             </div>
             <div class="modal-footer">
@@ -255,6 +259,42 @@
     <script type="text/javascript">
         var holooArticles = new Array();
         var article = new Object();
+
+        function filterOnName() {
+            var keyword = $("#searchNameId").val();
+            var select = document.getElementById("articleId");
+            for (var i = 0; i < select.length; i++) {
+                var txt = select.options[i].text;
+                if (!txt.match(keyword)) {
+                    $(select.options[i]).attr('disabled', 'disabled').hide();
+                } else {
+                    $(select.options[i]).removeAttr('disabled').show();
+                }
+
+            }
+        }
+
+          function filterOnCode() {
+           
+            var keyword = $("#searchCodeId").val();
+            article = holooArticles.find(obj => {
+                return obj.a_Code_C == keyword;
+            });
+                  $("#articleDescriptionId").html(
+                  "<p>" +
+                  "کد کالا : " +
+                  article.a_Code_C +
+                  "</p>" +
+                  "<p>" +
+                  "نام : " +
+                  article.a_Name +
+                  "</p>" +
+                  "<p>" +
+                  "موجودی : " +
+                  article.exist +
+                  "</p>"
+              );
+        }
 
         $('#mGroupId').on("change",
             function() {

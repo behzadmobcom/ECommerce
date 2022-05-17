@@ -1,7 +1,7 @@
 ﻿@page
 @model Bolouri.Areas.Admin.Pages.Products.IndexModel
 @{
-    var i = 1 + (Model.PaginationViewModel.Page - 1) * Model.PaginationViewModel.QuantityPerPage;
+    var i = 1 + (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize;
 }
 
 <div class="card card-custom gutter-b">
@@ -41,7 +41,7 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.PaginationViewModel.SearchText"/>
+                        <input type="text" name="search" value="@Model.Products.PaginationDetails.Search"/>
                         <input type="text" hidden="hidden" name="pageIndex" value="1"/>
                         <input type="submit" value="بجو" class="btn btn-primary"/> |
                         تعداد رکورد ها در صفحه :
@@ -63,9 +63,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if (Model.PaginationViewModel.Products != null)
+                    @if (Model.Products.ReturnData != null)
                     {
-                        foreach (var product in Model.PaginationViewModel.Products)
+                        foreach (var product in Model.Products.ReturnData)
                         {
                             <tr>
                                 <th scope="row">@(i++)</th>
@@ -83,7 +83,7 @@
                     }
                     </tbody>
                 </table>
-
+                @*
                 @{
                     var prevDisabled = Model.PaginationViewModel.Page == 1 ? "disabled" : "";
                     var nextDisabled = Model.PaginationViewModel.PagesQuantity == Model.PaginationViewModel.Page ? "disabled" : "";
@@ -113,7 +113,8 @@
                    asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
                    class="btn btn-primary @nextDisabled">
                     بعدی
-                </a>
+                </a>*@
+                <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
             </div>
 
         </div>
@@ -125,24 +126,7 @@
 {
 
     <script>
-        function filter() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchId");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("productTableId");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
+    
     </script>
 
 }

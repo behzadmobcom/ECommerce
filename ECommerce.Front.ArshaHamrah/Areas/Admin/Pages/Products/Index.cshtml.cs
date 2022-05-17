@@ -1,3 +1,4 @@
+using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,7 +15,8 @@ public class IndexModel : PageModel
         _productService = productService;
     }
 
-    public PaginationViewModel PaginationViewModel { get; set; }
+    //public PaginationViewModel PaginationViewModel { get; set; }
+    public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
 
     [TempData] public string Message { get; set; }
 
@@ -26,6 +28,11 @@ public class IndexModel : PageModel
         Message = message;
         Code = code;
         var result = await _productService.Search(search, pageIndex, quantityPerPage);
-        PaginationViewModel = result.ReturnData;
+        if (result.Code == ServiceCode.Success)
+        {
+            Message = result.Message;
+            Code = result.Code.ToString();
+            Products = result;
+        }
     }
 }

@@ -53,7 +53,7 @@ public class ProductsController : ControllerBase
 
         return products;
     }
-
+  
     private async Task<Product> AddPriceAndExistFromHoloo(Product product)
     {
         foreach (var productPrices in product.Prices)
@@ -68,12 +68,48 @@ public class ProductsController : ControllerBase
         return product;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _productRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
+
+           
+
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> Search([FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
     {
         try
         {
-            var pagination = new PaginationViewModel {SearchText = pageViewModel.SearchText};
+            var pagination = new PaginationViewModel { SearchText = pageViewModel.SearchText };
             var query = _productRepository.Table;
 
             var cox = query.Count();
@@ -83,8 +119,8 @@ public class ProductsController : ControllerBase
                 pagination.ProductsCount = query.Count();
                 pagination.Page = pageViewModel.Page;
                 pagination.QuantityPerPage = pageViewModel.QuantityPerPage;
-                var temp = (double) pagination.ProductsCount / pageViewModel.QuantityPerPage;
-                pagination.PagesQuantity = (int) Math.Ceiling(temp);
+                var temp = (double)pagination.ProductsCount / pageViewModel.QuantityPerPage;
+                pagination.PagesQuantity = (int)Math.Ceiling(temp);
 
                 //if (pagination.Products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 //{
@@ -104,7 +140,7 @@ public class ProductsController : ControllerBase
                 .Paginate(pageViewModel);
             pagination.ProductsCount = query.Count(x => x.Name.Contains(pageViewModel.SearchText.Substring(1)));
             pagination.PagesQuantity =
-                (int) Math.Ceiling((double) (pagination.ProductsCount / pageViewModel.QuantityPerPage));
+                (int)Math.Ceiling((double)(pagination.ProductsCount / pageViewModel.QuantityPerPage));
             pagination.Page = pageViewModel.Page;
 
             //if (pagination.Products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
@@ -140,7 +176,7 @@ public class ProductsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
