@@ -1,4 +1,6 @@
 ﻿using ECommerce.Services.IServices;
+using Entities;
+using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ZarinpalSandbox;
@@ -8,15 +10,19 @@ namespace Bolouri.Pages;
 public class InvoiceModel : PageModel
 {
     private readonly IPurchaseOrderService _purchaseOrderService;
+    private readonly ICartService _cartService;
 
     public string Refid { get; set; }
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
+    public PurchaseOrder PurchaseOrder { get; set; }
+    public List<PurchaseOrderViewModel> CartList { get; set; }
 
-    public InvoiceModel(IPurchaseOrderService purchaseOrderService)
+    public InvoiceModel(IPurchaseOrderService purchaseOrderService, ICartService cartService)
     {
         _purchaseOrderService = purchaseOrderService;
+        _cartService = cartService;
     }
 
 
@@ -26,8 +32,8 @@ public class InvoiceModel : PageModel
             string.IsNullOrEmpty(factor) == false && status.ToLower() == "ok")
         {
             var resultOrder = await _purchaseOrderService.GetByUserId();
-            var order = resultOrder.ReturnData;
-            var amount = order.Amount;
+            PurchaseOrder = resultOrder.ReturnData;
+            var amount = PurchaseOrder.Amount;
             var statusInt = await new Payment(amount).Verification(authority);
             switch (statusInt.Status)
             {
@@ -49,11 +55,12 @@ public class InvoiceModel : PageModel
                 case 100:
                 case 101:
                     //Success
+                    CartList = (await _cartService.CartListFromServer()).ReturnData;
                     Refid = statusInt.RefId.ToString();
-                    order.Transaction = new();
-                    order.Transaction.RefId = Refid;
-                    order.Transaction.Amount = amount;
-                    var result = await _purchaseOrderService.Pay(order);
+                    PurchaseOrder.Transaction = new();
+                    PurchaseOrder.Transaction.RefId = Refid;
+                    PurchaseOrder.Transaction.Amount = amount;
+                    var result = await _purchaseOrderService.Pay(PurchaseOrder);
                     Message = result.Message;
                     Code = result.Code.ToString();
 

@@ -19,7 +19,6 @@ public class Transaction : BaseEntity
 
     //ForeignKey
     public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
-    public ICollection<int>? PurchaseOrdersId { get; set; }
 
     public int? UserId { get; set; }
     public User? User { get; set; }

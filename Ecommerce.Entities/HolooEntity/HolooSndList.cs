@@ -8,7 +8,7 @@ namespace Ecommerce.Entities.HolooEntity
 {
     public class HolooSndList
     {
-        public HolooSndList(int sanad_Code, string col_Code, string moien_Code, string tafzili_Code, double? bed, double? bes, string comment_Line)
+        public HolooSndList(int sanad_Code,string col_Code, string moien_Code, string tafzili_Code, double? bed, double? bes, string comment_Line)
         {
             Sanad_Code = sanad_Code;
             Col_Code = col_Code ;

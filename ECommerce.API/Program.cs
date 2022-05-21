@@ -177,6 +177,8 @@ builder.Services.AddScoped<IHolooMGroupRepository, HolooMGroupRepository>();
 builder.Services.AddScoped<IHolooSGroupRepository, HolooSGroupRepository>();
 builder.Services.AddScoped<IHolooSanadRepository, HolooSanadRepository>();
 builder.Services.AddScoped<IHolooSanadListRepository, HolooSanadListRepository>();
+builder.Services.AddScoped<IHolooABailRepository, HolooABailRepository>();
+builder.Services.AddScoped<IHolooFBailRepository, HolooFBailRepository>();
 
 #endregion
 

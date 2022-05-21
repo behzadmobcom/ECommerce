@@ -21,7 +21,7 @@ public class HolooDbContext : DbContext
     public virtual DbSet<HolooMGroup> M_GROUP { get; set; }
     public virtual DbSet<HolooSGroup> S_GROUP { get; set; }
     public virtual DbSet<HolooSanad> Sanad { get; set; }
-    public virtual DbSet<HolooSndList> SanadList { get; set; }
+    public virtual DbSet<HolooSndList> Snd_List { get; set; }
     public virtual DbSet<HolooUnit> UNIT { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,7 +45,7 @@ public class HolooDbContext : DbContext
         modelBuilder.Entity<HolooSanad>()
         .HasKey(c => new { c.Sanad_Code });
         modelBuilder.Entity<HolooSndList>()
-      .HasKey(c => new { c.Sanad_Code,c.Index });
+      .HasKey(c => new { c.Index });
         modelBuilder.Entity<HolooUnit>()
             .HasKey(c => new {c.Unit_Code});
     }

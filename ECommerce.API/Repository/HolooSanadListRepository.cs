@@ -2,6 +2,7 @@
 using API.Repository;
 using Ecommerce.Entities.HolooEntity;
 using ECommerce.API.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Repository
 {
@@ -14,9 +15,10 @@ namespace ECommerce.API.Repository
             _context = context;
         }
 
-        public async Task<bool> AddRang(IEnumerable<HolooSndList> sanadLists, CancellationToken cancellationToken)
+        public async Task<bool> Add(HolooSndList sanadList, CancellationToken cancellationToken)
         {
-           await _context.SanadList.AddRangeAsync(sanadLists, cancellationToken);
+            _context.Entry(sanadList).State = EntityState.Detached;
+            await _context.Snd_List.AddAsync(sanadList, cancellationToken);
            var result= await _context.SaveChangesAsync();
             return result == 0;
         }
