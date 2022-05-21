@@ -1,4 +1,5 @@
-﻿using Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
+using Entities.HolooEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.DataContext;
@@ -19,6 +20,8 @@ public class HolooDbContext : DbContext
     public virtual DbSet<HolooFBail> FBAILPRE { get; set; }
     public virtual DbSet<HolooMGroup> M_GROUP { get; set; }
     public virtual DbSet<HolooSGroup> S_GROUP { get; set; }
+    public virtual DbSet<HolooSanad> Sanad { get; set; }
+    public virtual DbSet<HolooSndList> SanadList { get; set; }
     public virtual DbSet<HolooUnit> UNIT { get; set; }
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +42,10 @@ public class HolooDbContext : DbContext
             .HasKey(c => new {c.M_groupcode});
         modelBuilder.Entity<HolooSGroup>()
             .HasKey(c => new {c.M_groupcode, c.S_groupcode});
+        modelBuilder.Entity<HolooSanad>()
+        .HasKey(c => new { c.Sanad_Code });
+        modelBuilder.Entity<HolooSndList>()
+      .HasKey(c => new { c.Sanad_Code,c.Index });
         modelBuilder.Entity<HolooUnit>()
             .HasKey(c => new {c.Unit_Code});
     }

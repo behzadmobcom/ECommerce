@@ -4,7 +4,8 @@ namespace Entities;
 
 public class Transaction : BaseEntity
 {
-    [Display(Name = "تاریخ فاکتور")] public DateTime TransactionDate { get; set; }
+    [Display(Name = "تاریخ فاکتور")] 
+    public DateTime TransactionDate { get; set; }
 
     [Display(Name = "قابل پرداخت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
@@ -18,6 +19,7 @@ public class Transaction : BaseEntity
 
     //ForeignKey
     public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
+    public ICollection<int>? PurchaseOrdersId { get; set; }
 
     public int? UserId { get; set; }
     public User? User { get; set; }

@@ -1,4 +1,6 @@
 ﻿using API.Interface;
+using Ecommerce.Entities.HolooEntity;
+using ECommerce.API.Interface;
 using ECommerce.Application.Commands.Purchase;
 using Entities;
 using Entities.Helper;
@@ -19,11 +21,14 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IPriceRepository _priceRepository;
     private readonly IPurchaseOrderDetailRepository _purchaseOrderDetailRepository;
     private readonly IPurchaseOrderRepository _purchaseOrderRepository;
-    private readonly ITransactionRepository _transactionRepository;
+    private readonly IHolooABailRepository _holooABailRepository;
+    private readonly IHolooFBailRepository _holooFBailRepository;
+    private readonly IHolooSanadRepository _holooSanadRepository;
+    private readonly IHolooSanadListRepository _holooSanadListRepository;
 
     public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
-        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, ITransactionRepository transactionRepository, IPriceRepository priceRepository)
+        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository, IHolooFBailRepository holooFBailRepository, IHolooABailRepository holooABailRepository, IHolooSanadRepository holooSanadRepository, IHolooSanadListRepository holooSanadListRepository)
     {
         _purchaseOrderRepository = discountRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
@@ -31,8 +36,10 @@ public class PurchaseOrdersController : ControllerBase
         _logger = logger;
         _articleRepository = articleRepository;
         _priceRepository = priceRepository;
-        _transactionRepository = transactionRepository;
-
+        _holooFBailRepository = holooFBailRepository;
+        _holooABailRepository = holooABailRepository;
+        _holooSanadRepository = holooSanadRepository;
+        _holooSanadListRepository = holooSanadListRepository;
     }
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
         List<PurchaseOrderViewModel> products)
@@ -325,7 +332,54 @@ public class PurchaseOrdersController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
             purchaseOrder.PaymentDate = DateTime.Now;
-            
+            purchaseOrder.Transaction.TransactionDate = DateTime.Now;
+            purchaseOrder.Transaction.PurchaseOrdersId.Add(purchaseOrder.Id);
+            var cCode = purchaseOrder.User.CustomerCode;
+            var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
+            var fBail = await _holooFBailRepository.Add(new Entities.HolooEntity.HolooFBail
+            {
+                C_Code = cCode,
+                Fac_Code = fCode,
+                Fac_Code_C = fCodeC,
+                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid}",
+                Fac_Date = DateTime.Now,
+                Fac_Time = DateTime.Now,
+                Fac_Type = "P",
+                Sum_Price = purchaseOrder.Amount
+
+            }, cancellationToken); ;
+
+            var aBail = new List<Entities.HolooEntity.HolooABail>();
+            var i = 1;
+            foreach (var orderDetail in purchaseOrder.PurchaseOrderDetails)
+            {
+
+                aBail.Add(new Entities.HolooEntity.HolooABail
+                {
+                    A_Code = orderDetail.Price.ArticleCode,
+                    ACode_C = orderDetail.Price.ArticleCodeCustomer,
+                    A_Index = i++,
+                    DarsadTakhfif = Convert.ToDouble(orderDetail.DiscountAmount),
+                    Fac_Code = fBail,
+                    Fac_Type = "P",
+                    Few_Article = orderDetail.Quantity,
+                    First_Article = orderDetail.Quantity,
+                    Price_BS = orderDetail.UnitPrice,
+                    Unit_Few = 0
+                });
+            }
+            await _holooABailRepository.Add(aBail, cancellationToken);
+            purchaseOrder.FBailCode = fBail;
+
+            var sanad = new HolooSanad(purchaseOrder.Description);
+            var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
+            purchaseOrder.Transaction.SanadCode = sanadCode;
+
+            var sanadList = new List<HolooSndList>();
+            sanadList.Add(new HolooSndList(sanadCode, "901", "0001", "", 0, purchaseOrder.Amount, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"));
+            sanadList.Add(new HolooSndList(sanadCode, "103", "3496", "", purchaseOrder.Amount, 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"));
+            await _holooSanadListRepository.AddRang(sanadList, cancellationToken);
+
             await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             return Ok(new ApiResult
             {

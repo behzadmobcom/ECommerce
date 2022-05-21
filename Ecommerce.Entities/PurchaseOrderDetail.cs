@@ -24,6 +24,7 @@ public class PurchaseOrderDetail : BaseEntity
     [Display(Name = "شناسه قیمت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public int PriceId { get; set; }
+    public Price? Price { get; set; }
 
     [Display(Name = "تخفیف")]
     public int? DiscountAmount { get; set; }

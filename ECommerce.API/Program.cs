@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using API.DataContext;
 using API.Interface;
 using API.Repository;
+using ECommerce.API.Interface;
+using ECommerce.API.Repository;
 using Entities;
 using Entities.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -173,6 +175,8 @@ builder.Services.AddScoped<IHolooUnitRepository, HolooUnitRepository>();
 builder.Services.AddScoped<IHolooArticleRepository, HolooArticleRepository>();
 builder.Services.AddScoped<IHolooMGroupRepository, HolooMGroupRepository>();
 builder.Services.AddScoped<IHolooSGroupRepository, HolooSGroupRepository>();
+builder.Services.AddScoped<IHolooSanadRepository, HolooSanadRepository>();
+builder.Services.AddScoped<IHolooSanadListRepository, HolooSanadListRepository>();
 
 #endregion
 
