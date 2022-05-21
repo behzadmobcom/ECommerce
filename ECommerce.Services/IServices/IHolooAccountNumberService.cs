@@ -1,6 +1,6 @@
 ﻿using Entities.HolooEntity;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface IHolooAccountNumberService : IEntityService<HolooAccountNumber>
 {

@@ -1,4 +1,4 @@
-﻿namespace Services.IServices;
+﻿namespace ECommerce.Services.IServices;
 
 public interface IHolooService
 {

@@ -2,7 +2,7 @@
 using Entities.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Products;
 

@@ -4,7 +4,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Services.IServices;
+using ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
 namespace ArshaHamrah.Pages;

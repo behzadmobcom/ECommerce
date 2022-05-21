@@ -1,6 +1,6 @@
 ﻿using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace ArshaHamrah.Pages;
 

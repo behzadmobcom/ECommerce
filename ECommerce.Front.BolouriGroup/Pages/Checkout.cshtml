@@ -30,7 +30,7 @@
 
                             @if (Model.SendInformationList.Any())
                             {
-                            <div class="account-content">
+                            <div class="form-group">
                                 <div class="row">
                                     @foreach (var sendInformation in Model.SendInformationList)
                                     {
@@ -40,7 +40,7 @@
                                                 <p>@sendInformation.Address</p>
                                                 <ul class="user-action">
                                                     <li>
-                                                        <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
+                                                        <button class="select far fa-pen" title="انتخاب این" ></button>
                                                     </li>
                                                     <li>
                                                         <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
@@ -52,24 +52,28 @@
 
                                 </div>
                             </div>}
-                            <input type="text" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
-                            <input type="text" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr">
-                            <input type="text" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr">
-                            <select asp-for="SendInformation.StateId" class="custom-select" id="state" onchange="setCities();">
+                            <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
+                            <span asp-validation-for="SendInformation.RecipientName"></span>
+                            <br/>
+                            <input type="text" class="form-control" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr"><br/>
+                            <span asp-validation-for="SendInformation.Mobile"></span>
+                            <input type="text" class="form-control" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr"><br/>
+                            <span asp-validation-for="SendInformation.PostalCode"></span>
+                            <select asp-for="SendInformation.StateId" class="custom-select form-control" id="state" onchange="setCities();">
                                 @foreach (var state in Model.StateList.ReturnData)
                                 {
                                     <option value="@state.Id">@state.Name</option>
                                 }
                             </select>
-
-                            <select asp-for="SendInformation.CityId" class="custom-select" id="city">
+                            <br/>
+                            <select asp-for="SendInformation.CityId" class="custom-select form-control" id="city">
                                 @foreach (var city in Model.CityList.ReturnData)
                                 {
                                     <option value="@city.Id">@city.Name</option>
                                 }
                             </select>
-
-                            <textarea asp-for="SendInformation.Address" class="custom-textarea" placeholder="آدرس شما ..."></textarea>
+                            <br/>
+                            <textarea asp-for="SendInformation.Address" class="custom-textarea form-control" placeholder="آدرس شما ..."></textarea>
                         </div>
 
 
@@ -115,11 +119,11 @@
                                 </li>
                             </ul>
                         </div>
-                        @*<div class="checkout-proced">
-                            <a asp-area="" asp-page="/Invoice" class="btn btn-inline">تهیه شده برای پرداخت</a>
-                        </div>*@
+                        <div class="checkout-proced">
+                            <button type="submit"  class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+                        </div>
                         <div class="chekout-coupon">
-                            <button type="submit"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+                            
                         </div>
                     </div>
                 </div>

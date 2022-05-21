@@ -2,7 +2,7 @@
 using Entities.Helper;
 using Microsoft.AspNetCore.Http;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface IImageService : IEntityService<Image>
 {

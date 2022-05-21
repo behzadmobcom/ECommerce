@@ -1,7 +1,7 @@
 ﻿using Entities.Helper;
 using Entities.HolooEntity;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface IHolooUnitService : IEntityService<HolooUnit>
 {

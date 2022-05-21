@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.ECommerce.ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
 namespace Bolouri.Pages;
@@ -8,7 +9,7 @@ namespace Bolouri.Pages;
 public class InvoiceModel : PageModel
 {
     private readonly ICartService _cartService;
-
+    private readonly IPurchaseOrderService _purchaseOrderService;
     public string Refid { get; set; }
     public InvoiceModel(ICartService cartService)
     {

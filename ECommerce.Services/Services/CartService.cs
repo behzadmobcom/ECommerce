@@ -1,7 +1,8 @@
-﻿using Entities.Helper;
+﻿using Entities;
+using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Http;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 
@@ -129,16 +130,6 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
 
         var success = await Update(Url, new PurchaseOrderViewModel{ Id = id}, "Decrease");
         return Return(success);
-    }
-
-    public Task<Guid> PreFactor(int orderId, string refId, int amount)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Guid> PreFactor(HttpContext context)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId)

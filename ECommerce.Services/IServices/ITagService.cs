@@ -2,7 +2,7 @@
 using Entities.Helper;
 using Entities.ViewModel;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface ITagService : IEntityService<Tag>
 {

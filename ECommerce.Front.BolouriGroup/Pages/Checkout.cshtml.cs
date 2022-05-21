@@ -1,9 +1,10 @@
-﻿using Entities;
+﻿using ECommerce.ECommerce.Services.IServices;
+using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
 namespace Bolouri.Pages;
@@ -14,12 +15,13 @@ public class CheckoutModel : PageModel
     private readonly ICityService _cityService;
     private readonly ISendInformationService _sendInformationService;
     private readonly IStateService _stateService;
+    private readonly IPurchaseOrderService _purchaseOrderService;
 
     public ServiceResult<List<State>> StateList { get; set; }
     public ServiceResult<List<City>> CityList { get; set; }
     public ServiceResult<List<PurchaseOrderViewModel>> CartList { get; set; }
 
-    [BindProperty] public SendInformation SendInformation { get; set; }
+    [BindProperty] public SendInformation SendInformation { get; set; } = new SendInformation();
 
     public List<SendInformation> SendInformationList { get; set; }
 
@@ -30,20 +32,21 @@ public class CheckoutModel : PageModel
     [TempData] public string Code { get; set; }
 
     public int SumPrice { get; set; }
-    public CheckoutModel(ICartService cartService, ICityService cityService, ISendInformationService sendInformationService, IStateService stateService)
+    public CheckoutModel(ICartService cartService, ICityService cityService, ISendInformationService sendInformationService, IStateService stateService, IPurchaseOrderService purchaseOrderService)
     {
         _cartService = cartService;
         _cityService = cityService;
         _sendInformationService = sendInformationService;
         _stateService = stateService;
+        _purchaseOrderService = purchaseOrderService;
     }
     public async Task OnGet()
     {
         StateList = await _stateService.Load();
-        CityList = await _cityService.Load(StateList.ReturnData.FirstOrDefault().Id);
+        CityList = await _cityService.Load(StateList.ReturnData.First().Id);
         CartList = await _cartService.Load(HttpContext);
-        var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
-        SendInformationList = (await _sendInformationService.Load(userId)).ReturnData;
+        //var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+        SendInformationList = (await _sendInformationService.Load()).ReturnData;
         SumPrice = CartList.ReturnData.Sum(x => x.SumPrice);
     }
 
@@ -68,12 +71,13 @@ public class CheckoutModel : PageModel
     {
         var returnAction = "Invoice";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
-        SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+        //SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
         if (SendInformation.Id == 0)
         {
             var result = await _sendInformationService.Add(SendInformation);
             resultSendInformation = result.Code;
+            SendInformation = result.ReturnData;
         }
         else
         {
@@ -86,6 +90,9 @@ public class CheckoutModel : PageModel
         var orderId = CartList.ReturnData.FirstOrDefault().Id;
         if (resultSendInformation == 0)
         {
+            var purchaseOrderResult = await _purchaseOrderService.GetByUserId();
+            var purchaseOrder = purchaseOrderResult.ReturnData;
+            purchaseOrder.SendInformationId = SendInformation.Id;
             switch (Portal)
             {
                 case 1:
@@ -93,9 +100,13 @@ public class CheckoutModel : PageModel
 
                     string description = "خرید تستی ";
 
-                    var payment = await new Payment(amount).PaymentRequest(description, url + returnAction+ "?Factor=" + orderId);
+                    var payment = await new Payment(amount).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
                     if (payment.Status == 100)
+                    {
+
+                        await _purchaseOrderService.Edit(purchaseOrder);
                         return Redirect(payment.Link);
+                    }
                     else
                         //return errorPage;
                         return RedirectToPage("Error");
@@ -105,9 +116,9 @@ public class CheckoutModel : PageModel
         }
         else
         {
-            Message = "اطلاعات شما ثبت نشد";
+            Message = "لطفا اطلاعات آدرس را تکمیل کنید یا از لیست یک آدرس را انتخاب کنید";
         }
-
+        SendInformationList.Add(SendInformation);
         return Page();
     }
 }
