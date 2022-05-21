@@ -11,4 +11,5 @@ public interface ICartService
     Task<ServiceResult> Add(HttpContext context, int productId, int priceId);
     Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId);
     Task<ServiceResult> Decrease(HttpContext context, int id, int productId, int priceId);
+    Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer();
 }

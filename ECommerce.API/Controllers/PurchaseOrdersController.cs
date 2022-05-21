@@ -19,10 +19,11 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IPriceRepository _priceRepository;
     private readonly IPurchaseOrderDetailRepository _purchaseOrderDetailRepository;
     private readonly IPurchaseOrderRepository _purchaseOrderRepository;
+    private readonly ITransactionRepository _transactionRepository;
 
     public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
-        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository)
+        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, ITransactionRepository transactionRepository, IPriceRepository priceRepository)
     {
         _purchaseOrderRepository = discountRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
@@ -30,6 +31,8 @@ public class PurchaseOrdersController : ControllerBase
         _logger = logger;
         _articleRepository = articleRepository;
         _priceRepository = priceRepository;
+        _transactionRepository = transactionRepository;
+
     }
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
         List<PurchaseOrderViewModel> products)
@@ -111,7 +114,7 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-            var result = await _purchaseOrderRepository.Where( x=>x.UserId== userId,cancellationToken);
+            var result = await _purchaseOrderRepository.Where(x => x.UserId == userId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -130,7 +133,6 @@ public class PurchaseOrdersController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
-
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
@@ -299,7 +301,32 @@ public class PurchaseOrdersController : ControllerBase
             {
                 await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
             }
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
 
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Pay(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (purchaseOrder == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.BadRequest
+                });
+            purchaseOrder.PaymentDate = DateTime.Now;
+            
+            await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success

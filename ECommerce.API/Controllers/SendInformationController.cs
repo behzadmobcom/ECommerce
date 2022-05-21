@@ -87,7 +87,7 @@ public class SendInformationController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"آدرس تکراری است"}
+                    Messages = new List<string> {"آدرس تکراری است"},
                 });
 
             return Ok(new ApiResult

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ECommerce.ECommerce.Services.IServices;
+using ECommerce.Services.IServices;
 using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
@@ -11,7 +11,7 @@ using Services.Services;
 
 namespace ECommerce.Services.Services
 {
-    public class PurchaseOrderService: EntityService<PurchaseOrder>,IPurchaseOrderService
+    public class PurchaseOrderService : EntityService<PurchaseOrder>, IPurchaseOrderService
     {
         private const string Url = "api/PurchaseOrders";
         private readonly ICookieService _cookieService;
@@ -34,9 +34,10 @@ namespace ECommerce.Services.Services
 
         }
 
-        public Task<ServiceResult> Pay(PurchaseOrder purchaseOrder)
+        public async Task<ServiceResult> Pay(PurchaseOrder purchaseOrder)
         {
-            throw new NotImplementedException();
+            var result =await Update(Url, purchaseOrder,"Pay");
+            return Return(result);
         }
 
         public Task<ServiceResult> Add(PurchaseOrder purchaseOrder)

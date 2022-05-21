@@ -71,7 +71,20 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         };
     }
 
-    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
+    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer()
+    {
+        var currentUser = _cookieService.GetCurrentUser();
+        if (currentUser.Id != 0)
+        {
+            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
+            return Return(result);
+        }
+        return new ServiceResult<List<PurchaseOrderViewModel>>
+        {
+            Code = ServiceCode.Error
+        };
+    }
+        public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)

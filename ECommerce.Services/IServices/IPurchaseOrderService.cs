@@ -7,7 +7,7 @@ using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
 
-namespace ECommerce.ECommerce.Services.IServices
+namespace ECommerce.Services.IServices
 {
     public interface IPurchaseOrderService: IEntityService<PurchaseOrder>
     {

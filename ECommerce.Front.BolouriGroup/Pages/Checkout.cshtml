@@ -19,75 +19,98 @@
 
 <section class="inner-section checkout-part">
     <div class="container">
+          @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
         <form method="post" asp-page-handler="OnPost">
             <div class="row">
                 <div class="col-lg-8">
-                   
-                        <div class="account-card">
-                            <div class="account-title">
-                                <h4>نشانی تحویل</h4>
-                            </div>
 
-                            @if (Model.SendInformationList.Any())
-                            {
+                    <div class="account-card">
+                        <div class="account-title">
+                            <h4>نشانی تحویل</h4>
+                        </div>
+
+                        @if (Model.SendInformationList.Any())
+                        {
                             <div class="form-group">
                                 <div class="row">
                                     @foreach (var sendInformation in Model.SendInformationList)
                                     {
-                                        <div class="col-md-6 col-lg-4 alert fade show">
+                                        <div class="col-md-6 col-lg-4 alert fade show" onclick="fillAddress(@sendInformation.Id)">
                                             <div class="profile-card address active">
                                                 <h6>@sendInformation.RecipientName</h6>
                                                 <p>@sendInformation.Address</p>
-                                                <ul class="user-action">
-                                                    <li>
-                                                        <button class="select far fa-pen" title="انتخاب این" ></button>
-                                                    </li>
-                                                    <li>
-                                                        <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                                    </li>
-                                                </ul>
+                                                @* <ul class="user-action">
+                                        <li>
+                                        <button class="select far fa-pen"title="انتخاب این"></button>
+                                        </li>
+                                        <li>
+                                        <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
+                                        </li>
+                                        </ul>*@
                                             </div>
                                         </div>
                                     }
 
                                 </div>
-                            </div>}
-                            <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
-                            <span asp-validation-for="SendInformation.RecipientName"></span>
-                            <br/>
-                            <input type="text" class="form-control" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr"><br/>
-                            <span asp-validation-for="SendInformation.Mobile"></span>
-                            <input type="text" class="form-control" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr"><br/>
-                            <span asp-validation-for="SendInformation.PostalCode"></span>
-                            <select asp-for="SendInformation.StateId" class="custom-select form-control" id="state" onchange="setCities();">
-                                @foreach (var state in Model.StateList.ReturnData)
-                                {
-                                    <option value="@state.Id">@state.Name</option>
-                                }
-                            </select>
-                            <br/>
-                            <select asp-for="SendInformation.CityId" class="custom-select form-control" id="city">
-                                @foreach (var city in Model.CityList.ReturnData)
-                                {
-                                    <option value="@city.Id">@city.Name</option>
-                                }
-                            </select>
-                            <br/>
-                            <textarea asp-for="SendInformation.Address" class="custom-textarea form-control" placeholder="آدرس شما ..."></textarea>
-                        </div>
+                            </div>
+                        }
+                        <input type="number" hidden="hidden"  class="form-control" asp-for="SendInformation.Id">
+                        <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
+                        <span asp-validation-for="SendInformation.RecipientName"></span>
+                        <br />
+                        <input type="text" class="form-control" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr"><br />
+                        <span asp-validation-for="SendInformation.Mobile"></span>
+                        <input type="text" class="form-control" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr"><br />
+                        <span asp-validation-for="SendInformation.PostalCode"></span>
+                        <select asp-for="SendInformation.StateId" class="custom-select form-control" id="state" onchange="setCities();">
+                            @foreach (var state in Model.StateList)
+                            {
+                                <option value="@state.Id">@state.Name</option>
+                            }
+                        </select>
+                        <br />
+                        <select asp-for="SendInformation.CityId" class="custom-select form-control" id="city">
+                            @foreach (var city in Model.CityList)
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
+                        </select>
+                        <br />
+                        <textarea asp-for="SendInformation.Address" class="custom-textarea form-control" placeholder="آدرس شما ..."></textarea>
+                    </div>
 
 
                     <div class="account-card mb-0">
                         <div class="account-title">
                             <h4>گزینه پرداخت</h4>
-                           
+
                         </div>
                         <div class="account-content">
                             <div class="row">
                                 <div class="col-md-6 col-lg-4 alert fade show">
                                     <div class="payment-card payment active">
                                         <img src="/img/payment/zarinpal.png" alt="زیرین پال">
-                                       
+
                                     </div>
                                 </div>
 
@@ -102,17 +125,17 @@
                                 <h4>خلاصه سفارش</h4>
                             </div>
                             <ul>
-                              @*  <li>
-                                    <span>زیر کل </span><span>250000تومان</span>
+                                @*  <li>
+                                <span>زیر کل </span><span>250000تومان</span>
                                 </li>
                                 <li>
-                                    <span>هزینه تحویل </span><span>20000تومان</span>
+                                <span>هزینه تحویل </span><span>20000تومان</span>
                                 </li>
                                 <li>
-                                    <span>تخفیف</span><span>10000 تومان </span>
+                                <span>تخفیف</span><span>10000 تومان </span>
                                 </li>
                                 <li>
-                                    <span>مالیات </span><span>15000 تومان</span>
+                                <span>مالیات </span><span>15000 تومان</span>
                                 </li>*@
                                 <li>
                                     <span>کل </span><span>@Model.SumPrice تومان</span>
@@ -120,10 +143,9 @@
                             </ul>
                         </div>
                         <div class="checkout-proced">
-                            <button type="submit"  class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+                            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
                         </div>
                         <div class="chekout-coupon">
-                            
                         </div>
                     </div>
                 </div>
@@ -133,23 +155,41 @@
 </section>
 
 @section Scripts
-{
-<script>
-    function setCities() {
-        var stateId = $('#state').val();
-        $.ajax({
-            type: "Get",
-            url: "Checkout?handler=CityLoad&id=" + stateId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(result) {
-                $("#city").html(result);
-            },
-            failure: function(response) {
-                alert(response);
-            }
-        });
+    {
+    <script>
 
-    }
-</script>
+        function fillAddress(id) {
+            var arrayOfArrays = @Html.Raw(Json.Serialize(Model.SendInformationList));
+
+            var sendInformation = arrayOfArrays.find(obj => {
+                return obj.id == id;
+            });
+            console.log(sendInformation);
+            $("#SendInformation_Id").val(sendInformation.id);
+            $("#SendInformation_RecipientName").val(sendInformation.recipientName);
+            $("#SendInformation_Mobile").val(sendInformation.mobile);
+            $("#SendInformation_PostalCode").val(sendInformation.postalCode);
+             $("#SendInformation_Address").val(sendInformation.address);
+            $("#state").val(sendInformation.stateId);
+            setCities();
+            $("#city").val(sendInformation.cityId);
+          
+        }
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Checkout?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    $("#city").html(result);
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
 }
