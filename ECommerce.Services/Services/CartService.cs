@@ -1,7 +1,8 @@
-﻿using Entities.Helper;
+﻿using Entities;
+using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Http;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 
@@ -70,7 +71,20 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         };
     }
 
-    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
+    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer()
+    {
+        var currentUser = _cookieService.GetCurrentUser();
+        if (currentUser.Id != 0)
+        {
+            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
+            return Return(result);
+        }
+        return new ServiceResult<List<PurchaseOrderViewModel>>
+        {
+            Code = ServiceCode.Error
+        };
+    }
+        public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
@@ -129,16 +143,6 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
 
         var success = await Update(Url, new PurchaseOrderViewModel{ Id = id}, "Decrease");
         return Return(success);
-    }
-
-    public Task<Guid> PreFactor(int orderId, string refId, int amount)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Guid> PreFactor(HttpContext context)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId)

@@ -1,7 +1,7 @@
 ﻿using Entities;
 using Entities.Helper;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface IUnitService : IEntityService<Unit>
 {

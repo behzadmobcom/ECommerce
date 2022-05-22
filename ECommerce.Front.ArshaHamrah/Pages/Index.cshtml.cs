@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace ArshaHamrah.Pages;
 

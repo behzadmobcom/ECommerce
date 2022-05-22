@@ -1,4 +1,6 @@
 ﻿using API.Interface;
+using Ecommerce.Entities.HolooEntity;
+using ECommerce.API.Interface;
 using ECommerce.Application.Commands.Purchase;
 using Entities;
 using Entities.Helper;
@@ -19,10 +21,16 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IPriceRepository _priceRepository;
     private readonly IPurchaseOrderDetailRepository _purchaseOrderDetailRepository;
     private readonly IPurchaseOrderRepository _purchaseOrderRepository;
+    private readonly IHolooABailRepository _holooABailRepository;
+    private readonly IHolooFBailRepository _holooFBailRepository;
+    private readonly IHolooSanadRepository _holooSanadRepository;
+    private readonly IHolooSanadListRepository _holooSanadListRepository;
+    private readonly IUserRepository _userRepository;
+
 
     public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
-        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository)
+        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository, IHolooFBailRepository holooFBailRepository, IHolooABailRepository holooABailRepository, IHolooSanadRepository holooSanadRepository, IHolooSanadListRepository holooSanadListRepository, IUserRepository userRepository)
     {
         _purchaseOrderRepository = discountRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
@@ -30,6 +38,11 @@ public class PurchaseOrdersController : ControllerBase
         _logger = logger;
         _articleRepository = articleRepository;
         _priceRepository = priceRepository;
+        _holooFBailRepository = holooFBailRepository;
+        _holooABailRepository = holooABailRepository;
+        _holooSanadRepository = holooSanadRepository;
+        _holooSanadListRepository = holooSanadListRepository;
+        _userRepository = userRepository;
     }
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
         List<PurchaseOrderViewModel> products)
@@ -107,12 +120,38 @@ public class PurchaseOrdersController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<PurchaseOrder>> GetByUserId(int userId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _purchaseOrderRepository.GetByUser(userId, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId, CancellationToken cancellationToken)
     {
         try
         {
             var result = await _purchaseOrderRepository.GetProductListByUserId(userId, cancellationToken);
-           
+
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -258,6 +297,111 @@ public class PurchaseOrdersController : ControllerBase
 
     [HttpPut]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Decrease(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
+            purchaseOrderDetails.Quantity -= 1;
+            if (purchaseOrderDetails.Quantity <= 0)
+            {
+                await _purchaseOrderDetailRepository.DeleteAsync(purchaseOrderDetails.Id, cancellationToken);
+            }
+            else
+            {
+                await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
+            }
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<bool>> Pay(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (purchaseOrder == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.BadRequest
+                });
+            if (string.IsNullOrEmpty(purchaseOrder.Description)) purchaseOrder.Description = "";
+            purchaseOrder.PaymentDate = DateTime.Now;
+            purchaseOrder.Transaction.TransactionDate = DateTime.Now;
+            purchaseOrder.Transaction.PurchaseOrders = new List<PurchaseOrder>();
+            purchaseOrder.Transaction.PurchaseOrders.Add(purchaseOrder);
+            var resultUser =await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
+            var cCode = resultUser.CustomerCode;
+            var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
+            var fBail = await _holooFBailRepository.Add(new Entities.HolooEntity.HolooFBail
+            {
+                C_Code = cCode,
+                Fac_Code = fCode,
+                Fac_Code_C = fCodeC,
+                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid}",
+                Fac_Date = DateTime.Now,
+                Fac_Time = DateTime.Now,
+                Fac_Type = "P",
+                Sum_Price = purchaseOrder.Amount
+
+            }, cancellationToken); ;
+
+            var aBail = new List<Entities.HolooEntity.HolooABail>();
+            var i = 1;
+
+            var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByPurchaseOrderId(purchaseOrder.Id, cancellationToken);
+            foreach (var orderDetail in purchaseOrderDetails)
+            {
+
+                aBail.Add(new Entities.HolooEntity.HolooABail
+                {
+                    A_Code = orderDetail.Price.ArticleCode,
+                    ACode_C = orderDetail.Price.ArticleCodeCustomer,
+                    A_Index = i++,
+                    DarsadTakhfif = Convert.ToDouble(orderDetail.DiscountAmount),
+                    Fac_Code = fBail,
+                    Fac_Type = "P",
+                    Few_Article = orderDetail.Quantity,
+                    First_Article = orderDetail.Quantity,
+                    Price_BS = orderDetail.UnitPrice,
+                    Unit_Few = 0
+                });
+            }
+            await _holooABailRepository.Add(aBail, cancellationToken);
+            purchaseOrder.FBailCode = fBail;
+
+            var sanad = new HolooSanad(purchaseOrder.Description);
+            var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
+            purchaseOrder.Transaction.SanadCode = sanadCode;
+
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "901", "0001", "", 0, purchaseOrder.Amount, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", "3496", "", purchaseOrder.Amount, 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+
+            purchaseOrder.IsPaid = true;
+            await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
         try
@@ -295,32 +439,4 @@ public class PurchaseOrdersController : ControllerBase
     }
 
 
-    [HttpPut]
-    [Authorize(Roles = "Client,Admin,SuperAdmin")]
-    public async Task<ActionResult<bool>> Decrease(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
-            purchaseOrderDetails.Quantity -= 1;
-            if (purchaseOrderDetails.Quantity <= 0)
-            {
-                await _purchaseOrderDetailRepository.DeleteAsync(purchaseOrderDetails.Id, cancellationToken);
-            }
-            else
-            {
-                await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
-            }
-
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
-    }
 }

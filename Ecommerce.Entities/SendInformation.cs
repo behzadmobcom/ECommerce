@@ -28,10 +28,10 @@ public class SendInformation : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public int StateId { get; set; }
 
-    public State State { get; set; }
+    public State? State { get; set; }
 
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public int CityId { get; set; }
 
-    public City City { get; set; }
+    public City? City { get; set; }
 }

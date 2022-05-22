@@ -17,21 +17,41 @@
 </section>
 
 <h1 style="color: rebeccapurple">@Model.Refid</h1>
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
 
+    Model.Message = null;
+    Model.Code = null;
+}
 <section class="inner-section invoice-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="account-card">
                     <div class="account-title">
-                        <h4>خلاصه سفارش (# 12345)</h4>
+                        <h4>خلاصه سفارش (@Model.PurchaseOrder.OrderGuid)</h4>
                     </div>
                     <div class="account-content">
                         <div class="invoice-recieved">
-                            <h6>شناسه سفارش <span>12345</span></h6>
-                            <h6>تاریخ سفارش <span>05 خرداد 1400 </span></h6>
-                            <h6>مبلغ کل <span>500.000 تومان</span></h6>
-                            <h6><span>کارت اعتباری</span> روش پرداخت<span></span></h6>
+                            <h6>شناسه سفارش <span>@Model.PurchaseOrder.OrderGuid</span></h6>
+                            <h6>تاریخ سفارش <span>@Model.PurchaseOrder.CreationDate.ToLongDateString() </span></h6>
+                            <h6>مبلغ کل <span>@Model.PurchaseOrder.Amount تومان</span></h6>
+                            <h6><span> روش پرداخت</span><span>درگاه بانکی</span></h6>
                         </div>
                     </div>
                 </div>
@@ -45,19 +65,15 @@
                         <ul class="invoice-details">
                             <li>
                                 <h6>کل مورد</h6>
-                                <p>3 مورد</p>
+                                <p>@Model.CartList.Count() مورد</p>
                             </li>
                             <li>
                                 <h6>زمان سفارش</h6>
-                                <p>5:00 بعد از ظهر 16-10-1400</p>
-                            </li>
-                            <li>
-                                <h6>شرکت تحویل</h6>
-                                <p>شرکت یک</p>
+                                <p>@Model.PurchaseOrder.CreationDate.ToShortTimeString()</p>
                             </li>
                             <li>
                                 <h6>نشانی تحویل</h6>
-                                <p>ایران - تهران - خیابان بهار</p>
+                                <p>@Model.PurchaseOrder.SendInformation!.Address</p>
                             </li>
                         </ul>
                     </div>
@@ -72,23 +88,23 @@
                         <ul class="invoice-details">
                             <li>
                                 <h6>زیر کل</h6>
-                                <p>500.000 تومان</p>
+                                <p>@Model.PurchaseOrder.Amount تومان</p>
                             </li>
                             <li>
                                 <h6>تخفیف</h6>
-                                <p>10000تومان</p>
+                                <p>0 تومان</p>
                             </li>
                             <li>
                                 <h6>مالیات</h6>
-                                <p>10000تومان</p>
+                                <p>0 تومان</p>
                             </li>
                             <li>
                                 <h6>روش پرداخت</h6>
-                                <p>کارت اعتباری</p>
+                                <p>درگاه بانکی</p>
                             </li>
                             <li>
                                 <h6>جمع</h6>
-                                <p>500.000 تومان</p>
+                                <p>@Model.PurchaseOrder.Amount تومان</p>
                             </li>
                         </ul>
                     </div>
@@ -98,99 +114,44 @@
                 <div class="table-scroll">
                     <table class="table-list">
                         <thead>
-                        <tr>
-                            <th scope="col">تولید - محصول</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">قیمت</th>
-                            <th scope="col">نام تجاری</th>
-                            <th scope="col">تعداد</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">تولید - محصول</th>
+                                <th scope="col">نام</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">تعداد</th>
+                                <th scope="col">جمع</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>سیب تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>25 تومان </h6>
-                            </td>
-                            <td class="table-brand">
-                                <h6>تلیسیو</h6>
-                            </td>
-                            <td class="table-quantity">
-                                <h6>10</h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>سیب تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>25 تومان </h6>
-                            </td>
-                            <td class="table-brand">
-                                <h6>تلیسیو</h6>
-                            </td>
-                            <td class="table-quantity">
-                                <h6>10</h6>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>سیب تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>25 تومان </h6>
-                            </td>
-                            <td class="table-brand">
-                                <h6>تلیسیو</h6>
-                            </td>
-                            <td class="table-quantity">
-                                <h6>10</h6>
-                            </td>
-                        </tr>
+                            @foreach (var product in Model.CartList)
+                            {
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="@product.ImagePath" alt="@product.Alt">
+                                    </td>
+                                    <td class="table-name">
+                                        <h6>@product.Name</h6>
+                                    </td>
+                                    <td class="table-price">
+                                        <h6>@product.PriceAmount تومان </h6>
+                                    </td>
+                                    <td class="table-brand">
+                                        <h6>@product.Quantity</h6>
+                                    </td>
+                                    <td class="table-quantity">
+                                        <h6>@product.SumPrice</h6>
+                                    </td>
+                                </tr>
+                            }
+
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 text-center mt-5">
-                <a class="btn btn-inline" href="#">
-                    <i class="far fa-download"></i><span>فاکتور بارگیری</span>
-                </a>
-            </div>
-        </div>
+
     </div>
 </section>
 
 
-<section class="news-part">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-5 col-lg-6 col-xl-7">
-                <div class="news-text">
-                    <h2>برای به روزرسانی خبرنامه ما مشترک شوید</h2>
-                    <p>تنوع زیادی از معابر سنگ معدن سنگ معدن موجود است</p>
-                </div>
-            </div>
-            <div class="col-md-7 col-lg-6 col-xl-5">
-                <form class="news-form">
-                    <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
-                    <button>
-                        <span> اشتراک <i class="far fa-paper-plane"></i> </span>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>

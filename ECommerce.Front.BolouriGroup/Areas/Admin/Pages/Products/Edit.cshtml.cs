@@ -3,9 +3,9 @@ using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Products;
+namespace Bolouri.Areas.Admin.Pages.Products;
 
 public class EditModel : PageModel
 {

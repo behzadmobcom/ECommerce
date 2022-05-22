@@ -1,6 +1,6 @@
 ﻿using Entities;
 using Entities.Helper;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 

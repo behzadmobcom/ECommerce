@@ -1,6 +1,6 @@
 ﻿using Entities;
 using Entities.Helper;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 
@@ -8,7 +8,6 @@ public class BrandService : EntityService<Brand>, IBrandService
 {
     private const string Url = "api/Brands";
     private readonly IHttpService _http;
-    private List<Brand> _brands;
 
     public BrandService(IHttpService http) : base(http)
     {
@@ -45,43 +44,22 @@ public class BrandService : EntityService<Brand>, IBrandService
         };
     }
 
-    public async Task<ServiceResult<List<Brand>>> Filtering(string filter)
-    {
-        if (_brands == null)
-        {
-            var brands = await Load();
-            if (brands.Code > 0) return brands;
-            _brands = brands.ReturnData;
-        }
-
-        var result = _brands.Where(x => x.Name.Contains(filter)).ToList();
-        if (result.Count == 0)
-            return new ServiceResult<List<Brand>> {Code = ServiceCode.Info, Message = "برندی یافت نشد"};
-        return new ServiceResult<List<Brand>>
-        {
-            Code = ServiceCode.Success,
-            ReturnData = result
-        };
-    }
 
     public async Task<ServiceResult> Add(Brand brand)
     {
         var result = await Create(Url, brand);
-        _brands = null;
         return Return(result);
     }
 
     public async Task<ServiceResult> Edit(Brand brand)
     {
         var result = await Update(Url, brand);
-        _brands = null;
         return Return(result);
     }
 
     public async Task<ServiceResult> Delete(int id)
     {
         var result = await Delete(Url, id);
-        _brands = null;
         return Return(result);
     }
 

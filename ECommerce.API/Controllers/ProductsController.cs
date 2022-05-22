@@ -110,7 +110,7 @@ public class ProductsController : ControllerBase
         try
         {
             var pagination = new PaginationViewModel { SearchText = pageViewModel.SearchText };
-            var query = _productRepository.Table;
+            var query = _productRepository.TableNoTracking.OrderByDescending(x => x.Id);
 
             var cox = query.Count();
             if (string.IsNullOrEmpty(pageViewModel.SearchText))

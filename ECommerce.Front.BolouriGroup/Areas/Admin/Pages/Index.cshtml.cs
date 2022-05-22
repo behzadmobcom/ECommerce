@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages;
+namespace Bolouri.Areas.Admin.Pages;
 
 //[Authorize(AuthenticationSchemes ="ClientCookie")]
 public class IndexModel : PageModel

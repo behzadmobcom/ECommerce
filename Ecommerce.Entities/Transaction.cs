@@ -4,7 +4,8 @@ namespace Entities;
 
 public class Transaction : BaseEntity
 {
-    [Display(Name = "تاریخ فاکتور")] public DateTime TransactionDate { get; set; }
+    [Display(Name = "تاریخ فاکتور")] 
+    public DateTime TransactionDate { get; set; }
 
     [Display(Name = "قابل پرداخت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]

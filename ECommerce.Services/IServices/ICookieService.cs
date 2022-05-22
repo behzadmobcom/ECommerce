@@ -2,7 +2,7 @@
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Http;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface ICookieService
 {

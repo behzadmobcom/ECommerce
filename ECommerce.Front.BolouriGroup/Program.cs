@@ -1,7 +1,8 @@
+using ECommerce.Services.IServices;
+using ECommerce.Services.Services;
 using Entities.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Services.IServices;
 using Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IPriceService, PriceService>();
 builder.Services.AddScoped<IProductAttributeGroupService, ProductAttributeGroupService>();
 builder.Services.AddScoped<IProductAttributeService, ProductAttributeService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 builder.Services.AddScoped<ISendInformationService, SendInformationService>();
 builder.Services.AddScoped<ISizeService, SizeService>();
 builder.Services.AddScoped<ISlideShowService, SlideShowService>();

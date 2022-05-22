@@ -4,7 +4,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Services.IServices;
+using ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
 namespace ArshaHamrah.Pages;
@@ -43,7 +43,7 @@ public class CheckoutModel : PageModel
         CityList = await _cityService.Load(StateList.ReturnData.FirstOrDefault().Id);
         CartList = await _cartService.Load(HttpContext);
         var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
-        var sendInformationList = (await _sendInformationService.Load(userId)).ReturnData;
+        var sendInformationList = (await _sendInformationService.Load()).ReturnData;
         SendInformationList = new SelectList(sendInformationList, nameof(SendInformation.Id),
             nameof(SendInformation.RecipientName));
     }

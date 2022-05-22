@@ -5,7 +5,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 

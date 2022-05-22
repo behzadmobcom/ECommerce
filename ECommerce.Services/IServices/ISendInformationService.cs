@@ -1,14 +1,13 @@
 ﻿using Entities;
 using Entities.Helper;
 
-namespace Services.IServices;
+namespace ECommerce.Services.IServices;
 
 public interface ISendInformationService
 {
-    Task<ServiceResult<List<SendInformation>>> Filtering(string filter, int id);
-    Task<ServiceResult<List<SendInformation>>> Load(int id);
+    Task<ServiceResult<List<SendInformation>>> Load();
     Task<ServiceResult<SendInformation>> Find(int id);
-    Task<ServiceResult> Add(SendInformation sendInformation);
+    Task<ServiceResult<SendInformation>> Add(SendInformation sendInformation);
     Task<ServiceResult> Edit(SendInformation sendInformation);
     Task<ServiceResult> Delete(int id);
 }

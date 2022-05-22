@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.ProductAttributes;
+namespace Bolouri.Areas.Admin.Pages.ProductAttributes;
 
 public class CreateModel : PageModel
 {

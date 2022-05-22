@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace ECommerce.Front.Bolouri.ViewComponents;
 

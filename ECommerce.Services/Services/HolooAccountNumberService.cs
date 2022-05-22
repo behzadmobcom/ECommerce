@@ -1,5 +1,5 @@
 ﻿using Entities.HolooEntity;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 

@@ -1,9 +1,9 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Keywords;
+namespace Bolouri.Areas.Admin.Pages.Keywords;
 
 public class DeleteModel : PageModel
 {

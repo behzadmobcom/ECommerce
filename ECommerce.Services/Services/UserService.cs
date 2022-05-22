@@ -1,6 +1,6 @@
 ﻿using Entities.Helper;
 using Entities.ViewModel;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Services.Services;
 

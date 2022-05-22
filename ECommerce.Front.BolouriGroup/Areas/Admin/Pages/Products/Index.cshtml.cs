@@ -2,7 +2,7 @@ using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
 namespace Bolouri.Areas.Admin.Pages.Products;
 
@@ -22,12 +22,12 @@ public class IndexModel : PageModel
 
     [TempData] public string Code { get; set; }
 
-    public async Task OnGet(string search = "", int pageIndex = 1, int quantityPerPage = 10, string message = null,
+    public async Task OnGet(string search = "", int pageNumber = 1, int pageSize = 10, string message = null,
         string code = null)
     {
         Message = message;
         Code = code;
-        var result = await _productService.Search(search, pageIndex, quantityPerPage);
+        var result = await _productService.Search(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;

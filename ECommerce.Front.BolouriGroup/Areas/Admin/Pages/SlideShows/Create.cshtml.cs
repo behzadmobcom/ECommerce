@@ -3,9 +3,9 @@ using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.SlideShows;
+namespace Bolouri.Areas.Admin.Pages.SlideShows;
 
 public class CreateModel : PageModel
 {
@@ -33,9 +33,9 @@ public class CreateModel : PageModel
 
     [TempData] public string Code { get; set; }
 
-    public async Task OnGet()
+    public async Task OnGet(string search)
     {
-        var result = await _productService.Search("", 1, 30);
+        var result = await _productService.Search(search, 1, 30);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;

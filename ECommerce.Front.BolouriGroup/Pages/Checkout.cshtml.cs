@@ -3,25 +3,26 @@ using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Services.IServices;
+using ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
 namespace Bolouri.Pages;
 
 public class CheckoutModel : PageModel
 {
-    private readonly ICartService _cartService;
     private readonly ICityService _cityService;
     private readonly ISendInformationService _sendInformationService;
     private readonly IStateService _stateService;
+    private readonly IPurchaseOrderService _purchaseOrderService;
+    private readonly ICartService _cartService;
+    
 
-    public ServiceResult<List<State>> StateList { get; set; }
-    public ServiceResult<List<City>> CityList { get; set; }
-    public ServiceResult<List<PurchaseOrderViewModel>> CartList { get; set; }
+    [BindProperty] public List<State> StateList { get; set; }
+    [BindProperty] public List<City> CityList { get; set; }
 
     [BindProperty] public SendInformation SendInformation { get; set; }
 
-    public List<SendInformation> SendInformationList { get; set; }
+    [BindProperty] public List<SendInformation> SendInformationList { get; set; }
 
     [BindProperty] public int Portal { get; set; } = 1;
 
@@ -30,23 +31,33 @@ public class CheckoutModel : PageModel
     [TempData] public string Code { get; set; }
 
     public int SumPrice { get; set; }
-    public CheckoutModel(ICartService cartService, ICityService cityService, ISendInformationService sendInformationService, IStateService stateService)
+
+    public CheckoutModel(ICartService cartService,ICityService cityService, ISendInformationService sendInformationService, IStateService stateService, IPurchaseOrderService purchaseOrderService)
     {
-        _cartService = cartService;
         _cityService = cityService;
         _sendInformationService = sendInformationService;
         _stateService = stateService;
+        _purchaseOrderService = purchaseOrderService;
+        _cartService = cartService;
     }
     public async Task OnGet()
     {
-        StateList = await _stateService.Load();
-        CityList = await _cityService.Load(StateList.ReturnData.FirstOrDefault().Id);
-        CartList = await _cartService.Load(HttpContext);
-        var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
-        SendInformationList = (await _sendInformationService.Load(userId)).ReturnData;
-        SumPrice = CartList.ReturnData.Sum(x => x.SumPrice);
+        await Initial();
     }
-
+    private async Task Initial()
+    {
+        StateList = (await _stateService.Load()).ReturnData;
+        CityList = (await _cityService.Load(StateList.First().Id)).ReturnData;
+        SendInformationList = (await _sendInformationService.Load()).ReturnData;
+        var resultCart = await _cartService.CartListFromServer();
+        if(resultCart.Code>0)
+        {
+            Message = resultCart.Message;
+            Code = resultCart.Code.ToString();
+        }
+        var cart = resultCart.ReturnData;
+        SumPrice = cart.Sum(x=>x.SumPrice);
+    }
 
     public async Task<JsonResult> OnGetCityLoad(int id)
     {
@@ -68,12 +79,14 @@ public class CheckoutModel : PageModel
     {
         var returnAction = "Invoice";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
-        SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+        //SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
         if (SendInformation.Id == 0)
         {
             var result = await _sendInformationService.Add(SendInformation);
             resultSendInformation = result.Code;
+            Message = result.Message;
+            SendInformation = result.ReturnData;
         }
         else
         {
@@ -81,9 +94,18 @@ public class CheckoutModel : PageModel
             SendInformation = r.ReturnData;
         }
 
-        CartList = await _cartService.Load(HttpContext);
-        var amount = CartList.ReturnData.Sum(x => x.SumPrice);
-        var orderId = CartList.ReturnData.FirstOrDefault().Id;
+        var resultCart = await _cartService.CartListFromServer();
+        if (resultCart.Code > 0)
+        {
+            Message = resultCart.Message;
+            Code = resultCart.Code.ToString();
+        }
+        var cart = resultCart.ReturnData;
+        SumPrice = cart.Sum(x => x.SumPrice);
+
+        var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
+        purchaseOrder.Amount = SumPrice;
+        purchaseOrder.SendInformationId = SendInformation.Id;
         if (resultSendInformation == 0)
         {
             switch (Portal)
@@ -93,9 +115,13 @@ public class CheckoutModel : PageModel
 
                     string description = "خرید تستی ";
 
-                    var payment = await new Payment(amount).PaymentRequest(description, url + returnAction+ "?Factor=" + orderId);
+                    var payment = await new Payment(purchaseOrder.Amount).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
                     if (payment.Status == 100)
+                    {
+
+                        await _purchaseOrderService.Edit(purchaseOrder);
                         return Redirect(payment.Link);
+                    }
                     else
                         //return errorPage;
                         return RedirectToPage("Error");
@@ -105,9 +131,11 @@ public class CheckoutModel : PageModel
         }
         else
         {
-            Message = "اطلاعات شما ثبت نشد";
+            if (string.IsNullOrEmpty(Message) ||  Message.Equals("\n\r"))
+                Message = "لطفا اطلاعات آدرس را تکمیل کنید یا از لیست یک آدرس را انتخاب کنید";
         }
-
+        Code = resultSendInformation.ToString();
+        await Initial();
         return Page();
     }
 }
