@@ -14,9 +14,10 @@ namespace ECommerce.API.Repository
             _context = context;
         }
 
-        public Task<string> Add(HolooCustomer customer, CancellationToken cancellationToken)
+        public async Task<string> Add(HolooCustomer customer, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _context.Customer
+          await _context.SaveChangesAsync();
         }
     }
 }

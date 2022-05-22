@@ -17,6 +17,8 @@ public class HolooDbContext : DbContext
     public virtual DbSet<HolooABail> ABAILPRE { get; set; }
     public virtual DbSet<HolooAccountNumber> ACOUND_N { get; set; }
     public virtual DbSet<HolooArticle> ARTICLE { get; set; }
+    public virtual DbSet<HolooCustomer> Customer { get; set; }
+    public virtual DbSet<HolooSarfasl> Sarfasl { get; set; }
     public virtual DbSet<HolooFBail> FBAILPRE { get; set; }
     public virtual DbSet<HolooMGroup> M_GROUP { get; set; }
     public virtual DbSet<HolooSGroup> S_GROUP { get; set; }
@@ -36,6 +38,10 @@ public class HolooDbContext : DbContext
             .HasKey(c => new {c.Bank_Code, c.Account_N});
         modelBuilder.Entity<HolooArticle>()
             .HasKey(c => new {c.A_Code});
+        modelBuilder.Entity<HolooCustomer>()
+            .HasKey(c => new {c.C_Code});  
+        modelBuilder.Entity<HolooSarfasl>()
+            .HasKey(c => new {c.ID});
         modelBuilder.Entity<HolooFBail>()
             .HasKey(c => new {c.Fac_Code, c.Fac_Type});
         modelBuilder.Entity<HolooMGroup>()
