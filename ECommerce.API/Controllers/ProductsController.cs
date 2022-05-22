@@ -492,13 +492,15 @@ public class ProductsController : ControllerBase
         try
         {
             var result = await _productRepository.GetByUrl(productUrl, cancellationToken);
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result);
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             if (result == null)
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.NotFound
                 });
+
+            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result);
+            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+           
 
             return Ok(new ApiResult
             {
