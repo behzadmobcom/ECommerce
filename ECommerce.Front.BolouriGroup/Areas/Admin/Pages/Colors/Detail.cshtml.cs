@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Colors;
+namespace Bolouri.Areas.Admin.Pages.Colors;
 
 public class DetailModel : PageModel
 {

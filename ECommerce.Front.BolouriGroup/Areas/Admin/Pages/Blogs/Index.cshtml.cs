@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Blogs;
+namespace Bolouri.Areas.Admin.Pages.Blogs;
 
 public class IndexModel : PageModel
 {

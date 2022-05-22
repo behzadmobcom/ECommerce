@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages;
+namespace Bolouri.Areas.Admin.Pages;
 
 public class BlogModel : PageModel
 {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Currencies;
+namespace Bolouri.Areas.Admin.Pages.Currencies;
 
 public class IndexModel : PageModel
 {

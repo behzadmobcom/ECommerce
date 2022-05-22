@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Suppliers;
+namespace Bolouri.Areas.Admin.Pages.Suppliers;
 
 public class DetailModel : PageModel
 {

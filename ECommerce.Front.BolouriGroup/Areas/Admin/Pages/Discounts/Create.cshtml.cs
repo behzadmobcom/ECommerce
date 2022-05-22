@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Discounts;
+namespace Bolouri.Areas.Admin.Pages.Discounts;
 
 public class CreateModel : PageModel
 {

@@ -230,7 +230,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return PagedList<ProductIndexPageViewModel>.ToPagedList(
             await _context.Products.Where(x => x.Name.Contains(paginationParameters.Search))
                 .AsNoTracking()
-                .OrderBy(on => on.Id)
+                .OrderByDescending(on => on.Id)
                 .Select(p => new ProductIndexPageViewModel
                 {
                     Prices = p.Prices!,
