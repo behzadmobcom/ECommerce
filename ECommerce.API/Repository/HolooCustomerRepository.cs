@@ -16,8 +16,9 @@ namespace ECommerce.API.Repository
 
         public async Task<string> Add(HolooCustomer customer, CancellationToken cancellationToken)
         {
-            await _context.Customer
-          await _context.SaveChangesAsync();
+            await _context.Customer.AddAsync(customer, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return customer.C_Code;
         }
     }
 }

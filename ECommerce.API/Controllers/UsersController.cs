@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using API.Interface;
+using ECommerce.API.Interface;
 using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
@@ -22,10 +23,12 @@ public class UsersController : ControllerBase
     private readonly SiteSettings _siteSettings;
     private readonly UserManager<User> _userManager;
     private readonly IUserRepository _userRepository;
+    private readonly IHolooCustomerRepository _holooCustomerRepository;
+    private readonly IHolooSarfaslRepository _holooSarfaslRepository;
 
     public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
         UserManager<User> userManager, SiteSettings siteSettings, IUserRepository userRepository,
-        ILogger<UsersController> logger)
+        ILogger<UsersController> logger, IHolooCustomerRepository holooCustomerRepository, IHolooSarfaslRepository holooSarfaslRepository)
     {
         _emailRepository = emailRepository;
         _signInManager = signInManager;
@@ -33,6 +36,8 @@ public class UsersController : ControllerBase
         _siteSettings = siteSettings;
         _userRepository = userRepository;
         _logger = logger;
+        _holooCustomerRepository = holooCustomerRepository;
+        _holooSarfaslRepository = holooSarfaslRepository;
     }
 
     [HttpPost]
@@ -218,6 +223,8 @@ public class UsersController : ControllerBase
                     Messages = new List<string> {"Register Succeed"}
                 });
             }
+
+            await _holooCustomerRepository.Add(new HolooCustomer { });
 
             return Ok(new ApiResult {Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description)});
         }

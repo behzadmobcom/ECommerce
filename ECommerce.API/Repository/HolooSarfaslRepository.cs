@@ -14,9 +14,11 @@ namespace ECommerce.API.Repository
             _context = context;
         }
 
-        public Task<string> Add(HolooSarfasl sarfasl, CancellationToken cancellationToken)
+        public async Task<string> Add(HolooSarfasl sarfasl, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _context.Sarfasl.AddAsync(sarfasl, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return sarfasl.Sarfasl_Code;
         }
     }
 }
