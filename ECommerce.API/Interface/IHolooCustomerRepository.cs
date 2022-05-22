@@ -1,0 +1,10 @@
+﻿using API.Interface;
+using Ecommerce.Entities.HolooEntity;
+
+namespace ECommerce.API.Interface
+{
+    public interface IHolooCustomerRepository : IHolooRepository<HolooCustomer>
+    {
+        Task<string> Add(HolooCustomer customer, CancellationToken cancellationToken);
+    }
+}
