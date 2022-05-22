@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "جزئیات محصول";
 }
+<style>
 
+	.geeks {
+		width: 300px;
+		height: 300px;
+		overflow: hidden;
+		margin: 0 auto;
+	}
+     
+	.geeks img {
+		width: 100%;
+		transition: 0.5s all ease-in-out;
+	}
+     
+	.geeks:hover img {
+		transform: scale(1.5);
+	}
+</style>
 <section class="inner-section single-banner">
     <div class="container">
         <h2>جزئیات محصول</h2>
@@ -30,7 +47,7 @@
                         <ul class="details-preview">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li>
+                                <li class="geeks">
                                     <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                                 </li>
                             }
@@ -38,7 +55,7 @@
                         <ul class="details-thumb">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li>
+                                <li class="geeks">
                                     <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                                 </li>
                             }
