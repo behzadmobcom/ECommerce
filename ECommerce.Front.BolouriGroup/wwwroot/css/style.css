@@ -1498,7 +1498,8 @@ tbody tr td:last-child {
 
 .suggest-card img {
     border-radius: 8px;
-    width: 100%;
+    width: 204px;
+    height: 98px
 }
 
 .suggest-card h5 {
@@ -5874,6 +5875,9 @@ tbody tr td:last-child {
 @media (max-width: 575px) {
     .suggest-slider li {
         margin: 0 5px
+    }
+    .suggest-card img {
+        width: 100%
     }
 }
 
