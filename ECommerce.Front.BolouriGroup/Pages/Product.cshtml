@@ -4,20 +4,32 @@
     ViewData["Title"] = "جزئیات محصول";
 }
 <style>
+	.demo-area{
+		border-radius:8px;
+		padding:20px;
+	}
 
-	.geeks {
-		overflow: hidden;
-		margin: 0 auto;
+	.demo-trigger {
+		display: inline-block;
+		width: 40%;
+		float: left;
+		cursor:zoom-in
 	}
-     
-	.geeks img {
-		width: 100%;
-		transition: 0.5s all ease-in-out;
+
+	.demo-trigger img {
+		max-width: 100%;
 	}
-     
-	.geeks:hover img {
-		transform: scale(1.5);
+
+	.detail {
+		position: relative;
+		width: 55%;
+		margin-left: 5%;
+		float: left;
+		min-height:240px;
 	}
+
+
+    
 </style>
 <section class="inner-section single-banner">
     <div class="container">
@@ -30,7 +42,6 @@
         </ol>
     </div>
 </section>
-
 
 <section class="inner-section">
     <div class="container">
@@ -45,7 +56,7 @@
                         <ul class="details-preview">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li class="geeks">
+                                <li>
                                     <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                                 </li>
                             }
@@ -320,8 +331,29 @@
         </div>
     </div>
 </section>
+<section class="content">
+	<article class="demo-area">
+		<a class="demo-trigger" href="https://onceit.imgix.net/uploads/images/4456a9b4b2421d0e0289e7f21bff96d2.jpg?w=1800&h=1800&fit=clip&fm=jpg&q=75&auto=format%2Ccompress">
+			<img src="https://onceit.imgix.net/uploads/images/4456a9b4b2421d0e0289e7f21bff96d2.jpg?w=1800&h=1800&fit=clip&fm=jpg&q=75&auto=format%2Ccompressh=500&w=730">
+		</a>
 
+		<div class="detail">
+   
+			<h3>Magnify & Zoom</h3>
+			<p>Drift and Luminous are two lightweight js libraries that are easy to implement on your site to enable zoom and magnification for your images.</p>
+			<ul>
+				<li>Hover over the camera image to magnify!</li>
+				<li>You can also click to zoom!</li>
+				<li>Works as touch on mobile devices!</li>
+				<li>imgix makes it simple to dynamically size.</li>
+				<li class="responsive-hint">(Psst… try making your browser window smaller!)</li>
+			</ul>
 
+		</div>
+	</article>
+</section>
+
+<br/>
 @section Scripts{
     <script>
 
@@ -393,5 +425,18 @@
             });
 
         }
+
+        var demoTrigger = document.querySelector('.demo-trigger');
+
+        new Drift(demoTrigger, {
+	        paneContainer: document.querySelector('.detail'),
+	        inlinePane: 900,
+	        inlineOffsetY: -85,
+	        containInline: true,
+	        sourceAttribute: 'href'
+        });
+
+        new Luminous(demoTrigger);
+
     </script>
 }
