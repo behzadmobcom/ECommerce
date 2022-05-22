@@ -55,7 +55,7 @@
                         <ul class="details-thumb">
                             @foreach (var image in Model.Product.Images)
                             {
-                                <li class="geeks">
+                                <li>
                                     <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                                 </li>
                             }
