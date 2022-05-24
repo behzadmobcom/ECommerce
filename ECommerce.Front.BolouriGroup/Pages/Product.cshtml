@@ -4,32 +4,110 @@
     ViewData["Title"] = "جزئیات محصول";
 }
 <style>
-	.demo-area{
-		border-radius:8px;
-		padding:20px;
+	h1 {
+		font-size: 28px;
+		font-weight: 700;
+		margin-bottom: 5px;
 	}
 
-	.demo-trigger {
-		display: inline-block;
-		width: 40%;
-		float: left;
-		cursor:zoom-in
+	.price {
+		margin-bottom: 10px;
 	}
 
-	.demo-trigger img {
-		max-width: 100%;
+	.wrapper {
+		margin: 0 auto;
+		width: 860px;
 	}
 
-	.detail {
+	.columns {
+		margin: 0 auto;
+		max-width: 900px;
+	}
+
+	.details {
 		position: relative;
-		width: 55%;
-		margin-left: 5%;
+		width: 100%;
+		height: 100%;
 		float: left;
-		min-height:240px;
 	}
 
+	.thumbnail-container {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		float: left;
+	}
 
-    
+	.price {
+		font-size: 20px;
+		color: #777474;
+	}
+
+	.wishlist-container {
+		padding-left: 0;
+	}
+
+	#header {
+		width: 100%;
+		text-align: center;
+		background: white;
+		padding: 5px;
+		/*box-shadow: 0 10px 17px 0px #c0c0c0;*/
+		box-shadow: 0 5px 10px 0px #dbd7d7;
+	}
+	#header img {
+		max-width: 30px;
+	}
+
+	.columns {
+		margin-top: 30px;
+	}
+
+	.button {
+		width: 100%;
+		border-radius: 0;
+	}
+
+	.select, select {
+		width: 100%;
+		border-radius: 0 !important;
+	}
+
+	#wishlist-container {
+		padding-left: 0;
+	}
+
+	#buy-container {
+		padding-right: 0;
+	}
+
+	.small-text {
+		font-size: 14px;
+	}
+
+	.small-text span {
+		font-weight: bold;
+	}
+
+	.buy-button {
+		background: #ff6900;
+		color: white;
+		border: none;
+	}
+
+	.buy-button:hover, .buy-button:active, .buy-button:focus {
+		color: white;
+		opacity: 0.9;
+	}
+
+	a {
+		color: #ff6900;
+	}
+	a:hover {
+		color: #ff6900;
+		opacity: 0.8;
+	}
+
 </style>
 <section class="inner-section single-banner">
     <div class="container">
@@ -331,28 +409,66 @@
         </div>
     </div>
 </section>
-<section class="content">
-	<article class="demo-area">
-		<a class="demo-trigger" href="https://onceit.imgix.net/uploads/images/4456a9b4b2421d0e0289e7f21bff96d2.jpg?w=1800&h=1800&fit=clip&fm=jpg&q=75&auto=format%2Ccompress">
-			<img src="https://onceit.imgix.net/uploads/images/4456a9b4b2421d0e0289e7f21bff96d2.jpg?w=1800&h=1800&fit=clip&fm=jpg&q=75&auto=format%2Ccompressh=500&w=730">
-		</a>
 
-		<div class="detail">
-   
-			<h3>Magnify & Zoom</h3>
-			<p>Drift and Luminous are two lightweight js libraries that are easy to implement on your site to enable zoom and magnification for your images.</p>
-			<ul>
-				<li>Hover over the camera image to magnify!</li>
-				<li>You can also click to zoom!</li>
-				<li>Works as touch on mobile devices!</li>
-				<li>imgix makes it simple to dynamically size.</li>
-				<li class="responsive-hint">(Psst… try making your browser window smaller!)</li>
-			</ul>
+
+
+
+
+<div id="header">
+	<img src="https://awik.io/demo/webshop-zoom/star_logo.png">
+</div>
+
+<div class="columns">
+
+	<div class="column">
+		<div class="thumbnail-container">
+			<img class="drift-demo-trigger" data-zoom="https://awik.io/demo/webshop-zoom/shoe-large.jpg" src="https://awik.io/demo/webshop-zoom/shoe-small.jpg">
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="details">
+			<h1>Air Jordan 1 Retro</h1>
+			<p class="price">$95.99</p>
+			<p class="description">A remarkable shoe that's naturally soft, cozy all over, and fits your every move.</p>
+
+
+
+			<div class="columns">
+
+				<div class="column" id="wishlist-container">
+
+					<button class="button">
+						<span class="icon is-small">
+							<i class="fas fa-heart"></i>
+						</span>
+						<span>ADD TO WISHLIST</span>
+					</button>
+
+				</div>
+        
+				<div class="column" id="buy-container">
+
+					<button class="button buy-button">
+						<span class="icon is-small">
+							<i class="fas fa-shopping-bag"></i>
+						</span>
+						<span>ADD TO BAG</span>
+					</button>
+
+				</div>
+
+			</div>
+
+			<p class="small-text"><span>Standard delivery</span> 2-5 working days</p>
+			<p class="small-text"><span>Next day delivery</span> order before 2pm ($5.79)</p>
 
 		</div>
-	</article>
-</section>
+	</div>
 
+</div>
+
+<p class="small-text" style=" text-align: center; padding-top: 30px; padding-bottom: 15px;">Zoom plugin: <a href="" target="_blank">Drift</a></p>
 <br/>
 @section Scripts{
     <script>
@@ -426,17 +542,14 @@
 
         }
 
-        var demoTrigger = document.querySelector('.demo-trigger');
 
-        new Drift(demoTrigger, {
-	        paneContainer: document.querySelector('.detail'),
-	        inlinePane: 900,
+        new Drift(document.querySelector('.drift-demo-trigger'), {
+	        paneContainer: document.querySelector('.details'),
+	        inlinePane: 769,
 	        inlineOffsetY: -85,
 	        containInline: true,
-	        sourceAttribute: 'href'
+	        hoverBoundingBox: true
         });
-
-        new Luminous(demoTrigger);
 
     </script>
 }
