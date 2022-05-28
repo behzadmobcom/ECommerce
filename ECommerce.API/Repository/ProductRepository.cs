@@ -87,7 +87,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.Url = productViewModel.Url;
         product.DiscountId = productViewModel.DiscountId;
         product.HolooCompanyId = productViewModel.HolooCompanyId;
-        product.BrandId = productViewModel.BrandId;
+        product.BrandId = productViewModel.BrandId!=0?productViewModel.BrandId: null;
         product.SupplierId = productViewModel.SupplierId;
         product.StoreId = productViewModel.StoreId;
 
