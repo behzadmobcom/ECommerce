@@ -179,6 +179,8 @@ builder.Services.AddScoped<IHolooSanadRepository, HolooSanadRepository>();
 builder.Services.AddScoped<IHolooSanadListRepository, HolooSanadListRepository>();
 builder.Services.AddScoped<IHolooABailRepository, HolooABailRepository>();
 builder.Services.AddScoped<IHolooFBailRepository, HolooFBailRepository>();
+builder.Services.AddScoped<IHolooCustomerRepository, HolooCustomerRepository>();
+builder.Services.AddScoped<IHolooSarfaslRepository, HolooSarfaslRepository>();
 
 #endregion
 
