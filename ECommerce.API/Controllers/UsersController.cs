@@ -224,7 +224,7 @@ public class UsersController : ControllerBase
                 });
             }
 
-            await _holooCustomerRepository.Add(new HolooCustomer { });
+            //await _holooCustomerRepository.Add(new HolooCustomer { });
 
             return Ok(new ApiResult {Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description)});
         }
