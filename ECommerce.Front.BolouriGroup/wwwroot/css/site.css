@@ -63,3 +63,16 @@ body {
     white-space: nowrap;
     width: 100%;
 }
+.details {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+.columns {
+    margin: 0 auto;
+    max-width: 900px;
+}
+.columns {
+    margin-top: 30px;
+}

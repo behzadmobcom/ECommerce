@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="~/css/venobox.min.css" />
     <link rel="stylesheet" href="~/css/slick.min.css" />
     <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" />
 </head>
 
 <body>
@@ -592,11 +593,7 @@
     <script src="~/js/slick.js"></script>
     <script src="~/js/main.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
-    @await RenderSectionAsync("Scripts", false)
-</body>
-
+    
 <script>
     $(LoadCard());
 
@@ -715,7 +712,6 @@
         var allPrice = 0;
         $('#Cart-List').text('');
         $.get('/index?handler=LoadCart').done(function(products) {
-            alert("test4");
             $.each(products.returnData,
                 function(i, product) {
                     var item =
@@ -762,4 +758,8 @@
         });
     }
 </script>
+<script src="~/lib/drift-zoom/Drift.min.js"></script>
+    @await RenderSectionAsync("Scripts", false)
+</body>
+
 </html>

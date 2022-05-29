@@ -4,112 +4,7 @@
     ViewData["Title"] = "جزئیات محصول";
    
 }
-<style>
-	h1 {
-		font-size: 28px;
-		font-weight: 700;
-		margin-bottom: 5px;
-	}
 
-	.price {
-		margin-bottom: 10px;
-	}
-
-	.wrapper {
-		margin: 0 auto;
-		width: 860px;
-	}
-
-	.columns {
-		margin: 0 auto;
-		max-width: 900px;
-	}
-
-	.details {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		float: left;
-	}
-
-	.thumbnail-container {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		float: left;
-	}
-
-	.price {
-		font-size: 20px;
-		color: #777474;
-	}
-
-	.wishlist-container {
-		padding-left: 0;
-	}
-
-	#header {
-		width: 100%;
-		text-align: center;
-		background: white;
-		padding: 5px;
-		/*box-shadow: 0 10px 17px 0px #c0c0c0;*/
-		box-shadow: 0 5px 10px 0px #dbd7d7;
-	}
-	#header img {
-		max-width: 30px;
-	}
-
-	.columns {
-		margin-top: 30px;
-	}
-
-	.button {
-		width: 100%;
-		border-radius: 0;
-	}
-
-	.select, select {
-		width: 100%;
-		border-radius: 0 !important;
-	}
-
-	#wishlist-container {
-		padding-left: 0;
-	}
-
-	#buy-container {
-		padding-right: 0;
-	}
-
-	.small-text {
-		font-size: 14px;
-	}
-
-	.small-text span {
-		font-weight: bold;
-	}
-
-	.buy-button {
-		background: #ff6900;
-		color: white;
-		border: none;
-	}
-
-	.buy-button:hover, .buy-button:active, .buy-button:focus {
-		color: white;
-		opacity: 0.9;
-	}
-
-	a {
-		color: #ff6900;
-	}
-	a:hover {
-		color: #ff6900;
-		opacity: 0.8;
-	}
-
-</style>
 <section class="inner-section single-banner">
     <div class="container">
         <h2>جزئیات محصول</h2>
@@ -121,7 +16,6 @@
         </ol>
     </div>
 </section>
-
 <section class="inner-section">
     <div class="container">
         <div class="row">
@@ -136,7 +30,10 @@
                             @foreach (var image in Model.Product.Images)
                             {
                                 <li>
-                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    <img class="drift-demo-trigger"
+                                         src="/@($"{image.Path}/{image.Name}")?w=400"
+                                         data-zoom="/@($"{image.Path}/{image.Name}")?w=800"
+                                         alt="@image.Alt">
                                 </li>
                             }
                         </ul>
@@ -149,6 +46,7 @@
                             }
                         </ul>
                     </div>
+                    <div class="column"><div class="details"></div></div>
                 </div>
             }
             <div class="col-lg-7">
@@ -412,74 +310,14 @@
 </section>
 
 
-
-
-
-<div id="header">
-	<img src="https://awik.io/demo/webshop-zoom/star_logo.png">
-</div>
-
-<div class="columns">
-
-	<div class="column">
-		<div class="thumbnail-container">
-			<img class="drift-demo-trigger" data-zoom="https://awik.io/demo/webshop-zoom/shoe-large.jpg" src="https://awik.io/demo/webshop-zoom/shoe-small.jpg">
-		</div>
-	</div>
-
-	<div class="column">
-		<div class="details">
-			<h1>Air Jordan 1 Retro</h1>
-			<p class="price">$95.99</p>
-			<p class="description">A remarkable shoe that's naturally soft, cozy all over, and fits your every move.</p>
-
-
-
-			<div class="columns">
-
-				<div class="column" id="wishlist-container">
-
-					<button class="button">
-						<span class="icon is-small">
-							<i class="fas fa-heart"></i>
-						</span>
-						<span>ADD TO WISHLIST</span>
-					</button>
-
-				</div>
-        
-				<div class="column" id="buy-container">
-
-					<button class="button buy-button">
-						<span class="icon is-small">
-							<i class="fas fa-shopping-bag"></i>
-						</span>
-						<span>ADD TO BAG</span>
-					</button>
-
-				</div>
-
-			</div>
-
-			<p class="small-text"><span>Standard delivery</span> 2-5 working days</p>
-			<p class="small-text"><span>Next day delivery</span> order before 2pm ($5.79)</p>
-
-		</div>
-	</div>
-
-</div>
-
-<p class="small-text" style=" text-align: center; padding-top: 30px; padding-bottom: 15px;">Zoom plugin: <a href="" target="_blank">Drift</a></p>
-<br/>
 @section Scripts{
     <script>
 
         new Drift(document.querySelector('.drift-demo-trigger'), {
 	        paneContainer: document.querySelector('.details'),
-	        inlinePane: 769,
-	        inlineOffsetY: -85,
+            zoomFactor: 3,
 	        containInline: true,
-	        hoverBoundingBox: true
+            hoverBoundingBox: true
         });
 
     </script>
