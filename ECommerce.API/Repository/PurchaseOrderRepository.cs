@@ -28,7 +28,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             paginationParameters.PageSize);
     }
 
-    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
+    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<IEnumerable<PurchaseOrderViewModel>> GetProductListByUserId(int userId,

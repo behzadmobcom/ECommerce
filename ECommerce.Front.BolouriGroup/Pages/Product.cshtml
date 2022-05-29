@@ -2,6 +2,7 @@
 @model Bolouri.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
+   
 }
 
 <section class="inner-section single-banner">
@@ -245,7 +246,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="product-details-frame p-5">
+                 @*   <div class="product-details-frame p-5">
                         <h3 class="frame-title">بررسی خود را اضافه کنید</h3>
                         <form class="review-form">
                             <div class="row">
@@ -278,7 +279,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </div>
@@ -314,77 +315,12 @@
 @section Scripts{
     <script>
 
-        //function AddCart(id) {
-        //    $.ajax({
-        //        type: "Get",
-        //        url: "Product?handler=AddCart&id=" + id,
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function(result) {
-        //            swal(result.message);
-        //            if (result.code === 0) {
-        //                var count = 0;
-        //                var allPrice = 0;
-        //                $('#Cart-List').text('');
-        //                $.get('Product?handler=LoadCart').done(function(products) {
-
-        //                    $.each(products.returnData,
-        //                        function(i, product) {
-        //                            var item =
-        //                                '<div class="single-cart clearfix"> id="CartDrop-' +
-        //                                    product.productId +
-        //                                    '"' +
-        //                                    '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
-        //                                    product.url +
-        //                                    '">' +
-        //                                    product.name +
-        //                                    '</a> </h6>' +
-        //                                    '<div class="cart-img f-left">' +
-        //                                    '<a asp-page="Product" asp-route-productId="' +
-        //                                    product.Url +
-        //                                    '">' +
-        //                                    '<img width="100px" src="/' +
-        //                                    product.imagePath +
-        //                                    '" alt="' +
-        //                                    product.alt +
-        //                                    '"> </a>' +
-        //                                    '<div class="del-icon">' +
-        //                                    '<a href="javascript:void(0)" onclick="DeleteCart(' +
-        //                                    product.productId +
-        //                                    ')"> ' +
-        //                                    '<i class="zmdi zmdi-close"></i> </a>' +
-        //                                    '</div></div><div class="cart-info f-left"> <p>' +
-        //                                    '<span>برند <strong>:</strong></span>' +
-        //                                    product.brand +
-        //                                    '</p><p><span>قیمت <strong>:</strong></span>' +
-        //                                    product.price +
-        //                                    '</p><p><span>تعداد <strong>:</strong></span>' +
-        //                                    product.quantity +
-        //                                    '</p><p> <input hidden="hidden" value="' +
-        //                                    product.sumPrice +
-        //                                    '" id="SumPrice-' +
-        //                                    product.productId +
-        //                                    '"/><span>جمع <strong>:</strong></span>' +
-        //                                    product.sumPrice +
-        //                                    '</p></div></div>';
-        //                            $('#Cart-List').append(item);
-        //                            count++;
-        //                            allPrice = allPrice + product.sumPrice;
-        //                        });
-        //                    $('#Cart-Count').text(count);
-        //                    $('#All-Price').text(allPrice + ' تومان');
-        //                });
-        //            }
-        //        },
-        //        failure: function(response) {
-        //            alert(response);
-        //        }
-        //    });
-        //}  
-
-
-        new Drift($("#test"), {
-	        paneContainer: document.querySelector("p")
+        new Drift(document.querySelector('.drift-demo-trigger'), {
+	        paneContainer: document.querySelector('.details'),
+	        inlinePane: 769,
+	        inlineOffsetY: -85,
+	        containInline: true,
+	        hoverBoundingBox: true
         });
     </script>
 }

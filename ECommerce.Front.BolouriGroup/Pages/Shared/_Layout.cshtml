@@ -31,8 +31,8 @@
         <div class="container">
             <div class="row">
                 @* <div class="col-md-12 col-lg-5">
-                    <div class="header-top-welcome"><p>برای اولین خرید خود 10٪ تخفیف بگیرید!</p></div>
-                    </div>*@
+                <div class="header-top-welcome"><p>برای اولین خرید خود 10٪ تخفیف بگیرید!</p></div>
+                </div>*@
                 <div class="col-md-7 col-lg-4">
                     <ul class="header-top-list">
                         <li>
@@ -543,9 +543,9 @@
                             </li>
                             <li>
                                 <i class="fal fa-map-marker-alt"></i>
-                                <p>   
-	                                ایران، گیلان، رشت، خمام، جاده چوکام، جنب سایپا پور رستگار، خیابان شریفی
-	                                <br/>
+                                <p>
+                                    ایران، گیلان، رشت، خمام، جاده چوکام، جنب سایپا پور رستگار، خیابان شریفی
+                                    <br />
                                     کدپستی : ۴۳۴۵۱۴۱۴۴۱
                                 </p>
                             </li>
@@ -553,15 +553,15 @@
                     </div>
                 </div>
                 @*  <div class="col-sm-6 col-xl-3">
-                    <div class="footer-widget">
-                    <h3 class="footer-title">بارگیری برنامه</h3>
-                    <p class="footer-desc">بارگیری برنامه از مدت ها قبل ثابت کرده است که خواننده هنگام مطالعه در صفحه ای که دارای چیدمان صفحه است دارای حروف طبیعی است و حواس او به مطالعه خوانده می شود.</p>
-                    <div class="footer-app">
-                    <a href="#"><img src="~/img/download/play-store.png" alt="گوگل"></a>
-                    <a href="#"><img src="~/img/download/app-store.png" alt="برنامه"></a>
-                    </div>
-                    </div>
-                    </div>*@
+                <div class="footer-widget">
+                <h3 class="footer-title">بارگیری برنامه</h3>
+                <p class="footer-desc">بارگیری برنامه از مدت ها قبل ثابت کرده است که خواننده هنگام مطالعه در صفحه ای که دارای چیدمان صفحه است دارای حروف طبیعی است و حواس او به مطالعه خوانده می شود.</p>
+                <div class="footer-app">
+                <a href="#"><img src="~/img/download/play-store.png" alt="گوگل"></a>
+                <a href="#"><img src="~/img/download/app-store.png" alt="برنامه"></a>
+                </div>
+                </div>
+                </div>*@
             </div>
             <div class="row">
                 <div class="col-12">
@@ -598,7 +598,7 @@
 <script>
     $(LoadCard());
 
-    function DeleteCart(id,productId,priceId) {
+    function DeleteCart(id, productId, priceId) {
         var elementId = "#CartDrop-" + id;
         var sumPriceId = "#SumPrice-" + id;
         var price = parseInt($(sumPriceId).val());
@@ -606,7 +606,7 @@
         var allPrice = parseInt($("#AllPrice-Value").val());
         $.ajax({
             type: "Get",
-            url: "index?handler=DeleteCart&id=" + id+"&productId="+productId+"&priceId="+priceId,
+            url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(result) {
@@ -617,7 +617,7 @@
                     count--;
                     allPrice = allPrice - price;
                     $('#Cart-Count').text(count);
-                    $('#Cart-Count2').text("کل مورد ("+count+")");
+                    $('#Cart-Count2').text("کل مورد (" + count + ")");
                     $('#All-Price').text(allPrice + ' تومان');
                     $("#Cart-Count-Value").val(count);
                     $("#AllPrice-Value").val(allPrice);
@@ -628,10 +628,10 @@
             }
         });
     }
-    function DecreaseCart(id,productId,priceId) {
+    function DecreaseCart(id, productId, priceId) {
         $.ajax({
             type: "Get",
-            url: "index?handler=DecreaseCart&id=" + id+"&productId="+productId+"&priceId="+priceId,
+            url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(result) {
@@ -647,7 +647,7 @@
     function AddWishList(id) {
         $.ajax({
             type: "Get",
-            url: "Shop?handler=AddWishList&id=" + id,
+            url: "/index?handler=AddWishList&id=" + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(response) {
@@ -662,7 +662,7 @@
     function AddCompareList(id) {
         $.ajax({
             type: "Get",
-            url: "Shop?handler=AddCompareList&id=" + id,
+            url: "/index?handler=AddCompareList&id=" + id,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(response) {
@@ -677,7 +677,7 @@
     function OpenProductModal() {
         $.ajax({
             type: "Get",
-            url: "index?handler=wish",
+            url: "/index?handler=wish",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(response) {
@@ -689,10 +689,10 @@
         });
     }
 
-    function AddCart(id,priceId) {
+    function AddCart(id, priceId) {
         $.ajax({
             type: "Get",
-            url: "index?handler=AddCart&id=" + id+"&priceId="+priceId,
+            url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function(result) {
@@ -709,55 +709,55 @@
     }
 
     function LoadCard() {
-          var count = 0;
-                    var allPrice = 0;
-                    $('#Cart-List').text('');
-                    $.get('index?handler=LoadCart').done(function(products) {
-
-                        $.each(products.returnData,
-                            function(i, product) {
-                                var item =
-                                    '<li class="cart-item" id="CartDrop-' + product.id + '">' +
-                                        ' <div class="cart-media">' +
-                                        '<a asp-page="Product" asp-route-productUrl="' + product.url +'"><img src="/' + product.imagePath + '" alt="' + product.alt + '">' +'</a>' +
-                                        '<button class="cart-delete" onclick="DeleteCart(' + product.id +','+product.productId+','+product.priceId+')"><i class="far fa-times"></i></button>' +
-                                        '</div>' +
-                                        '  <div class="cart-info-group">' +
-                                        '<div class="cart-info">' +
-                                        '  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
-                                        product.name +
-                                        '</a></h5>' +
-                                        '  <h6>برند' +
-                                        product.brand +
-                                        '</h6>' +
-                                        '<p>' +
-                                        product.priceAmount +
-                                        '</p>' +
-                                        '</div>' +
-                                        '<div class="cart-action-group">' +
-                                        '<div class="product-action">' +
-                                        '<button class="action-minus" onclick="DecreaseCart(' + product.id +','+product.productId+','+product.priceId+')" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
-                                        product.quantity +
-                                        '">' +
-                                        '<button class="action-plus" onclick="AddCart(' +product.productId+','+product.priceId+')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
-                                        '</div>' +
-                                        '<h6>' +
-                                        product.sumPrice +
-                                        '</h6><h6>تومان</h6>' +
-                                        ' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>'+
-                                        '</div>' +
-                                        '</div>' +
-                                        '</li>';
-                                $('#Cart-List').append(item);
-                                count++;
-                                allPrice = allPrice + product.sumPrice;
-                            });
-                        $('#Cart-Count').text(count);
-                        $('#Cart-Count-Value').val(count);
-                        $('#Cart-Count2').text("کل مورد ("+count+")");
-                        $('#All-Price').text(allPrice);
-                        $('#AllPrice-Value').val(allPrice);
-                    });
+        var count = 0;
+        var allPrice = 0;
+        $('#Cart-List').text('');
+        $.get('/index?handler=LoadCart').done(function(products) {
+            alert("test4");
+            $.each(products.returnData,
+                function(i, product) {
+                    var item =
+                        '<li class="cart-item" id="CartDrop-' + product.id + '">' +
+                        ' <div class="cart-media">' +
+                        '<a asp-page="Product" asp-route-productUrl="' + product.url + '"><img src="/' + product.imagePath + '" alt="' + product.alt + '">' + '</a>' +
+                        '<button class="cart-delete" onclick="DeleteCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')"><i class="far fa-times"></i></button>' +
+                        '</div>' +
+                        '  <div class="cart-info-group">' +
+                        '<div class="cart-info">' +
+                        '  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
+                        product.name +
+                        '</a></h5>' +
+                        '  <h6>برند' +
+                        product.brand +
+                        '</h6>' +
+                        '<p>' +
+                        product.priceAmount +
+                        '</p>' +
+                        '</div>' +
+                        '<div class="cart-action-group">' +
+                        '<div class="product-action">' +
+                        '<button class="action-minus" onclick="DecreaseCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
+                        product.quantity +
+                        '">' +
+                        '<button class="action-plus" onclick="AddCart(' + product.productId + ',' + product.priceId + ')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
+                        '</div>' +
+                        '<h6>' +
+                        product.sumPrice +
+                        '</h6><h6>تومان</h6>' +
+                        ' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>' +
+                        '</div>' +
+                        '</div>' +
+                        '</li>';
+                    $('#Cart-List').append(item);
+                    count++;
+                    allPrice = allPrice + product.sumPrice;
+                });
+            $('#Cart-Count').text(count);
+            $('#Cart-Count-Value').val(count);
+            $('#Cart-Count2').text("کل مورد (" + count + ")");
+            $('#All-Price').text(allPrice);
+            $('#AllPrice-Value').val(allPrice);
+        });
     }
 </script>
 

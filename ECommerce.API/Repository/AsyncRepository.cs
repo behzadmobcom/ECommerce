@@ -119,8 +119,9 @@ public class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity 
         bool saveNow = true)
     {
         Assert.NotNull(entity, nameof(entity));
-        Entities.Update(entity);
-
+        //Entities.Update(entity);
+        var entry = DbContext.Entry(entity);
+        entry.State = EntityState.Modified;
         if (saveNow) await DbContext.SaveChangesAsync(cancellationToken);
 
         return entity;

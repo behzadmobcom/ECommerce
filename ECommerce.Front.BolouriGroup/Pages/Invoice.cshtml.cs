@@ -55,7 +55,7 @@ public class InvoiceModel : PageModel
                 case 100:
                 case 101:
                     //Success
-                    CartList = (await _cartService.CartListFromServer()).ReturnData;
+                   
                     Refid = statusInt.RefId.ToString();
                     PurchaseOrder.Transaction = new();
                     PurchaseOrder.Transaction.RefId = Refid;
@@ -63,11 +63,11 @@ public class InvoiceModel : PageModel
                     var result = await _purchaseOrderService.Pay(PurchaseOrder);
                     Message = result.Message;
                     Code = result.Code.ToString();
+                    CartList = (await _cartService.CartListFromServer()).ReturnData;
 
                     return Page();
             }
         }
-
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
     }
 }
