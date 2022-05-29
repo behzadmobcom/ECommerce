@@ -5,6 +5,10 @@
     {
       "library": "drift-zoom@1.5.0",
       "destination": "wwwroot/lib/drift-zoom/"
+    },
+    {
+      "library": "sweetalert@2.1.2",
+      "destination": "wwwroot/lib/sweetalert/"
     }
   ]
 }
