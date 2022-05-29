@@ -24,8 +24,13 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<Product> GetByUrl(string url, CancellationToken cancellationToken)
     {
-        return await _context.Products.Where(x => x.Url == url).Include(x => x.Brand).Include(x => x.Keywords)
-            .Include(t => t.Tags).Include(x => x.Images).Include(x => x.Prices)
+        return await _context.Products.Where(x => x.Url == url)
+            .Include(x => x.Brand)
+            .Include(x => x.Keywords)
+            .Include(t => t.Tags)
+            .Include(x => x.Images)
+            .Include(x => x.Prices)
+            .ThenInclude(x => x.Color)
             .FirstOrDefaultAsync(cancellationToken);
     }
 

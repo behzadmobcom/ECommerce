@@ -1,8 +1,9 @@
 ﻿@page "/product/{productUrl}"
+@using Entities
 @model Bolouri.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
-   
+    int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
 
 <section class="inner-section single-banner">
@@ -31,9 +32,9 @@
                             {
                                 <li>
                                     <img class="drift-demo-trigger"
-                                         src="/@($"{image.Path}/{image.Name}")?w=400"
-                                         data-zoom="/@($"{image.Path}/{image.Name}")?w=800"
-                                         alt="@image.Alt">
+                                 src="/@($"{image.Path}/{image.Name}")?w=400"
+                                 data-zoom="/@($"{image.Path}/{image.Name}")?w=800"
+                                 alt="@image.Alt">
                                 </li>
                             }
                         </ul>
@@ -63,10 +64,10 @@
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
                     </div>
                     <h3 class="details-price">
-                        <span>@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("N0") تومان </span>
+                        <span  id="price">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان </span>
                     </h3>
                     <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
-                    <br/>
+                    <br />
                     <div class="details-list-group">
                         <label class="details-list-title">برچسب ها:</label>
                         <ul class="details-tag-list">
@@ -83,23 +84,58 @@
                     </div>
                     <div class="details-list-group">
                         <label class="details-list-title">در انبار:</label>
-                        <div>در دسترس</div>
-                    </div>
-                    <div class="details-list-group">
-                        <label class="details-list-title">تعداد:</label>
-                        <div class="cart-action-group">
-                            <div class="product-action">
-                                <button class="action-minus" title="مقدار منهای">
-                                    <i class="far fa-minus"></i>
-                                </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                <button class="action-plus" title="مقدار به علاوه">
-                                    <i class="far fa-plus"></i>
-                                </button>
-                            </div>
+                        <div id="exist">
+                            @if (Model.Product.Prices.First().Exist > 0)
+                            {
+                                <label>در دسترس</label>
+                            }
+                            else
+                            {
+                                <label>عدم موجودی</label>
+                            }
                         </div>
                     </div>
+                    @*  <div class="details-list-group">
+                    <label class="details-list-title">تعداد:</label>
+                    <div class="cart-action-group">
+                    <div class="product-action">
+                    <button class="action-minus" title="مقدار منهای">
+                    <i class="far fa-minus"></i>
+                    </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
+                    <button class="action-plus" title="مقدار به علاوه">
+                    <i class="far fa-plus"></i>
+                    </button>
+                    </div>
+                    </div>
+                    </div>*@
+
+                    @if (Model.Product.Tags != null)
+                    {
+                        @foreach (var price in Model.Product.Prices)
+                        {
+                            var select = price.Id==priceId?"checked":"";
+                            if ((int)price.Grade > 1)
+                            {
+                                <div style="background-color: @price.Color.ColorCode" >
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                    <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
+                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                </div>
+                            }
+                            else if (price.ColorId > 1)
+                            {
+                                <div style="background-color: @price.Color.ColorCode" >
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                    <label for="price-@price.Id">@price.Color.Name - </label>
+                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                </div>
+                            }
+                            <br>
+                        }
+                    }
+
                     <div class="details-add-group">
-                        <button class="product-add w-100" title="افزودن به سبد خرید">
+                        <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@priceId)">
                             <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
                         </button>
                     </div>
@@ -156,24 +192,24 @@
 
                             @for (var g = 0; g < Model.AttributeGroups.Count; g++)
                             {
-                              @*  <thead>
-                                <tr>
-                                    <th>@Model.AttributeGroups[g].Name</th>
-                                </tr>
-                                </thead>*@
+                                @*  <thead>
+                            <tr>
+                            <th>@Model.AttributeGroups[g].Name</th>
+                            </tr>
+                            </thead>*@
 
                                 <tbody>
-                                @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
-                                {
-                                    <tr>
-                                        <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
+                                    @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
+                                    {
+                                        <tr>
+                                            <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
 
-                                        @for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
-                                        {
-                                            <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
-                                        }
-                                    </tr>
-                                }
+                                            @for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
+                                            {
+                                                <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
+                                            }
+                                        </tr>
+                                    }
                                 </tbody>
                             }
 
@@ -249,39 +285,39 @@
                             </li>
                         </ul>
                     </div>
-                 @*   <div class="product-details-frame p-5">
-                        <h3 class="frame-title">بررسی خود را اضافه کنید</h3>
-                        <form class="review-form">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="star-rating">
-                                        <input type="radio" name="rating" id="star-1"><label for="star-1"></label><input type="radio" name="rating" id="star-2"><label for="star-2"></label>
-                                        <input type="radio" name="rating" id="star-3"><label for="star-3"></label><input type="radio" name="rating" id="star-4"><label for="star-4"></label>
-                                        <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="نام">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="پست الکترونیک">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <textarea class="form-control" placeholder="بررسی شما"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <button class="btn btn-inline">
-                                        <i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    @*   <div class="product-details-frame p-5">
+                    <h3 class="frame-title">بررسی خود را اضافه کنید</h3>
+                    <form class="review-form">
+                    <div class="row">
+                    <div class="col-lg-12">
+                    <div class="star-rating">
+                    <input type="radio" name="rating" id="star-1"><label for="star-1"></label><input type="radio" name="rating" id="star-2"><label for="star-2"></label>
+                    <input type="radio" name="rating" id="star-3"><label for="star-3"></label><input type="radio" name="rating" id="star-4"><label for="star-4"></label>
+                    <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
+                    </div>
+                    </div>
+                    <div class="col-lg-6">
+                    <div class="form-group">
+                    <input type="text" class="form-control" placeholder="نام">
+                    </div>
+                    </div>
+                    <div class="col-lg-6">
+                    <div class="form-group">
+                    <input type="email" class="form-control" placeholder="پست الکترونیک">
+                    </div>
+                    </div>
+                    <div class="col-lg-12">
+                    <div class="form-group">
+                    <textarea class="form-control" placeholder="بررسی شما"></textarea>
+                    </div>
+                    </div>
+                    <div class="col-lg-12">
+                    <button class="btn btn-inline">
+                    <i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span>
+                    </button>
+                    </div>
+                    </div>
+                    </form>
                     </div>*@
                 </div>
             </div>
@@ -301,7 +337,7 @@
 
             @foreach (var relatedProduct in Model.RelatedProducts)
             {
-                <partial name="Components/_productCard" model="relatedProduct"/>
+                <partial name="Components/_productCard" model="relatedProduct" />
             }
 
 
@@ -313,12 +349,27 @@
 @section Scripts{
     <script>
 
+        var prices=@Html.Raw(Json.Serialize(Model.Product.Prices));
+
+        function SetPriceId(id) {
+            var price = prices.find(x => x.id == id);
+            
+            if (price.exist > 0) {
+                $("#exist").text("عدم موجودی");
+            } else {
+                $("#exist").text("در دسترس");
+            }
+            $("#price").text(price.amount +" تومان ");
+        }
+
+
         new Drift(document.querySelector('.drift-demo-trigger'), {
-	        paneContainer: document.querySelector('.details'),
+            paneContainer: document.querySelector('.details'),
             zoomFactor: 3,
-	        containInline: true,
+            containInline: true,
             hoverBoundingBox: true
         });
+
 
     </script>
 }
