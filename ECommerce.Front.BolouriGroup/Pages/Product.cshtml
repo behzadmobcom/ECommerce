@@ -57,7 +57,10 @@
                     </h3>
                     <div class="details-meta">
                         <p>کد محصول: <span>@Model.Product.ArticleCodeCustomer</span></p>
-                        <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand.Name</a></p>
+                        @if (Model.Product.Brand != null)
+                        {
+                            <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
+                        }
                     </div>
                     <div class="details-rating">
                         <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
