@@ -11,7 +11,7 @@ public interface IHolooArticleRepository : IHolooRepository<HolooArticle>
     Task<IEnumerable<HolooArticle>>
         GetAllMCode(string mCode, CancellationToken cancellationToken, short sendToSite = 0);
 
-    Task<int> SyncHolooWebId(IEnumerable<HolooArticle> products, CancellationToken cancellationToken);
+    Task SyncHolooWebId(string aCodeC, int productId, CancellationToken cancellationToken);
     Task<IEnumerable<HolooArticle>> GetHolooArticle(List<string> aCodes, CancellationToken cancellationToken);
     Task<(int price, double? exist)> GetHolooPrice(string aCode, Price.HolooSellNumber sellPrice);
 }

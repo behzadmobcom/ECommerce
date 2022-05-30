@@ -31,14 +31,18 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<int> SyncHolooWebId(IEnumerable<HolooArticle> holooArticles, CancellationToken cancellationToken)
+    public async Task SyncHolooWebId(string aCodeC, int productId, CancellationToken cancellationToken)
     {
-        //_context.ARTICLE.UpdateRange(holooArticles);
-        foreach (var holooArticle in holooArticles) _context.Entry(holooArticle).State = EntityState.Modified;
-        return await _context.SaveChangesAsync(cancellationToken);
+        var articles =  _context.ARTICLE.Where(x => x.A_Code_C == aCodeC);
+        foreach(var article in articles)
+        {
+            article.WebId = productId;
+            _context.ARTICLE.Update(article);
+        }
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<HolooArticle>> GetHolooArticle(List<string> aCodes,CancellationToken cancellationToken)
+    public async Task<IEnumerable<HolooArticle>> GetHolooArticle(List<string> aCodes, CancellationToken cancellationToken)
     {
         return await _context.ARTICLE.Where(x => aCodes.Any(aCode => aCode == x.A_Code)).ToListAsync(cancellationToken);
     }
