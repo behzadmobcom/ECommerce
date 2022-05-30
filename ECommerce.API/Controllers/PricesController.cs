@@ -12,11 +12,13 @@ public class PricesController : ControllerBase
 {
     private readonly ILogger<PricesController> _logger;
     private readonly IPriceRepository _priceRepository;
+    private readonly IHolooArticleRepository _holooArticleRepository;
 
-    public PricesController(IPriceRepository priceRepository, ILogger<PricesController> logger)
+    public PricesController(IPriceRepository priceRepository, ILogger<PricesController> logger, IHolooArticleRepository holooArticleRepository)
     {
         _priceRepository = priceRepository;
         _logger = logger;
+        _holooArticleRepository = holooArticleRepository;
     }
 
     /// <summary>
@@ -52,7 +54,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -78,7 +80,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -104,7 +106,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -122,11 +124,13 @@ public class PricesController : ControllerBase
 
 
             var messages = await CheckPrice(price, cancellationToken);
+            var newPrice = await _priceRepository.AddAsync(price, cancellationToken);
+            await _holooArticleRepository.SyncHolooWebId(newPrice.ArticleCodeCustomer, newPrice.ProductId, cancellationToken);
             if (messages.Count == 0)
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Success,
-                    ReturnData = await _priceRepository.AddAsync(price, cancellationToken)
+                    ReturnData = newPrice
                 });
             return Ok(new ApiResult
             {
@@ -138,7 +142,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -168,7 +172,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -188,7 +192,7 @@ public class PricesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
