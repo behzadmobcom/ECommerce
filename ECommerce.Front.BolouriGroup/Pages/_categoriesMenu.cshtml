@@ -5,7 +5,7 @@
     @foreach (var category in Model)
     {
         var path = $"/Shop/{category.Path}";
-        @if (category.Depth > 0)
+        @*  @if (category.Depth > 0)
         {
             <li>
                 <a href="@path">
@@ -23,12 +23,17 @@
             <li>
                 <a href="@path">@category.Name</a>
             </li>
-        }
-
-
-        @if (category.Children != null)
+        }*@
+        @if (category.Depth== 1)
         {
-            <partial name="_categoriesMenu" model="category.Children"/>
+            <li>
+                <a href="@path">@category.Name</a>
+            </li>
         }
+
+       @* @if (category.Children != null)
+        {
+            <partial name="_categoriesMenu" model="category.Children" />
+        }*@
     }
 }

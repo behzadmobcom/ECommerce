@@ -13,13 +13,12 @@
                         <h5 class="megamenu-title">@category.Name</h5>
                     </a>
                 }
-
-                @*  @if (category.Children != null)
-                    {
+                @if (category.Children != null)
+                {
                     <ul class="megamenu-list">
-                    <partial name="_categoriesMenu" model="category.Children"/>
+                        <partial name="_categoriesMenu" model="category.Children" />
                     </ul>
-                    }*@
+                }
             </div>
         </div>
     }
