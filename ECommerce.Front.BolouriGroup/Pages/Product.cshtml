@@ -64,7 +64,7 @@
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
                     </div>
                     <h3 class="details-price">
-                        <span  id="price">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان </span>
+                        <span id="price">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان </span>
                     </h3>
                     <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
                     <br />
@@ -113,19 +113,19 @@
                     {
                         @foreach (var price in Model.Product.Prices)
                         {
-                            var select = price.Id==priceId?"checked":"";
+                            var select = price.Id == priceId ? "checked" : "";
                             if ((int)price.Grade > 1)
                             {
-                                <div style="background-color: @price.Color.ColorCode" >
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                <div style="background-color: @price.Color.ColorCode">
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
                                     <label for="price-@price.Id">قیمت : @price.Amount</label>
                                 </div>
                             }
                             else if (price.ColorId > 1)
                             {
-                                <div style="background-color: @price.Color.ColorCode" >
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                <div style="background-color: @price.Color.ColorCode">
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <label for="price-@price.Id">@price.Color.Name - </label>
                                     <label for="price-@price.Id">قیمت : @price.Amount</label>
                                 </div>
@@ -349,17 +349,18 @@
 @section Scripts{
     <script>
 
-        var prices=@Html.Raw(Json.Serialize(Model.Product.Prices));
+        var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
 
         function SetPriceId(id) {
             var price = prices.find(x => x.id == id);
-            
+
             if (price.exist > 0) {
-                $("#exist").text("عدم موجودی");
-            } else {
                 $("#exist").text("در دسترس");
+
+            } else {
+                $("#exist").text("عدم موجودی");
             }
-            $("#price").text(price.amount +" تومان ");
+            $("#price").text(price.amount + " تومان ");
         }
 
 
