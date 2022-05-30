@@ -144,7 +144,7 @@
                                 <a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
                                 <div class="megamenu">
                                     <div class="container">
-                                        <div class="row row-cols-4">
+                                        <div class="row row-cols-4" data-masonry='{"percentPosition": true }'>
                                             @await Component.InvokeAsync("CategoriesMenu")
                                         </div>
                                     </div>
@@ -595,7 +595,7 @@
     <script src="~/js/main.js"></script>
     <script src="lib/drift-zoom/Drift.js"></script>
     <script src="lib/sweetalert/sweetalert.min.js"></script>
-    
+    <script src="lib/masonry/masonry.pkgd.min.js"></script>
 <script>
     $(LoadCard());
 

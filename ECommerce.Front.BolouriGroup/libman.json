@@ -9,6 +9,13 @@
     {
       "library": "sweetalert@2.1.2",
       "destination": "wwwroot/lib/sweetalert/"
+    },
+    {
+      "library": "masonry@4.2.2",
+      "destination": "wwwroot/lib/masonry/",
+      "files": [
+        "masonry.pkgd.min.js"
+      ]
     }
   ]
 }
