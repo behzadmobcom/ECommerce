@@ -16,7 +16,7 @@ public class BlogCategory : BaseEntity
 
     //ForeignKey
     public int? ParentId { get; set; }
-    public BlogCategory Parent { get; set; }
+    public BlogCategory? Parent { get; set; }
 
     [JsonIgnore] public ICollection<BlogCategory>? BlogCategories { get; set; } = new List<BlogCategory>();
 

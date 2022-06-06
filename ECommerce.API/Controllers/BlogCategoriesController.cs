@@ -93,7 +93,7 @@ public class BlogCategoriesController : ControllerBase
             blogCategory.Name = blogCategory.Name.Trim();
 
             var repetitiveCategory =
-                await _blogCategoryRepository.GetByName(blogCategory.Name, blogCategory.Parent.Id, cancellationToken);
+                await _blogCategoryRepository.GetByName(blogCategory.Name, blogCategory.Parent?.Id, cancellationToken);
             if (repetitiveCategory != null)
                 return Ok(new ApiResult
                 {
