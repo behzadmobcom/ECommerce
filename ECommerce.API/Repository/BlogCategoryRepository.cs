@@ -25,9 +25,9 @@ public class BlogCategoryRepository : AsyncRepository<BlogCategory>, IBlogCatego
             paginationParameters.PageSize);
     }
 
-    public async Task<BlogCategory> GetByName(string name, int? parentId, CancellationToken cancellationToken)
+    public async Task<BlogCategory?> GetByName(string name, int? parentId, CancellationToken cancellationToken)
     {
-        return await _context.BlogCategories.Where(x => x.Name == name && x.Parent.Id == parentId)
+        return await _context.BlogCategories.Where(x => x.Name == name && x.Parent!.Id == parentId)
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

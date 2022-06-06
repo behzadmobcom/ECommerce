@@ -9,5 +9,5 @@ public interface IBlogCategoryRepository : IAsyncRepository<BlogCategory>
     Task<PagedList<BlogCategory>> Search(PaginationParameters paginationParameters,
         CancellationToken cancellationToken);
 
-    Task<BlogCategory> GetByName(string name, int? parentId, CancellationToken cancellationToken);
+    Task<BlogCategory?> GetByName(string name, int? parentId, CancellationToken cancellationToken);
 }
