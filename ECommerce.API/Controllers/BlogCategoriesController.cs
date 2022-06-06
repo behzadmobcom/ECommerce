@@ -21,15 +21,28 @@ public class BlogCategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
         {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _blogCategoryRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
             return Ok(new ApiResult
             {
+                PaginationDetails = paginationDetails,
                 Code = ResultCode.Success,
-                ReturnData = await _blogCategoryRepository.GetAll(cancellationToken)
+                ReturnData = entity
             });
         }
         catch (Exception e)

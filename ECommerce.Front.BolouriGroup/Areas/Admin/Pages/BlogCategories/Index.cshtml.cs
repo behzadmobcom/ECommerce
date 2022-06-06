@@ -26,7 +26,7 @@ public class IndexModel : PageModel
     {
         Message = message;
         Code = code;
-        var result = await _blogCategoryService.Load(search, pageNumber, pageSize);
+        var result = await _blogCategoryService.GetAll(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;
