@@ -49,6 +49,7 @@ public class Blog : BaseEntity
 
     public virtual ICollection<Tag>? Tags { get; set; }
 
+    [Display(Name = "عکس")] 
     public Image? Image { get; set; }
 
 }
