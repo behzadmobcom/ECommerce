@@ -48,4 +48,7 @@ public class Blog : BaseEntity
     public virtual ICollection<Keyword>? Keywords { get; set; }
 
     public virtual ICollection<Tag>? Tags { get; set; }
+
+    public Image? Image { get; set; }
+
 }
