@@ -7,7 +7,7 @@
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <div class="card-title">
-            <h3 class="card-label">لیست برند ها</h3>
+            <h3 class="card-label">لیست کامنت ها</h3>
         </div>
     </div>
     <div class="card-body">
@@ -34,9 +34,6 @@
             Model.Code = null;
         }
         <div class="example mb-10">
-            <p>
-                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد ؟؟؟ جدید</a>
-            </p>
             <form asp-page="/BlogComments/Index" method="get">
                 <div class="form-actions no-color">
                     <p>
@@ -59,7 +56,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">کامنت</th>
-                        <th scope="col">ایمیل</th>
+                        <th scope="col">مقاله</th>
                         <th scope="col">عملیات</th>
                     </tr>
                     </thead>
@@ -75,7 +72,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a asp-page="Edit" asp-route-id="@blogComment.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Edit" asp-route-id="@blogComment.Id" class="label label-inline label-light-success font-weight-bold">اکسپت</a>
                                 <a asp-page="Delete" asp-route-id="@blogComment.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
                                 <a asp-page="Detail" asp-route-id="@blogComment.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
                             </td>
