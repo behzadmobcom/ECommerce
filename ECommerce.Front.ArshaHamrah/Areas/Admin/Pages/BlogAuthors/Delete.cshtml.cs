@@ -7,28 +7,28 @@ namespace ArshaHamrah.Areas.Admin.Pages.BlogAuthors;
 
 public class DeleteModel : PageModel
 {
-    private readonly IBrandService _brandService;
+    private readonly IBlogAuthorService _blogAuthorService;
 
-    public DeleteModel(IBrandService brandService)
+    public DeleteModel(IBlogAuthorService blogAuthorService)
     {
-        _brandService = brandService;
+        _blogAuthorService = blogAuthorService;
     }
 
-    public Brand Brand { get; set; }
+    public BlogAuthor BlogAuthor { get; set; }
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
 
     public async Task<IActionResult> OnGet(int id)
     {
-        var result = await _brandService.GetById(id);
+        var result = await _blogAuthorService.GetById(id);
         if (result.Code == 0)
         {
-            Brand = result.ReturnData;
+            BlogAuthor = result.ReturnData;
             return Page();
         }
 
-        return RedirectToPage("/Brands/Index",
+        return RedirectToPage("/BlogAuthors/Index",
             new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 
@@ -36,11 +36,11 @@ public class DeleteModel : PageModel
     {
         if (ModelState.IsValid)
         {
-            var result = await _brandService.Delete(id);
+            var result = await _blogAuthorService.Delete(id);
             Message = result.Message;
             Code = result.Code.ToString();
             if (result.Code == 0)
-                return RedirectToPage("/Brands/Index",
+                return RedirectToPage("/BlogAuthors/Index",
                     new {area = "Admin", message = result.Message, code = result.Code.ToString()});
             Message = result.Message;
             Code = result.Code.ToString();

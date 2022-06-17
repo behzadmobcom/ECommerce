@@ -48,22 +48,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var slideShow in Model.SlideShows)
+                    @if (Model.SlideShows != null)
                     {
-                        <tr>
-                            <th scope="row">@(i++)</th>
-                            <td>@slideShow.Title</td>
-                            <td >
-                                <div class="shortened">
-                                    <h2>@slideShow.Description</h2>
-                                </div>
-                            </td>
-                            <td>
-                                <a asp-page="Edit" asp-route-id="@slideShow.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@slideShow.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@slideShow.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                            </td>
-                        </tr>
+                        @foreach (var slideShow in Model.SlideShows)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@slideShow.Title</td>
+                                <td>
+                                    <div class="shortened">
+                                        <h2>@Html.Raw(slideShow.Description)</h2>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@slideShow.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@slideShow.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@slideShow.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                </td>
+                            </tr>
+                        }
                     }
                     </tbody>
                 </table>

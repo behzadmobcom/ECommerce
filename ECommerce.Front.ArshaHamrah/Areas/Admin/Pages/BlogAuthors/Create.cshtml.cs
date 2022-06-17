@@ -8,18 +8,18 @@ namespace ArshaHamrah.Areas.Admin.Pages.BlogAuthors;
 
 public class CreateModel : PageModel
 {
-    private readonly IBrandService _brandService;
+    private readonly IBlogAuthorService _blogAuthorService;
     private readonly IHostEnvironment _environment;
     private readonly IImageService _imageService;
 
-    public CreateModel(IBrandService brandService, IImageService imageService, IHostEnvironment environment)
+    public CreateModel(IBlogAuthorService blogAuthorService, IImageService imageService, IHostEnvironment environment)
     {
-        _brandService = brandService;
+        _blogAuthorService = blogAuthorService;
         _imageService = imageService;
         _environment = environment;
     }
 
-    [BindProperty] public Brand Brand { get; set; }
+    [BindProperty] public BlogAuthor BlogAuthor { get; set; }
 
     [BindProperty] public IFormFile Upload { get; set; }
 
@@ -40,15 +40,15 @@ public class CreateModel : PageModel
             return Page();
         }
 
-        var fileName = (await _imageService.Upload(Upload, "Images/Brands", _environment.ContentRootPath))
+        var fileName = (await _imageService.Upload(Upload, "Images/BlogAuthors", _environment.ContentRootPath))
             .ReturnData;
-        Brand.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
+        BlogAuthor.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
 
         if (ModelState.IsValid)
         {
-            var result = await _brandService.Add(Brand);
+            var result = await _blogAuthorService.Add(BlogAuthor);
             if (result.Code == 0)
-                return RedirectToPage("/Brands/Index",
+                return RedirectToPage("/BlogAuthors/Index",
                     new {area = "Admin", message = result.Message, code = result.Code.ToString()});
             Message = result.Message;
             Code = result.Code.ToString();

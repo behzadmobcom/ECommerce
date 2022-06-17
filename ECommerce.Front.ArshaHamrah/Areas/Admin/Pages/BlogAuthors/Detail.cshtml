@@ -8,7 +8,7 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        جزئیات برند
+                        جزئیات نویسنده
                     </h3>
                 </div>
                 <!--begin::Form-->
@@ -16,20 +16,24 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام:</label>
-                            <label class="form-control form-control-solid">@Model.Brand.Name</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>نام انگلیسی:</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.EnglishName</label>
                         </div>
                         <div class="form-group">
                             <label>توضیحات:</label>
-                            <label class="form-control form-control-solid" style="height: auto">@Html.Raw(Model.Brand.Description)</label>
+                            <label class="form-control form-control-solid" style="height: auto">@Html.Raw(Model.BlogAuthor.Description)</label>
                         </div>
                         <div class="form-group">
-                            <label>تصویر برند:</label>
-                            <img src="@Model.Brand.ImagePath">
+                            <label>تصویر نویسنده:</label>
+                            <img src="@Model.BlogAuthor.ImagePath" style="width: 200px">
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary mr-2" asp-Page="/brands/edit" asp-area="Admin" asp-route-id="@Model.Brand.Id">ویرایش</a>
-                        <a class="btn btn-secondary" asp-Page="/brands/index" asp-area="Admin">لغو</a>
+                        <a class="btn btn-primary mr-2" asp-Page="/BlogAuthors/edit" asp-area="Admin" asp-route-id="@Model.BlogAuthor.Id">ویرایش</a>
+                        <a class="btn btn-secondary" asp-Page="/BlogAuthors/index" asp-area="Admin">لغو</a>
                     </div>
                 </form>
                 <!--end::Form-->

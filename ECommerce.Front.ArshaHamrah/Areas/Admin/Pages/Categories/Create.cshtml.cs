@@ -33,7 +33,7 @@ public class CreateModel : PageModel
         if (Category.ParentId == 0)
         {
             Category.ParentId = null;
-            Category.Path = Category.Name;
+            if (Category.Path == null) Category.Path = Category.Name;
             Category.Depth--;
         }
 

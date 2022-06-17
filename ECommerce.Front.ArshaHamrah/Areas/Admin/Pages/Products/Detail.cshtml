@@ -15,44 +15,29 @@
                 <form class="form" method="post" asp-page-handler="OnPost">
                     <div class="card-body">
                         <div class="form-group">
-                            <label>انتخاب تگ ها</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Tags)
+                            <label>تگ ها</label>
+                            <select disabled="disabled" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Product.Tags)
                                 {
-                                    <option value="@item.Key">@item.Value</option>
+                                    <option value="@item.Id">@item.TagText</option>
                                 }
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>انتخاب کلمات کلیدی</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Keywords)
+                            <label>کلمات کلیدی</label>
+                            <select disabled="disabled" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Product.Keywords)
                                 {
-                                    <option value="@item.Key">@item.Value</option>
+                                    <option value="@item.Id">@item.KeywordText</option>
                                 }
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>انتخاب دسته ها</label>
+                            <label>دسته ها</label>
                             <div class="checkbox-list">
-                                @foreach (var parent in Model.CategoriesTreeViewModels.Where(x => x.ParentId == null))
+                                @foreach (var parent in Model.Product.ProductCategories)
                                 {
-                                    var children = Model.CategoriesTreeViewModels.Where(c => c.ParentId == parent.Id).ToList();
-                                    if (children.Any())
-                                    {
-                                        <input type="checkbox" value="@parent.Id" disabled="disabled">
-                                        <label for="@parent.Id"> @parent.Name</label>
-                                        foreach (var child in children)
-                                        {
-                                            <input type="checkbox" value="@child.Id">
-                                            <label for="@child.Id"> @child.Name</label>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <input type="checkbox" value="@parent.Id">
-                                        <label for="@parent.Id"> @parent.Name</label>
-                                    }
+                                    <label class="form-control form-control-solid">@parent.Name</label>
                                 }
 
                             </div>
@@ -61,7 +46,7 @@
                             <label>نام کالا</label>
                             <label class="form-control form-control-solid">@Model.Product.Name</label>
                         </div>
-                        @*  <div class="form-group">
+                        @* <div class="form-group">
                             <label>کد دیتابیس کالا در هلو</label>
                             <label class="form-control form-control-solid">@Model.Product.ArticleCode</label>
                         </div>
@@ -73,7 +58,7 @@
                             <label>توضیحات</label>
                             <label class="form-control form-control-solid">@Model.Product.Description</label>
                         </div>
-                        @*<div class="form-group">
+                        @*  <div class="form-group">
                             <label>موجودی</label>
                             <label class="form-control form-control-solid">@Model.Product.Exist</label>
                         </div>*@
@@ -112,50 +97,33 @@
                         </div>
                         <div class="form-group">
                             <label>برند</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Brands)
-                                {
-                                    <option value="@item.Key">@item.Value</option>
-                                }
-                            </select>
+                            <label class="form-control form-control-solid">@Model.Product.Brand.Name</label>
                         </div>
                         <div class="form-group">
                             <label>تخفیف</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Discounts)
-                                {
-                                    <option value="@item.Key">@item.Value</option>
-                                }
-                            </select>
+                            <label class="form-control form-control-solid">@Model.Product.Discount?.Name</label>
                         </div>
                         <div class="form-group">
                             <label>انبار</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Stores)
-                                {
-                                    <option value="@item.Key">@item.Value</option>
-                                }
-                            </select>
+                            <label class="form-control form-control-solid">@Model.Product.Store.Name</label>
                         </div>
                         <div class="form-group">
                             <label>تامین کننده</label>
-                            <select class="col-md-10 js-example-basic-multiple  form-control" multiple="multiple">
-                                @foreach (var item in Model.Suppliers)
-                                {
-                                    <option value="@item.Key">@item.Value</option>
-                                }
-                            </select>
+                            <label class="form-control form-control-solid">@Model.Product.Supplier.Name</label>
                         </div>
                         <div class="form-group">
-                            <label>تصویر برند</label>
-                            <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل"/>
-                                <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
-                            </div>
+                            <label>تصویر کالا</label>
+                            <ul class="details-preview">
+                                @foreach (var image in Model.Product.Images)
+                                {
+                                    <li>
+                                        <img style="width: 50%" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    </li>
+                                }
+                            </ul>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary mr-2" asp-Page="/Products/edit" asp-area="Admin" asp-route-id="@Model.Product.Id">ویرایش</a>
                         <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
                     </div>
                 </form>

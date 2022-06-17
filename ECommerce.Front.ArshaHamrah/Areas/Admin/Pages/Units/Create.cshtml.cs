@@ -1,27 +1,33 @@
 ﻿using Entities;
+using Entities.HolooEntity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ECommerce.Services.IServices;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Units;
 
 public class CreateModel : PageModel
 {
+    private readonly IHolooUnitService _holooUnitService;
     private readonly IUnitService _unitService;
 
-    public CreateModel(IUnitService unitService)
+    public CreateModel(IUnitService unitService, IHolooUnitService holooUnitService)
     {
         _unitService = unitService;
+        _holooUnitService = holooUnitService;
     }
 
     [BindProperty] public Unit Unit { get; set; }
-
+    public SelectList HolooUnits { get; set; }
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
 
-    public void OnGet()
+    public async Task OnGet()
     {
+        var result = await _holooUnitService.Load();
+        HolooUnits = new SelectList(result.ReturnData, nameof(HolooUnit.Unit_Code), nameof(HolooUnit.Unit_Name));
     }
 
     public async Task<IActionResult> OnPost()

@@ -28,29 +28,33 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        حذف برند
+                        حذف نویسنده
                     </h3>
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" name="id" asp-for="@Model.Brand.Id"/>
+                    <input hidden="hidden" name="id" asp-for="@Model.BlogAuthor.Id"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <label class="form-control form-control-solid">@Model.Brand.Name</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>نام انگلیسی</label>
+                            <label class="form-control form-control-solid">@Model.BlogAuthor.EnglishName</label>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
-                            <label class="form-control form-control-solid" rows="3">@Html.Raw(Model.Brand.Description)</label>
+                            <label class="form-control form-control-solid" rows="3">@Html.Raw(Model.BlogAuthor.Description)</label>
                         </div>
                         <div class="form-group">
                             <label>تصویر برند</label>
-                            <img src="@Model.Brand.ImagePath">
+                            <img src="@Model.BlogAuthor.ImagePath" style="width: 200px">
                         </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">حذف</button>
-                        <a class="btn btn-secondary" asp-Page="/brands/index" asp-area="Admin">لغو</a>
+                        <a class="btn btn-secondary" asp-Page="/BlogAuthors/index" asp-area="Admin">لغو</a>
                     </div>
                 </form>
                 <!--end::Form-->

@@ -1,7 +1,7 @@
 ﻿@page "/Admin/CreateBlogAuther"
 @model ArshaHamrah.Areas.Admin.Pages.BlogAuthors.CreateModel
 @{
-    ViewData["Title"] = "اضافه کردن برند";
+    ViewData["Title"] = "اضافه کردن نویسنده وبلاگ";
 }
 @if (Model.Message != null)
 {
@@ -29,7 +29,7 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        ایجاد برند جدید
+                        ایجاد نویسنده جدید
                     </h3>
                 </div>
                 <!--begin::Form-->
@@ -37,16 +37,21 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Brand.Name" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Brand.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.BlogAuthor.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.BlogAuthor.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>نام انگلیسی</label>
+                            <input asp-for="@Model.BlogAuthor.EnglishName" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.BlogAuthor.EnglishName" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
-                            <textarea asp-for="@Model.Brand.Description" class="form-control form-control-solid" rows="6"></textarea>
+                            <textarea asp-for="@Model.BlogAuthor.Description" id="Description_Add" class="form-control form-control-solid" rows="6"></textarea>
 
                         </div>
                         <div class="form-group">
-                            <label>تصویر برند</label>
+                            <label>تصویر نویسنده</label>
                             <div class="custom-file">
                                 <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
@@ -55,7 +60,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ثبت</button>
-                        <a class="btn btn-secondary" asp-Page="/brands/index" asp-area="Admin">لغو</a>
+                        <a class="btn btn-secondary" asp-Page="/BlogAuthors/index" asp-area="Admin">لغو</a>
                     </div>
                 </form>
                 <!--end::Form-->
@@ -63,3 +68,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            CKEDITOR.replace('Description_Add');
+        };
+    </script>
+}

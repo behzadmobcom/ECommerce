@@ -7,25 +7,25 @@ namespace ArshaHamrah.Areas.Admin.Pages.BlogAuthors;
 
 public class DetailModel : PageModel
 {
-    private readonly IBrandService _brandService;
+    private readonly IBlogAuthorService _blogAuthorService;
 
-    public DetailModel(IBrandService brandService)
+    public DetailModel(IBlogAuthorService blogAuthorService)
     {
-        _brandService = brandService;
+        _blogAuthorService = blogAuthorService;
     }
 
-    public Brand Brand { get; set; }
+    public BlogAuthor BlogAuthor { get; set; }
 
     public async Task<IActionResult> OnGet(int id)
     {
-        var result = await _brandService.GetById(id);
+        var result = await _blogAuthorService.GetById(id);
         if (result.Code == 0)
         {
-            Brand = result.ReturnData;
+            BlogAuthor = result.ReturnData;
             return Page();
         }
 
-        return RedirectToPage("/Brands/Index",
+        return RedirectToPage("/BlogAuthors/Index",
             new {area = "Admin", message = result.Message, code = result.Code.ToString()});
     }
 }

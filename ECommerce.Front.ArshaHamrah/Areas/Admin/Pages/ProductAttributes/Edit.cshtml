@@ -34,6 +34,7 @@
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
                     <input hidden="hidden" asp-for="@Model.ProductAttribute.Id"/>
+                    <input hidden="hidden" asp-for="@Model.ProductAttribute.AttributeGroupId"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>عنوان</label>
