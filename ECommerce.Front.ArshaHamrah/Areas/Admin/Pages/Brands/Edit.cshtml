@@ -42,11 +42,16 @@
                             <span asp-validation-for="@Model.Brand.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
-                            <label>توضیحات</label>
-                            <textarea asp-for="@Model.Brand.Description" class="form-control form-control-solid" rows="6"></textarea>
+                            <label>آدرس اینترنتی</label>
+                            <input asp-for="@Model.Brand.Url" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Brand.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
-                            <label>تصویر برند</label> <img src="@Model.Brand.ImagePath">
+                            <label>توضیحات</label>
+                            <textarea asp-for="@Model.Brand.Description" id="Description_Edit" class="form-control form-control-solid" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر برند</label> <img style="width: 200px" src="@Model.Brand.ImagePath">
                             <div class="custom-file">
                                 <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
@@ -63,3 +68,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            CKEDITOR.replace('Description_Edit');
+        };
+    </script>
+}

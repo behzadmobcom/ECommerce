@@ -65,13 +65,7 @@ namespace Ecommerce.API.Migrations
                 unique: true,
                 filter: "[BlogId] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_PurchaseOrderDetails_Prices_PriceId",
-                table: "PurchaseOrderDetails",
-                column: "PriceId",
-                principalTable: "Prices",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

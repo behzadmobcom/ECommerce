@@ -32,9 +32,27 @@
                         ایجاد اسلاید شو جدید
                     </h3>
                 </div>
+                  <form asp-page-handler="OnGet">
+                <div class="form-actions no-color">
+                    <p>
+                        جستجو بر اساس نام:
+                        <input type="text" id="searchId" name="search" value="@Model.Products.PaginationDetails.Search"/>
+                        <input type="button" id="searchBtn" value="بجو" class="btn btn-primary"/>
+                    </p>
+                </div>
+                </form>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
                     <div class="card-body">
+                        <div class="form-group">
+                            <label>انتخاب نام کالا</label>
+                            <select id="cmbProduct" name="SlideShow.ProductId">
+                                @foreach (var product in Model.Products.ReturnData)
+                                {
+                                    <option value="@product.Id">@product.Name</option>
+                                }
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>عنوان</label>
                             <input asp-for="@Model.SlideShow.Title" class="form-control form-control-solid"/>
@@ -52,7 +70,7 @@
                         <div class="form-group">
                             <label>تصویر اسلاید شو</label>
                             <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل"/>
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png"/>
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
@@ -77,6 +95,19 @@
         window.onload = function() {
             CKEDITOR.replace('Description_Add');
         };
+        $('#searchBtn').on("click",
+            function() {
+                var search = $('#searchId').val();
+                $("#cmbProduct").empty();
+                $.getJSON(`?handler=ReturnProducts&search=${search}`,
+                    (data) => {
+                        $.each(data,
+                            function(i, item) {
+                                console.log(item);
+                                $("#cmbProduct").append(`<option value="${item.id}">${item.name}</option>`);
+                            });
+                    });
+            });
     </script>
 
 

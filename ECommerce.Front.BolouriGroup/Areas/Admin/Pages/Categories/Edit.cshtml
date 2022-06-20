@@ -34,6 +34,8 @@
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
                     <input hidden="hidden" asp-for="@Model.Category.Id"/>
+                    <input hidden="hidden" asp-for="@Model.Category.ParentId"/>
+                    <input hidden="hidden" asp-for="@Model.Category.Depth"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>

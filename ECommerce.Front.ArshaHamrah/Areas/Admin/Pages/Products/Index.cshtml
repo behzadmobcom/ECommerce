@@ -58,28 +58,62 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">نام کالا</th>
-                        <th scope="col">موجودی</th>
+                        @*<th scope="col">موجودی</th>*@
                         <th scope="col">عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var product in Model.Products.ReturnData)
+                    @if (Model.Products.ReturnData != null)
                     {
-                        <tr>
-                            <th scope="row">@(i++)</th>
-                            <td>@product.Name</td>
-                            @*<td>@product.Exist</td>*@
-                            <td>
-                                <a asp-page="Edit" asp-route-id="@product.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@product.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                                <a asp-page="Price" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">قیمت</a>
-                                <a asp-page="AttributeValue" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">مشخصات</a>
-                            </td>
-                        </tr>
+                        foreach (var product in Model.Products.ReturnData)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@product.Name</td>
+                                @* <td>@product.Exist</td>*@
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@product.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@product.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                    <a asp-page="Price" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">قیمت</a>
+                                    <a asp-page="AttributeValue" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">مشخصات</a>
+                                </td>
+                            </tr>
+                        }
                     }
                     </tbody>
                 </table>
+                @*
+                @{
+                    var prevDisabled = Model.PaginationViewModel.Page == 1 ? "disabled" : "";
+                    var nextDisabled = Model.PaginationViewModel.PagesQuantity == Model.PaginationViewModel.Page ? "disabled" : "";
+                }
+
+                <a asp-page="/Products/Index"
+                   asp-route-pageIndex="@(Model.PaginationViewModel.Page - 1)"
+                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
+                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
+                   class="btn btn-primary @prevDisabled">
+                    قبلی
+                </a>
+                @for (var pageIndex = 1; pageIndex <= Model.PaginationViewModel.PagesQuantity; pageIndex++)
+                {
+                    var activePage = Model.PaginationViewModel.Page == pageIndex ? "btn-danger disabled" : "btn-primary ";
+                    <a asp-page="/Products/Index"
+                       asp-route-pageIndex="@pageIndex"
+                       asp-route-search="@Model.PaginationViewModel.SearchText"
+                       asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
+                       class="btn @activePage">
+                        @pageIndex
+                    </a>
+                }
+                <a asp-page="/Products/Index"
+                   asp-route-pageIndex="@(Model.PaginationViewModel.Page + 1)"
+                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
+                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
+                   class="btn btn-primary @nextDisabled">
+                    بعدی
+                </a>*@
                 <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
             </div>
 
@@ -88,28 +122,11 @@
     </div>
 </div>
 
-@section Scripts
+@section Scripts   
 {
 
     <script>
-        function filter() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchId");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("productTableId");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
+    
     </script>
 
 }

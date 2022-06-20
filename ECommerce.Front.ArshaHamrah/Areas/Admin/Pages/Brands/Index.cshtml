@@ -59,6 +59,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">نام</th>
+                        <th scope="col">آدرس اینترنتی</th>
                         <th scope="col">توضیحات</th>
                         <th scope="col">عملیات</th>
                     </tr>
@@ -69,6 +70,7 @@
                         <tr>
                             <th scope="row">@(i++)</th>
                             <td>@brand.Name</td>
+                            <td>@brand.Url</td>
                             <td >
                                 <div class="shortened">
                                     <h2>@brand.Description</h2>
@@ -83,36 +85,8 @@
                     }
                     </tbody>
                 </table>
-                @{
-                    var prevDisabled = Model.Brands.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
-                    var nextDisabled = Model.Brands.PaginationDetails.TotalPages <= Model.Brands.PaginationDetails.CurrentPage ? "disabled" : "";
-                }
 
-                <a asp-page="/Brands/Index"
-                   asp-route-pageNumber="@(Model.Brands.PaginationDetails.CurrentPage - 1)"
-                   asp-route-search="@(Model.Brands.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Brands.PaginationDetails.PageSize"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex <= Model.Brands.PaginationDetails.TotalPages; pageIndex++)
-                {
-                    var activePage = Model.Brands.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/Brands/Index"
-                       asp-route-pageNumber="@pageIndex"
-                       asp-route-search="@Model.Brands.PaginationDetails.Search"
-                       asp-route-pageSize="@Model.Brands.PaginationDetails.PageSize"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/Brands/Index"
-                   asp-route-pageNumber="@(Model.Brands.PaginationDetails.CurrentPage + 1)"
-                   asp-route-search="@(Model.Brands.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Brands.PaginationDetails.PageSize"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>
+                <partial name="_Pagination" model="@Model.Brands.PaginationDetails"/>
 
             </div>
 

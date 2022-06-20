@@ -79,37 +79,8 @@
                     }
                     </tbody>
                 </table>
-                @{
-                    var prevDisabled = Model.PaymentMethods.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
-                    var nextDisabled = Model.PaymentMethods.PaginationDetails.TotalPages <= Model.PaymentMethods.PaginationDetails.CurrentPage ? "disabled" : "";
-                }
 
-                <a asp-page="/PaymentMethods/Index"
-                   asp-route-pageNumber="@(Model.PaymentMethods.PaginationDetails.CurrentPage - 1)"
-                   asp-route-search="@(Model.PaymentMethods.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.PaymentMethods.PaginationDetails.PageSize"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex < Model.PaymentMethods.PaginationDetails.TotalPages; pageIndex++)
-                {
-                    var activePage = Model.PaymentMethods.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/PaymentMethods/Index"
-                       asp-route-pageNumber="@pageIndex"
-                       asp-route-search="@Model.PaymentMethods.PaginationDetails.Search"
-                       asp-route-pageSize="@Model.PaymentMethods.PaginationDetails.PageSize"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/PaymentMethods/Index"
-                   asp-route-pageNumber="@(Model.PaymentMethods.PaginationDetails.CurrentPage + 1)"
-                   asp-route-search="@(Model.PaymentMethods.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.PaymentMethods.PaginationDetails.PageSize"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>
-
+                <partial name="_Pagination" model="@Model.PaymentMethods.PaginationDetails"/>
 
             </div>
 

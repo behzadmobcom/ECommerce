@@ -8,38 +8,38 @@ namespace ArshaHamrah.Areas.Admin.Pages.BlogAuthors;
 
 public class EditModel : PageModel
 {
-    private readonly IBrandService _brandService;
+    private readonly IBlogAuthorService _blogAuthorService;
     private readonly IHostEnvironment _environment;
     private readonly IImageService _imageService;
 
-    public EditModel(IBrandService brandService, IHostEnvironment environment, IImageService imageService)
+    public EditModel(IBlogAuthorService blogAuthorService, IHostEnvironment environment, IImageService imageService)
     {
-        _brandService = brandService;
+        _blogAuthorService = blogAuthorService;
         _environment = environment;
         _imageService = imageService;
     }
 
     [BindProperty] public IFormFile Upload { get; set; }
-    [BindProperty] public Brand Brand { get; set; }
+    [BindProperty] public BlogAuthor BlogAuthor { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 
     public async Task OnGet(int id)
     {
-        var result = await _brandService.GetById(id);
-        Brand = result.ReturnData;
+        var result = await _blogAuthorService.GetById(id);
+        BlogAuthor = result.ReturnData;
     }
 
     public async Task<IActionResult> OnPost()
     {
         if (Upload != null)
         {
-            var fileName = (await _imageService.Upload(Upload, "Images/Brands", _environment.ContentRootPath))
+            var fileName = (await _imageService.Upload(Upload, "Images/BlogAuthors", _environment.ContentRootPath))
                 .ReturnData;
-            Brand.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
+            BlogAuthor.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
         }
 
-        if (Upload == null && Brand.ImagePath == null)
+        if (Upload == null && BlogAuthor.ImagePath == null)
         {
             Message = "لطفا عکس را انتخاب کنید";
             Code = ServiceCode.Error.ToString();
@@ -48,11 +48,11 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            var result = await _brandService.Edit(Brand);
+            var result = await _blogAuthorService.Edit(BlogAuthor);
             Message = result.Message;
             Code = result.Code.ToString();
             if (result.Code == 0)
-                return RedirectToPage("/Brands/Index",
+                return RedirectToPage("/BlogAuthors/Index",
                     new {area = "Admin", message = result.Message, code = result.Code.ToString()});
             Message = result.Message;
             Code = result.Code.ToString();

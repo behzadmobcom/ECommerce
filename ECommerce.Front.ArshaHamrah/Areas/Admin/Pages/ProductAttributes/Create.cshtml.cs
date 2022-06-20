@@ -1,27 +1,35 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ECommerce.Services.IServices;
 
 namespace ArshaHamrah.Areas.Admin.Pages.ProductAttributes;
 
 public class CreateModel : PageModel
 {
+    private readonly IProductAttributeGroupService _productAttributeGroupService;
     private readonly IProductAttributeService _productAttributeService;
 
-    public CreateModel(IProductAttributeService productAttributeService)
+    public CreateModel(IProductAttributeService productAttributeService,
+        IProductAttributeGroupService productAttributeGroupService)
     {
         _productAttributeService = productAttributeService;
+        _productAttributeGroupService = productAttributeGroupService;
     }
 
     [BindProperty] public ProductAttribute ProductAttribute { get; set; }
+    public SelectList AttributeGroup { get; set; }
 
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
 
-    public void OnGet()
+    public async Task OnGet()
     {
+        var attributeGroups = (await _productAttributeGroupService.GetAll()).ReturnData;
+        AttributeGroup = new SelectList(attributeGroups, nameof(ProductAttributeGroup.Id),
+            nameof(ProductAttributeGroup.Name));
     }
 
     public async Task<IActionResult> OnPost()

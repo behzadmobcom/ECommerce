@@ -42,8 +42,8 @@
                         </div>
                         <div class="form-group">
                             <label>مسیر</label>
-                            <input asp-for="@Model.Category.Depth" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Category.Depth" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.Category.Path" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Category.Path" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="checkbox-list">
                             <label class="checkbox">
@@ -52,17 +52,11 @@
                                 فعال بودن
                             </label>
                         </div>
-                        <div class="form-group">
-                            <label>ترتیب نمایش در منو</label>
-                            <select class="form-control form-control-solid" asp-for="@Model.Category.DisplayOrder">
-                                <option>Please select one</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>انتخاب منوی پدر</label>
-                            <select class="form-control form-control-solid" asp-for="@Model.Category.Path">
-                                <option>Please select one</option>
-                            </select>
+                        <div class="form-group mt-5">
+                            <label>ترتیب نمایش در منو برای سردسته ها </label>
+                            @Html.TextBoxFor(x => x.Category.DisplayOrder, new {Value = "0", Class = "form-control form-control-solid"})
+                            @*<input  value="0" asp-for="@Model.Category.DisplayOrder" class="form-control form-control-solid"/>*@
+                            <span asp-validation-for="@Model.Category.DisplayOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">

@@ -37,6 +37,17 @@
             <p>
                 <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد خصوصیات جدید</a>
             </p>
+            <form asp-page="/ProductAttributes/Index" method="get">
+                <div class="form-actions no-color">
+                    <label>انتخاب دسته بندی خصوصیات</label>
+                    <select onchange="this.form.submit()" name="attributeGroupId" class="col-md-12 js-example-basic-single  form-control">
+                        @foreach (var attributeGroup in Model.AttributeGroup)
+                        {
+                            <option value="@attributeGroup.Value">@attributeGroup.Text</option>
+                        }
+                    </select>
+                </div>
+            </form>
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>

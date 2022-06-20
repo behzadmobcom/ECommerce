@@ -79,36 +79,7 @@
                     }
                     </tbody>
                 </table>
-                @{
-                    var prevDisabled = Model.Suppliers.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
-                    var nextDisabled = Model.Suppliers.PaginationDetails.TotalPages == Model.Suppliers.PaginationDetails.CurrentPage ? "disabled" : "";
-                }
-
-                <a asp-page="/Suppliers/Index"
-                   asp-route-pageNumber="@(Model.Suppliers.PaginationDetails.CurrentPage - 1)"
-                   asp-route-search="@(Model.Suppliers.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Suppliers.PaginationDetails.PageSize"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex < Model.Suppliers.PaginationDetails.TotalPages; pageIndex++)
-                {
-                    var activePage = Model.Suppliers.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/Suppliers/Index"
-                       asp-route-pageNumber="@pageIndex"
-                       asp-route-search="@Model.Suppliers.PaginationDetails.Search"
-                       asp-route-pageSize="@Model.Suppliers.PaginationDetails.PageSize"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/Suppliers/Index"
-                   asp-route-pageNumber="@(Model.Suppliers.PaginationDetails.CurrentPage + 1)"
-                   asp-route-search="@(Model.Suppliers.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Suppliers.PaginationDetails.PageSize"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>
+                <partial name="_Pagination" model="@Model.Suppliers.PaginationDetails"/>
 
 
             </div>

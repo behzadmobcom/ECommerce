@@ -50,12 +50,13 @@
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
-                            @*<input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid example1" />*@
-                            <input class="form-control form-control-solid example1" name="Discount.StartDate" placeholder="تاریخ شروع"/>
+                            <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                            <input class="form-control form-control-solid example1" name="Discount.EndDate" placeholder="تاریخ پایان"/>
+                            <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ حداکثر تخفیف</label>
@@ -95,11 +96,26 @@
 
 @section Scripts{
     <script src="~/Admin/js/bootstrap-touchspin.js"></script>
-    <script src="~/Admin/js/persian-date.js"></script>
-    <script src="~/Admin/js/persian-datepicker.js"></script>
+    <script src="~/Admin/js/persianDatepicker.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
-            $(".example1").pDatepicker();
+            $('#startDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#startDate").val($("#startDatepicker").attr("data-gdate"));
+                }
+            });
+            $('#endDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#endDate").val($("#endDatepicker").attr("data-gdate"));
+                }
+            });
         });
     </script>
 }
