@@ -1,0 +1,149 @@
+﻿:root {
+    --main: rgb(35, 86, 186);
+}
+
+.text-main {
+    color: var(--main);
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.logo-img {
+    background-color: #eee;
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px auto;
+    border-radius: 5rem;
+    box-shadow: 0 2px 5px 0px rgba(0, 0, 0, 0.4);
+}
+
+.logo-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--main);
+    padding: 0 30px;
+}
+
+/*==========*/
+/* Menus */
+/*=========*/
+/*Desktop Navbar*/
+#navbar {
+    position: relative;
+    background-color: #333;
+}
+
+.menu-item {
+    border-right: 1px solid #111;
+}
+
+    .menu-item:first-child {
+        border-left: 1px solid #111;
+    }
+
+.menu-link {
+    display: block;
+    color: #8ea9c5;
+    padding: 10px 20px;
+    text-decoration: none !important;
+}
+
+.menu-item:hover .menu-link {
+    color: #fff;
+    background-color: #222;
+}
+
+.menu-content {
+    position: absolute;
+    width: 100%;
+    background-color: #ebebeb;
+    padding: 30px 0;
+    left: 0;
+    border-bottom: 5px solid var(--main);
+    box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+    display: none;
+    z-index: 3;
+}
+
+    .menu-content .menu-content-link {
+        display: block;
+        padding: 5px 15px;
+        transition: 0.25s;
+    }
+
+        .menu-content .menu-content-link:hover {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+        }
+
+.menu-item .list-group .active {
+    background-color: var(--main);
+}
+
+.menu-item:hover .menu-content {
+    display: block;
+}
+
+.tab-content-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* animation */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
+
+/*Mobile-Navbar*/
+#navbar-mobile {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    height: 100vh;
+    overflow: auto;
+    animation: slideUp 0.3s ease;
+    z-index: 5;
+}
+
+#accordion {
+    padding: 30px 0;
+}
+
+#navbar-mobile .accordion-item .btn {
+    padding: 15px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.accordion-item-content {
+    background-color: #eee;
+}
+
+.accordion-item-content-item {
+    padding: 15px 20px;
+}
+
+.accordion-content-link {
+    display: inline-block;
+    padding: 5px 15px;
+    transition: 0.25s;
+}
+
+    .accordion-content-link:hover {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+    }

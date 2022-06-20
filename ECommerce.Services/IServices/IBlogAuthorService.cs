@@ -5,6 +5,7 @@ namespace ECommerce.Services.IServices;
 
 public interface IBlogAuthorService : IEntityService<BlogAuthor>
 {
+    Task<ServiceResult<List<BlogAuthor>>> GetAll();
     Task<ServiceResult<List<BlogAuthor>>> Filtering(string filter);
     Task<ServiceResult<List<BlogAuthor>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult<Dictionary<int, string>>> LoadDictionary();

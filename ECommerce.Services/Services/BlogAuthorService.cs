@@ -21,6 +21,12 @@ public class BlogAuthorService : EntityService<BlogAuthor>, IBlogAuthorService
         return Return(result);
     }
 
+    public async Task<ServiceResult<List<BlogAuthor>>> GetAll()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
+    }
+
     public async Task<ServiceResult<Dictionary<int, string>>> LoadDictionary()
     {
         var result = await ReadList(Url);
