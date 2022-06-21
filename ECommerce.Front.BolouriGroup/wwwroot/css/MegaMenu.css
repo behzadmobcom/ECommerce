@@ -147,3 +147,59 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         text-decoration: none;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.megasubmenu {
+    padding: 1rem;
+}
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+    .dropdown-menu .dropdown-toggle::after {
+        border-top: .3em solid transparent;
+        border-right: 0;
+        border-bottom: .3em solid transparent;
+        border-left: .3em solid;
+    }
+
+    .megasubmenu {
+        right: 100%;
+        top: 0;
+        min-height: 100%;
+        min-width: 500px;
+    }
+
+    .dropdown-menu > li:hover .megasubmenu {
+        display: block;
+    }
+}
+/* ============ desktop view .end// ============ */
