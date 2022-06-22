@@ -22,13 +22,14 @@ public class LoginModel : PageModel
 
     public void OnGet(string returnUrl = null)
     {
+        if (string.IsNullOrEmpty(returnUrl)) returnUrl = "/";
         ReturnUrl = returnUrl;
     }
 
     public async Task<IActionResult> OnPostSubmit()
     {
         var result = await _userService.Login(LoginViewModel);
-        if (result.Code == 0) return RedirectToPage(ReturnUrl is null or "/" ? "Index" : ReturnUrl);
+        if (result.Code == 0) return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
 
         ModelState.AddModelError("", result.Message);
 

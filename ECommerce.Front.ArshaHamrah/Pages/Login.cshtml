@@ -65,7 +65,7 @@
                                         <span asp-validation-for="RegisterViewModel.LastName"></span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <span asp-validation-for="RegisterViewModel.Mobile"></span>
+                                        <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
                                         <input type="text" placeholder="... شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile">
                                     </div>
                                 </div>
@@ -75,13 +75,13 @@
                                 <span asp-validation-for="RegisterViewModel.Email" style="color: red"></span>
                                 <input type="text" placeholder="... آدرس ایمیل" dir="ltr" asp-for="RegisterViewModel.Email">
 
-                                <span asp-validation-for="RegisterViewModel.Username"></span>
+                                <span asp-validation-for="RegisterViewModel.Username" style="color: red"></span>
                                 <input type="text" placeholder="... نام کاربری" dir="ltr" asp-for="RegisterViewModel.Username">
 
-                                <span asp-validation-for="RegisterViewModel.Password"></span>
+                                <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
                                 <input type="password" placeholder="رمز عبور" dir="ltr" asp-for="RegisterViewModel.Password">
 
-                                <span asp-validation-for="RegisterViewModel.ConfirmPassword"></span>
+                                <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: red"></span>
                                 <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword">
 
 

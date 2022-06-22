@@ -20,6 +20,7 @@ builder.Services.AddRazorPages(options =>
     //options.Conventions.AuthorizeAreaFolder("Admin", "/");
     //options.Conventions.AuthorizeFolder("/Register");
     options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AllowAnonymousToPage("/register");
     options.Conventions.AllowAnonymousToPage("/Login");
     options.Conventions.AllowAnonymousToPage("/Coming-Soon");
 });
