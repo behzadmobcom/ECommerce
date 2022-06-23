@@ -38,6 +38,8 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
+        ModelState["Username"].ValidationState=Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
+        ModelState["Password"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
         if (result.Code == 0) return RedirectToPage("Index");

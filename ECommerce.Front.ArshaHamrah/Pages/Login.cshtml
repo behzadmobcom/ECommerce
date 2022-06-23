@@ -34,7 +34,7 @@
                 <div class="col-md-6">
                     <div class="registered-customers">
                         <h6 class="widget-title border-left mb-40">مشتریان عضو</h6>
-                        <form method="post">
+                        <form method="post" asp-page-handler="Submit">
                             <div class="login-account p-30 box-shadow">
                                 <p>اگر حساب کاربری دارید، لطفا وارد شوید.</p>
                                 <input type="text" asp-for="LoginViewModel.Username" placeholder="نام کاربری" dir="ltr">
@@ -44,7 +44,7 @@
                                         <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
                                     </small>
                                 </p>
-                                <button class="submit-btn-1 btn-hover-1" type="submit" asp-page-handler="Submit">ورود</button>
+                                <button class="submit-btn-1 btn-hover-1" type="submit" >ورود</button>
                             </div>
                         </form>
                     </div>
@@ -52,7 +52,7 @@
                 <!-- new-customers -->
                 <div class="col-md-6">
                     <div class="new-customers">
-                        <form method="post">
+                        <form method="post" asp-page-handler="Register">
                             <h6 class="widget-title border-left mb-40">مشتریان جدید</h6>
                             <div class="login-account p-30 box-shadow">
                                 <div class="row">
@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" asp-page-handler="Register">ثبت نام</button>
+                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" >ثبت نام</button>
                                     </div>
                                     <div class="col-md-6">
                                         <button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">پاکسازی</button>
