@@ -17,6 +17,9 @@ public class LoginModel : PageModel
     [BindProperty] public RegisterViewModel RegisterViewModel { get; set; }
 
     [BindProperty] public LoginViewModel LoginViewModel { get; set; }
+    [TempData] public string Message { get; set; }
+
+    [TempData] public string Code { get; set; }
 
     [TempData] public string ReturnUrl { get; set; }
 
@@ -37,13 +40,16 @@ public class LoginModel : PageModel
     }
 
     public async Task<IActionResult> OnPostRegister()
+    
     {
+
         ModelState["Username"].ValidationState=Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         ModelState["Password"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
-        if (result.Code == 0) return RedirectToPage("Index");
-
+        Message = result.Message;
+        Code = result.Code.ToString();
+        //if (result.Code == 0) return RedirectToPage("Index");
         return Page();
     }
 }

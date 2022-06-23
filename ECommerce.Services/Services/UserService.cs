@@ -68,7 +68,11 @@ public class UserService : IUserService
     {
         var result = await _http.PostAsync(Url, registerViewModel, "Register");
 
-        if (result.Code != 0) return new ServiceResult {Code = ServiceCode.Error};
+        if (result.Code != 0) return new ServiceResult
+        {
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
 
         var loginViewModel = new LoginViewModel
         {
