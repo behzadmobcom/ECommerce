@@ -563,24 +563,24 @@ public class SunflowerECommerceDbContext : IdentityDbContext<User, UserRole, int
             UserRoleId = 1,
             IsActive = true
         });
-        modelBuilder.Entity<User>().HasData(new User
-        {
-            Id = 2,
-            UserName = "sajjadnazmi",
-            NormalizedUserName = "SAJJADNAZMI",
-            Email = "sajjad.nazmi@gmail.com",
-            NormalizedEmail = "SAJJAD.NAZMI@GMAIL.COM",
-            EmailConfirmed = true,
-            PasswordHash = new PasswordHasher<User>().HashPassword(null, "@grp_bolouri3395"),
-            SecurityStamp = string.Empty,
-            AccessFailedCount = 0,
-            FirstName = "Sajjad",
-            LastName = "Nazmi",
-            PhoneNumber = "09119394726",
-            PhoneNumberConfirmed = true,
-            UserRoleId = 1,
-            IsActive = true
-        });
+        //modelBuilder.Entity<User>().HasData(new User
+        //{
+        //    Id = 2,
+        //    UserName = "sajjadnazmi",
+        //    NormalizedUserName = "SAJJADNAZMI",
+        //    Email = "sajjad.nazmi@gmail.com",
+        //    NormalizedEmail = "SAJJAD.NAZMI@GMAIL.COM",
+        //    EmailConfirmed = true,
+        //    PasswordHash = new PasswordHasher<User>().HashPassword(null, "@grp_bolouri3395"),
+        //    SecurityStamp = string.Empty,
+        //    AccessFailedCount = 0,
+        //    FirstName = "Sajjad",
+        //    LastName = "Nazmi",
+        //    PhoneNumber = "09119394726",
+        //    PhoneNumberConfirmed = true,
+        //    UserRoleId = 1,
+        //    IsActive = true
+        //});
         modelBuilder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int> {UserId = 1, RoleId = 1});
         modelBuilder.Entity<Setting>().HasData(new Setting
         {

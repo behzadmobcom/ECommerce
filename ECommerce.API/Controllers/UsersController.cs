@@ -196,7 +196,7 @@ public class UsersController : ControllerBase
                 PhoneNumberConfirmed = true,
                 FirstName = register.FirstName,
                 LastName = register.LastName,
-                IsActive = false,
+                IsActive = true,
                 IsColleague = register.IsColleague,
                 LicensePath = register.LicensePath,
                 PicturePath = register.PicturePath,
