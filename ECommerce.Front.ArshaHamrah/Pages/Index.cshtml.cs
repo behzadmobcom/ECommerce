@@ -50,29 +50,6 @@ public class IndexModel : PageModel
         IsColleague = false;
     }
 
-    public async Task<IActionResult> OnGetAddWishList(int id)
-    {
-        var result = await _wishListService.Add(id);
-        return new JsonResult(result.ToString());
-    }
-
-    public IActionResult OnGetAddCompareList(int id)
-    {
-        var result = _compareService.Add(HttpContext, id);
-        return new JsonResult(result.Message);
-    }
-
-    public async Task<JsonResult> OnGetAddCart(int id, int priceId)
-    {
-        var result = await _cartService.Add(HttpContext, id, priceId);
-        return new JsonResult(result);
-    }
-
-    public async Task<JsonResult> OnGetLoadCart(int id)
-    {
-        var result = await _cartService.Load(HttpContext);
-        return new JsonResult(result);
-    }
 
     public IActionResult OnPost()
     {
@@ -97,9 +74,38 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
+    public async Task<JsonResult> OnGetAddCart(int id, int priceId)
+    {
+        var result = await _cartService.Add(HttpContext, id, priceId);
+        return new JsonResult(result);
+    }
+
+    public async Task<JsonResult> OnGetLoadCart(int id)
+    {
+        var result = await _cartService.Load(HttpContext);
+        return new JsonResult(result);
+    }
+
     public async Task<IActionResult> OnGetLogout()
     {
         await HttpContext.SignOutAsync();
         return RedirectToPage("/index");
+    }
+    public async Task<JsonResult> OnGetDecreaseCart(int id, int productId, int priceId)
+    {
+        var result = await _cartService.Decrease(HttpContext, id, id, priceId);
+        return new JsonResult(result);
+    }
+
+    public async Task<IActionResult> OnGetAddWishList(int id)
+    {
+        var result = await _wishListService.Add(id);
+        return new JsonResult(result.ToString());
+    }
+
+    public IActionResult OnGetAddCompareList(int id)
+    {
+        var result = _compareService.Add(HttpContext, id);
+        return new JsonResult(result.Message);
     }
 }

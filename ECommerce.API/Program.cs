@@ -124,6 +124,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IConfiguration>(x => builder.Configuration);
 
 #region DI
 
