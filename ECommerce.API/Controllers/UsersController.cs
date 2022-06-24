@@ -56,11 +56,11 @@ public class UsersController : ControllerBase
                 var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
 
                 if (user == null)
-                    return new ApiResult
+                    return Ok(new ApiResult
                     {
                         Code = ResultCode.NotFound,
                         Messages = new List<string> {"نام کاربری یا کلمه عبور صحیح نمی باشد"}
-                    };
+                    });
 
                 if (!user.IsActive)
                     return Ok(new ApiResult

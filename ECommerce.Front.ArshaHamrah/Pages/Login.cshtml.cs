@@ -31,10 +31,12 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostSubmit()
     {
+        var s = TempData["ReturnUrl"];
         var result = await _userService.Login(LoginViewModel);
         if (result.Code == 0) return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
 
-        ModelState.AddModelError("", result.Message);
+        Message = result.Message;
+        Code = result.Code.ToString();
 
         return Page();
     }

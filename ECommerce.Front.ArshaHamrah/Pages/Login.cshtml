@@ -3,26 +3,6 @@
 @{
     ViewData["Title"] = "ورود";
 }
-@if (Model.Message != null)
-{
-	switch (Model.Code)
-	{
-		case "Error":
-			<div class="alert alert-danger"> @Model.Message </div>
-			break;
-		case "Warning":
-			<div class="alert alert-warning"> @Model.Message </div>
-			break;
-		case "Info":
-			<div class="alert alert-info"> @Model.Message </div>
-			break;
-		default:
-			<div class="alert alert-success"> @Model.Message </div>
-			break;
-	}
-
-	Model.Message = null;
-}
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -44,6 +24,26 @@
     </div>
 </div>
 <!-- BREADCRUMBS SETCTION END -->
+@if (Model.Message != null)
+{
+	switch (Model.Code)
+	{
+		case "Error":
+			<div class="alert alert-danger"> @Model.Message </div>
+			break;
+		case "Warning":
+			<div class="alert alert-warning"> @Model.Message </div>
+			break;
+		case "Info":
+			<div class="alert alert-info"> @Model.Message </div>
+			break;
+		default:
+			<div class="alert alert-success"> @Model.Message </div>
+			break;
+	}
+
+	Model.Message = null;
+}
 <!-- Start page content -->
 <div id="page-content" class="page-wrapper">
     <!-- LOGIN SECTION START -->
