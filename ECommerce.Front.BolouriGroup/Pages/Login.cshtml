@@ -6,50 +6,62 @@
 
 
 <section class="user-form-part">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
-                <div class="user-form-logo">
-                    <a asp-area="" asp-page="/Index">
-                        <img src="~/img/logo.png" alt="لوگو">
-                    </a>
-                </div>
-                <div class="user-form-card">
-                    <div class="user-form-title">
-                        <h2>خوش آمدید!</h2>
-                        <p>حساب خود را با ایمیل و رمز ورود وارد کنید</p>
-                    </div>
-                    <form method="post" class="user-form">
-                        <div class="form-group">
-                            <label>پست الکترونیک</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="ایمیل خود را وارد کنید">
-                        </div>
-                        <div class="form-group">
-                            <label>کلمه عبور</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="remember">
-                                    <label class="form-check-label" for="remember">
-                                        مرا به خاطر بسپار
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-6 text-end">
-                                <a href="#" class="forgot-pass">رمز عبور خود را فراموش کرده اید؟</a>
-                            </div>
-                        </div>
-                        <div class="form-button">
-                            <button type="submit" asp-page-handler="Submit">ورود</button>
-                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
-                        </div>
-                    </form>
-                </div>
-                <div class="user-form-footer">
-                    <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-                </div>
-            </div>
-        </div>
-        <partial name="_ValidationScriptsPartial"/>
-    </div>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+				<div class="user-form-logo">
+					<a asp-area="" asp-page="/Index">
+						<img src="~/img/logo.png" alt="لوگو">
+					</a>
+				</div>
+				<div class="user-form-card">
+					<div class="user-form-title">
+						<h2>خوش آمدید!</h2>
+						<p>حساب خود را با ایمیل و رمز ورود وارد کنید</p>
+					</div>
+					<form method="post" class="user-form">
+						<div class="form-group">
+							<label>پست الکترونیک</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="ایمیل خود را وارد کنید">
+						</div>
+						<div class="form-group">
+							<label>کلمه عبور</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
+						</div>
+						<div class="row mb-3">
+							<div class="col-6">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" value="" id="remember">
+									<label class="form-check-label" for="remember">
+										مرا به خاطر بسپار
+									</label>
+								</div>
+							</div>
+							<div class="col-6 text-end">
+								<a href="#" class="forgot-pass">رمز عبور خود را فراموش کرده اید؟</a>
+							</div>
+						</div>
+						<div class="form-button">
+							<button type="submit" asp-page-handler="Submit">ورود</button>
+							<p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+						</div>
+					</form>
+				</div>
+				<div class="user-form-footer">
+					<p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+				</div>
+			</div>
+		</div>
+		<partial name="_ValidationScriptsPartial"/>
+	</div>
 </section>
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+	<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+	<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+	<a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+	<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+</div>
+<div class="tab-content" id="v-pills-tabContent">
+	<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">.1..</div>
+	<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">..2.</div>
+	<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">.35..</div>
+	<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">..5.</div>
+</div>

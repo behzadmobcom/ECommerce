@@ -18,10 +18,12 @@
 	<link rel="stylesheet" href="~/css/venobox.min.css" />
 	<link rel="stylesheet" href="~/css/slick.min.css" />
 	<link rel="stylesheet" href="~/css/style.css" />
-	<link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" />
 	<link rel="stylesheet" href="~/css/MegaMenu.css" />
-
-</head>
+	<link rel="stylesheet" href="~/css/bootstrap-3.min.css" />
+	<link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" />
+	<!-- CSS only -->
+	
+	</head>
 
 <body>
 
@@ -131,90 +133,8 @@
 		</div>
 	</div>
 
-<!-- START: RUBY DEMO HEADER -->
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <div class="container-fluid">
-	  <div class="collapse navbar-collapse" id="main_nav">
-      <ul class="navbar-nav">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"> Menu item </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 2 </a></li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
-        
-      
-            <li class="has-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#"> Dropdown item 5 </a>
-              <ul class="megasubmenu dropdown-menu">
-	              <li><a>1</a>
-	              <ul>
-		              <li>2</li>
-		              <li>20</li>
-		              <li>200</li>
-		              <li>2000
-		              </li></ul>
-	              <li><a>10</a></li>
-	              <li><a>100</a></li>
-	              <li><a>1000</a></li>
-              </ul>
-            </li>
-            <li><a class="dropdown-item" href="#"> Dropdown item 6 </a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <!-- navbar-collapse.// -->
-  </div>
-  <!-- container-fluid.// -->
-</nav>
-	<!-- Navbar - Desktop -->
-<div id="navbar" class="my-4 d-md-block d-none">
-	<div class="container">
-		<div class="d-flex justify-content-right align-items-center">
 
 
-			<div class="menu-item">
-				<a href="#" class="menu-link">Development <i class="fa fa-caret-down"></i></a>
-				<div class="menu-content">
-					<div class="container">
-						<div class="row">
-							<div class="d-flex align-items-start">
-								@await Component.InvokeAsync("CategoriesMenu") 
-							</div>
-							<!-- .col-md-8 -->
-						</div><!-- /.row -->
-					</div> <!-- menu-content > .container -->
-				</div> <!-- menu-content -->
-			</div> <!-- menu-item -->
-		</div><!-- /.d-flex justify-content-around align-items-center -->
-	</div><!-- /.container -->
-</div>
-
-            
-@*<div class="d-flex align-items-start">
-<div class="col-md-4">
-	<div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-		<button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</button>
-		<button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</button>
-		<button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</button>
-		<button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
-	</div> <!-- #development-tabs .list-group -->
-</div> <!-- col-md-4 -->
-<div class="col-md-8 bg-light">
-<div class="tab-content" id="v-pills-tabContent">
-	<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">1</div>
-	<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">2</div>
-	<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">3</div>
-	<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">4web</div>
-</div>*@
 <nav class="navbar-part">
 		<div class="container">
 			<div class="row">
@@ -224,17 +144,59 @@
 							<li class="navbar-item dropdown">
 								<a class="navbar-link" href="/">خانه</a>
 							</li>
+								<li class="navbar-item dropdown">
+								<a class="navbar-link dropdown-arrow" href="#">تستی</a>
+								<div class="dropdown-position-list">
+							<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="vertical-tab" role="tabpanel">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#Section1" aria-controls="home" role="tab" data-toggle="tab">Section 1</a></li>
+                    <li role="presentation"><a href="#Section2" aria-controls="profile" role="tab" data-toggle="tab">Section 2</a></li>
+                    <li role="presentation"><a href="#Section3" aria-controls="messages" role="tab" data-toggle="tab">Section 3</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content tabs">
+	                <div role="tabpanel" class=" row tab-pane fade in active" id="Section1">
+		                <div class="col-md-4"><h3>Section 1</h3>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+		                </div>
+		                <div class="col-md-4"><h3>Section 1</h3>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+		                </div>
+		                <div class="col-md-4"><h3>Section 1</h3>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+		                </div>
+		                   </div>
+                    <div role="tabpanel" class="tab-pane fade" id="Section2">
+                        <h3>Section 2</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="Section3">
+                        <h3>Section 3</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-							@*   <li class="navbar-item dropdown-megamenu">
+								</div>
+							</li>
+							<li class="navbar-item dropdown-megamenu">
 								<a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
 								<div class="megamenu">
-								<div class="container">
-								<div class="row row-cols-4" data-masonry='{"percentPosition": true }'>
-								@await Component.InvokeAsync("CategoriesMenu")
+									<div class="container">
+										<div class="row row-cols-4" data-masonry='{"percentPosition": true }'>
+											@await Component.InvokeAsync("CategoriesMenu")
+										</div>
+									</div>
 								</div>
-								</div>
-								</div>
-								</li>*@
+							</li>
+						
 							<li class="navbar-item dropdown">
 								<a class="navbar-link dropdown-arrow" href="#">صفحات</a>
 								<ul class="dropdown-position-list">
@@ -677,7 +639,10 @@
 	<script src="~/js/accordion.js"></script>
 	<script src="~/js/venobox.js"></script>
 	<script src="~/js/slick.js"></script>
-	<script src="~/js/main.js"></script>
+	<script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/jquery-1.12.0.min.js"></script>
+<script src="~/js/main.js"></script>
+
 	<script src="lib/drift-zoom/Drift.js"></script>
 	<script src="lib/sweetalert/sweetalert.min.js"></script>
 	<script src="lib/masonry/masonry.pkgd.min.js"></script>
@@ -845,45 +810,7 @@
 			});
 		}
 
-		document.addEventListener("DOMContentLoaded", function(){
-
-			/////// Prevent closing from click inside dropdown
-			document.querySelectorAll('.dropdown-menu').forEach(function(element){
-				element.addEventListener('click', function (e) {
-					e.stopPropagation();
-				});
-			});
-
-			// make it as accordion for smaller screens
-			if (window.innerWidth < 992) {
-				// close all inner dropdowns when parent is closed
-				document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown){
-					everydropdown.addEventListener('hidden.bs.dropdown', function () {
-						// after dropdown is hidden, then find all submenus
-						this.querySelectorAll('.megasubmenu').forEach(function(everysubmenu){
-							// hide every submenu as well
-							everysubmenu.style.display = 'none';
-						});
-					})
-				});
-
-				document.querySelectorAll('.has-submenu a').forEach(function(element){
-					element.addEventListener('click', function (e) {
-						let nextEl = this.nextElementSibling;
-						if(nextEl && nextEl.classList.contains('megasubmenu')) {	
-							// prevent opening link if link needs to open dropdown
-							e.preventDefault();
-							if(nextEl.style.display == 'block'){
-								nextEl.style.display = 'none';
-							} else {
-								nextEl.style.display = 'block';
-							}
-						}
-					});
-				}) // end foreach
-			}
-			// end if innerWidth
-		}); 
+		; 
 // DOMContentLoaded  end
 
 	</script>
