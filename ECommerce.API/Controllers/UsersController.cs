@@ -25,10 +25,12 @@ public class UsersController : ControllerBase
     private readonly IUserRepository _userRepository;
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IHolooSarfaslRepository _holooSarfaslRepository;
+    private readonly IConfiguration _configuration;
 
     public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
         UserManager<User> userManager, SiteSettings siteSettings, IUserRepository userRepository,
-        ILogger<UsersController> logger, IHolooCustomerRepository holooCustomerRepository, IHolooSarfaslRepository holooSarfaslRepository)
+        ILogger<UsersController> logger, IHolooCustomerRepository holooCustomerRepository, IHolooSarfaslRepository holooSarfaslRepository,
+        IConfiguration configuration)
     {
         _emailRepository = emailRepository;
         _signInManager = signInManager;
@@ -38,6 +40,7 @@ public class UsersController : ControllerBase
         _logger = logger;
         _holooCustomerRepository = holooCustomerRepository;
         _holooSarfaslRepository = holooSarfaslRepository;
+        _configuration = configuration;
     }
 
     [HttpPost]
@@ -188,6 +191,7 @@ public class UsersController : ControllerBase
                     Messages = new List<string> {"ایمیل تکراری است"}
                 });
 
+            var customerCode = _configuration.GetSection("CustomerCode").Value;
             var user = new User
             {
                 UserName = register.Username,
@@ -196,13 +200,14 @@ public class UsersController : ControllerBase
                 PhoneNumberConfirmed = true,
                 FirstName = register.FirstName,
                 LastName = register.LastName,
-                IsActive = false,
+                IsActive = true,
                 IsColleague = register.IsColleague,
                 LicensePath = register.LicensePath,
                 PicturePath = register.PicturePath,
                 IsFeeder = register.IsFeeder,
                 Mobile = register.Mobile,
-                UserRoleId = 4
+                UserRoleId = 4,
+                CustomerCode = customerCode
             };
 
             //var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);

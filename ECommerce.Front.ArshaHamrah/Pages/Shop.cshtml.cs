@@ -29,16 +29,28 @@ public class ShopModel : PageModel
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
 
-    public async Task OnGet(string categoryUrl)
+    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+        string message = null, string code = null)
     {
-        // Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
-        var resultSearch = await _productService.Search(categoryUrl, 1, 10);
-        if (resultSearch.Code == ServiceCode.Success)
+        //// Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
+        //var resultSearch = await _productService.Search(categoryUrl, 1, 10);
+        //if (resultSearch.Code == ServiceCode.Success)
+        //{
+        //    Products = resultSearch;
+        //}
+
+        string? categoryId = null;
+        if (!string.IsNullOrEmpty(path))
         {
-            Products = resultSearch;
+            var resultCategory = await _categoryService.GetByUrl(path);
+            if (resultCategory.Code == ServiceCode.Success) categoryId = $"CategoryId={resultCategory.ReturnData.Id}";
         }
 
+        Products = await _productService.TopProducts(categoryId, pageNumber, pageSize, productSort);
+        //var brandResult = await _brandService.LoadDictionary();
+        //if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
         var result = _cookieService.GetCurrentUser();
+
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
 
@@ -46,21 +58,4 @@ public class ShopModel : PageModel
         Categories = categoryResult.ReturnData;
     }
 
-    public async Task<JsonResult> OnGetAddCart(int id, int priceId)
-    {
-        var result = await _cartService.Add(HttpContext, id,  priceId);
-        return new JsonResult(result);
-    }
-
-    public async Task<JsonResult> OnGetLoadCart(int id)
-    {
-        var result = await _cartService.Load(HttpContext);
-        return new JsonResult(result);
-    }
-
-    public async Task<JsonResult> OnGetDeleteCart(int id,int productId, int priceId)
-    {
-        var result = await _cartService.Delete(HttpContext, id, productId, priceId);
-        return new JsonResult(result);
-    }
 }

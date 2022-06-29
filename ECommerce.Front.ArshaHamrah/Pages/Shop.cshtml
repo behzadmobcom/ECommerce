@@ -1,4 +1,4 @@
-﻿@page "/Shop/{categoryUrl}"
+﻿@page "/Shop/{path}"
 @model ArshaHamrah.Pages.ShopModel
 @{
     ViewData["Title"] = "خرید";
@@ -231,7 +231,7 @@
         </a>
     </li>
 
-    @for (var i = 1; i <= Model.Products.PaginationDetails.PageSize; i++)
+    @for (var i = 1; i <= Model.Products.PaginationDetails.TotalPages; i++)
     {
         if (i == Model.Products.PaginationDetails.CurrentPage)
         {
@@ -274,13 +274,13 @@
                 @foreach (var parent in Model.Categories.Where(x => x.Parent == null))
                 {
                     <li class="closed">
-                        <a asp-page="Shop" asp-route-categoryUrl="@parent.Path">@parent.Name</a>
+                        <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
                         @{ var children = Model.Categories.Where(c => c.ParentId == parent.Id); }
                         @foreach (var child in children)
                         {
                             <ul>
                                 <li>
-                                    <a asp-page="Shop" asp-route-categoryUrl="@child.Path">@child.Name</a>
+                                    <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
                                 </li>
                             </ul>
                         }
@@ -394,121 +394,3 @@
 
 </div>
 <!-- End page content -->
-
-@section Scripts{
-    <script>
-        function AddWishList(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddWishList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function AddCompareList(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddCompareList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function OpenProductModal() {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=wish",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function AddCart(id) {
-            $.ajax({
-                type: "Get",
-                url: "Shop?handler=AddCart&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(result) {
-                    swal(result.message);
-                    if (result.code === 0) {
-                        var count = 0;
-                        var allPrice = 0;
-                        $('#Cart-List').text('');
-                        $.get('Shop?handler=LoadCart').done(function(products) {
-
-                            $.each(products.returnData,
-                                function(i, product) {
-                                    var item =
-                                        '<div class="single-cart clearfix"> id="CartDrop-' +
-                                            product.productId +
-                                            '"' +
-                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
-                                            product.url +
-                                            '">' +
-                                            product.name +
-                                            '</a> </h6>' +
-                                            '<div class="cart-img f-left">' +
-                                            '<a asp-page="Product" asp-route-productId="' +
-                                            product.Url +
-                                            '">' +
-                                            '<img width="100px" src="/' +
-                                            product.imagePath +
-                                            '" alt="' +
-                                            product.alt +
-                                            '"> </a>' +
-                                            '<div class="del-icon">' +
-                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
-                                            product.productId +
-                                            ')"> ' +
-                                            '<i class="zmdi zmdi-close"></i> </a>' +
-                                            '</div></div><div class="cart-info f-left"> <p>' +
-                                            '<span>برند <strong>:</strong></span>' +
-                                            product.brand +
-                                            '</p><p><span>قیمت <strong>:</strong></span>' +
-                                            product.price +
-                                            '</p><p><span>تعداد <strong>:</strong></span>' +
-                                            product.quantity +
-                                            '</p><p> <input hidden="hidden" value="' +
-                                            product.sumPrice +
-                                            '" id="SumPrice-' +
-                                            product.productId +
-                                            '"/><span>جمع <strong>:</strong></span>' +
-                                            product.sumPrice +
-                                            '</p></div></div>';
-                                    $('#Cart-List').append(item);
-                                    count++;
-                                    allPrice = allPrice + product.sumPrice;
-                                });
-                            $('#Cart-Count').text(count);
-                            $('#All-Price').text(allPrice + ' تومان');
-                        });
-                    }
-                },
-                failure: function(response) {
-                    alert(response);
-                }
-            });
-
-        }
-    </script>
-}
