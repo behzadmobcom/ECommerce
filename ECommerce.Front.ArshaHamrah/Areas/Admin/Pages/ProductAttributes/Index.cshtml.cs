@@ -31,8 +31,8 @@ public class IndexModel : PageModel
         var attributeGroups = (await _productAttributeGroupService.GetAll()).ReturnData;
         AttributeGroup = new SelectList(attributeGroups, nameof(ProductAttributeGroup.Id),
             nameof(ProductAttributeGroup.Name));
-        if (attributeGroupId == 0)
-            attributeGroupId = attributeGroups.FirstOrDefault().Id;
+        if (attributeGroupId == 0 && attributeGroups.Count>0)
+            attributeGroupId = attributeGroups.First().Id;
         var result = await _productAttributeService.GetAllAttributeWithGroupId(attributeGroupId, 10);
         ProductAttributes = result.ReturnData;
     }

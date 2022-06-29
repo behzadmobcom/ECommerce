@@ -6,7 +6,7 @@ namespace ECommerce.Services.IServices;
 public interface IProductAttributeGroupService : IEntityService<ProductAttributeGroup>
 {
     Task<ServiceResult<List<ProductAttributeGroup>>> GetAll();
-    Task<ServiceResult<List<ProductAttributeGroup>>> Load(int pageNumber = 0, int pageSize = 10);
+    Task<ServiceResult<List<ProductAttributeGroup>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult> Add(ProductAttributeGroup productAttributeGroup);
     Task<ServiceResult> Edit(ProductAttributeGroup productAttributeGroup);
     Task<ServiceResult> Delete(int id);

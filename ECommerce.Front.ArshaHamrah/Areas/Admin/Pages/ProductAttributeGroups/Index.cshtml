@@ -1,7 +1,7 @@
 ﻿@page
 @model ArshaHamrah.Areas.Admin.Pages.ProductAttributeGroups.IndexModel
 @{
-    var i = 1;
+	var i = 1 + (Model.ProductAttributeGroups.PaginationDetails.CurrentPage - 1) * Model.ProductAttributeGroups.PaginationDetails.PageSize;
 }
 
 <div class="card card-custom gutter-b">
@@ -34,9 +34,25 @@
             Model.Code = null;
         }
         <div class="example mb-10">
-            <p>
-                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد دسته بندی خصوصیات جدید</a>
-            </p>
+	        <p>
+		        <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد دسته بندی خصوصیات جدید</a>
+	        </p>
+	        <form asp-page="/ProductAttributeGroups/Index" method="get">
+		        <div class="form-actions no-color">
+			        <p>
+				        جستجو بر اساس نام:
+				        <input type="text" name="search" value="@Model.ProductAttributeGroups.PaginationDetails.Search"/>
+				        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+				        <input type="submit" value="بجو" class="btn btn-primary"/> |
+				        تعداد رکورد ها در صفحه :
+				        <a asp-page="/ProductAttributeGroups/Index" asp-route-pageSize="10">10</a> -
+				        <a asp-page="/ProductAttributeGroups/Index" asp-route-pageSize="20">20</a> -
+				        <a asp-page="/ProductAttributeGroups/Index" asp-route-pageSize="30">30</a> -
+				        <a asp-page="/ProductAttributeGroups/Index" asp-route-pageSize="40">40</a> -
+				        <a asp-page="/ProductAttributeGroups/Index" asp-route-pageSize="50">50</a>
+			        </p>
+		        </div>
+	        </form>
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
@@ -47,7 +63,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var productAttributeGroups in Model.ProductAttributeGroups)
+                    @foreach (var productAttributeGroups in Model.ProductAttributeGroups.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
@@ -61,7 +77,7 @@
                     }
                     </tbody>
                 </table>
-
+	            <partial name="_Pagination" model="@Model.ProductAttributeGroups.PaginationDetails"/>
 
             </div>
 

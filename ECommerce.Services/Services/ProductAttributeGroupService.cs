@@ -22,6 +22,12 @@ public class ProductAttributeGroupService : EntityService<ProductAttributeGroup>
         return Return(result);
     }
 
+    public async Task<ServiceResult<List<ProductAttributeGroup>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
+    {
+        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        return Return(result);
+    }
+
     public async Task<ServiceResult<List<ProductAttributeGroup>>> GetByProductId(int productId)
     {
         var result = await ReadList(Url, $"GetByProductId?productId={productId}");

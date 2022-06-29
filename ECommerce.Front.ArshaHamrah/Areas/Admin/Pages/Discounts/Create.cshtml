@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
+                            <input asp-for="@Model.Discount.Percent" id="demo1" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo1" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ</label>
@@ -117,5 +117,14 @@
                 }
             });
         });
+               $("input[name='demo1']").TouchSpin({
+                min: 0,
+                max: 100,
+                step: 0.1,
+                decimals: 2,
+                boostat: 5,
+                maxboostedstep: 10,
+                postfix: '%'
+            });
     </script>
 }
