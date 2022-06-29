@@ -68,70 +68,73 @@
 <section id="page-content" class="page-wrapper">
 
 <!-- BANNER-SECTION START -->
-<div class="banner-section ptb-60">
-    <div class="container">
-        <div class="row">
-            <!-- banner-item start -->
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="banner-item banner-2">
-                    <div class="banner-img">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">
-                            <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[0].Alt"/>
-                        </a>
-                    </div>
-                    <h3 class="banner-title-2 vmsNowrap">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
-                    </h3>
-                    <h3 class="pro-price">@Model.ExpensiveProducts[0].Prices.First().Amount.ToString("N0") تومان</h3>
-                    <div class="banner-button">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- banner-item end -->
-            <!-- banner-item start -->
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="banner-item banner-3">
-                    <div class="banner-img">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
-                            <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
-                        </a>
-                    </div>
-                    <div class="banner-info">
-                        <h3 class="banner-title-2 vmsNowrap">
-                            <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
-                        </h3>
-                        <ul class="banner-featured-list vmsNowrapList">
-                            @Html.Raw(Model.ExpensiveProducts[1].Brand)
-                        </ul>
-                        <div class="banner-button">
-                            <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">مشاهده <i class="zmdi zmdi-long-arrow-left"></i></a>
+    @if (Model.ExpensiveProducts.Count > 0)
+    {
+        <div class="banner-section ptb-60">
+            <div class="container">
+                <div class="row">
+                    <!-- banner-item start -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="banner-item banner-2">
+                            <div class="banner-img">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">
+                                    <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[0].Alt"/>
+                                </a>
+                            </div>
+                            <h3 class="banner-title-2 vmsNowrap">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
+                            </h3>
+                            <h3 class="pro-price">@Model.ExpensiveProducts[0].Prices.First().Amount.ToString("N0") تومان</h3>
+                            <div class="banner-button">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                            </div>
                         </div>
                     </div>
+                    <!-- banner-item end -->
+                    <!-- banner-item start -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="banner-item banner-3">
+                            <div class="banner-img">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                                    <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
+                                </a>
+                            </div>
+                            <div class="banner-info">
+                                <h3 class="banner-title-2 vmsNowrap">
+                                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                                </h3>
+                                <ul class="banner-featured-list vmsNowrapList">
+                                    @Html.Raw(Model.ExpensiveProducts[1].Brand)
+                                </ul>
+                                <div class="banner-button">
+                                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">مشاهده <i class="zmdi zmdi-long-arrow-left"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- banner-item end -->
+                    <!-- banner-item start -->
+                    <div class="col-md-4 hidden-sm col-xs-12">
+                        <div class="banner-item banner-4">
+                            <div class="banner-img">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                                    <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
+                                </a>
+                            </div>
+                            <h3 class="banner-title-2 vmsNowrap">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                            </h3>
+                            <div class="banner-button">
+                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- banner-item end -->
                 </div>
             </div>
-            <!-- banner-item end -->
-            <!-- banner-item start -->
-            <div class="col-md-4 hidden-sm col-xs-12">
-                <div class="banner-item banner-4">
-                    <div class="banner-img">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
-                            <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
-                        </a>
-                    </div>
-                    <h3 class="banner-title-2 vmsNowrap">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
-                    </h3>
-                    <div class="banner-button">
-                        <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- banner-item end -->
         </div>
-    </div>
-</div>
-<!-- BANNER-SECTION END -->
+    }
+    <!-- BANNER-SECTION END -->
 <!-- FEATURED PRODUCT SECTION START -->
 <div class="featured-product-section section-bg-tb pt-80 pb-55">
     <div class="container">
