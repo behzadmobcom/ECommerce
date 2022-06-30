@@ -2,55 +2,55 @@
 
 @if (Model != null)
 {
-	@*@foreach (var category in Model)
-		{
-		var path = $"/Shop/{category.Path}";
-		<div class="col">
-		<div class="megamenu-wrap">
-		@if (category.Depth == 0)
-		{
-		<a href="@path">
-		<h5 class="megamenu-title">@category.Name</h5>
-		</a>
-		}
-		@if (category.Children != null)
-		{
-		<ul class="megamenu-list">
-		<partial name="_categoriesMenu" model="category.Children" />
-		</ul>
-		}
-		</div>
-		</div>
-		}*@
-
-	<div class="col-md-4">
-		<div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+	var path = $"/Shop/";
+	var isActive = true;
+	<div class="vertical-tab" role="tabpanel">
+		<!-- Nav tabs -->
+	<ul class="nav nav-tabs" role="tablist">
 			@foreach (var parentCategory in Model)
 			{
-				<button class="nav-link" id="v-pills-@parentCategory.Id-tab" data-bs-toggle="pill" data-bs-target="#v-pills-@parentCategory.Id" type="button" role="tab" aria-controls="v-pills-@parentCategory.Id" aria-selected="false">@parentCategory.Name</button>
+				var parentPath = path + parentCategory.Path;
+				var s = "#Section" + parentCategory.Id;
+				@*<a href="@parentPath"></a>*@
+					<li role="presentation" @if (isActive){<text> class="active"</text>}><a href="@s" aria-controls="@parentCategory.Name" role="tab" data-toggle="tab">@parentCategory.Name</a></li>
+				
+				 isActive = false;
 			}
-		</div>
-	</div>
-
-
-	<div class="col-md-8 bg-light">
-		<div class="tab-content" id="v-pills-tabContent">
-			@foreach (var parent in Model)
-			{
-				@foreach (var childrenCategory in parent.Children)
+		</ul>
+		<!-- Tab panes -->
+		@{isActive = true;}
+		<div class="tab-content tabs">
+		@foreach (var parentCategory in Model)
+		{
+			var s = "Section" + parentCategory.Id;
+			var c ="";
+			@if (isActive){c = "row tab-pane fade in active";}else{c = "row tab-pane fade in";}
+			<div role="tabpanel" class="@c" id="@s">
+				@foreach (var firstChild in parentCategory.Children)
 				{
+					
+						<div class="col-md-4">
+							@{ var firstPath = path + firstChild.Path; }
+							<a href="@firstPath">
+								<h3>@firstChild.Name</h3></a>
 
-					<div class="tab-pane fade" id="v-pills-@parent.Id @childrenCategory.Id" role="tabpanel" aria-labelledby="v-pills-@parent.Id-tab">@childrenCategory.Name</div>
-					@*@foreach (var children in childrenCategory.Children)
-					{
-						<label style="color:red">@children.Name</label><br/>
-					}*@
+							@foreach (var secondChild in firstChild.Children)
+							{
+								var secondPath = path + secondChild.Path;
+								<a href="@secondPath">
+									<p>@secondChild.Name</p></a>
+							}
+						</div>
+
+
 				}
-			}
+			</div>
+
+			isActive = false;
+		}
 		</div>
+
 	</div>
+
 
 }
-
-
-@*<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">1</div>*@

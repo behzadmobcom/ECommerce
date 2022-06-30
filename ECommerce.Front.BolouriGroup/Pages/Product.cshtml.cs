@@ -34,8 +34,8 @@ public class ProductdetailsModel : PageModel
     public async Task OnGet(string productUrl)
     {
         var resultProduct = await _productService.GetProduct(productUrl);
-        if (resultProduct.Code == 0) Product = resultProduct.ReturnData;
-
+        if (resultProduct.Code > 0) return;
+        Product = resultProduct.ReturnData;
         var result = await _attributeGroupService.GetByProductId(Product.Id);
         if (result.Code == ServiceCode.Success)
             AttributeGroups = result.ReturnData.Where(x =>

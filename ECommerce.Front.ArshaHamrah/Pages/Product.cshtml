@@ -41,7 +41,7 @@
     <div class="imgs-zoom-area">
         @if (Model.Product.Images.Any())
         {
-            <img id="zoom_03" src="~/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
+            <img class="drift-demo-trigger" id="zoom_03" src="~/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
                  data-zoom-image="~/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
                  alt="@Model.Product.Images.FirstOrDefault().Alt">
         }
@@ -54,7 +54,7 @@
                 <div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
                     @foreach (var image in Model.Product.Images)
                     {
-                        <div class="p-c">
+                        <div class="p-c details">
                             <a href="#" data-image="~/@($"{image.Path}/{image.Name}")" data-zoom-image="~/@($"{image.Path}/{image.Name}")">
                                 <img class="zoom_03" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                             </a>
@@ -401,5 +401,14 @@
             });
 
         }
+
+        
+
+        new Drift(document.querySelector('.drift-demo-trigger'), {
+	        paneContainer: document.querySelector('.details'),
+	        zoomFactor: 3,
+	        containInline: true,
+	        hoverBoundingBox: true
+        });
     </script>
 }
