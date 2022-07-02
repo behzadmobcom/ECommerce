@@ -23,7 +23,7 @@
 
             .vertical-tab .nav-tabs li a {
                 color: #222;
-                font-size: 18px;
+                font-size: 14px;
                 font-weight: 700;
                 text-align: center;
                 text-transform: uppercase;
@@ -70,7 +70,7 @@
             }
 
             .vertical-tab .nav-tabs li a:after {
-                background-color: #6CBF1C;
+                background-color: var(--primary);
                 width: 50%;
                 opacity: 0;
             }
@@ -91,6 +91,7 @@
         padding: 20px 20px 10px;
         margin-top: 10px;
         display: table-cell;
+      width: 100%;
         position: relative;
     }
 
@@ -100,6 +101,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin: 0 0 7px 0;
+            font-size: 14px;
         }
 
 @media only screen and (max-width: 479px) {

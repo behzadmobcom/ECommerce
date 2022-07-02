@@ -423,12 +423,12 @@ button:focus {
     -webkit-transition: all linear .3s;
     background: var(--white);
     border-radius: 10px;
-    box-shadow: 0 15px 35px 0 rgba(0, 0, 0, .1);
+   /* box-shadow: 0 15px 35px 0 rgba(0, 0, 0, .1);*/
     height: auto;
     opacity: 0;
     padding: 10px;
     position: absolute;
-    right: 0;
+    right: -150px;
     top: 100px;
     transition: all linear .3s;
     visibility: hidden;
