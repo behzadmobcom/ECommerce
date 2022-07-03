@@ -607,9 +607,10 @@
 <script src="~/js/jquery-1.12.0.min.js"></script>
 <script src="~/js/main.js"></script>
 
-<script src="lib/drift-zoom/Drift.js"></script>
-<script src="lib/sweetalert/sweetalert.min.js"></script>
-<script src="lib/masonry/masonry.pkgd.min.js"></script>
+<script src="~/lib/sweetalert/sweetalert.min.js"></script>
+<script src="~/lib/masonry/masonry.pkgd.min.js"></script>
+<script src="~/lib/drift-zoom/Drift.min.js"></script>
+@await RenderSectionAsync("Scripts", false)
 <script>
 	$(LoadCard());
 
@@ -779,8 +780,7 @@
 // DOMContentLoaded  end
 
 </script>
-<script src="~/lib/drift-zoom/Drift.min.js"></script>
-@await RenderSectionAsync("Scripts", false)
+
 </body>
 
 </html>

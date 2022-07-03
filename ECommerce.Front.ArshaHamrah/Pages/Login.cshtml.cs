@@ -23,6 +23,7 @@ public class LoginModel : PageModel
 
     [TempData] public string ReturnUrl { get; set; }
 
+
     public void OnGet(string returnUrl = null)
     {
         if (string.IsNullOrEmpty(returnUrl)) returnUrl = "/";
@@ -33,7 +34,9 @@ public class LoginModel : PageModel
     {
         var s = TempData["ReturnUrl"];
         var result = await _userService.Login(LoginViewModel);
-        if (result.Code == 0) return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
+        if (result.Code == 0) 
+
+            return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
 
         Message = result.Message;
         Code = result.Code.ToString();

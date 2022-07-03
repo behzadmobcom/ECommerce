@@ -783,10 +783,10 @@
             });
         }
 
-        function AddCart(id) {
+        function AddCart(id,priceId) {
             $.ajax({
                 type: "Get",
-                url: "/index?handler=AddCart&id=" + id,
+                url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
@@ -795,7 +795,7 @@
                         var count = 0;
                         var allPrice = 0;
                         $('#Cart-List').text('');
-                        $.get('Shop?handler=LoadCart').done(function(products) {
+                        $.get('/index?handler=LoadCart').done(function(products) {
 
                             $.each(products.returnData,
                                 function(i, product) {
@@ -826,7 +826,7 @@
                                         '<span>برند <strong>:</strong></span>' +
                                         product.brand +
                                         '</p><p><span>قیمت <strong>:</strong></span>' +
-                                        product.price +
+                                        product.priceAmount +
                                         '</p><p><span>تعداد <strong>:</strong></span>' +
                                         product.quantity +
                                         '</p><p> <input hidden="hidden" value="' +
