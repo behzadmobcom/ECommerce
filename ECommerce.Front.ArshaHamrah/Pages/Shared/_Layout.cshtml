@@ -82,18 +82,24 @@
                                                     {
                                                         @foreach (var parent in categories.ReturnData.Where(x => x.ParentId == null))
                                                         {
-                                                            <ul class="single-mega-item " style="height: 100%;">
-                                                                <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-                                                                @{
-                                                                    var children = categories.ReturnData.Where(c => c.ParentId == parent.Id);
-                                                                }
-                                                                @foreach (var child in children)
-                                                                {
-                                                                    <li style="display: inline-block">
-                                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
-                                                                    </li>
-                                                                }
-                                                            </ul>
+                                                         
+	                                                        <ul class="single-mega-item " style="height: 100%; font-size: 20px;font-weight: bold">
+		                                                        <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
+		                                                        <br/>
+		                                                        <br/>
+		                                                        @{
+			                                                        var children = categories.ReturnData.Where(c => c.ParentId == parent.Id);
+		                                                        }
+		                                                        @foreach (var child in children)
+		                                                        {
+			                                                        <div class="col-6">
+				                                                        <li style="display: inline-block">
+					                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a><br/>
+				                                                        </li>
+			                                                        </div>
+		                                                        }
+	                                                        </ul>
+	                                                      
                                                         }
                                                     }
                                                 </div>

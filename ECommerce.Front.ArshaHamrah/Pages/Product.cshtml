@@ -3,23 +3,6 @@
 @{
     ViewData["Title"] = "توضیحات کالا";
 }
-<style>
-	* {box-sizing: border-box;}
-
-	.img-magnifier-container {
-		position:relative;
-	}
-
-	.img-magnifier-glass {
-		position: absolute;
-		border: 3px solid #000;
-		border-radius: 50%;
-		cursor: none;
-		/*Set the size of the magnifier glass:*/
-		width: 100px;
-		height: 100px;
-	}
-</style>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -57,8 +40,8 @@
 	<div class="imgs-zoom-area">
 		@if (Model.Product.Images.Any())
 		{
-			<img id="zoom_03" src="~/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
-			     data-zoom-image="~/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
+			<img id="zoom_03" src="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
+			     data-zoom-image="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
 			     alt="@Model.Product.Images.FirstOrDefault().Alt">
 		}
 		else
@@ -71,8 +54,8 @@
 					@foreach (var image in Model.Product.Images)
 					{
 						<div class="p-c">
-							<a href="#" data-image="~/@($"{image.Path}/{image.Name}")" data-zoom-image="~/@($"{image.Path}/{image.Name}")">
-								<img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+							<a href="#" data-image="/@($"{image.Path}/{image.Name}")" data-zoom-image="/@($"{image.Path}/{image.Name}")">
+								<img class="zoom_03" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
 							</a>
 						</div>
 					}
@@ -107,8 +90,7 @@
 					<p>@Html.Raw(Model.Product.Description)</p>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="information">
-					<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی</p>
-					<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها</p>
+					<p>deff</p>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="reviews">
 					<!-- reviews-tab-desc -->
@@ -258,6 +240,29 @@
 	</div>
 </div>
 <!-- single-product-info end -->
+<br/>
+<br/>
+<table class="table table-bordered">
+
+
+	@for (var g = 0; g < Model.AttributeGroups.Count; g++)
+	{
+		<tbody>
+		@for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
+		{
+			<tr>
+				<th>@Model.AttributeGroups[g].Attribute[i].Title</th>
+
+				@for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
+				{
+					<td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
+				}
+			</tr>
+		}
+		</tbody>
+	}
+
+</table>
 </div>
 </div>
 <!-- single-product-area end -->
@@ -272,67 +277,11 @@
 	</div>
 	<div class="row">
 		<div class="active-related-product">
-			@foreach (var product in Model.RelatedProduct)
+			@foreach (var relatedProduct in Model.RelatedProduct)
 			{
-				<!-- product-item start -->
-				<div class="col-xs-12">
-					<div class="product-item">
-						<div class="product-img">
-							<a href="single-product.html">
-								<img src="~/img/product/1.jpg" alt="">
-							</a>
-						</div>
-						<div class="product-info">
-							<h6 class="product-title">
-								<a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name</a>
-							</h6>
-							<div class="pro-rating">
-								<a href="#">
-									<i class="zmdi zmdi-star"></i>
-								</a>
-								<a href="#">
-									<i class="zmdi zmdi-star"></i>
-								</a>
-								<a href="#">
-									<i class="zmdi zmdi-star"></i>
-								</a>
-								<a href="#">
-									<i class="zmdi zmdi-star-half"></i>
-								</a>
-								<a href="#">
-									<i class="zmdi zmdi-star-outline"></i>
-								</a>
-							</div>
-							<h3 class="pro-price">@product.Prices.First().Amount تومان</h3>
-							<ul class="action-button">
-								<li>
-									<a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
-										<i class="zmdi zmdi-favorite"></i>
-									</a>
-								</li>
-								<li>
-									<a href="javascript:void(0)" onclick="OpenProductModal(@product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-										<i class="zmdi zmdi-zoom-in"></i>
-									</a>
-								</li>
-								<li>
-									<a href="javascript:void(0)" onclick="AddCompareList(@product.Id)" title="مقایسه">
-										<i class="zmdi zmdi-refresh"></i>
-									</a>
-
-								</li>
-								<li>
-									<a href="javascript:void(0)" onclick="AddCart(@product.Id)" title="اضافه کردن به سبد خرید">
-										<i class="zmdi zmdi-shopping-cart-plus"></i>
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- product-item end -->
+				<partial name="Components/_productCard" model="relatedProduct" />
 			}
-
+		
 
 		</div>
 	</div>
@@ -342,151 +291,10 @@
 </div>
 </div>
 <!-- SHOP SECTION END -->
-
 </section>
-
-<body>
-
-<h1>Image Magnifier Glass</h1>
-
-<p>Mouse over the image:</p>
-
-<div class="img-magnifier-container">
-	<img id="myimage" src="~/Images/Brands/448f3560-2258-4f63-881f-11bb68029eef.png" width="600" height="400">
-</div>
-
-<p>Feel free to change the strength of the magnifier glass when initiating the magnify function.</p>
-
-</body>
 <!-- End page content -->
-@section Scripts{
-    <script>
-
-        function AddCart(id) {
-            $.ajax({
-                type: "Get",
-                url: "Product?handler=AddCart&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(result) {
-                    swal(result.message);
-                    if (result.code === 0) {
-                        var count = 0;
-                        var allPrice = 0;
-                        $('#Cart-List').text('');
-                        $.get('Product?handler=LoadCart').done(function(products) {
-
-                            $.each(products.returnData,
-                                function(i, product) {
-                                    var item =
-                                        '<div class="single-cart clearfix"> id="CartDrop-' +
-                                            product.productId +
-                                            '"' +
-                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
-                                            product.url +
-                                            '">' +
-                                            product.name +
-                                            '</a> </h6>' +
-                                            '<div class="cart-img f-left">' +
-                                            '<a asp-page="Product" asp-route-productId="' +
-                                            product.Url +
-                                            '">' +
-                                            '<img width="100px" src="/' +
-                                            product.imagePath +
-                                            '" alt="' +
-                                            product.alt +
-                                            '"> </a>' +
-                                            '<div class="del-icon">' +
-                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
-                                            product.productId +
-                                            ')"> ' +
-                                            '<i class="zmdi zmdi-close"></i> </a>' +
-                                            '</div></div><div class="cart-info f-left"> <p>' +
-                                            '<span>برند <strong>:</strong></span>' +
-                                            product.brand +
-                                            '</p><p><span>قیمت <strong>:</strong></span>' +
-                                            product.price +
-                                            '</p><p><span>تعداد <strong>:</strong></span>' +
-                                            product.quantity +
-                                            '</p><p> <input hidden="hidden" value="' +
-                                            product.sumPrice +
-                                            '" id="SumPrice-' +
-                                            product.productId +
-                                            '"/><span>جمع <strong>:</strong></span>' +
-                                            product.sumPrice +
-                                            '</p></div></div>';
-                                    $('#Cart-List').append(item);
-                                    count++;
-                                    allPrice = allPrice + product.sumPrice;
-                                });
-                            $('#Cart-Count').text(count);
-                            $('#All-Price').text(allPrice + ' تومان');
-                        });
-                    }
-                },
-                failure: function(response) {
-                    alert(response);
-                }
-            });
-
-        }
-
-      function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-  /*create magnifier glass:*/
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-  /*insert magnifier glass:*/
-  img.parentElement.insertBefore(glass, img);
-  /*set background properties for the magnifier glass:*/
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /*execute a function when someone moves the magnifier glass over the image:*/
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  /*and also for touch screens:*/
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-  function moveMagnifier(e) {
-    var pos, x, y;
-    /*prevent any other actions that may occur when moving over the image*/
-    e.preventDefault();
-    /*get the cursor's x and y positions:*/
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    /*prevent the magnifier glass from being positioned outside the image:*/
-    if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-    if (x < w / zoom) {x = w / zoom;}
-    if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-    if (y < h / zoom) {y = h / zoom;}
-    /*set the position of the magnifier glass:*/
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    /*display what the magnifier glass "sees":*/
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-  }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /*get the x and y positions of the image:*/
-    a = img.getBoundingClientRect();
-    /*calculate the cursor's x and y coordinates, relative to the image:*/
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /*consider any page scrolling:*/
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-}
-        /* Initiate Magnify Function
-with the id of the image, and the strength of the magnifier glass:*/
-        magnify("myimage", 3);
-    </script>
+@section Scripts
+{
+	<script src="~/js/main.js"></script>
+	<script src="~/js/plugins.js"></script>
 }

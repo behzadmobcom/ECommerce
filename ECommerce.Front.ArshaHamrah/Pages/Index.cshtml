@@ -33,7 +33,7 @@
                         <div class="title-container">
                             <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
                                 <h6 class="slider2-title-1">بهترین قیمت : @slide.Price?.ToString("N2") تومان</h6>
-                            </div>
+                            </div>@Model.ExpensiveProducts[0].Prices.First().Amount.ToString("N0")
                             <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
                                 <h1 class="slider2-title-2">@slide.Title</h1>
                             </div>
@@ -93,6 +93,42 @@
                     <!-- banner-item end -->
                     <!-- banner-item start -->
                     <div class="col-md-4 col-sm-6 col-xs-12">
+	                    <div class="banner-item banner-2">
+		                    <div class="banner-img">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+				                    <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[1].Alt"/>
+			                    </a>
+		                    </div>
+		                    <h3 class="banner-title-2 vmsNowrap">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+		                    </h3>
+		                    <h3 class="pro-price">@Model.ExpensiveProducts[1].Prices.First().Amount.ToString("N0") تومان</h3>
+		                    <div class="banner-button">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- banner-item end -->
+                    <!-- banner-item start -->
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+	                    <div class="banner-item banner-2">
+		                    <div class="banner-img">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">
+				                    <img style="float: right" src="@Model.ExpensiveProducts[2].ImagePath" alt="@Model.ExpensiveProducts[2].Alt"/>
+			                    </a>
+		                    </div>
+		                    <h3 class="banner-title-2 vmsNowrap">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">@Model.ExpensiveProducts[2].Name</a>
+		                    </h3>
+		                    <h3 class="pro-price">@Model.ExpensiveProducts[2].Prices.First().Amount.ToString("N0") تومان</h3>
+		                    <div class="banner-button">
+			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+		                    </div>
+	                    </div>
+                    </div>
+                    <!-- banner-item end -->
+                    <!-- banner-item start -->
+           @*         <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="banner-item banner-3">
                             <div class="banner-img">
                                 <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
@@ -128,7 +164,7 @@
                                 <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                     <!-- banner-item end -->
                 </div>
             </div>
