@@ -34,6 +34,7 @@
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
                     <input hidden="hidden" asp-for="@Model.SlideShow.Id"/>
+                    <input hidden="hidden" asp-for="@Model.SlideShow.ProductId"/>
                     <input hidden="hidden" asp-for="@Model.SlideShow.ImagePath"/>
                     <div class="card-body">
                         <div class="form-group">

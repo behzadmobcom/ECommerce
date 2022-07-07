@@ -4,7 +4,7 @@ namespace API.Interface;
 
 public interface ISlideShowRepository : IAsyncRepository<SlideShow>
 {
-    bool IsRepetitiveProduct(int id, CancellationToken cancellationToken);
+    bool IsRepetitiveProduct(int id,int productId, CancellationToken cancellationToken);
 
     Task<SlideShow> GetByTitle(string title, CancellationToken cancellationToken);
 

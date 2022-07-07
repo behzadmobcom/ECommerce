@@ -110,7 +110,7 @@ public class SlideShowsController : ControllerBase
                     Messages = new List<string> {"عنوان اسلاید شو تکراری است"}
                 });
 
-            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(slideShow.ProductId, cancellationToken);
+            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(0,slideShow.ProductId, cancellationToken);
             if (repetitiveProduct)
                 return Ok(new ApiResult
                 {
@@ -146,7 +146,7 @@ public class SlideShowsController : ControllerBase
                 });
             if (repetitiveTitle != null) _slideShowRepository.Detach(repetitiveTitle);
 
-            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(slideShow.ProductId, cancellationToken);
+            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(slideShow.Id, slideShow.ProductId, cancellationToken);
             if (repetitiveProduct)
                 return Ok(new ApiResult
                 {

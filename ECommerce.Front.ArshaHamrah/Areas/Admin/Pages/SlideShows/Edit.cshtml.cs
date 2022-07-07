@@ -3,6 +3,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ArshaHamrah.Areas.Admin.Pages.SlideShows;
 
@@ -32,6 +33,8 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        var resultOld = await _slideShowService.GetById(SlideShow.Id);
+        var slideShowOld = resultOld.ReturnData;
         if (Upload != null)
         {
             var fileName = (await _imageService.Upload(Upload, "Images/SlideShows", _environment.ContentRootPath))
@@ -39,13 +42,14 @@ public class EditModel : PageModel
             SlideShow.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
         }
 
-        if (Upload == null && SlideShow.ImagePath == null)
+        if (Upload == null && SlideShow.ImagePath == null && slideShowOld.ImagePath != SlideShow.ImagePath)
         {
             Message = "لطفا عکس را انتخاب کنید";
             Code = ServiceCode.Error.ToString();
             return Page();
         }
 
+        ModelState["Upload"].ValidationState = ModelValidationState.Valid;
         if (ModelState.IsValid)
         {
             var result = await _slideShowService.Edit(SlideShow);

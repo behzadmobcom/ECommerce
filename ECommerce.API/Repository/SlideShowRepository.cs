@@ -14,9 +14,11 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
         _context = context;
     }
 
-    public bool IsRepetitiveProduct(int id, CancellationToken cancellationToken)
+    public bool IsRepetitiveProduct(int id,int productId, CancellationToken cancellationToken)
     {
-        return _context.SlideShows.Any(x => x.ProductId == id);
+        var repetitive = true;
+        repetitive = id == 0 ? _context.SlideShows.Any(x => x.ProductId == productId) : _context.SlideShows.Any(x => x.ProductId == productId && x.Id != id);
+        return repetitive;
     }
 
     public async Task<SlideShow> GetByTitle(string title, CancellationToken cancellationToken)
