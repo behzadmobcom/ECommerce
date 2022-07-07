@@ -44,7 +44,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 Url = p.Product.Url,
                 Name = p.Product.Name,
                 Price = p.Product.Prices!.First(x => x.Id == p.PriceId),
-                PriceAmount = p.Product.Prices!.First(x=>x.Id== p.PriceId).Amount,
+                PriceAmount = p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
                 PriceId = p.PriceId,
                 ImagePath = $"{p.Product.Images!.FirstOrDefault()!.Path}/{p.Product.Images!.FirstOrDefault()!.Name}",
                 Brand = p.Product.Brand!.Name,
@@ -53,7 +53,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 IsColleague = p.PurchaseOrder!.User!.IsColleague,
                 UserId = p.PurchaseOrder.UserId,
                 Quantity = p.Quantity,
-                SumPrice = p.Quantity* p.Product.Prices!.First(x => x.Id == p.PriceId).Amount
+                SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;

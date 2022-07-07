@@ -26,6 +26,6 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
 
     public async Task<IEnumerable<SlideShow>> GetAllWithInclude(CancellationToken cancellationToken)
     {
-        return await _context.SlideShows.Include(nameof(SlideShow.Product)).ToListAsync(cancellationToken);
+        return await _context.SlideShows.Include(x=>x.Product).ThenInclude(p=>p.Prices).ToListAsync(cancellationToken);
     }
 }
