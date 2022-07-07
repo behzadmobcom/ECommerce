@@ -89,6 +89,10 @@
                         <select name="Price.SellNumber" class="col-md-12 js-example-basic-single  form-control">
                             @foreach (var status in Enum.GetValues(typeof(Price.HolooSellNumber)))
                             {
+                                if (Model.Price.SellNumber == (Price.HolooSellNumber)status)
+                                {
+                                    <option selected="selected" value="@status">@status</option>
+                                }
                                 <option value="@status">@status</option>
                             }
                         </select>

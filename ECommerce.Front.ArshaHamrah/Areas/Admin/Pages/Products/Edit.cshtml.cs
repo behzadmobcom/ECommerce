@@ -52,7 +52,7 @@ public class EditModel : PageModel
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 
-    public async Task<IActionResult> OnGet(int id)
+    public async Task<IActionResult> OnGet(int id, string message = null, string code = null)
     {
         var result = await Initial(id);
         if (result.Code == 0) return Page();
@@ -101,12 +101,11 @@ public class EditModel : PageModel
 
             if (result.Code == 0)
                 return RedirectToPage("/Products/Edit",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+                    new { id = productId, message = result.Message, code = result.Code.ToString() });
             Message = result.Message;
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
         }
-        await Initial(productId);
         return Page();
     }
 
