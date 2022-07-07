@@ -73,8 +73,11 @@
                                     <td class="td-title-2">@product.SumPrice.ToString("N0") تومان</td>
                                 </tr>
                             }
-
-
+                            @{ sum += Model.PostPrice;}
+                            <tr>
+	                            <td class="order-total">هزینه حمل</td>
+	                            <td class="order-total-price">@Model.PostPrice.ToString("N0") تومان</td>
+                            </tr>
                             <tr>
                                 <td class="order-total">مجموع سفارش</td>
                                 <td class="order-total-price">@sum.ToString("N0") تومان</td>

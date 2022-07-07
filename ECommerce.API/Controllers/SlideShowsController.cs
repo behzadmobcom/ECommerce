@@ -14,15 +14,31 @@ public class SlideShowsController : ControllerBase
     private readonly ILogger<SlideShowsController> _logger;
     private readonly IPriceRepository _priceRepository;
     private readonly ISettingRepository _settingRepository;
+    private readonly IHolooArticleRepository _articleRepository;
     private readonly ISlideShowRepository _slideShowRepository;
 
     public SlideShowsController(ISlideShowRepository slideShowRepository, IPriceRepository priceRepository,
-        ISettingRepository settingRepository, ILogger<SlideShowsController> logger)
+        ISettingRepository settingRepository, IHolooArticleRepository articleRepository, ILogger<SlideShowsController> logger)
     {
         _slideShowRepository = slideShowRepository;
         _priceRepository = priceRepository;
         _settingRepository = settingRepository;
+        _articleRepository = articleRepository;
         _logger = logger;
+    }
+
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product)
+    {
+        foreach (var productPrices in product.Prices)
+            if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
+            {
+                var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
+                    productPrices.SellNumber!.Value);
+                productPrices.Amount = article.price / 10;
+                productPrices.Exist = (double)article.exist;
+            }
+
+        return product;
     }
 
     [HttpGet]
@@ -40,16 +56,19 @@ public class SlideShowsController : ControllerBase
                 Description = s.Description,
                 ImagePath = s.ImagePath,
                 Name = s.Product.Name,
+                Product = s.Product,
                 Url = s.Product.Url
             });
             var currency = _settingRepository.IsDollar();
             foreach (var slideShow in slideShowViewModelList)
             {
-                var temp = await _priceRepository.PriceOfProduct(slideShow.ProductId, cancellationToken);
-                if (temp.Count() == 0) continue;
-                slideShow.Price =
-                    temp.FirstOrDefault(x => x.Currency.Name == currency && !x.IsColleague && x.MinQuantity == 1)
-                        ?.Amount;
+                //var temp = await _priceRepository.PriceOfProduct(slideShow.ProductId, cancellationToken);
+                //if (temp.Count() == 0) continue;
+                //slideShow.Price =
+                //    temp.FirstOrDefault(x => x.Currency.Name == currency && !x.IsColleague && x.MinQuantity == 1)
+                //        ?.Amount;
+                var productTemp = await AddPriceAndExistFromHoloo(slideShow.Product);
+                slideShow.Price = productTemp.Prices != null && productTemp.Prices.FirstOrDefault() == null ? 0 : productTemp.Prices.FirstOrDefault().Amount;
                 returnSlideShow.Add(slideShow);
             }
 
@@ -63,7 +82,7 @@ public class SlideShowsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -89,7 +108,7 @@ public class SlideShowsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -107,7 +126,7 @@ public class SlideShowsController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"عنوان اسلاید شو تکراری است"}
+                    Messages = new List<string> { "عنوان اسلاید شو تکراری است" }
                 });
 
             var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(0,slideShow.ProductId, cancellationToken);
@@ -115,7 +134,7 @@ public class SlideShowsController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده"}
+                    Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
                 });
             var result = await _slideShowRepository.AddAsync(slideShow, cancellationToken);
             return Ok(new ApiResult
@@ -127,7 +146,7 @@ public class SlideShowsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -142,7 +161,7 @@ public class SlideShowsController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"عنوان اسلاید شو تکراری است"}
+                    Messages = new List<string> { "عنوان اسلاید شو تکراری است" }
                 });
             if (repetitiveTitle != null) _slideShowRepository.Detach(repetitiveTitle);
 
@@ -151,7 +170,7 @@ public class SlideShowsController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده"}
+                    Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
                 });
             await _slideShowRepository.UpdateAsync(slideShow, cancellationToken);
             return Ok(new ApiResult
@@ -163,7 +182,7 @@ public class SlideShowsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -183,7 +202,7 @@ public class SlideShowsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 }

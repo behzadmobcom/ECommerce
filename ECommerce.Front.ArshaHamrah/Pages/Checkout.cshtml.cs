@@ -35,6 +35,7 @@ public class CheckoutModel : PageModel
 
     public SelectList SendInformationList { get; set; }
 
+    public int PostPrice { get; set; }
     [BindProperty] public int Portal { get; set; } = 1;
 
     public async Task OnGet()
@@ -42,6 +43,10 @@ public class CheckoutModel : PageModel
         StateList = await _stateService.Load();
         CityList = await _cityService.Load(StateList.ReturnData.FirstOrDefault().Id);
         CartList = await _cartService.Load(HttpContext);
+       
+        var cartCount = CartList.ReturnData.Sum(x => x.Quantity)-2;
+        PostPrice = 18000 + (cartCount*2000);
+
         var userId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var sendInformationList = (await _sendInformationService.Load()).ReturnData;
         SendInformationList = new SelectList(sendInformationList, nameof(SendInformation.Id),
