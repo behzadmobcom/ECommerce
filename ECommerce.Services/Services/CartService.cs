@@ -25,50 +25,81 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
     public async Task<ServiceResult<List<PurchaseOrderViewModel>>> Load(HttpContext context)
     {
         var currentUser = _cookieService.GetCurrentUser();
+        var carts = await ReadFromCookies(context);
+
         if (currentUser.Id != 0)
         {
+            if(carts.Count>0)
+            {
+                foreach(var cart in carts)
+                {
+                   await Add(context, cart.ProductId, cart.PriceId);
+                    await Delete(context, cart.Id, cart.ProductId, cart.PriceId,true);
+                }
+            }
+
             var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
             return Return(result);
         }
+       
+        //if(cart.Count==0)
+        //    return new ServiceResult<List<PurchaseOrderViewModel>>
+        //    { Code = ServiceCode.Error, Message = "کالای مورد نظر یافت نشد"};
+
+        return new ServiceResult<List<PurchaseOrderViewModel>>
+        {
+            Code = ServiceCode.Success,
+            ReturnData = carts
+        };
+    }
+
+    private async Task<List<PurchaseOrderViewModel>> ReadFromCookies(HttpContext context)
+    {
+        var carts = new List<PurchaseOrderViewModel>();
 
         var productIdList = new List<int>();
         var productNumberList = new List<int>();
+        var productPriceIdList = new List<int>();
         var cookies = _cookieService.GetCookie(context, _key);
         foreach (var cookie in cookies.OrderBy(x => x.Key))
         {
             var temp = cookie.Key.Split("-");
-            productIdList.Add(Convert.ToInt32(temp[1]));
-            productNumberList.Add(Convert.ToInt32(cookie.Value));
+            var productCode = Convert.ToInt32(temp[1]);
+            var productCount = Convert.ToInt32(cookie.Value);
+            var priceId = Convert.ToInt32(temp[2]);
+            if (productCode <= 0 || productCount <= 0 || priceId <= 0) continue;
+            productIdList.Add(productCode);
+            productNumberList.Add(productCount);
+            productPriceIdList.Add(priceId);
         }
 
         var responseProduct = await _productService.ProductsWithIdsForCart(productIdList);
         if (responseProduct.Code > 0)
-            return new ServiceResult<List<PurchaseOrderViewModel>>
-            { Code = ServiceCode.Error, Message = responseProduct.Message };
-        var cart = new List<PurchaseOrderViewModel>();
+            return carts;
+          
         for (var i = 0; i < responseProduct.ReturnData.Count; i++)
         {
+            var priceId = productPriceIdList[i];
+            var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).First();
             var tempPurchaseOrderDetail = new PurchaseOrderViewModel
             {
                 ProductId = responseProduct.ReturnData[i].Id,
                 Quantity = productNumberList[i],
                 Name = responseProduct.ReturnData[i].Name,
-                //Price = responseProduct.ReturnData[i].Price,
+                Price = price,
                 Url = responseProduct.ReturnData[i].Url,
                 ImagePath = responseProduct.ReturnData[i].ImagePath,
                 Alt = responseProduct.ReturnData[i].Alt,
-                Brand = responseProduct.ReturnData[i].Brand
-                //SumPrice = responseProduct.ReturnData[i].Price* productNumberList[i]
+                Brand = responseProduct.ReturnData[i].Brand,
+                SumPrice = price.Amount * productNumberList[i],
+                PriceAmount = price.Amount,
+                PriceId= priceId
             };
 
-            cart.Add(tempPurchaseOrderDetail);
+            carts.Add(tempPurchaseOrderDetail);
         }
 
-        return new ServiceResult<List<PurchaseOrderViewModel>>
-        {
-            Code = ServiceCode.Success,
-            ReturnData = cart
-        };
+        return carts;
     }
 
     public async Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer()
@@ -145,10 +176,10 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         return Return(success);
     }
 
-    public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId)
+    public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId,bool deleteFromCookie = false)
     {
         var currentUser = _cookieService.GetCurrentUser();
-        if (currentUser.Id == 0)
+        if (currentUser.Id == 0 || deleteFromCookie)
         {
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
             if (product != null)

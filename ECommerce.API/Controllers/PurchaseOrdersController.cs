@@ -190,7 +190,8 @@ public class PurchaseOrdersController : ControllerBase
             var purchaseOrder = new PurchaseOrder();
             var purchaseOrderDetail = new PurchaseOrderDetail();
             var product = await _productRepository.GetByIdAsync(cancellationToken, createPurchaseCommand.ProductId);
-            var price = await _priceRepository.GetByIdAsync(cancellationToken, createPurchaseCommand.PriceId);
+            var prices = await _priceRepository.PriceOfProduct(createPurchaseCommand.ProductId, cancellationToken);
+            var price = prices.FirstOrDefault(x => x.Id == createPurchaseCommand.PriceId);
 
             //var colleaguePrice = product.Prices.Where(x => x.IsColleague == createPurchaseCommand.IsColleague ).ToList();
             //var minPrice = colleaguePrice.Any()
@@ -353,7 +354,7 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Type = "P",
                 Sum_Price = purchaseOrder.Amount
 
-            }, cancellationToken); ;
+            }, cancellationToken);
 
             var aBail = new List<Entities.HolooEntity.HolooABail>();
             var i = 1;

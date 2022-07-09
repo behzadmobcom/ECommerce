@@ -281,7 +281,7 @@
 
                                                                     </a>
                                                                     <div class="del-icon">
-                                                                        <a href="javascript:void(0)" onclick="DeleteCart(@product.ProductId)">
+                                                                        <a href="javascript:void(0)" onclick="DeleteCart(@product.Id, @product.ProductId,@product.PriceId)">
                                                                             <i class="zmdi zmdi-close"></i>
                                                                         </a>
                                                                     </div>
@@ -699,27 +699,29 @@
         <script type="text/javascript">$('input, textarea').placeholder();</script>
     <![endif]-->
     <script>
-        function DeleteCart(id) {
-            var elementId = "#CartDrop-" + id;
+        function DeleteCart(id, productId, priceId) {
+            var elementId = "CartDrop-" + id;
             var sumPriceId = "#SumPrice-" + id;
             var price = parseInt($(sumPriceId).val());
             var count = parseInt($("#Cart-Count-Value").val());
             var allPrice = parseInt($("#AllPrice-Value").val());
             $.ajax({
                 type: "Get",
-                url: "/index?handler=DeleteCart&id=" + id,
+                url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
                     swal(result.message);
                     if (result.code === 0) {
-                        $(elementId).remove();
-                        count--;
-                        allPrice = allPrice - price;
-                        $('#Cart-Count').text(count);
-                        $('#All-Price').text(allPrice + ' تومان');
-                        $("#Cart-Count-Value").val(count);
-                        $("#AllPrice-Value").val(allPrice);
+                         location.reload();
+                        //const element = document.getElementById(elementId);
+                        //element.remove();
+                        //count--;
+                        //allPrice = allPrice - price;
+                        //$('#Cart-Count').text(count);
+                        //$('#All-Price').text(allPrice + ' تومان');
+                        //$("#Cart-Count-Value").val(count);
+                        //$("#AllPrice-Value").val(allPrice);
                     }
                 },
                 failure: function(response) {
@@ -802,14 +804,13 @@
                         var allPrice = 0;
                         $('#Cart-List').text('');
                         $.get('/index?handler=LoadCart').done(function(products) {
-
                             $.each(products.returnData,
                                 function(i, product) {
                                     var item =
-                                        '<div class="single-cart clearfix"> id="CartDrop-' +
-                                        product.productId +
-                                        '"' +
-                                        '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
+                                        '<div class="single-cart clearfix" id="CartDrop-' +
+                                        product.id +
+                                        '>"' +
+                                        '<h6 class="text-capitalize"> <a href="' +
                                         product.url +
                                         '">' +
                                         product.name +
@@ -824,9 +825,7 @@
                                         product.alt +
                                         '"> </a>' +
                                         '<div class="del-icon">' +
-                                        '<a href="javascript:void(0)" onclick="DeleteCart(' +
-                                        product.productId +
-                                        ')"> ' +
+                                        '<a href="javascript:void(0)" onclick="DeleteCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')""> ' +
                                         '<i class="zmdi zmdi-close"></i> </a>' +
                                         '</div></div><div class="cart-info f-left"> <p>' +
                                         '<span>برند <strong>:</strong></span>' +

@@ -645,6 +645,7 @@ public class ProductsController : ControllerBase
         try
         {
             var result = await _productRepository.GetProductList(productIdList, cancellationToken);
+            result = await AddPriceAndExistFromHolooList(result, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {

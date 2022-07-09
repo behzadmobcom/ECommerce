@@ -26,23 +26,23 @@
 <!-- BREADCRUMBS SETCTION END -->
 @if (Model.Message != null)
 {
-	switch (Model.Code)
-	{
-		case "Error":
-			<div class="alert alert-danger"> @Model.Message </div>
-			break;
-		case "Warning":
-			<div class="alert alert-warning"> @Model.Message </div>
-			break;
-		case "Info":
-			<div class="alert alert-info"> @Model.Message </div>
-			break;
-		default:
-			<div class="alert alert-success"> @Model.Message </div>
-			break;
-	}
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
 
-	Model.Message = null;
+    Model.Message = null;
 }
 <!-- Start page content -->
 <div id="page-content" class="page-wrapper">
@@ -63,7 +63,8 @@
                                         <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
                                     </small>
                                 </p>
-                                <button class="submit-btn-1 btn-hover-1" type="submit" >ورود</button>
+                                <button class="submit-btn-1 btn-hover-1" type="submit">ورود</button>
+                                <input type="text" hidden="hidden"  asp-for="@Model.ReturnUrl" />
                             </div>
                         </form>
                     </div>
@@ -106,10 +107,10 @@
 
                                 <div class="checkbox">
                                     <label class="mr-10">
-                                        <br/>
+                                        <br />
                                         <p class="text-muted font-weight-bold">در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید.</p>
-                                        <input laceholder="شماره مشتری" dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer"/>
-                                        <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br/>
+                                        <input laceholder="شماره مشتری" dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" />
+                                        <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
                                     </label>
                                     <label>
                                         <small>
@@ -122,7 +123,7 @@
                                             <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsColleague">آیا شما بعنوان همکار خرید میکنید؟
                                             <span asp-validation-for="RegisterViewModel.IsColleague"></span>
                                         </small>
-                                        <uploadimage asp-for="RegisterViewModel.PicturePath"/>
+                                        <uploadimage asp-for="RegisterViewModel.PicturePath" />
                                         <span asp-validation-for="RegisterViewModel.PicturePath"></span>
                                     </label>
                                     <label>
@@ -136,7 +137,7 @@
                                     <div class="form-group">
                                         <div class="checkbox-inline">
                                             <label class="checkbox">
-                                                <input type="checkbox"/>
+                                                <input type="checkbox" />
                                                 <span></span>
                                                 می پذیرم <a href="#">قوانین و مقررات</a>.
                                             </label>
@@ -145,7 +146,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit" >ثبت نام</button>
+                                        <button class="submit-btn-1 mt-20 btn-hover-1" type="submit">ثبت نام</button>
                                     </div>
                                     <div class="col-md-6">
                                         <button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">پاکسازی</button>
@@ -159,10 +160,9 @@
         </div>
     </div>
     <!-- LOGIN SECTION END -->
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 </div>
 <!-- End page content -->
-
 @section scripts{
 
 }

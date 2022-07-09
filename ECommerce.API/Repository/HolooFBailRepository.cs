@@ -18,8 +18,8 @@ public class HolooFBailRepository : HolooRepository<HolooFBail>, IHolooFBailRepo
 
     public async Task<string> Add(HolooFBail bail, CancellationToken cancellationToken)
     {
-        var lastRow = await _context.FBAILPRE.OrderByDescending(o => o.Fac_Code).FirstOrDefaultAsync(x=>x.Fac_Type.Equals("P"),cancellationToken);
-        var lastFacCode = Convert.ToInt32(lastRow.Fac_Code) + 1;
+        var lastRow = await _context.FBAILPRE.OrderByDescending(o => o.Fac_Code).FirstOrDefaultAsync(x => x.Fac_Type.Equals("P"), cancellationToken);
+        var lastFacCode = lastRow == null ? 1 : Convert.ToInt32(lastRow.Fac_Code) + 1;
         bail.Fac_Code_C = lastFacCode;
         bail.Fac_Code = lastFacCode.ToString("000000");
         try
@@ -40,16 +40,16 @@ public class HolooFBailRepository : HolooRepository<HolooFBail>, IHolooFBailRepo
         }
     }
 
-    public async Task<(string fCode,int fCodeC)> GetFactorCode(CancellationToken cancellationToken)
+    public async Task<(string fCode, int fCodeC)> GetFactorCode(CancellationToken cancellationToken)
     {
-        var holooFBail =await _context.FBAILPRE.OrderByDescending(o=>o.Fac_Code).FirstOrDefaultAsync(x=>x.Fac_Type.Equals("P"),cancellationToken);
-        var fCode = "0";
-        var fCodeC = 0;
+        var holooFBail = await _context.FBAILPRE.OrderByDescending(o => o.Fac_Code).FirstOrDefaultAsync(x => x.Fac_Type.Equals("P"), cancellationToken);
+        var fCode = 1;
+        var fCodeC = 1;
         if (holooFBail != null)
         {
-            fCode = (Convert.ToInt32(holooFBail.Fac_Code) + 1).ToString("000000");
+            fCode = Convert.ToInt32(holooFBail.Fac_Code) + 1;
             fCodeC = Convert.ToInt32(holooFBail.Fac_Code_C) + 1;
         }
-        return (fCode, fCodeC);
+        return (fCode.ToString("000000"), fCodeC);
     }
 }
