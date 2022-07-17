@@ -42,7 +42,7 @@ public class IndexModel : PageModel
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
         NewProducts = (await _productService.TopNew()).ReturnData;
         ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
-        StarProducts = (await _productService.TopStars(10)).ReturnData;
+        StarProducts = (await _productService.TopStars(8)).ReturnData;
         SellProducts = (await _productService.TopSells(10)).ReturnData;
 
         var result = _cookieService.GetCurrentUser();

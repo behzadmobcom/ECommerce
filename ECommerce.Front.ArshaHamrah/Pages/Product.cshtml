@@ -2,6 +2,7 @@
 @model ArshaHamrah.Pages.ProductModel
 @{
     ViewData["Title"] = "توضیحات کالا";
+	int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
@@ -63,13 +64,28 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="details-add-group" style="margin-right: 15%">
+		
+		<a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+			<span>افزودن به سبد خرید</span>
+		</a>
+	</div>
 </div>
 <!-- imgs-zoom-area end -->
 <!-- single-product-info start -->
 <div class="col-md-7 col-sm-7 col-xs-12">
 	<div class="single-product-info">
 		<h3 class="text-black-1">@Model.Product.Name </h3>
-		<h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
+		<div class="row">
+			<div class="col-md-6">
+				<h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
+			</div>
+			<div class="col-md-6">
+				<h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان</h6>
+			</div>
+		</div>
+		
 		<!-- hr -->
 		<hr>
 		<!-- single-product-tab -->
@@ -164,6 +180,35 @@
 		<!-- single-pro-color-rating -->
 		<div class="single-pro-color-rating clearfix">
 			<div class="sin-pro-color f-left">
+				@foreach (var price in Model.Product.Prices)
+				{
+					var select = price.Id == priceId ? "checked" : "";
+					if ((int)price.Grade > 1)
+					{
+						<div style="background-color: @price.Color.ColorCode">
+							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+							<label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
+							<label for="price-@price.Id">قیمت : @price.Amount</label>
+						</div>
+					}
+					else if (price.ColorId > 1)
+					{
+						<div style="background-color: @price.Color.ColorCode">
+							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+							<label for="price-@price.Id">@price.Color.Name - </label>
+							<label for="price-@price.Id">قیمت : @price.Amount</label>
+						</div>
+					}
+					<br>
+				}
+				
+				
+				
+				
+				
+				
+				
+
 				<p class="color-title f-left">رنگ</p>
 				<div class="widget-color f-left">
 					<ul>
@@ -208,7 +253,7 @@
 			<div class="sin-plus-minus f-left clearfix">
 				<p class="color-title f-left">تعداد</p>
 				<div class="cart-plus-minus f-left">
-					<input type="text" value="2" name="qtybutton" class="cart-plus-minus-box">
+					<input type="text" value="1" name="qtybutton" class="cart-plus-minus-box">
 				</div>
 			</div>
 			<div class="sin-pro-action f-right">

@@ -71,45 +71,45 @@
                                             <a asp-page="index">خانه</a>
 
                                         </li>
-                                        <li class="mega-parent">
-                                            <a asp-page="Shop">دسته بندی</a>
-                                            <div class="mega-menu-area clearfix">
-                                                <div class="mega-menu-link f-left">
+                                      
                                                     @{
-                                                        var categories = await _categoryService.Load();
+                                                        var categories = await _categoryService.GetParents();
                                                     }
                                                     @if (categories.Code == 0)
                                                     {
-                                                        @foreach (var parent in categories.ReturnData.Where(x => x.ParentId == null))
+                                                        @foreach (var parent in categories.ReturnData)
                                                         {
-                                                         
-	                                                        <ul class="single-mega-item " style="height: 100%; font-size: 20px;font-weight: bold">
+	                                                        <li class="mega-parent">
 		                                                        <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-		                                                        <br/>
-		                                                        <br/>
-		                                                        @{
-			                                                        var children = categories.ReturnData.Where(c => c.ParentId == parent.Id);
-		                                                        }
-		                                                        @foreach (var child in children)
-		                                                        {
-			                                                        <div class="col-6">
-				                                                        <li style="display: inline-block">
-					                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a><br/>
-				                                                        </li>
-			                                                        </div>
-		                                                        }
-	                                                        </ul>
+		                                                        <div class="mega-menu-area clearfix">
+			                                                        <div class="mega-menu-link f-left">
 	                                                      
+		                                                        <br/>
+		                                                        <br/>
+		                                                      
+		                                                        @foreach (var child in parent.Children)
+		                                                        {
+			                                                        <ul class="single-mega-item " style="height: 100%; font-size: 20px;font-weight: bold">
+				                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
+		                                                     @*   <div class="col-6">
+			                                                        <li style="display: inline-block">
+				                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a><br/>
+			                                                        </li>
+		                                                        </div>*@
+			                                                        </ul>
+		                                                        }
+	                                                     
+			                                                        </div>
+			                                                        <div class="mega-menu-photo f-left">
+				                                                        <a href="#">
+					                                                        <img src="~/img/mega-menu/1.jpg" alt="mega menu image">
+				                                                        </a>
+			                                                        </div>
+		                                                        </div>
+	                                                        </li>
                                                         }
                                                     }
-                                                </div>
-                                                <div class="mega-menu-photo f-left">
-                                                    <a href="#">
-                                                        <img src="~/img/mega-menu/1.jpg" alt="mega menu image">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </li>
+                                           
                                         <li>
                                             <a href="blog.html">بلاگ</a>
                                             <ul class="dropdwn">
@@ -242,89 +242,96 @@
                                         var allPrice = 0;
                                     }
                                     <div class="total-cart total-cart-2 f-left">
-                                        <div class="total-cart-in">
-                                            <div class="cart-toggler">
-                                                <a asp-page="cart">
-                                                    <span class="cart-quantity" id="Cart-Count">@cartList.Count</span><br>
-                                                    <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
-                                                    <span class="cart-icon">
-                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                            <ul>
-                                                <li>
-                                                    <div class="top-cart-inner your-cart">
-                                                        <h5 class="text-capitalize">سبد شما</h5>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="total-cart-pro" id="Cart-List">
-                                                        @foreach (var product in cartList)
-                                                        {
-                                                            <!-- single-cart -->
-                                                            <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
-                                                                <h6 class="text-capitalize">
-                                                                    <a asp-page="Product" asp-route-productUrl="@product.Url"> @product.Name</a>
-                                                                </h6>
-                                                                <div class="cart-img f-left">
-                                                                    <a asp-page="Product" asp-route-productId="@product.Url">
-                                                                        @if (product.ImagePath.Any())
-                                                                        {
-                                                                            <img width="100px" src="/@product.ImagePath" alt="@product.Alt">
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <img src="~/img/product/NoImage.png" alt="NoImage">
-                                                                        }
+	                                    <div class="total-cart-in">
+		                                    <div class="cart-toggler">
+			                                    <a asp-page="cart">
+				                                    <span class="cart-quantity" id="Cart-Count">@cartList.Count</span><br>
+				                                    <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
+				                                    <span class="cart-icon">
+					                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
+				                                    </span>
+			                                    </a>
+		                                    </div>
+		                                    <ul>
+			                                    <li>
+				                                    <div class="top-cart-inner your-cart">
+					                                    <h5 class="text-capitalize">سبد شما</h5>
+				                                    </div>
+			                                    </li>
+			                                    <li>
+				                                    <div class="total-cart-pro" id="Cart-List">
+					                                    @foreach (var product in cartList)
+					                                    {
+						                                    <!-- single-cart -->
+						                                    <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
+							                                    <h6 class="text-capitalize">
+								                                    <a asp-page="Product" asp-route-productUrl="@product.Url"> @product.Name</a>
+							                                    </h6>
+							                                    <div class="cart-img f-left">
+								                                    <a asp-page="Product" asp-route-productId="@product.Url">
+									                                    @if (product.ImagePath.Any())
+									                                    {
+										                                    <img width="100px" src="/@product.ImagePath" alt="@product.Alt">
+									                                    }
+									                                    else
+									                                    {
+										                                    <img src="~/img/product/NoImage.png" alt="NoImage">
+									                                    }
 
 
-                                                                    </a>
-                                                                    <div class="del-icon">
-                                                                        <a href="javascript:void(0)" onclick="DeleteCart(@product.Id, @product.ProductId,@product.PriceId)">
-                                                                            <i class="zmdi zmdi-close"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="cart-info f-left">
+								                                    </a>
+								                                    <div class="del-icon">
+									                                    <a href="javascript:void(0)" onclick="DeleteCart(@product.Id, @product.ProductId,@product.PriceId)">
+										                                    <i class="zmdi zmdi-close"></i>
+									                                    </a>
+								                                    </div>
+							                                    </div>
+							                                    <div class="cart-info f-left">
 
-                                                                    <p>
-                                                                        <span>برند <strong>:</strong></span>@product.Brand
-                                                                    </p>
-                                                                    <p>
-                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount
-                                                                    </p>
-                                                                    <p>
-                                                                        <span>تعداد <strong>:</strong></span>@product.Quantity
-                                                                    </p>
-                                                                    <p>
-                                                                        <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId" />
-                                                                        <span>جمع <strong>:</strong></span>@product.SumPrice.ToString("N0")
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            allPrice = allPrice + product.SumPrice;
-                                                        }
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="top-cart-inner subtotal">
-                                                        <h4>
-                                                            جمع =
-                                                            <span id="All-Price">@allPrice.ToString("N0") تومان</span>
-                                                            <input hidden="hidden" id="AllPrice-Value" value="@allPrice" />
-                                                        </h4>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="top-cart-inner view-cart">
-                                                        <h4>
-                                                            <a asp-page="cart">مشاهده سبد</a>
-                                                        </h4>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
+								                                    <p>
+									                                    <span>برند <strong>:</strong></span>@product.Brand
+								                                    </p>
+								                                    <p>
+									                                    <span>قیمت <strong>:</strong></span>@product.PriceAmount
+								                                    </p>
+								                                    <p>
+									                                    <span>تعداد <strong>:</strong></span>@product.Quantity
+								                                    </p>
+								                                    <p>
+									                                    <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId" />
+									                                    <span>جمع <strong>:</strong></span>@product.SumPrice.ToString("N0")
+								                                    </p>
+							                                    </div>
+						                                    </div>
+						                                    allPrice = allPrice + product.SumPrice;
+					                                    }
+				                                    </div>
+			                                    </li>
+			                                    <li>
+				                                    <div class="top-cart-inner subtotal">
+					                                    <h4>
+						                                    جمع =
+						                                    <span id="All-Price">@allPrice.ToString("N0") تومان</span>
+						                                    <input hidden="hidden" id="AllPrice-Value" value="@allPrice" />
+					                                    </h4>
+				                                    </div>
+			                                    </li>
+			                                    <li>
+				                                    <div class="top-cart-inner view-cart">
+					                                    <h4>
+						                                    <a asp-page="cart">مشاهده سبد</a>
+					                                    </h4>
+				                                    </div>
+			                                    </li>
+		                                    </ul>
+	                                    </div>
+                                    </div>
+                                    <div class="total-cart total-cart-2 f-left" style="margin-top: 15px">
+	                                    <div class="header-search-inner">
+	                                    <button class="search-toggle">
+		                                    <i class="zmdi zmdi-refresh"></i>
+	                                    </button>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
