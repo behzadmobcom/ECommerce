@@ -1,5 +1,6 @@
 ﻿@inject ICategoryService _categoryService
 @inject ICartService _cartService
+@inject ICompareService _compareService
 
 <!DOCTYPE html>
 <html class="no-js" lang="fa" dir="rtl">
@@ -89,7 +90,7 @@
 		                                                      
 		                                                        @foreach (var child in parent.Children)
 		                                                        {
-			                                                        <ul class="single-mega-item " style="height: 100%; font-size: 20px;font-weight: bold">
+			                                                        <ul class="single-mega-item ">
 				                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
 		                                                     @*   <div class="col-6">
 			                                                        <li style="display: inline-block">
@@ -162,12 +163,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <li>
-                                            <a asp-page="AboutUs">درباره ما</a>
-                                        </li>
-                                        <li>
-                                            <a asp-page="Contact">تماس</a>
-                                        </li>
+                                    
                                     </ul>
                                 </nav>
                             </div>
@@ -239,6 +235,8 @@
                                     @{
                                         var result = await _cartService.Load(Context);
                                         var cartList = result.ReturnData;
+	                                    var resultCompare = _compareService.Load(Context);
+                                        var compareList = resultCompare.ReturnData;
                                         var allPrice = 0;
                                     }
                                     <div class="total-cart total-cart-2 f-left">
@@ -326,12 +324,19 @@
 		                                    </ul>
 	                                    </div>
                                     </div>
-                                    <div class="total-cart total-cart-2 f-left" style="margin-top: 15px">
-	                                    <div class="header-search-inner">
-	                                    <button class="search-toggle">
-		                                    <i class="zmdi zmdi-refresh"></i>
-	                                    </button>
-                                    </div>
+                                    <div class="total-cart total-cart-2 f-left">
+	                                  <div class="total-cart-in">
+		                                    <div class="cart-toggler">
+			                                    <a asp-page="Compare">
+				                                    <span class="cart-quantity" id="Compare-Count">@compareList.Count</span><br>
+				                                    <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+				                                    <span class="cart-icon">
+					                                    <i class="zmdi zmdi-refresh"></i>
+				                                    </span>
+			                                    </a>
+		                                    </div>
+		                                  
+	                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -353,7 +358,7 @@
                                         <a asp-page="index">خانه</a>
                                     </li>
                                     <li>
-                                        <a href="shop.html">محصولات</a>
+                                        <a asp-page="Shop">محصولات</a>
                                     </li>
                                     <li>
                                         <a href="#">صفحات</a>
@@ -434,12 +439,8 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
-                                        <a asp-page="AboutUs">درباره ما</a>
-                                    </li>
-                                    <li>
-                                        <a asp-page="Contact">تماس ما</a>
-                                    </li>
+                                  
+                                 
                                 </ul>
                             </nav>
                         </div>
