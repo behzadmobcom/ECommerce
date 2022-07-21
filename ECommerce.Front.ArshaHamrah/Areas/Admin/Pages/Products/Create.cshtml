@@ -68,7 +68,7 @@
                             <span asp-validation-for="@Model.Product.ArticleCodeCustomer" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>*@
                         <div class="form-group">
-                            <label>توضیحات</label>
+                            <label>توضیحاات</label>
                             <textarea id="Description_Add" asp-for="@Model.Product.Description" class="form-control form-control-solid"></textarea>
                             <span asp-validation-for="@Model.Product.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
@@ -143,10 +143,12 @@
                         </div>
                         @*<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalAddPrice">افزودن قیمت کالا</button>*@
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary mr-2">ثبت</button>
-                        <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
-                    </div>
+	                <div class="card-footer">
+		                <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+		                <a class="btn btn-secondary" asp-Page="/Products/index" asp-area="Admin">لغو</a>
+	                </div>
+                  
+	               
                 </form>
                 <!--end::Form-->
             </div>
@@ -159,42 +161,14 @@
 {
 	<script src="~/Admin/js/select2.min.js"></script>
 	<script src="~/Admin/js/bootstrap-touchspin.js"></script>
-	<script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+	<script src="~/Admin/js/ckeditor/ckeditor.js"></script>
 
 	<script type="text/javascript">
 		var holooArticles = new Array();
 		var article = new Object();
-		
-		window.onload = function() {
-			CKEDITOR.replace('Description_Add');
-			CKEDITOR.editorConfig = function( config ) {
-				config.language = 'es';
-				config.uiColor = '#F7B42C';
-				config.height = 300;
-				config.toolbarCanCollapse = true;
-			};
-			CKEDITOR.editorConfig = function( config ) {
-				config.toolbar = [
-					'/',
-					'/',
-					{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-					{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-					{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-					{ name: 'forms', groups: [ 'forms' ] },
-					'/',
-					{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-					{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-					{ name: 'links', groups: [ 'links' ] },
-					{ name: 'insert', groups: [ 'insert' ] },
-					'/',
-					{ name: 'styles', groups: [ 'styles' ] },
-					{ name: 'colors', groups: [ 'colors' ] },
-					{ name: 'tools', groups: [ 'tools' ] },
-					{ name: 'others', groups: [ 'others' ] },
-					{ name: 'about', groups: [ 'about' ] }
-				];
-			};
-		};
+
+		CKEDITOR.replace('Description_Add');
+
 		$(document).ready(function() {
 			$('.js-example-basic-multiple').select2();
 		});
