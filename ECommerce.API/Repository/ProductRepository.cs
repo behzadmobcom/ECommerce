@@ -170,9 +170,13 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public async Task<List<ProductCompareViewModel>> GetProductListWithAttribute(List<int> productIdList,
         CancellationToken cancellationToken)
     {
+        var group = await _context.ProductAttributeGroups
+            .Include(a => a.Attribute)
+            .ToListAsync(cancellationToken);
+
         var productCompareViewModel = new List<ProductCompareViewModel>();
-        var products = await _context.Products.Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
-            .Include(x => x.AttributeGroupProducts)
+        var products = await _context.Products
+            .Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
             .Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute)
             .Select(x => new ProductCompareViewModel
             {
@@ -185,9 +189,22 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Brand = x.Brand.Name,
                 Alt = x.Images.FirstOrDefault().Alt,
                 AttributeValues = x.AttributeValues.ToList(),
-                AttributeGroupProducts = x.AttributeGroupProducts.ToList()
+                AttributeGroupProducts = group
             })
             .ToListAsync(cancellationToken);
+
+        foreach (var product in products)
+        {
+            _ = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
+                .ToListAsync(cancellationToken);
+        }
+       
+
+        //foreach (var productAttributeGroup in group)
+        //foreach (var attribute in productAttributeGroup.Attribute)
+        //    if (attribute.AttributeValue.Count == 0)
+        //        attribute.AttributeValue.Add(new ProductAttributeValue());
+
         productCompareViewModel.AddRange(products.Select(product => product));
         return productCompareViewModel;
     }

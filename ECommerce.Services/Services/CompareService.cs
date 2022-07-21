@@ -17,17 +17,22 @@ public class CompareService : ICompareService
         _productService = productService;
     }
 
-    public ServiceResult Add(HttpContext context, int productId)
+    public ServiceResult<int> Add(HttpContext context, int productId)
     {
         var cookies = Load(context).ReturnData;
         if (cookies.Count >= 4)
-            return new ServiceResult
+            return new ServiceResult<int>
             {
+                ReturnData = cookies.Count,
                 Code = ServiceCode.Warning,
                 Message = "مقایسه بیشتر از 4 کالا امکانپذیر نمی باشد"
             };
         _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}", productId));
-        return new ServiceResult {Code = ServiceCode.Success};
+        return new ServiceResult<int> {
+            ReturnData = cookies.Count+1,
+            Code = ServiceCode.Success,
+            Message = "با موفقیت به صفحه مقایسه افزوده شد"
+        };
     }
 
     public ServiceResult Remove(HttpContext context, int productId)
@@ -46,10 +51,10 @@ public class CompareService : ICompareService
         };
     }
 
-    public Task<ServiceResult<List<ProductCompareViewModel>>> CompareList(HttpContext context)
+    public async Task<ServiceResult<List<ProductCompareViewModel>>> CompareList(HttpContext context)
     {
         var cookies = Load(context).ReturnData;
-        var result = _productService.ProductsWithIdsForCompare(cookies);
+        var result =await _productService.ProductsWithIdsForCompare(cookies);
         return result;
     }
 }

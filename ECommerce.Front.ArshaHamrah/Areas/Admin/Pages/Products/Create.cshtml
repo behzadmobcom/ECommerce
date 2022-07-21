@@ -157,119 +157,146 @@
 
 @section Scripts
 {
-    <script src="~/Admin/js/select2.min.js"></script>
-    <script src="~/Admin/js/bootstrap-touchspin.js"></script>
-    @*<script src="~/Admin/js/dropzonejs.js"></script>*@
-    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+	<script src="~/Admin/js/select2.min.js"></script>
+	<script src="~/Admin/js/bootstrap-touchspin.js"></script>
+	<script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
 
-    <script type="text/javascript">
-        var holooArticles = new Array();
-        var article = new Object();
-        window.onload = function() {
-            CKEDITOR.replace('Description_Add');
-        };
-        $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-        });
+	<script type="text/javascript">
+		var holooArticles = new Array();
+		var article = new Object();
+		
+		window.onload = function() {
+			CKEDITOR.replace('Description_Add');
+			CKEDITOR.editorConfig = function( config ) {
+				config.language = 'es';
+				config.uiColor = '#F7B42C';
+				config.height = 300;
+				config.toolbarCanCollapse = true;
+			};
+			CKEDITOR.editorConfig = function( config ) {
+				config.toolbar = [
+					'/',
+					'/',
+					{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+					{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+					{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+					{ name: 'forms', groups: [ 'forms' ] },
+					'/',
+					{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+					{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+					{ name: 'links', groups: [ 'links' ] },
+					{ name: 'insert', groups: [ 'insert' ] },
+					'/',
+					{ name: 'styles', groups: [ 'styles' ] },
+					{ name: 'colors', groups: [ 'colors' ] },
+					{ name: 'tools', groups: [ 'tools' ] },
+					{ name: 'others', groups: [ 'others' ] },
+					{ name: 'about', groups: [ 'about' ] }
+				];
+			};
+		};
+		$(document).ready(function() {
+			$('.js-example-basic-multiple').select2();
+		});
 
-        $('#mGroupId').on("change",
-            function() {
-                $("#searchId").val("");
-                var mCode = $('#mGroupId').val();
-                $("#sGroupId").empty();
-                $("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
-                $.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
-                    (data) => {
-                        $.each(data,
-                            function(i, item) {
-                                $("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
-                            });
-                    });
-            });
-        $('#sGroupId').on("change",
-            function() {
-                $("#searchId").val("");
-                var code = $('#sGroupId').val();
-                $("#articleId").empty();
-                $("#articleId").append("<option value=''>انتخاب کالا</option>");
-                $.getJSON(`?handler=ReturnArticle&code=${code}`,
-                    (data) => {
-                        holooArticles = data;
-                        $.each(data,
-                            function(i, holooArticles) {
-                                $("#articleId").append(`<option value="${holooArticles.articleCode}">${holooArticles.name}</option>`);
-                            });
-                    });
-            });
-        $('#articleId').on('change',
-            function(e) {
-                var valueSelected = this.value;
-                //var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
-                article = holooArticles.find(obj => {
-                    return obj.articleCode === valueSelected;
-                });
-                $("#articleDescriptionId").html(
-                    "<p>" +
-                    "کد کالا : " +
-                    article.articleCodeCustomer +
-                    "</p>" +
-                    "<p>" +
-                    "نام : " +
-                    article.name +
-                    "</p>" +
-                    "<p>" +
-                    "موجودی : " +
-                    article.exist +
-                    "</p>"
-                );
-            });
-        $("#selectArticleId").on("click",
-            function() {
-                $("#Product_Name").val(article.name);
-                $("#Product_ArticleCode").val(article.articleCode);
-                $("#Product_ArticleCodeCustomer").val(article.articleCodeCustomer);
-                CKEDITOR.instances['Description_Add'].setData(article.description);
-                $("#kt_touchspin_4").val(article.exist);
-                console.log(article);
-                $('#ModalSelectArticle').modal('toggle');
-            }
-        );
+		$('#mGroupId').on("change",
+			function() {
+				$("#searchId").val("");
+				var mCode = $('#mGroupId').val();
+				$("#sGroupId").empty();
+				$("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
+				$.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
+					(data) => {
+						$.each(data,
+							function(i, item) {
+								$("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
+							});
+					});
+			});
+		$('#sGroupId').on("change",
+			function() {
+				$("#searchId").val("");
+				var code = $('#sGroupId').val();
+				$("#articleId").empty();
+				$("#articleId").append("<option value=''>انتخاب کالا</option>");
+				$.getJSON(`?handler=ReturnArticle&code=${code}`,
+					(data) => {
+						holooArticles = data;
+						$.each(data,
+							function(i, holooArticles) {
+								$("#articleId").append(`<option value="${holooArticles.articleCode}">${holooArticles.name}</option>`);
+							});
+					});
+			});
+		$('#articleId').on('change',
+			function(e) {
+				var valueSelected = this.value;
+				//var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
+				article = holooArticles.find(obj => {
+					return obj.articleCode === valueSelected;
+				});
+				$("#articleDescriptionId").html(
+					"<p>" +
+					"کد کالا : " +
+					article.articleCodeCustomer +
+					"</p>" +
+					"<p>" +
+					"نام : " +
+					article.name +
+					"</p>" +
+					"<p>" +
+					"موجودی : " +
+					article.exist +
+					"</p>"
+				);
+			});
+		$("#selectArticleId").on("click",
+			function() {
+				$("#Product_Name").val(article.name);
+				$("#Product_ArticleCode").val(article.articleCode);
+				$("#Product_ArticleCodeCustomer").val(article.articleCodeCustomer);
+				CKEDITOR.instances['Description_Add'].setData(article.description);
+				$("#kt_touchspin_4").val(article.exist);
+				console.log(article);
+				$('#ModalSelectArticle').modal('toggle');
+			}
+		);
 
-        function filter() {
-            var keyword = $("#searchId").val();
-            var select = document.getElementById("articleId");
-            for (var i = 0; i < select.length; i++) {
-                var txt = select.options[i].text;
-                if (!txt.match(keyword)) {
-                    $(select.options[i]).attr('disabled', 'disabled').hide();
-                } else {
-                    $(select.options[i]).removeAttr('disabled').show();
-                }
+		function filter() {
+			var keyword = $("#searchId").val();
+			var select = document.getElementById("articleId");
+			for (var i = 0; i < select.length; i++) {
+				var txt = select.options[i].text;
+				if (!txt.match(keyword)) {
+					$(select.options[i]).attr('disabled', 'disabled').hide();
+				} else {
+					$(select.options[i]).removeAttr('disabled').show();
+				}
 
-            }
-        }
+			}
+		}
 
-        //$('#addPriceId').on("click",
-        //    function () {
-        //        alert("asd");
-        //    var unitId = $('#unitId').val();
-        //    var sizeId = $('#sizeId').val();
-        //    var colorId = $('#colorId').val();
-        //    var currencyId = $('#currencyId').val();
-        //    var priceAmount = $('#priceAmountId').val();
-        //    var priceMinQuantity = $('#priceMinQuantityId').val();
-        //    var priceMaxQuantity = $('#priceMaxQuantityId').val();
-        //    var colleaguePrice = $('#colleaguePriceId').val();
+		//$('#addPriceId').on("click",
+		//    function () {
+		//        alert("asd");
+		//    var unitId = $('#unitId').val();
+		//    var sizeId = $('#sizeId').val();
+		//    var colorId = $('#colorId').val();
+		//    var currencyId = $('#currencyId').val();
+		//    var priceAmount = $('#priceAmountId').val();
+		//    var priceMinQuantity = $('#priceMinQuantityId').val();
+		//    var priceMaxQuantity = $('#priceMaxQuantityId').val();
+		//    var colleaguePrice = $('#colleaguePriceId').val();
 
-        //    var myobj = document.getElementById(priceAmount + "Id");
-        //    if (myobj !== null) {
-        //        swal("این قیمت قبلا برای این کالا وارشد شده است");
-        //        alert("این قیمت قبلا برای این کالا وارشد شده است");
-        //        return;
-        //    }
+		//    var myobj = document.getElementById(priceAmount + "Id");
+		//    if (myobj !== null) {
+		//        swal("این قیمت قبلا برای این کالا وارشد شده است");
+		//        alert("این قیمت قبلا برای این کالا وارشد شده است");
+		//        return;
+		//    }
 
-        //        $("#priceAddId").append('<input type="radio" value="' + priceAmount + '" id="' + priceAmount+'Id" >' );
-        //        $("#priceAddId").append('<label for="' + priceAmount + '" id="' + priceAmount + 'LabelId" >' + priceAmount+'</label>' );
-        //    });
-    </script>
+		//        $("#priceAddId").append('<input type="radio" value="' + priceAmount + '" id="' + priceAmount+'Id" >' );
+		//        $("#priceAddId").append('<label for="' + priceAmount + '" id="' + priceAmount + 'LabelId" >' + priceAmount+'</label>' );
+		//    });
+	</script>
 }

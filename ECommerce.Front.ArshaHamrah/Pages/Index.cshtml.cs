@@ -106,6 +106,6 @@ public class IndexModel : PageModel
     public IActionResult OnGetAddCompareList(int id)
     {
         var result = _compareService.Add(HttpContext, id);
-        return new JsonResult(result.Message);
+        return new JsonResult(result);
     }
 }

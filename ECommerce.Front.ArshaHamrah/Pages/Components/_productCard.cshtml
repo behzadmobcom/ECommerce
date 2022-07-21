@@ -2,8 +2,8 @@
 
 	
 
-				<!-- product-item start -->
-				<div class="col-xs-12">
+				@*<!-- product-item start -->
+				<div class="col-md-3 col-sm-4 col-xs-12">
 					<div class="product-item">
 						<div class="product-img">
 							<a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
@@ -58,5 +58,44 @@
 						</div>
 					</div>
 				</div>
-				<!-- product-item end -->
-		
+				<!-- product-item end -->*@
+		     <!-- product-item start -->
+                            <div class="col-md-3 col-sm-4 col-xs-12">
+                                <div class="product-item product-item-2">
+                                    <div class="product-img">
+                                        <a asp-page="Product" asp-route-productId="@Model.Url.Trim()">
+                                            <img src="~/@Model.ImagePath" alt="@Model.Alt">
+                                        </a>
+                                    </div>
+                                    <div class="product-info">
+                                        <h6 class="product-title">
+                                            <a asp-page="Product" asp-route-productId="@Model.Url">@Model.Name</a>
+                                        </h6>
+                                        <h6 class="brand-name">@Model.Brand</h6>
+                                        <h3 class="pro-price">@Model.Prices.First().Amount تومان</h3>
+                                    </div>
+                                    <ul class="action-button">
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddWishList(@Model.Id)" title="لیست علاقمندی ها">
+                                                <i class="zmdi zmdi-favorite"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="OpenProductModal(@Model.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                                <i class="zmdi zmdi-zoom-in"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCompareList(@Model.Id)" title="مقایسه">
+                                                <i class="zmdi zmdi-refresh"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- product-item end -->

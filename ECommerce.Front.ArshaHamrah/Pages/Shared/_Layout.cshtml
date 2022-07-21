@@ -388,19 +388,19 @@
                                                 <a href="single-product-no-sidebar.html">جزئیات محصول بدون نوار کناری</a>
                                             </li>
                                             <li>
-                                                <a href="cart.html">سبد خرید</a>
+                                                <a asp-page="Cart">سبد خرید</a>
                                             </li>
                                             <li>
                                                 <a href="wishlist.html">لیست علاقه‌مندی‌ها</a>
                                             </li>
                                             <li>
-                                                <a href="checkout.html">پرداخت</a>
+                                                <a asp-page="Checkout">پرداخت</a>
                                             </li>
                                             <li>
                                                 <a href="order.html">سفارش</a>
                                             </li>
                                             <li>
-                                                <a href="login.html">ورود</a>
+                                                <a asp-page="login">ورود</a>
                                             </li>
                                             <li>
                                                 <a href="My-account.html">حساب کاربری</a>
@@ -463,10 +463,10 @@
                             </div>
                             <ul class="footer-menu-2">
                                 <li>
-                                    <a href="#">خانه</a>
+                                    <a asp-page="index">خانه</a>
                                 </li>
                                 <li>
-                                    <a href="#">محصولات</a>
+                                    <a asp-page="shop">محصولات</a>
                                 </li>
                                 <li>
                                     <a href="#">بلاگ</a>
@@ -475,10 +475,10 @@
                                     <a href="#">صفحات</a>
                                 </li>
                                 <li>
-                                    <a href="#">درباره ما</a>
+                                    <a asp-page="aboutUs">درباره ما</a>
                                 </li>
                                 <li>
-                                    <a href="#">تماس</a>
+                                    <a asp-page="Contact">تماس</a>
                                 </li>
                             </ul>
                         </div>
@@ -775,8 +775,12 @@
                 url: "/index?handler=AddCompareList&id=" + id,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(response) {
-                    swal(response);
+                success: function(result) {
+	                if (result.code === 0) {
+                    swal(result.message);
+                    $('#Compare-Count').text(result.returnData);
+                    $('#Compare-Count-value').text(result.returnData);
+	                }
                 },
                 failure: function(response) {
                     swal(response);

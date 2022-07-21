@@ -187,48 +187,7 @@
             <div class="row active-featured-product slick-arrow-2">
                 @foreach (var newProduct in Model.NewProducts)
                 {
-                    <!-- product-item start -->
-                    <div class="col-xs-12">
-                        <div class="product-item product-item-2">
-                            <div class="product-img">
-                                <a asp-page="Product" asp-route-productUrl="@newProduct.Url">
-                                    <img src="~/@newProduct.ImagePath" alt="@newProduct.Alt">
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <h6 class="product-title">
-                                    <a asp-page="Product" asp-route-productUrl="@newProduct.Url"> @newProduct.Name</a>
-                                </h6>
-                                <h6 class="brand-name">@newProduct.Brand</h6>
-                                <h3 class="pro-price">@newProduct.Prices.First().Amount.ToString("N0") تومان</h3>
-                            </div>
-                            <ul class="action-button">
-                                <li>
-                                    @*<a asp-page="Index" asp-page-handler="Wish" asp-route-id="@newProduct.Id" title="لیست علاقمندی ها"><i class="zmdi zmdi-favorite"></i></a>*@
-                                    <a href="javascript:void(0)" onclick="AddWishList(@newProduct.Id)" title="لیست علاقمندی ها">
-                                        <i class="zmdi zmdi-favorite"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="OpenProductModal(@newProduct.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                        <i class="zmdi zmdi-zoom-in"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCompareList(@newProduct.Id)" title="مقایسه">
-                                        <i class="zmdi zmdi-refresh"></i>
-                                    </a>
-
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCart(@newProduct.Id,@newProduct.Prices.First().Id)" title="اضافه کردن به سبد خرید">
-                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- product-item end -->
+	                <partial name="Components/_productCard" model="newProduct"/>
                 }
             </div>
         </div>
@@ -332,44 +291,7 @@
                     <div class="row">
                         @foreach (var starProduct in Model.StarProducts)
                         {
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a asp-page="Product" asp-route-productId="@starProduct.Id">
-                                            <img src="~/@starProduct.ImagePath" alt="@starProduct.Alt">
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a asp-page="Product" asp-route-productId="@starProduct.Url">@starProduct.Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">@starProduct.Brand</h6>
-                                        <h3 class="pro-price">@starProduct.Prices.First().Amount.ToString("N0") تومان</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddWishList(@starProduct.Id)" title="لیست علاقمندی ها">
-                                                <i class="zmdi zmdi-favorite"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="OpenProductModal(@starProduct.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                                <i class="zmdi zmdi-zoom-in"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCompareList(@starProduct.Id)" title="مقایسه">
-                                                <i class="zmdi zmdi-refresh"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCart(@starProduct.Id)" title="اضافه کردن به سبد خرید">
-                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+	                        <partial name="Components/_productCard" model="starProduct"/>
                         }
                     </div>
                 </div>
@@ -379,48 +301,8 @@
                     <div class="row">
                         @foreach (var newTop8Products in Model.NewTop8Products)
                         {
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a asp-page="Product" asp-route-productId="@newTop8Products.Id">
-                                            <img src="~/@newTop8Products.ImagePath" alt="@newTop8Products.Alt">
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a asp-page="Product" asp-route-productId="@newTop8Products.Url">@newTop8Products.Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">@newTop8Products.Brand</h6>
-                                        <h3 class="pro-price">@newTop8Products.Prices.First().Amount.ToString("N0") تومان</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddWishList(@newTop8Products.Id)" title="لیست علاقمندی ها">
-                                                <i class="zmdi zmdi-favorite"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="OpenProductModal(@newTop8Products.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                                <i class="zmdi zmdi-zoom-in"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCompareList(@newTop8Products.Id)" title="مقایسه">
-                                                <i class="zmdi zmdi-refresh"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCart(@newTop8Products.Id)" title="اضافه کردن به سبد خرید">
-                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
+	                        <partial name="Components/_productCard" model="newTop8Products"/>
                         }
-
                     </div>
                 </div>
                 <!-- new-arrival end -->
@@ -429,46 +311,7 @@
                     <div class="row">
                         @foreach (var sellProducts in Model.SellProducts)
                         {
-                            <!-- product-item start -->
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <div class="product-item product-item-2">
-                                    <div class="product-img">
-                                        <a asp-page="Product" asp-route-productId="@sellProducts.Id">
-                                            <img src="~/@sellProducts.ImagePath" alt="@sellProducts.Alt">
-                                        </a>
-                                    </div>
-                                    <div class="product-info">
-                                        <h6 class="product-title">
-                                            <a asp-page="Product" asp-route-productId="@sellProducts.Url">@sellProducts.Name</a>
-                                        </h6>
-                                        <h6 class="brand-name">@sellProducts.Brand</h6>
-                                        <h3 class="pro-price">@sellProducts.Prices.First().Amount.ToString("N0") تومان</h3>
-                                    </div>
-                                    <ul class="action-button">
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddWishList(@sellProducts.Id)" title="لیست علاقمندی ها">
-                                                <i class="zmdi zmdi-favorite"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="OpenProductModal(@sellProducts.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                                <i class="zmdi zmdi-zoom-in"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCompareList(@sellProducts.Id)" title="مقایسه">
-                                                <i class="zmdi zmdi-refresh"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" onclick="AddCart(@sellProducts.Id)" title="اضافه کردن به سبد خرید">
-                                                <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- product-item end -->
+	                        <partial name="Components/_productCard" model="sellProducts"/>
                         }
                     </div>
                 </div>
@@ -598,140 +441,3 @@
 </div>
 <!-- NEWSLETTER SECTION END -->
 </section>
-
-@section Scripts
-{
-    <script>
-        function AddWishList(id) {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=AddWishList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function AddCompareList(id) {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=AddCompareList&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function AddCart(id) {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=AddCart&id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(result) {
-                    swal(result.message);
-                    if (result.code === 0) {
-                        var count = 0;
-                        var allPrice = 0;
-                        $('#Cart-List').text('');
-                        $.get('/index?handler=LoadCart').done(function(products) {
-
-                            $.each(products.returnData,
-                                function(i, product) {
-
-                                    var item =
-                                        '<div class="single-cart clearfix"> id="CartDrop-' +
-                                            product.productId +
-                                            '"' +
-                                            '<h6 class="text-capitalize"> <a asp-page="Product" asp-route-productId="' +
-                                            product.url +
-                                            '">' +
-                                            product.name +
-                                            '</a> </h6>' +
-                                            '<div class="cart-img f-left">' +
-                                            '<a asp-page="Product" asp-route-productId="' +
-                                            product.Url +
-                                            '">' +
-                                            '<img width="100px" src="/' +
-                                            product.imagePath +
-                                            '" alt="' +
-                                            product.alt +
-                                            '"> </a>' +
-                                            '<div class="del-icon">' +
-                                            '<a href="javascript:void(0)" onclick="DeleteCart(' +
-                                            product.productId +
-                                            ')"> ' +
-                                            '<i class="zmdi zmdi-close"></i> </a>' +
-                                            '</div></div><div class="cart-info f-left"> <p>' +
-                                            '<span>برند <strong>:</strong></span>' +
-                                            product.brand +
-                                            '</p><p><span>قیمت <strong>:</strong></span>' +
-                                            product.price +
-                                            '</p><p><span>تعداد <strong>:</strong></span>' +
-                                            product.quantity +
-                                            '</p><p> <input hidden="hidden" value="' +
-                                            product.sumPrice +
-                                            '" id="SumPrice-' +
-                                            product.productId +
-                                            '"/><span>جمع <strong>:</strong></span>' +
-                                            product.sumPrice +
-                                            '</p></div></div>';
-                                    $('#Cart-List').append(item);
-                                    count++;
-                                    allPrice = allPrice + product.sumPrice;
-                                });
-                            $('#Cart-Count').text(count);
-                            $('#All-Price').text(allPrice + ' تومان');
-                        });
-                    }
-                },
-                failure: function(response) {
-                    alert(response);
-                }
-            });
-
-        }
-
-        function OpenProductModal() {
-            $.ajax({
-                type: "Get",
-                url: "index?handler=wish",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-
-        function TestPost(a) {
-            $.ajax({
-                type: "Post",
-                url: "index",
-                headers: { "XSRF-TOKEN": $('input:hidden[name="__RequestVerificationToken"]').val() },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: a,
-                success: function(response) {
-                    swal(response);
-                },
-                failure: function(response) {
-                    swal(response);
-                }
-            });
-        }
-    </script>
-}

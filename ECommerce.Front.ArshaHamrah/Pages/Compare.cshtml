@@ -16,26 +16,27 @@
                     <th scope="col">
                         <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
                         <div class="del-icon">
-                            <a href="#" class="delete">
+                            <a href="javascript:void(0)" class="delete">
                                 <i class="zmdi zmdi-close"></i>
                             </a>
                         </div>
-                        <h3 class="vmsNowrap">@product.Name</h3>
+                        <h3 style="font-size: 12px">@product.Name</h3>
                     </th>
                 }
             </tr>
             </thead>
             <tbody>
             @for (var g = 0; g < Model.GroupCount; g++)
-            {
+            {@*
                 <tr>
                     <th>
                         <h3>@Model.CompareProducts[0].AttributeGroupProducts[g].Name</h3>
                     </th>
                 </tr>
-
+*@
                 @for (var att = 0; att < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; att++)
                 {
+                    @*if(Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count==0) continue;*@
                     <tr>
                         <th scope="row">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].Title</th>
 
@@ -46,7 +47,7 @@
                     </tr>
                 }
             }
-
+       }
             </tbody>
         </table>
     }
