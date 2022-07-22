@@ -1,5 +1,6 @@
 ﻿using Entities.Helper;
 using Entities.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Services.IServices;
 
@@ -28,4 +29,5 @@ public interface IProductService : IEntityService<ProductViewModel>
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1);
+  
 }

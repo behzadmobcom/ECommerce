@@ -80,6 +80,11 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
+    public async Task<JsonResult> OnGetQuickView(int id)
+    {
+        var result = await _productService.GetById(id);
+        return new JsonResult(result);
+    }
     public async Task<JsonResult> OnGetLoadCart(int id)
     {
         var result = await _cartService.Load(HttpContext);
