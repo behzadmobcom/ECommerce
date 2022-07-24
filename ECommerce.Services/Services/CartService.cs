@@ -58,14 +58,14 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var carts = new List<PurchaseOrderViewModel>();
 
         var productIdList = new List<int>();
-        var productNumberList = new List<int>();
+        var productNumberList = new List<ushort>();
         var productPriceIdList = new List<int>();
         var cookies = _cookieService.GetCookie(context, _key);
         foreach (var cookie in cookies.OrderBy(x => x.Key))
         {
             var temp = cookie.Key.Split("-");
             var productCode = Convert.ToInt32(temp[1]);
-            var productCount = Convert.ToInt32(cookie.Value);
+            var productCount = Convert.ToUInt16(cookie.Value);
             var priceId = Convert.ToInt32(temp[2]);
             if (productCode <= 0 || productCount <= 0 || priceId <= 0) continue;
             productIdList.Add(productCode);

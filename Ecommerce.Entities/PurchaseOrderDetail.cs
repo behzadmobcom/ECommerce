@@ -11,15 +11,15 @@ public class PurchaseOrderDetail : BaseEntity
 
     [Display(Name = "تعداد")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int Quantity { get; set; }
+    public ushort Quantity { get; set; }
 
     [Display(Name = "قیمت واحد")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int UnitPrice { get; set; }
+    public decimal UnitPrice { get; set; }
 
     [Display(Name = "جمع")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int SumPrice { get; set; }
+    public decimal SumPrice { get; set; }
 
     [Display(Name = "شناسه قیمت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]

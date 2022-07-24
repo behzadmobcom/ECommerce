@@ -78,38 +78,38 @@ public class ProductsController : ControllerBase
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
                 {
                     var article = holooArticle.First(x=>x.A_Code== productPrices.ArticleCode);
-                    var articlePrice = 0;
+                    decimal articlePrice = 0;
                     switch (productPrices.SellNumber)
                     {
                         case Price.HolooSellNumber.Sel_Price:
-                            articlePrice = Convert.ToInt32(article.Sel_Price);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price);
                             break;
                         case Price.HolooSellNumber.Sel_Price2:
-                            articlePrice = Convert.ToInt32(article.Sel_Price2);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price2);
                             break;
                         case Price.HolooSellNumber.Sel_Price3:
-                            articlePrice = Convert.ToInt32(article.Sel_Price3);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price3);
                             break;
                         case Price.HolooSellNumber.Sel_Price4:
-                            articlePrice = Convert.ToInt32(article.Sel_Price4);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price4);
                             break;
                         case Price.HolooSellNumber.Sel_Price5:
-                            articlePrice = Convert.ToInt32(article.Sel_Price5);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price5);
                             break;
                         case Price.HolooSellNumber.Sel_Price6:
-                            articlePrice = Convert.ToInt32(article.Sel_Price6);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price6);
                             break;
                         case Price.HolooSellNumber.Sel_Price7:
-                            articlePrice = Convert.ToInt32(article.Sel_Price7);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price7);
                             break;
                         case Price.HolooSellNumber.Sel_Price8:
-                            articlePrice = Convert.ToInt32(article.Sel_Price8);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price8);
                             break;
                         case Price.HolooSellNumber.Sel_Price9:
-                            articlePrice = Convert.ToInt32(article.Sel_Price9);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price9);
                             break;
                         case Price.HolooSellNumber.Sel_Price10:
-                            articlePrice = Convert.ToInt32(article.Sel_Price10);
+                            articlePrice = Convert.ToDecimal(article.Sel_Price10);
                             break;
                     }
                     productPrices.Amount = articlePrice / 10;
@@ -931,7 +931,7 @@ public class ProductsController : ControllerBase
                         {
                             new()
                             {
-                                Amount = Convert.ToInt32(x.Sel_Price),
+                                Amount = Convert.ToUInt64(x.Sel_Price),
                                 CurrencyId = 1,
                                 MinQuantity = 1,
                                 MaxQuantity = 0,

@@ -33,7 +33,7 @@ public class PaymentSuccessfulModel : PageModel
         {
             var resultOrder = await _purchaseOrderService.GetByUserId();
             PurchaseOrder = resultOrder.ReturnData;
-            var amount = PurchaseOrder.Amount;
+            var amount =Convert.ToInt32(PurchaseOrder.Amount);
             var statusInt = await new Payment(amount).Verification(authority);
             switch (statusInt.Status)
             {

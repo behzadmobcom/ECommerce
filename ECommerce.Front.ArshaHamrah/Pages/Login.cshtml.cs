@@ -43,7 +43,6 @@ public class LoginModel : PageModel
     }
 
     public async Task<IActionResult> OnPostRegister()
-
     {
 
         ModelState["Username"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;

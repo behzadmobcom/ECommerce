@@ -3,7 +3,26 @@
 @{
     ViewData["Title"] = "ثبت نام";
 }
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
 
+    Model.Message = null;
+}
 <section class="user-form-part">
     <div class="container">
         <div class="row justify-content-center">
@@ -18,16 +37,56 @@
                         <h2>ایجاد حساب!</h2>
                         <p>حساب خود را به صورت رایگان ثبت کنید</p>
                     </div>
-                    <form class="user-form">
+                    <form method="post" asp-page-handler="Register" class="user-form">
+                        <h6 class="widget-title border-left mb-40">مشتریان جدید</h6>
+
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
+                                <span asp-validation-for="RegisterViewModel.FirstName"></span>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
+                                <span asp-validation-for="RegisterViewModel.LastName"></span>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
+                                <input type="text" placeholder="... شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <span asp-validation-for="RegisterViewModel.Name"></span>
+                                <input type="text" placeholder="نام شرکت ..." asp-for="RegisterViewModel.Name" class="form-control">
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label>نام</label><input type="text" class="form-control" placeholder="اسمت را وارد کن">
+                            <span asp-validation-for="RegisterViewModel.Email" style="color: red"></span>
+                            <input type="text" placeholder="... آدرس ایمیل" dir="ltr" asp-for="RegisterViewModel.Email" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>پست الکترونیک</label><input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید">
+                            <span asp-validation-for="RegisterViewModel.Username" style="color: red"></span>
+                            <input type="text" placeholder="... نام کاربری" dir="ltr" asp-for="RegisterViewModel.Username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>کلمه عبور</label><input type="password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
+                            <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
+                            <input type="password" placeholder="رمز عبور" dir="ltr" asp-for="RegisterViewModel.Password" class="form-control">
                         </div>
+                        <div class="form-group">
+                            <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: red"></span>
+                            <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <small>
+                                    <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode">آیا شما در قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
+                                    <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
+                                </small>
+                            </label>
+                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control" />
+                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
+                        </div>
+
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" value="" id="agree">
                             <label class="form-check-label" for="agree">
@@ -39,6 +98,7 @@
                             <p>قبلاً حساب دارید؟ <a asp-area="" asp-page="/Login">ورود.</a></p>
                         </div>
                     </form>
+
                 </div>
                 <div class="user-form-footer">
                     <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>

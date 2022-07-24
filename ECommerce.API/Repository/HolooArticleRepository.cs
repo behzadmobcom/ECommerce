@@ -47,7 +47,7 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         return await _context.ARTICLE.Where(x => aCodes.Any(aCode => aCode == x.A_Code)).ToListAsync(cancellationToken);
     }
 
-    public async Task<(int price, double? exist)> GetHolooPrice(string aCode, Price.HolooSellNumber sellPrice)
+    public async Task<(decimal price, double? exist)> GetHolooPrice(string aCode, Price.HolooSellNumber sellPrice)
     {
         var article = await _context.ARTICLE.FirstOrDefaultAsync(x => x.A_Code.Equals(aCode));
         var price = 0;

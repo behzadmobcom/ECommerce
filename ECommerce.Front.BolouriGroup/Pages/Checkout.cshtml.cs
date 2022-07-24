@@ -56,7 +56,8 @@ public class CheckoutModel : PageModel
             Code = resultCart.Code.ToString();
         }
         var cart = resultCart.ReturnData;
-        SumPrice = cart.Sum(x=>x.SumPrice);
+        decimal tempSumPrice = cart.Sum(x=>x.SumPrice);
+        SumPrice = Convert.ToInt32(tempSumPrice);
     }
 
     public async Task<JsonResult> OnGetCityLoad(int id)
@@ -101,10 +102,11 @@ public class CheckoutModel : PageModel
             Code = resultCart.Code.ToString();
         }
         var cart = resultCart.ReturnData;
-        SumPrice = cart.Sum(x => x.SumPrice);
+        decimal tempSumPrice = cart.Sum(x => x.SumPrice);
+        SumPrice = Convert.ToInt32(tempSumPrice);
 
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
-        purchaseOrder.Amount = SumPrice;
+        purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
         if (resultSendInformation == 0)
         {
@@ -115,7 +117,7 @@ public class CheckoutModel : PageModel
 
                     string description = "خرید تستی ";
 
-                    var payment = await new Payment(purchaseOrder.Amount).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                    var payment = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
                     if (payment.Status == 100)
                     {
 
