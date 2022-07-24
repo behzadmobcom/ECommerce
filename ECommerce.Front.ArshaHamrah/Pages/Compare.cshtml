@@ -13,15 +13,16 @@
                 <th scope="col"></th>
                 @foreach (var product in Model.CompareProducts)
                 {
-                    <th scope="col">
-                        <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
-                        <div class="del-icon">
-                            <a href="javascript:void(0)" class="delete">
-                                <i class="zmdi zmdi-close"></i>
-                            </a>
-                        </div>
-                        <h3 style="font-size: 12px">@product.Name</h3>
-                    </th>
+	                
+	                <th scope="col">
+                        
+			             
+		                <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
+		                <a href="javascript:void(0)" class="delete" style="padding-right: 40%">
+			                <i class="zmdi zmdi-close"></i>
+		                </a>
+		                <h3 style="font-size: 12px">@product.Name</h3>
+	                </th>
                 }
             </tr>
             </thead>
