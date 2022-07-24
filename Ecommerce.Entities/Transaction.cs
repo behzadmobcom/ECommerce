@@ -9,7 +9,7 @@ public class Transaction : BaseEntity
 
     [Display(Name = "قابل پرداخت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int Amount { get; set; }
+    public decimal Amount { get; set; }
 
     [StringLength(15)]
     [Display(Name = "کد رهگیری")]

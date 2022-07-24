@@ -23,7 +23,7 @@ public class Price : BaseEntity
 
     [Display(Name = "قیمت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int Amount { get; set; }
+    public decimal Amount { get; set; }
 
     [Display(Name = "حداقل تعداد برای این قیمت")]
     public int MinQuantity { get; set; } = 1;

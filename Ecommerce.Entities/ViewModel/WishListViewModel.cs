@@ -9,7 +9,7 @@ public class WishListViewModel
     public string Brand { get; set; }
     public string ImagePath { get; set; }
     public string Alt { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; }
     public double Exist { get; set; }
     public string StoreStatus { get; set; }
 }

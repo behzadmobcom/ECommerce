@@ -10,7 +10,7 @@ public class SlideShowViewModel
     public string? Url { get; set; }
     public string Description { get; set; }
     public string ImagePath { get; set; }
-    public int? Price { get; set; }
+    public decimal? Price { get; set; }
     public int DisplayOrder { get; set; }
 
     public static implicit operator SlideShowViewModel(SlideShow s)

@@ -17,7 +17,7 @@ public class PurchaseOrder : BaseEntity
 
     [Display(Name = "قابل پرداخت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public int Amount { get; set; }
+    public decimal Amount { get; set; }
 
     [Display(Name = "تخفیف")] public int? DiscountAmount { get; set; }
 

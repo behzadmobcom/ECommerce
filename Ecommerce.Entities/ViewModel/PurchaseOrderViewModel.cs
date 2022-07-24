@@ -11,9 +11,9 @@ public class PurchaseOrderViewModel
     public string? Alt { get; set; }
     public int PriceId { get; set; }
     public Price Price { get; set; }
-    public int PriceAmount { get; set; }
-    public int SumPrice { get; set; }
-    public int Quantity { get; set; }
+    public decimal PriceAmount { get; set; }
+    public decimal SumPrice { get; set; }
+    public ushort Quantity { get; set; }
     public double Exist { get; set; }
 
     public bool IsColleague { get; set; }

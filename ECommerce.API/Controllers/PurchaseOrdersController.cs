@@ -201,7 +201,7 @@ public class PurchaseOrdersController : ControllerBase
             //    product.Prices.FirstOrDefault(x => x.MaxQuantity >= createPurchaseCommand.Quantity && x.ArticleCode == createPurchaseCommand.ArticleCode);
 
             //var price = maxPrice ?? product.Prices.FirstOrDefault();
-            var unitPrice = 0;
+            decimal unitPrice = 0;
 
             if (price.ArticleCode != null)
             {
@@ -227,7 +227,7 @@ public class PurchaseOrdersController : ControllerBase
                 unitPrice = price?.Amount ?? 0;
             }
 
-            var sumPrice = unitPrice * createPurchaseCommand.Quantity;
+            decimal sumPrice = unitPrice * createPurchaseCommand.Quantity;
             var repetitivePurchaseOrder =
                 await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, cancellationToken);
             if (repetitivePurchaseOrder != null)
@@ -352,7 +352,7 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Date = DateTime.Now,
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
-                Sum_Price = purchaseOrder.Amount
+                Sum_Price =Convert.ToDouble(purchaseOrder.Amount)
 
             }, cancellationToken);
 
@@ -373,7 +373,7 @@ public class PurchaseOrdersController : ControllerBase
                     Fac_Type = "P",
                     Few_Article = orderDetail.Quantity,
                     First_Article = orderDetail.Quantity,
-                    Price_BS = orderDetail.UnitPrice,
+                    Price_BS =Convert.ToDouble( orderDetail.UnitPrice),
                     Unit_Few = 0
                 });
             }
@@ -384,8 +384,8 @@ public class PurchaseOrdersController : ControllerBase
             var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
             purchaseOrder.Transaction.SanadCode = sanadCode;
 
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "901", "0001", "", 0, purchaseOrder.Amount, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", "3496", "", purchaseOrder.Amount, 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "901", "0001", "", 0, Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", "3496", "", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
 
