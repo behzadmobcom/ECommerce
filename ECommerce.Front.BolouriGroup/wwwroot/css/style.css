@@ -2854,7 +2854,7 @@ tbody tr td:last-child {
 }
 
 .payment-card img {
-    margin-bottom: 18px
+    margin-bottom: 18px;width: 30%
 }
 
 .payment-card h4 {
