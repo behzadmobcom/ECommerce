@@ -55,7 +55,7 @@
                                 <div class="row">
                                     @foreach (var sendInformation in Model.SendInformationList)
                                     {
-                                        <div class="col-md-6 col-lg-4 alert fade show" onclick="fillAddress(@sendInformation.Id)">
+                                        <div class="col-md-6 col-lg-4 alert show" onclick="fillAddress(@sendInformation.Id)">
                                             <div class="profile-card address active">
                                                 <h6>@sendInformation.RecipientName</h6>
                                                 <p>@sendInformation.Address</p>
@@ -80,9 +80,9 @@
                         <br />
                         <input type="text" class="form-control" asp-for="SendInformation.Mobile" placeholder="... شماره همراه" dir="ltr">
                         <span asp-validation-for="SendInformation.Mobile" class="mt-5" style="color: red; margin-top: 10px"></span>
-                        <input type="text" class="form-control" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr">
+                        <input type="text" class="form-control" asp-for="SendInformation.PostalCode" placeholder="... کد پستی" dir="ltr" style="margin-top: 10px">
                         <span asp-validation-for="SendInformation.PostalCode" class="mt-5" style="color: red; margin-top: 10px"></span>
-                        <select asp-for="SendInformation.StateId" class="custom-select form-control" id="state" onchange="setCities();">
+                        <select asp-for="SendInformation.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px">
                             @foreach (var state in Model.StateList)
                             {
                                 <option value="@state.Id">@state.Name</option>
@@ -100,32 +100,34 @@
                     </div>
 
 
-                    <div class="account-card mb-0">
-                        <div class="account-title">
-                            <h4>گزینه پرداخت</h4>
-
-                        </div>
-                        <div class="account-content">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-4 alert fade show">
-                                    <div class="payment-card payment active">
-                                        <img src="/img/payment/zarinpal.png" alt="زیرین پال">
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="account-card">
-                        <div class="checkout-charge">
-                            <div class="account-title">
-                                <h4>خلاصه سفارش</h4>
-                            </div>
-                            <ul>
-                                @*  <li>
+	            <div class="col-lg-4">
+                    
+		            <div class="account-card mb-0">
+			            <div class="account-title">
+				            <h4>گزینه پرداخت</h4>
+
+			            </div>
+			            <div class="account-content">
+				            <div class="row">
+					          @*  <div class="col-md-6 col-lg-4 alert show">
+					            </div>*@
+						            <div class="payment-card payment active">
+							            <img src="/img/payment/zarinpal.png" alt="زیرین پال">
+
+						            </div>
+
+
+					            </div>
+			            </div>
+		            </div>
+		            <div class="account-card">
+			            <div class="checkout-charge">
+				            <div class="account-title">
+					            <h4>خلاصه سفارش</h4>
+				            </div>
+				            <ul>
+					            @*  <li>
                                 <span>زیر کل </span><span>250000تومان</span>
                                 </li>
                                 <li>
@@ -137,18 +139,18 @@
                                 <li>
                                 <span>مالیات </span><span>15000 تومان</span>
                                 </li>*@
-                                <li>
-                                    <span>کل </span><span>@Model.SumPrice تومان</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="checkout-proced">
-                            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
-                        </div>
-                        <div class="chekout-coupon">
-                        </div>
-                    </div>
-                </div>
+					            <li>
+						            <span>کل </span><span>@Model.SumPrice تومان</span>
+					            </li>
+				            </ul>
+			            </div>
+			            <div class="checkout-proced">
+				            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+			            </div>
+			            <div class="chekout-coupon">
+			            </div>
+		            </div>
+	            </div>
             </div>
         </form>
     </div>
