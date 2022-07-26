@@ -50,38 +50,38 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
     public async Task<(decimal price, double? exist)> GetHolooPrice(string aCode, Price.HolooSellNumber sellPrice)
     {
         var article = await _context.ARTICLE.FirstOrDefaultAsync(x => x.A_Code.Equals(aCode));
-        var price = 0;
+        decimal price = 0;
         switch (sellPrice)
         {
             case Price.HolooSellNumber.Sel_Price:
-                price = Convert.ToInt32(article.Sel_Price);
+                price = Convert.ToUInt64(article.Sel_Price);
                 break;
             case Price.HolooSellNumber.Sel_Price2:
-                price = Convert.ToInt32(article.Sel_Price2);
+                price = Convert.ToUInt64(article.Sel_Price2);
                 break;
             case Price.HolooSellNumber.Sel_Price3:
-                price = Convert.ToInt32(article.Sel_Price3);
+                price = Convert.ToUInt64(article.Sel_Price3);
                 break;
             case Price.HolooSellNumber.Sel_Price4:
-                price = Convert.ToInt32(article.Sel_Price4);
+                price = Convert.ToUInt64(article.Sel_Price4);
                 break;
             case Price.HolooSellNumber.Sel_Price5:
-                price = Convert.ToInt32(article.Sel_Price5);
+                price = Convert.ToUInt64(article.Sel_Price5);
                 break;
             case Price.HolooSellNumber.Sel_Price6:
-                price = Convert.ToInt32(article.Sel_Price6);
+                price = Convert.ToUInt64(article.Sel_Price6);
                 break;
             case Price.HolooSellNumber.Sel_Price7:
-                price = Convert.ToInt32(article.Sel_Price7);
+                price = Convert.ToUInt64(article.Sel_Price7);
                 break;
             case Price.HolooSellNumber.Sel_Price8:
-                price = Convert.ToInt32(article.Sel_Price8);
+                price = Convert.ToUInt64(article.Sel_Price8);
                 break;
             case Price.HolooSellNumber.Sel_Price9:
-                price = Convert.ToInt32(article.Sel_Price9);
+                price = Convert.ToUInt64(article.Sel_Price9);
                 break;
             case Price.HolooSellNumber.Sel_Price10:
-                price = Convert.ToInt32(article.Sel_Price10);
+                price = Convert.ToUInt64(article.Sel_Price10);
                 break;
         }
 
