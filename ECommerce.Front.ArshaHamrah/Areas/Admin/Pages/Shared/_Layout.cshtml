@@ -344,7 +344,13 @@
     <div class="menu-submenu ">
         <i class="menu-arrow"></i>
         <ul class="menu-subnav">
-
+	        <li class="menu-item " aria-haspopup="true">
+		        <a asp-page="/factors/index" asp-area="Admin" class="menu-link ">
+			        <i class="menu-bullet menu-bullet-dot">
+				        <span></span>
+			        </i><span class="menu-text">فاکتور</span>
+		        </a>
+	        </li>
             <li class="menu-item " aria-haspopup="true">
                 <a asp-page="/transactions/index" asp-area="Admin" class="menu-link ">
                     <i class="menu-bullet menu-bullet-dot">
@@ -681,36 +687,49 @@
         <span class="menu-text">حسابداری</span><i class="menu-arrow"></i>
     </a>
     <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-        <ul class="menu-subnav">
-            <li class="menu-item menu-item-submenu" aria-haspopup="true">
-                <a asp-page="/transactions/index" asp-area="Admin" class="menu-link ">
-                    <span class="svg-icon menu-icon">
-                        <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Safe-chat.svg-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="24" height="24"/>
-                                <path d="M8,17 C8.55228475,17 9,17.4477153 9,18 L9,21 C9,21.5522847 8.55228475,22 8,22 L3,22 C2.44771525,22 2,21.5522847 2,21 L2,18 C2,17.4477153 2.44771525,17 3,17 L3,16.5 C3,15.1192881 4.11928813,14 5.5,14 C6.88071187,14 8,15.1192881 8,16.5 L8,17 Z M5.5,15 C4.67157288,15 4,15.6715729 4,16.5 L4,17 L7,17 L7,16.5 C7,15.6715729 6.32842712,15 5.5,15 Z" fill="#000000" opacity="0.3"/>
-                                <path d="M2,11.8650466 L2,6 C2,4.34314575 3.34314575,3 5,3 L19,3 C20.6568542,3 22,4.34314575 22,6 L22,15 C22,15.0032706 21.9999948,15.0065399 21.9999843,15.009808 L22.0249378,15 L22.0249378,19.5857864 C22.0249378,20.1380712 21.5772226,20.5857864 21.0249378,20.5857864 C20.7597213,20.5857864 20.5053674,20.4804296 20.317831,20.2928932 L18.0249378,18 L12.9835977,18 C12.7263047,14.0909841 9.47412135,11 5.5,11 C4.23590829,11 3.04485894,11.3127315 2,11.8650466 Z M6,7 C5.44771525,7 5,7.44771525 5,8 C5,8.55228475 5.44771525,9 6,9 L15,9 C15.5522847,9 16,8.55228475 16,8 C16,7.44771525 15.5522847,7 15,7 L6,7 Z" fill="#000000"/>
-                            </g>
-                        </svg><!--end::Svg Icon-->
-                    </span><span class="menu-text">واریزی های</span>
-                </a>
-            </li>
-            <li class="menu-item menu-item-submenu" aria-haspopup="true">
-                <a asp-page="/purchases/index" asp-area="Admin" class="menu-link ">
-                    <span class="svg-icon menu-icon">
-                        <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Safe-chat.svg-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="24" height="24"/>
-                                <path d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z" fill="#000000"/>
-                            </g>
-                        </svg><!--end::Svg Icon-->
-                    </span><span class="menu-text">سفارشات</span>
-                </a>
-            </li>
+	    <ul class="menu-subnav">
+		    <li class="menu-item " aria-haspopup="true">
+			    <a asp-page="/factors/index" asp-area="Admin" class="menu-link ">
+				    <span class="svg-icon menu-icon">
+					    <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/هرزنامه ها.svg-->
+					    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							    <rect x="0" y="0" width="24" height="24"/>
+							    <path d="M4.5,3 L19.5,3 C20.3284271,3 21,3.67157288 21,4.5 L21,19.5 C21,20.3284271 20.3284271,21 19.5,21 L4.5,21 C3.67157288,21 3,20.3284271 3,19.5 L3,4.5 C3,3.67157288 3.67157288,3 4.5,3 Z M8,5 C7.44771525,5 7,5.44771525 7,6 C7,6.55228475 7.44771525,7 8,7 L16,7 C16.5522847,7 17,6.55228475 17,6 C17,5.44771525 16.5522847,5 16,5 L8,5 Z M10.5857864,14 L9.17157288,15.4142136 C8.78104858,15.8047379 8.78104858,16.4379028 9.17157288,16.8284271 C9.56209717,17.2189514 10.1952621,17.2189514 10.5857864,16.8284271 L12,15.4142136 L13.4142136,16.8284271 C13.8047379,17.2189514 14.4379028,17.2189514 14.8284271,16.8284271 C15.2189514,16.4379028 15.2189514,15.8047379 14.8284271,15.4142136 L13.4142136,14 L14.8284271,12.5857864 C15.2189514,12.1952621 15.2189514,11.5620972 14.8284271,11.1715729 C14.4379028,10.7810486 13.8047379,10.7810486 13.4142136,11.1715729 L12,12.5857864 L10.5857864,11.1715729 C10.1952621,10.7810486 9.56209717,10.7810486 9.17157288,11.1715729 C8.78104858,11.5620972 8.78104858,12.1952621 9.17157288,12.5857864 L10.5857864,14 Z" fill="#000000"/>
+						    </g>
+					    </svg><!--end::Svg Icon-->
+				    </span><span class="menu-text">فاکتور</span>
+			    </a>
+		    </li>
+		    <li class="menu-item" aria-haspopup="true">
+			    <a asp-page="/transactions/index" asp-area="Admin" class="menu-link ">
+				    <span class="svg-icon menu-icon">
+					    <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Safe-chat.svg-->
+					    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							    <rect x="0" y="0" width="24" height="24"/>
+							    <path d="M8,17 C8.55228475,17 9,17.4477153 9,18 L9,21 C9,21.5522847 8.55228475,22 8,22 L3,22 C2.44771525,22 2,21.5522847 2,21 L2,18 C2,17.4477153 2.44771525,17 3,17 L3,16.5 C3,15.1192881 4.11928813,14 5.5,14 C6.88071187,14 8,15.1192881 8,16.5 L8,17 Z M5.5,15 C4.67157288,15 4,15.6715729 4,16.5 L4,17 L7,17 L7,16.5 C7,15.6715729 6.32842712,15 5.5,15 Z" fill="#000000" opacity="0.3"/>
+							    <path d="M2,11.8650466 L2,6 C2,4.34314575 3.34314575,3 5,3 L19,3 C20.6568542,3 22,4.34314575 22,6 L22,15 C22,15.0032706 21.9999948,15.0065399 21.9999843,15.009808 L22.0249378,15 L22.0249378,19.5857864 C22.0249378,20.1380712 21.5772226,20.5857864 21.0249378,20.5857864 C20.7597213,20.5857864 20.5053674,20.4804296 20.317831,20.2928932 L18.0249378,18 L12.9835977,18 C12.7263047,14.0909841 9.47412135,11 5.5,11 C4.23590829,11 3.04485894,11.3127315 2,11.8650466 Z M6,7 C5.44771525,7 5,7.44771525 5,8 C5,8.55228475 5.44771525,9 6,9 L15,9 C15.5522847,9 16,8.55228475 16,8 C16,7.44771525 15.5522847,7 15,7 L6,7 Z" fill="#000000"/>
+						    </g>
+					    </svg><!--end::Svg Icon-->
+				    </span><span class="menu-text">واریزی های</span>
+			    </a>
+		    </li>
+		    <li class="menu-item menu-item-submenu" aria-haspopup="true">
+			    <a asp-page="/purchases/index" asp-area="Admin" class="menu-link ">
+				    <span class="svg-icon menu-icon">
+					    <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Safe-chat.svg-->
+					    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+						    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+							    <rect x="0" y="0" width="24" height="24"/>
+							    <path d="M3,13.5 L19,12 L3,10.5 L3,3.7732928 C3,3.70255344 3.01501031,3.63261921 3.04403925,3.56811047 C3.15735832,3.3162903 3.45336217,3.20401298 3.70518234,3.31733205 L21.9867539,11.5440392 C22.098181,11.5941815 22.1873901,11.6833905 22.2375323,11.7948177 C22.3508514,12.0466378 22.2385741,12.3426417 21.9867539,12.4559608 L3.70518234,20.6826679 C3.64067359,20.7116969 3.57073936,20.7267072 3.5,20.7267072 C3.22385763,20.7267072 3,20.5028496 3,20.2267072 L3,13.5 Z" fill="#000000"/>
+						    </g>
+					    </svg><!--end::Svg Icon-->
+				    </span><span class="menu-text">سفارشات</span>
+			    </a>
+		    </li>
 
-        </ul>
+	    </ul>
     </div>
 </li>
 <li class="menu-item  menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
