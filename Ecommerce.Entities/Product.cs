@@ -14,9 +14,8 @@ public class Product : BaseEntity
     //[Display(Name = "کد دیتابیس کالا در هلو")]
     //public string? ArticleCode { get; set; }
 
-    //[StringLength(50)]
-    //[Display(Name = "کد کالا در هلو")]
-    //public string? ArticleCodeCustomer { get; set; }
+    [Display(Name = "نمایش در صفحه اول")]
+    public bool IsShowInIndexPage { get; set; }
 
     [Display(Name = "توضیحات")] public string? Description { get; set; }
 

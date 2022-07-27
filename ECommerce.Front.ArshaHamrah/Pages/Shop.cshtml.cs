@@ -29,7 +29,7 @@ public class ShopModel : PageModel
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
 
-    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+    public async Task OnGet(string path,string search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
         string message = null, string code = null)
     {
         //// Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
@@ -44,6 +44,10 @@ public class ShopModel : PageModel
         {
             var resultCategory = await _categoryService.GetByUrl(path);
             if (resultCategory.Code == ServiceCode.Success) categoryId = $"CategoryId={resultCategory.ReturnData.Id}";
+        }
+        else
+        {
+            categoryId = search;
         }
 
         Products = await _productService.TopProducts(categoryId, pageNumber, pageSize, productSort);

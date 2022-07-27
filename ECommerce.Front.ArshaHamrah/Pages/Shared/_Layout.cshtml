@@ -73,45 +73,47 @@
                                             <a asp-page="index">خانه</a>
 
                                         </li>
-                                      
-                                                    @{
-                                                        var categories = await _categoryService.GetParents();
-                                                    }
-                                                    @if (categories.Code == 0)
-                                                    {
-                                                        @foreach (var parent in categories.ReturnData)
-                                                        {
-	                                                        <li class="mega-parent">
-		                                                        <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-		                                                        <div class="mega-menu-area clearfix">
-			                                                        <div class="mega-menu-link f-left">
-	                                                      
-		                                                        <br/>
-		                                                        <br/>
-		                                                      
-		                                                        @foreach (var child in parent.Children)
-		                                                        {
-			                                                        <ul class="single-mega-item ">
-				                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
-		                                                     @*   <div class="col-6">
-			                                                        <li style="display: inline-block">
-				                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a><br/>
-			                                                        </li>
-		                                                        </div>*@
-			                                                        </ul>
-		                                                        }
-	                                                     
-			                                                        </div>
-			                                                        <div class="mega-menu-photo f-left">
-				                                                        <a href="#">
-					                                                        <img src="~/img/mega-menu/1.jpg" alt="mega menu image">
-				                                                        </a>
-			                                                        </div>
-		                                                        </div>
-	                                                        </li>
-                                                        }
-                                                    }
-                                           
+
+                                        @{
+                                            var categories = await _categoryService.GetParents();
+                                        }
+                                        @if (categories.Code == 0)
+                                        {
+                                            @foreach (var parent in categories.ReturnData)
+                                            {
+                                                <li class="mega-parent">
+                                                    <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
+                                                    <div class="mega-menu-area clearfix">
+                                                        <div class="mega-menu-link f-left">
+
+                                                            <br />
+                                                            <br />
+
+                                                            @foreach (var child in parent.Children)
+                                                            {
+                                                                <ul class="single-mega-item ">
+                                                                    <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
+                                                                    @*   <div class="col-6">
+                                                        <li style="display: inline-block">
+                                                        <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a><br/>
+                                                        </li>
+                                                        </div>*@
+                                                                </ul>
+                                                            }
+
+                                                        </div>
+                                                        <div class="mega-menu-photo f-left">
+                                                            <a href="#">
+                                                                <img src="~/img/mega-menu/1.jpg" alt="mega menu image">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                        <li>
+                                            <a href="http://service.arshahamrah.com/">گارانتی</a>
+                                        </li>
                                         <li>
                                             <a href="blog.html">بلاگ</a>
                                             <ul class="dropdwn">
@@ -164,7 +166,7 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                    
+
                                     </ul>
                                 </nav>
                             </div>
@@ -177,9 +179,9 @@
                                             <button class="search-toggle">
                                                 <i class="zmdi zmdi-search"></i>
                                             </button>
-                                            <form action="#">
+                                            <form method="Get" asp-page-handler="Shop/OnGet">
                                                 <div class="top-search-box">
-                                                    <input type="text" placeholder="جستجوی محصول ...">
+                                                    <input type="text" name="search" placeholder="جستجوی محصول ...">
                                                     <button type="submit">
                                                         <i class="zmdi zmdi-search"></i>
                                                     </button>
@@ -236,108 +238,108 @@
                                     @{
                                         var result = await _cartService.Load(Context);
                                         var cartList = result.ReturnData;
-	                                    var resultCompare = _compareService.Load(Context);
+                                        var resultCompare = _compareService.Load(Context);
                                         var compareList = resultCompare.ReturnData;
-	                                    decimal allPrice = 0;
+                                        decimal allPrice = 0;
                                     }
                                     <div class="total-cart total-cart-2 f-left">
-	                                    <div class="total-cart-in">
-		                                    <div class="cart-toggler">
-			                                    <a asp-page="cart">
-				                                    <span class="cart-quantity" id="Cart-Count">@cartList.Count</span><br>
-				                                    <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
-				                                    <span class="cart-icon">
-					                                    <i class="zmdi zmdi-shopping-cart-plus"></i>
-				                                    </span>
-			                                    </a>
-		                                    </div>
-		                                    <ul>
-			                                    <li>
-				                                    <div class="top-cart-inner your-cart">
-					                                    <h5 class="text-capitalize">سبد شما</h5>
-				                                    </div>
-			                                    </li>
-			                                    <li>
-				                                    <div class="total-cart-pro" id="Cart-List">
-					                                    @foreach (var product in cartList)
-					                                    {
-						                                    <!-- single-cart -->
-						                                    <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
-							                                    <h6 class="text-capitalize">
-								                                    <a asp-page="Product" asp-route-productUrl="@product.Url"> @product.Name</a>
-							                                    </h6>
-							                                    <div class="cart-img f-left">
-								                                    <a asp-page="Product" asp-route-productId="@product.Url">
-									                                    @if (product.ImagePath.Any())
-									                                    {
-										                                    <img width="100px" src="/@product.ImagePath" alt="@product.Alt">
-									                                    }
-									                                    else
-									                                    {
-										                                    <img src="~/img/product/NoImage.png" alt="NoImage">
-									                                    }
+                                        <div class="total-cart-in">
+                                            <div class="cart-toggler">
+                                                <a asp-page="cart">
+                                                    <span class="cart-quantity" id="Cart-Count">@cartList.Count</span><br>
+                                                    <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
+                                                    <span class="cart-icon">
+                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="top-cart-inner your-cart">
+                                                        <h5 class="text-capitalize">سبد شما</h5>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="total-cart-pro" id="Cart-List">
+                                                        @foreach (var product in cartList)
+                                                        {
+                                                            <!-- single-cart -->
+                                                            <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
+                                                                <h6 class="text-capitalize">
+                                                                    <a asp-page="Product" asp-route-productUrl="@product.Url"> @product.Name</a>
+                                                                </h6>
+                                                                <div class="cart-img f-left">
+                                                                    <a asp-page="Product" asp-route-productId="@product.Url">
+                                                                        @if (product.ImagePath.Any())
+                                                                        {
+                                                                            <img width="100px" src="/@product.ImagePath" alt="@product.Alt">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <img src="~/img/product/NoImage.png" alt="NoImage">
+                                                                        }
 
 
-								                                    </a>
-								                                    <div class="del-icon">
-									                                    <a href="javascript:void(0)" onclick="DeleteCart(@product.Id, @product.ProductId,@product.PriceId)">
-										                                    <i class="zmdi zmdi-close"></i>
-									                                    </a>
-								                                    </div>
-							                                    </div>
-							                                    <div class="cart-info f-left">
+                                                                    </a>
+                                                                    <div class="del-icon">
+                                                                        <a href="javascript:void(0)" onclick="DeleteCart(@product.Id, @product.ProductId,@product.PriceId)">
+                                                                            <i class="zmdi zmdi-close"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="cart-info f-left">
 
-								                                    <p>
-									                                    <span>برند <strong>:</strong></span>@product.Brand
-								                                    </p>
-								                                    <p>
-									                                    <span>قیمت <strong>:</strong></span>@product.PriceAmount
-								                                    </p>
-								                                    <p>
-									                                    <span>تعداد <strong>:</strong></span>@product.Quantity
-								                                    </p>
-								                                    <p>
-									                                    <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId" />
-									                                    <span>جمع <strong>:</strong></span>@product.SumPrice.ToString("N0")
-								                                    </p>
-							                                    </div>
-						                                    </div>
-						                                    allPrice = allPrice + product.SumPrice;
-					                                    }
-				                                    </div>
-			                                    </li>
-			                                    <li>
-				                                    <div class="top-cart-inner subtotal">
-					                                    <h4>
-						                                    جمع =
-						                                    <span id="All-Price">@allPrice.ToString("N0") تومان</span>
-						                                    <input hidden="hidden" id="AllPrice-Value" value="@allPrice" />
-					                                    </h4>
-				                                    </div>
-			                                    </li>
-			                                    <li>
-				                                    <div class="top-cart-inner view-cart">
-					                                    <h4>
-						                                    <a asp-page="cart">مشاهده سبد</a>
-					                                    </h4>
-				                                    </div>
-			                                    </li>
-		                                    </ul>
-	                                    </div>
+                                                                    <p>
+                                                                        <span>برند <strong>:</strong></span>@product.Brand
+                                                                    </p>
+                                                                    <p>
+                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount
+                                                                    </p>
+                                                                    <p>
+                                                                        <span>تعداد <strong>:</strong></span>@product.Quantity
+                                                                    </p>
+                                                                    <p>
+                                                                        <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId" />
+                                                                        <span>جمع <strong>:</strong></span>@product.SumPrice.ToString("N0")
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            allPrice = allPrice + product.SumPrice;
+                                                        }
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="top-cart-inner subtotal">
+                                                        <h4>
+                                                            جمع =
+                                                            <span id="All-Price">@allPrice.ToString("N0") تومان</span>
+                                                            <input hidden="hidden" id="AllPrice-Value" value="@allPrice" />
+                                                        </h4>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="top-cart-inner view-cart">
+                                                        <h4>
+                                                            <a asp-page="cart">مشاهده سبد</a>
+                                                        </h4>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <div class="total-cart total-cart-2 f-left">
-	                                  <div class="total-cart-in">
-		                                    <div class="cart-toggler">
-			                                    <a asp-page="Compare">
-				                                    <span class="cart-quantity" id="Compare-Count">@compareList.Count</span><br>
-				                                    <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
-				                                    <span class="cart-icon">
-					                                    <i class="zmdi zmdi-refresh"></i>
-				                                    </span>
-			                                    </a>
-		                                    </div>
-		                                  
-	                                    </div>
+                                        <div class="total-cart-in">
+                                            <div class="cart-toggler">
+                                                <a asp-page="Compare">
+                                                    <span class="cart-quantity" id="Compare-Count">@compareList.Count</span><br>
+                                                    <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+                                                    <span class="cart-icon">
+                                                        <i class="zmdi zmdi-refresh"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -440,8 +442,8 @@
                                             </li>
                                         </ul>
                                     </li>
-                                  
-                                 
+
+
                                 </ul>
                             </nav>
                         </div>
@@ -539,7 +541,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-	                    <div class="modal-body" id="modal_body">
+                        <div class="modal-body" id="modal_body">
                         </div><!-- .modal-body -->
                     </div><!-- .modal-content -->
                 </div><!-- .modal-dialog -->
@@ -661,7 +663,7 @@
                 success: function(result) {
                     swal(result.message);
                     if (result.code === 0) {
-                         location.reload();
+                        location.reload();
                         //const element = document.getElementById(elementId);
                         //element.remove();
                         //count--;
@@ -679,20 +681,20 @@
         }
 
         function DecreaseCart(id, productId, priceId) {
-			$.ajax({
-				type: "Get",
-				url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function(result) {
-					swal(result.message);
-					LoadCard();
-				},
-				failure: function(response) {
-					swal(response);
-				}
-			});
-		}
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    swal(result.message);
+                    LoadCard();
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
 
         function AddWishList(id) {
             $.ajax({
@@ -716,11 +718,11 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
-	                if (result.code === 0) {
-                    swal(result.message);
-                    $('#Compare-Count').text(result.returnData);
-                    $('#Compare-Count-value').text(result.returnData);
-	                }
+                    if (result.code === 0) {
+                        swal(result.message);
+                        $('#Compare-Count').text(result.returnData);
+                        $('#Compare-Count-value').text(result.returnData);
+                    }
                 },
                 failure: function(response) {
                     swal(response);
@@ -743,7 +745,7 @@
             });
         }
 
-        function AddCart(id,priceId) {
+        function AddCart(id, priceId) {
             $.ajax({
                 type: "Get",
                 url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
@@ -809,7 +811,7 @@
 
         }
 
-          function OpenProductModal(id) {
+        function OpenProductModal(id) {
             $.ajax({
                 type: "Get",
                 url: "/index?handler=QuickView&id=" + id,
@@ -817,69 +819,69 @@
                 dataType: "json",
                 success: function(result) {
                     if (result.code == 0) {
-                                    var item =
-                                      '<div class="modal-product clearfix">'+
-                                '<div class="product-images">'+
-                                   ' <div class="main-image images">'+
-                                ' <img alt="" src="~/img/product/quickview.jpg">'+
-                                    '   </div>'+
-                                    ' </div>'+
-                                ' <div class="product-info">'+
-                                    '<h1>'+result.returnData.name+'</h1>'+
-                                    '<div class="price-box-3">'+
-                                    '<div class="s-price-box">'+
-                                    '<span class="new-price">2,600,000 تومان</span>'+
-                                    '<span class="old-price">3,400,000 تومان</span>'+
-                                    '</div>'+
-                                    '</div>'+
-                                '  <a href="single-product-right-sidebar.html" class="see-all">مشاهده همه ویژگی ها</a>'+
-                                    '  <div class="quick-add-to-cart">'+
-                                    '  <form method="post" class="cart">'+
-                                    '  <div class="numbers-row">'+
-                                    '     <input type="number" id="french-hens" value="3">'+
-                                    '  </div>'+
-                                    '   <button class="single_add_to_cart_button" type="submit">افزودن به سبد</button>'+
-                                    '  </form>'+
-                                '</div>'+
-                                    ' <div class="quick-desc">'+
-                                    '   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله'+
-                                    '  </div>'+
-                                    ' <div class="social-sharing">'+
-                                    ' <div class="widget widget_socialsharing_widget">'+
-                                    '    <h3 class="widget-title-modal">اشتراک گذاری این محصول</h3>'+
-                                    '   <ul class="social-icons clearfix">'+
-                                    '   <li>'+
-                                '  <a class="facebook" href="#" target="_blank" title="Facebook">'+
-                                    '       <i class="zmdi zmdi-facebook"></i>'+
-	                                    '  </a>'+
-                                    '   </li>'+
-                                    '   <li>'+
-                                    '    <a class="google-plus" href="#" target="_blank" title="Google +">'+
-                                    '         <i class="zmdi zmdi-google-plus"></i>'+
-                                    '     </a>'+
-                                    '   </li>'+
-                                    '  <li>'+
-                                    '   <a class="twitter" href="#" target="_blank" title="Twitter">'+
-                                    '       <i class="zmdi zmdi-twitter"></i>'+
-                                    '    </a>'+
-                                    '   </li>'+
-                                    '  <li>'+
-                                '  <a class="pinterest" href="#" target="_blank" title="Pinterest">'+
-                                    '     <i class="zmdi zmdi-pinterest"></i>'+
-                                    '   </a>'+
-                                    ' </li>'+
-                                    '  <li>'+
-                                '   <a class="rss" href="#" target="_blank" title="RSS">'+
-                                    '     <i class="zmdi zmdi-rss"></i>'+
-                                    '   </a>'+
-                                    '  </li>'+
-                                    ' </ul>'+
-                                    '   </div>'+
-                                    '   </div>'+
-                               ' </div>'+
-                            '</div>'+
-                                        '</p></div></div>';
-                                    $('#modal_body').html(item);
+                        var item =
+                            '<div class="modal-product clearfix">' +
+                            '<div class="product-images">' +
+                            ' <div class="main-image images">' +
+                            ' <img alt="" src="~/img/product/quickview.jpg">' +
+                            '   </div>' +
+                            ' </div>' +
+                            ' <div class="product-info">' +
+                            '<h1>' + result.returnData.name + '</h1>' +
+                            '<div class="price-box-3">' +
+                            '<div class="s-price-box">' +
+                            '<span class="new-price">2,600,000 تومان</span>' +
+                            '<span class="old-price">3,400,000 تومان</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '  <a href="single-product-right-sidebar.html" class="see-all">مشاهده همه ویژگی ها</a>' +
+                            '  <div class="quick-add-to-cart">' +
+                            '  <form method="post" class="cart">' +
+                            '  <div class="numbers-row">' +
+                            '     <input type="number" id="french-hens" value="3">' +
+                            '  </div>' +
+                            '   <button class="single_add_to_cart_button" type="submit">افزودن به سبد</button>' +
+                            '  </form>' +
+                            '</div>' +
+                            ' <div class="quick-desc">' +
+                            '   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله' +
+                            '  </div>' +
+                            ' <div class="social-sharing">' +
+                            ' <div class="widget widget_socialsharing_widget">' +
+                            '    <h3 class="widget-title-modal">اشتراک گذاری این محصول</h3>' +
+                            '   <ul class="social-icons clearfix">' +
+                            '   <li>' +
+                            '  <a class="facebook" href="#" target="_blank" title="Facebook">' +
+                            '       <i class="zmdi zmdi-facebook"></i>' +
+                            '  </a>' +
+                            '   </li>' +
+                            '   <li>' +
+                            '    <a class="google-plus" href="#" target="_blank" title="Google +">' +
+                            '         <i class="zmdi zmdi-google-plus"></i>' +
+                            '     </a>' +
+                            '   </li>' +
+                            '  <li>' +
+                            '   <a class="twitter" href="#" target="_blank" title="Twitter">' +
+                            '       <i class="zmdi zmdi-twitter"></i>' +
+                            '    </a>' +
+                            '   </li>' +
+                            '  <li>' +
+                            '  <a class="pinterest" href="#" target="_blank" title="Pinterest">' +
+                            '     <i class="zmdi zmdi-pinterest"></i>' +
+                            '   </a>' +
+                            ' </li>' +
+                            '  <li>' +
+                            '   <a class="rss" href="#" target="_blank" title="RSS">' +
+                            '     <i class="zmdi zmdi-rss"></i>' +
+                            '   </a>' +
+                            '  </li>' +
+                            ' </ul>' +
+                            '   </div>' +
+                            '   </div>' +
+                            ' </div>' +
+                            '</div>' +
+                            '</p></div></div>';
+                        $('#modal_body').html(item);
                         $('#productModal').modal('show');
                     }
                 },
