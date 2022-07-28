@@ -44,7 +44,7 @@
                                 <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
                             </div>
                             <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                                <a asp-page="Product" asp-route-productId="@slide.Url" class="button extra-small button-black">
+                                <a asp-page="Product" asp-route-productUrl="@slide.Url" class="button extra-small button-black">
                                     <span>هم اکنون بخرید</span>
                                 </a>
                             </div>
@@ -77,16 +77,16 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="banner-item banner-2">
                             <div class="banner-img">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[0].Url">
                                     <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[0].Alt"/>
                                 </a>
                             </div>
                             <h3 class="banner-title-2 vmsNowrap">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
                             </h3>
                             <h3 class="pro-price">@Model.ExpensiveProducts[0].Prices.First().Amount.ToString("N0") تومان</h3>
                             <div class="banner-button">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[0].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
                             </div>
                         </div>
                     </div>
@@ -95,16 +95,16 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
 	                    <div class="banner-item banner-2">
 		                    <div class="banner-img">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
-				                    <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[1].Alt"/>
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">
+				                    <img style="float: right" src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt"/>
 			                    </a>
 		                    </div>
 		                    <h3 class="banner-title-2 vmsNowrap">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
 		                    </h3>
 		                    <h3 class="pro-price">@Model.ExpensiveProducts[1].Prices.First().Amount.ToString("N0") تومان</h3>
 		                    <div class="banner-button">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
 		                    </div>
 	                    </div>
                     </div>
@@ -113,16 +113,16 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
 	                    <div class="banner-item banner-2">
 		                    <div class="banner-img">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[2].Url">
 				                    <img style="float: right" src="@Model.ExpensiveProducts[2].ImagePath" alt="@Model.ExpensiveProducts[2].Alt"/>
 			                    </a>
 		                    </div>
 		                    <h3 class="banner-title-2 vmsNowrap">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">@Model.ExpensiveProducts[2].Name</a>
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[2].Url">@Model.ExpensiveProducts[2].Name</a>
 		                    </h3>
 		                    <h3 class="pro-price">@Model.ExpensiveProducts[2].Prices.First().Amount.ToString("N0") تومان</h3>
 		                    <div class="banner-button">
-			                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[2].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+			                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[2].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
 		                    </div>
 	                    </div>
                     </div>
@@ -131,19 +131,19 @@
            @*         <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="banner-item banner-3">
                             <div class="banner-img">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">
                                     <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
                                 </a>
                             </div>
                             <div class="banner-info">
                                 <h3 class="banner-title-2 vmsNowrap">
-                                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
                                 </h3>
                                 <ul class="banner-featured-list vmsNowrapList">
                                     @Html.Raw(Model.ExpensiveProducts[1].Brand)
                                 </ul>
                                 <div class="banner-button">
-                                    <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">مشاهده <i class="zmdi zmdi-long-arrow-left"></i></a>
+                                    <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">مشاهده <i class="zmdi zmdi-long-arrow-left"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -153,15 +153,15 @@
                     <div class="col-md-4 hidden-sm col-xs-12">
                         <div class="banner-item banner-4">
                             <div class="banner-img">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">
                                     <img src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt">
                                 </a>
                             </div>
                             <h3 class="banner-title-2 vmsNowrap">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
                             </h3>
                             <div class="banner-button">
-                                <a asp-page="Product" asp-route-productId="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
+                                <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">هم اکنون بخرید <i class="zmdi zmdi-long-arrow-left"></i></a>
                             </div>
                         </div>
                     </div>*@
@@ -289,7 +289,7 @@
                 <!-- popular-product start -->
                 <div class="tab-pane active" id="popular-product">
                     <div class="row">
-                        @foreach (var starProduct in Model.StarProducts)
+                        @foreach (var starProduct in Model.SellProducts)
                         {
 	                        <partial name="Components/_productCard" model="starProduct"/>
                         }
@@ -309,7 +309,7 @@
                 <!-- best-seller start -->
                 <div class="tab-pane" id="best-seller">
                     <div class="row">
-                        @foreach (var sellProducts in Model.SellProducts)
+                        @foreach (var sellProducts in Model.StarProducts)
                         {
 	                        <partial name="Components/_productCard" model="sellProducts"/>
                         }
@@ -322,122 +322,5 @@
     </div>
 </div>
 <!-- PRODUCT TAB SECTION END -->
-<!-- BLOG SECTION START -->
-<div class="blog-section-2 pt-60 pb-30">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="section-title text-left mb-40">
-                    <h2>مطالب اخیر بلاگ</h2>
-                    <h6>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و</h6>
-                </div>
-            </div>
-        </div>
-        <div class="blog">
-            <div class="row active-blog-2">
-                <!-- blog-item start -->
-                <div class="col-xs-12">
-                    <div class="blog-item-2">
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-image">
-                                    <a href="single-blog.html">
-                                        <img src="~/img/blog/4.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-desc">
-                                    <h5 class="blog-title-2">
-                                        <a href="#">عنوان بلاگ نمایشی</a>
-                                    </h5>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
-                                    <div class="read-more">
-                                        <a href="#">بیشتر بخوانید</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- blog-item end -->
-                <!-- blog-item start -->
-                <div class="col-xs-12">
-                    <div class="blog-item-2">
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-image">
-                                    <a href="single-blog.html">
-                                        <img src="~/img/blog/5.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-desc">
-                                    <h5 class="blog-title-2">
-                                        <a href="#">عنوان بلاگ نمایشی</a>
-                                    </h5>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
-                                    <div class="read-more">
-                                        <a href="#">بیشتر بخوانید</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- blog-item end -->
-                <!-- blog-item start -->
-                <div class="col-xs-12">
-                    <div class="blog-item-2">
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-image">
-                                    <a href="single-blog.html">
-                                        <img src="~/img/blog/4.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-xs-12">
-                                <div class="blog-desc">
-                                    <h5 class="blog-title-2">
-                                        <a href="#">عنوان بلاگ نمایشی</a>
-                                    </h5>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه</p>
-                                    <div class="read-more">
-                                        <a href="#">بیشتر بخوانید</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- blog-item end -->
-            </div>
-        </div>
-    </div>
-</div>
-<!-- BLOG SECTION END -->
-<!-- NEWSLETTER SECTION START -->
-<div class="newsletter-section section-bg-tb pt-60 pb-80">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 col-xs-12">
-                <div class="newsletter">
-                    <div class="newsletter-info text-center">
-                        <h2 class="newsletter-title">در خبرنامه مشترک شوید</h2>
-                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت <br class="hidden-xs">لورم ایپسوم متن ساختگی با تولید سادگی</p>
-                    </div>
-                    <div class="subcribe clearfix">
-                        <form action="#">
-                            <input type="email" name="email" placeholder="... ایمیل خود را وارد کنید" dir="ltr">
-                            <button class="submit-btn-2 btn-hover-2" type="submit">اشتراک</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- NEWSLETTER SECTION END -->
+
 </section>

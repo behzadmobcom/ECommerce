@@ -4,6 +4,7 @@ using API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.API.Migrations
 {
     [DbContext(typeof(SunflowerECommerceDbContext))]
-    partial class SunflowerECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220726103035_IsShowInIndexPage")]
+    partial class IsShowInIndexPage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3018,7 +3020,7 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("Amount")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -3032,20 +3034,20 @@ namespace Ecommerce.API.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("MaxAmount")
+                    b.Property<int>("MaxAmount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MaxOrder")
+                    b.Property<int>("MaxOrder")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MinOrder")
+                    b.Property<int>("MinOrder")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Percent")
+                    b.Property<double>("Percent")
                         .HasColumnType("float");
 
                     b.Property<DateTime?>("StartDate")
@@ -3059,9 +3061,14 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
+                            Amount = 0,
                             Code = "NoDiscount",
                             IsActive = false,
-                            Name = "بدون تخفیف"
+                            MaxAmount = 0,
+                            MaxOrder = 0,
+                            MinOrder = 0,
+                            Name = "بدون تخفیف",
+                            Percent = 0.0
                         });
                 });
 
@@ -4437,7 +4444,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "84d639a2-aa50-4a30-a1e1-18b59e54a02d",
+                            ConcurrencyStamp = "78605a73-1e8f-474d-b291-a7c383c1d218",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -4452,10 +4459,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF1PSzSnem8PbDeR3VIGZwEGDpnoiGmmJdgQfoDjdzEjaoxvbHATpFNMzm0abX9bww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM52QObDJJWLp9dxtdmPrF9G7LBOREnbxrsrhhQeSgMwBPuZNWyGh9z3v61GTJszCw==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2022, 7, 28, 1, 23, 8, 594, DateTimeKind.Local).AddTicks(2919),
+                            RegisterDate = new DateTime(2022, 7, 26, 15, 0, 32, 498, DateTimeKind.Local).AddTicks(5237),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -4496,21 +4503,21 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ce4d968b-0fb0-42c1-a281-6b4a35f9a2db",
+                            ConcurrencyStamp = "c71deb62-09e4-4b07-b625-681169eb0d4f",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "4d0031de-fe03-44c6-882d-fc5fcf8d198b",
+                            ConcurrencyStamp = "e9823fbd-41eb-4d3e-9c0f-b3f9e5ee4e33",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "d69a2f44-e3cd-412c-9830-60783aae4635",
+                            ConcurrencyStamp = "a00ce929-bcfe-4abe-a463-9225b1b59251",
                             Name = "Client",
                             NormalizedName = "Client"
                         });

@@ -92,7 +92,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.Url = productViewModel.Url;
         product.DiscountId = productViewModel.DiscountId;
         product.HolooCompanyId = productViewModel.HolooCompanyId;
-        product.BrandId = productViewModel.BrandId!=0?productViewModel.BrandId: null;
+        product.BrandId = productViewModel.BrandId != 0 ? productViewModel.BrandId : null;
         product.SupplierId = productViewModel.SupplierId;
         product.StoreId = productViewModel.StoreId;
 
@@ -163,7 +163,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(x => x.Prices)
             .Include(x => x.ProductUserRanks)
             .ToListAsync(cancellationToken);
-        productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel) product));
+        productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
         return productIndexPageViewModel;
     }
 
@@ -198,7 +198,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             _ = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
                 .ToListAsync(cancellationToken);
         }
-       
+
 
         //foreach (var productAttributeGroup in group)
         //foreach (var attribute in productAttributeGroup.Attribute)
@@ -228,18 +228,19 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     /// <param name="starsCount"></param>
     /// <param name="tagsId"></param>
     /// <returns></returns>
-    public IQueryable<Product?> GetProducts(List<int>? brandsId, List<int>? starsCount, List<int>? tagsId)
+    public IQueryable<Product?> GetProducts(int categoryId, List<int>? brandsId, List<int>? starsCount, List<int>? tagsId)
     {
-        //var products = _context.Products.Where(x => x.ProductCategories.Any(y => y.Id == categoryId));
-        var products = _context.Products.Where(x=> x.Prices!.Any()).AsQueryable();
 
+        var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
 
-        if (brandsId is {Count: > 0}) products = products.Where(x => brandsId.Contains((int) x.BrandId));
+        if (categoryId > 0) products = products.Where(x => categoryId == categoryId);
 
-        if (starsCount is {Count: > 0})
+        if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
+
+        if (starsCount is { Count: > 0 })
             products = products.Where(x =>
                 starsCount.Contains(x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count));
-        if (tagsId is {Count: > 0})
+        if (tagsId is { Count: > 0 })
             products = tagsId.Aggregate(products,
                 (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
 
@@ -261,7 +262,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                     Name = p.Name,
                     Description = p.Description,
                     Id = p.Id,
-                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                     Stars = p.Star,
                     Url = p.Url
                 })
@@ -283,7 +284,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Name,
                 Description = p.Description,
                 Id = p.Id,
-                ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                 Stars = p.Star,
                 Url = p.Url
             })
@@ -305,7 +306,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Product.Name,
                 Description = p.Product.Description,
                 Id = p.Product.Id,
-                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
             })
@@ -326,7 +327,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Product.Name,
                 Description = p.Product.Description,
                 Id = p.Product.Id,
-                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
             })
@@ -340,26 +341,26 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Products).Take(count);
         var i = 0;
         foreach (var discount in discounts)
-        foreach (var product in discount)
-        {
-            products.Add(await _context.Products
-                .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
-                .Select(p => new ProductIndexPageViewModel
-                {
-                    Prices = p.Prices!,
-                    Alt = p.Images!.First().Alt,
-                    Brand = p.Brand!.Name,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Id = p.Id,
-                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
-                    Stars = p.Star,
-                    Url = p.Url
-                })
-                .FirstOrDefaultAsync(cancellationToken));
-            i++;
-            if (i == count) break;
-        }
+            foreach (var product in discount)
+            {
+                products.Add(await _context.Products
+                    .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
+                    .Select(p => new ProductIndexPageViewModel
+                    {
+                        Prices = p.Prices!,
+                        Alt = p.Images!.First().Alt,
+                        Brand = p.Brand!.Name,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Id = p.Id,
+                        ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                        Stars = p.Star,
+                        Url = p.Url
+                    })
+                    .FirstOrDefaultAsync(cancellationToken));
+                i++;
+                if (i == count) break;
+            }
 
         //if (productIndexPageViewModel.Count < 5)
         //{
@@ -381,12 +382,12 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Product.Name,
                 Description = p.Product.Description,
                 Id = p.Product.Id,
-                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
             })
             .ToListAsync(cancellationToken);
-        
+
         return products;
     }
 
@@ -403,7 +404,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = p.Product.Name,
                 Description = p.Product.Description,
                 Id = p.Product.Id,
-                ImagePath = $"{p.Product.Images!.First().Path}/{ p.Product.Images!.First().Name}",
+                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
                 Stars = p.Product.Star,
                 Url = p.Product.Url
             })
@@ -421,7 +422,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                        Name = p.Name,
                        Description = p.Description,
                        Id = p.Id,
-                       ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                       ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                        Stars = p.Star,
                        Url = p.Url
                    })
@@ -455,7 +456,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                     Name = p.Name,
                     Description = p.Description,
                     Id = p.Id,
-                    ImagePath = $"{p.Images!.First().Path}/{ p.Images!.First().Name}",
+                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                     Stars = p.Star,
                     Url = p.Url
                 })

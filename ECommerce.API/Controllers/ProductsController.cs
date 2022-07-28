@@ -262,8 +262,12 @@ public class ProductsController : ControllerBase
             //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
 
             var products = new List<Product>();
-            var productQuery = _productRepository.GetProducts(productListFilteredViewModel.BrandsId,
+            var productQuery = _productRepository.GetProducts(productListFilteredViewModel.PaginationParameters.CategoryId, productListFilteredViewModel.BrandsId,
                 productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
+            if(productListFilteredViewModel.PaginationParameters.CategoryId>0)
+            {
+
+            }
             var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             if (search is { Length: > 1 })
@@ -295,6 +299,23 @@ public class ProductsController : ControllerBase
                     case "BrandId":
                         productIndexPageViewModel.AddRange(await productQuery
                             .Where(x => x.BrandId == Convert.ToInt32(search[1]))
+                            .Select(p => new ProductIndexPageViewModel
+                            {
+                                Prices = p.Prices!,
+                                Alt = p.Images!.First().Alt,
+                                Brand = p.Brand!.Name,
+                                Name = p.Name,
+                                Description = p.Description,
+                                Id = p.Id,
+                                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                                Stars = p.Star,
+                                Url = p.Url
+                            })
+                            .ToListAsync(cancellationToken));
+                        break;
+                    case "Name":
+                        productIndexPageViewModel.AddRange(await productQuery
+                            .Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1]))
                             .Select(p => new ProductIndexPageViewModel
                             {
                                 Prices = p.Prices!,

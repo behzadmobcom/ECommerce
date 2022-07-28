@@ -259,8 +259,8 @@
 <div class="col-md-3 col-md-pull-9 col-sm-12">
     <!-- widget-search -->
     <aside class="widget-search mb-30">
-        <form action="#">
-            <input type="text" placeholder="جستجو ...">
+        <form  method="Get" asp-page-handler="OnGet">
+            <input type="text" name="search" placeholder="جستجو ...">
             <button type="submit">
                 <i class="zmdi zmdi-search"></i>
             </button>

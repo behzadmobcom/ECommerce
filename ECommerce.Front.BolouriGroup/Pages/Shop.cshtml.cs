@@ -25,17 +25,17 @@ public class ShopModel : PageModel
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public Dictionary<int, string> Brands { get; set; }
 
-    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+    public async Task OnGet(string path,string search, int pageNumber = 1, int pageSize = 20, int productSort = 1,
         string message = null, string code = null)
     {
         string? categoryId = null;
         if (!string.IsNullOrEmpty(path))
         {
             var resultCategory = await _categoryService.GetByUrl(path);
-            if (resultCategory.Code == ServiceCode.Success) categoryId = $"CategoryId={resultCategory.ReturnData.Id}";
+            if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
 
-        Products = await _productService.TopProducts(categoryId, pageNumber, pageSize, productSort);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
     }

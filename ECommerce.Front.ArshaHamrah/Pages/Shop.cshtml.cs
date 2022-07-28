@@ -29,8 +29,8 @@ public class ShopModel : PageModel
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
 
-    public async Task OnGet(string path, int pageNumber = 1, int pageSize = 20, int productSort = 1,
-        string message = null, string code = null)
+    public async Task OnGet(string? path = null ,string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+        string? message = null, string? code = null)
     {
         //// Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
         //var resultSearch = await _productService.Search(categoryUrl, 1, 10);
@@ -39,14 +39,17 @@ public class ShopModel : PageModel
         //    Products = resultSearch;
         //}
 
-        string? categoryId = null;
+        string categoryId = "0";
         if (!string.IsNullOrEmpty(path))
         {
             var resultCategory = await _categoryService.GetByUrl(path);
-            if (resultCategory.Code == ServiceCode.Success) categoryId = $"CategoryId={resultCategory.ReturnData.Id}";
+            if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
-
-        Products = await _productService.TopProducts(categoryId, pageNumber, pageSize, productSort);
+        if (!string.IsNullOrEmpty(search))
+        {
+            search = $"Name={search}";
+        }
+            Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
         //var brandResult = await _brandService.LoadDictionary();
         //if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
         var result = _cookieService.GetCurrentUser();
