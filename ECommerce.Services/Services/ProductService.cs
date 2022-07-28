@@ -135,7 +135,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     //    return Return(result);
     //}
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string search = "",
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "", 
         int pageNumber = 0, int pageSize = 10, int productSort = 1)
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
@@ -145,6 +145,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             $"PaginationParameters.PageNumber={pageNumber}&" +
             $"PaginationParameters.PageSize={pageSize}&" +
             $"PaginationParameters.Search={search}&" +
+            $"PaginationParameters.CategoryId={CategoryId}&" +
             $"ProductSort={productSort}");
         return Return(result);
     }

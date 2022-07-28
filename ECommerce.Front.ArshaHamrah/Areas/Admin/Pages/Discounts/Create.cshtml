@@ -42,33 +42,40 @@
                         </div>
                         <div class="form-group">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" id="demo1" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo1" placeholder="0" />
+                            <input asp-for="@Model.Discount.Percent" id="demo1" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid TouchSpin" value="" placeholder="0" />
+                            <span asp-validation-for="@Model.Discount.Percent" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>مبلغ</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" placeholder="0" />
+                            <span asp-validation-for="@Model.Discount.Amount" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
                             <input id="startDate" name="Discount.StartDate" hidden="hidden" />
                             <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع" />
+                            <span asp-validation-for="@Model.Discount.StartDate" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                            <input id="endDate" name="Discount.EndDate" hidden="hidden" />
-                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان" />
+                             <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
+                            <span asp-validation-for="@Model.Discount.EndDate" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>مبلغ حداکثر تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.MaxAmount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" placeholder="0" />
+                            <span asp-validation-for="@Model.Discount.MaxAmount" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.MinOrder" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" placeholder="0" />
+                            <span asp-validation-for="@Model.Discount.MinOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0" />
+                            <input asp-for="@Model.Discount.MaxOrder" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" placeholder="0" />
+                            <span asp-validation-for="@Model.Discount.MaxOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
@@ -100,7 +107,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#startDatepicker').persianDatepicker({
+             $('#startDatepicker').persianDatepicker({
                 theme: 'latoja',
                 fontSize: 15,
                 formatDate: "YYYY/MM/DD",
@@ -117,7 +124,7 @@
                 }
             });
         });
-        $("input[name='demo1']").TouchSpin({
+        $(".TouchSpin").TouchSpin({
             min: 0,
             max: 100,
             step: 0.1,

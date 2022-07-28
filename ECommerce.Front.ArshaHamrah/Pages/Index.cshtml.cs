@@ -38,7 +38,7 @@ public class IndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        NewTop8Products = (await _productService.TopProducts("", 0, 8)).ReturnData;
+        NewTop8Products = (await _productService.TopProducts("","", 0, 8)).ReturnData;
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
         NewProducts = (await _productService.TopNew()).ReturnData;
         ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
