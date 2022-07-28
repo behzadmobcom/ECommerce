@@ -38,7 +38,6 @@ public class CheckoutModel : PageModel
     public SelectList SendInformationList { get; set; }
 
     public int PostPrice { get; set; }
-    [BindProperty] public int Portal { get; set; } = 1;
     [TempData] public string Code { get; set; }
 
     public int SumPrice { get; set; }
@@ -79,7 +78,7 @@ public class CheckoutModel : PageModel
         return new JsonResult(ret);
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPost(string Portal)
     {
         var returnAction = "PaymentSuccessful";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
@@ -115,19 +114,35 @@ public class CheckoutModel : PageModel
         purchaseOrder.SendInformationId = SendInformation.Id;
         if (resultSendInformation == 0)
         {
+            string description;
             switch (Portal)
             {
-                case 1:
+                case "zarinpal":
                     //Zarinpal
 
-                    string description = "خرید تستی ";
+                    description = "خرید تستی ";
 
-                    var payment = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
-                    if (payment.Status == 100)
+                    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                    if (paymentZarinpal.Status == 100)
                     {
 
                         await _purchaseOrderService.Edit(purchaseOrder);
-                        return Redirect(payment.Link);
+                        return Redirect(paymentZarinpal.Link);
+                    }
+                    else
+                        //return errorPage;
+                        return RedirectToPage("Error");
+                case "mellat":
+                    //Zarinpal
+
+                     description = "خرید تستی ";
+
+                    var paymentMellat = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                    if (paymentMellat.Status == 100)
+                    {
+
+                        await _purchaseOrderService.Edit(purchaseOrder);
+                        return Redirect(paymentMellat.Link);
                     }
                     else
                         //return errorPage;
