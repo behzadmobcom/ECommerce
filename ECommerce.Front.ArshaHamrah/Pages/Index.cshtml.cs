@@ -41,9 +41,10 @@ public class IndexModel : PageModel
         NewTop8Products = (await _productService.TopProducts("","", 0, 8)).ReturnData;
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
         NewProducts = (await _productService.TopNew()).ReturnData;
-        ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
+        ExpensiveProducts = (await _productService.TopProducts("","",0,3,4)).ReturnData;
+        //ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
         StarProducts = (await _productService.TopStars(8)).ReturnData;
-        SellProducts = (await _productService.TopSells(10)).ReturnData;
+        SellProducts = (await _productService.TopSells(8)).ReturnData;
 
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;

@@ -140,13 +140,14 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-            "GetProducts?" +
-            $"PaginationParameters.PageNumber={pageNumber}&" +
-            $"PaginationParameters.PageSize={pageSize}&" +
-            $"PaginationParameters.Search={search}&" +
-            $"PaginationParameters.CategoryId={CategoryId}&" +
-            $"ProductSort={productSort}");
+
+        var command = "GetProducts?" +
+                      $"PaginationParameters.PageNumber={pageNumber}&" +
+                      $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+        if (!string.IsNullOrEmpty(CategoryId)) command+= $"PaginationParameters.CategoryId={CategoryId}&";
+        command += $"ProductSort={productSort}";
+         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
         return Return(result);
     }
 
