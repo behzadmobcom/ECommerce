@@ -1,10 +1,11 @@
-﻿using Entities;
+﻿using ECommerce.Services.IServices;
+using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ECommerce.Services.IServices;
+using ServiceReferenceMellat;
 using ZarinpalSandbox;
 
 namespace ArshaHamrah.Pages;
@@ -114,7 +115,7 @@ public class CheckoutModel : PageModel
         purchaseOrder.SendInformationId = SendInformation.Id;
         if (resultSendInformation == 0)
         {
-            string description;
+            string description = "";
             switch (Portal)
             {
                 case "zarinpal":
@@ -134,19 +135,37 @@ public class CheckoutModel : PageModel
                         return RedirectToPage("Error");
                 case "mellat":
                     //Zarinpal
-
-                     description = "خرید تستی ";
-
-                    var paymentMellat = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
-                    if (paymentMellat.Status == 100)
+                    var date = DateTime.Now.ToString("yyyyMMdd");
+                    var time = DateTime.Now.ToString("HHmmss");
+                    long terminalId = 6547305;
+                    var userName = "Arshahamrah110";
+                    var password = "79916117";
+                    var paymentMellat = new PaymentGatewayClient();
+                    description = "خرید تستی ";
+                    var result = await paymentMellat.bpPayRequestAsync(
+                        terminalId,
+                        userName,
+                        password,
+                        purchaseOrder.Id,
+                        SumPrice,
+                       date,
+                        time,
+                        "",
+                        url + returnAction,
+                        "0",
+                        "",
+                        "",
+                        "", "", "");
+                    var returnCode = result.Body.@return.Split(",");
+                    if (returnCode[0] == "0")
                     {
-
                         await _purchaseOrderService.Edit(purchaseOrder);
-                        return Redirect(paymentMellat.Link);
+                        //return Redirect(paymentMellat.Link);
                     }
                     else
                         //return errorPage;
-                        return RedirectToPage("Error");
+                        return RedirectToPage("Error",new { message = returnCode });
+                    break;
             }
 
             Message = "خطا هنگام اتصال به درگاه بانکی";

@@ -7,62 +7,62 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BpmMellat
+namespace ServiceReferenceMellat
 {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://interfaces.core.sw.bps.com/", ConfigurationName="BpmMellat.IPaymentGateway")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://interfaces.core.sw.bps.com/", ConfigurationName="ServiceReferenceMellat.IPaymentGateway")]
     public interface IPaymentGateway
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundRequestResponse> bpRefundRequestAsync(BpmMellat.bpRefundRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestResponse> bpRefundRequestAsync(ServiceReferenceMellat.bpRefundRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpSaleReferenceIdRequestResponse> bpSaleReferenceIdRequestAsync(BpmMellat.bpSaleReferenceIdRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpSaleReferenceIdRequestResponse> bpSaleReferenceIdRequestAsync(ServiceReferenceMellat.bpSaleReferenceIdRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestV2Response> bpRefundToPANRequestV2Async(BpmMellat.bpRefundToPANRequestV2 request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestV2Response> bpRefundToPANRequestV2Async(ServiceReferenceMellat.bpRefundToPANRequestV2 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpDynamicPayRequestResponse> bpDynamicPayRequestAsync(BpmMellat.bpDynamicPayRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpDynamicPayRequestResponse> bpDynamicPayRequestAsync(ServiceReferenceMellat.bpDynamicPayRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpInquiryRequestResponse> bpInquiryRequestAsync(BpmMellat.bpInquiryRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpInquiryRequestResponse> bpInquiryRequestAsync(ServiceReferenceMellat.bpInquiryRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpSettleRequestResponse> bpSettleRequestAsync(BpmMellat.bpSettleRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpSettleRequestResponse> bpSettleRequestAsync(ServiceReferenceMellat.bpSettleRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundRequestV2Response> bpRefundRequestV2Async(BpmMellat.bpRefundRequestV2 request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestV2Response> bpRefundRequestV2Async(ServiceReferenceMellat.bpRefundRequestV2 request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpChargePayRequestResponse> bpChargePayRequestAsync(BpmMellat.bpChargePayRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpChargePayRequestResponse> bpChargePayRequestAsync(ServiceReferenceMellat.bpChargePayRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpCumulativeDynamicPayRequestResponse> bpCumulativeDynamicPayRequestAsync(BpmMellat.bpCumulativeDynamicPayRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpCumulativeDynamicPayRequestResponse> bpCumulativeDynamicPayRequestAsync(ServiceReferenceMellat.bpCumulativeDynamicPayRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpPayRequestResponse> bpPayRequestAsync(BpmMellat.bpPayRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpPayRequestResponse> bpPayRequestAsync(ServiceReferenceMellat.bpPayRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundInquiryRequestResponse> bpRefundInquiryRequestAsync(BpmMellat.bpRefundInquiryRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundInquiryRequestResponse> bpRefundInquiryRequestAsync(ServiceReferenceMellat.bpRefundInquiryRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpReversalRequestResponse> bpReversalRequestAsync(BpmMellat.bpReversalRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpReversalRequestResponse> bpReversalRequestAsync(ServiceReferenceMellat.bpReversalRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpPosRefundRequestResponse> bpPosRefundRequestAsync(BpmMellat.bpPosRefundRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpPosRefundRequestResponse> bpPosRefundRequestAsync(ServiceReferenceMellat.bpPosRefundRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestResponse> bpRefundToPANRequestAsync(BpmMellat.bpRefundToPANRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestResponse> bpRefundToPANRequestAsync(ServiceReferenceMellat.bpRefundToPANRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpVerifyRequestResponse> bpVerifyRequestAsync(BpmMellat.bpVerifyRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpVerifyRequestResponse> bpVerifyRequestAsync(ServiceReferenceMellat.bpVerifyRequest request);
         
         [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundVerifyRequestResponse> bpRefundVerifyRequestAsync(BpmMellat.bpRefundVerifyRequest request);
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundVerifyRequestResponse> bpRefundVerifyRequestAsync(ServiceReferenceMellat.bpRefundVerifyRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -73,13 +73,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundRequestBody Body;
+        public ServiceReferenceMellat.bpRefundRequestBody Body;
         
         public bpRefundRequest()
         {
         }
         
-        public bpRefundRequest(BpmMellat.bpRefundRequestBody Body)
+        public bpRefundRequest(ServiceReferenceMellat.bpRefundRequestBody Body)
         {
             this.Body = Body;
         }
@@ -137,13 +137,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundRequestResponseBody Body;
+        public ServiceReferenceMellat.bpRefundRequestResponseBody Body;
         
         public bpRefundRequestResponse()
         {
         }
         
-        public bpRefundRequestResponse(BpmMellat.bpRefundRequestResponseBody Body)
+        public bpRefundRequestResponse(ServiceReferenceMellat.bpRefundRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -177,13 +177,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpSaleReferenceIdRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpSaleReferenceIdRequestBody Body;
+        public ServiceReferenceMellat.bpSaleReferenceIdRequestBody Body;
         
         public bpSaleReferenceIdRequest()
         {
         }
         
-        public bpSaleReferenceIdRequest(BpmMellat.bpSaleReferenceIdRequestBody Body)
+        public bpSaleReferenceIdRequest(ServiceReferenceMellat.bpSaleReferenceIdRequestBody Body)
         {
             this.Body = Body;
         }
@@ -233,13 +233,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpSaleReferenceIdRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpSaleReferenceIdRequestResponseBody Body;
+        public ServiceReferenceMellat.bpSaleReferenceIdRequestResponseBody Body;
         
         public bpSaleReferenceIdRequestResponse()
         {
         }
         
-        public bpSaleReferenceIdRequestResponse(BpmMellat.bpSaleReferenceIdRequestResponseBody Body)
+        public bpSaleReferenceIdRequestResponse(ServiceReferenceMellat.bpSaleReferenceIdRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -273,13 +273,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundToPANRequestV2", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundToPANRequestV2Body Body;
+        public ServiceReferenceMellat.bpRefundToPANRequestV2Body Body;
         
         public bpRefundToPANRequestV2()
         {
         }
         
-        public bpRefundToPANRequestV2(BpmMellat.bpRefundToPANRequestV2Body Body)
+        public bpRefundToPANRequestV2(ServiceReferenceMellat.bpRefundToPANRequestV2Body Body)
         {
             this.Body = Body;
         }
@@ -341,13 +341,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundToPANRequestV2Response", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundToPANRequestV2ResponseBody Body;
+        public ServiceReferenceMellat.bpRefundToPANRequestV2ResponseBody Body;
         
         public bpRefundToPANRequestV2Response()
         {
         }
         
-        public bpRefundToPANRequestV2Response(BpmMellat.bpRefundToPANRequestV2ResponseBody Body)
+        public bpRefundToPANRequestV2Response(ServiceReferenceMellat.bpRefundToPANRequestV2ResponseBody Body)
         {
             this.Body = Body;
         }
@@ -381,13 +381,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpDynamicPayRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpDynamicPayRequestBody Body;
+        public ServiceReferenceMellat.bpDynamicPayRequestBody Body;
         
         public bpDynamicPayRequest()
         {
         }
         
-        public bpDynamicPayRequest(BpmMellat.bpDynamicPayRequestBody Body)
+        public bpDynamicPayRequest(ServiceReferenceMellat.bpDynamicPayRequestBody Body)
         {
             this.Body = Body;
         }
@@ -497,13 +497,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpDynamicPayRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpDynamicPayRequestResponseBody Body;
+        public ServiceReferenceMellat.bpDynamicPayRequestResponseBody Body;
         
         public bpDynamicPayRequestResponse()
         {
         }
         
-        public bpDynamicPayRequestResponse(BpmMellat.bpDynamicPayRequestResponseBody Body)
+        public bpDynamicPayRequestResponse(ServiceReferenceMellat.bpDynamicPayRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -537,13 +537,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpInquiryRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpInquiryRequestBody Body;
+        public ServiceReferenceMellat.bpInquiryRequestBody Body;
         
         public bpInquiryRequest()
         {
         }
         
-        public bpInquiryRequest(BpmMellat.bpInquiryRequestBody Body)
+        public bpInquiryRequest(ServiceReferenceMellat.bpInquiryRequestBody Body)
         {
             this.Body = Body;
         }
@@ -597,13 +597,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpInquiryRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpInquiryRequestResponseBody Body;
+        public ServiceReferenceMellat.bpInquiryRequestResponseBody Body;
         
         public bpInquiryRequestResponse()
         {
         }
         
-        public bpInquiryRequestResponse(BpmMellat.bpInquiryRequestResponseBody Body)
+        public bpInquiryRequestResponse(ServiceReferenceMellat.bpInquiryRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -637,13 +637,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpSettleRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpSettleRequestBody Body;
+        public ServiceReferenceMellat.bpSettleRequestBody Body;
         
         public bpSettleRequest()
         {
         }
         
-        public bpSettleRequest(BpmMellat.bpSettleRequestBody Body)
+        public bpSettleRequest(ServiceReferenceMellat.bpSettleRequestBody Body)
         {
             this.Body = Body;
         }
@@ -697,13 +697,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpSettleRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpSettleRequestResponseBody Body;
+        public ServiceReferenceMellat.bpSettleRequestResponseBody Body;
         
         public bpSettleRequestResponse()
         {
         }
         
-        public bpSettleRequestResponse(BpmMellat.bpSettleRequestResponseBody Body)
+        public bpSettleRequestResponse(ServiceReferenceMellat.bpSettleRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -737,13 +737,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundRequestV2", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundRequestV2Body Body;
+        public ServiceReferenceMellat.bpRefundRequestV2Body Body;
         
         public bpRefundRequestV2()
         {
         }
         
-        public bpRefundRequestV2(BpmMellat.bpRefundRequestV2Body Body)
+        public bpRefundRequestV2(ServiceReferenceMellat.bpRefundRequestV2Body Body)
         {
             this.Body = Body;
         }
@@ -809,13 +809,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundRequestV2Response", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundRequestV2ResponseBody Body;
+        public ServiceReferenceMellat.bpRefundRequestV2ResponseBody Body;
         
         public bpRefundRequestV2Response()
         {
         }
         
-        public bpRefundRequestV2Response(BpmMellat.bpRefundRequestV2ResponseBody Body)
+        public bpRefundRequestV2Response(ServiceReferenceMellat.bpRefundRequestV2ResponseBody Body)
         {
             this.Body = Body;
         }
@@ -849,13 +849,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpChargePayRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpChargePayRequestBody Body;
+        public ServiceReferenceMellat.bpChargePayRequestBody Body;
         
         public bpChargePayRequest()
         {
         }
         
-        public bpChargePayRequest(BpmMellat.bpChargePayRequestBody Body)
+        public bpChargePayRequest(ServiceReferenceMellat.bpChargePayRequestBody Body)
         {
             this.Body = Body;
         }
@@ -925,13 +925,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpChargePayRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpChargePayRequestResponseBody Body;
+        public ServiceReferenceMellat.bpChargePayRequestResponseBody Body;
         
         public bpChargePayRequestResponse()
         {
         }
         
-        public bpChargePayRequestResponse(BpmMellat.bpChargePayRequestResponseBody Body)
+        public bpChargePayRequestResponse(ServiceReferenceMellat.bpChargePayRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -965,13 +965,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpCumulativeDynamicPayRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpCumulativeDynamicPayRequestBody Body;
+        public ServiceReferenceMellat.bpCumulativeDynamicPayRequestBody Body;
         
         public bpCumulativeDynamicPayRequest()
         {
         }
         
-        public bpCumulativeDynamicPayRequest(BpmMellat.bpCumulativeDynamicPayRequestBody Body)
+        public bpCumulativeDynamicPayRequest(ServiceReferenceMellat.bpCumulativeDynamicPayRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1057,13 +1057,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpCumulativeDynamicPayRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpCumulativeDynamicPayRequestResponseBody Body;
+        public ServiceReferenceMellat.bpCumulativeDynamicPayRequestResponseBody Body;
         
         public bpCumulativeDynamicPayRequestResponse()
         {
         }
         
-        public bpCumulativeDynamicPayRequestResponse(BpmMellat.bpCumulativeDynamicPayRequestResponseBody Body)
+        public bpCumulativeDynamicPayRequestResponse(ServiceReferenceMellat.bpCumulativeDynamicPayRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1097,13 +1097,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpPayRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpPayRequestBody Body;
+        public ServiceReferenceMellat.bpPayRequestBody Body;
         
         public bpPayRequest()
         {
         }
         
-        public bpPayRequest(BpmMellat.bpPayRequestBody Body)
+        public bpPayRequest(ServiceReferenceMellat.bpPayRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1193,13 +1193,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpPayRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpPayRequestResponseBody Body;
+        public ServiceReferenceMellat.bpPayRequestResponseBody Body;
         
         public bpPayRequestResponse()
         {
         }
         
-        public bpPayRequestResponse(BpmMellat.bpPayRequestResponseBody Body)
+        public bpPayRequestResponse(ServiceReferenceMellat.bpPayRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1233,13 +1233,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundInquiryRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundInquiryRequestBody Body;
+        public ServiceReferenceMellat.bpRefundInquiryRequestBody Body;
         
         public bpRefundInquiryRequest()
         {
         }
         
-        public bpRefundInquiryRequest(BpmMellat.bpRefundInquiryRequestBody Body)
+        public bpRefundInquiryRequest(ServiceReferenceMellat.bpRefundInquiryRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1293,13 +1293,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundInquiryRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundInquiryRequestResponseBody Body;
+        public ServiceReferenceMellat.bpRefundInquiryRequestResponseBody Body;
         
         public bpRefundInquiryRequestResponse()
         {
         }
         
-        public bpRefundInquiryRequestResponse(BpmMellat.bpRefundInquiryRequestResponseBody Body)
+        public bpRefundInquiryRequestResponse(ServiceReferenceMellat.bpRefundInquiryRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1333,13 +1333,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpReversalRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpReversalRequestBody Body;
+        public ServiceReferenceMellat.bpReversalRequestBody Body;
         
         public bpReversalRequest()
         {
         }
         
-        public bpReversalRequest(BpmMellat.bpReversalRequestBody Body)
+        public bpReversalRequest(ServiceReferenceMellat.bpReversalRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1393,13 +1393,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpReversalRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpReversalRequestResponseBody Body;
+        public ServiceReferenceMellat.bpReversalRequestResponseBody Body;
         
         public bpReversalRequestResponse()
         {
         }
         
-        public bpReversalRequestResponse(BpmMellat.bpReversalRequestResponseBody Body)
+        public bpReversalRequestResponse(ServiceReferenceMellat.bpReversalRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1433,13 +1433,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpPosRefundRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpPosRefundRequestBody Body;
+        public ServiceReferenceMellat.bpPosRefundRequestBody Body;
         
         public bpPosRefundRequest()
         {
         }
         
-        public bpPosRefundRequest(BpmMellat.bpPosRefundRequestBody Body)
+        public bpPosRefundRequest(ServiceReferenceMellat.bpPosRefundRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1485,13 +1485,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpPosRefundRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpPosRefundRequestResponseBody Body;
+        public ServiceReferenceMellat.bpPosRefundRequestResponseBody Body;
         
         public bpPosRefundRequestResponse()
         {
         }
         
-        public bpPosRefundRequestResponse(BpmMellat.bpPosRefundRequestResponseBody Body)
+        public bpPosRefundRequestResponse(ServiceReferenceMellat.bpPosRefundRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1525,13 +1525,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundToPANRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundToPANRequestBody Body;
+        public ServiceReferenceMellat.bpRefundToPANRequestBody Body;
         
         public bpRefundToPANRequest()
         {
         }
         
-        public bpRefundToPANRequest(BpmMellat.bpRefundToPANRequestBody Body)
+        public bpRefundToPANRequest(ServiceReferenceMellat.bpRefundToPANRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1593,13 +1593,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundToPANRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundToPANRequestResponseBody Body;
+        public ServiceReferenceMellat.bpRefundToPANRequestResponseBody Body;
         
         public bpRefundToPANRequestResponse()
         {
         }
         
-        public bpRefundToPANRequestResponse(BpmMellat.bpRefundToPANRequestResponseBody Body)
+        public bpRefundToPANRequestResponse(ServiceReferenceMellat.bpRefundToPANRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1633,13 +1633,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpVerifyRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpVerifyRequestBody Body;
+        public ServiceReferenceMellat.bpVerifyRequestBody Body;
         
         public bpVerifyRequest()
         {
         }
         
-        public bpVerifyRequest(BpmMellat.bpVerifyRequestBody Body)
+        public bpVerifyRequest(ServiceReferenceMellat.bpVerifyRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1693,13 +1693,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpVerifyRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpVerifyRequestResponseBody Body;
+        public ServiceReferenceMellat.bpVerifyRequestResponseBody Body;
         
         public bpVerifyRequestResponse()
         {
         }
         
-        public bpVerifyRequestResponse(BpmMellat.bpVerifyRequestResponseBody Body)
+        public bpVerifyRequestResponse(ServiceReferenceMellat.bpVerifyRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1733,13 +1733,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundVerifyRequest", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundVerifyRequestBody Body;
+        public ServiceReferenceMellat.bpRefundVerifyRequestBody Body;
         
         public bpRefundVerifyRequest()
         {
         }
         
-        public bpRefundVerifyRequest(BpmMellat.bpRefundVerifyRequestBody Body)
+        public bpRefundVerifyRequest(ServiceReferenceMellat.bpRefundVerifyRequestBody Body)
         {
             this.Body = Body;
         }
@@ -1793,13 +1793,13 @@ namespace BpmMellat
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Name="bpRefundVerifyRequestResponse", Namespace="http://interfaces.core.sw.bps.com/", Order=0)]
-        public BpmMellat.bpRefundVerifyRequestResponseBody Body;
+        public ServiceReferenceMellat.bpRefundVerifyRequestResponseBody Body;
         
         public bpRefundVerifyRequestResponse()
         {
         }
         
-        public bpRefundVerifyRequestResponse(BpmMellat.bpRefundVerifyRequestResponseBody Body)
+        public bpRefundVerifyRequestResponse(ServiceReferenceMellat.bpRefundVerifyRequestResponseBody Body)
         {
             this.Body = Body;
         }
@@ -1826,13 +1826,13 @@ namespace BpmMellat
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public interface IPaymentGatewayChannel : BpmMellat.IPaymentGateway, System.ServiceModel.IClientChannel
+    public interface IPaymentGatewayChannel : ServiceReferenceMellat.IPaymentGateway, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public partial class PaymentGatewayClient : System.ServiceModel.ClientBase<BpmMellat.IPaymentGateway>, BpmMellat.IPaymentGateway
+    public partial class PaymentGatewayClient : System.ServiceModel.ClientBase<ServiceReferenceMellat.IPaymentGateway>, ServiceReferenceMellat.IPaymentGateway
     {
         
         /// <summary>
@@ -1876,15 +1876,15 @@ namespace BpmMellat
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundRequestResponse> BpmMellat.IPaymentGateway.bpRefundRequestAsync(BpmMellat.bpRefundRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpRefundRequestAsync(ServiceReferenceMellat.bpRefundRequest request)
         {
             return base.Channel.bpRefundRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundRequestResponse> bpRefundRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId, long refundAmount)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestResponse> bpRefundRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId, long refundAmount)
         {
-            BpmMellat.bpRefundRequest inValue = new BpmMellat.bpRefundRequest();
-            inValue.Body = new BpmMellat.bpRefundRequestBody();
+            ServiceReferenceMellat.bpRefundRequest inValue = new ServiceReferenceMellat.bpRefundRequest();
+            inValue.Body = new ServiceReferenceMellat.bpRefundRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -1892,37 +1892,37 @@ namespace BpmMellat
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
             inValue.Body.refundAmount = refundAmount;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpSaleReferenceIdRequestResponse> BpmMellat.IPaymentGateway.bpSaleReferenceIdRequestAsync(BpmMellat.bpSaleReferenceIdRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpSaleReferenceIdRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpSaleReferenceIdRequestAsync(ServiceReferenceMellat.bpSaleReferenceIdRequest request)
         {
             return base.Channel.bpSaleReferenceIdRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpSaleReferenceIdRequestResponse> bpSaleReferenceIdRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpSaleReferenceIdRequestResponse> bpSaleReferenceIdRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId)
         {
-            BpmMellat.bpSaleReferenceIdRequest inValue = new BpmMellat.bpSaleReferenceIdRequest();
-            inValue.Body = new BpmMellat.bpSaleReferenceIdRequestBody();
+            ServiceReferenceMellat.bpSaleReferenceIdRequest inValue = new ServiceReferenceMellat.bpSaleReferenceIdRequest();
+            inValue.Body = new ServiceReferenceMellat.bpSaleReferenceIdRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.saleOrderId = saleOrderId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpSaleReferenceIdRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpSaleReferenceIdRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestV2Response> BpmMellat.IPaymentGateway.bpRefundToPANRequestV2Async(BpmMellat.bpRefundToPANRequestV2 request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestV2Response> ServiceReferenceMellat.IPaymentGateway.bpRefundToPANRequestV2Async(ServiceReferenceMellat.bpRefundToPANRequestV2 request)
         {
             return base.Channel.bpRefundToPANRequestV2Async(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestV2Response> bpRefundToPANRequestV2Async(string user, string password, long pan, long amount, long saleReferenceId, long terminalId, long orderId, string mobileNo)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestV2Response> bpRefundToPANRequestV2Async(string user, string password, long pan, long amount, long saleReferenceId, long terminalId, long orderId, string mobileNo)
         {
-            BpmMellat.bpRefundToPANRequestV2 inValue = new BpmMellat.bpRefundToPANRequestV2();
-            inValue.Body = new BpmMellat.bpRefundToPANRequestV2Body();
+            ServiceReferenceMellat.bpRefundToPANRequestV2 inValue = new ServiceReferenceMellat.bpRefundToPANRequestV2();
+            inValue.Body = new ServiceReferenceMellat.bpRefundToPANRequestV2Body();
             inValue.Body.user = user;
             inValue.Body.password = password;
             inValue.Body.pan = pan;
@@ -1931,16 +1931,16 @@ namespace BpmMellat
             inValue.Body.terminalId = terminalId;
             inValue.Body.orderId = orderId;
             inValue.Body.mobileNo = mobileNo;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundToPANRequestV2Async(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundToPANRequestV2Async(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpDynamicPayRequestResponse> BpmMellat.IPaymentGateway.bpDynamicPayRequestAsync(BpmMellat.bpDynamicPayRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpDynamicPayRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpDynamicPayRequestAsync(ServiceReferenceMellat.bpDynamicPayRequest request)
         {
             return base.Channel.bpDynamicPayRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpDynamicPayRequestResponse> bpDynamicPayRequestAsync(
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpDynamicPayRequestResponse> bpDynamicPayRequestAsync(
                     long terminalId, 
                     string userName, 
                     string userPassword, 
@@ -1958,8 +1958,8 @@ namespace BpmMellat
                     string cartItem, 
                     string enc)
         {
-            BpmMellat.bpDynamicPayRequest inValue = new BpmMellat.bpDynamicPayRequest();
-            inValue.Body = new BpmMellat.bpDynamicPayRequestBody();
+            ServiceReferenceMellat.bpDynamicPayRequest inValue = new ServiceReferenceMellat.bpDynamicPayRequest();
+            inValue.Body = new ServiceReferenceMellat.bpDynamicPayRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -1976,57 +1976,57 @@ namespace BpmMellat
             inValue.Body.panHiddenMode = panHiddenMode;
             inValue.Body.cartItem = cartItem;
             inValue.Body.enc = enc;
-            return ((BpmMellat.IPaymentGateway)(this)).bpDynamicPayRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpDynamicPayRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpInquiryRequestResponse> BpmMellat.IPaymentGateway.bpInquiryRequestAsync(BpmMellat.bpInquiryRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpInquiryRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpInquiryRequestAsync(ServiceReferenceMellat.bpInquiryRequest request)
         {
             return base.Channel.bpInquiryRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpInquiryRequestResponse> bpInquiryRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpInquiryRequestResponse> bpInquiryRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
         {
-            BpmMellat.bpInquiryRequest inValue = new BpmMellat.bpInquiryRequest();
-            inValue.Body = new BpmMellat.bpInquiryRequestBody();
+            ServiceReferenceMellat.bpInquiryRequest inValue = new ServiceReferenceMellat.bpInquiryRequest();
+            inValue.Body = new ServiceReferenceMellat.bpInquiryRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpInquiryRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpInquiryRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpSettleRequestResponse> BpmMellat.IPaymentGateway.bpSettleRequestAsync(BpmMellat.bpSettleRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpSettleRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpSettleRequestAsync(ServiceReferenceMellat.bpSettleRequest request)
         {
             return base.Channel.bpSettleRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpSettleRequestResponse> bpSettleRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpSettleRequestResponse> bpSettleRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
         {
-            BpmMellat.bpSettleRequest inValue = new BpmMellat.bpSettleRequest();
-            inValue.Body = new BpmMellat.bpSettleRequestBody();
+            ServiceReferenceMellat.bpSettleRequest inValue = new ServiceReferenceMellat.bpSettleRequest();
+            inValue.Body = new ServiceReferenceMellat.bpSettleRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpSettleRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpSettleRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundRequestV2Response> BpmMellat.IPaymentGateway.bpRefundRequestV2Async(BpmMellat.bpRefundRequestV2 request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestV2Response> ServiceReferenceMellat.IPaymentGateway.bpRefundRequestV2Async(ServiceReferenceMellat.bpRefundRequestV2 request)
         {
             return base.Channel.bpRefundRequestV2Async(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundRequestV2Response> bpRefundRequestV2Async(long terminalId, string userName, string userPassword, string destinationPan, string mobileNo, long orderId, long saleOrderId, long saleReferenceId, long refundAmount)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundRequestV2Response> bpRefundRequestV2Async(long terminalId, string userName, string userPassword, string destinationPan, string mobileNo, long orderId, long saleOrderId, long saleReferenceId, long refundAmount)
         {
-            BpmMellat.bpRefundRequestV2 inValue = new BpmMellat.bpRefundRequestV2();
-            inValue.Body = new BpmMellat.bpRefundRequestV2Body();
+            ServiceReferenceMellat.bpRefundRequestV2 inValue = new ServiceReferenceMellat.bpRefundRequestV2();
+            inValue.Body = new ServiceReferenceMellat.bpRefundRequestV2Body();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -2036,19 +2036,19 @@ namespace BpmMellat
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
             inValue.Body.refundAmount = refundAmount;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundRequestV2Async(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundRequestV2Async(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpChargePayRequestResponse> BpmMellat.IPaymentGateway.bpChargePayRequestAsync(BpmMellat.bpChargePayRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpChargePayRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpChargePayRequestAsync(ServiceReferenceMellat.bpChargePayRequest request)
         {
             return base.Channel.bpChargePayRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpChargePayRequestResponse> bpChargePayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string payerId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpChargePayRequestResponse> bpChargePayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string payerId)
         {
-            BpmMellat.bpChargePayRequest inValue = new BpmMellat.bpChargePayRequest();
-            inValue.Body = new BpmMellat.bpChargePayRequestBody();
+            ServiceReferenceMellat.bpChargePayRequest inValue = new ServiceReferenceMellat.bpChargePayRequest();
+            inValue.Body = new ServiceReferenceMellat.bpChargePayRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -2059,19 +2059,19 @@ namespace BpmMellat
             inValue.Body.additionalData = additionalData;
             inValue.Body.callBackUrl = callBackUrl;
             inValue.Body.payerId = payerId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpChargePayRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpChargePayRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpCumulativeDynamicPayRequestResponse> BpmMellat.IPaymentGateway.bpCumulativeDynamicPayRequestAsync(BpmMellat.bpCumulativeDynamicPayRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpCumulativeDynamicPayRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpCumulativeDynamicPayRequestAsync(ServiceReferenceMellat.bpCumulativeDynamicPayRequest request)
         {
             return base.Channel.bpCumulativeDynamicPayRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpCumulativeDynamicPayRequestResponse> bpCumulativeDynamicPayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string mobileNo, string encPan, string panHiddenMode, string cartItem, string enc)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpCumulativeDynamicPayRequestResponse> bpCumulativeDynamicPayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string mobileNo, string encPan, string panHiddenMode, string cartItem, string enc)
         {
-            BpmMellat.bpCumulativeDynamicPayRequest inValue = new BpmMellat.bpCumulativeDynamicPayRequest();
-            inValue.Body = new BpmMellat.bpCumulativeDynamicPayRequestBody();
+            ServiceReferenceMellat.bpCumulativeDynamicPayRequest inValue = new ServiceReferenceMellat.bpCumulativeDynamicPayRequest();
+            inValue.Body = new ServiceReferenceMellat.bpCumulativeDynamicPayRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -2086,19 +2086,19 @@ namespace BpmMellat
             inValue.Body.panHiddenMode = panHiddenMode;
             inValue.Body.cartItem = cartItem;
             inValue.Body.enc = enc;
-            return ((BpmMellat.IPaymentGateway)(this)).bpCumulativeDynamicPayRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpCumulativeDynamicPayRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpPayRequestResponse> BpmMellat.IPaymentGateway.bpPayRequestAsync(BpmMellat.bpPayRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpPayRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpPayRequestAsync(ServiceReferenceMellat.bpPayRequest request)
         {
             return base.Channel.bpPayRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpPayRequestResponse> bpPayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string payerId, string mobileNo, string encPan, string panHiddenMode, string cartItem, string enc)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpPayRequestResponse> bpPayRequestAsync(long terminalId, string userName, string userPassword, long orderId, long amount, string localDate, string localTime, string additionalData, string callBackUrl, string payerId, string mobileNo, string encPan, string panHiddenMode, string cartItem, string enc)
         {
-            BpmMellat.bpPayRequest inValue = new BpmMellat.bpPayRequest();
-            inValue.Body = new BpmMellat.bpPayRequestBody();
+            ServiceReferenceMellat.bpPayRequest inValue = new ServiceReferenceMellat.bpPayRequest();
+            inValue.Body = new ServiceReferenceMellat.bpPayRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
@@ -2114,74 +2114,74 @@ namespace BpmMellat
             inValue.Body.panHiddenMode = panHiddenMode;
             inValue.Body.cartItem = cartItem;
             inValue.Body.enc = enc;
-            return ((BpmMellat.IPaymentGateway)(this)).bpPayRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpPayRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundInquiryRequestResponse> BpmMellat.IPaymentGateway.bpRefundInquiryRequestAsync(BpmMellat.bpRefundInquiryRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundInquiryRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpRefundInquiryRequestAsync(ServiceReferenceMellat.bpRefundInquiryRequest request)
         {
             return base.Channel.bpRefundInquiryRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundInquiryRequestResponse> bpRefundInquiryRequestAsync(long terminalId, string userName, string userPassword, long orderId, long refundOrderId, long refundReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundInquiryRequestResponse> bpRefundInquiryRequestAsync(long terminalId, string userName, string userPassword, long orderId, long refundOrderId, long refundReferenceId)
         {
-            BpmMellat.bpRefundInquiryRequest inValue = new BpmMellat.bpRefundInquiryRequest();
-            inValue.Body = new BpmMellat.bpRefundInquiryRequestBody();
+            ServiceReferenceMellat.bpRefundInquiryRequest inValue = new ServiceReferenceMellat.bpRefundInquiryRequest();
+            inValue.Body = new ServiceReferenceMellat.bpRefundInquiryRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.refundOrderId = refundOrderId;
             inValue.Body.refundReferenceId = refundReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundInquiryRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundInquiryRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpReversalRequestResponse> BpmMellat.IPaymentGateway.bpReversalRequestAsync(BpmMellat.bpReversalRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpReversalRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpReversalRequestAsync(ServiceReferenceMellat.bpReversalRequest request)
         {
             return base.Channel.bpReversalRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpReversalRequestResponse> bpReversalRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpReversalRequestResponse> bpReversalRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
         {
-            BpmMellat.bpReversalRequest inValue = new BpmMellat.bpReversalRequest();
-            inValue.Body = new BpmMellat.bpReversalRequestBody();
+            ServiceReferenceMellat.bpReversalRequest inValue = new ServiceReferenceMellat.bpReversalRequest();
+            inValue.Body = new ServiceReferenceMellat.bpReversalRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpReversalRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpReversalRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpPosRefundRequestResponse> BpmMellat.IPaymentGateway.bpPosRefundRequestAsync(BpmMellat.bpPosRefundRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpPosRefundRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpPosRefundRequestAsync(ServiceReferenceMellat.bpPosRefundRequest request)
         {
             return base.Channel.bpPosRefundRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpPosRefundRequestResponse> bpPosRefundRequestAsync(string user, string password, long saleReferenceId, long refundAmount)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpPosRefundRequestResponse> bpPosRefundRequestAsync(string user, string password, long saleReferenceId, long refundAmount)
         {
-            BpmMellat.bpPosRefundRequest inValue = new BpmMellat.bpPosRefundRequest();
-            inValue.Body = new BpmMellat.bpPosRefundRequestBody();
+            ServiceReferenceMellat.bpPosRefundRequest inValue = new ServiceReferenceMellat.bpPosRefundRequest();
+            inValue.Body = new ServiceReferenceMellat.bpPosRefundRequestBody();
             inValue.Body.user = user;
             inValue.Body.password = password;
             inValue.Body.saleReferenceId = saleReferenceId;
             inValue.Body.refundAmount = refundAmount;
-            return ((BpmMellat.IPaymentGateway)(this)).bpPosRefundRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpPosRefundRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestResponse> BpmMellat.IPaymentGateway.bpRefundToPANRequestAsync(BpmMellat.bpRefundToPANRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpRefundToPANRequestAsync(ServiceReferenceMellat.bpRefundToPANRequest request)
         {
             return base.Channel.bpRefundToPANRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundToPANRequestResponse> bpRefundToPANRequestAsync(string user, string password, long pan, long amount, long saleReferenceId, long terminalId, string mobileNo, string orderId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundToPANRequestResponse> bpRefundToPANRequestAsync(string user, string password, long pan, long amount, long saleReferenceId, long terminalId, string mobileNo, string orderId)
         {
-            BpmMellat.bpRefundToPANRequest inValue = new BpmMellat.bpRefundToPANRequest();
-            inValue.Body = new BpmMellat.bpRefundToPANRequestBody();
+            ServiceReferenceMellat.bpRefundToPANRequest inValue = new ServiceReferenceMellat.bpRefundToPANRequest();
+            inValue.Body = new ServiceReferenceMellat.bpRefundToPANRequestBody();
             inValue.Body.user = user;
             inValue.Body.password = password;
             inValue.Body.pan = pan;
@@ -2190,45 +2190,45 @@ namespace BpmMellat
             inValue.Body.terminalId = terminalId;
             inValue.Body.mobileNo = mobileNo;
             inValue.Body.orderId = orderId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundToPANRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundToPANRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpVerifyRequestResponse> BpmMellat.IPaymentGateway.bpVerifyRequestAsync(BpmMellat.bpVerifyRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpVerifyRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpVerifyRequestAsync(ServiceReferenceMellat.bpVerifyRequest request)
         {
             return base.Channel.bpVerifyRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpVerifyRequestResponse> bpVerifyRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpVerifyRequestResponse> bpVerifyRequestAsync(long terminalId, string userName, string userPassword, long orderId, long saleOrderId, long saleReferenceId)
         {
-            BpmMellat.bpVerifyRequest inValue = new BpmMellat.bpVerifyRequest();
-            inValue.Body = new BpmMellat.bpVerifyRequestBody();
+            ServiceReferenceMellat.bpVerifyRequest inValue = new ServiceReferenceMellat.bpVerifyRequest();
+            inValue.Body = new ServiceReferenceMellat.bpVerifyRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.saleOrderId = saleOrderId;
             inValue.Body.saleReferenceId = saleReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpVerifyRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpVerifyRequestAsync(inValue);
         }
         
         [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<BpmMellat.bpRefundVerifyRequestResponse> BpmMellat.IPaymentGateway.bpRefundVerifyRequestAsync(BpmMellat.bpRefundVerifyRequest request)
+        System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundVerifyRequestResponse> ServiceReferenceMellat.IPaymentGateway.bpRefundVerifyRequestAsync(ServiceReferenceMellat.bpRefundVerifyRequest request)
         {
             return base.Channel.bpRefundVerifyRequestAsync(request);
         }
         
-        public System.Threading.Tasks.Task<BpmMellat.bpRefundVerifyRequestResponse> bpRefundVerifyRequestAsync(long terminalId, string userName, string userPassword, long orderId, long refundOrderId, long refundReferenceId)
+        public System.Threading.Tasks.Task<ServiceReferenceMellat.bpRefundVerifyRequestResponse> bpRefundVerifyRequestAsync(long terminalId, string userName, string userPassword, long orderId, long refundOrderId, long refundReferenceId)
         {
-            BpmMellat.bpRefundVerifyRequest inValue = new BpmMellat.bpRefundVerifyRequest();
-            inValue.Body = new BpmMellat.bpRefundVerifyRequestBody();
+            ServiceReferenceMellat.bpRefundVerifyRequest inValue = new ServiceReferenceMellat.bpRefundVerifyRequest();
+            inValue.Body = new ServiceReferenceMellat.bpRefundVerifyRequestBody();
             inValue.Body.terminalId = terminalId;
             inValue.Body.userName = userName;
             inValue.Body.userPassword = userPassword;
             inValue.Body.orderId = orderId;
             inValue.Body.refundOrderId = refundOrderId;
             inValue.Body.refundReferenceId = refundReferenceId;
-            return ((BpmMellat.IPaymentGateway)(this)).bpRefundVerifyRequestAsync(inValue);
+            return ((ServiceReferenceMellat.IPaymentGateway)(this)).bpRefundVerifyRequestAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

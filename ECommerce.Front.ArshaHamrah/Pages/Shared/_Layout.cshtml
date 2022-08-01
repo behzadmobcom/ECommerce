@@ -69,12 +69,7 @@
                             <div class="col-md-8 hidden-sm hidden-xs">
                                 <nav id="primary-menu">
                                     <ul class="main-menu text-center">
-                                        <li>
-                                            <a asp-page="index">خانه</a>
-
-                                        </li>
-
-                                        @{
+                                       @{
                                             var categories = await _categoryService.GetParents();
                                         }
                                         @if (categories.Code == 0)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Entities;
 using ZarinpalSandbox;
 using Entities.ViewModel;
+using ServiceReferenceMellat;
 
 namespace ArshaHamrah.Pages;
 
@@ -68,6 +69,49 @@ public class PaymentSuccessfulModel : PageModel
                     return Page();
             }
         }
+        return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
+    }
+
+    public async Task<ActionResult> OnPost(string RefId, string ResCode, long SaleOrderId,
+        long SaleReferenceId,string PanCardHolder,string CreditCardSaleResponseDetail,
+        long FinalAmount)
+    {
+        if (!string.IsNullOrEmpty(RefId))
+        {
+            var resultOrder = await _purchaseOrderService.GetByUserId();
+            PurchaseOrder = resultOrder.ReturnData;
+            var amount = Convert.ToInt32(PurchaseOrder.Amount);
+            var paymentMellat = new PaymentGatewayClient();
+            long terminalId = 6547305;
+            var userName = "Arshahamrah110";
+            var password = "79916117";
+            var statusInt = await paymentMellat.bpVerifyRequestAsync(
+                terminalId,
+                userName,
+                password,
+                PurchaseOrder.Id,
+                SaleOrderId,
+                SaleReferenceId);
+            if (FinalAmount != PurchaseOrder.Amount)
+                Message = "مبلغ واریزی با مبلغ فاکتور همخوانی ندارد";
+            switch (ResCode)
+            {
+                case "0":
+                    //Success
+
+                    PurchaseOrder.Transaction = new();
+                    PurchaseOrder.Transaction.RefId = RefId;
+                    PurchaseOrder.Transaction.Amount = amount;
+                    var result = await _purchaseOrderService.Pay(PurchaseOrder);
+                    Message = result.Message;
+                    Code = result.Code.ToString();
+                    CartList = (await _cartService.CartListFromServer()).ReturnData;
+
+                    return Page();
+            }
+        }
+        Message = ResCode;
+
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
     }
 }
