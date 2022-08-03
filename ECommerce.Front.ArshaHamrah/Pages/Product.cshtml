@@ -115,7 +115,7 @@
 						<div class="media mt-30">
 							<div class="media-left">
 								<a href="#">
-									<img class="media-object" src="~/img/author/1.jpg" alt="#">
+									<img class="media-object" src="~/img/author/No_Pic.jpg" alt="#">
 								</a>
 							</div>
 							<div class="media-body">
@@ -124,7 +124,7 @@
 										<h6 class="media-heading">
 											<a href="#">ادمین</a>
 										</h6>
-										<p class="mb-10">27 شهریور 1398 در 14:30</p>
+									@*	<p class="mb-10">27 شهریور 1398 در 14:30</p>*@
 									</div>
 								</div>
 								<p class="mb-0">
@@ -155,11 +155,11 @@
 					}
 					else if (price.ColorId > 1)
 					{
-						<div style="background-color: @price.Color.ColorCode;width: 20px">	</div>
+						<div style="background-color: @price.Color.ColorCode;width: 20px">
 							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
 							<label for="price-@price.Id">@price.Color.Name - </label>
 							<label for="price-@price.Id">قیمت : @price.Amount</label>
-						
+						</div>
 					}
 					<br>
 				}
@@ -171,23 +171,6 @@
 				
 				
 
-				<p class="color-title f-left">رنگ</p>
-				<div class="widget-color f-left">
-					<ul>
-						<li class="color-1">
-							<a href="#"></a>
-						</li>
-						<li class="color-2">
-							<a href="#"></a>
-						</li>
-						<li class="color-3">
-							<a href="#"></a>
-						</li>
-						<li class="color-4">
-							<a href="#"></a>
-						</li>
-					</ul>
-				</div>
 			</div>
 			<div class="pro-rating sin-pro-rating f-right">
 				<a href="#" tabindex="0">
