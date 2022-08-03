@@ -4,6 +4,7 @@ using API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.API.Migrations
 {
     [DbContext(typeof(SunflowerECommerceDbContext))]
-    partial class SunflowerECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220803154522_AddReviewToProduct")]
+    partial class AddReviewToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -4440,7 +4442,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "3ed731c6-5fb0-4a6f-aa2d-2ec4cce1bfab",
+                            ConcurrencyStamp = "91ee8040-e4af-47da-9554-b18833c23529",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -4455,10 +4457,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOoRR10B3b+Vuveys6B0OqQic4Fr0efOMx9jW48jTEkFv21YWD9Oy8KDVH4gMlHoVg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDFPmvT9fwSGl5ascpocwqbVmUu0sgCnxl0m2F6SpoyEqrzTjo0ICnVYmmBJoVWifg==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2022, 8, 3, 20, 16, 1, 924, DateTimeKind.Local).AddTicks(5713),
+                            RegisterDate = new DateTime(2022, 8, 3, 20, 15, 18, 50, DateTimeKind.Local).AddTicks(3944),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -4499,21 +4501,21 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "f7e58a16-f5ef-42e8-a525-7b82951596cb",
+                            ConcurrencyStamp = "57fc370e-bb12-4dd8-901c-6fbc5f95b238",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "e3d75be8-afbf-45f8-964d-499c7de10367",
+                            ConcurrencyStamp = "c86df0b0-a1b8-4f5a-ace0-5cfad366054c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "980189f0-fa21-4329-974c-d1b3a6c84f41",
+                            ConcurrencyStamp = "d54458a0-0b3b-4767-9fd4-7b299e6fdc4e",
                             Name = "Client",
                             NormalizedName = "Client"
                         });

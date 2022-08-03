@@ -15,6 +15,7 @@ public class ProductViewModel
     public string? ArticleCode { get; set; }
     public string? ArticleCodeCustomer { get; set; }
     public string? Description { get; set; }
+    public string? Review { get; set; }
     public double Exist { get; set; } = 0;
 
 

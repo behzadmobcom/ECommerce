@@ -94,20 +94,20 @@
 				<li class="active">
 					<a href="#description" data-toggle="tab">توضیحات</a>
 				</li>
-				<li>
+			@*	<li>
 					<a href="#information" data-toggle="tab">اطلاعات</a>
-				</li>
+				</li>*@
 				<li>
-					<a href="#reviews" data-toggle="tab">نقد و بررسی ها</a>
+					<a href="#reviews" data-toggle="tab">بررسی محصول</a>
 				</li>
 			</ul>
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="description">
 					<p>@Html.Raw(Model.Product.Description)</p>
 				</div>
-				<div role="tabpanel" class="tab-pane" id="information">
+			@*	<div role="tabpanel" class="tab-pane" id="information">
 					<p>deff</p>
-				</div>
+				</div>*@
 				<div role="tabpanel" class="tab-pane" id="reviews">
 					<!-- reviews-tab-desc -->
 					<div class="reviews-tab-desc">
@@ -122,55 +122,17 @@
 								<div class="clearfix">
 									<div class="name-commenter pull-left">
 										<h6 class="media-heading">
-											<a href="#">تونی استارک</a>
+											<a href="#">ادمین</a>
 										</h6>
 										<p class="mb-10">27 شهریور 1398 در 14:30</p>
 									</div>
-									<div class="pull-right">
-										<ul class="reply-delate">
-											<li>
-												<a href="#">پاسخ</a>
-											</li>
-											<li>/</li>
-											<li>
-												<a href="#">گزارش</a>
-											</li>
-										</ul>
-									</div>
 								</div>
-								<p class="mb-0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+								<p class="mb-0">
+									@Html.Raw(Model.Product.Review)
+								</p>
 							</div>
 						</div>
-						<!-- single comments -->
-						<div class="media mt-30">
-							<div class="media-left">
-								<a href="#">
-									<img class="media-object" src="~/img/author/2.jpg" alt="#">
-								</a>
-							</div>
-							<div class="media-body">
-								<div class="clearfix">
-									<div class="name-commenter pull-left">
-										<h6 class="media-heading">
-											<a href="#">تونی استارک</a>
-										</h6>
-										<p class="mb-10">27 شهریور 1398 در 14:30</p>
-									</div>
-									<div class="pull-right">
-										<ul class="reply-delate">
-											<li>
-												<a href="#">پاسخ</a>
-											</li>
-											<li>/</li>
-											<li>
-												<a href="#">گزارش</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<p class="mb-0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
-							</div>
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -185,7 +147,7 @@
 					var select = price.Id == priceId ? "checked" : "";
 					if ((int)price.Grade > 1)
 					{
-						<div style="background-color: @price.Color.ColorCode">
+						<div style="background-color: @price.Color.ColorCode;width: 20px" >
 							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
 							<label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
 							<label for="price-@price.Id">قیمت : @price.Amount</label>
@@ -193,11 +155,11 @@
 					}
 					else if (price.ColorId > 1)
 					{
-						<div style="background-color: @price.Color.ColorCode">
+						<div style="background-color: @price.Color.ColorCode;width: 20px">	</div>
 							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
 							<label for="price-@price.Id">@price.Color.Name - </label>
 							<label for="price-@price.Id">قیمت : @price.Amount</label>
-						</div>
+						
 					}
 					<br>
 				}
