@@ -233,7 +233,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
         var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
 
-        if (categoryId > 0) products = products.Where(x => categoryId == categoryId);
+        if (categoryId > 0) products = products.Where(x => x.ProductCategories.Any(cat => cat.Id == categoryId));
 
         if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
 
@@ -409,24 +409,6 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Url = p.Product.Url
             })
             .ToListAsync(cancellationToken);
-
-        if (products == null)
-            products = await _context.Products.OrderByDescending(x => x.Prices.Any(p => p.IsDefault && p.Exist > 0))
-                .Where(x => x.Images!.Count > 0 && x.Prices!.Any())
-                .Take(count)
-                   .Select(p => new ProductIndexPageViewModel
-                   {
-                       Prices = p.Prices!,
-                       Alt = p.Images!.First().Alt,
-                       Brand = p.Brand!.Name,
-                       Name = p.Name,
-                       Description = p.Description,
-                       Id = p.Id,
-                       ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                       Stars = p.Star,
-                       Url = p.Url
-                   })
-                .ToListAsync(cancellationToken);
 
         return products;
     }

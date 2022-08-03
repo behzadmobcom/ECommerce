@@ -28,7 +28,7 @@
 <!-- checkout start -->
 <div class="tab-pane" id="checkout">
     <div class="checkout-content box-shadow p-30">
-          @if (Model.Message != null)
+        @if (Model.Message != null)
         {
             switch (Model.Code)
             {
@@ -94,10 +94,12 @@
                                     <td class="td-title-2">@product.SumPrice.ToString("N0") تومان</td>
                                 </tr>
                             }
-                            @{ sum += Model.PostPrice;}
+                            @{
+                                sum += Model.PostPrice;
+                            }
                             <tr>
-	                            <td class="order-total">هزینه حمل</td>
-	                            <td class="order-total-price">@Model.PostPrice.ToString("N0") تومان</td>
+                                <td class="order-total">هزینه حمل</td>
+                                <td class="order-total-price">@Model.PostPrice.ToString("N0") تومان</td>
                             </tr>
                             <tr>
                                 <td class="order-total">مجموع سفارش</td>
@@ -115,16 +117,17 @@
                                         پرداخت آنلاین
                                     </a>
                                 </h4>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                    <div class="payment-content">
-                                        <p>درگاه پرداخت بانک مورد نظر خود را انتخاب کنید</p>
-                                        <ul class="payent-type mt-10">
-                                            <li>
-                                                <a href="#">
-                                                    <img src="img/payment/zarinpal.jpg" alt="">
-                                                </a>
-                                            </li>
-                                        </ul>
+                                <div class="payment-content">
+                                    <p>درگاه پرداخت بانک مورد نظر خود را انتخاب کنید</p>
+                                    <div class="row">
+                                        <input type="radio" id="zarinpal" name="Portal" value="zarinpal">
+                                        <label for="zarinpal">
+                                            <img src="img/payment/zarinpal.png" alt="">
+                                        </label>
+                                        <input type="radio" id="mellat" name="Portal" width="100" value="mellat">
+                                        <label for="mellat">
+                                            <img src="img/payment/mellat.png" width="100" alt="">
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -138,9 +141,8 @@
     </div>
 </div>
 <!-- checkout end -->
-
 @section Scripts
-{
+    {
     <script>
         function setCities() {
             var stateId = $('#state').val();

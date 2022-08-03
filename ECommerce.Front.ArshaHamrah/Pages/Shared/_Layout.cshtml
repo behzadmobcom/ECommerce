@@ -69,12 +69,7 @@
                             <div class="col-md-8 hidden-sm hidden-xs">
                                 <nav id="primary-menu">
                                     <ul class="main-menu text-center">
-                                        <li>
-                                            <a asp-page="index">خانه</a>
-
-                                        </li>
-
-                                        @{
+                                       @{
                                             var categories = await _categoryService.GetParents();
                                         }
                                         @if (categories.Code == 0)
@@ -179,7 +174,7 @@
                                             <button class="search-toggle">
                                                 <i class="zmdi zmdi-search"></i>
                                             </button>
-                                            <form method="Get" action="Shop/0">
+                                            <form method="Get" action="~/Shop/0">
                                                 <div class="top-search-box">
                                                     <input type="text" name="search" placeholder="جستجوی محصول ...">
                                                     <button type="submit">
