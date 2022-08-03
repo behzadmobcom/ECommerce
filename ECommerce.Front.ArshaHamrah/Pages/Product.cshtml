@@ -147,7 +147,7 @@
 					var select = price.Id == priceId ? "checked" : "";
 					if ((int)price.Grade > 1)
 					{
-						<div style="background-color: @price.Color.ColorCode;width: 20px" >
+						<div style="background-color: @price.Color.ColorCode" >
 							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
 							<label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
 							<label for="price-@price.Id">قیمت : @price.Amount</label>
@@ -155,7 +155,7 @@
 					}
 					else if (price.ColorId > 1)
 					{
-						<div style="background-color: @price.Color.ColorCode;width: 20px">
+						<div style="background-color: @price.Color.ColorCode">
 							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
 							<label for="price-@price.Id">@price.Color.Name - </label>
 							<label for="price-@price.Id">قیمت : @price.Amount</label>
