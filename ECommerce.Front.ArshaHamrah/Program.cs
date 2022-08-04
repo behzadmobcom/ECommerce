@@ -3,7 +3,6 @@ using ECommerce.Services.Services;
 using Entities.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using ECommerce.Services.IServices;
 using Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,16 +40,15 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //If using Kestrel:
 builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
 
-
 //If using IIS:
 builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
 
-builder.Services.Configure<RouteOptions>(options =>
-{
-    options.LowercaseUrls = true;
-    options.LowercaseQueryStrings = true;
-    //options.AppendTrailingSlash = true;
-});
+//builder.Services.Configure<RouteOptions>(options =>
+//{
+//    options.LowercaseUrls = true;
+//    options.LowercaseQueryStrings = true;
+//    //options.AppendTrailingSlash = true;
+//});
 
 builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
 builder.Services.AddHttpContextAccessor();

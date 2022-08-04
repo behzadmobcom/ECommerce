@@ -1,11 +1,14 @@
-﻿using ECommerce.Services.IServices;
+﻿using ECommerce.Front.ArshaHamrah.Utilities;
+using ECommerce.Services.IServices;
 using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Specialized;
 using ServiceReferenceMellat;
+using System.Text;
 using ZarinpalSandbox;
 
 namespace ArshaHamrah.Pages;
@@ -19,7 +22,8 @@ public class CheckoutModel : PageModel
     private readonly IStateService _stateService;
 
     public CheckoutModel(ICityService cityService, IStateService stateService,
-        ISendInformationService sendInformationService, ICartService cartService, IPurchaseOrderService purchaseOrderService)
+        ISendInformationService sendInformationService, ICartService cartService,
+        IPurchaseOrderService purchaseOrderService)
     {
         _cityService = cityService;
         _stateService = stateService;
@@ -81,7 +85,7 @@ public class CheckoutModel : PageModel
 
     public async Task<IActionResult> OnPost(string Portal)
     {
-        var returnAction = "PaymentSuccessful";
+        var returnAction = "PaymentSuccessfulMellat";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
@@ -108,8 +112,8 @@ public class CheckoutModel : PageModel
         }
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
-        SumPrice = Convert.ToInt32(tempSumPrice);
-
+        SumPrice = Convert.ToInt32(tempSumPrice)*10;
+        SumPrice = 100000;
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
@@ -131,8 +135,9 @@ public class CheckoutModel : PageModel
                         return Redirect(paymentZarinpal.Link);
                     }
                     else
-                        //return errorPage;
+                    {  //return errorPage;
                         return RedirectToPage("Error");
+                    }
                 case "mellat":
                     //Zarinpal
                     var date = DateTime.Now.ToString("yyyyMMdd");
@@ -148,23 +153,30 @@ public class CheckoutModel : PageModel
                         password,
                         purchaseOrder.Id,
                         SumPrice,
-                       date,
+                        date,
                         time,
                         "",
                         url + returnAction,
-                        "0",
-                        "",
-                        "",
-                        "", "", "");
+                        "0", "", "", "", "", "");
                     var returnCode = result.Body.@return.Split(",");
                     if (returnCode[0] == "0")
                     {
                         await _purchaseOrderService.Edit(purchaseOrder);
-                        //return Redirect(paymentMellat.Link);
+                        //var address = "https://bpm.shaparak.ir/pgwchannel/startpay.mellat";
+                        //NameValueCollection collection = new NameValueCollection();
+                        //collection.Add("RefId", returnCode[1]);
+                        //var form = MellatHelper.PreparePOSTForm(address, collection);
+                        //await Response.WriteAsync(form);
+                        //return Redirect($"{address}?RefId={returnCode[1]}");
+                        string refId = returnCode[1];
+                        return RedirectToPage("RedirectToMellat", new { refId = refId });
                     }
                     else
-                        //return errorPage;
-                        return RedirectToPage("Error",new { message = returnCode });
+                    //return errorPage;
+                    {
+                        var message = MellatErrorCode.GetMessage(result.Body.@return);
+                        return RedirectToPage("Error", new { message = message });
+                    }
                     break;
             }
 
@@ -179,4 +191,5 @@ public class CheckoutModel : PageModel
         await Initial();
         return Page();
     }
+
 }
