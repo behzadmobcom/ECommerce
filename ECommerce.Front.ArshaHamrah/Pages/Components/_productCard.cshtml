@@ -12,7 +12,7 @@
                                     </div>
                                     <div class="product-info">
                                         <h6 class="product-title">
-                                            <a asp-page="Product" asp-route-productId="@Model.Url">@Model.Name</a>
+                                            <a asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">@Model.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@Model.Brand</h6>
                                         <h3 class="pro-price">@Model.Prices.First().Amount تومان</h3>

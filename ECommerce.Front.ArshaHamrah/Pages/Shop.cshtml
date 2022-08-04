@@ -53,15 +53,21 @@
     <div class="short-by f-left text-center">
         <span>ترتیب :</span>
         <select>
-            <option value="volvo">جدیدترین ها</option>
-            <option value="saab">محبوب ترین ها</option>
-            <option value="mercedes">پرفروش ترین ها</option>
-            <option value="audi">بیشترین امتیاز</option>
+            <option asp-page="/Shop" asp-route-productSort="1">جدیدترین ها</option>
+            <option asp-page="/Shop" asp-route-productSort="2">محبوب ترین ها</option>
+            <option asp-page="/Shop" asp-route-productSort="3">قیمت صعودی</option>
+            <option asp-page="/Shop" asp-route-productSort="4">قیمت نزولی</option>
         </select>
     </div>
     <!-- showing -->
+    @{
+	    var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
+	    var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
+	    var total = Model.Products.PaginationDetails.TotalCount;
+	    if (endNumber > total) endNumber = total;
+    }
     <div class="showing f-right text-right">
-        <span>نمایش: 1-9 از 17</span>
+	    <span>نمایش @startNumber - @endNumber از @total نتیجه</span>
     </div>
 </div>
 <!-- shop-option end -->
@@ -225,33 +231,7 @@
 <!-- Tab Content end -->
 <!-- shop-pagination start -->
 <ul class="shop-pagination box-shadow text-center ptblr-10-30">
-    <li>
-        <a href="#">
-            <i class="zmdi zmdi-chevron-right"></i>
-        </a>
-    </li>
-
-    @for (var i = 1; i <= Model.Products.PaginationDetails.TotalPages; i++)
-    {
-        if (i == Model.Products.PaginationDetails.CurrentPage)
-        {
-            <li class="active">
-                <a href="#">@i.ToString("D2")</a>
-            </li>
-        }
-        else
-        {
-            <li>
-                <a href="#">@i.ToString("D2")</a>
-            </li>
-        }
-    }
-
-    <li>
-        <a href="#">
-            <i class="zmdi zmdi-chevron-left"></i>
-        </a>
-    </li>
+	<partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
 </ul>
 <!-- shop-pagination end -->
 </div>

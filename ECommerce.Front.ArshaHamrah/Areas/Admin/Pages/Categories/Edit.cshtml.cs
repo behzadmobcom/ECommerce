@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Entities.ViewModel;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Categories;
 
@@ -17,11 +18,14 @@ public class EditModel : PageModel
     [BindProperty] public Category Category { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
-
+    public List<CategoryParentViewModel> Categories { get; set; }
     public async Task OnGet(int id)
     {
         var result = await _categoryService.GetById(id);
+        var resultParent = await _categoryService.GetParents();
         Category = result.ReturnData;
+        Categories = resultParent.ReturnData;
+
     }
 
     public async Task<IActionResult> OnPost()
@@ -39,6 +43,8 @@ public class EditModel : PageModel
             ModelState.AddModelError("", result.Message);
         }
 
+        var resultParent = await _categoryService.GetParents();
+        Categories = resultParent.ReturnData;
         return Page();
     }
 }

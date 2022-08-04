@@ -1,0 +1,71 @@
+﻿@model Entities.Helper.PaginationDetails
+
+@{
+    var prevDisabled = Model.CurrentPage == 1 ? "disabled" : "";
+    var nextDisabled = Model.TotalPages == Model.CurrentPage ? "disabled" : "";
+}
+
+<li class="page-item @prevDisabled">
+    <a asp-page="@Model.Address"
+       asp-route-pageNumber="@(Model.CurrentPage - 1)"
+       asp-route-search="@(Model.Search)"
+       asp-route-pageSize="@Model.PageSize"
+       class="page-link">
+        قبلی
+    </a>
+</li>
+@if (Model.TotalPages <= 6)
+{
+    for (var pageIndex = 1; pageIndex <= Model.TotalPages; pageIndex++)
+    {
+        var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
+        <li class="page-item @activePage">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="@pageIndex"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link @activePage">
+                @pageIndex
+            </a>
+        </li>
+    }
+}
+else
+{
+    for (var pageIndex = 1; pageIndex <= 3; pageIndex++)
+    {
+        var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
+        <li class="page-item @activePage">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="@pageIndex"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link @activePage">
+                @pageIndex
+            </a>
+        </li>
+    }
+    <label>...</label>
+    for (var pageIndex = Model.TotalPages - 2; pageIndex <= Model.TotalPages; pageIndex++)
+    {
+        var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
+        <li class="page-item @activePage">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="@pageIndex"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link @activePage">
+                @pageIndex
+            </a>
+        </li>
+    }
+}
+<li class="page-item @nextDisabled">
+    <a asp-page="@Model.Address"
+       asp-route-pageNumber="@(Model.CurrentPage + 1)"
+       asp-route-search="@(Model.Search)"
+       asp-route-pageSize="@Model.PageSize"
+       class="page-link">
+        بعدی
+    </a>
+</li>
