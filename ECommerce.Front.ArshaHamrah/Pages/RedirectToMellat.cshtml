@@ -1,0 +1,17 @@
+﻿@page
+@model ECommerce.Front.ArshaHamrah.Pages.RedirectToMellatModel
+@{
+}
+    <h1>در حال انتقال به درگاه بانک ملت</h1>
+
+<form id="PostForm" name="PostForm" action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat" method="POST">
+    <input type="hidden" name="RefId" id="RefId" value="@Model.RefId.ToUpper()" />
+</form>
+
+@section scripts
+    {
+    <script language='javascript'>
+        var vPostForm = document.PostForm;
+        vPostForm.submit();
+    </script>
+}

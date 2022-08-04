@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersianTranslation", "Persi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{6BDA89CE-C389-4B05-A6C9-63817C12D7C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerce.Application", "ECommerce.Application\ECommerce.Application.csproj", "{463952AC-93B4-4BF6-8FB1-595AFBD22485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Application", "ECommerce.Application\ECommerce.Application.csproj", "{463952AC-93B4-4BF6-8FB1-595AFBD22485}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
