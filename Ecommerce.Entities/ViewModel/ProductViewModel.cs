@@ -15,6 +15,7 @@ public class ProductViewModel
     public string? ArticleCode { get; set; }
     public string? ArticleCodeCustomer { get; set; }
     public string? Description { get; set; }
+    public string? Review { get; set; }
     public double Exist { get; set; } = 0;
 
 
@@ -71,6 +72,7 @@ public class ProductViewModel
             //ArticleCodeCustomer = p.ArticleCodeCustomer,
             Description = p.Description,
             //Exist = p.Exist,
+            Review = p.Review,
             MinOrder = p.MinOrder,
             MaxOrder = p.MaxOrder,
             MinInStore = p.MinInStore,
@@ -111,6 +113,7 @@ public class ProductViewModel
                 //ArticleCodeCustomer = p.ArticleCodeCustomer,
                 Description = p.Description,
                 //Exist = p.Exist,
+                Review = p.Review,
                 MinOrder = p.MinOrder,
                 MaxOrder = p.MaxOrder,
                 MinInStore = p.MinInStore,
@@ -150,6 +153,7 @@ public class ProductIndexPageViewModel
     public string ImagePath { get; set; }
     public string Alt { get; set; }
     public string? Description { get; set; }
+    public string? Review { get; set; }
     public string Url { get; set; }
     public string Brand { get; set; }
 
@@ -172,6 +176,7 @@ public class ProductIndexPageViewModel
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
+            Review = x.Review,
             Prices = x.Prices,
             ImagePath = $"{imagePath}/{imageName}",
             Url = x.Url,
@@ -191,6 +196,7 @@ public class ProductCompareViewModel
     public string ImagePath { get; set; }
     public string Alt { get; set; }
     public string? Description { get; set; }
+    public string? Review { get; set; }
     public string Url { get; set; }
     public string Brand { get; set; }
     public virtual List<ProductAttributeGroup> AttributeGroupProducts { get; set; }
@@ -215,6 +221,7 @@ public class ProductCompareViewModel
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
+            Review = x.Review,
             Price = !x.Prices.Any() ? 0 : x.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
             ImagePath = $"{imagePath}/{imageName}",
             Url = x.Url,

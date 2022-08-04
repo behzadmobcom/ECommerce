@@ -46,22 +46,15 @@
                             <label>نام کالا</label>
                             <label class="form-control form-control-solid">@Model.Product.Name</label>
                         </div>
-                        @* <div class="form-group">
-                            <label>کد دیتابیس کالا در هلو</label>
-                            <label class="form-control form-control-solid">@Model.Product.ArticleCode</label>
-                        </div>
-                        <div class="form-group">
-                            <label>کد کالا در هلو</label>
-                            <label class="form-control form-control-solid">@Model.Product.ArticleCodeCustomer</label>
-                        </div>*@
-                        <div class="form-group">
-                            <label>توضیحات</label>
-                            <label class="form-control form-control-solid">@Model.Product.Description</label>
-                        </div>
-                        @*  <div class="form-group">
-                            <label>موجودی</label>
-                            <label class="form-control form-control-solid">@Model.Product.Exist</label>
-                        </div>*@
+	                    <div class="form-group">
+		                    <label>توضیحات</label>
+		                    <label class="form-control form-control-solid">@Html.Raw(Model.Product.Description)</label>
+	                    </div>
+	                    <div class="form-group">
+		                    <label>نقد و بررسی</label>
+		                    <label class="form-control form-control-solid">@Html.Raw(Model.Product.Review)</label>
+	                    </div>
+                      
                         <div class="form-group">
                             <label>حداقل سفارش</label>
                             <label class="form-control form-control-solid">@Model.Product.MinOrder</label>

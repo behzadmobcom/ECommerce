@@ -68,9 +68,14 @@
                             <span asp-validation-for="@Model.Product.ArticleCodeCustomer" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>*@
                         <div class="form-group">
-                            <label>توضیحاات</label>
-                            <textarea id="Description_Add" asp-for="@Model.Product.Description" class="form-control form-control-solid"></textarea>
-                            <span asp-validation-for="@Model.Product.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
+	                        <label>توضیحات</label>
+	                        <textarea id="Description_Add" asp-for="@Model.Product.Description" class="form-control form-control-solid"></textarea>
+	                        <span asp-validation-for="@Model.Product.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+	                        <label>نقد و بررسی محصول</label>
+	                        <textarea id="Review_Add" asp-for="@Model.Product.Review" class="form-control form-control-solid"></textarea>
+	                        <span asp-validation-for="@Model.Product.Description" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         @*  <div class="form-group">
                             <label>موجودی</label>
@@ -168,6 +173,7 @@
 		var article = new Object();
 
 		CKEDITOR.replace('Description_Add');
+		CKEDITOR.replace('Review_Add');
 
 		$(document).ready(function() {
 			$('.js-example-basic-multiple').select2();

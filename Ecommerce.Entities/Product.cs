@@ -19,6 +19,8 @@ public class Product : BaseEntity
 
     [Display(Name = "توضیحات")] public string? Description { get; set; }
 
+
+    [Display(Name = "نقد و بررسی")] public string? Review { get; set; }
     //[Display(Name = "موجودی")]
     //public double Exist { get; set; } = 0;
 
