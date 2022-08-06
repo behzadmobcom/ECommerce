@@ -15,6 +15,9 @@ public class Transaction : BaseEntity
     [Display(Name = "کد رهگیری")]
     public string? RefId { get; set; }
 
+    [Display(Name = "شناسه پرداخت")]
+    public double? PaymentId { get; set; }
+
     [Display(Name = "کد سند هلو")] public int? SanadCode { get; set; }
 
     //ForeignKey

@@ -15,5 +15,6 @@ namespace ECommerce.Services.IServices
         Task<ServiceResult> Add(PurchaseOrder purchaseOrder);
         Task<ServiceResult> Edit(PurchaseOrder purchaseOrder);
         Task<ServiceResult<PurchaseOrder>> GetByUserId();
+        Task<ServiceResult<PurchaseOrder>> GetByOrderId(long orderId);
     }
 }

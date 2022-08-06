@@ -5,8 +5,10 @@ using Entities;
 using ZarinpalSandbox;
 using Entities.ViewModel;
 using ServiceReferenceMellat;
+using ECommerce.Front.ArshaHamrah.Utilities;
 
 namespace ArshaHamrah.Pages;
+
 
 public class PaymentSuccessfulMellatModel : PageModel
 {
@@ -14,7 +16,8 @@ public class PaymentSuccessfulMellatModel : PageModel
     private readonly ICartService _cartService;
 
     public string Refid { get; set; }
-    [TempData] public string Message { get; set; }
+    public string Message { get; set; }
+    public string SaleReference { get; set; }
 
     [TempData] public string Code { get; set; }
     public PurchaseOrder PurchaseOrder { get; set; }
@@ -27,54 +30,81 @@ public class PaymentSuccessfulMellatModel : PageModel
         _cartService = cartService;
     }
 
-    public async Task<ActionResult> OnGet(string RefId, string ResCode, long SaleOrderId,
-        long SaleReferenceId, string PanCardHolder, string CreditCardSaleResponseDetail,
-        long FinalAmount)
+    //string RefId, string ResCode, long SaleOrderId,long SaleReferenceId, string PanCardHolder, string CreditCardSaleResponseDetail,long FinalAmount
+
+    public async Task<ActionResult> OnGet(string RefId, string ResCode, long SaleOrderId, long SaleReferenceId, string PanCardHolder, string CreditCardSaleResponseDetail, long FinalAmount)
     {
-        if (!string.IsNullOrEmpty(RefId))
+        if (string.IsNullOrEmpty(SaleOrderId.ToString()))
         {
-            var resultOrder = await _purchaseOrderService.GetByUserId();
-            PurchaseOrder = resultOrder.ReturnData;
-            var amount = Convert.ToInt32(PurchaseOrder.Amount);
-            var paymentMellat = new PaymentGatewayClient();
-            long terminalId = 6547305;
-            var userName = "Arshahamrah110";
-            var password = "79916117";
-            var resultBody = await paymentMellat.bpVerifyRequestAsync(
-                terminalId,
-                userName,
-                password,
-                PurchaseOrder.Id,
-                SaleOrderId,
-                SaleReferenceId);
-            if (FinalAmount != PurchaseOrder.Amount)
-                Message = "مبلغ واریزی با مبلغ فاکتور همخوانی ندارد";
-
-            var resultVerify = resultBody.Body.@return;
-            if (!string.IsNullOrEmpty(resultVerify))
+            //ResCode=StatusPayment
+            if (!string.IsNullOrEmpty(ResCode))
             {
-                if (resultVerify == "0")
-                {
-                    var IQresult = await paymentMellat.bpInquiryRequestAsync(terminalId, userName, password, SaleOrderId, SaleOrderId, SaleReferenceId);
-                    var resultIQresult = IQresult.Body.@return;
-                    if (resultIQresult == "0")
-                    {
-                        PurchaseOrder.Transaction.RefId = RefId;
-                        PurchaseOrder.Transaction.Amount = amount;
-                        var result = await _purchaseOrderService.Pay(PurchaseOrder);
-                        Message = result.Message;
-                        Code = result.Code.ToString();
-                        CartList = (await _cartService.CartListFromServer()).ReturnData;
+                Message = MellatErrorCode.GetMessage(ResCode);
+                SaleReference = "**************";
 
-                        return Page();
-                    }
-                }
-                PurchaseOrder.Transaction = new();
+            }
+            else
+            {
+                Message = "رسید قابل قبول نیست";
+                SaleReference = "**************";
 
             }
         }
-        Message = ResCode;
+        else
+        {
+            if (!string.IsNullOrEmpty(RefId))
+            {
+                var resultOrder = await _purchaseOrderService.GetByUserId();
+                PurchaseOrder = resultOrder.ReturnData;
+                var amount = Convert.ToInt32(PurchaseOrder.Amount);
+                var paymentMellat = new PaymentGatewayClient();
+                long terminalId = 6547305;
+                var userName = "Arshahamrah110";
+                var password = "79916117";
+                var resultBody = await paymentMellat.bpVerifyRequestAsync(
+                    terminalId,
+                    userName,
+                    password,
+                    PurchaseOrder.Id,
+                    SaleOrderId,
+                    SaleReferenceId);
+                //if (FinalAmount != PurchaseOrder.Amount)
+                //    Message = "مبلغ واریزی با مبلغ فاکتور همخوانی ندارد";
 
+                var resultVerify = resultBody.Body.@return;
+                if (!string.IsNullOrEmpty(resultVerify))
+                {
+                    if (resultVerify == "0")
+                    {
+                        var IQresult = await paymentMellat.bpInquiryRequestAsync(terminalId, userName, password, SaleOrderId, SaleOrderId, SaleReferenceId);
+                        var resultIQresult = IQresult.Body.@return;
+                        if (resultIQresult == "0")
+                        {
+                            var Sresult = await paymentMellat.bpSettleRequestAsync(terminalId, userName, password, SaleOrderId, SaleOrderId, SaleReferenceId);
+
+                            if (Sresult != null)
+                            {
+                                if (Sresult.Body.@return == "0" || Sresult.Body.@return == "45")
+                                {
+                                    PurchaseOrder.Transaction.RefId = RefId;
+                                    PurchaseOrder.Transaction.PaymentId = Convert.ToInt64(SaleOrderId);
+                                    PurchaseOrder.Transaction.Amount = amount;
+                                    var result = await _purchaseOrderService.Pay(PurchaseOrder);
+                                    Message = result.Message;
+                                    Code = result.Code.ToString();
+                                    CartList = (await _cartService.CartListFromServer()).ReturnData;
+
+                                }
+
+                                return Page();
+                            }
+                        }
+                        PurchaseOrder.Transaction = new();
+
+                    }
+                }
+            }
+        }
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
     }
 }
