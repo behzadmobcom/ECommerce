@@ -236,6 +236,8 @@ public class ProductCompareViewModel
 public class ProductListFilteredViewModel
 {
     public PaginationParameters PaginationParameters { get; set; }
+    public long StartPrice { get; set; }
+    public long EndPrice { get; set; }
     public ProductSort ProductSort { get; set; }
     public List<int>? BrandsId { get; set; }
     public List<int>? StarsCount { get; set; }

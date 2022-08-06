@@ -9,46 +9,38 @@
     {
         <table class="table table-bordered table-hover sticky-header">
             <thead>
-            <tr style="background-color: #9EC9D4">
-                <th scope="col"></th>
-                @foreach (var product in Model.CompareProducts)
-                {
-	                
-	                <th scope="col">
-                        
-			             
-		                <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
-		                <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)" style="padding-right: 40%">
-			                <i class="zmdi zmdi-close"></i>
-		                </a>
-		                <h3 style="font-size: 12px">@product.Name</h3>
-	                </th>
-                }
-            </tr>
+                <tr style="background-color: #9EC9D4">
+                    <th scope="col"></th>
+                    @foreach (var product in Model.CompareProducts)
+                    {
+
+                        <th scope="col">
+
+
+                            <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt" />
+                            <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)" style="padding-right: 40%">
+                                <i class="zmdi zmdi-close"></i>
+                            </a>
+                            <h3 style="font-size: 12px">@product.Name</h3>
+                        </th>
+                    }
+                </tr>
             </thead>
             <tbody>
-            @for (var g = 0; g < Model.GroupCount; g++)
-            {@*
-                <tr>
-                    <th>
-                        <h3>@Model.CompareProducts[0].AttributeGroupProducts[g].Name</h3>
-                    </th>
-                </tr>
-*@
-                @for (var att = 0; att < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; att++)
+                @for (var g = 0; g < Model.GroupCount; g++)
                 {
-                    @*if(Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count==0) continue;*@
-                    <tr>
-                        <th scope="row">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].Title</th>
+                    @for (var att = 0; att < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; att++)
+                    {
+                        <tr>
+                            <th scope="row">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].Title</th>
 
-                        @for (var v = 0; v < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count; v++)
-                        {
-                            <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[0].Value </td>
-                        }
-                    </tr>
+                            @for (var v = 0; v < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count; v++)
+                            {
+                                <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[0].Value </td>
+                            }
+                        </tr>
+                    }
                 }
-            }
-       }
             </tbody>
         </table>
     }
