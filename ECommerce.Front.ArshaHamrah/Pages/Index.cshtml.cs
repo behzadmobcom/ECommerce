@@ -86,6 +86,7 @@ public class IndexModel : PageModel
         var result = await _productService.GetById(id);
         return new JsonResult(result);
     }
+
     public async Task<JsonResult> OnGetLoadCart(int id)
     {
         var result = await _cartService.Load(HttpContext);
@@ -97,6 +98,7 @@ public class IndexModel : PageModel
         await HttpContext.SignOutAsync();
         return RedirectToPage("/index");
     }
+
     public async Task<JsonResult> OnGetDecreaseCart(int id, int productId, int priceId)
     {
         var result = await _cartService.Decrease(HttpContext, id, productId, priceId);
@@ -112,6 +114,12 @@ public class IndexModel : PageModel
     public IActionResult OnGetAddCompareList(int id)
     {
         var result = _compareService.Add(HttpContext, id);
+        return new JsonResult(result);
+    }
+
+    public IActionResult OnGetDeleteCompare(int id)
+    {
+        var result = _compareService.Remove(HttpContext, id);
         return new JsonResult(result);
     }
 }

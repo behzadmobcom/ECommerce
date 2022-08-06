@@ -25,7 +25,7 @@ public class EditModel : PageModel
         var resultParent = await _categoryService.GetParents();
         Category = result.ReturnData;
         Categories = resultParent.ReturnData;
-
+        Categories.First(x => x.Id == Category.ParentId).Checked = true;
     }
 
     public async Task<IActionResult> OnPost()
@@ -45,6 +45,7 @@ public class EditModel : PageModel
 
         var resultParent = await _categoryService.GetParents();
         Categories = resultParent.ReturnData;
+        
         return Page();
     }
 }

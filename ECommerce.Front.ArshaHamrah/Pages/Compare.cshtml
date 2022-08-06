@@ -18,7 +18,7 @@
                         
 			             
 		                <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt"/>
-		                <a href="javascript:void(0)" class="delete" style="padding-right: 40%">
+		                <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)" style="padding-right: 40%">
 			                <i class="zmdi zmdi-close"></i>
 		                </a>
 		                <h3 style="font-size: 12px">@product.Name</h3>
@@ -43,7 +43,7 @@
 
                         @for (var v = 0; v < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count; v++)
                         {
-                            <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[v].Value </td>
+                            <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[0].Value </td>
                         }
                     </tr>
                 }
@@ -61,21 +61,4 @@
 @section Scripts
 {
     <script src="~/js/StickyHeader.js"></script>
-    <script>
-        $(document).on("click",
-            ".delete",
-            function(event) {
-
-                var cart_item = 0;
-                $(this).parent().parent().remove();
-
-                cart_item = $('.product_qty').length;
-                if (cart_item <= 0) {
-                    $("#total_amount").html('0');
-                    $("#discount_amount").html(0);
-                } else {
-                    $('.product_qty').trigger('keyup');
-                }
-            });
-    </script>
 }

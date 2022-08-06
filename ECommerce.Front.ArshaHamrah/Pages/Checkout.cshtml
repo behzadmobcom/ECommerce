@@ -50,6 +50,7 @@
             Model.Code = null;
         }
         <form method="post" asp-page-handler="OnPost">
+            <input asp-for="@Model.PostPrice" hidden="hidden"/>
             <div class="row">
                 <!-- billing details -->
                 <div class="col-md-6">

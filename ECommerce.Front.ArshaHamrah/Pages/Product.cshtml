@@ -2,7 +2,7 @@
 @model ArshaHamrah.Pages.ProductModel
 @{
     ViewData["Title"] = "توضیحات کالا";
-	int priceId = Model.Product.Prices.FirstOrDefault().Id;
+    int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
@@ -28,262 +28,260 @@
 <!-- Start page content -->
 <section id="page-content" class="page-wrapper">
 
-<!-- SHOP SECTION START -->
-<div class="shop-section mb-80">
-<div class="container">
-<div class="row">
-<div class="col-md-12 col-xs-12">
-<!-- single-product-area start -->
-<div class="single-product-area mb-80">
-<div class="row">
-<!-- imgs-zoom-area start -->
-<div class="col-md-5 col-sm-5 col-xs-12">
-	<div class="imgs-zoom-area">
-		@if (Model.Product.Images.Any())
-		{
-			<img id="zoom_03" src="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
-			     data-zoom-image="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
-			     alt="@Model.Product.Images.FirstOrDefault().Alt">
-		}
-		else
-		{
-			<img id="zoom_03" src="~/img/product/NoImage.png" alt="NoImage">
-		}
-		<div class="row">
-			<div class="col-xs-12">
-				<div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
-					@foreach (var image in Model.Product.Images)
-					{
-						<div class="p-c">
-							<a href="#" data-image="/@($"{image.Path}/{image.Name}")" data-zoom-image="/@($"{image.Path}/{image.Name}")">
-								<img class="zoom_03" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
-							</a>
-						</div>
-					}
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<div class="details-add-group" style="margin-right: 15%">
-		
-		<a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
-			<span>افزودن به سبد خرید</span>
-		</a>
-	</div>
-</div>
-<!-- imgs-zoom-area end -->
-<!-- single-product-info start -->
-<div class="col-md-7 col-sm-7 col-xs-12">
-	<div class="single-product-info">
-		<h3 class="text-black-1">@Model.Product.Name </h3>
-		<div class="row">
-			<div class="col-md-6">
-				<h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
-			</div>
-			<div class="col-md-6">
-				<h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان</h6>
-			</div>
-		</div>
-		
-		<!-- hr -->
-		<hr>
-		<!-- single-product-tab -->
-		<div class="single-product-tab">
-			<ul class="reviews-tab mb-20">
-				<li class="active">
-					<a href="#description" data-toggle="tab">توضیحات</a>
-				</li>
-			@*	<li>
-					<a href="#information" data-toggle="tab">اطلاعات</a>
-				</li>*@
-				<li>
-					<a href="#reviews" data-toggle="tab">بررسی محصول</a>
-				</li>
-			</ul>
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="description">
-					<p>@Html.Raw(Model.Product.Description)</p>
-				</div>
-			@*	<div role="tabpanel" class="tab-pane" id="information">
-					<p>deff</p>
-				</div>*@
-				<div role="tabpanel" class="tab-pane" id="reviews">
-					<!-- reviews-tab-desc -->
-					<div class="reviews-tab-desc">
-						<!-- single comments -->
-						<div class="media mt-30">
-							<div class="media-left">
-								<a href="#">
-									<img class="media-object" src="~/img/author/No_Pic.jpg" alt="#">
-								</a>
-							</div>
-							<div class="media-body">
-								<div class="clearfix">
-									<div class="name-commenter pull-left">
-										<h6 class="media-heading">
-											<a href="#">ادمین</a>
-										</h6>
-									@*	<p class="mb-10">27 شهریور 1398 در 14:30</p>*@
-									</div>
-								</div>
-								<p class="mb-0">
-									@Html.Raw(Model.Product.Review)
-								</p>
-							</div>
-						</div>
-					
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--  hr -->
-		<hr>
-		<!-- single-pro-color-rating -->
-		<div class="single-pro-color-rating clearfix">
-			<div class="sin-pro-color f-left">
-				@foreach (var price in Model.Product.Prices)
-				{
-					var select = price.Id == priceId ? "checked" : "";
-					if ((int)price.Grade > 1)
-					{
-						<div style="background-color: @price.Color.ColorCode" >
-							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-							<label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
-							<label for="price-@price.Id">قیمت : @price.Amount</label>
-						</div>
-					}
-					else if (price.ColorId > 1)
-					{
-						<div style="background-color: @price.Color.ColorCode">
-							<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-							<label for="price-@price.Id">@price.Color.Name - </label>
-							<label for="price-@price.Id">قیمت : @price.Amount</label>
-						</div>
-					}
-					<br>
-				}
-				
-				
-				
-				
-				
-				
-				
+    <!-- SHOP SECTION START -->
+    <div class="shop-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <!-- single-product-area start -->
+                    <div class="single-product-area mb-80">
+                        <div class="row">
+                            <!-- imgs-zoom-area start -->
+                            <div class="col-md-5 col-sm-5 col-xs-12">
+                                <div class="imgs-zoom-area">
+                                    @if (Model.Product.Images.Any())
+                                    {
+                                        <img id="zoom_03" src="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
+                                         data-zoom-image="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
+                                         alt="@Model.Product.Images.FirstOrDefault().Alt">
+                                    }
+                                    else
+                                    {
+                                        <img id="zoom_03" src="~/img/product/NoImage.png" alt="NoImage">
+                                    }
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
+                                                @foreach (var image in Model.Product.Images)
+                                                {
+                                                    <div class="p-c">
+                                                        <a href="#" data-image="/@($"{image.Path}/{image.Name}")" data-zoom-image="/@($"{image.Path}/{image.Name}")">
+                                                            <img class="zoom_03" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                                        </a>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-			</div>
-			<div class="pro-rating sin-pro-rating f-right">
-				<a href="#" tabindex="0">
-					<i class="zmdi zmdi-star"></i>
-				</a>
-				<a href="#" tabindex="0">
-					<i class="zmdi zmdi-star"></i>
-				</a>
-				<a href="#" tabindex="0">
-					<i class="zmdi zmdi-star"></i>
-				</a>
-				<a href="#" tabindex="0">
-					<i class="zmdi zmdi-star-half"></i>
-				</a>
-				<a href="#" tabindex="0">
-					<i class="zmdi zmdi-star-outline"></i>
-				</a>
-				<span class="text-black-5">( 27 امتیاز )</span>
-			</div>
-		</div>
-		<!-- hr -->
-		<hr>
-		<!-- plus-minus-pro-action -->
-		<div class="plus-minus-pro-action">
-			<div class="sin-plus-minus f-left clearfix">
-				<p class="color-title f-left">تعداد</p>
-				<div class="cart-plus-minus f-left">
-					<input type="text" value="1" name="qtybutton" class="cart-plus-minus-box">
-				</div>
-			</div>
-			<div class="sin-pro-action f-right">
-				<ul class="action-button">
-					<li>
-						<a href="javascript:void(0)" onclick="AddWishList(@Model.Product.Id)" title="لیست علاقمندی ها">
-							<i class="zmdi zmdi-favorite"></i>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:void(0)" onclick="OpenProductModal(@Model.Product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-							<i class="zmdi zmdi-zoom-in"></i>
-						</a>
-					</li>
-					<li>
-						<a href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه">
-							<i class="zmdi zmdi-refresh"></i>
-						</a>
+                                <div class="details-add-group" style="margin-right: 15%">
 
-					</li>
-					<li>
-						<a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
-							<i class="zmdi zmdi-shopping-cart-plus"></i>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- single-product-info end -->
-<br/>
-<br/>
-<table class="table table-bordered">
+                                    <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                        <span>افزودن به سبد خرید</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- imgs-zoom-area end -->
+                            <!-- single-product-info start -->
+                            <div class="col-md-7 col-sm-7 col-xs-12">
+                                <div class="single-product-info">
+                                    <h3 class="text-black-1">@Model.Product.Name </h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان</h6>
+                                        </div>
+                                    </div>
+
+                                    <!-- hr -->
+                                    <hr>
+                                    <!-- single-product-tab -->
+                                    <div class="single-product-tab">
+                                        <ul class="reviews-tab mb-20">
+                                            <li class="active">
+                                                <a href="#description" data-toggle="tab">توضیحات</a>
+                                            </li>
+                                            @*	<li>
+                                            <a href="#information" data-toggle="tab">اطلاعات</a>
+                                            </li>*@
+                                            <li>
+                                                <a href="#reviews" data-toggle="tab">بررسی محصول</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active" id="description">
+                                                <p>@Html.Raw(Model.Product.Description)</p>
+                                            </div>
+                                            @*	<div role="tabpanel" class="tab-pane" id="information">
+                                            <p>deff</p>
+                                            </div>*@
+                                            <div role="tabpanel" class="tab-pane" id="reviews">
+                                                <!-- reviews-tab-desc -->
+                                                <div class="reviews-tab-desc">
+                                                    <!-- single comments -->
+                                                    <div class="media mt-30">
+                                                        <div class="media-left">
+                                                            <a href="#">
+                                                                <img class="media-object" src="~/img/author/No_Pic.jpg" alt="#">
+                                                            </a>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            <div class="clearfix">
+                                                                <div class="name-commenter pull-left">
+                                                                    <h6 class="media-heading">
+                                                                        <a href="#">ادمین</a>
+                                                                    </h6>
+                                                                    @*	<p class="mb-10">27 شهریور 1398 در 14:30</p>*@
+                                                                </div>
+                                                            </div>
+                                                            <p class="mb-0">
+                                                                @Html.Raw(Model.Product.Review)
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  hr -->
+                                    <hr>
+                                    <!-- single-pro-color-rating -->
+                                    <div class="single-pro-color-rating clearfix">
+                                        <div class="sin-pro-color f-left">
+                                            @foreach (var price in Model.Product.Prices)
+                                            {
+                                                var select = price.Id == priceId ? "checked" : "";
+                                                if ((int)price.Grade > 1)
+                                                {
+                                                    <div style="background-color: @price.Color.ColorCode">
+                                                        <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                                        <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
+                                                        <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                                    </div>
+                                                }
+                                                else if (price.ColorId > 1)
+                                                {
+                                                    <div style="background-color: @price.Color.ColorCode">
+                                                        <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                                        <label for="price-@price.Id">@price.Color.Name - </label>
+                                                        <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                                    </div>
+                                                }
+                                                <br>
+                                            }
 
 
-	@for (var g = 0; g < Model.AttributeGroups.Count; g++)
-	{
-		<tbody>
-		@for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
-		{
-			<tr>
-				<th>@Model.AttributeGroups[g].Attribute[i].Title</th>
 
-				@for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
-				{
-					<td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
-				}
-			</tr>
-		}
-		</tbody>
-	}
 
-</table>
-</div>
-</div>
-<!-- single-product-area end -->
-<div class="related-product-area">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="section-title text-left mb-40">
-				<h2>محصولات مرتبط</h2>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="active-related-product">
-			@foreach (var relatedProduct in Model.RelatedProduct)
-			{
-				<partial name="Components/_productCard" model="relatedProduct" />
-			}
-		
 
-		</div>
-	</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- SHOP SECTION END -->
+
+
+
+                                        </div>
+                                        <div class="pro-rating sin-pro-rating f-right">
+                                            <a href="#" tabindex="0">
+                                                <i class="zmdi zmdi-star"></i>
+                                            </a>
+                                            <a href="#" tabindex="0">
+                                                <i class="zmdi zmdi-star"></i>
+                                            </a>
+                                            <a href="#" tabindex="0">
+                                                <i class="zmdi zmdi-star"></i>
+                                            </a>
+                                            <a href="#" tabindex="0">
+                                                <i class="zmdi zmdi-star-half"></i>
+                                            </a>
+                                            <a href="#" tabindex="0">
+                                                <i class="zmdi zmdi-star-outline"></i>
+                                            </a>
+                                            <span class="text-black-5">( 27 امتیاز )</span>
+                                        </div>
+                                    </div>
+                                    <!-- hr -->
+                                    <hr>
+                                    <!-- plus-minus-pro-action -->
+                                    <div class="plus-minus-pro-action">
+                                        <div class="sin-plus-minus f-left clearfix">
+                                            <p class="color-title f-left">تعداد</p>
+                                            <div class="cart-plus-minus f-left">
+                                                <input type="text" value="1" name="qtybutton" class="cart-plus-minus-box">
+                                            </div>
+                                        </div>
+                                        <div class="sin-pro-action f-right">
+                                            <ul class="action-button">
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="AddWishList(@Model.Product.Id)" title="لیست علاقمندی ها">
+                                                        <i class="zmdi zmdi-favorite"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="OpenProductModal(@Model.Product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+                                                        <i class="zmdi zmdi-zoom-in"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه">
+                                                        <i class="zmdi zmdi-refresh"></i>
+                                                    </a>
+
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- single-product-info end -->
+                            <br />
+                            <br />
+                            <table class="table table-bordered">
+
+
+                                @for (var g = 0; g < Model.AttributeGroups.Count; g++)
+                                {
+                                    <tbody>
+                                        @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
+                                        {
+                                            @if (string.IsNullOrWhiteSpace(Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value)) continue;
+                                            <tr>
+                                                <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
+
+                                                    <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                }
+
+                            </table>
+                        </div>
+                    </div>
+                    <!-- single-product-area end -->
+                    <div class="related-product-area">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="section-title text-left mb-40">
+                                    <h2>محصولات مرتبط</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="active-related-product">
+                                @foreach (var relatedProduct in Model.RelatedProduct)
+                                {
+                                    <partial name="Components/_productCard" model="relatedProduct" />
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SHOP SECTION END -->
 </section>
 <!-- End page content -->
 @section Scripts
-{
-	<script src="~/js/main.js"></script>
-	<script src="~/js/plugins.js"></script>
+    {
+    <script src="~/js/main.js"></script>
+    <script src="~/js/plugins.js"></script>
 }

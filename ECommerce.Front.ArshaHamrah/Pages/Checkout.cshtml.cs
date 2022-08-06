@@ -42,7 +42,7 @@ public class CheckoutModel : PageModel
 
     public SelectList SendInformationList { get; set; }
 
-    public int PostPrice { get; set; }
+    [BindProperty] public int PostPrice { get; set; }
     [TempData] public string Code { get; set; }
 
     public int SumPrice { get; set; }
@@ -83,7 +83,7 @@ public class CheckoutModel : PageModel
         return new JsonResult(ret);
     }
 
-    public async Task<IActionResult> OnPost(string Portal)
+    public async Task<IActionResult> OnPost(string Portal, int PostPrice)
     {
         var returnAction = "";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
@@ -111,7 +111,7 @@ public class CheckoutModel : PageModel
             Code = resultCart.Code.ToString();
         }
         var cart = resultCart.ReturnData;
-        decimal tempSumPrice = cart.Sum(x => x.SumPrice);
+        decimal tempSumPrice = cart.Sum(x => x.SumPrice)+PostPrice;
         SumPrice = Convert.ToInt32(tempSumPrice) * 10;
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
