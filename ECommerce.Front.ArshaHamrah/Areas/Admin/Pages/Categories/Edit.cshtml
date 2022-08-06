@@ -28,7 +28,7 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        ویرایش دسنه بندی
+                        ویرایش دسته بندی
                     </h3>
                 </div>
                 <!--begin::Form-->
@@ -52,12 +52,23 @@
                                 فعال بودن
                             </label>
                         </div>
-                        <div class="form-group mt-5">
-                            <label>ترتیب نمایش در منو برای سردسته ها </label>
-                            @Html.TextBoxFor(x => x.Category.DisplayOrder, new {Value = "0", Class = "form-control form-control-solid"})
-                            @*<input  value="0" asp-for="@Model.Category.DisplayOrder" class="form-control form-control-solid"/>*@
-                            <span asp-validation-for="@Model.Category.DisplayOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
-                        </div>
+	                    <div class="form-group mt-5">
+		                    <label>ترتیب نمایش در منو برای سردسته ها </label>
+		                    @Html.TextBoxFor(x => x.Category.DisplayOrder, new {Value = "0", Class = "form-control form-control-solid"})
+		                    @*<input  value="0" asp-for="@Model.Category.DisplayOrder" class="form-control form-control-solid"/>*@
+		                    <span asp-validation-for="@Model.Category.DisplayOrder" class="mt-5" style="color: red; margin-top: 10px"></span>
+	                    </div>
+	                    <input asp-for="@Model.Category.Depth" hidden="hidden" value="0"/>
+	                    <div class="form-group">
+		                    <label>انتخاب منوی پدر</label>
+		                    <br/>
+		                    <input type="radio" id="0" checked="checked" name="Category.ParentId" value="0">
+		                    <label for="0">بی پدر! :))</label>
+		                    <input hidden="hidden" id="path_0" value=""/>
+		                    <input hidden="hidden" id="depth_0" value="-1"/>
+
+		                    <partial name="_ParentCategory" model="@Model.Categories"/>
+	                    </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
