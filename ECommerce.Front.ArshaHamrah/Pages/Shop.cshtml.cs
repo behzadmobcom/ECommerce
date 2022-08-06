@@ -24,21 +24,17 @@ public class ShopModel : PageModel
         _cartService = cartService;
     }
 
-    public List<Category> Categories { get; set; }
+    public List<CategoryParentViewModel> Categories { get; set; }
     public bool IsColleague { get; set; }
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
+    public List<ProductIndexPageViewModel> NewProducts { get; set; }
 
-    public async Task OnGet(string? path = null ,string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+    public async Task OnGet(string? path = null ,string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
         string? message = null, string? code = null)
     {
-        //// Pagination = (await _productService.Search(categoryUrl, 1)).ReturnData;
-        //var resultSearch = await _productService.Search(categoryUrl, 1, 10);
-        //if (resultSearch.Code == ServiceCode.Success)
-        //{
-        //    Products = resultSearch;
-        //}
-
+    
+        NewProducts = (await _productService.TopNewShop()).ReturnData;
         string categoryId = "0";
         if (!string.IsNullOrEmpty(path))
         {
@@ -57,7 +53,7 @@ public class ShopModel : PageModel
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
 
-        var categoryResult = await _categoryService.Load();
+        var categoryResult = await _categoryService.GetParents();
         Categories = categoryResult.ReturnData;
     }
 

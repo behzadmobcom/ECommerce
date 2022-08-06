@@ -18,6 +18,7 @@ public interface IProductService : IEntityService<ProductViewModel>
         int pageNumber = 0, int pageSize = 10, int productSort = 1);
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count = 10);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count = 3);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count = 10);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count = 10);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3);
