@@ -164,7 +164,13 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
         return Return(result);
     }
-     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count)
+
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count)
+    {
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
+        return Return(result);
+    }
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopPrice?count={count}");
         return Return(result);

@@ -1,341 +1,315 @@
 ﻿@page "/Shop/{path}"
 @model ArshaHamrah.Pages.ShopModel
 @{
-    ViewData["Title"] = "خرید";
+	ViewData["Title"] = "خرید";
 }
 
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
-    <div class="breadcrumbs overlay-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="breadcrumbs-inner">
-                        <h1 class="breadcrumbs-title">نمایش کالاها</h1>
-                        <ul class="breadcrumb-list">
-                            <li>
-                                <a asp-page="index">خانه</a>
-                            </li>
-                            <li>نمایش کالاها</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="breadcrumbs overlay-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="breadcrumbs-inner">
+						<h1 class="breadcrumbs-title">نمایش کالاها</h1>
+						<ul class="breadcrumb-list">
+							<li>
+								<a asp-page="index">خانه</a>
+							</li>
+							<li>نمایش کالاها</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- BREADCRUMBS SETCTION END -->
 <!-- Start page content -->
 <div id="page-content" class="page-wrapper">
 
-<!-- SHOP SECTION START -->
-<div class="shop-section mb-80">
-<div class="container">
-<div class="row">
-<div class="col-md-9 col-md-push-3 col-sm-12">
-<div class="shop-content">
-<!-- shop-option start -->
-<div class="shop-option box-shadow mb-30 clearfix">
-    <!-- Nav tabs -->
-    <ul class="shop-tab f-left" role="tablist">
-        <li class="active">
-            <a href="#grid-view" data-toggle="tab">
-                <i class="zmdi zmdi-view-module"></i>
-            </a>
-        </li>
-        <li>
-            <a href="#list-view" data-toggle="tab">
-                <i class="zmdi zmdi-view-list-alt"></i>
-            </a>
-        </li>
-    </ul>
-    <!-- short-by -->
-    <div class="short-by f-left text-center">
-        <span>ترتیب :</span>
-        <select>
-            <option asp-page="/Shop" asp-route-productSort="1">جدیدترین ها</option>
-            <option asp-page="/Shop" asp-route-productSort="2">محبوب ترین ها</option>
-            <option asp-page="/Shop" asp-route-productSort="3">قیمت صعودی</option>
-            <option asp-page="/Shop" asp-route-productSort="4">قیمت نزولی</option>
-        </select>
-    </div>
-    <!-- showing -->
-    @{
-	    var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
-	    var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
-	    var total = Model.Products.PaginationDetails.TotalCount;
-	    if (endNumber > total) endNumber = total;
-    }
-    <div class="showing f-right text-right">
-	    <span>نمایش @startNumber - @endNumber از @total نتیجه</span>
-    </div>
-</div>
-<!-- shop-option end -->
-<!-- Tab Content start -->
-<div class="tab-content">
-    <!-- grid-view -->
-    <div role="tabpanel" class="tab-pane active" id="grid-view">
-        <div class="row">
-            @foreach (var product in Model.Products.ReturnData)
-            {
-                <!-- product-item start -->
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <div class="product-item">
-                        <div class="product-img">
-                            <a asp-page="Product" asp-route-productUrl="@product.Url">
+	<!-- SHOP SECTION START -->
+	<div class="shop-section mb-80">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 col-md-push-3 col-sm-12">
+					<div class="shop-content">
+						<!-- shop-option start -->
+						<div class="shop-option box-shadow mb-30 clearfix">
+							<!-- Nav tabs -->
+							<ul class="shop-tab f-left" role="tablist">
+								<li class="active">
+									<a href="#grid-view" data-toggle="tab">
+										<i class="zmdi zmdi-view-module"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#list-view" data-toggle="tab">
+										<i class="zmdi zmdi-view-list-alt"></i>
+									</a>
+								</li>
+							</ul>
+							<!-- short-by -->
+							<div class="short-by f-left text-center">
+								<span>ترتیب :</span>
+								<select>
+									<option asp-page="/Shop" asp-route-productSort="1">جدیدترین ها</option>
+									<option asp-page="/Shop" asp-route-productSort="2">محبوب ترین ها</option>
+									<option asp-page="/Shop" asp-route-productSort="3">قیمت صعودی</option>
+									<option asp-page="/Shop" asp-route-productSort="4">قیمت نزولی</option>
+								</select>
+							</div>
+							<!-- showing -->
+							@{
+								var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
+								var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
+								var total = Model.Products.PaginationDetails.TotalCount;
+								if (endNumber > total) endNumber = total;
+							}
+							<div class="showing f-right text-right">
+								<span>نمایش @startNumber - @endNumber از @total نتیجه</span>
+							</div>
+						</div>
+						<!-- shop-option end -->
+						<!-- Tab Content start -->
+						<div class="tab-content">
+							<!-- grid-view -->
+							<div role="tabpanel" class="tab-pane active" id="grid-view">
+								<div class="row">
+									@foreach (var product in Model.Products.ReturnData)
+									{
+										<!-- product-item start -->
+										<div class="col-md-4 col-sm-4 col-xs-12">
+											<div class="product-item">
+												<div class="product-img">
+													<a asp-page="Product" asp-route-productUrl="@product.Url">
 
-                                @if (product.ImagePath!=null)
-                                {
-                                    <img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
-                                }
-                                else
-                                {
-                                    <img src="~/img/product/NoImage.png" alt="NoImage">
-                                }
+														@if (product.ImagePath != null)
+														{
+															<img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
+														}
+														else
+														{
+															<img src="~/img/product/NoImage.png" alt="NoImage">
+														}
 
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <h6 class="product-title">
-                                <a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
-                            </h6>
-                            <div class="pro-rating">
-                                <a href="#">
-                                    <i class="zmdi zmdi-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="zmdi zmdi-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="zmdi zmdi-star"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="zmdi zmdi-star-half"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="zmdi zmdi-star-outline"></i>
-                                </a>
-                            </div>
-                            <h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount تومان</h3>
-                            <ul class="action-button">
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
-                                        <i class="zmdi zmdi-favorite"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="OpenProductModal(@product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                        <i class="zmdi zmdi-zoom-in"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCompareList(@product.Id)" title="مقایسه">
-                                        <i class="zmdi zmdi-refresh"></i>
-                                    </a>
+													</a>
+												</div>
+												<div class="product-info">
+													<h6 class="product-title">
+														<a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
+													</h6>
+													<div class="pro-rating">
+														<a href="#">
+															<i class="zmdi zmdi-star"></i>
+														</a>
+														<a href="#">
+															<i class="zmdi zmdi-star"></i>
+														</a>
+														<a href="#">
+															<i class="zmdi zmdi-star"></i>
+														</a>
+														<a href="#">
+															<i class="zmdi zmdi-star-half"></i>
+														</a>
+														<a href="#">
+															<i class="zmdi zmdi-star-outline"></i>
+														</a>
+													</div>
+													<h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount تومان</h3>
+													<ul class="action-button">
+														<li>
+															<a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
+																<i class="zmdi zmdi-favorite"></i>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="OpenProductModal(@product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+																<i class="zmdi zmdi-zoom-in"></i>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="AddCompareList(@product.Id)" title="مقایسه">
+																<i class="zmdi zmdi-refresh"></i>
+															</a>
 
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCart(@product.Id,@product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
-                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- product-item end -->
-            }
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="AddCart(@product.Id,@product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+																<i class="zmdi zmdi-shopping-cart-plus"></i>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<!-- product-item end -->
+									}
 
-        </div>
-    </div>
-    <!-- list-view -->
-    <div role="tabpanel" class="tab-pane" id="list-view">
-        <div class="row">
-            @foreach (var product in Model.Products.ReturnData)
-            {
-                <!-- product-item start -->
-                <div class="col-md-12">
-                    <div class="shop-list product-item">
-                        <div class="product-img">
-                            <a asp-page="Product" asp-route-productUrl="@product.Url">
+								</div>
+							</div>
+							<!-- list-view -->
+							<div role="tabpanel" class="tab-pane" id="list-view">
+								<div class="row">
+									@foreach (var product in Model.Products.ReturnData)
+									{
+										<!-- product-item start -->
+										<div class="col-md-12">
+											<div class="shop-list product-item">
+												<div class="product-img">
+													<a asp-page="Product" asp-route-productUrl="@product.Url">
 
-                                @if (product.ImagePath!=null)
-                                {
-                                    <img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
-                                }
-                                else
-                                {
-                                    <img src="~/img/product/NoImageFound.png" alt="NoImage">
-                                }
+														@if (product.ImagePath != null)
+														{
+															<img src="~/@($"{product.ImagePath}")" alt="@product.Alt">
+														}
+														else
+														{
+															<img src="~/img/product/NoImageFound.png" alt="NoImage">
+														}
 
-                            </a>
-                        </div>
-                        <div class="product-info">
-                            <div class="clearfix">
-                                <h6 class="product-title">
-                                    <a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
-                                </h6>
-                                <div class="pro-rating f-right">
-                                    <a href="#">
-                                        <i class="zmdi zmdi-star"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-star"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-star"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-star-half"></i>
-                                    </a>
-                                    <a href="#">
-                                        <i class="zmdi zmdi-star-outline"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <h6 class="brand-name mb-15">@product.Brand</h6>
-                            <h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount تومان</h3>
-                            <p> @Html.Raw(product.Description)</p>
-                            <ul class="action-button">
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
-                                        <i class="zmdi zmdi-favorite"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="OpenProductModal(@product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
-                                        <i class="zmdi zmdi-zoom-in"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCompareList(@product.Id)" title="مقایسه">
-                                        <i class="zmdi zmdi-refresh"></i>
-                                    </a>
+													</a>
+												</div>
+												<div class="product-info">
+													<div class="clearfix">
+														<h6 class="product-title">
+															<a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
+														</h6>
+														<div class="pro-rating f-right">
+															<a href="#">
+																<i class="zmdi zmdi-star"></i>
+															</a>
+															<a href="#">
+																<i class="zmdi zmdi-star"></i>
+															</a>
+															<a href="#">
+																<i class="zmdi zmdi-star"></i>
+															</a>
+															<a href="#">
+																<i class="zmdi zmdi-star-half"></i>
+															</a>
+															<a href="#">
+																<i class="zmdi zmdi-star-outline"></i>
+															</a>
+														</div>
+													</div>
+													<h6 class="brand-name mb-15">@product.Brand</h6>
+													<h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount تومان</h3>
+													<p> @Html.Raw(product.Description)</p>
+													<ul class="action-button">
+														<li>
+															<a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
+																<i class="zmdi zmdi-favorite"></i>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="OpenProductModal(@product.Id)" data-toggle="modal" data-target="#productModal" title="نمایش سریع">
+																<i class="zmdi zmdi-zoom-in"></i>
+															</a>
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="AddCompareList(@product.Id)" title="مقایسه">
+																<i class="zmdi zmdi-refresh"></i>
+															</a>
 
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)" onclick="AddCart(@product.Id,@product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
-                                        <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- product-item end -->
-            }
+														</li>
+														<li>
+															<a href="javascript:void(0)" onclick="AddCart(@product.Id,@product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+																<i class="zmdi zmdi-shopping-cart-plus"></i>
+															</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<!-- product-item end -->
+									}
 
-        </div>
-    </div>
-</div>
-<!-- Tab Content end -->
-<!-- shop-pagination start -->
-<ul class="shop-pagination box-shadow text-center ptblr-10-30">
-	<partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
-</ul>
-<!-- shop-pagination end -->
-</div>
-</div>
-<div class="col-md-3 col-md-pull-9 col-sm-12">
-    <!-- widget-search -->
-    <aside class="widget-search mb-30">
-        <form  method="Get" asp-page-handler="OnGet">
-            <input type="text" name="search" placeholder="جستجو ...">
-            <button type="submit">
-                <i class="zmdi zmdi-search"></i>
-            </button>
-        </form>
-    </aside>
-    <!-- widget-categories -->
-    <aside class="widget widget-categories box-shadow mb-30">
-        <h6 class="widget-title border-left mb-20">دسته ها</h6>
-        <div id="cat-treeview" class="product-cat">
-            <ul>
-                @foreach (var parent in Model.Categories.Where(x => x.Parent == null))
-                {
-                    <li class="closed">
-                        <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-                        @{ var children = Model.Categories.Where(c => c.ParentId == parent.Id); }
-                        @foreach (var child in children)
-                        {
-                            <ul>
-                                <li>
-                                    <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
-                                </li>
-                            </ul>
-                        }
-                    </li>
-                }
-            </ul>
-        </div>
-    </aside>
-    <!-- shop-filter -->
-    <aside class="widget shop-filter box-shadow mb-30">
-        <h6 class="widget-title border-left mb-20">قیمت</h6>
-        <div class="price_filter">
-            <div class="price_slider_amount">
-                <input type="submit" value="محدوده قیمت (تومان) :">
-                <input type="text" id="amount" name="price" placeholder="Add Your Price">
-            </div>
-            <div id="slider-range"></div>
-        </div>
-    </aside>
- 
- 
-    <!-- widget-product -->
-    <aside class="widget widget-product box-shadow">
-        <h6 class="widget-title border-left mb-20">پیشنهاد شگفت انگیز</h6>
-        <!-- product-item start -->
-        <div class="product-item">
-            <div class="product-img">
-                <a href="single-product.html">
-                    <img src="img/product/4.jpg" alt="">
-                </a>
-            </div>
-            <div class="product-info">
-                <h6 class="product-title">
-                    <a href="single-product.html">نام محصول نمایشی</a>
-                </h6>
-                <h3 class="pro-price">869,000 تومان</h3>
-            </div>
-        </div>
-        <!-- product-item end -->
-        <!-- product-item start -->
-        <div class="product-item">
-            <div class="product-img">
-                <a href="single-product.html">
-                    <img src="img/product/8.jpg" alt="">
-                </a>
-            </div>
-            <div class="product-info">
-                <h6 class="product-title">
-                    <a href="single-product.html">نام محصول نمایشی</a>
-                </h6>
-                <h3 class="pro-price">869,000 تومان</h3>
-            </div>
-        </div>
-        <!-- product-item end -->
-        <!-- product-item start -->
-        <div class="product-item">
-            <div class="product-img">
-                <a href="single-product.html">
-                    <img src="img/product/12.jpg" alt="">
-                </a>
-            </div>
-            <div class="product-info">
-                <h6 class="product-title">
-                    <a href="single-product.html">نام محصول نمایشی</a>
-                </h6>
-                <h3 class="pro-price">869,000 تومان</h3>
-            </div>
-        </div>
-        <!-- product-item end -->
-    </aside>
-</div>
-</div>
-</div>
-</div>
-<!-- SHOP SECTION END -->
+								</div>
+							</div>
+						</div>
+						<!-- Tab Content end -->
+						<!-- shop-pagination start -->
+						<ul class="shop-pagination box-shadow text-center ptblr-10-30">
+							<partial name="_Pagination" model="@Model.Products.PaginationDetails" />
+						</ul>
+						<!-- shop-pagination end -->
+					</div>
+				</div>
+				<div class="col-md-3 col-md-pull-9 col-sm-12">
+					<!-- widget-search -->
+					<aside class="widget-search mb-30">
+						<form method="Get" asp-page-handler="OnGet">
+							<input type="text" name="search" placeholder="جستجو ...">
+							<button type="submit">
+								<i class="zmdi zmdi-search"></i>
+							</button>
+						</form>
+					</aside>
+					<!-- widget-categories -->
+					<aside class="widget widget-categories box-shadow mb-30">
+						<h6 class="widget-title border-left mb-20">دسته ها</h6>
+						<div class="product-cat">
+							<ul>
+								@foreach (var parent in Model.Categories)
+								{
+									<li>
+										<a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
+										@foreach (var child in parent.Children)
+										{
+											<ul>
+												<li>
+													<a id="@child.Id" asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
+												</li>
+											</ul>
+										}
+									</li>
+								}
+							</ul>
+						</div>
+					</aside>
+					<!-- shop-filter -->
+					<aside class="widget shop-filter box-shadow mb-30">
+						<h6 class="widget-title border-left mb-20">قیمت</h6>
+						<div class="price_filter">
+							<div class="price_slider_amount">
+								<input type="submit" value="محدوده قیمت (تومان) :">
+								<input type="text" id="amount" name="price" placeholder="Add Your Price">
+							</div>
+							<div id="slider-range"></div>
+						</div>
+					</aside>
+
+
+					<!-- widget-product -->
+					<aside class="widget widget-product box-shadow">
+						<h6 class="widget-title border-left mb-20">محصولات اخیر</h6>
+						<!-- product-item start -->
+						@foreach (var newProduct in Model.NewProducts)
+						{
+						
+						<div class="product-item">
+							<div class="product-img">
+								<a asp-page="Product" asp-route-productUrl="@newProduct.Url.Trim()">
+									<img style="width: 70px;height: 78px" src="~/@newProduct.ImagePath" alt="@newProduct.Alt">
+								</a>
+							</div>
+							<div class="product-info">
+								<h6 class="product-title">
+									<a asp-page="Product" asp-route-productUrl="@newProduct.Url.Trim()">@newProduct.Name</a>
+								</h6>
+								<h3 class="pro-price">@newProduct.Prices.First().Amount تومان</h3>
+							</div>
+						</div>
+						<!-- product-item end -->
+						}
+				
+					</aside>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- SHOP SECTION END -->
 
 </div>
 <!-- End page content -->
