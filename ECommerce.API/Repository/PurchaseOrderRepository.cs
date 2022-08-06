@@ -30,7 +30,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
 
     public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
             .FirstOrDefaultAsync(cancellationToken);
-
+    public async Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.OrderId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
+           .FirstOrDefaultAsync(cancellationToken);
     public async Task<IEnumerable<PurchaseOrderViewModel>> GetProductListByUserId(int userId,
         CancellationToken cancellationToken)
     {

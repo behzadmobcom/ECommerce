@@ -85,7 +85,7 @@ public class CheckoutModel : PageModel
 
     public async Task<IActionResult> OnPost(string Portal)
     {
-        var returnAction = "PaymentSuccessfulMellat";
+        var returnAction = "";
         var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
@@ -112,8 +112,7 @@ public class CheckoutModel : PageModel
         }
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
-        SumPrice = Convert.ToInt32(tempSumPrice)*10;
-        SumPrice = 100000;
+        SumPrice = Convert.ToInt32(tempSumPrice) * 10;
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
@@ -124,7 +123,7 @@ public class CheckoutModel : PageModel
             {
                 case "zarinpal":
                     //Zarinpal
-
+                    returnAction = "PaymentSuccessful";
                     description = "خرید تستی ";
 
                     var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
@@ -140,6 +139,10 @@ public class CheckoutModel : PageModel
                     }
                 case "mellat":
                     //Zarinpal
+                    purchaseOrder.OrderGuid = Guid.NewGuid();
+                    byte[] gb = purchaseOrder.OrderGuid.ToByteArray();
+                    purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
+                    returnAction = "MellatSuccess";
                     var date = DateTime.Now.ToString("yyyyMMdd");
                     var time = DateTime.Now.ToString("HHmmss");
                     long terminalId = 6547305;
@@ -151,7 +154,7 @@ public class CheckoutModel : PageModel
                         terminalId,
                         userName,
                         password,
-                        purchaseOrder.Id,
+                        purchaseOrder.OrderId,
                         SumPrice,
                         date,
                         time,

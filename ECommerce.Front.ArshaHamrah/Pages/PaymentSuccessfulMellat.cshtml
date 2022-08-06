@@ -1,4 +1,4 @@
-﻿@page "/PaymentSuccessful"
+﻿@page "/PaymentSuccessfulMellat"
 @model ArshaHamrah.Pages.PaymentSuccessfulMellatModel
 @{
 }
@@ -54,7 +54,7 @@
                         }
                         <tr>
                             <td class="order-total">مجموع سفارش</td>
-                            <td class="order-total-price">2,425,000 تومان</td>
+                            <td class="order-total-price">@Model.PurchaseOrder.Amount.ToString("###,###,###") تومان</td>
                         </tr>
                     </table>
                 </div>

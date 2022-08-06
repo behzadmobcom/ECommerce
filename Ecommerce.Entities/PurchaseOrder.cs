@@ -7,7 +7,7 @@ namespace Entities;
 public class PurchaseOrder : BaseEntity
 {
     public Guid OrderGuid { get; set; } = Guid.NewGuid();
-
+    public long OrderId { get; set; }
     [Display(Name = "تاریخ خرید")] public DateTime CreationDate { get; set; } = DateTime.Now;
 
     [Display(Name = "وضعیت سفارش")] public Status? Status { get; set; }
@@ -86,7 +86,7 @@ public class PurchaseOrder : BaseEntity
     public Discount? Discount { get; set; }
 
     public int? TransactionId { get; set; }
-    public Transaction? Transaction { get; set; }
+    public Transaction? Transaction { get; set; } = new Transaction();
 }
 
 // وضعیت سفارش

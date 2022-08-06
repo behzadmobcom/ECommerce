@@ -33,6 +33,13 @@ namespace ECommerce.Services.Services
             return Return(result);
 
         }
+        public async Task<ServiceResult<PurchaseOrder>> GetByOrderId(long orderId)
+        {
+            var result = await Read(Url, $"GetByOrderId?orderId={orderId}");
+
+            return Return(result);
+
+        }
 
         public async Task<ServiceResult> Pay(PurchaseOrder purchaseOrder)
         {

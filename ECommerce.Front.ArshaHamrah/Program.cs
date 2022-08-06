@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options => { options.LoginPath = "/Login"; });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
-builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+//builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //If using Kestrel:
 builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
 
