@@ -353,6 +353,10 @@ public class ProductsController : ControllerBase
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel,cancellationToken);
             }
 
+            if(productListFilteredViewModel.EndPrice > 0)
+            {
+                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) > productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) < productListFilteredViewModel.EndPrice).ToList();
+            }
             switch (productListFilteredViewModel.ProductSort)
             {
                 case ProductSort.New:
