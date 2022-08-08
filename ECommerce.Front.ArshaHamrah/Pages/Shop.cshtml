@@ -291,16 +291,28 @@
 							        style="margin-top: 20px">اعمال</button>
 						</div>
 					</aside>
-
-
+					
+					<aside class="widget shop-filter box-shadow mb-30">
+						<h6 class="widget-title border-left mb-20">قیمت</h6>
+						<div class="price_filter">
+							<form id="price-range-form">
+								<label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br />
+								<span id="min-price-txt">1000000</span>
+								<input type="range" class="form-range" min="1000000" max="20000000" id="min-price" step="100000" value="1000000">
+								<label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br />
+								<span id="max-price-txt">20000000</span>
+								<input type="range" class="form-range" min="1" max="20000000" id="max-price" step="100000" value="20000000">
+							</form>
+							<button type="submit" class="submit-btn-1 black-bg btn-hover-2"
+							        style="margin-top: 20px">اعمال</button>
+						</div>
+					</aside>
 					<!-- widget-product -->
 					<aside class="widget widget-product box-shadow">
 						<h6 class="widget-title border-left mb-20">محصولات اخیر</h6>
 						<!-- product-item start -->
 						@foreach (var newProduct in Model.NewProducts)
-						{
-						
-						<div class="product-item">
+						{<div class="product-item">
 							<div class="product-img">
 								<a asp-page="Product" asp-route-productUrl="@newProduct.Url.Trim()">
 									<img style="width: 70px;height: 78px" src="~/@newProduct.ImagePath" alt="@newProduct.Alt">
@@ -311,23 +323,25 @@
 									<a asp-page="Product" asp-route-productUrl="@newProduct.Url.Trim()">@newProduct.Name</a>
 								</h6>
 								<h3 class="pro-price">@newProduct.Prices.First().Amount تومان</h3>
-							</div>
-						</div>
-						<!-- product-item end -->
-						}
-				
+							</div></div><!-- product-item end -->}
 					</aside>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- SHOP SECTION END -->
-
 </div>
 <!-- End page content -->
 @section scripts{
-	$(function() {
-	var temp="4"; 
-	$("#productSort").val(temp);
-	});
+	<script>
+		$("#min-price").on("change mousemove", function () {
+			min_price = parseInt($("#min-price").val());
+			$("#min-price-txt").text(min_price);
+			 });
+
+		$("#max-price").on("change mousemove", function () {
+			max_price = parseInt($("#max-price").val());
+			$("#max-price-txt").text( max_price);
+			});
+	</script>
 }
