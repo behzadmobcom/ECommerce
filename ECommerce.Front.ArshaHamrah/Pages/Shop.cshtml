@@ -51,10 +51,23 @@
 							</ul>
 							<!-- short-by -->
 							<div class="short-by f-left text-center">
-									<a asp-page="/Shop" asp-route-productSort="1">جدیدترین ها</a>
-									<a asp-page="/Shop" asp-route-productSort="2">محبوب ترین ها</a>
-									<a asp-page="/Shop" asp-route-productSort="3">قیمت صعودی</a>
-									<a asp-page="/Shop" asp-route-productSort="4">قیمت نزولی</a>
+								<form asp-page-handler="Shop" method="get">
+									<select name="productSort" id="productSort">
+										<option value="1">
+											جدیدترین ها
+										</option>
+										<option value="2">
+											محبوب ترین ها
+										</option>
+										<option value="3">
+											قیمت صعودی
+										</option>
+										<option value="4">
+											قیمت نزولی
+										</option>
+									</select>
+									<button type="submit">مرتب سازی</button>
+								</form>
 							</div>
 							<!-- showing -->
 							@{
@@ -274,6 +287,7 @@
 								<input type="text" id="amount" name="price" placeholder="Add Your Price">
 							</div>
 							<div id="slider-range"></div>
+							<button type="submit" class="submit-btn-1 black-bg btn-hover-2" style="margin-top: 20px">اعمال</button>
 						</div>
 					</aside>
 
@@ -310,3 +324,9 @@
 
 </div>
 <!-- End page content -->
+@section scripts{
+	$(function() {
+	var temp="4"; 
+	$("#productSort").val(temp);
+	});
+}
