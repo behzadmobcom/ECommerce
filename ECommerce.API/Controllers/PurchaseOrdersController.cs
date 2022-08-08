@@ -259,7 +259,7 @@ public class PurchaseOrdersController : ControllerBase
             {
                 var repetitiveDetail =
                     repetitivePurchaseOrder.PurchaseOrderDetails.FirstOrDefault(x =>
-                        x.ProductId == createPurchaseCommand.ProductId);
+                        x.ProductId == createPurchaseCommand.ProductId && x.PriceId == createPurchaseCommand.PriceId);
                 if (repetitiveDetail != null)
                 {
                     repetitiveDetail.Quantity += createPurchaseCommand.Quantity;

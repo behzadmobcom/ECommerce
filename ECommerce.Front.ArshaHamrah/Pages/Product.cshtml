@@ -90,7 +90,7 @@
 
                                 <div class="details-add-group" style="margin-right: 15%">
 
-                                    <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                    <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val())" title="اضافه کردن به سبد خرید">
                                         <span>افزودن به سبد خرید</span>
                                     </a>
                                 </div>
@@ -221,6 +221,7 @@
 		                                    }
 		                                    <br>
 	                                    }
+                                        <input id="PriceId" hidden="hidden" value="@priceId"/>
 	                                    </div>
                                         <div class="pro-rating sin-pro-rating f-right">
                                             <a href="#" tabindex="0">
@@ -270,7 +271,7 @@
 
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@Model.Product.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                                    <a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val())" title="اضافه کردن به سبد خرید">
                                                         <i class="zmdi zmdi-shopping-cart-plus"></i>
                                                     </a>
                                                 </li>
@@ -334,4 +335,28 @@
     {
     <script src="~/js/main.js"></script>
     <script src="~/js/plugins.js"></script>
+    
+
+<script>
+
+	var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
+
+	function SetPriceId(id) {
+	
+		var price = prices.find(x => x.id == id);
+		
+		if (price.exist > 0) {
+			$("#exist").text("در دسترس");
+
+		} else {
+			$("#exist").text("عدم موجودی");
+		}
+		$("#price").text(price.amount + " تومان ");
+		$("#PriceId").val(id);
+	}
+
+
+
+</script>
+
 }
