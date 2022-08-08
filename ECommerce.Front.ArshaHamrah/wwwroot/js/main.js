@@ -248,9 +248,9 @@
     $("#slider-range").slider({
         range: true,
         min: 50000,
-        max: 2000000,
-        step: 10000,
-        values: [190000, 1500000],
+        max: 20000000,
+        step: 100000,
+        values: [1500000, 8800000],
         slide: function(event, ui) {
             $("#amount").val(ui.values[0].toLocaleString() + " - " + ui.values[1].toLocaleString());
         }
