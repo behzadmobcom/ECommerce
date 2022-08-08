@@ -1,4 +1,6 @@
-﻿namespace Entities.ViewModel;
+﻿using Entities.Helper;
+
+namespace Entities.ViewModel;
 
 public class PurchaseOrderViewModel
 {
@@ -20,4 +22,21 @@ public class PurchaseOrderViewModel
 
     //ForeignKey
     public int UserId { get; set; }
+}
+
+public class PurchaseFiltreOrderViewModel
+{
+    public PaginationParameters PaginationParameters { get; set; }
+    public int UserId { get; set; }
+    public DateTime CreationDate { get; set; }
+
+}
+
+public class PurchaseListViewModel
+{
+    public int Id { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime CreationDate { get; set; }
+    public bool IsPaied { get; set; }
+    public string Description { get; set; }
 }

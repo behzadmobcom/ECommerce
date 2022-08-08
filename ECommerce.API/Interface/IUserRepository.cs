@@ -1,4 +1,5 @@
 ﻿using API.Utilities;
+using Ecommerce.Entities.ViewModel;
 using Entities;
 using Entities.Helper;
 
@@ -6,7 +7,7 @@ namespace API.Interface;
 
 public interface IUserRepository : IAsyncRepository<User>
 {
-    Task<PagedList<User>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
+    Task<PagedList<UserListViewModel>> Search(UserFilterdParameters paginationParameters, CancellationToken cancellationToken);
     Task<bool> Exists(int id, string email, string phoneNumber, CancellationToken cancellationToken);
     Task<User> GetByEmailOrUserName(string input, CancellationToken cancellationToken);
     Task<User> GetByPhoneNumber(string phone, CancellationToken cancellationToken);

@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using API.Interface;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
 using Entities;
 using Entities.Helper;
@@ -311,13 +312,13 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromQuery] UserFilterdParameters userFilterdParameters,
         CancellationToken cancellationToken)
     {
         try
         {
-            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-            var entity = await _userRepository.Search(paginationParameters, cancellationToken);
+            if (string.IsNullOrEmpty(userFilterdParameters.PaginationParameters.Search)) userFilterdParameters.PaginationParameters.Search = "";
+            var entity = await _userRepository.Search(userFilterdParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
             {
                 TotalCount = entity.TotalCount,
@@ -326,7 +327,7 @@ public class UsersController : ControllerBase
                 TotalPages = entity.TotalPages,
                 HasNext = entity.HasNext,
                 HasPrevious = entity.HasPrevious,
-                Search = paginationParameters.Search
+                Search = userFilterdParameters.PaginationParameters.Search
             };
 
             return Ok(new ApiResult
@@ -343,6 +344,7 @@ public class UsersController : ControllerBase
                 {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
+
 
     [HttpPost]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
