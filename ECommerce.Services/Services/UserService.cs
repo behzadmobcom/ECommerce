@@ -1,6 +1,7 @@
 ﻿using Entities.Helper;
 using Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Ecommerce.Entities.ViewModel;
 
 namespace Services.Services;
 
@@ -86,6 +87,43 @@ public class UserService : IUserService
         {
             Code = ServiceCode.Success,
             Message = "ثبت نام با موفقیت انجام شد"
+        };
+    }
+
+    public async Task<ServiceResult<List<UserListViewModel>>> UserList(string search = "",
+     int pageNumber = 0, int pageSize = 10, int userSort = 1,bool? isActive=null, bool? isColleague = null,bool? HasBuying= null)
+    {
+        //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
+        //return Return<List<ProductIndexPageViewModel>>(result);
+
+        var command = "Get?" +
+                      $"UserFilterdParameters.PaginationParameters.PageNumber={pageNumber}&" +
+                      $"UserFilterdParameters.PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"UserFilterdParameters.PaginationParameters.Search={search}&";
+        if (isActive!= null) command += $"UserFilterdParameters.IsActive={isActive}&";
+        if (isColleague != null) command += $"UserFilterdParameters.IsColleauge={isColleague}&";
+        if (HasBuying != null) command += $"UserFilterdParameters.HasBuying={HasBuying}&";
+        command += $"UserFilterdParameters.UserSort={userSort}";
+        var result = await _http.GetAsync<List<UserListViewModel>>(Url, command);
+        return Return(result);
+    }
+
+    private ServiceResult<TResult> Return<TResult>(ApiResult<TResult> result)
+    {
+        if (result is { Code: ResultCode.Success })
+            return new ServiceResult<TResult>
+            {
+                PaginationDetails = result.PaginationDetails,
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData,
+                Message = result.Messages?.FirstOrDefault()
+            };
+        var typeOfTResult = Activator.CreateInstance(typeof(TResult));
+        return new ServiceResult<TResult>
+        {
+            Code = ServiceCode.Error,
+            Message = result?.GetBody(),
+            ReturnData = (TResult)typeOfTResult
         };
     }
 }

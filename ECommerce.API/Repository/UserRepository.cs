@@ -1,6 +1,7 @@
 ﻿using API.DataContext;
 using API.Interface;
 using API.Utilities;
+using Ecommerce.Entities.ViewModel;
 using Entities;
 using Entities.Helper;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +14,52 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     {
     }
 
-    public async Task<PagedList<User>> Search(PaginationParameters paginationParameters,
+    public async Task<PagedList<UserListViewModel>> Search(UserFilterdParameters userFilterdParameters,
         CancellationToken cancellationToken)
     {
-        return PagedList<User>.ToPagedList(
-            await TableNoTracking.Where(x => x.UserName.Contains(paginationParameters.Search)).AsNoTracking()
-                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
-            paginationParameters.PageNumber,
-            paginationParameters.PageSize);
+        var query = TableNoTracking.Where(x => x.UserName.Contains(userFilterdParameters.PaginationParameters.Search)).AsNoTracking();
+
+        if (userFilterdParameters.IsActive != null) query = query.Where(x => x.IsActive == userFilterdParameters.IsActive);
+        if (userFilterdParameters.IsColleauge != null) query = query.Where(x => x.IsColleague == userFilterdParameters.IsColleauge);
+        if (userFilterdParameters.HasBuying != null)
+        {
+
+            query = userFilterdParameters.HasBuying == true ? query.Where(x => x.PurchaseOrders.Count > 0): query.Where(x => x.PurchaseOrders.Count == 0);
+        }
+
+        var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
+
+        switch (userFilterdParameters.UserSort)
+        {
+            case UserSort.LowToHighCountBuying:
+                sortedQuery = query.OrderBy(x => x.PurchaseOrders.Count).ToList();
+                break;
+            case UserSort.HighToLowCountBuying:
+                sortedQuery = query.OrderByDescending(x => x.PurchaseOrders.Count).ToList();
+                break;
+            case UserSort.LowToHighPiceBuying:
+                sortedQuery = query.OrderBy(x => x.PurchaseOrders.Sum(p=>p.Amount)).ToList();
+                break;
+            case UserSort.HighToLowPriceBuying:
+                sortedQuery = query.OrderByDescending(x => x.PurchaseOrders.Sum(p => p.Amount)).ToList();
+                break;
+        }
+
+        var userList = await query.Select(u=> new UserListViewModel
+        {
+            Id=u.Id,
+            BuyingAmount= u.PurchaseOrders.Sum(s=>s.Amount),
+            City= u.City.Name,
+            State=u.State.Name,
+            IsActive=u.IsActive,
+            IsColleague=u.IsColleague,
+            RegisterDate=u.RegisterDate,
+            Username=u.UserName,
+            UserRole=u.UserRole.Name
+        }).ToListAsync(cancellationToken);
+        return PagedList<UserListViewModel>.ToPagedList(userList,
+            userFilterdParameters.PaginationParameters.PageNumber,
+            userFilterdParameters.PaginationParameters.PageSize);
     }
 
     public async Task<User> GetByEmailOrUserName(string input, CancellationToken cancellationToken)

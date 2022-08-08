@@ -18,6 +18,24 @@ public enum ProductSort : byte
     Bestsellers = 5
 }
 
+public enum UserSort : byte
+{
+    New = 1,
+    LowToHighPiceBuying = 2,
+    HighToLowPriceBuying = 3,
+    LowToHighCountBuying = 4,
+    HighToLowCountBuying = 5
+}
+
+public enum PurchaseSort : byte
+{
+    New = 1,
+    LowToHighPiceBuying = 2,
+    HighToLowPriceBuying = 3,
+    LowToHighCountBuying = 4,
+    HighToLowCountBuying = 5
+}
+
 public enum Grade : byte
 {
     ندارد = 1,

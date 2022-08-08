@@ -8,6 +8,7 @@ using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
 using Services.Services;
+using Entities.ViewModel;
 
 namespace ECommerce.Services.Services
 {
@@ -15,9 +16,12 @@ namespace ECommerce.Services.Services
     {
         private const string Url = "api/PurchaseOrders";
         private readonly ICookieService _cookieService;
+        private readonly IHttpService _http;
+
         public PurchaseOrderService(IHttpService http, ICookieService cookieService) : base(http)
         {
             _cookieService = cookieService;
+            _http = http;
         }
 
         public async Task<ServiceResult<PurchaseOrder>> GetByUserId()
@@ -37,7 +41,7 @@ namespace ECommerce.Services.Services
         {
             var result = await Read(Url, $"GetByOrderId?orderId={orderId}");
 
-            return Return(result);
+            return Return(result); 
 
         }
 
@@ -57,5 +61,23 @@ namespace ECommerce.Services.Services
             var result = await Update(Url, purchaseOrder);
             return Return(result);
         }
+
+
+        public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(string search = "",
+         int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null)
+        {
+            //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
+            //return Return<List<ProductIndexPageViewModel>>(result);
+
+            var command = "Get?" +
+                          $"PurchaseFiltreOrderViewModel.PaginationParameters.PageNumber={pageNumber}&" +
+                          $"PurchaseFiltreOrderViewModel.PaginationParameters.PageSize={pageSize}&";
+            if (!string.IsNullOrEmpty(search)) command += $"PurchaseFiltreOrderViewModel.PaginationParameters.Search={search}&";
+            if (isPaied != null) command += $"PurchaseFiltreOrderViewModel.IsPaied={isPaied}&";
+            command += $"PurchaseFiltreOrderViewModel.PurchaseSort={purchaseSort}";
+            var result = await _http.GetAsync<List<PurchaseListViewModel>>(Url, command);
+            return Return(result);
+        }
+
     }
 }
