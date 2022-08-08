@@ -1197,7 +1197,7 @@
 .widget-color ul li a::before {
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-    background: #ff7f00 none repeat scroll 100% 0;
+/*    background: #ff7f00 none repeat scroll 100% 0;*/
     border-radius: 50%;
     content: "";
     height: 12px;

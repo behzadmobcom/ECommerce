@@ -3,10 +3,114 @@
 @{
 	ViewData["Title"] = "فاکتور ها";
 }
+<link href="~/Admin/css/Sheyda/style-factor.css" rel="stylesheet"/>
+<link href="~/Admin/css/Sheyda/style.css" rel="stylesheet"/>
 <div class="card card-custom gutter-b">
-<div class="card-header">
-	<div class="card-title">
-		<h3 class="card-label">لیست فاکتور</h3>
+	<div class="card-header">
+		<div class="card-title">
+			<h3 class="card-label">لیست فاکتور</h3>
+		</div>
 	</div>
 </div>
+
+<!-- START FACTOR TABLE -->
+<div id="wrapper1">
+    <div class="title">
+      فاکتورها
+    </div>
+    <!--account search-->
+    <div class="header2-search f-right">
+        <div class="header2-search-inner">
+           <button class="search-toggle">
+            <i class="zmdi zmdi-search"></i>
+           </button>
+            <form action="#">
+                <div class="top-search-box">
+                    <input type="text" placeholder="نام مشتری...">
+                    <button type="submit">
+                        <i class="zmdi zmdi-search"></i>
+                    </button>
+                    
+                </div>
+                <div class="text"><p>نام مشتری</p></div>
+            </form> 
+        </div>
+    </div>
+     <!--account search-->
+    <div class="tabs_wrap">
+      <ul>
+        <li data-tabs="notpaid">پرداخت نشده</li>
+        <li data-tabs="paid">پرداخت شده</li>
+        
+      </ul>
+    </div>
+    <!-- start data time picker-->
+    <div class="container">
+        <div class='col-md-5'>
+           <div class="form-group">
+              <div class='input-group date' id='datetimepicker6'>
+                 <input type='text' class="form-control" />
+                 <span class="input-group-addon">
+                 <span class="glyphicon glyphicon-calendar"></span>
+                 </span>
+              </div>
+           </div>
+        </div>
+        <div class='col-md-5'>
+           <div class="form-group">
+              <div class='input-group date' id='datetimepicker7'>
+                 <input type='text' class="form-control" />
+                 <span class="input-group-addon">
+                 <span class="glyphicon glyphicon-calendar"></span>
+                 </span>
+              </div>
+           </div>
+        </div>
+     </div>
+     
+    <!--end data time picker-->
+    <table>
+        <tr>
+            <th>شماره فاکتور</th>
+            <th>تاریخ</th>
+            <th>نام کالا</th>
+            <th>تعداد</th>
+            <th>قیمت یک عدد</th>
+            <th>قیمت کل</th>
+        </tr>
+        <tr>
+            <th>101</th>
+            <th>1401/2/10</th>
+            <th>SAMSUNG A52</th>
+            <th>3</th>
+            <th>8/700/000</th>
+            <th>قیمت کل</th>
+        </tr>
+        <tr>
+            <th>102</th>
+            <th>1401/2/20</th>
+            <th>SAMSUNG S22</th>
+            <th>5</th>
+            <th>18/150/000</th>
+            <th>قیمت کل</th>
+        </tr>
+	    <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>
+                <h5>جمع کل</h5>
+            <div class="pricebox">
+            </div>
+        </th>
+        </tr>
+  </table>
+ 
 </div>
+
+
+<!-- END FACTOR TABLE -->
+
+<!-- End page content -->

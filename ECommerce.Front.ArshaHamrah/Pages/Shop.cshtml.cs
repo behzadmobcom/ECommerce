@@ -26,6 +26,7 @@ public class ShopModel : PageModel
 
     public List<CategoryParentViewModel> Categories { get; set; }
     public bool IsColleague { get; set; }
+    public int Sort { get; set; }
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
@@ -55,6 +56,8 @@ public class ShopModel : PageModel
 
         var categoryResult = await _categoryService.GetParents();
         Categories = categoryResult.ReturnData;
+
+        Sort = productSort;
     }
 
 }

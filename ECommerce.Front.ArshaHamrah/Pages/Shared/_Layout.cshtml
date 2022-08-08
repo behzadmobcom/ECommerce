@@ -352,29 +352,23 @@
                         <div class="mobile-menu">
                             <nav id="dropdown">
                                 <ul>
-                                    <li>
-                                        <a asp-page="index">خانه</a>
-                                    </li>
-                                    <li>
-                                        <a asp-page="Shop">محصولات</a>
-                                    </li>
-                                    <li>
+	                                <li>
+		                                <a asp-page="index">خانه</a>
+	                                </li>
+                                @if (categories.Code == 0)
+                                {
+	                                @foreach (var parent in categories.ReturnData)
+	                                {
+		                                <li>
+			                                <a asp-page="Shop">محصولات</a>
+		                                </li>
+	                                }
+                                }
+	                                <li>
                                         <a href="#">صفحات</a>
                                         <ul>
                                             <li>
                                                 <a href="shop.html">فروشگاه</a>
-                                            </li>
-                                            <li>
-                                                <a href="shop-right-sidebar.html">فروشگاه نوار کناری راست</a>
-                                            </li>
-                                            <li>
-                                                <a href="shop-left-sidebar.html">فروشگاه نوار کناری چپ</a>
-                                            </li>
-                                            <li>
-                                                <a href="shop-list.html">فروشگاه نمایش لیست</a>
-                                            </li>
-                                            <li>
-                                                <a href="shop-list-left-sidebar.html">فروشگاه نمایش لیست نوار کناری چپ</a>
                                             </li>
                                             <li>
                                                 <a href="single-product.html">جزئیات محصول</a>
@@ -411,32 +405,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li>
-                                        <a href="blog.html">بلاگ</a>
-                                        <ul>
-                                            <li>
-                                                <a href="blog.html">بلاگ</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-right-sidebar.html">بلاگ نوار کناری راست</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-left-sidebar.html">بلاگ نوار کناری چپ</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-2.html">بلاگ طرح 2</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-2-right-sidebar.html">بلاگ 2 نوار کناری راست</a>
-                                            </li>
-                                            <li>
-                                                <a href="blog-2-left-sidebar.html">بلاگ 2 نوار کناری چپ</a>
-                                            </li>
-                                            <li>
-                                                <a href="single-blog.html">جزئیات مطلب بلاگ</a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                   
 
 
                                 </ul>
