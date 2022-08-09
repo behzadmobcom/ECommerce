@@ -4,28 +4,6 @@
     ViewData["Title"] = "توضیحات کالا";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
-<style>
-	.images {
-		width: 100%;
-		height: 100%;    
-	}
-
-	.images img {
-		-webkit-transition: all 1s ease; /* Safari and Chrome */
-		-moz-transition: all 1s ease; /* Firefox */
-		-ms-transition: all 1s ease; /* IE 9 */
-		-o-transition: all 1s ease; /* Opera */
-		transition: all 1s ease;
-	}
-
-	.images img:hover {
-		-webkit-transform:scale(2); /* Safari and Chrome */
-		-moz-transform:scale(2); /* Firefox */
-		-ms-transform:scale(2); /* IE 9 */
-		-o-transform:scale(2); /* Opera */
-		transform:scale(2);
-	}
-</style>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -61,7 +39,6 @@
                             <!-- imgs-zoom-area start -->
                             <div class="col-md-5 col-sm-5 col-xs-12">
 	                            <div class="imgs-zoom-area">
-		                             <p class="images">
 		                            @if (Model.Product.Images.Any())
 		                            {
 			                            <img src="/@($"{Model.Product.Images.FirstOrDefault().Path}/{Model.Product.Images.FirstOrDefault().Name}")"
@@ -71,7 +48,7 @@
 		                            else
 		                            {
 			                            <img id="zoom_03" src="~/img/product/NoImage.png" alt="NoImage">
-		                            }</p>
+		                            }
 		                            <div class="row">
 			                            <div class="col-xs-12">
 				                            <div id="gallery_01" class="carousel-btn slick-arrow-3 mt-30">
@@ -87,8 +64,8 @@
 			                            </div>
 		                            </div>
 	                            </div>
-
-                                <div class="details-add-group" style="margin-right: 15%">
+	                     
+	                            <div class="details-add-group" style="margin-right: 15%">
 
                                     <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val(),$('#qtybutton').val())" title="اضافه کردن به سبد خرید">
                                         <span>افزودن به سبد خرید</span>
@@ -355,8 +332,8 @@
 		$("#PriceId").val(id);
 	}
 
-
-
+    
 </script>
+
 
 }
