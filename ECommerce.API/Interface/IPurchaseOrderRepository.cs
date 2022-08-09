@@ -7,7 +7,7 @@ namespace API.Interface;
 
 public interface IPurchaseOrderRepository : IAsyncRepository<PurchaseOrder>
 {
-    Task<PagedList<PurchaseOrder>> Search(PaginationParameters paginationParameters,
+    Task<PagedList<PurchaseListViewModel>> Search(PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
         CancellationToken cancellationToken);
 
     Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken);

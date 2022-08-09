@@ -95,15 +95,14 @@ public class UserService : IUserService
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
-
         var command = "Get?" +
-                      $"UserFilterdParameters.PaginationParameters.PageNumber={pageNumber}&" +
-                      $"UserFilterdParameters.PaginationParameters.PageSize={pageSize}&";
-        if (!string.IsNullOrEmpty(search)) command += $"UserFilterdParameters.PaginationParameters.Search={search}&";
-        if (isActive!= null) command += $"UserFilterdParameters.IsActive={isActive}&";
-        if (isColleague != null) command += $"UserFilterdParameters.IsColleauge={isColleague}&";
-        if (HasBuying != null) command += $"UserFilterdParameters.HasBuying={HasBuying}&";
-        command += $"UserFilterdParameters.UserSort={userSort}";
+                      $"PaginationParameters.PageNumber={pageNumber}&" +
+                      $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search='{search}'&";
+        if (isActive!= null) command += $"IsActive={isActive}&";
+        if (isColleague != null) command += $"IsColleauge={isColleague}&";
+        if (HasBuying != null) command += $"HasBuying={HasBuying}&";
+        command += $"UserSort={userSort}";
         var result = await _http.GetAsync<List<UserListViewModel>>(Url, command);
         return Return(result);
     }

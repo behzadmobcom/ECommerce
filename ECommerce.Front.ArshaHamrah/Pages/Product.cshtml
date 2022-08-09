@@ -90,7 +90,7 @@
 
                                 <div class="details-add-group" style="margin-right: 15%">
 
-                                    <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val())" title="اضافه کردن به سبد خرید">
+                                    <a class="button large mt-20" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val(),$('#qtybutton').val())" title="اضافه کردن به سبد خرید">
                                         <span>افزودن به سبد خرید</span>
                                     </a>
                                 </div>
@@ -249,7 +249,7 @@
                                         <div class="sin-plus-minus f-left clearfix">
                                             <p class="color-title f-left">تعداد</p>
                                             <div class="cart-plus-minus f-left">
-                                                <input type="text" value="1" name="qtybutton" class="cart-plus-minus-box">
+                                                <input type="text" value="1" id="qtybutton" name="qtybutton" class="cart-plus-minus-box">
                                             </div>
                                         </div>
                                         <div class="sin-pro-action f-right">
@@ -271,7 +271,7 @@
 
                                                 </li>
                                                 <li>
-                                                    <a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val())" title="اضافه کردن به سبد خرید">
+                                                    <a href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,$('#PriceId').val(),$('#qtybutton').val())" title="اضافه کردن به سبد خرید">
                                                         <i class="zmdi zmdi-shopping-cart-plus"></i>
                                                     </a>
                                                 </li>

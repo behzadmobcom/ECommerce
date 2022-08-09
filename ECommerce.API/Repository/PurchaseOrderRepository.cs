@@ -17,15 +17,45 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         _context = context;
     }
 
-    public async Task<PagedList<PurchaseOrder>> Search(PaginationParameters paginationParameters,
+    public async Task<PagedList<PurchaseListViewModel>> Search(PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
         CancellationToken cancellationToken)
     {
-        return PagedList<PurchaseOrder>.ToPagedList(
-            await _context.PurchaseOrders.Where(x => x.User.UserName.Contains(paginationParameters.Search))
-                .AsNoTracking().Include(i => i.PurchaseOrderDetails).OrderBy(on => on.Id)
-                .ToListAsync(cancellationToken),
-            paginationParameters.PageNumber,
-            paginationParameters.PageSize);
+        var query = _context.PurchaseOrders.Where(x => x.User.UserName.Contains(purchaseFiltreOrderViewModel.PaginationParameters.Search))
+                .AsNoTracking();
+
+        if (purchaseFiltreOrderViewModel.IsPaied != null) query = query.Where(x => x.IsPaid == purchaseFiltreOrderViewModel.IsPaied);
+        if (purchaseFiltreOrderViewModel.UserId > 0 ) query = query.Where(x => x.UserId == purchaseFiltreOrderViewModel.UserId);
+
+        var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
+
+        switch (purchaseFiltreOrderViewModel.PurchaseSort)
+        {
+            case PurchaseSort.LowToHighCountBuying:
+                sortedQuery = query.OrderBy(x => x.PurchaseOrderDetails.Count).ToList();
+                break;
+            case PurchaseSort.HighToLowCountBuying:
+                sortedQuery = query.OrderByDescending(x => x.PurchaseOrderDetails.Count).ToList();
+                break;
+            case PurchaseSort.LowToHighPiceBuying:
+                sortedQuery = query.OrderBy(x => x.Amount).ToList();
+                break;
+            case PurchaseSort.HighToLowPriceBuying:
+                sortedQuery = query.OrderByDescending(x => x.Amount).ToList();
+                break;
+        }
+
+        var purchaseList = await query.Select(p => new PurchaseListViewModel
+        {
+            Id = p.Id,
+          Amount=p.Amount,
+          CreationDate=p.CreationDate,
+          IsPaied=p.IsPaid,
+          Description =p.Description
+        }).ToListAsync(cancellationToken);
+
+        return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,
+            purchaseFiltreOrderViewModel.PaginationParameters.PageNumber,
+            purchaseFiltreOrderViewModel.PaginationParameters.PageSize);
     }
 
     public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
@@ -54,7 +84,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 IsColleague = p.PurchaseOrder!.User!.IsColleague,
                 UserId = p.PurchaseOrder.UserId,
                 Quantity = p.Quantity,
-                SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount
+                SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
+                ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color.Name
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;

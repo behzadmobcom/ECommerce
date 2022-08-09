@@ -13,13 +13,15 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
     private readonly IHttpService _http;
     private readonly string _key = "Cart";
     private readonly IProductService _productService;
+    private readonly IPriceService _priceService;
 
 
-    public CartService(IHttpService http, ICookieService cookieService, IProductService productService) : base(http)
+    public CartService(IHttpService http, ICookieService cookieService, IProductService productService, IPriceService priceService) : base(http)
     {
         _http = http;
         _cookieService = cookieService;
         _productService = productService;
+        _priceService = priceService;
     }
 
     public async Task<ServiceResult<List<PurchaseOrderViewModel>>> Load(HttpContext context)
@@ -29,19 +31,19 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
 
         if (currentUser.Id != 0)
         {
-            if(carts.Count>0)
+            if (carts.Count > 0)
             {
-                foreach(var cart in carts)
+                foreach (var cart in carts)
                 {
-                   await Add(context, cart.ProductId, cart.PriceId);
-                    await Delete(context, cart.Id, cart.ProductId, cart.PriceId,true);
+                    await Add(context, cart.ProductId, cart.PriceId);
+                    await Delete(context, cart.Id, cart.ProductId, cart.PriceId, true);
                 }
             }
 
             var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
             return Return(result);
         }
-       
+
         //if(cart.Count==0)
         //    return new ServiceResult<List<PurchaseOrderViewModel>>
         //    { Code = ServiceCode.Error, Message = "کالای مورد نظر یافت نشد"};
@@ -76,7 +78,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var responseProduct = await _productService.ProductsWithIdsForCart(productIdList);
         if (responseProduct.Code > 0)
             return carts;
-          
+
         for (var i = 0; i < responseProduct.ReturnData.Count; i++)
         {
             var priceId = productPriceIdList[i];
@@ -93,7 +95,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 Brand = responseProduct.ReturnData[i].Brand,
                 SumPrice = price.Amount * productNumberList[i],
                 PriceAmount = price.Amount,
-                PriceId= priceId
+                PriceId = priceId,
+                ColorName = price.Color.Name
             };
 
             carts.Add(tempPurchaseOrderDetail);
@@ -115,7 +118,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Code = ServiceCode.Error
         };
     }
-        public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
+    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
@@ -130,7 +133,6 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 Message = "کالا با موفقیت به سبد خرید اضافه شد"
             };
         }
-
         var purchaseOrderViewModel = new PurchaseOrderViewModel
         {
             IsColleague = currentUser.IsColleague,
@@ -172,11 +174,11 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             }
         }
 
-        var success = await Update(Url, new PurchaseOrderViewModel{ Id = id}, "Decrease");
+        var success = await Update(Url, new PurchaseOrderViewModel { Id = id }, "Decrease");
         return Return(success);
     }
 
-    public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId,bool deleteFromCookie = false)
+    public async Task<ServiceResult> Delete(HttpContext context, int id, int productId, int priceId, bool deleteFromCookie = false)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0 || deleteFromCookie)
@@ -197,5 +199,5 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         return Return(success);
     }
 
-   
+
 }

@@ -22,12 +22,12 @@ public class IndexModel : PageModel
 
     [TempData] public string Code { get; set; }
 
-    public async Task<IActionResult> OnGet(string search = "", int pageNumber = 1, int pageSize = 10,
+    public async Task<IActionResult> OnGet(int userId = 0, string search = "", int pageNumber = 1, int pageSize = 10,
         string message = null, string code = null,int purchaseSort =1,bool? isPaied=null)
     {
         Message = message;
         Code = code;
-        var result = await _purchaseOrderService.PurchaseList(search,pageNumber,pageSize,purchaseSort,isPaied);
+        var result = await _purchaseOrderService.PurchaseList(userId,search, pageNumber,pageSize,purchaseSort,isPaied);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;

@@ -47,7 +47,7 @@ public class PriceRepository : AsyncRepository<Price>, IPriceRepository
 
     public async Task<IEnumerable<Price>> PriceOfProduct(int id, CancellationToken cancellationToken)
     {
-        return await _context.Prices.AsNoTracking().Where(x => x.ProductId == id).Include(x => x.Currency)
+        return await _context.Prices.AsNoTracking().Where(x => x.ProductId == id).Include(x => x.Currency).Include(c=>c.Color)
             .ToListAsync(cancellationToken);
     }
 }
