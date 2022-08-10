@@ -175,7 +175,7 @@
 						<div class="widget-color f-left">
 							<ul>
 								<li >
-									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;"> </a>
+									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
 									<label for="price-@price.Id">قیمت : @price.Amount</label>
@@ -189,7 +189,7 @@
 						<div class="widget-color f-left">
 							<ul>
 								<li >
-									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;"> </a>
+									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
 									<label for="price-@price.Id">قیمت : @price.Amount</label>
@@ -224,7 +224,7 @@
 		<!-- hr -->
 		<hr>
 		<!-- plus-minus-pro-action -->
-		<div class="plus-minus-pro-action">
+		<div class="plus-minus-pro-action" style="margin-bottom:15%">
 			<div class="sin-plus-minus f-left clearfix">
 				<p class="color-title f-left">تعداد</p>
 				<div class="cart-plus-minus f-left">
@@ -264,10 +264,12 @@
                             <br />
                             <table class="table table-bordered">
 
-
+	                            <tbody style="color: black">
+	                            <tr>
+		                            <th style="font-size: 20px;text-align: center" colspan="2">مشخصات</th>
+	                            </tr>
 	@for (var g = 0; g < Model.AttributeGroups.Count; g++)
 	{
-		<tbody>
 		@for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
 		{
 			@if (string.IsNullOrWhiteSpace(Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value)) continue;
@@ -277,10 +279,9 @@
 				<td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value</td>
 			</tr>
 		}
-		</tbody>
 	}
-
-</table>
+		</tbody>
+                            </table>
 </div>
 </div>
 <!-- single-product-area end -->
