@@ -77,7 +77,7 @@ public class IndexModel : PageModel
 
     public async Task<JsonResult> OnGetAddCart(int id, int priceId, int count)
     {
-        var result = await _cartService.Add(HttpContext, id, priceId);
+        var result = await _cartService.Add(HttpContext, id, priceId, count);
         return new JsonResult(result);
     }
 

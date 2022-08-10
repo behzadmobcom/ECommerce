@@ -35,7 +35,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             {
                 foreach (var cart in carts)
                 {
-                    await Add(context, cart.ProductId, cart.PriceId);
+                    await Add(context, cart.ProductId, cart.PriceId, cart.Quantity);
                     await Delete(context, cart.Id, cart.ProductId, cart.PriceId, true);
                 }
             }
@@ -118,15 +118,15 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Code = ServiceCode.Error
         };
     }
-    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId)
+    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId,int count)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
         {
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
-            var count = product.FirstOrDefault()!.Value + 1;
+            var newCount = product.FirstOrDefault()!.Value + count;
 
-            _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", count));
+            _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", newCount));
             return new ServiceResult
             {
                 Code = ServiceCode.Success,
@@ -137,7 +137,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         {
             IsColleague = currentUser.IsColleague,
             UserId = currentUser.Id,
-            Quantity = 1,
+            Quantity =Convert.ToUInt16(count),
             ProductId = productId,
             PriceId = priceId
         };
