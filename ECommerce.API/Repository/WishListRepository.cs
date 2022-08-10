@@ -37,7 +37,8 @@ public class WishListRepository : AsyncRepository<WishList>, IWishListRepository
                 Price = p.Product.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
                 ImagePath = $"{p.Product.Images.FirstOrDefault().Path}/{p.Product.Images.FirstOrDefault().Name}",
                 Brand = p.Product.Brand.Name,
-                Alt = p.Product.Images.FirstOrDefault().Alt
+                Alt = p.Product.Images.FirstOrDefault().Alt,
+                PriceId= p.Product.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Id
                 //Exist = p.Product.Exist,
                 //StoreStatus = p.Product.Exist >0 ? "در انبار":"تمام شد"
             })

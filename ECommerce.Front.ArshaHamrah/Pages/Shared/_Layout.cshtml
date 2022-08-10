@@ -292,6 +292,9 @@
                                                                     </p>
                                                                     <p>
                                                                         <span>تعداد <strong>:</strong></span>@product.Quantity
+                                                                    </p> 
+                                                                    <p>
+                                                                        <span>رنگ <strong>:</strong></span>@product.ColorName
                                                                     </p>
                                                                     <p>
                                                                         <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.ProductId" />
@@ -433,13 +436,7 @@
                                     <a asp-page="index">خانه</a>
                                 </li>
                                 <li>
-                                    <a asp-page="shop">محصولات</a>
-                                </li>
-                                <li>
-                                    <a href="#">بلاگ</a>
-                                </li>
-                                <li>
-                                    <a href="#">صفحات</a>
+                                    <a asp-page="/shop">محصولات</a>
                                 </li>
                                 <li>
                                     <a asp-page="aboutUs">درباره ما</a>
@@ -726,10 +723,10 @@
             });
         }
 
-        function AddCart(id, priceId) {
+        function AddCart(id, priceId, count) {
             $.ajax({
                 type: "Get",
-                url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
+                url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId +"&count="+count,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
@@ -741,6 +738,7 @@
                         $.get('/index?handler=LoadCart').done(function(products) {
                             $.each(products.returnData,
                                 function(i, product) {
+                                    console.log(product);
                                     var item =
                                         '<div class="single-cart clearfix" id="CartDrop-' +
                                         product.id +
@@ -769,6 +767,8 @@
                                         product.priceAmount +
                                         '</p><p><span>تعداد <strong>:</strong></span>' +
                                         product.quantity +
+                                        '</p><p><span>رنگ <strong>:</strong></span>' +
+                                        product.colorName +
                                         '</p><p> <input hidden="hidden" value="' +
                                         product.sumPrice +
                                         '" id="SumPrice-' +

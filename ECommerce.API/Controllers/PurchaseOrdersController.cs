@@ -59,15 +59,15 @@ public class PurchaseOrdersController : ControllerBase
 
         return products;
     }
+
     [HttpGet]
-    [Authorize(Roles = "Client,Admin,SuperAdmin")]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromQuery] PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
+       CancellationToken cancellationToken)
     {
         try
         {
-            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-            var entity = await _purchaseOrderRepository.Search(paginationParameters, cancellationToken);
+            if (string.IsNullOrEmpty(purchaseFiltreOrderViewModel.PaginationParameters.Search)) purchaseFiltreOrderViewModel.PaginationParameters.Search = "";
+            var entity = await _purchaseOrderRepository.Search(purchaseFiltreOrderViewModel, cancellationToken);
             var paginationDetails = new PaginationDetails
             {
                 TotalCount = entity.TotalCount,
@@ -76,8 +76,9 @@ public class PurchaseOrdersController : ControllerBase
                 TotalPages = entity.TotalPages,
                 HasNext = entity.HasNext,
                 HasPrevious = entity.HasPrevious,
-                Search = paginationParameters.Search
+                Search = purchaseFiltreOrderViewModel.PaginationParameters.Search
             };
+
             return Ok(new ApiResult
             {
                 PaginationDetails = paginationDetails,
@@ -88,7 +89,8 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 

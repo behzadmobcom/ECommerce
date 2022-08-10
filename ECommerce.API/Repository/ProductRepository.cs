@@ -95,6 +95,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.BrandId = productViewModel.BrandId != 0 ? productViewModel.BrandId : null;
         product.SupplierId = productViewModel.SupplierId;
         product.StoreId = productViewModel.StoreId;
+        product.Review = productViewModel.Review;
 
         foreach (var productKeyword in product.Keywords) product.Keywords.Remove(productKeyword);
         foreach (var id in productViewModel.KeywordsId)
@@ -160,8 +161,9 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Where(x => productIdList.Contains(x.Id))
             .Include(x => x.Brand)
             .Include(x => x.Images)
-            .Include(x => x.Prices)
             .Include(x => x.ProductUserRanks)
+            .Include(x => x.Prices)
+            .ThenInclude(c=> c.Color)
             .ToListAsync(cancellationToken);
         productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
         return productIndexPageViewModel;

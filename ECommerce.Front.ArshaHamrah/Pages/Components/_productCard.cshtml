@@ -15,7 +15,7 @@
                                             <a asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">@Model.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@Model.Brand</h6>
-                                        <h3 class="pro-price">@Model.Prices.First().Amount تومان</h3>
+                                        <h3 class="pro-price">@Model.Prices.First().Amount.ToString("###,###,###,###") تومان</h3>
                                     </div>
                                     <ul class="action-button">
                                         <li>
@@ -34,7 +34,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id)" title="اضافه کردن به سبد خرید">
+                                            <a href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id,1)" title="اضافه کردن به سبد خرید">
                                                 <i class="zmdi zmdi-shopping-cart-plus"></i>
                                             </a>
                                         </li>

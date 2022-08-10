@@ -63,18 +63,19 @@ namespace ECommerce.Services.Services
         }
 
 
-        public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(string search = "",
+        public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId=0,string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null)
         {
             //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
             //return Return<List<ProductIndexPageViewModel>>(result);
 
             var command = "Get?" +
-                          $"PurchaseFiltreOrderViewModel.PaginationParameters.PageNumber={pageNumber}&" +
-                          $"PurchaseFiltreOrderViewModel.PaginationParameters.PageSize={pageSize}&";
-            if (!string.IsNullOrEmpty(search)) command += $"PurchaseFiltreOrderViewModel.PaginationParameters.Search={search}&";
-            if (isPaied != null) command += $"PurchaseFiltreOrderViewModel.IsPaied={isPaied}&";
-            command += $"PurchaseFiltreOrderViewModel.PurchaseSort={purchaseSort}";
+                          $"PaginationParameters.PageNumber={pageNumber}&" +
+                          $"PaginationParameters.PageSize={pageSize}&";
+            if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+            if (isPaied != null) command += $"IsPaied={isPaied}&";
+            if (userId >0) command += $"UserId={userId}&";
+            command += $"PurchaseSort={purchaseSort}";
             var result = await _http.GetAsync<List<PurchaseListViewModel>>(Url, command);
             return Return(result);
         }

@@ -17,7 +17,7 @@ public class PurchaseOrderViewModel
     public decimal SumPrice { get; set; }
     public ushort Quantity { get; set; }
     public double Exist { get; set; }
-
+    public string ColorName { get; set; }
     public bool IsColleague { get; set; }
 
     //ForeignKey
@@ -29,7 +29,8 @@ public class PurchaseFiltreOrderViewModel
     public PaginationParameters PaginationParameters { get; set; }
     public int UserId { get; set; }
     public DateTime CreationDate { get; set; }
-
+    public bool IsPaied { get; set; }
+    public PurchaseSort PurchaseSort { get; set; }
 }
 
 public class PurchaseListViewModel
