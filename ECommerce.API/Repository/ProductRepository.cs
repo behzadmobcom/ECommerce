@@ -429,7 +429,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         }
 
         foreach (var category in categories)
-            products = await _context.Products
+            products.AddRange( await _context.Products
                 .Where(x => x.ProductCategories.Any(x => x.Id == category.Id) && x.Id != productId)
                 .Take(countPerCategory)
                 .Select(p => new ProductIndexPageViewModel
@@ -444,7 +444,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                     Stars = p.Star,
                     Url = p.Url
                 })
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken));
         //productsList.AddRange(temp);
 
         return products.Take(count).ToList();
