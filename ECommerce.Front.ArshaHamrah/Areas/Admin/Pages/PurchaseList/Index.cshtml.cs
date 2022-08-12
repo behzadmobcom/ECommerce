@@ -23,11 +23,14 @@ public class IndexModel : PageModel
     [TempData] public string Code { get; set; }
 
     public async Task<IActionResult> OnGet(int userId = 0, string search = "", int pageNumber = 1, int pageSize = 10,
-        string message = null, string code = null,int purchaseSort =1,bool? isPaied=null)
+        string message = null, string code = null,int purchaseSort =1,bool? isPaied=null, DateTime? fromCreationDate=null, 
+        DateTime? toCreationDate=null, int? statusId=null, decimal? minimumAmount=null, decimal? maximumAmount=null, 
+        PaymentMethodStatus? paymentMethodStatus=null)
     {
         Message = message;
         Code = code;
-        var result = await _purchaseOrderService.PurchaseList(userId,search, pageNumber,pageSize,purchaseSort,isPaied);
+        var result = await _purchaseOrderService.PurchaseList(userId,search, pageNumber,pageSize,purchaseSort,isPaied,
+            fromCreationDate,toCreationDate,statusId,minimumAmount,maximumAmount,paymentMethodStatus );
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;
