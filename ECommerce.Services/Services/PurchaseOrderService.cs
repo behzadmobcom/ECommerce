@@ -64,7 +64,9 @@ namespace ECommerce.Services.Services
 
 
         public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId=0,string search = "",
-         int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null)
+         int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,
+          DateTime? toCreationDate = null, int? statusId = null, decimal? minimumAmount = null, decimal? maximumAmount = null,
+          PaymentMethodStatus? paymentMethodStatus = null)
         {
             //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
             //return Return<List<ProductIndexPageViewModel>>(result);
@@ -75,6 +77,13 @@ namespace ECommerce.Services.Services
             if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
             if (isPaied != null) command += $"IsPaied={isPaied}&";
             if (userId >0) command += $"UserId={userId}&";
+            if (fromCreationDate != null) command += $"FromCreationDate={fromCreationDate}&";
+            if (toCreationDate != null) command += $"ToCreationDate={toCreationDate}&";
+            if (statusId != null) command += $"StatusId={statusId}&";
+            if (minimumAmount != null) command += $"MinimumAmount={minimumAmount}&";
+            if (maximumAmount != null) command += $"MaximumAmount={maximumAmount}&";
+            if (paymentMethodStatus != null) command += $"PaymentMethodStatus={paymentMethodStatus}&";
+            
             command += $"PurchaseSort={purchaseSort}";
             var result = await _http.GetAsync<List<PurchaseListViewModel>>(Url, command);
             return Return(result);
