@@ -32,6 +32,12 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
         return await _context.Discounts.Where(x => x.Name == name).FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<Discount?> GetLast(CancellationToken cancellationToken)
+    {
+        return await _context.Discounts.Include(p=>p.Products).ThenInclude(i=>i.Images).Include(p => p.Products).ThenInclude(i => i.Prices).OrderByDescending(o=>o.EndDate).FirstOrDefaultAsync(cancellationToken);
+    }
+
+
     public async Task<Discount> GetByCode(string code, CancellationToken cancellationToken)
     {
         return await _context.Discounts.Where(x => x.Code == code).FirstOrDefaultAsync(cancellationToken);

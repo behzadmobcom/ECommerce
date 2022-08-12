@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Entities;
 
 namespace ArshaHamrah.Pages;
 
@@ -14,10 +15,11 @@ public class IndexModel : PageModel
     private readonly IProductService _productService;
     private readonly ISlideShowService _slideShowService;
     private readonly IWishListService _wishListService;
+    private readonly IDiscountService _discountService;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService)
+        ICookieService cookieService, IDiscountService discountService)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -25,6 +27,7 @@ public class IndexModel : PageModel
         _cartService = cartService;
         _compareService = compareService;
         _cookieService = cookieService;
+        _discountService = discountService;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
@@ -33,6 +36,7 @@ public class IndexModel : PageModel
     public List<ProductIndexPageViewModel> StarProducts { get; set; }
     public List<ProductIndexPageViewModel> NewTop8Products { get; set; }
     public List<ProductIndexPageViewModel> SellProducts { get; set; }
+    public Discount Discount { get; set; }
 
     public bool IsColleague { get; set; }
 
@@ -49,6 +53,9 @@ public class IndexModel : PageModel
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
+
+        var resultDiscount = await _discountService.GetLast();
+        Discount = resultDiscount.ReturnData;
     }
 
 
