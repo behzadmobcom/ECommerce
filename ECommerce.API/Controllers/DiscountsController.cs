@@ -79,6 +79,34 @@ public class DiscountsController : ControllerBase
         }
     }
 
+
+    [HttpGet]
+    public async Task<ActionResult<Discount>> GetLast(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _discountRepository.GetLast(cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+
     [HttpGet]
     public async Task<ActionResult<Discount>> GetWithTime(CancellationToken cancellationToken)
     {
