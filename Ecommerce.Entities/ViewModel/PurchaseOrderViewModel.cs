@@ -27,16 +27,16 @@ public class PurchaseOrderViewModel
 public class PurchaseFiltreOrderViewModel
 {
     public PaginationParameters? PaginationParameters { get; set; }
-    public int UserId { get; set; }
+    public int? UserId { get; set; }
     //public DateTime CreationDate { get; set; }
-    public bool IsPaied { get; set; }
-    public PurchaseSort PurchaseSort { get; set; }
-    public DateTime FromCreationDate { get; set; }
-    public DateTime ToCreationDate { get; set; }
-    public Nullable<int> StatusId { get; set; } = null;
-    public Nullable<decimal> MinimumAmount { get; set; }
-    public Nullable<decimal> MaximumAmount { get; set; }
-    public PaymentMethod? PaymentMethod { get; set; }
+    public bool? IsPaied { get; set; }
+    public PurchaseSort? PurchaseSort { get; set; }
+    public DateTime? FromCreationDate { get; set; }
+    public DateTime? ToCreationDate { get; set; }
+    public int? StatusId { get; set; }
+    public decimal? MinimumAmount { get; set; }
+    public decimal? MaximumAmount { get; set; }
+    public PaymentMethodStatus? PaymentMethodStatus { get; set; }
 }
 
 public class PurchaseListViewModel
@@ -48,6 +48,6 @@ public class PurchaseListViewModel
     public string? Description { get; set; }
     public Status?  Status { get; set; }
     public PaymentMethod? PaymentMethod { get; set; }
-    public ICollection<PurchaseOrderDetail>? PurchaseOrderDetail  { get; set; }
+    public List<PurchaseOrderDetail>? PurchaseOrderDetails  { get; set; }
 
 }

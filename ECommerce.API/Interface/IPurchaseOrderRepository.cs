@@ -11,7 +11,10 @@ public interface IPurchaseOrderRepository : IAsyncRepository<PurchaseOrder>
         CancellationToken cancellationToken);
 
     Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken);
+
     Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken);
 
     Task<IEnumerable<PurchaseOrderViewModel>> GetProductListByUserId(int userId, CancellationToken cancellationToken);
+
+    Task<PurchaseOrder> GetByOrderIdWithInclude(long orderId, CancellationToken cancellationToken);
 }

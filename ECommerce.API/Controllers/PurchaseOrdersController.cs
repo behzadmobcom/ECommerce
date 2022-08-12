@@ -171,6 +171,33 @@ public class PurchaseOrdersController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
+
+    [HttpGet]
+    //[Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<PurchaseOrder>> GetByOrderIdWithInclude(long orderId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _purchaseOrderRepository.GetByOrderIdWithInclude(orderId, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId, CancellationToken cancellationToken)
