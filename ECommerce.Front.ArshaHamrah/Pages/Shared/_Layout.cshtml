@@ -806,14 +806,20 @@
                             '<div class="modal-product clearfix">' +
                             '<div class="product-images">' +
                             ' <div class="main-image images">' +
-                            ' <img alt="" src="~/img/product/quickview.jpg">' +
+                            ' <img alt="' +
+                            result.returnData.alt +
+                            '" src="/' +
+                            result.returnData.imagePath +
+                            '">' +
                             '   </div>' +
                             ' </div>' +
                             ' <div class="product-info">' +
                             '<h1>' + result.returnData.name + '</h1>' +
                             '<div class="price-box-3">' +
                             '<div class="s-price-box">' +
-                            '<span class="new-price">2,600,000 تومان</span>' +
+                            '<span class="new-price">' +
+                            result.returnData.priceAmount +
+                            ' تومان</span>' +
                             '<span class="old-price">3,400,000 تومان</span>' +
                             '</div>' +
                             '</div>' +
