@@ -25,6 +25,13 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
 
         if (purchaseFiltreOrderViewModel.IsPaied != null) query = query.Where(x => x.IsPaid == purchaseFiltreOrderViewModel.IsPaied);
         if (purchaseFiltreOrderViewModel.UserId > 0 ) query = query.Where(x => x.UserId == purchaseFiltreOrderViewModel.UserId);
+        if (purchaseFiltreOrderViewModel.ToCreationDate != null) query = query.Where(x => x.CreationDate <= purchaseFiltreOrderViewModel.ToCreationDate);
+        if (purchaseFiltreOrderViewModel.FromCreationDate != null) query = query.Where(x => x.CreationDate >= purchaseFiltreOrderViewModel.FromCreationDate);
+        if (purchaseFiltreOrderViewModel.StatusId != null) query = query.Where(x => ((int?)x.Status) == purchaseFiltreOrderViewModel.StatusId );
+        if (purchaseFiltreOrderViewModel.MinimumAmount != null) query = query.Where(x=> x.Amount >= purchaseFiltreOrderViewModel.MinimumAmount);
+        if (purchaseFiltreOrderViewModel.MaximumAmount != null) query = query.Where(x=> x.Amount <= purchaseFiltreOrderViewModel.MaximumAmount);
+        if (purchaseFiltreOrderViewModel.PaymentMethod != null) query = query.Where(x=> x.PaymentMethod == purchaseFiltreOrderViewModel.PaymentMethod);
+      
 
         var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
 
@@ -46,11 +53,15 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
 
         var purchaseList = await query.Select(p => new PurchaseListViewModel
         {
-            Id = p.Id,
+          Id = p.Id,
           Amount=p.Amount,
           CreationDate=p.CreationDate,
           IsPaied=p.IsPaid,
-          Description =p.Description
+          Description =p.Description,
+          Status=p.Status,
+          PaymentMethod=p.PaymentMethod,
+          PurchaseOrderDetail=p.PurchaseOrderDetails
+           
         }).ToListAsync(cancellationToken);
 
         return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,
