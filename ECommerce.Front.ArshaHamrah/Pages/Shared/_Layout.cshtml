@@ -74,7 +74,7 @@
                                         }
                                         @if (categories.Code == 0)
                                         {
-                                            @foreach (var parent in categories.ReturnData)
+                                            @foreach (var parent in categories.ReturnData.OrderBy(d => d.DisplayOrder))
                                             {
                                                 <li class="mega-parent">
                                                     <a asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
@@ -84,7 +84,7 @@
                                                             <br />
                                                             <br />
 
-                                                            @foreach (var child in parent.Children)
+                                                            @foreach (var child in parent.Children.OrderBy(d => d.DisplayOrder))
                                                             {
                                                                 <ul class="single-mega-item ">
                                                                     <a asp-page="Shop" asp-route-path="@child.Path">@child.Name</a>
