@@ -83,37 +83,7 @@
                     }
                     </tbody>
                 </table>
-                @*
-                @{
-                    var prevDisabled = Model.PaginationViewModel.Page == 1 ? "disabled" : "";
-                    var nextDisabled = Model.PaginationViewModel.PagesQuantity == Model.PaginationViewModel.Page ? "disabled" : "";
-                }
-
-                <a asp-page="/Products/Index"
-                   asp-route-pageIndex="@(Model.PaginationViewModel.Page - 1)"
-                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
-                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex <= Model.PaginationViewModel.PagesQuantity; pageIndex++)
-                {
-                    var activePage = Model.PaginationViewModel.Page == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/Products/Index"
-                       asp-route-pageIndex="@pageIndex"
-                       asp-route-search="@Model.PaginationViewModel.SearchText"
-                       asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/Products/Index"
-                   asp-route-pageIndex="@(Model.PaginationViewModel.Page + 1)"
-                   asp-route-search="@(Model.PaginationViewModel.SearchText)"
-                   asp-route-quantityPerPage="@Model.PaginationViewModel.QuantityPerPage"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>*@
+         
                 <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
             </div>
 
