@@ -187,6 +187,17 @@ public class ProductIndexPageViewModel
     }
 }
 
+public class ProductModalViewModel
+{
+    public string Description { get; set; }
+    public string Price { get; set; }
+    public string Brand { get; set; }
+    public string Name { get; set; }
+    public string ImagePath { get; set; }
+    public string Alt { get; set; }
+    public string Url { get; set; }
+}
+
 public class ProductCompareViewModel
 {
     public string ArticleCode { get; set; }

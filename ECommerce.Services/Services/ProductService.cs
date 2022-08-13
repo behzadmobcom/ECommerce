@@ -220,4 +220,10 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await _http.GetAsync<ProductViewModel>(Url, $"GetById?id={id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id)
+    {
+        var result = await _http.GetAsync<ProductModalViewModel>(Url, $"GetByIdViewModel?id={id}");
+        return Return(result);
+    }
 }

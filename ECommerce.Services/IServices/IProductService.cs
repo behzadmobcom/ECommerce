@@ -27,7 +27,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList);
     Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList);
     Task<ServiceResult<ProductViewModel>> GetById(int id);
-
+    Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1);
   

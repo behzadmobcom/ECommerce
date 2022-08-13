@@ -802,6 +802,7 @@
                 dataType: "json",
                 success: function(result) {
                     if (result.code == 0) {
+                        console.log(result);
                         var item =
                             '<div class="modal-product clearfix">' +
                             '<div class="product-images">' +
@@ -815,56 +816,20 @@
                             ' </div>' +
                             ' <div class="product-info">' +
                             '<h1>' + result.returnData.name + '</h1>' +
+                            '<p>'+ result.returnData.brand + '</p>'+
                             '<div class="price-box-3">' +
                             '<div class="s-price-box">' +
                             '<span class="new-price">' +
-                            result.returnData.priceAmount +
+                            result.returnData.price +
                             ' تومان</span>' +
-                            '<span class="old-price">3,400,000 تومان</span>' +
                             '</div>' +
                             '</div>' +
-                            '  <a href="single-product-right-sidebar.html" class="see-all">مشاهده همه ویژگی ها</a>' +
-                            '  <div class="quick-add-to-cart">' +
-                            '  <form method="post" class="cart">' +
-                            '  <div class="numbers-row">' +
-                            '     <input type="number" id="french-hens" value="3">' +
-                            '  </div>' +
-                            '   <button class="single_add_to_cart_button" type="submit">افزودن به سبد</button>' +
-                            '  </form>' +
-                            '</div>' +
+                            '<a asp-page="Product" asp-route-productId="'+ result.returnData.url+'" class="see-all">مشاهده همه ویژگی ها</a>' +
                             ' <div class="quick-desc">' +
-                            '   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله' +
+                            result.returnData.description+
                             '  </div>' +
                             ' <div class="social-sharing">' +
                             ' <div class="widget widget_socialsharing_widget">' +
-                            '    <h3 class="widget-title-modal">اشتراک گذاری این محصول</h3>' +
-                            '   <ul class="social-icons clearfix">' +
-                            '   <li>' +
-                            '  <a class="facebook" href="#" target="_blank" title="Facebook">' +
-                            '       <i class="zmdi zmdi-facebook"></i>' +
-                            '  </a>' +
-                            '   </li>' +
-                            '   <li>' +
-                            '    <a class="google-plus" href="#" target="_blank" title="Google +">' +
-                            '         <i class="zmdi zmdi-google-plus"></i>' +
-                            '     </a>' +
-                            '   </li>' +
-                            '  <li>' +
-                            '   <a class="twitter" href="#" target="_blank" title="Twitter">' +
-                            '       <i class="zmdi zmdi-twitter"></i>' +
-                            '    </a>' +
-                            '   </li>' +
-                            '  <li>' +
-                            '  <a class="pinterest" href="#" target="_blank" title="Pinterest">' +
-                            '     <i class="zmdi zmdi-pinterest"></i>' +
-                            '   </a>' +
-                            ' </li>' +
-                            '  <li>' +
-                            '   <a class="rss" href="#" target="_blank" title="RSS">' +
-                            '     <i class="zmdi zmdi-rss"></i>' +
-                            '   </a>' +
-                            '  </li>' +
-                            ' </ul>' +
                             '   </div>' +
                             '   </div>' +
                             ' </div>' +

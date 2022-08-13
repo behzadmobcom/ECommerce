@@ -90,7 +90,7 @@ public class IndexModel : PageModel
 
     public async Task<JsonResult> OnGetQuickView(int id)
     {
-        var result = await _productService.GetById(id);
+        var result = await _productService.GetByIdViewModel(id);
         return new JsonResult(result);
     }
 

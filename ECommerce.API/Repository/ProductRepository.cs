@@ -273,6 +273,18 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             paginationParameters.PageSize);
     }
 
+       public async Task<Product?> GetProductById(int id, CancellationToken cancellationToken)
+    {
+        return await _context.Products
+            .Where(x => x.Id == id)
+            .Include(x => x.Brand)
+            .Include(x => x.Images)
+            .Include(x => x.ProductUserRanks)
+            .Include(x => x.Prices)
+            .ThenInclude(c => c.Color)
+            .FirstOrDefaultAsync(cancellationToken);
+      
+    }
     #region Tops
 
     public async Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken)

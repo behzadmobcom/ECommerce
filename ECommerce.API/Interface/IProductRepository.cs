@@ -37,6 +37,8 @@ public interface IProductRepository : IAsyncRepository<Product>
     Task<PagedList<ProductIndexPageViewModel>> Search(PaginationParameters paginationParameters,
         CancellationToken cancellationToken);
 
+    Task<Product?> GetProductById(int id, CancellationToken cancellationToken);
+
     #region Tops
 
     Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken);

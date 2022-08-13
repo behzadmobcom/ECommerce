@@ -589,8 +589,6 @@ public class ProductsController : ControllerBase
                 });
 
             if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result);
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-
 
             return Ok(new ApiResult
             {
@@ -623,6 +621,48 @@ public class ProductsController : ControllerBase
             {
                 Code = ResultCode.Success,
                 ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+      [HttpGet]
+    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var product = await _productRepository.GetProductById(id, cancellationToken);
+         
+            if (product == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            if (product.Prices.Any(p => p.ArticleCode != null))
+                product = await AddPriceAndExistFromHoloo(product);
+
+            var productModalViewModel = new ProductModalViewModel 
+            {
+                Alt = product.Images.FirstOrDefault().Alt,
+                ImagePath = $"{product.Images!.First().Path}/{product.Images!.First().Name}",
+                Brand = product.Brand.Name,
+                Description = product.Description,
+                Name = product.Name,
+                Price = product.Prices.FirstOrDefault().Amount.ToString("###,###,###,###"),
+                Url = product.Url
+            };
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = productModalViewModel
             });
         }
         catch (Exception e)
