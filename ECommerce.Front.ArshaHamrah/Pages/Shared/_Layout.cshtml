@@ -751,8 +751,8 @@
                                         product.name +
                                         '</a> </h6>' +
                                         '<div class="cart-img f-left">' +
-                                        '<a asp-page="Product" asp-route-productId="' +
-                                        product.Url +
+                                        '<a href="' +
+                                        product.url +
                                         '">' +
                                         '<img width="100px" src="/' +
                                         product.imagePath +
@@ -810,7 +810,7 @@
                             ' <img alt="' +
                             result.returnData.alt +
                             '" src="/' +
-                            result.returnData.images +
+                            result.returnData.imagePath +
                             '">' +
                             '   </div>' +
                             ' </div>' +
@@ -824,7 +824,7 @@
                             ' تومان</span>' +
                             '</div>' +
                             '</div>' +
-                            '<a asp-page="Product" asp-route-productId="'+ result.returnData.url+'" class="see-all">مشاهده همه ویژگی ها</a>' +
+                            '<a  href="/product/'+ result.returnData.url+'" class="see-all">مشاهده همه ویژگی ها</a>' +
                             ' <div class="quick-desc">' +
                             result.returnData.description+
                             '  </div>' +
