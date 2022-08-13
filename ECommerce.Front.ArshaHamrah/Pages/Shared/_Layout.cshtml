@@ -802,6 +802,7 @@
                 dataType: "json",
                 success: function(result) {
                     if (result.code == 0) {
+	                    console.log(result.returnData);
                         var item =
                             '<div class="modal-product clearfix">' +
                             '<div class="product-images">' +
@@ -809,21 +810,24 @@
                             ' <img alt="' +
                             result.returnData.alt +
                             '" src="/' +
-                            result.returnData.imagePath +
+                            result.returnData.images +
                             '">' +
                             '   </div>' +
                             ' </div>' +
                             ' <div class="product-info">' +
                             '<h1>' + result.returnData.name + '</h1>' +
+                            '<p>'+ result.returnData.brand + '</p>'+
                             '<div class="price-box-3">' +
                             '<div class="s-price-box">' +
                             '<span class="new-price">' +
-                            result.returnData.priceAmount +
+                            result.returnData.prices +
                             ' تومان</span>' +
                             '<span class="old-price">3,400,000 تومان</span>' +
                             '</div>' +
                             '</div>' +
-                            '  <a href="single-product-right-sidebar.html" class="see-all">مشاهده همه ویژگی ها</a>' +
+                            '  <a asp-page="Product" class="see-all" asp-route-productId="' +
+                            result.returnData.Url +
+                            '">' + ' مشاهده همه ویژگی ها</a>' +
                             '  <div class="quick-add-to-cart">' +
                             '  <form method="post" class="cart">' +
                             '  <div class="numbers-row">' +
@@ -833,8 +837,7 @@
                             '  </form>' +
                             '</div>' +
                             ' <div class="quick-desc">' +
-                            '   لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله' +
-                            '  </div>' +
+                            ' '+  
                             ' <div class="social-sharing">' +
                             ' <div class="widget widget_socialsharing_widget">' +
                             '    <h3 class="widget-title-modal">اشتراک گذاری این محصول</h3>' +
