@@ -7,7 +7,7 @@ namespace Services.Services;
 
 public class WishListService : IWishListService
 {
-    private const string Url = "api/WishList";
+    private const string Url = "api/WishLists";
     private readonly ICookieService _cookieService;
     private readonly IHttpService _http;
 
@@ -20,13 +20,10 @@ public class WishListService : IWishListService
     public async Task<ServiceResult<List<WishListViewModel>>> Load()
     {
         var currentUser = _cookieService.GetCurrentUser();
+
         if (currentUser.Id != 0)
         {
             var response = await _http.GetAsync<List<WishListViewModel>>(Url, $"GetById?id={currentUser.Id}");
-            if (response.Code > 0)
-            {
-                // await _sweet.FireAsync("خطا", response.GetBody(), "error");
-            }
 
             return new ServiceResult<List<WishListViewModel>>
             {

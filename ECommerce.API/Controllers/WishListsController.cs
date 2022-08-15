@@ -1,6 +1,7 @@
 ﻿using API.Interface;
 using Entities;
 using Entities.Helper;
+using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,11 +27,6 @@ public class WishListsController : ControllerBase
         try
         {
             var result = await _wishListRepository.GetByIdWithInclude(id, cancellationToken);
-            if (result == null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.NotFound
-                });
 
             return Ok(new ApiResult
             {
