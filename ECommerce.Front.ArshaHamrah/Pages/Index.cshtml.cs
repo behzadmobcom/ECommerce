@@ -115,7 +115,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAddWishList(int id)
     {
         var result = await _wishListService.Add(id);
-        return new JsonResult(result.ToString());
+        return new JsonResult(result);
     }
 
     public IActionResult OnGetAddCompareList(int id)

@@ -55,7 +55,7 @@ public class WishListService : IWishListService
             ProductId = productId,
             UserId = currentUser.Id
         };
-        var result = await _http.PostAsync(Url, wishList);
+        var result = await _http.PostAsync($"{Url}/Post", wishList);
         if (result.Code == 0)
             return new ServiceResult
             {
