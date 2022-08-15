@@ -21,10 +21,4 @@ public class WishListModel : PageModel
     {
         WishList = await _wishListService.Load();
     }
-
-    public async Task<JsonResult> OnGetRemoveWishList(int id)
-    {
-        var result = await _wishListService.Delete(id);
-        return new JsonResult(result);
-    }
 }

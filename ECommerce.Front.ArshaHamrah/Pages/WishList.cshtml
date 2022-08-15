@@ -59,7 +59,7 @@
                             <td class="product-price">@wish.Price.ToString("N0") تومان</td>
                             <td class="product-stock text-uppercase">@wish.StoreStatus</td>
                             <td class="product-add-cart">
-                                <a href="javascript:void(0)" onclick="AddCart(@wish.Id,@wish.PriceId,1)" title="اضافه کردن به سبد خرید">
+                                <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.PriceId,1)" title="اضافه کردن به سبد خرید">
                                     <i class="zmdi zmdi-shopping-cart-plus"></i>
                                 </a>
                             </td>
@@ -85,7 +85,7 @@
         function RemoveWish(id) {
             $.ajax({
                 type: "Get",
-                url: "Cart?handler=RemoveWishList&id=" + id,
+                url: "/index?handler=RemoveWishList&id=" + id,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {

@@ -85,6 +85,10 @@ public class IndexModel : PageModel
     public async Task<JsonResult> OnGetAddCart(int id, int priceId, int count)
     {
         var result = await _cartService.Add(HttpContext, id, priceId, count);
+        if(result.Code == 0)
+        {
+            result.Message = "به سبد خرید اضافه شد";
+        }
         return new JsonResult(result);
     }
 
@@ -115,6 +119,20 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAddWishList(int id)
     {
         var result = await _wishListService.Add(id);
+        if (result.Code == 0)
+        {
+            result.Message = "به سبد خرید اضافه شد";
+        }
+        return new JsonResult(result);
+    }
+
+    public async Task<IActionResult> OnGetRemoveWishList(int id)
+    {
+        var result = await _wishListService.Delete(id);
+        if (result.Code == 0)
+        {
+            result.Message = "به سبد خرید اضافه شد";
+        }
         return new JsonResult(result);
     }
 

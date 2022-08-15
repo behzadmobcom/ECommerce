@@ -5,13 +5,13 @@ using ECommerce.Services.IServices;
 
 namespace Services.Services;
 
-public class WishListService : IWishListService
+public class WishListService : EntityService<WishList>, IWishListService
 {
     private const string Url = "api/WishLists";
     private readonly ICookieService _cookieService;
     private readonly IHttpService _http;
 
-    public WishListService(IHttpService http, ICookieService cookieService)
+    public WishListService(IHttpService http, ICookieService cookieService) : base(http)
     {
         _http = http;
         _cookieService = cookieService;
@@ -55,7 +55,7 @@ public class WishListService : IWishListService
             ProductId = productId,
             UserId = currentUser.Id
         };
-        var result = await _http.PostAsync($"{Url}/Post", wishList);
+        var result = await Create(Url, wishList);
         if (result.Code == 0)
             return new ServiceResult
             {
