@@ -3,6 +3,7 @@ using API.Interface;
 using API.Utilities;
 using Entities;
 using Entities.Helper;
+using Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Repository;
@@ -49,5 +50,39 @@ public class PriceRepository : AsyncRepository<Price>, IPriceRepository
     {
         return await _context.Prices.AsNoTracking().Where(x => x.ProductId == id).Include(x => x.Currency).Include(c=>c.Color)
             .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken)
+    {
+        var products = new List<ProductIndexPageViewModel?>();
+        var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Prices).Take(count);
+        var i = 0;
+        foreach (var discount in discounts)
+            foreach (var product in discount)
+            {
+                products.Add(await _context.Products
+                    .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
+                    .Select(p => new ProductIndexPageViewModel
+                    {
+                        Prices = p.Prices!,
+                        Alt = p.Images!.First().Alt,
+                        Brand = p.Brand!.Name,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Id = p.Id,
+                        ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                        Stars = p.Star,
+                        Url = p.Url
+                    })
+                    .FirstOrDefaultAsync(cancellationToken));
+                i++;
+                if (i == count) break;
+            }
+
+        //if (productIndexPageViewModel.Count < 5)
+        //{
+        //    productIndexPageViewModel.AddRange(await TopNew(count - productIndexPageViewModel.Count, cancellationToken));
+        //}
+        return products;
     }
 }
