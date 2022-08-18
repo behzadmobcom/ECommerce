@@ -12,7 +12,7 @@ public class CreateModel : PageModel
 {
     private readonly IBrandService _brandService;
     private readonly ICategoryService _categoryService;
-    private readonly IDiscountService _discountService;
+    //private readonly IDiscountService _discountService;
     private readonly IHostEnvironment _environment;
     private readonly IImageService _imageService;
     private readonly IKeywordService _keywordService;
@@ -24,7 +24,8 @@ public class CreateModel : PageModel
 
     public CreateModel(IProductService productService, ITagService tagService, ICategoryService categoryService,
         IHostEnvironment environment,
-        IKeywordService keywordService, IBrandService brandService, IDiscountService discountService,
+        IKeywordService keywordService, IBrandService brandService, 
+        //IDiscountService discountService,
         IStoreService storeService,
         ISupplierService supplierService, IImageService imageService)
     {
@@ -34,13 +35,13 @@ public class CreateModel : PageModel
         _environment = environment;
         _keywordService = keywordService;
         _brandService = brandService;
-        _discountService = discountService;
+        //_discountService = discountService;
         _storeService = storeService;
         _supplierService = supplierService;
         _imageService = imageService;
     }
 
-    public SelectList Discounts { get; set; }
+    //public SelectList Discounts { get; set; }
     public SelectList Stores { get; set; }
     public SelectList Suppliers { get; set; }
     public SelectList Brands { get; set; }
@@ -61,8 +62,8 @@ public class CreateModel : PageModel
         var stores = (await _storeService.Load()).ReturnData;
         Stores = new SelectList(stores, nameof(Store.Id), nameof(Store.Name));
 
-        var discounts = (await _discountService.Load()).ReturnData;
-        Discounts = new SelectList(discounts, nameof(Discount.Id), nameof(Discount.Name));
+        //var discounts = (await _discountService.Load()).ReturnData;
+        //Discounts = new SelectList(discounts, nameof(Discount.Id), nameof(Discount.Name));
 
         var suppliers = (await _supplierService.Load()).ReturnData;
         Suppliers = new SelectList(suppliers, nameof(Supplier.Id), nameof(Supplier.Name));

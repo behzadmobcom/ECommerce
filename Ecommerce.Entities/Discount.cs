@@ -30,7 +30,7 @@ public class Discount : BaseEntity
     public string Code { get; set; }
 
     //ForeignKey
-    public ICollection<Product>? Products { get; set; }
+    public ICollection<Price>? Prices { get; set; }
     public ICollection<Category>? Categories { get; set; }
     public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
     public ICollection<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }

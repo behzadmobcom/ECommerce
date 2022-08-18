@@ -34,7 +34,7 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
 
     public async Task<Discount?> GetLast(CancellationToken cancellationToken)
     {
-        return await _context.Discounts.Include(p=>p.Products).ThenInclude(i=>i.Images).Include(p => p.Products).ThenInclude(i => i.Prices).OrderByDescending(o=>o.EndDate).FirstOrDefaultAsync(cancellationToken);
+        return await _context.Discounts.Include(i => i.Prices).OrderByDescending(o=>o.EndDate).FirstOrDefaultAsync(cancellationToken);
     }
 
 
@@ -45,7 +45,7 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
 
     public async Task<DiscountWithTimeViewModel> GetWithTime(CancellationToken cancellationToken)
     {
-        var discount = await _context.Discounts.Where(x => x.EndDate < DateTime.Now).Include(x => x.Products)
+        var discount = await _context.Discounts.Where(x => x.EndDate < DateTime.Now).Include(x => x.Prices)
             .FirstOrDefaultAsync(cancellationToken);
         var product = new Product();
         if (discount == null)
@@ -58,7 +58,8 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
         }
         else
         {
-            var temp = discount.Products.OrderByDescending(x => x.Prices.Max(x => x.Amount)).FirstOrDefault();
+            //var temp = discount.Products.OrderByDescending(x => x.Prices.Max(x => x.Amount)).FirstOrDefault();
+            var temp = discount.Prices.Select(x => x.Product).OrderByDescending(x => x.Prices.Max(y => y.Amount)).FirstOrDefault();
             product = await _context.Products
                 .Where(x => x.Id == temp.Id)
                 .Include(x => x.Images)

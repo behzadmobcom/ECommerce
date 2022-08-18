@@ -18,10 +18,12 @@ public class PriceModel : PageModel
     private readonly IPriceService _priceService;
     private readonly ISizeService _sizeService;
     private readonly IUnitService _unitService;
+    private readonly IDiscountService _discountService;
+
 
     public PriceModel(IPriceService priceService, IUnitService unitService, ISizeService sizeService,
         IColorService colorService, ICurrencyService currencyService, IHolooMGroupService holooMGroupService,
-        IHolooSGroupService holooSGroupService, IHolooArticleService holooArticleService)
+        IHolooSGroupService holooSGroupService, IHolooArticleService holooArticleService , IDiscountService discountService)
     {
         _priceService = priceService;
         _unitService = unitService;
@@ -31,8 +33,10 @@ public class PriceModel : PageModel
         _holooMGroupService = holooMGroupService;
         _holooSGroupService = holooSGroupService;
         _holooArticleService = holooArticleService;
+        _discountService = discountService;
     }
 
+    public SelectList Discounts { get; set; }
     public SelectList Units { get; set; }
     public SelectList Sizes { get; set; }
     public SelectList Colors { get; set; }
@@ -117,6 +121,10 @@ public class PriceModel : PageModel
     private async Task Initial(int productId, string search = "", int pageNumber = 1, int pageSize = 10,
         string message = null, string code = null)
     {
+
+        var discounts = (await _discountService.Load()).ReturnData;
+        Discounts = new SelectList(discounts, nameof(Discount.Id), nameof(Discount.Name));
+
         Price.ProductId = productId;
         var units = (await _unitService.Load()).ReturnData;
         Units = new SelectList(units, nameof(Unit.Id), nameof(Unit.Name));

@@ -63,8 +63,8 @@ public class Product : BaseEntity
 
     public ICollection<ProductAttributeGroup>? AttributeGroupProducts { get; set; }
 
-    public int? DiscountId { get; set; }
-    public Discount? Discount { get; set; }
+    //public int? DiscountId { get; set; }
+    //public Discount? Discount { get; set; }
 
     public int HolooCompanyId { get; set; } = 1;
     public HolooCompany HolooCompany { get; set; }
