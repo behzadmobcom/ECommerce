@@ -26,16 +26,14 @@
 <!-- BREADCRUMBS SETCTION END -->
 <!-- wishlist start -->
 
-<div class="tab-pane" id="wishlist">
-    <div class="wishlist-content">
-        <form action="#">
-            <div class="table-content table-responsive mb-50">
-                <table class="text-center">
+<div class="tab-pane container" id="wishlist">
+    <div class="row wishlist-content">
+         
+                <table class="table table-bordered mb-50" >
                     <thead>
-                    <tr>
-                        <th class="product-thumbnail">محصول</th>
+                    <tr style="text-align: center;color: black">
+                        <th class="product-thumbnail" style="width: 55%">محصول</th>
                         <th class="product-price">قیمت</th>
-                        <th class="product-stock">وضعیت انبار</th>
                         <th class="product-add-cart">افزودن به سبد</th>
                         <th class="product-remove">حذف</th>
                     </tr>
@@ -47,7 +45,7 @@
                         <tr id="wishlist-@wish.Id">
                             <td class="product-thumbnail">
                                 <div class="pro-thumbnail-img">
-                                    <img src="img/cart/1.jpg" alt="">
+                                    <img src="~/@wish.ImagePath" alt="@wish.Alt">
                                 </div>
                                 <div class="pro-thumbnail-info text-left">
                                     <h6 class="product-title-2">
@@ -57,7 +55,6 @@
                                 </div>
                             </td>
                             <td class="product-price">@wish.Price.ToString("N0") تومان</td>
-                            <td class="product-stock text-uppercase">@wish.StoreStatus</td>
                             <td class="product-add-cart">
                                 <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.PriceId,1)" title="اضافه کردن به سبد خرید">
                                     <i class="zmdi zmdi-shopping-cart-plus"></i>
@@ -72,8 +69,7 @@
                     }
                     </tbody>
                 </table>
-            </div>
-        </form>
+        
     </div>
 </div>
 

@@ -38,7 +38,7 @@ public class CompareService : ICompareService
     public ServiceResult Remove(HttpContext context, int productId)
     {
         _cookieService.Remove(context, new CookieData($"{_key}-{productId}", productId));
-        return new ServiceResult {Code = ServiceCode.Success};
+        return new ServiceResult {Code = ServiceCode.Success, Message = "کالا از لیست مقایسه حذف شد"};
     }
 
     public ServiceResult<List<int>> Load(HttpContext context)

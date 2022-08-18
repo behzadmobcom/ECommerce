@@ -84,7 +84,7 @@
                                             <h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان</h6>
+                                            <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
                                         </div>
                                     </div>
 
@@ -177,7 +177,7 @@
 									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
-									<label for="price-@price.Id">قیمت : @price.Amount</label>
+									<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
 
 								</li>
 							</ul>
@@ -191,7 +191,7 @@
 									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
-									<label for="price-@price.Id">قیمت : @price.Amount</label>
+									<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
 
 								</li>
 							</ul>

@@ -76,8 +76,8 @@ public class WishListService : EntityService<WishList>, IWishListService
             return new ServiceResult
             {
                 Code = ServiceCode.Success,
-                Message = "با موفقیت حذف شد"
-            };
+                Message = "از لیست علاقه مندی شما حذف شد"
+    };
         //await _sweet.FireAsync("حذف", "با موفقیت حذف شد", "success");
 
         return new ServiceResult

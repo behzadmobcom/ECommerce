@@ -619,6 +619,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
+	                swal(result.message);
                     if (result.code === 0) {
                         location.reload();
                     }
@@ -682,11 +683,11 @@
                 url: "/index?handler=AddWishList&id=" + id,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(response) {
-                    swal(response);
+                success: function(result) {
+	                swal(result.message);
                 },
-                failure: function(response) {
-                    swal(response);
+                failure: function(result) {
+                    swal(result.message);
                 }
             });
         }
@@ -698,8 +699,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result) {
+	                swal(result.message);
                     if (result.code === 0) {
-                        swal(result.message);
                         $('#Compare-Count').text(result.returnData);
                         $('#Compare-Count-value').text(result.returnData);
                     }
