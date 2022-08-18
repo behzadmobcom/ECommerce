@@ -35,7 +35,7 @@ public class CreateModel : PageModel
 
     public async Task OnGet(string search)
     {
-        var result = await _productService.Search(search, 1, 300000);
+        var result = await _productService.Search(search, 1, 30);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;
@@ -46,7 +46,7 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        var resultProduct = await _productService.Search("", 1, 300000);
+        var resultProduct = await _productService.Search("", 1, 30);
         if (resultProduct.Code == ServiceCode.Success)
         {
             Message = resultProduct.Message;
@@ -82,7 +82,7 @@ public class CreateModel : PageModel
 
     public async Task<JsonResult> OnGetReturnProducts(string search = "")
     {
-        var result = await _productService.Search(search, 1, 300000);
+        var result = await _productService.Search(search, 1, 30);
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;
