@@ -39,7 +39,6 @@ public class ProductViewModel
     public int SupplierId { get; set; } = 1;
     public int? BrandId { get; set; }
     public ICollection<ProductAttribute>? Attributes { get; set; }
-    public int? DiscountId { get; set; }
     public int HolooCompanyId { get; set; } = 1;
     public List<int> KeywordsId { get; set; }
     public List<Keyword>? Keywords { get; set; }
@@ -57,7 +56,6 @@ public class ProductViewModel
     //public List<Keyword> Keywords { get; set; }
     //public List<Tag> Tags { get; set; }
     public Brand? Brand { get; set; }
-    public Discount? Discount { get; set; }
     public Supplier? Supplier { get; set; }
     public Store? Store { get; set; }
     public List<Category>? ProductCategories { get; set; }
@@ -80,7 +78,6 @@ public class ProductViewModel
             IsDiscontinued = p.IsDiscontinued,
             IsActive = p.IsActive,
             Url = p.Url,
-            //DiscountId = p.DiscountId,
             HolooCompanyId = p.HolooCompanyId,
             BrandId = p.BrandId,
             SupplierId = p.SupplierId,
@@ -93,7 +90,6 @@ public class ProductViewModel
             //ProductCategories=p.ProductCategories.ToList(),
             Brand = p.Brand,
             Supplier = p.Supplier,
-            //Discount = p.Discount,
             Store = p.Store,
             Tags = p.Tags.ToList(),
             Keywords = p.Keywords.ToList(),
@@ -121,7 +117,6 @@ public class ProductViewModel
                 IsDiscontinued = p.IsDiscontinued,
                 IsActive = p.IsActive,
                 Url = p.Url,
-                //DiscountId = p.DiscountId,
                 HolooCompanyId = p.HolooCompanyId,
                 BrandId = p.BrandId,
                 SupplierId = p.SupplierId,
@@ -129,7 +124,6 @@ public class ProductViewModel
                 Images = p.Images,
                 Brand = p.Brand,
                 Supplier = p.Supplier,
-                //Discount = p.Discount,
                 Store = p.Store,
                 Tags = p.Tags?.ToList(),
                 Keywords = p.Keywords?.ToList(),
