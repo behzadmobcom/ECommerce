@@ -460,7 +460,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopDiscounts(count, cancellationToken);
+            var products = await _priceRepository.TopDiscounts(count, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
@@ -984,7 +984,7 @@ public class ProductsController : ControllerBase
                         Description = x.Other1,
                         MinInStore = x.A_Min,
                         IsActive = x.IsActive,
-                        DiscountId = 1,
+                        //DiscountId = 1,
                         Url = x.A_Name.Replace(" ", "_"),
                         HolooCompanyId = 1,
                         SupplierId = 1,
@@ -993,6 +993,7 @@ public class ProductsController : ControllerBase
                         {
                             new()
                             {
+                                DiscountId = 1,
                                 Amount = Convert.ToUInt64(x.Sel_Price),
                                 CurrencyId = 1,
                                 MinQuantity = 1,

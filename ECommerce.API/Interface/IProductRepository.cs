@@ -47,7 +47,7 @@ public interface IProductRepository : IAsyncRepository<Product>
 
     Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken);
 
-    Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
+    //Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
 
     Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken);
 

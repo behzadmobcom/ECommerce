@@ -90,7 +90,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.IsDiscontinued = productViewModel.IsDiscontinued;
         product.IsActive = productViewModel.IsActive;
         product.Url = productViewModel.Url;
-        product.DiscountId = productViewModel.DiscountId;
+        //product.DiscountId = productViewModel.DiscountId;
         product.HolooCompanyId = productViewModel.HolooCompanyId;
         product.BrandId = productViewModel.BrandId != 0 ? productViewModel.BrandId : null;
         product.SupplierId = productViewModel.SupplierId;
@@ -349,39 +349,39 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return products;
     }
 
-    public async Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken)
-    {
-        var products = new List<ProductIndexPageViewModel?>();
-        var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Products).Take(count);
-        var i = 0;
-        foreach (var discount in discounts)
-            foreach (var product in discount)
-            {
-                products.Add(await _context.Products
-                    .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
-                    .Select(p => new ProductIndexPageViewModel
-                    {
-                        Prices = p.Prices!,
-                        Alt = p.Images!.First().Alt,
-                        Brand = p.Brand!.Name,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Id = p.Id,
-                        ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                        Stars = p.Star,
-                        Url = p.Url
-                    })
-                    .FirstOrDefaultAsync(cancellationToken));
-                i++;
-                if (i == count) break;
-            }
+    //public async Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken)
+    //{
+    //    var products = new List<ProductIndexPageViewModel?>();
+    //    var discounts = _context.Discounts.OrderByDescending(x => x.Amount).Select(x => x.Products).Take(count);
+    //    var i = 0;
+    //    foreach (var discount in discounts)
+    //        foreach (var product in discount)
+    //        {
+    //            products.Add(await _context.Products
+    //                .Where(x => x.Id == product.Id && x.Images!.Count > 0 && x.Prices!.Any())
+    //                .Select(p => new ProductIndexPageViewModel
+    //                {
+    //                    Prices = p.Prices!,
+    //                    Alt = p.Images!.First().Alt,
+    //                    Brand = p.Brand!.Name,
+    //                    Name = p.Name,
+    //                    Description = p.Description,
+    //                    Id = p.Id,
+    //                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+    //                    Stars = p.Star,
+    //                    Url = p.Url
+    //                })
+    //                .FirstOrDefaultAsync(cancellationToken));
+    //            i++;
+    //            if (i == count) break;
+    //        }
 
-        //if (productIndexPageViewModel.Count < 5)
-        //{
-        //    productIndexPageViewModel.AddRange(await TopNew(count - productIndexPageViewModel.Count, cancellationToken));
-        //}
-        return products;
-    }
+    //    //if (productIndexPageViewModel.Count < 5)
+    //    //{
+    //    //    productIndexPageViewModel.AddRange(await TopNew(count - productIndexPageViewModel.Count, cancellationToken));
+    //    //}
+    //    return products;
+    //}
 
     public async Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken)
     {

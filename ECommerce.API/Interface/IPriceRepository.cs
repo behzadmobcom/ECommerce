@@ -1,6 +1,7 @@
 ﻿using API.Utilities;
 using Entities;
 using Entities.Helper;
+using Entities.ViewModel;
 
 namespace API.Interface;
 
@@ -12,4 +13,6 @@ public interface IPriceRepository : IAsyncRepository<Price>
     Task<int> EditAll(IEnumerable<Price> prices, int id, CancellationToken cancellationToken);
 
     Task<IEnumerable<Price>> PriceOfProduct(int id, CancellationToken cancellationToken);
+
+    Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
 }

@@ -65,4 +65,7 @@ public class Price : BaseEntity
 
     public int? CurrencyId { get; set; }
     public Currency? Currency { get; set; }
+
+    public int? DiscountId { get; set; }
+    public Discount? Discount { get; set; }
 }
