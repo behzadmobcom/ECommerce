@@ -49,15 +49,12 @@ public class IndexModel : PageModel
         //ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
         StarProducts = (await _productService.TopStars(8)).ReturnData;
         SellProducts = (await _productService.TopSells(8)).ReturnData;
- 
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
-
         var resultDiscount = await _discountService.GetLast();
-        Discount = resultDiscount.ReturnData;   
+        Discount = resultDiscount.ReturnData;
     }
-
 
     public IActionResult OnPost()
     {
