@@ -70,7 +70,7 @@
             }
 
             .vertical-tab .nav-tabs li a:after {
-                background-color: var(--blue-dark);
+                
                 width: 50%;
                 opacity: 0;
             }

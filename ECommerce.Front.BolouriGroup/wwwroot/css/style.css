@@ -39,8 +39,12 @@
     --facebook: #3b5998;
     --linkedin: #0e76a8;
     --twitter: #00acee;
+    --blue-dark:#0C4CA3;
+    --gray-customer:#949599;
+    --blue-customer:#0077CC;
     --primary-bshadow: 0px 15px 35px 0px rgba(0, 0, 0, 0.1);
     --primary-tshadow: 2px 3px 8px rgba(0, 0, 0, 0.1)
+   
 }
 
 * {
@@ -228,7 +232,7 @@ button:focus {
 .alert-info {
     background: var(--white);
     border-radius: 3px;
-    border-top: 3px solid var(--primary);
+    border-top: 3px solid var(--blue-dark);
     box-shadow: 0 2px 48px 0 rgba(0, 0, 0, .08);
     margin-bottom: 30px;
     padding: 20px;
@@ -236,7 +240,7 @@ button:focus {
 }
 
 .alert-info p {
-    color: var(--primary);
+    color: var(--blue-dark);
     font-weight: 500;
     text-shadow: var(--primary-shadow)
 }
@@ -269,7 +273,7 @@ button:focus {
 }
 
 .breadcrumb-item a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -299,22 +303,22 @@ button:focus {
 }
 
 .btn-inline {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
 .btn-inline:hover {
     background: var(--white);
-    color: var(--primary);
+    color: var(--blue-dark);
 }
 
 .btn-outline {
     background: var(--white);
-    color: var(--primary);
+    color: var(--blue-dark);
 }
 
 .btn-outline:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -324,7 +328,7 @@ button:focus {
 }
 
 .dropdown-arrow:hover::before {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .dropdown-arrow::before {
@@ -349,7 +353,7 @@ button:focus {
 }
 
 .dropdown-link:hover::before {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .dropdown-link::before {
@@ -371,7 +375,7 @@ button:focus {
 
 .dropdown-list {
     background: var(--white);
-    border-right: 3px solid var(--primary);
+    border-right: 3px solid var(--blue-dark);
     display: none;
     padding: 10px;
 }
@@ -398,7 +402,7 @@ button:focus {
 }
 
 .dropdown-list li::before {
-    border-top: 2px solid var(--primary);
+    border-top: 2px solid var(--blue-dark);
     content: "";
     position: absolute;
     right: -10px;
@@ -407,7 +411,7 @@ button:focus {
 }
 
 .dropdown-list li a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .dropdown:hover .dropdown-position-list {
@@ -454,7 +458,7 @@ button:focus {
 }
 
 .dropdown-position-list li a:hover {
-    color: var(--primary);
+    color: var(--blue-customer);
     padding-right: 22px
 }
 
@@ -469,14 +473,14 @@ button:focus {
 }
 
 .loader {
-    background: var(--primary);
+    background: var(--blue-dark);
     position: relative;
     transform: rotate(-45deg) scale(.5);
 }
 
 .loader:after {
     animation: ghost 1s ease-in-out infinite;
-    border: calc(48 / 8) solid var(--primary);
+    border: calc(48 / 8) solid var(--blue-dark);
     box-sizing: border-box;
     content: '';
     display: block;
@@ -496,7 +500,7 @@ button:focus {
 }
 
 .loader {
-    background: var(--primary);
+    background: var(--blue-dark);
     height: 60px;
     position: relative;
     right: calc(50% - 25px);
@@ -507,7 +511,7 @@ button:focus {
 
 .loader:after {
     animation: ghost 1s ease-in-out infinite;
-    border: 6px solid var(--primary);
+    border: 6px solid var(--blue-dark);
     box-sizing: border-box;
     content: '';
     display: block;
@@ -535,19 +539,19 @@ button:focus {
     z-index: 995
 }
 
-.back-to-top i {
-    align-items: center;
-    background: #019345;
-    border: 2px solid #019345;
-    border-radius: 50px;
-    color: #fff;
-    display: flex;
-    font-size: 24px;
-    height: 44px;
-    justify-content: center;
-    transition: all .4s;
-    width: 44px;
-}
+    .back-to-top i {
+        align-items: center;
+        background: #0077CC;
+        border: 2px solid #0077CC;
+        border-radius: 50px;
+        color: #fff;
+        display: flex;
+        font-size: 24px;
+        height: 44px;
+        justify-content: center;
+        transition: all .4s;
+        width: 44px;
+    }
 
 .back-to-top i:hover {
     background: #0c2a4d;
@@ -603,7 +607,7 @@ button:focus {
 }
 
 .megamenu-list li a:hover {
-    color: var(--primary);
+    color: var(--blue-dark);
     padding-right: 5px
 }
 
@@ -655,7 +659,7 @@ button:focus {
 
 .form-control:focus-within {
     background: var(--chalk);
-    border-color: var(--primary);
+    border-color: var(--blue-dark);
     box-shadow: none;
     outline: 0
 }
@@ -695,12 +699,12 @@ button:focus {
 
 .form-select:focus-within {
     background: var(--chalk);
-    border-color: var(--primary);
+    border-color: var(--blue-dark);
     box-shadow: none;
 }
 
 .form-btn {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 6px;
     color: var(--white);
     font-size: 14px;
@@ -718,7 +722,7 @@ button:focus {
 }
 
 .form-input-group:focus-within i {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .form-input-group input {
@@ -742,7 +746,7 @@ button:focus {
 }
 
 .form-btn-group {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 6px;
     color: var(--white);
     font-size: 14px;
@@ -793,7 +797,7 @@ button:focus {
 }
 
 .tab-link:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .tab-link i {
@@ -802,7 +806,7 @@ button:focus {
 }
 
 .tab-link.active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .tab-pane {
@@ -853,7 +857,7 @@ button:focus {
 }
 
 .page-item .active {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -870,7 +874,7 @@ button:focus {
 }
 
 .page-link:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -899,21 +903,21 @@ button:focus {
     margin-top: 15px;
 }
 
-#slider-range span {
-    background: #019345;
-    border: none;
-    border-radius: 50%;
-    top: -.5em;
-}
+    #slider-range span {
+        background: #0077CC;
+        border: none;
+        border-radius: 50%;
+        top: -.5em;
+    }
 
 .ui-slider-horizontal .ui-slider-range {
-    background: #019345
+    background: #0077CC
 }
 
 #amount {
     background: 100% 0;
     border: none;
-    color: var(--primary);
+    color: var(--blue-dark);
     font-size: 18px;
     font-weight: 500;
     margin-top: 15px;
@@ -922,8 +926,8 @@ button:focus {
 }
 
 .ui-state-active {
-    background: var(--primary) !important;
-    border-color: var(--primary) !important
+    background: var(--blue-dark) !important;
+    border-color: var(--blue-dark) !important
 }
 
 .star-rating {
@@ -965,7 +969,7 @@ button:focus {
 }
 
 .star-rating label::after {
-    color: var(--primary);
+    color: var(--blue-dark);
     content: "\f005";
     display: block;
     font-family: "font awesome 5 pro";
@@ -990,7 +994,7 @@ button:focus {
     background: var(--white);
     border-radius: 50%;
     box-shadow: var(--primary-bshadow);
-    color: var(--primary);
+    color: var(--blue-dark);
     cursor: pointer;
     font-size: 20px;
     height: 45px;
@@ -1008,7 +1012,7 @@ button:focus {
 }
 
 .slick-right:hover, .slick-left:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -1043,7 +1047,7 @@ button:focus {
 }
 
 .slider-dots ul li.slick-active {
-    background: var(--primary)
+    background: var(--blue-dark)
 }
 
 @media (max-width: 575px) {
@@ -1074,7 +1078,7 @@ button:focus {
     align-items: center;
     background: var(--border);
     border-radius: 6px;
-    color: var(--green);
+    color: var(--blue-customer);
     display: flex;
     font-size: 15px;
     justify-content: center;
@@ -1116,12 +1120,12 @@ button:focus {
 }
 
 .product-action button i:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
 .product-action input {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 6px;
     color: var(--white);
     font-size: 15px;
@@ -1137,7 +1141,7 @@ button:focus {
 }
 
 thead tr {
-    background: var(--primary)
+    background: var(--blue-dark)
 }
 
 thead tr th {
@@ -1220,7 +1224,7 @@ tbody tr td:last-child {
 }
 
 .table-vendor a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .table-status h6 {
@@ -1228,7 +1232,7 @@ tbody tr td:last-child {
 }
 
 .table-status .stock-in {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .table-status .stock-out {
@@ -1240,7 +1244,7 @@ tbody tr td:last-child {
 }
 
 .table-shop .product-add {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -1266,21 +1270,21 @@ tbody tr td:last-child {
 
 .table-action .view i {
     background: var(--white);
-    color: var(--green);
+    color: var(--blue-customer);
 }
 
 .table-action .view i:hover {
-    background: var(--green);
+    background: var(--blue-customer);
     color: var(--white);
 }
 
 .table-action .wish i {
     background: var(--white);
-    color: var(--green);
+    color: var(--blue-customer);
 }
 
 .table-action .wish.active i {
-    background: var(--green);
+    background: var(--blue-customer);
     color: var(--white);
 }
 
@@ -1332,7 +1336,7 @@ tbody tr td:last-child {
 }
 
 .modal-close:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -1407,9 +1411,9 @@ tbody tr td:last-child {
 
 .order-track-item i {
     background: var(--white);
-    border: 2px solid var(--primary);
+    border: 2px solid var(--blue-dark);
     border-radius: 50%;
-    color: var(--primary);
+    color: var(--blue-dark);
     display: inline-block;
     font-size: 20px;
     height: 45px;
@@ -1428,16 +1432,16 @@ tbody tr td:last-child {
 }
 
 .order-track-item.active::before {
-    background: var(--primary)
+    background: var(--blue-dark)
 }
 
 .order-track-item.active i {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
 .order-track-item.active span {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 @media (max-width: 575px) {
@@ -1463,7 +1467,7 @@ tbody tr td:last-child {
 
 .nav-pills .nav-link.active {
     background: 100% 0;
-    color: var(--primary);
+    color: var(--blue-dark);
 }
 
 @media (max-width: 991px) {
@@ -1548,7 +1552,7 @@ tbody tr td:last-child {
 }
 
 .product-card:hover {
-    border-color: var(--primary);
+    border-color: var(--blue-dark);
     box-shadow: 0 8px 15px 0 rgba(0, 0, 0, .1)
 }
 
@@ -1558,7 +1562,7 @@ tbody tr td:last-child {
 }
 
 .product-card:hover .product-add {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -1619,11 +1623,11 @@ tbody tr td:last-child {
 }
 
 .product-wish:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .product-wish.active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .product-image {
@@ -1651,7 +1655,7 @@ tbody tr td:last-child {
 }
 
 .product-widget a {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 8px;
     box-shadow: 0 7px 12px 0 rgba(0, 0, 0, .12);
     color: var(--white);
@@ -1692,12 +1696,12 @@ tbody tr td:last-child {
 }
 
 .product-rating a:hover {
-    color: var(--primary);
+    color: var(--blue-dark);
     text-decoration: underline
 }
 
 .product-rating .active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .product-name {
@@ -1715,7 +1719,7 @@ tbody tr td:last-child {
 }
 
 .product-name a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .product-price {
@@ -1733,7 +1737,7 @@ tbody tr td:last-child {
 }
 
 .product-price span {
-    color: var(--primary);
+    color: var(--blue-dark);
     white-space: nowrap
 }
 
@@ -1820,7 +1824,7 @@ tbody tr td:last-child {
 }
 
 .feature-card:hover {
-    border-color: var(--primary);
+    border-color: var(--blue-dark);
     box-shadow: 0 8px 15px 0 rgba(0, 0, 0, .1)
 }
 
@@ -1830,7 +1834,7 @@ tbody tr td:last-child {
 }
 
 .feature-card:hover .feature-add {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -1891,11 +1895,11 @@ tbody tr td:last-child {
 }
 
 .feature-wish:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .feature-wish.active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .feature-image img {
@@ -1919,7 +1923,7 @@ tbody tr td:last-child {
 }
 
 .feature-widget a {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 8px;
     box-shadow: 0 7px 12px 0 rgba(0, 0, 0, .12);
     color: var(--white);
@@ -1945,7 +1949,7 @@ tbody tr td:last-child {
 }
 
 .feature-content .product-add:hover {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white)
 }
 
@@ -1972,12 +1976,12 @@ tbody tr td:last-child {
 }
 
 .feature-rating a:hover {
-    color: var(--primary);
+    color: var(--blue-dark);
     text-decoration: underline
 }
 
 .feature-rating .active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .feature-name {
@@ -1995,7 +1999,7 @@ tbody tr td:last-child {
 }
 
 .feature-name a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .feature-price {
@@ -2012,7 +2016,7 @@ tbody tr td:last-child {
 }
 
 .feature-price span {
-    color: var(--primary);
+    color: var(--blue-dark);
     white-space: nowrap
 }
 
@@ -2100,7 +2104,7 @@ tbody tr td:last-child {
 }
 
 .product-standard:hover .standard-add {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -2165,7 +2169,7 @@ tbody tr td:last-child {
 }
 
 .standard-widget a {
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 8px;
     box-shadow: 0 7px 12px 0 rgba(0, 0, 0, .12);
     color: var(--white);
@@ -2200,7 +2204,7 @@ tbody tr td:last-child {
 }
 
 .standard-name a:hover {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .standard-price {
@@ -2217,7 +2221,7 @@ tbody tr td:last-child {
 }
 
 .standard-price span {
-    color: var(--primary);
+    color: var(--blue-dark);
     white-space: nowrap
 }
 
@@ -2248,12 +2252,12 @@ tbody tr td:last-child {
 }
 
 .standard-rating a:hover {
-    color: var(--primary);
+    color: var(--blue-dark);
     text-decoration: underline
 }
 
 .standard-rating .active {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
 .standard-desc {
@@ -2266,13 +2270,13 @@ tbody tr td:last-child {
     grid-template-columns:repeat(auto-fit, minmax(180px, 1fr))
 }
 
-.standard-action-group .product-add, .standard-action-group .action-input {
-    background: var(--primary);
-    color: var(--white);
-    letter-spacing: .5px;
-    padding: 10px 0;
-    text-transform: uppercase;
-}
+    .standard-action-group .product-add, .standard-action-group .action-input {
+        background: var(--blue-dark);
+        color: var(--white);
+        letter-spacing: .5px;
+        padding: 10px 0;
+        text-transform: uppercase;
+    }
 
 .standard-action-group .product-add {
     font-size: 14px;
@@ -2308,13 +2312,13 @@ tbody tr td:last-child {
 
 .standard-wish {
     background: var(--border);
-    color: var(--primary);
+    color: var(--blue-dark);
 }
 
-.standard-wish.active {
-    background: var(--primary);
-    color: var(--white);
-}
+    .standard-wish.active {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .standard-action {
     align-items: center;
@@ -2341,24 +2345,24 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.standard-action button i:hover, .standard-action a i:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .standard-action button i:hover, .standard-action a i:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
-.standard-action input {
-    background: var(--primary);
-    border-radius: 5px;
-    color: var(--white);
-    font-size: 15px;
-    height: 45px;
-    letter-spacing: .3px;
-    line-height: 14px;
-    margin: 0 8px;
-    text-align: center;
-    text-shadow: var(--primary-tshadow);
-    width: 100%;
-}
+    .standard-action input {
+        background: var(--blue-dark);
+        border-radius: 5px;
+        color: var(--white);
+        font-size: 15px;
+        height: 45px;
+        letter-spacing: .3px;
+        line-height: 14px;
+        margin: 0 8px;
+        text-align: center;
+        text-shadow: var(--primary-tshadow);
+        width: 100%;
+    }
 
 @media (max-width: 575px) {
     .product-standard {
@@ -2446,10 +2450,10 @@ tbody tr td:last-child {
     display: flex
 }
 
-.choose-card:hover i {
-    background: var(--primary);
-    color: var(--white);
-}
+    .choose-card:hover i {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .choose-icon i {
     -moz-transition: all linear .3s;
@@ -2459,7 +2463,7 @@ tbody tr td:last-child {
     background: var(--white);
     border-radius: 50%;
     box-shadow: var(--primary-bshadow);
-    color: var(--primary);
+    color: var(--blue-dark);
     display: inline-block;
     font-size: 40px;
     height: 75px;
@@ -2499,7 +2503,7 @@ tbody tr td:last-child {
 
 .blog-calender {
     align-items: center;
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 10px;
     bottom: -10px;
     color: var(--white);
@@ -2565,11 +2569,11 @@ tbody tr td:last-child {
     margin: 0
 }
 
-.blog-meta li i {
-    color: var(--primary);
-    font-size: 15px;
-    margin-left: 8px;
-}
+    .blog-meta li i {
+        color: var(--blue-dark);
+        font-size: 15px;
+        margin-left: 8px;
+    }
 
 .blog-meta li a, .blog-meta li span {
     font-size: 15px;
@@ -2587,9 +2591,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-meta li a:hover {
-    color: var(--primary)
-}
+    .blog-meta li a:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-title {
     font-size: 22px;
@@ -2606,9 +2610,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-title a:hover {
-    color: var(--primary)
-}
+    .blog-title a:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-desc {
     color: var(--gray);
@@ -2622,7 +2626,7 @@ tbody tr td:last-child {
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
-    color: var(--primary);
+    color: var(--blue-dark);
     font-size: 15px;
     font-weight: 500;
     text-transform: uppercase;
@@ -2638,9 +2642,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-btn:hover {
-    color: var(--primary)
-}
+    .blog-btn:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-btn:hover i {
     margin-right: 5px
@@ -2676,12 +2680,12 @@ tbody tr td:last-child {
     text-transform: uppercase
 }
 
-.offer-div button, .offer-div span {
-    color: var(--primary);
-    font-size: 15px;
-    font-weight: 500;
-    text-transform: capitalize
-}
+    .offer-div button, .offer-div span {
+        color: var(--blue-dark);
+        font-size: 15px;
+        font-weight: 500;
+        text-transform: capitalize
+    }
 
 @media (min-width: 351px) and (max-width: 575px) {
     .offer-card {
@@ -2709,7 +2713,7 @@ tbody tr td:last-child {
 }
 
 .account-title::before {
-    background: var(--primary);
+    background: var(--blue-dark);
     bottom: -2px;
     content: "";
     height: 2px;
@@ -2722,24 +2726,24 @@ tbody tr td:last-child {
     text-transform: capitalize
 }
 
-.account-title button, .account-title a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border: none;
-    border-radius: 6px;
-    color: var(--white);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: .3px;
-    padding: 5px 15px;
-    text-shadow: var(--primary-tshadow);
-    text-transform: capitalize;
-    transition: all linear .3s;
-    white-space: nowrap;
-}
+    .account-title button, .account-title a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border: none;
+        border-radius: 6px;
+        color: var(--white);
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: .3px;
+        padding: 5px 15px;
+        text-shadow: var(--primary-tshadow);
+        text-transform: capitalize;
+        transition: all linear .3s;
+        white-space: nowrap;
+    }
 
 .account-title button:hover, .account-title a:hover {
     background: #8493ca;
@@ -2834,9 +2838,9 @@ tbody tr td:last-child {
     color: var(--white);
 }
 
-.profile-card.active {
-    border-color: var(--primary)
-}
+    .profile-card.active {
+        border-color: var(--blue-dark)
+    }
 
 .payment-card {
     background: var(--chalk);
@@ -2918,9 +2922,9 @@ tbody tr td:last-child {
     color: var(--white);
 }
 
-.payment-card.active {
-    border-color: var(--primary)
-}
+    .payment-card.active {
+        border-color: var(--blue-dark)
+    }
 
 @media (max-width: 575px) {
     .payment-card p span {
@@ -2941,38 +2945,38 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.contact-card:hover {
-    background: var(--primary)
-}
+    .contact-card:hover {
+        background: var(--blue-dark)
+    }
 
-.contact-card:hover i {
-    background: var(--white);
-    color: var(--primary);
-}
+        .contact-card:hover i {
+            background: var(--white);
+            color: var(--blue-dark);
+        }
 
 .contact-card:hover h4, .contact-card:hover p, .contact-card:hover a {
     color: var(--white)
 }
 
-.contact-card i {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border-radius: 50%;
-    box-shadow: var(--primary-bshadow);
-    color: var(--white);
-    display: inline-block;
-    font-size: 22px;
-    height: 50px;
-    line-height: 50px;
-    margin-bottom: 15px;
-    text-align: center;
-    text-shadow: var(--primary-tshadow);
-    transition: all linear .3s;
-    width: 50px;
-}
+    .contact-card i {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border-radius: 50%;
+        box-shadow: var(--primary-bshadow);
+        color: var(--white);
+        display: inline-block;
+        font-size: 22px;
+        height: 50px;
+        line-height: 50px;
+        margin-bottom: 15px;
+        text-align: center;
+        text-shadow: var(--primary-tshadow);
+        transition: all linear .3s;
+        width: 50px;
+    }
 
 .contact-card h4 {
     -moz-transition: all linear .3s;
@@ -3008,14 +3012,14 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.contact-card.active {
-    background: var(--primary)
-}
+    .contact-card.active {
+        background: var(--blue-dark)
+    }
 
-.contact-card.active i {
-    background: var(--white);
-    color: var(--primary);
-}
+        .contact-card.active i {
+            background: var(--white);
+            color: var(--blue-dark);
+        }
 
 .contact-card.active h4, .contact-card.active p, .contact-card.active a {
     color: var(--white)
@@ -3162,10 +3166,10 @@ tbody tr td:last-child {
     width: 36px;
 }
 
-.team-overlay a:hover {
-    background: var(--primary);
-    color: var(--white)
-}
+    .team-overlay a:hover {
+        background: var(--blue-dark);
+        color: var(--white)
+    }
 
 .team-meta {
     text-align: center
@@ -3184,9 +3188,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.team-meta h5 a:hover {
-    color: var(--primary)
-}
+    .team-meta h5 a:hover {
+        color: var(--blue-dark)
+    }
 
 .team-meta p {
     font-size: 15px;
@@ -3201,7 +3205,7 @@ tbody tr td:last-child {
 }
 
 .header-top {
-    background: var(--primary);
+    background: var(--gray-customer);
     padding: 8px 0;
 }
 
@@ -3275,7 +3279,7 @@ tbody tr td:last-child {
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
-    color: var(--white);
+    color: var(--blue-dark);
     font-size: 14px;
     letter-spacing: .3px;
     text-transform: capitalize;
@@ -3284,7 +3288,7 @@ tbody tr td:last-child {
 }
 
 .header-top-list li a:hover {
-    color: var(--green-chalk)
+    color: var(--blue)
 }
 
 @media (max-width: 767px) {
@@ -3310,7 +3314,7 @@ tbody tr td:last-child {
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
-    background: var(--white);
+    background: var(--blue-dark);
     transition: all linear .3s;
 }
 
@@ -3333,9 +3337,9 @@ tbody tr td:last-child {
     z-index: 3;
 }
 
-.header-part.active .header-widget:hover i {
-    background: var(--primary)
-}
+    .header-part.active .header-widget:hover i {
+        background: var(--blue-dark)
+    }
 
 .header-part.active .header-widget i {
     background: var(--chalk)
@@ -3345,9 +3349,9 @@ tbody tr td:last-child {
     border-color: var(--white)
 }
 
-.header-part.active .header-form {
-    border-color: var(--primary)
-}
+    .header-part.active .header-form {
+        border-color: var(--blue-dark)
+    }
 
 .header-content-group {
     align-items: center;
@@ -3377,11 +3381,11 @@ tbody tr td:last-child {
     position: relative;
 }
 
-.header-widget:hover i {
-    background: var(--primary);
-    color: var(--white);
-    text-shadow: var(--primary-tshadow)
-}
+    .header-widget:hover i {
+        background: var(--blue-dark);
+        color: var(--white);
+        text-shadow: var(--primary-tshadow)
+    }
 
 .header-widget img {
     border-radius: 50%;
@@ -3420,7 +3424,7 @@ tbody tr td:last-child {
 }
 
 .header-widget sup {
-    background: var(--primary);
+    background: var(--blue-dark);
     border: 2px solid var(--white);
     border-radius: 50%;
     color: var(--white);
@@ -3455,9 +3459,9 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.header-form:focus-within {
-    border-color: var(--primary)
-}
+    .header-form:focus-within {
+        border-color: var(--blue-dark)
+    }
 
 .header-form input {
     font-size: 15px;
@@ -3482,9 +3486,9 @@ tbody tr td:last-child {
     width: 45px;
 }
 
-.header-form button i:hover {
-    color: var(--primary)
-}
+    .header-form button i:hover {
+        color: var(--blue-dark)
+    }
 
 .header-widget-group.right .header-widget {
     margin-right: 20px
@@ -3586,9 +3590,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.navbar-link:hover {
-    color: var(--primary)
-}
+    .navbar-link:hover {
+        color: var(--blue-dark)
+    }
 
 .navbar-focus-list {
     align-items: center;
@@ -3615,9 +3619,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.navbar-focus-list li a:hover {
-    color: var(--primary)
-}
+    .navbar-focus-list li a:hover {
+        color: var(--blue-dark)
+    }
 
 .navbar-focus-list li a i {
     font-size: 18px;
@@ -3641,11 +3645,11 @@ tbody tr td:last-child {
     margin-left: 0
 }
 
-.navbar-info i {
-    color: var(--primary);
-    font-size: 30px;
-    margin-left: 15px;
-}
+    .navbar-info i {
+        color: var(--blue-dark);
+        font-size: 30px;
+        margin-left: 15px;
+    }
 
 .navbar-info p small {
     display: block;
@@ -3762,10 +3766,10 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.category-close i:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .category-close i:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .category-list {
     max-height: calc(100vh - 140px);
@@ -3795,9 +3799,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.cate-link:hover {
-    color: var(--primary)
-}
+    .cate-link:hover {
+        color: var(--blue-dark)
+    }
 
 .cate-link i {
     font-size: 28px;
@@ -3814,9 +3818,9 @@ tbody tr td:last-child {
     font-size: 14px;
 }
 
-.category-footer p a {
-    color: var(--primary)
-}
+    .category-footer p a {
+        color: var(--blue-dark)
+    }
 
 .cart-part {
     left: 0;
@@ -3864,17 +3868,17 @@ tbody tr td:last-child {
     justify-content: center
 }
 
-.cart-total i {
-    color: var(--primary);
-    font-size: 20px;
-    margin-left: 8px;
-}
+    .cart-total i {
+        color: var(--blue-dark);
+        font-size: 20px;
+        margin-left: 8px;
+    }
 
-.cart-total span {
-    color: var(--primary);
-    font-weight: 500;
-    text-transform: capitalize
-}
+    .cart-total span {
+        color: var(--blue-dark);
+        font-weight: 500;
+        text-transform: capitalize
+    }
 
 .cart-close {
     position: absolute;
@@ -3901,10 +3905,10 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.cart-close i:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .cart-close i:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .cart-list {
     height: 100%;
@@ -4018,19 +4022,19 @@ tbody tr td:last-child {
     width: 30px;
 }
 
-.cart-action-group .product-action input {
-    background: var(--chalk);
-    border-radius: 5px;
-    color: var(--primary);
-    font-size: 14px;
-    height: 30px;
-    width: 45px;
-}
+    .cart-action-group .product-action input {
+        background: var(--chalk);
+        border-radius: 5px;
+        color: var(--blue-dark);
+        font-size: 14px;
+        height: 30px;
+        width: 45px;
+    }
 
-.cart-action-group h6 {
-    color: var(--primary);
-    font-weight: 500;
-}
+    .cart-action-group h6 {
+        color: var(--blue-dark);
+        font-weight: 500;
+    }
 
 .cart-footer {
     box-shadow: 0 -3px 7px 0 rgba(0, 0, 0, .08);
@@ -4039,7 +4043,7 @@ tbody tr td:last-child {
 }
 
 .coupon-btn {
-    color: var(--primary);
+    color: var(--blue-dark);
     font-weight: 500;
     margin-bottom: 20px;
     text-shadow: var(--primary-tshadow)
@@ -4066,9 +4070,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.coupon-form:focus-within {
-    border-color: var(--primary)
-}
+    .coupon-form:focus-within {
+        border-color: var(--blue-dark)
+    }
 
 .coupon-form input {
     height: 38px;
@@ -4076,18 +4080,18 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.coupon-form button span {
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    display: block;
-    font-size: 14px;
-    height: 38px;
-    line-height: 38px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 100px;
-}
+    .coupon-form button span {
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        display: block;
+        font-size: 14px;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100px;
+    }
 
 .cart-checkout-btn {
     -moz-transition: all linear .3s;
@@ -4095,7 +4099,7 @@ tbody tr td:last-child {
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
     align-items: center;
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 8px;
     display: flex;
     justify-content: center;
@@ -4238,10 +4242,10 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.nav-close i:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .nav-close i:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .nav-content {
     max-height: calc(100vh - 100px);
@@ -4256,7 +4260,7 @@ tbody tr td:last-child {
 }
 
 .nav-user {
-    border: 2px solid var(--primary);
+    border: 2px solid var(--blue-dark);
     border-radius: 50%;
     margin-bottom: 10px;
 }
@@ -4282,9 +4286,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.nav-name a:hover {
-    color: var(--primary)
-}
+    .nav-name a:hover {
+        color: var(--blue-dark)
+    }
 
 .nav-select-group {
     align-items: center;
@@ -4336,10 +4340,10 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.nav-link:hover {
-    background: var(--green-chalk);
-    color: var(--primary);
-}
+    .nav-link:hover {
+        background: var(--green-chalk);
+        color: var(--blue-dark);
+    }
 
 .nav-link::before {
     left: 15px
@@ -4369,11 +4373,11 @@ tbody tr td:last-child {
     margin-bottom: 0
 }
 
-.nav-info i {
-    color: var(--primary);
-    font-size: 30px;
-    margin-left: 15px;
-}
+    .nav-info i {
+        color: var(--blue-dark);
+        font-size: 30px;
+        margin-left: 15px;
+    }
 
 .nav-info p small {
     display: block;
@@ -4397,9 +4401,9 @@ tbody tr td:last-child {
     font-size: 14px;
 }
 
-.nav-footer p a {
-    color: var(--primary)
-}
+    .nav-footer p a {
+        color: var(--blue-dark)
+    }
 
 .mobile-menu {
     align-items: center;
@@ -4432,13 +4436,13 @@ tbody tr td:last-child {
     background: var(--chalk)
 }
 
-.mobile-menu a:hover i, .mobile-menu button:hover i {
-    color: var(--primary)
-}
+    .mobile-menu a:hover i, .mobile-menu button:hover i {
+        color: var(--blue-dark)
+    }
 
-.mobile-menu a:hover span, .mobile-menu button:hover span {
-    color: var(--primary)
-}
+    .mobile-menu a:hover span, .mobile-menu button:hover span {
+        color: var(--blue-dark)
+    }
 
 .mobile-menu a i, .mobile-menu button i {
     color: var(--text);
@@ -4454,22 +4458,22 @@ tbody tr td:last-child {
     text-transform: uppercase
 }
 
-.mobile-menu a sup, .mobile-menu button sup {
-    background: var(--primary);
-    border: 2px solid var(--green-chalk);
-    border-radius: 50%;
-    color: var(--white);
-    font-size: 12px;
-    height: 24px;
-    line-height: 20px;
-    position: absolute;
-    right: 75%;
-    text-align: center;
-    text-shadow: var(--primary-tshadow);
-    top: -5px;
-    transform: translateX(50%);
-    width: 24px;
-}
+    .mobile-menu a sup, .mobile-menu button sup {
+        background: var(--blue-dark);
+        border: 2px solid var(--green-chalk);
+        border-radius: 50%;
+        color: var(--white);
+        font-size: 12px;
+        height: 24px;
+        line-height: 20px;
+        position: absolute;
+        right: 75%;
+        text-align: center;
+        text-shadow: var(--primary-tshadow);
+        top: -5px;
+        transform: translateX(50%);
+        width: 24px;
+    }
 
 .mobile-menu a .icofont-shopping-cart, .mobile-menu button .icofont-shopping-cart {
     font-size: 18px
@@ -4551,9 +4555,9 @@ tbody tr td:last-child {
     color: var(--heading)
 }
 
-.view-name a:hover {
-    color: var(--primary)
-}
+    .view-name a:hover {
+        color: var(--blue-dark)
+    }
 
 .view-meta {
     align-items: center;
@@ -4574,10 +4578,10 @@ tbody tr td:last-child {
     margin-right: 5px;
 }
 
-.view-meta a:hover {
-    color: var(--primary);
-    text-decoration: underline;
-}
+    .view-meta a:hover {
+        color: var(--blue-dark);
+        text-decoration: underline;
+    }
 
 .view-rating {
     align-items: center;
@@ -4603,14 +4607,14 @@ tbody tr td:last-child {
     white-space: nowrap;
 }
 
-.view-rating a:hover {
-    color: var(--primary);
-    text-decoration: underline
-}
+    .view-rating a:hover {
+        color: var(--blue-dark);
+        text-decoration: underline
+    }
 
-.view-rating .active {
-    color: var(--primary)
-}
+    .view-rating .active {
+        color: var(--blue-dark)
+    }
 
 .view-price {
     margin-bottom: 20px
@@ -4621,9 +4625,9 @@ tbody tr td:last-child {
     margin-left: 25px
 }
 
-.view-price span {
-    color: var(--primary)
-}
+    .view-price span {
+        color: var(--blue-dark)
+    }
 
 .view-price span small {
     font-size: 14px;
@@ -4680,10 +4684,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.view-tag-list li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .view-tag-list li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .view-share-list {
     align-items: center;
@@ -4711,23 +4715,23 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.view-share-list li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .view-share-list li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .view-add-group {
     margin: 45px 0 15px
 }
 
-.view-add-group .product-add, .view-add-group .action-input {
-    background: var(--primary);
-    color: var(--white);
-    height: 46px;
-    letter-spacing: .3px;
-    line-height: 46px;
-    text-transform: uppercase;
-}
+    .view-add-group .product-add, .view-add-group .action-input {
+        background: var(--blue-dark);
+        color: var(--white);
+        height: 46px;
+        letter-spacing: .3px;
+        line-height: 46px;
+        text-transform: uppercase;
+    }
 
 .view-action-group {
     display: grid;
@@ -4764,7 +4768,7 @@ tbody tr td:last-child {
 }
 
 .view-wish.active {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
@@ -4789,7 +4793,7 @@ tbody tr td:last-child {
 }
 
 .thumb-slider .slick-center img {
-    border: 1px solid var(--primary)
+    border: 1px solid var(--blue-dark)
 }
 
 @media (max-width: 500px) {
@@ -4863,24 +4867,24 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.news-form button span {
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 12px 0;
-    text-align: center;
-    text-transform: uppercase;
-    transition: .5s ease-in-out;
-    width: 180px;
-}
+    .news-form button span {
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 0;
+        text-align: center;
+        text-transform: uppercase;
+        transition: .5s ease-in-out;
+        width: 180px;
+    }
 
-.news-form button span:hover {
-    background: #32a768;
-    color: var(--white);
-}
+        .news-form button span:hover {
+            background: 0077CC;
+            color: var(--white);
+        }
 
 .news-form button span i {
     margin-left: 5px
@@ -4919,33 +4923,33 @@ tbody tr td:last-child {
     justify-content: flex-start
 }
 
-.visual-wrap:hover .visual-icon i {
-    background: var(--primary);
-    color: var(--white);
-}
+    .visual-wrap:hover .visual-icon i {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .visual-icon {
     margin-left: 20px
 }
 
-.visual-icon i {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--white);
-    border: 3px double var(--primary);
-    border-radius: 50%;
-    box-shadow: var(--primary-bshadow);
-    color: var(--primary);
-    display: inline-block;
-    font-size: 25px;
-    height: 50px;
-    line-height: 43px;
-    text-align: center;
-    transition: all linear .3s;
-    width: 50px;
-}
+    .visual-icon i {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--white);
+        border: 3px double var(--blue-dark);
+        border-radius: 50%;
+        box-shadow: var(--primary-bshadow);
+        color: var(--blue-dark);
+        display: inline-block;
+        font-size: 25px;
+        height: 50px;
+        line-height: 43px;
+        text-align: center;
+        transition: all linear .3s;
+        width: 50px;
+    }
 
 .visual-content h5 {
     font-size: 17px;
@@ -5008,28 +5012,28 @@ tbody tr td:last-child {
     margin-left: 0
 }
 
-.footer-social li a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--white);
-    border-radius: 50%;
-    box-shadow: var(--primary-bshadow);
-    color: var(--primary);
-    font-size: 16px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    text-shadow: var(--primary-tshadow);
-    transition: all linear .3s;
-    width: 40px;
-}
+    .footer-social li a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--white);
+        border-radius: 50%;
+        box-shadow: var(--primary-bshadow);
+        color: var(--blue-dark);
+        font-size: 16px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        text-shadow: var(--primary-tshadow);
+        transition: all linear .3s;
+        width: 40px;
+    }
 
-.footer-social li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+        .footer-social li a:hover {
+            background: var(--blue-dark);
+            color: var(--white);
+        }
 
 .footer-title {
     letter-spacing: -.3px;
@@ -5051,11 +5055,11 @@ tbody tr td:last-child {
     margin-bottom: 0
 }
 
-.footer-contact li i {
-    color: var(--primary);
-    font-size: 30px;
-    margin-left: 15px;
-}
+    .footer-contact li i {
+        color: var(--blue-dark);
+        font-size: 30px;
+        margin-left: 15px;
+    }
 
 .footer-contact li p span {
     display: block
@@ -5085,10 +5089,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.footer-links ul li a:hover {
-    color: var(--primary);
-    padding-right: 5px
-}
+    .footer-links ul li a:hover {
+        color: var(--blue-dark);
+        padding-right: 5px
+    }
 
 .footer-app {
     display: grid;
@@ -5232,10 +5236,10 @@ tbody tr td:last-child {
     width: 40px;
 }
 
-.blog-filter ul li .active {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-filter ul li .active {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-filter p {
     font-size: 15px;
@@ -5276,15 +5280,15 @@ tbody tr td:last-child {
     text-transform: capitalize;
 }
 
-.blog-widget-title::before {
-    background: var(--primary);
-    bottom: -2px;
-    content: "";
-    height: 2px;
-    position: absolute;
-    right: 0;
-    width: 50px;
-}
+    .blog-widget-title::before {
+        background: var(--blue-dark);
+        bottom: -2px;
+        content: "";
+        height: 2px;
+        position: absolute;
+        right: 0;
+        width: 50px;
+    }
 
 .blog-widget-form {
     position: relative
@@ -5304,22 +5308,22 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.blog-widget-form input:focus-within {
-    border-color: var(--primary)
-}
+    .blog-widget-form input:focus-within {
+        border-color: var(--blue-dark)
+    }
 
-.blog-widget-form button {
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    height: 45px;
-    left: 0;
-    line-height: 45px;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 45px;
-}
+    .blog-widget-form button {
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        height: 45px;
+        left: 0;
+        line-height: 45px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 45px;
+    }
 
 .blog-widget-feed li {
     border-bottom: 1px solid var(--border);
@@ -5359,9 +5363,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-widget-text a:hover {
-    color: var(--primary)
-}
+    .blog-widget-text a:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-widget-text span {
     display: block;
@@ -5383,9 +5387,9 @@ tbody tr td:last-child {
     padding: 0;
 }
 
-.blog-widget-category li:hover a {
-    color: var(--primary)
-}
+    .blog-widget-category li:hover a {
+        color: var(--blue-dark)
+    }
 
 .blog-widget-category li a {
     -moz-transition: all linear .3s;
@@ -5434,10 +5438,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-widget-tag li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-widget-tag li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-widget-social li {
     display: inline-block;
@@ -5460,9 +5464,9 @@ tbody tr td:last-child {
     width: 45px;
 }
 
-.blog-widget-social li a:hover {
-    background: var(--primary)
-}
+    .blog-widget-social li a:hover {
+        background: var(--blue-dark)
+    }
 
 @media (max-width: 575px) {
     .blog-widget-social li {
@@ -5567,10 +5571,10 @@ tbody tr td:last-child {
     width: 40px;
 }
 
-.shop-filter ul li .active {
-    background: var(--primary);
-    color: var(--white);
-}
+    .shop-filter ul li .active {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .shop-filter p {
     font-size: 15px;
@@ -5645,10 +5649,10 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.shop-widget-btn:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .shop-widget-btn:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .shop-widget-btn i {
     margin-left: 8px
@@ -5675,9 +5679,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.shop-widget-list li:hover {
-    color: var(--primary)
-}
+    .shop-widget-list li:hover {
+        color: var(--blue-dark)
+    }
 
 .shop-widget-list li:last-child {
     margin-bottom: 0
@@ -6160,7 +6164,7 @@ tbody tr td:last-child {
 }
 
 .details-thumb .slick-current img {
-    border: 1px solid var(--primary)
+    border: 1px solid var(--blue-dark)
 }
 
 .product-navigation {
@@ -6184,9 +6188,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.product-navigation li a:hover {
-    color: var(--primary)
-}
+    .product-navigation li a:hover {
+        color: var(--blue-dark)
+    }
 
 .product-navigation li a:hover .product-nav-popup {
     opacity: 1;
@@ -6262,9 +6266,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.details-name a:hover {
-    color: var(--primary)
-}
+    .details-name a:hover {
+        color: var(--blue-dark)
+    }
 
 .details-meta {
     align-items: center;
@@ -6286,10 +6290,10 @@ tbody tr td:last-child {
     margin-right: 5px;
 }
 
-.details-meta a:hover {
-    color: var(--primary);
-    text-decoration: underline;
-}
+    .details-meta a:hover {
+        color: var(--blue-dark);
+        text-decoration: underline;
+    }
 
 .details-rating {
     align-items: center;
@@ -6315,14 +6319,14 @@ tbody tr td:last-child {
     white-space: nowrap;
 }
 
-.details-rating a:hover {
-    color: var(--primary);
-    text-decoration: underline
-}
+    .details-rating a:hover {
+        color: var(--blue-dark);
+        text-decoration: underline
+    }
 
-.details-rating .active {
-    color: var(--primary)
-}
+    .details-rating .active {
+        color: var(--blue-dark)
+    }
 
 .details-price {
     margin-bottom: 20px
@@ -6333,10 +6337,10 @@ tbody tr td:last-child {
     margin-left: 20px
 }
 
-.details-price span {
-    color: var(--primary);
-    white-space: nowrap
-}
+    .details-price span {
+        color: var(--blue-dark);
+        white-space: nowrap
+    }
 
 .details-price span small {
     font-size: 14px;
@@ -6393,10 +6397,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.details-tag-list li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .details-tag-list li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .details-share-list {
     align-items: center;
@@ -6424,21 +6428,21 @@ tbody tr td:last-child {
     width: 35px;
 }
 
-.details-share-list li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .details-share-list li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .details-add-group {
     margin: 45px 0 15px
 }
 
-.details-add-group .product-add, .details-add-group .action-input {
-    background: var(--primary);
-    color: var(--white);
-    padding: 10px 0;
-    text-transform: uppercase
-}
+    .details-add-group .product-add, .details-add-group .action-input {
+        background: var(--blue-dark);
+        color: var(--white);
+        padding: 10px 0;
+        text-transform: uppercase
+    }
 
 .details-add-group .action-minus i, .details-add-group .action-plus i {
     background: var(--chalk)
@@ -6466,9 +6470,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.details-action-group a:hover {
-    color: var(--primary)
-}
+    .details-action-group a:hover {
+        color: var(--blue-dark)
+    }
 
 .details-action-group a i {
     font-size: 16px;
@@ -6483,14 +6487,14 @@ tbody tr td:last-child {
 }
 
 .details-wish.active {
-    background: var(--primary);
+    background: var(--blue-dark);
     color: var(--white);
 }
 
-.details-wish.active:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .details-wish.active:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .product-details-frame {
     background: var(--white);
@@ -6590,7 +6594,7 @@ tbody tr td:last-child {
 }
 
 .review-avatar {
-    border: 2px solid var(--primary);
+    border: 2px solid var(--blue-dark);
     border-radius: 50%;
     margin-left: 15px;
 }
@@ -6615,9 +6619,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.review-meta a:hover {
-    color: var(--primary)
-}
+    .review-meta a:hover {
+        color: var(--blue-dark)
+    }
 
 .review-meta span {
     color: var(--text);
@@ -6626,21 +6630,21 @@ tbody tr td:last-child {
     font-weight: 400;
 }
 
-.review-meta span b {
-    color: var(--primary);
-    font-weight: 500;
-}
+    .review-meta span b {
+        color: var(--blue-dark);
+        font-weight: 500;
+    }
 
 .review-rating {
     margin-bottom: 10px
 }
 
-.review-rating li {
-    color: var(--primary);
-    display: inline-block;
-    font-size: 16px;
-    margin-left: 5px;
-}
+    .review-rating li {
+        color: var(--blue-dark);
+        display: inline-block;
+        font-size: 16px;
+        margin-left: 5px;
+    }
 
 .review-reply {
     align-items: center;
@@ -6656,19 +6660,19 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.review-reply button {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border-radius: 6px;
-    color: var(--white);
-    font-size: 15px;
-    padding: 6px 15px;
-    text-transform: capitalize;
-    transition: all linear .3s;
-}
+    .review-reply button {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border-radius: 6px;
+        color: var(--white);
+        font-size: 15px;
+        padding: 6px 15px;
+        text-transform: capitalize;
+        transition: all linear .3s;
+    }
 
 .review-reply button:hover {
     background: var(--heading)
@@ -6764,7 +6768,7 @@ tbody tr td:last-child {
 
 .about-list {
     align-items: center;
-    background: var(--primary);
+    background: var(--blue-dark);
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
@@ -6844,12 +6848,12 @@ tbody tr td:last-child {
     width: 600px
 }
 
-.testi-quote i {
-    color: var(--primary);
-    display: inline-block;
-    font-size: 50px;
-    margin-bottom: 10px
-}
+    .testi-quote i {
+        color: var(--blue-dark);
+        display: inline-block;
+        font-size: 50px;
+        margin-bottom: 10px
+    }
 
 .testi-quote h4 {
     margin-top: 10px;
@@ -7027,9 +7031,9 @@ tbody tr td:last-child {
     margin-bottom: 30px;
 }
 
-.faq-child:hover .faq-que button {
-    color: var(--primary)
-}
+    .faq-child:hover .faq-que button {
+        color: var(--blue-dark)
+    }
 
 .faq-child:last-child {
     margin-bottom: 0
@@ -7078,7 +7082,7 @@ tbody tr td:last-child {
 }
 
 .coming-title {
-    color: var(--primary);
+    color: var(--blue-dark);
     font-weight: 700;
     letter-spacing: -.5px;
     margin-bottom: 45px;
@@ -7146,18 +7150,18 @@ tbody tr td:last-child {
     margin-right: 15px
 }
 
-.coming-form button {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border-radius: 10px;
-    color: var(--white);
-    display: inline-block;
-    text-align: center;
-    transition: all linear .3s;
-}
+    .coming-form button {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border-radius: 10px;
+        color: var(--white);
+        display: inline-block;
+        text-align: center;
+        transition: all linear .3s;
+    }
 
 .coming-form button:hover {
     background: #8493ca;
@@ -7171,7 +7175,7 @@ tbody tr td:last-child {
     -webkit-transition: all linear .3s;
     background: var(--white);
     border-radius: 50%;
-    color: var(--primary);
+    color: var(--blue-dark);
     font-size: 16px;
     height: 40px;
     line-height: 40px;
@@ -7182,10 +7186,10 @@ tbody tr td:last-child {
     width: 40px;
 }
 
-.coming-social a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .coming-social a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 @media (max-width: 575px) {
     .coming-title {
@@ -7290,11 +7294,11 @@ tbody tr td:last-child {
     border-bottom: none
 }
 
-.checkout-charge ul li:last-child span {
-    color: var(--primary);
-    font-size: 18px;
-    font-weight: 500;
-}
+    .checkout-charge ul li:last-child span {
+        color: var(--blue-dark);
+        font-size: 18px;
+        font-weight: 500;
+    }
 
 .checkout-charge ul li span {
     color: var(--heading);
@@ -7328,9 +7332,9 @@ tbody tr td:last-child {
     line-height: 22px
 }
 
-.checkout-check label a {
-    color: var(--primary)
-}
+    .checkout-check label a {
+        color: var(--blue-dark)
+    }
 
 .checkout-check label a:hover {
     text-decoration: underline
@@ -7413,10 +7417,10 @@ tbody tr td:last-child {
     padding: 25px 0;
 }
 
-.orderlist-head h5 {
-    color: var(--primary);
-    text-transform: capitalize
-}
+    .orderlist-head h5 {
+        color: var(--blue-dark);
+        text-transform: capitalize
+    }
 
 .orderlist-details {
     background: var(--chalk);
@@ -7565,10 +7569,10 @@ tbody tr td:last-child {
     text-align: center
 }
 
-.profile-image a {
-    border: 2px solid var(--primary);
-    border-radius: 50%;
-}
+    .profile-image a {
+        border: 2px solid var(--blue-dark);
+        border-radius: 50%;
+    }
 
 .profile-image a img {
     border: 3px solid var(--white);
@@ -7580,21 +7584,21 @@ tbody tr td:last-child {
     margin-top: 33px
 }
 
-.profile-btn a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    height: 45px;
-    line-height: 45px;
-    text-align: center;
-    text-transform: capitalize;
-    transition: all linear .3s;
-    width: 100%;
-}
+    .profile-btn a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        text-transform: capitalize;
+        transition: all linear .3s;
+        width: 100%;
+    }
 
 .profile-btn a:hover {
     background: var(--green)
@@ -7637,12 +7641,12 @@ tbody tr td:last-child {
     text-align: center;
 }
 
-.user-form-title h2 {
-    color: var(--primary);
-    font-size: 28px;
-    line-height: 36px;
-    margin-bottom: 5px;
-}
+    .user-form-title h2 {
+        color: var(--blue-dark);
+        font-size: 28px;
+        line-height: 36px;
+        margin-bottom: 5px;
+    }
 
 .user-form-title p {
     text-transform: capitalize
@@ -7662,17 +7666,17 @@ tbody tr td:last-child {
     margin-bottom: 20px
 }
 
-.user-form-social li a {
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    font-size: 15px;
-    letter-spacing: .3px;
-    padding: 10px 0;
-    text-align: center;
-    text-transform: capitalize;
-    width: 100%;
-}
+    .user-form-social li a {
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        font-size: 15px;
+        letter-spacing: .3px;
+        padding: 10px 0;
+        text-align: center;
+        text-transform: capitalize;
+        width: 100%;
+    }
 
 .user-form-social li a i {
     font-size: 16px;
@@ -7740,19 +7744,19 @@ tbody tr td:last-child {
     text-align: center
 }
 
-.form-button button {
-    background: var(--primary);
-    border-radius: 8px;
-    color: var(--white);
-    font-size: 14px;
-    font-weight: 500;
-    height: 45px;
-    letter-spacing: .3px;
-    line-height: 45px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 100%;
-}
+    .form-button button {
+        background: var(--blue-dark);
+        border-radius: 8px;
+        color: var(--white);
+        font-size: 14px;
+        font-weight: 500;
+        height: 45px;
+        letter-spacing: .3px;
+        line-height: 45px;
+        text-align: center;
+        text-transform: uppercase;
+        width: 100%;
+    }
 
 .form-button p {
     font-size: 15px;
@@ -7760,11 +7764,11 @@ tbody tr td:last-child {
     text-transform: capitalize
 }
 
-.form-button p a {
-    color: var(--primary);
-    font-weight: 500;
-    margin-right: 5px;
-}
+    .form-button p a {
+        color: var(--blue-dark);
+        font-weight: 500;
+        margin-right: 5px;
+    }
 
 .form-button p a:hover {
     text-decoration: underline
@@ -7783,28 +7787,28 @@ tbody tr td:last-child {
     text-transform: capitalize
 }
 
-.user-form-remind p a {
-    color: var(--primary);
-    font-weight: 500;
-    margin-right: 5px;
-}
+    .user-form-remind p a {
+        color: var(--blue-dark);
+        font-weight: 500;
+        margin-right: 5px;
+    }
 
 .user-form-remind p a:hover {
     text-decoration: underline
 }
 
 .forgot-pass {
-    color: var(--primary)
+    color: var(--blue-dark)
 }
 
-.forgot-pass:hover {
-    color: var(--primary);
-    text-decoration: underline
-}
+    .forgot-pass:hover {
+        color: var(--blue-dark);
+        text-decoration: underline
+    }
 
 .user-form-part .form-check-input:checked {
-    background-color: var(--primary);
-    border-color: var(--primary)
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark)
 }
 
 .user-form-footer {
@@ -7818,14 +7822,14 @@ tbody tr td:last-child {
     font-size: 14px;
 }
 
-.user-form-footer p a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    color: var(--primary);
-    transition: all linear .3s;
-}
+    .user-form-footer p a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        color: var(--blue-dark);
+        transition: all linear .3s;
+    }
 
 .user-form-footer p a:hover {
     text-decoration: underline
@@ -7915,11 +7919,11 @@ tbody tr td:last-child {
     margin: 0
 }
 
-.blog-details-meta li i {
-    color: var(--primary);
-    font-size: 16px;
-    margin-left: 10px;
-}
+    .blog-details-meta li i {
+        color: var(--blue-dark);
+        font-size: 16px;
+        margin-left: 10px;
+    }
 
 .blog-details-meta li a, .blog-details-meta li span {
     font-size: 16px;
@@ -7936,9 +7940,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-details-meta li a:hover {
-    color: var(--primary)
-}
+    .blog-details-meta li a:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-details-title {
     line-height: 44px;
@@ -8043,10 +8047,10 @@ tbody tr td:last-child {
     width: 40px;
 }
 
-.blog-details-share li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-details-share li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-details-tag h4 {
     margin-bottom: 10px;
@@ -8072,10 +8076,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-details-tag li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-details-tag li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-details-profile {
     background: var(--white);
@@ -8097,12 +8101,12 @@ tbody tr td:last-child {
     text-transform: capitalize
 }
 
-.blog-details-profile h4 {
-    color: var(--primary);
-    font-size: 15px;
-    font-weight: 400;
-    margin-bottom: 15px
-}
+    .blog-details-profile h4 {
+        color: var(--blue-dark);
+        font-size: 15px;
+        font-weight: 400;
+        margin-bottom: 15px
+    }
 
 .blog-details-profile ul {
     margin-bottom: 25px
@@ -8130,10 +8134,10 @@ tbody tr td:last-child {
     width: 40px;
 }
 
-.blog-details-profile ul li a:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-details-profile ul li a:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-details-profile p {
     font-size: 17px;
@@ -8164,9 +8168,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-details-prev h4 a:hover, .blog-details-next h4 a:hover {
-    color: var(--primary)
-}
+    .blog-details-prev h4 a:hover, .blog-details-next h4 a:hover {
+        color: var(--blue-dark)
+    }
 
 .blog-details-prev .nav-arrow, .blog-details-next .nav-arrow {
     -moz-transition: all linear .3s;
@@ -8182,10 +8186,10 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.blog-details-prev .nav-arrow:hover, .blog-details-next .nav-arrow:hover {
-    background: var(--primary);
-    color: var(--white);
-}
+    .blog-details-prev .nav-arrow:hover, .blog-details-next .nav-arrow:hover {
+        background: var(--blue-dark);
+        color: var(--white);
+    }
 
 .blog-details-next {
     text-align: left
@@ -8222,7 +8226,7 @@ tbody tr td:last-child {
 }
 
 .comment-avatar {
-    border: 2px solid var(--primary);
+    border: 2px solid var(--blue-dark);
     border-radius: 50%;
     margin-left: 20px;
 }
@@ -8243,9 +8247,9 @@ tbody tr td:last-child {
     transition: all linear .3s;
 }
 
-.comment-meta a:hover {
-    color: var(--primary)
-}
+    .comment-meta a:hover {
+        color: var(--blue-dark)
+    }
 
 .comment-meta span {
     color: var(--heading);
@@ -8269,19 +8273,19 @@ tbody tr td:last-child {
     width: 100%;
 }
 
-.comment-reply button {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    background: var(--primary);
-    border-radius: 6px;
-    color: var(--white);
-    font-size: 15px;
-    padding: 6px 15px;
-    text-transform: capitalize;
-    transition: all linear .3s;
-}
+    .comment-reply button {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        background: var(--blue-dark);
+        border-radius: 6px;
+        color: var(--white);
+        font-size: 15px;
+        padding: 6px 15px;
+        text-transform: capitalize;
+        transition: all linear .3s;
+    }
 
 .comment-reply button:hover {
     background: var(--heading)
