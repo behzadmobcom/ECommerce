@@ -79,6 +79,10 @@
                         <label class="form-control-label">مبلغ</label>
                         <input asp-for="@Model.Price.Amount" class="form-control form-control-solid"/>
 
+                        <label class="form-control-label">تخفیف</label>
+                        <select asp-for="@Model.Price.DiscountId" asp-items="@Model.Discounts" class="col-md-12 js-example-basic-single  form-control"></select>
+
+
                         <label class="form-control-label">حداقل سفارش</label>
                         <input asp-for="@Model.Price.MinQuantity" class="form-control form-control-solid"/>
 

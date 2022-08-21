@@ -10,13 +10,16 @@ namespace API.Controllers;
 [ApiController]
 public class DiscountsController : ControllerBase
 {
+    private readonly IHolooArticleRepository _articleRepository;
     private readonly IDiscountRepository _discountRepository;
     private readonly ILogger<DiscountsController> _logger;
 
-    public DiscountsController(IDiscountRepository discountRepository, ILogger<DiscountsController> logger)
+    public DiscountsController(IDiscountRepository discountRepository, ILogger<DiscountsController> logger,
+                                IHolooArticleRepository articleRepository)
     {
         _discountRepository = discountRepository;
         _logger = logger;
+        _articleRepository = articleRepository;
     }
 
     [HttpGet]
@@ -91,7 +94,16 @@ public class DiscountsController : ControllerBase
                 {
                     Code = ResultCode.NotFound
                 });
+            foreach (var productPrices in result.Prices)
+                if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی && productPrices.ArticleCode != null)
+                {
 
+                    var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
+                         productPrices.SellNumber!.Value);
+
+                    productPrices.Amount = article.price / 10;
+                    productPrices.Exist = (double)article.exist;
+                }
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
