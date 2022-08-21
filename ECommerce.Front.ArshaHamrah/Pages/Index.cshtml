@@ -202,10 +202,10 @@
                     <!-- up-comming-pro -->
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <div class="up-comming-pro gray-bg up-comming-pro-2 clearfix">
-                            <div class="up-comming-pro-img f-left">
-                                <a href="#">
+                            <div class="up-comming-pro-img f-left">  
+                                <a href="#">                                                                   
                                     <img src="@Model.Discount.Prices.First().Product.Images.First().Path/@Model.Discount.Prices.First().Product.Images.First().Name" alt="@Model.Discount.Prices.First().Product.Images.First().Alt">
-                                </a>
+                                 </a>
                             </div>
                             <div class="up-comming-pro-info f-left">
                                 <h3>
@@ -213,6 +213,8 @@
                                         @Model.Discount.Prices.First().Product.Name
                                     </a>
                                 </h3>
+                                <h4>قیمت: <s> @Model.Discount.Prices.First().Amount.ToString("###,###,###,###") تومان </s> </h4>
+                                <h3>تخفیف:   @Model.Discount.Amount.Value.ToString("###,###,###,###") تومان   </h3>
                                 <p>@Html.Raw(Model.Discount.Prices.First().Product.Description)</p>
                                 <div class="up-comming-time-2 clearfix">
                                     <div data-countdown="@Model.Discount.EndDate"></div>
@@ -223,7 +225,11 @@
                     <div class="col-md-4 hidden-sm col-xs-12">
                         <div class="banner-item banner-1">
                             <div class="ribbon-price">
-                                <span>@Model.Discount.Prices.FirstOrDefault().Amount.ToString("###,###,###,###") تومان</span>
+                                <span> 
+                                    @{
+                                      var Amount = Model.Discount.Prices.FirstOrDefault().Amount; var Discount= Model.Discount.Amount.Value; Amount = Amount - Discount;
+                                    } @Amount.ToString("###,###,###,###")    تومان
+                                    </span>
                             </div>
                             <div class="banner-img">
                                 <a href="#">
