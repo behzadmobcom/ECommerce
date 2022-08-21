@@ -52,7 +52,8 @@ public class Price : BaseEntity
 
     public int ProductId { get; set; }
 
-    [JsonIgnore] public Product? Product { get; set; }
+    //[JsonIgnore]
+    public Product? Product { get; set; }
 
     public int? UnitId { get; set; }
     public Unit? Unit { get; set; }
