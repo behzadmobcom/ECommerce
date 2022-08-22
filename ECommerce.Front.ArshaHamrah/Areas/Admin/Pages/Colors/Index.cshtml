@@ -79,37 +79,7 @@
                     }
                     </tbody>
                 </table>
-                @{
-                    var prevDisabled = Model.Colors.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
-                    var nextDisabled = Model.Colors.PaginationDetails.TotalPages == Model.Colors.PaginationDetails.CurrentPage ? "disabled" : "";
-                }
-
-                <a asp-page="/Colors/Index"
-                   asp-route-pageNumber="@(Model.Colors.PaginationDetails.CurrentPage - 1)"
-                   asp-route-search="@(Model.Colors.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Colors.PaginationDetails.PageSize"
-                   class="btn btn-primary @prevDisabled">
-                    قبلی
-                </a>
-                @for (var pageIndex = 1; pageIndex < Model.Colors.PaginationDetails.TotalPages; pageIndex++)
-                {
-                    var activePage = Model.Colors.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
-                    <a asp-page="/Colors/Index"
-                       asp-route-pageNumber="@pageIndex"
-                       asp-route-search="@Model.Colors.PaginationDetails.Search"
-                       asp-route-pageSize="@Model.Colors.PaginationDetails.PageSize"
-                       class="btn @activePage">
-                        @pageIndex
-                    </a>
-                }
-                <a asp-page="/Colors/Index"
-                   asp-route-pageNumber="@(Model.Colors.PaginationDetails.CurrentPage + 1)"
-                   asp-route-search="@(Model.Colors.PaginationDetails.Search)"
-                   asp-route-pageSize="@Model.Colors.PaginationDetails.PageSize"
-                   class="btn btn-primary @nextDisabled">
-                    بعدی
-                </a>
-
+                <partial name="_Pagination" model="@Model.Colors.PaginationDetails" />
             </div>
 
         </div>
