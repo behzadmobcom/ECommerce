@@ -396,6 +396,7 @@ public class PurchaseOrdersController : ControllerBase
             purchaseOrder.Transaction.PurchaseOrders.Add(purchaseOrder);
             var resultUser =await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
+            cCode = "0001";
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
             var fBail = await _holooFBailRepository.Add(new Entities.HolooEntity.HolooFBail
             {
