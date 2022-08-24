@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using API.Interface;
+using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
 using Entities;
@@ -55,7 +56,7 @@ public class UsersController : ControllerBase
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(model.Username))
-                    return new ApiResult {Code = ResultCode.BadRequest};
+                    return new ApiResult { Code = ResultCode.BadRequest };
 
                 var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
 
@@ -63,12 +64,12 @@ public class UsersController : ControllerBase
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotFound,
-                        Messages = new List<string> {"نام کاربری یا کلمه عبور صحیح نمی باشد"}
+                        Messages = new List<string> { "نام کاربری یا کلمه عبور صحیح نمی باشد" }
                     });
 
                 if (!user.IsActive)
                     return Ok(new ApiResult
-                        {Code = ResultCode.DeActive, Messages = new List<string> {"کاربر غیرفعال شده است"}});
+                    { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
                 //var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                 var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
@@ -125,18 +126,18 @@ public class UsersController : ControllerBase
 
                     await _userRepository.AddLoginHistory(user.Id, securityToken, ipAddress, expireDate);
 
-                    return Ok(new ApiResult {Code = ResultCode.Success, ReturnData = securityToken});
+                    return Ok(new ApiResult { Code = ResultCode.Success, ReturnData = securityToken });
                 }
 
                 if (result.IsLockedOut)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.Error,
-                        Messages = new List<string> {"حساب کاربری شما قفل شده است. دیرتر سعی کنید"}
+                        Messages = new List<string> { "حساب کاربری شما قفل شده است. دیرتر سعی کنید" }
                     });
             }
 
-            return Ok(new ApiResult {Code = ResultCode.BadRequest});
+            return Ok(new ApiResult { Code = ResultCode.BadRequest });
         }
         catch (Exception e)
         {
@@ -158,8 +159,8 @@ public class UsersController : ControllerBase
             {
                 var list = new List<string>();
                 foreach (var modelState in ModelState.Values)
-                foreach (var error in modelState.Errors)
-                    list.Add(error.ErrorMessage);
+                    foreach (var error in modelState.Errors)
+                        list.Add(error.ErrorMessage);
 
                 return Ok(new ApiResult
                 {
@@ -173,7 +174,7 @@ public class UsersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> {"در نام کربری نمی توانید از کلمه admin استفاده کنید"}
+                    Messages = new List<string> { "در نام کربری نمی توانید از کلمه admin استفاده کنید" }
                 });
 
             var repetitiveUsername = await _userRepository.GetByEmailOrUserName(register.Username, cancellationToken);
@@ -181,7 +182,7 @@ public class UsersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> {"نام کاربری تکراری است"}
+                    Messages = new List<string> { "نام کاربری تکراری است" }
                 });
 
             var repetitiveEmail = await _userRepository.GetByEmailOrUserName(register.Email, cancellationToken);
@@ -189,10 +190,41 @@ public class UsersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> {"ایمیل تکراری است"}
+                    Messages = new List<string> { "ایمیل تکراری است" }
                 });
 
-            var customerCode = _configuration.GetSection("CustomerCode").Value;
+            var moeinCode = await _holooSarfaslRepository.Add(register.Username, cancellationToken);
+            var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
+            var holooCustomer = new HolooCustomer
+            {
+                C_Code = customerCode,
+                C_Code_C = customerCode,
+                C_Name = register.Username,
+                C_Mobile = register.Mobile,
+                Col_Code_Bed = "103",
+                Moien_Code_Bed = moeinCode,
+                National_Code = register.NationalCode,
+                Etebar = 0,
+                KarPorsant = 0,
+                C_type = 1,
+                Mekhrajkar = false,
+                JavaherSaz = false,
+                Arayeshgar = false,
+                Arayesh_Porsant = 0,
+                ArzID = 1,
+                money_price = 1,
+                Cust_type = 1,
+                TasviehType = 3,
+                SanadOutOfEtebar = false,
+                TimeEndCustArayesh = DateTime.Now,
+                TimeStartCustArayesh = DateTime.Now,
+                Sum_Takhfif = 0,
+                Porsant = 0,
+                Porsant2 = 0,
+                First_BalanceSanad = 0
+            };
+            customerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
+
             var user = new User
             {
                 UserName = register.Username,
@@ -208,7 +240,8 @@ public class UsersController : ControllerBase
                 IsFeeder = register.IsFeeder,
                 Mobile = register.Mobile,
                 UserRoleId = 4,
-                CustomerCode = customerCode
+                CustomerCode = customerCode,
+                NationalCode = register.NationalCode
             };
 
             //var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -226,19 +259,19 @@ public class UsersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Success,
-                    Messages = new List<string> {"Register Succeed"}
+                    Messages = new List<string> { "Register Succeed" }
                 });
             }
 
-            //await _holooCustomerRepository.Add(new HolooCustomer { });
 
-            return Ok(new ApiResult {Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description)});
+
+            return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -256,7 +289,7 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -276,7 +309,7 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -307,7 +340,7 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -341,7 +374,7 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -352,7 +385,7 @@ public class UsersController : ControllerBase
     {
         await _signInManager.SignOutAsync();
 
-        return new ApiResult {Code = ResultCode.Success, Messages = new List<string> {"Logout successfully"}};
+        return new ApiResult { Code = ResultCode.Success, Messages = new List<string> { "Logout successfully" } };
     }
 
     [HttpPut]
@@ -365,8 +398,8 @@ public class UsersController : ControllerBase
             {
                 var list = new List<string>();
                 foreach (var modelState in ModelState.Values)
-                foreach (var error in modelState.Errors)
-                    list.Add(error.ErrorMessage);
+                    foreach (var error in modelState.Errors)
+                        list.Add(error.ErrorMessage);
 
                 return Ok(new ApiResult
                 {
@@ -383,14 +416,14 @@ public class UsersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> {"در نام کربری نمی توانید از کلمه admin استفاده کنید"}
+                    Messages = new List<string> { "در نام کربری نمی توانید از کلمه admin استفاده کنید" }
                 });
 
             if (user.UserName.ToLower().Equals(accountViewModel.Username))
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> {"نام کاربری تکراری است"}
+                    Messages = new List<string> { "نام کاربری تکراری است" }
                 });
             user.IsColleague = accountViewModel.IsColleague;
             user.Mobile = accountViewModel.Mobile;
@@ -413,14 +446,14 @@ public class UsersController : ControllerBase
             user.CityId = accountViewModel.CityId;
             user.Birthday = accountViewModel.Birthday;
             var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded) return Ok(new ApiResult {Code = ResultCode.Success});
-            return Ok(new ApiResult {Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description)});
+            if (result.Succeeded) return Ok(new ApiResult { Code = ResultCode.Success });
+            return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -437,7 +470,7 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -449,22 +482,22 @@ public class UsersController : ControllerBase
         {
             LoginViewModel loginViewModel =
                 await _userRepository.GetByEmailOrUserName(User.FindFirstValue(ClaimTypes.Name), cancellationToken);
-            return Ok(new ApiResult {Code = ResultCode.Success, ReturnData = loginViewModel});
+            return Ok(new ApiResult { Code = ResultCode.Success, ReturnData = loginViewModel });
         }
 
-        return Ok(new ApiResult {Code = ResultCode.NotFound});
+        return Ok(new ApiResult { Code = ResultCode.NotFound });
     }
 
     [HttpPost]
     public async Task<IActionResult> ForgotPassword(string email, string url, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByEmailAsync(email);
-        if (user == null) return Ok(new ApiResult {Code = ResultCode.BadRequest});
+        if (user == null) return Ok(new ApiResult { Code = ResultCode.BadRequest });
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         var emailMessage = Url.Link(url,
-            new {username = user.Email, token = emailPasswordResetToken});
+            new { username = user.Email, token = emailPasswordResetToken });
 
         await _emailRepository.SendEmailAsync(email, "تغییر کلمه عبور", emailMessage, cancellationToken);
         return Ok();
@@ -478,22 +511,22 @@ public class UsersController : ControllerBase
         if (ModelState.IsValid)
         {
             if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Token))
-                return new ApiResult {Code = ResultCode.BadRequest};
+                return new ApiResult { Code = ResultCode.BadRequest };
 
             var user = await _userRepository.GetByEmailOrUserName(model.Email, cancellationToken);
 
             if (user == null)
                 return new ApiResult
-                    {Code = ResultCode.NotFound, Messages = new List<string> {"کاربری با این مشخصات یافت نشد"}};
+                { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
 
             var recoveryCode = model.Token.Replace(" ", string.Empty);
             var result = await _userManager.ResetPasswordAsync(user, model.Token, recoveryCode);
 
-            if (result.Succeeded) return Ok(new ApiResult {Code = ResultCode.BadRequest});
-            return Ok(new ApiResult {Code = ResultCode.Error, Messages = new List<string> {"کد بازیابی معتبر نیست"}});
+            if (result.Succeeded) return Ok(new ApiResult { Code = ResultCode.BadRequest });
+            return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "کد بازیابی معتبر نیست" } });
         }
 
-        return Ok(new ApiResult {Code = ResultCode.BadRequest});
+        return Ok(new ApiResult { Code = ResultCode.BadRequest });
     }
 
     private string GetIpAddress()

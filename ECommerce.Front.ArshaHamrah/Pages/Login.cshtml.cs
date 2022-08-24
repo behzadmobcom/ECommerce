@@ -47,6 +47,7 @@ public class LoginModel : PageModel
 
         ModelState["Username"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         ModelState["Password"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
+        ModelState["ReturnUrl"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
         Message = result.Message;
