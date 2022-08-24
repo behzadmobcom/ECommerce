@@ -29,8 +29,8 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(x => x.Keywords)
             .Include(t => t.Tags)
             .Include(x => x.Images)
-            .Include(x => x.Prices)
-            .ThenInclude(x => x.Color)
+            .Include(x => x.Prices).ThenInclude(x => x.Discount)
+            .Include(x => x.Prices).ThenInclude(x => x.Color)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -163,7 +163,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(x => x.Images)
             .Include(x => x.ProductUserRanks)
             .Include(x => x.Prices)
-            .ThenInclude(c=> c.Color)
+            .ThenInclude(c => c.Color)
             .ToListAsync(cancellationToken);
         productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
         return productIndexPageViewModel;
@@ -246,7 +246,9 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             products = tagsId.Aggregate(products,
                 (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
 
-        return products;
+        var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
+        return result;
+
     }
 
     public async Task<PagedList<ProductIndexPageViewModel>> Search(PaginationParameters paginationParameters,
@@ -273,7 +275,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             paginationParameters.PageSize);
     }
 
-       public async Task<Product?> GetProductById(int id, CancellationToken cancellationToken)
+    public async Task<Product?> GetProductById(int id, CancellationToken cancellationToken)
     {
         return await _context.Products
             .Where(x => x.Id == id)
@@ -283,13 +285,14 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(x => x.Prices)
             .ThenInclude(c => c.Color)
             .FirstOrDefaultAsync(cancellationToken);
-      
+
     }
     #region Tops
 
     public async Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken)
     {
         var products = await _context.Products.Where(x => x.Images!.Count > 0 && x.Prices!.Any()).OrderByDescending(x => x.Id).Take(count)
+            .Include(x => x.Prices).ThenInclude(c => c.Discount)
             .Select(p => new ProductIndexPageViewModel
             {
                 Prices = p.Prices!,
@@ -310,7 +313,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, CancellationToken cancellationToken)
     {
         var products = await _context.Prices.OrderByDescending(x => x.Amount)
-            .Where(x => x.Product.Images.Count > 0)
+            .Where(x => x.Product.Images.Count > 0).Include(x => x.Discount)
             .Take(count)
             .Select(p => new ProductIndexPageViewModel
             {
@@ -331,7 +334,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public async Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken)
     {
         var products = await _context.Prices.OrderBy(x => x.Amount)
-            .Where(x => x.Product!.Images!.Count > 0)
+            .Where(x => x.Product!.Images!.Count > 0).Include(x => x.Discount)
             .Take(count)
             .Select(p => new ProductIndexPageViewModel
             {
@@ -386,7 +389,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public async Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken)
     {
         var products = await _context.ProductUserRanks.OrderByDescending(x => x.Stars)
-            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any())
+            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any()).Include(x => x.Product).ThenInclude(x => x.Prices).ThenInclude(x => x.Discount)
             .Take(count)
             .Select(p => new ProductIndexPageViewModel
             {
@@ -408,7 +411,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public async Task<List<ProductIndexPageViewModel>> TopSells(int count, CancellationToken cancellationToken)
     {
         var products = await _context.ProductSellCounts.OrderByDescending(x => x.Count)
-            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any())
+            .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any()).Include(x => x.Product).ThenInclude(x => x.Prices).ThenInclude(x => x.Discount)
             .Take(count)
             .Select(p => new ProductIndexPageViewModel
             {
@@ -441,7 +444,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         }
 
         foreach (var category in categories)
-            products.AddRange( await _context.Products
+            products.AddRange(await _context.Products
                 .Where(x => x.ProductCategories.Any(x => x.Id == category.Id) && x.Id != productId)
                 .Take(countPerCategory)
                 .Select(p => new ProductIndexPageViewModel
