@@ -84,7 +84,15 @@
                                             <h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
                                         </div>
                                         <div class="col-md-6">
-                                            <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
+                                   @*     @if (Model.Product.Prices.Any())
+                                        {
+	                                        <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
+                                        }
+                                        else
+                                        {
+											<h6 class="brand-name-2">ناموجود</h6>
+                                        }*@
+	                                        
                                         </div>
                                     </div>
 
@@ -174,7 +182,7 @@
 						<div class="widget-color f-left">
 							<ul>
 								<li >
-									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
+									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px; border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
 									<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>

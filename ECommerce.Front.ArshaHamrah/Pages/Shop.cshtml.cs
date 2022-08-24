@@ -27,15 +27,17 @@ public class ShopModel : PageModel
     public List<CategoryParentViewModel> Categories { get; set; }
     public bool IsColleague { get; set; }
     public int Sort { get; set; }
+    public int Min { get; set; }
+    public int Max { get; set; }
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
 
-    public async Task OnGet(string? path = null ,string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
+    public async Task OnGet(string? path = null, string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
         string? message = null, string? code = null)
     {
-    
-        NewProducts = (await _productService.TopNewShop()).ReturnData;
+        Min = 1000000;
+        Max = 200000000;
         string categoryId = "0";
         if (!string.IsNullOrEmpty(path))
         {
@@ -46,18 +48,30 @@ public class ShopModel : PageModel
         {
             search = $"Name={search}";
         }
-            Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
-        //var brandResult = await _brandService.LoadDictionary();
-        //if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
-        var result = _cookieService.GetCurrentUser();
-
-        if (result.Id > 0) IsColleague = result.IsColleague;
-        IsColleague = false;
-
-        var categoryResult = await _categoryService.GetParents();
-        Categories = categoryResult.ReturnData;
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
+       
+        await Initial();
 
         Sort = productSort;
+    }
+
+    private async Task Initial()
+    {
+        NewProducts = (await _productService.TopNewShop()).ReturnData;
+        var result = _cookieService.GetCurrentUser();
+        if (result.Id > 0) IsColleague = result.IsColleague;
+        IsColleague = false;
+        var categoryResult = await _categoryService.GetParents();
+        Categories = categoryResult.ReturnData;
+    }
+
+    public async Task<IActionResult> OnPostPriceRange(int minprice, int maxprice)
+    {
+        Products = await _productService.TopProducts("", "", 0, 10, 1, maxprice, minprice);
+        await Initial();
+        Max = maxprice;
+        Min = minprice;
+        return Page();
     }
 
 }
