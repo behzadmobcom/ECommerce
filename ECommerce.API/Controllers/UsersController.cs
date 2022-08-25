@@ -378,7 +378,6 @@ public class UsersController : ControllerBase
         }
     }
 
-
     [HttpPost]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ApiResult> Logout(CancellationToken cancellationToken)

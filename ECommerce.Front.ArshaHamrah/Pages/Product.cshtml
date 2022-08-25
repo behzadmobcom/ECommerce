@@ -314,7 +314,7 @@
 	<script src="~/js/main.js"></script>
 	<script src="~/js/plugins.js"></script>
 
-	<script>
+    <script>
 
 		var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
 		function SetPriceId(id) {
@@ -330,6 +330,21 @@
 			$("#price").text(price.amount + " تومان ");
 			$("#PriceId").val(id);
 		}
+		
+		 function SaveStars(id,starNumber) {
+            $.ajax({
+                type: "Get",
+				url: "/Product?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+	                swal(result.message);
+                },
+                failure: function(response) {
+                    swal(response);
+                }
+            });
+        }
 	</script>
 }
 
