@@ -3,7 +3,65 @@
 @{
 	ViewData["Title"] = "خرید";
 }
+<style>
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 60px;
+		height: 34px;
+	}
 
+	.switch input { 
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 26px;
+		width: 26px;
+		left: 4px;
+		bottom: 4px;
+		background-color: white;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	input:checked + .slider {
+		background-color: orangered;
+	}
+
+
+
+	input:checked + .slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(26px);
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
+	}
+</style>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
 	<div class="breadcrumbs overlay-bg">
@@ -257,6 +315,14 @@
 							</button>
 						</form>
 					</aside>
+					<!--- Widget-switch --->
+					<aside class="widget box-shadow mb-30">
+						<h6 class="widget-title border-left mb-20">نمایش کالاهای موجود</h6>
+						<label class="switch">
+							<input type="checkbox">
+							<span class="slider round"></span>
+						</label>
+					</aside>
 					<!-- widget-categories -->
 					<aside class="widget widget-categories box-shadow mb-30">
 						<h6 class="widget-title border-left mb-20">دسته ها</h6>
@@ -280,32 +346,23 @@
 						</div>
 					</aside>
 					<!-- shop-filter -->
-					<aside class="widget shop-filter box-shadow mb-30">
-						<h6 class="widget-title border-left mb-20">قیمت</h6>
-						<div class="price_filter">
-							<div class="price_slider_amount">
-								<input type="submit" value="محدوده قیمت (تومان) :">
-								<input type="text" id="amount" name="price" placeholder="Add Your Price">
-							</div>
-							<div id="slider-range"></div>
-							<button type="submit" class="submit-btn-1 black-bg btn-hover-2"
-							        style="margin-top: 20px">اعمال</button>
-						</div>
-					</aside>
+				
 					
 					<aside class="widget shop-filter box-shadow mb-30">
 						<h6 class="widget-title border-left mb-20">قیمت</h6>
 						<div class="price_filter">
-							<form id="price-range-form">
+							<form  asp-page-handler="PriceRange" method="post">
 								<label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br />
 								<span id="min-price-txt">1000000</span>
-								<input type="range" class="form-range" min="1000000" max="20000000" id="min-price" step="100000" value="1000000">
+								<input type="range" class="form-range" min="1000000" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
+							
 								<label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br />
 								<span id="max-price-txt">20000000</span>
-								<input type="range" class="form-range" min="1" max="20000000" id="max-price" step="100000" value="20000000">
-							</form>
-							<button type="submit" class="submit-btn-1 black-bg btn-hover-2"
-							        style="margin-top: 20px">اعمال</button>
+								<input type="range" class="form-range" min="1000000" max="20000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
+							
+								<button type="submit" class="submit-btn-1 black-bg btn-hover-2"
+								        style="margin-top: 20px">اعمال</button>
+								</form>
 						</div>
 					</aside>
 					<!-- widget-product -->
@@ -335,14 +392,26 @@
 <!-- End page content -->
 @section scripts{
 	<script>
+		window.onload = function() {
+			min_price = parseInt($("#min-price").val());
+			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#min-price-txt").text(minPrice);
+
+			max_price = parseInt($("#max-price").val());
+			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#max-price-txt").text(maxPrice);
+		};
+
 		$("#min-price").on("change mousemove", function () {
 			min_price = parseInt($("#min-price").val());
-			$("#min-price-txt").text(min_price);
-			 });
+			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#min-price-txt").text(minPrice);
+		});
 
 		$("#max-price").on("change mousemove", function () {
 			max_price = parseInt($("#max-price").val());
-			$("#max-price-txt").text( max_price);
-			});
+			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#max-price-txt").text(maxPrice);
+		});
 	</script>
 }
