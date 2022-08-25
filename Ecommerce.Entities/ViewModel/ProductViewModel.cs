@@ -150,6 +150,7 @@ public class ProductIndexPageViewModel
     public string? Review { get; set; }
     public string Url { get; set; }
     public string Brand { get; set; }
+    public ushort MaxOrder { get; set; }
 
     public static implicit operator ProductIndexPageViewModel(Product x)
     {
@@ -176,7 +177,8 @@ public class ProductIndexPageViewModel
             Url = x.Url,
             Brand = brandName,
             Alt = imageAlt,
-            Stars = stars
+            Stars = stars,
+            MaxOrder =Convert.ToUInt16(x.MaxOrder),
         };
     }
 }

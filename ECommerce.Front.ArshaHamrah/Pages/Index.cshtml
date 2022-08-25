@@ -33,19 +33,22 @@
                         <div class="title-container">
                             <div class="wow rotateInDownLeft" data-wow-duration="2s" data-wow-delay="0.5s">
                                 @{
-                                    if (@slide.Product.Prices.Where(x => x.Amount == @slide.Price).FirstOrDefault().DiscountId > 1)
+                                    decimal discountAmount = 0;
+                                    var priceSlide = slide.Product.Prices.FirstOrDefault(x => x.Amount == @slide.Price);
+                                    if (@priceSlide.DiscountId > 1)
                                     {
-                                        <s class="slider2-title-1">قیمت : @slide.Price?.ToString("###,###,###,###") تومان</s>
-                                        int? _discount = @slide.Product.Prices.Where(x => x.Amount == @slide.Price).FirstOrDefault().Discount.Amount;
-                                        decimal? _amount = @slide.Price;
-                                        var _newAmount = @_amount - @_discount;
-                                        <h5 class="slider2-title-1">بهترین قیمت : @_newAmount?.ToString("###,###,###,###") تومان</h5>
-                                    }
-                                    else
-                                    {
-                                        <h5 class="slider2-title-1">بهترین قیمت : @slide.Price?.ToString("###,###,###,###") تومان</h5>
+                                        if (Model.Discount.Amount > 0)
+                                        {
+                                            discountAmount = (decimal)Model.Discount.Amount;
+                                        }
+                                        else if (Model.Discount.Percent > 0)
+                                        {
+                                            discountAmount = priceSlide.Amount * (decimal)Model.Discount.Percent / 100;
+                                        }
+                                        <h5 class="slider2-title-1">بهترین قیمت : @(slide.Price - discountAmount).ToString("###,###,###,###") تومان</h5>
                                     }
                                 }
+                                <h5 class="slider2-title-1">قیمت با تخفیف : @(slide.Price - discountAmount).ToString("###,###,###,###") تومان</h5>
                             </div>
                             <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s">
                                 <h1 class="slider2-title-2">@slide.Title</h1>
@@ -100,12 +103,21 @@
                             @{
                                 var priceOne = Model.ExpensiveProducts[0].Prices.OrderByDescending(p => p.Amount).First();
                                 decimal? amountOne = priceOne.Amount;
-                                var discountOne = priceOne.Discount != null ? priceOne.Discount.Amount : 0;
+                                decimal? discountOne = 0;
+                                if (priceOne.Discount != null)
+                                    if (priceOne.Amount > 0)
+                                    {
+                                        discountOne = (decimal)priceOne.Discount.Amount;
+                                    }
+                                    else if (priceOne.Discount.Percent > 0)
+                                    {
+                                        discountOne = amountOne * (decimal)priceOne.Discount.Percent / 100;
+                                    }
                                 amountOne -= discountOne;
                             }
-                            @if(discountOne>0)
+                            @if (discountOne > 0)
                             {
-                            <h3 class="old-price">@(amountOne + discountOne)?.ToString("N0") تومان</h3>
+                                <h3 class="old-price">@(amountOne + discountOne)?.ToString("N0") تومان</h3>
                             }
                             <h3 class="pro-price">@amountOne?.ToString("N0") تومان</h3>
                             <div class="banner-button">
@@ -128,12 +140,21 @@
                             @{
                                 var priceTwo = Model.ExpensiveProducts[1].Prices.OrderByDescending(p => p.Amount).First();
                                 decimal? amountTwo = priceTwo.Amount;
-                                var discountTwo = priceTwo.Discount != null ? priceTwo.Amount : 0;
+                                decimal? discountTwo = 0;
+                                if (priceTwo.Discount != null)
+                                    if (priceTwo.Discount.Amount > 0)
+                                    {
+                                        discountTwo = (decimal)priceTwo.Discount.Amount;
+                                    }
+                                    else if (priceTwo.Discount.Percent > 0)
+                                    {
+                                        discountTwo = amountTwo * (decimal)priceTwo.Discount.Percent / 100;
+                                    }
                                 amountTwo -= discountTwo;
                             }
-                            @if(discountTwo>0)
+                            @if (discountTwo > 0)
                             {
-                            <h3 class="old-price">@(amountTwo + discountTwo)?.ToString("N0") تومان</h3>
+                                <h3 class="old-price">@(amountTwo + discountTwo)?.ToString("N0") تومان</h3>
                             }
                             <h3 class="pro-price">@amountTwo?.ToString("N0") تومان</h3>
                             <div class="banner-button">
@@ -156,12 +177,21 @@
                             @{
                                 var priceThree = Model.ExpensiveProducts[2].Prices.OrderByDescending(p => p.Amount).First();
                                 decimal? amountThree = priceThree.Amount;
-                                var discountTree = priceThree.Discount != null ? priceThree.Discount.Amount : 0;
+                                decimal? discountTree = 0;
+                                if (priceThree.Discount != null)
+                                    if (priceThree.Discount.Amount > 0)
+                                    {
+                                        discountTree = (decimal)priceThree.Discount.Amount;
+                                    }
+                                    else if (priceThree.Discount.Percent > 0)
+                                    {
+                                        discountTree = amountThree * (decimal)priceThree.Discount.Percent / 100;
+                                    }
                                 amountThree -= discountTree;
                             }
-                            @if(discountTree>0)
+                            @if (discountTree > 0)
                             {
-                            <h3 class="old-price">@(amountThree + discountTree)?.ToString("N0") تومان</h3>
+                                <h3 class="old-price">@(amountThree + discountTree)?.ToString("N0") تومان</h3>
                             }
                             <h3 class="pro-price">@amountThree?.ToString("N0") تومان</h3>
                             <div class="banner-button">
@@ -200,8 +230,8 @@
     <!-- UP COMMING PRODUCT SECTION START -->
     @if (Model.Discount.Prices != null)
     {
-        var productWithDiscount = Model.Discount.Prices.OrderByDescending(x=> x.Amount).First().Product;
-        var price = Model.Discount.Prices.OrderByDescending(x=> x.Amount).First();
+        var productWithDiscount = Model.Discount.Prices.OrderByDescending(x => x.Amount).First().Product;
+        var price = Model.Discount.Prices.OrderByDescending(x => x.Amount).First();
 
         <div class="up-comming-product-section ptb-60">
             <div class="container">
@@ -223,8 +253,16 @@
                                 <h4>قیمت اصلی: <s> @price.Amount.ToString("###,###,###,###") تومان </s> </h4>
                                 @{
                                     var Amount = price.Amount;
-                                    var Discount = Model.Discount.Amount.Value; 
-                                    Amount -= Discount;
+                                    decimal discountAmount = 0;
+                                    if (Model.Discount.Amount > 0)
+                                    {
+                                        discountAmount = (decimal)Model.Discount.Amount;
+                                    }
+                                    else if (Model.Discount.Percent > 0)
+                                    {
+                                        discountAmount = price.Amount * (decimal)Model.Discount.Percent / 100;
+                                    }
+                                    Amount -= discountAmount;
                                 }
                                 <h3>قیمت با تخفیف:   @Amount.ToString("###,###,###,###") تومان  </h3>
                                 <p>@Html.Raw(productWithDiscount.Description)</p>

@@ -258,6 +258,8 @@
                                                     <div class="total-cart-pro" id="Cart-List">
                                                         @foreach (var product in cartList)
                                                         {
+                                                         
+
                                                             <!-- single-cart -->
                                                             <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
                                                                 <h6 class="text-capitalize">
@@ -288,7 +290,10 @@
                                                                         <span>برند <strong>:</strong></span>@product.Brand
                                                                     </p>
                                                                     <p>
-                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount
+                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount    
+                                                                    </p>
+                                                                    <p>
+                                                                        <span>تخفیف <strong>:</strong></span>@product.DiscountAmount
                                                                     </p>
                                                                     <p>
                                                                         <span>تعداد <strong>:</strong></span>@product.Quantity
@@ -803,7 +808,6 @@
                 dataType: "json",
                 success: function(result) {
                     if (result.code == 0) {
-                        console.log(result);
                         var item =
                             '<div class="modal-product clearfix">' +
                             '<div class="product-images">' +

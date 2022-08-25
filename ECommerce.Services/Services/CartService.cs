@@ -83,17 +83,20 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         {
             var priceId = productPriceIdList[i];
             var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).First();
+            var quantity = responseProduct.ReturnData[i].MaxOrder < productNumberList[i]
+                ? responseProduct.ReturnData[i].MaxOrder
+                : productNumberList[i];
             var tempPurchaseOrderDetail = new PurchaseOrderViewModel
             {
                 ProductId = responseProduct.ReturnData[i].Id,
-                Quantity = productNumberList[i],
+                Quantity = quantity,
                 Name = responseProduct.ReturnData[i].Name,
                 Price = price,
                 Url = responseProduct.ReturnData[i].Url,
                 ImagePath = responseProduct.ReturnData[i].ImagePath,
                 Alt = responseProduct.ReturnData[i].Alt,
                 Brand = responseProduct.ReturnData[i].Brand,
-                SumPrice = price.Amount * productNumberList[i],
+                SumPrice = price.Amount * quantity,
                 PriceAmount = price.Amount,
                 PriceId = priceId,
                 ColorName = price.Color.Name
@@ -120,11 +123,36 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
     }
     public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId,int count)
     {
+        var productResult = await _productService.ProductsWithIdsForCart(new List<int>{ productId });
+        var productFromServer = productResult.ReturnData[0];
+
+        var exist = productFromServer.Prices.First(x => x.Id == priceId).Exist;
+        var maxOrder = productFromServer.MaxOrder;
+
         var currentUser = _cookieService.GetCurrentUser();
+
         if (currentUser.Id == 0)
         {
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
             var newCount = product.FirstOrDefault()!.Value + count;
+
+            if (newCount > exist)
+            {
+                return new ServiceResult
+                {
+                    Code = ServiceCode.Error,
+                    Message = "تعداد کالا بیشتر از موجودی است"
+                };
+            }
+
+            if (newCount > maxOrder)
+            {
+                return new ServiceResult
+                {
+                    Code = ServiceCode.Error,
+                    Message = "تعداد کالا بیشتر از حد مجاز است"
+                };
+            }
 
             _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", newCount));
             return new ServiceResult
@@ -133,6 +161,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 Message = "کالا با موفقیت به سبد خرید اضافه شد"
             };
         }
+
         var purchaseOrderViewModel = new PurchaseOrderViewModel
         {
             IsColleague = currentUser.IsColleague,

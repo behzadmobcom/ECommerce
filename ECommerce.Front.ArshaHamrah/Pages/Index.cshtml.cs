@@ -94,6 +94,29 @@ public class IndexModel : PageModel
     public async Task<JsonResult> OnGetLoadCart(int id)
     {
         var result = await _cartService.Load(HttpContext);
+        if (result.Code == 0)
+        {
+            foreach (var product in result.ReturnData)
+            {
+                decimal? discount = 0;
+                if (product.Discount != null)
+                {
+                    if (product.Discount.Amount > 0)
+                    {
+                        discount = product.Discount.Amount;
+                    }
+                    else if (product.Discount.Percent > 0)
+                    {
+                        discount = product.PriceAmount * (decimal)product.Discount.Percent / 100;
+                    }
+                }
+                var priceAmount = product.PriceAmount - discount;
+                decimal sumPrice = (priceAmount * product.Quantity) ?? 0;
+
+                product.DiscountAmount = 1;
+            }
+        }
+
         return new JsonResult(result);
     }
 

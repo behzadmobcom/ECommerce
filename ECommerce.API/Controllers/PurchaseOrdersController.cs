@@ -256,34 +256,47 @@ public class PurchaseOrdersController : ControllerBase
 
             //var price = maxPrice ?? product.Prices.FirstOrDefault();
             decimal unitPrice = 0;
+            var repetitivePurchaseOrder =
+                await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, cancellationToken);
+
+            var repetitivePurchaseOrderDetails =
+                repetitivePurchaseOrder?.PurchaseOrderDetails?.First(x =>
+                    x.ProductId == createPurchaseCommand.ProductId);
+
+            var repetitiveQuantity = repetitivePurchaseOrderDetails?.Quantity ?? 0;
+
+            if (createPurchaseCommand.Quantity + repetitiveQuantity > product.MaxOrder)
+            {
+                createPurchaseCommand.Quantity = Convert.ToUInt16( product.MaxOrder);
+            }
+
 
             if (price.ArticleCode != null)
             {
                 var holooPrice = await _articleRepository.GetHolooPrice(price.ArticleCode,
                     (Price.HolooSellNumber)price.SellNumber);
-                if (holooPrice.exist - createPurchaseCommand.Quantity <= 0)
+                if (repetitiveQuantity + createPurchaseCommand.Quantity > holooPrice.exist + product.MinInStore)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] { "موجودی کالا به پایان رسید" }
+                        Messages = new[] { "تعداد انتخابی کالا بیشتز از موجودی است" }
                     });
                 unitPrice = holooPrice.price;
             }
             else
             {
 
-                if (price.Exist - createPurchaseCommand.Quantity <= 0)
+                if (repetitiveQuantity+ createPurchaseCommand.Quantity > price.Exist + product.MinInStore)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] { "موجودی کالا به پایان رسید" }
+                        Messages = new[] { "تعداد انتخابی کالا بیشتز از موجودی است" }
                     });
                 unitPrice = price?.Amount ?? 0;
             }
 
             decimal sumPrice = unitPrice * createPurchaseCommand.Quantity;
-            var repetitivePurchaseOrder =
-                await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, cancellationToken);
+           
             if (repetitivePurchaseOrder != null)
             {
                 var repetitiveDetail =
