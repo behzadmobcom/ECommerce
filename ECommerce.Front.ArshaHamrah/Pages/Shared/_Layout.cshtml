@@ -258,6 +258,8 @@
                                                     <div class="total-cart-pro" id="Cart-List">
                                                         @foreach (var product in cartList)
                                                         {
+                                                         
+
                                                             <!-- single-cart -->
                                                             <div class="single-cart clearfix" id="CartDrop-@product.ProductId">
                                                                 <h6 class="text-capitalize">
@@ -288,7 +290,10 @@
                                                                         <span>برند <strong>:</strong></span>@product.Brand
                                                                     </p>
                                                                     <p>
-                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount
+                                                                        <span>قیمت <strong>:</strong></span>@product.PriceAmount    
+                                                                    </p>
+                                                                    <p>
+                                                                        <span>تخفیف <strong>:</strong></span>@product.DiscountAmount
                                                                     </p>
                                                                     <p>
                                                                         <span>تعداد <strong>:</strong></span>@product.Quantity
@@ -611,7 +616,7 @@
         <script src="~/js/jquery.placeholder.min.js" type="text/javascript"></script>
         <script type="text/javascript">$('input, textarea').placeholder();</script>
     <![endif]-->
-    <script>
+<script>
            function DeleteCompare(id) {
             $.ajax({
                 type: "Get",
@@ -741,7 +746,6 @@
                         $.get('/index?handler=LoadCart').done(function(products) {
                             $.each(products.returnData,
                                 function(i, product) {
-                                    console.log(product);
                                     var item =
                                         '<div class="single-cart clearfix" id="CartDrop-' +
                                         product.id +
@@ -768,6 +772,8 @@
                                         product.brand +
                                         '</p><p><span>قیمت <strong>:</strong></span>' +
                                         product.priceAmount +
+                                        '</p><p><span>تخفیف <strong>:</strong></span>' +
+                                        product.discountAmount +
                                         '</p><p><span>تعداد <strong>:</strong></span>' +
                                         product.quantity +
                                         '</p><p><span>رنگ <strong>:</strong></span>' +
@@ -803,7 +809,6 @@
                 dataType: "json",
                 success: function(result) {
                     if (result.code == 0) {
-                        console.log(result);
                         var item =
                             '<div class="modal-product clearfix">' +
                             '<div class="product-images">' +

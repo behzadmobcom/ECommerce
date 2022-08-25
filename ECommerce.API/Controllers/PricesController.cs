@@ -122,6 +122,14 @@ public class PricesController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
 
+            if (price.ArticleCode == null && price.Amount == 0)
+            {
+                return Ok(new ApiResult
+                {
+                    Messages = new List<string> { "لطفا یا کد کالا وارد کنید یا مبلغ" },
+                    Code = ResultCode.Error
+                });
+            }
 
             var messages = await CheckPrice(price, cancellationToken);
             var newPrice = await _priceRepository.AddAsync(price, cancellationToken);
@@ -152,6 +160,14 @@ public class PricesController : ControllerBase
     {
         try
         {
+            if (price.ArticleCode == null && price.Amount == 0)
+            {
+                return Ok(new ApiResult
+                {
+                    Messages =new List<string> {"لطفا یا کد کالا وارد کنید یا مبلغ"},
+                    Code = ResultCode.Error
+                });
+            }
             var messages = await CheckPrice(price, cancellationToken);
             if (messages.Count == 0)
             {
