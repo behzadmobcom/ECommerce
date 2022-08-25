@@ -3,7 +3,65 @@
 @{
 	ViewData["Title"] = "خرید";
 }
+<style>
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 60px;
+		height: 34px;
+	}
 
+	.switch input { 
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: "";
+		height: 26px;
+		width: 26px;
+		left: 4px;
+		bottom: 4px;
+		background-color: white;
+		-webkit-transition: .4s;
+		transition: .4s;
+	}
+
+	input:checked + .slider {
+		background-color: orangered;
+	}
+
+
+
+	input:checked + .slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(26px);
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
+	}
+</style>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
 	<div class="breadcrumbs overlay-bg">
@@ -256,6 +314,14 @@
 								<i class="zmdi zmdi-search"></i>
 							</button>
 						</form>
+					</aside>
+					<!--- Widget-switch --->
+					<aside class="widget box-shadow mb-30">
+						<h6 class="widget-title border-left mb-20">نمایش کالاهای موجود</h6>
+						<label class="switch">
+							<input type="checkbox">
+							<span class="slider round"></span>
+						</label>
 					</aside>
 					<!-- widget-categories -->
 					<aside class="widget widget-categories box-shadow mb-30">

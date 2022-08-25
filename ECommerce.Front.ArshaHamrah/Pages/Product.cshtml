@@ -84,14 +84,14 @@
                                             <h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
                                         </div>
                                         <div class="col-md-6">
-                                   @*     @if (Model.Product.Prices.Any())
+                                        @if (Model.Product.Prices.Any(x => x.Exist > 0))
                                         {
-	                                        <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
+	                                        <h6 class="brand-name-2">@Model.Product.Prices.OrderBy(p=>p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist>0).Amount.ToString("###,###,###,###") تومان</h6>
                                         }
                                         else
                                         {
 											<h6 class="brand-name-2">ناموجود</h6>
-                                        }*@
+                                        }
 	                                        
                                         </div>
                                     </div>
@@ -104,9 +104,6 @@
 				<li class="active">
 					<a href="#description" data-toggle="tab">توضیحات</a>
 				</li>
-				@*	<li>
-                                            <a href="#information" data-toggle="tab">اطلاعات</a>
-                                            </li>*@
 				<li>
 					<a href="#reviews" data-toggle="tab">بررسی محصول</a>
 				</li>
@@ -115,9 +112,6 @@
 				<div role="tabpanel" class="tab-pane active" id="description">
 					<p>@Html.Raw(Model.Product.Description)</p>
 				</div>
-				@*	<div role="tabpanel" class="tab-pane" id="information">
-                                            <p>deff</p>
-                                            </div>*@
 				<div role="tabpanel" class="tab-pane" id="reviews">
 					<!-- reviews-tab-desc -->
 					<div class="reviews-tab-desc">
@@ -133,7 +127,6 @@
 										<h6 class="media-heading">
 											<p>ادمین</p>
 										</h6>
-										@*	<p class="mb-10">27 شهریور 1398 در 14:30</p>*@
 									</div>
 								</div>
 								<p class="mb-0">
@@ -150,31 +143,8 @@
 		<hr>
 		<!-- single-pro-color-rating -->
 		<div class="single-pro-color-rating clearfix">
-			@*   <div class="sin-pro-color f-left">
-                                            @foreach (var price in Model.Product.Prices)
-                                            {
-                                                var select = price.Id == priceId ? "checked" : "";
-                                                if ((int)price.Grade > 1)
-                                                {
-                                                    <div style="background-color: @price.Color.ColorCode">
-                                                        <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                                        <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
-                                                        <label for="price-@price.Id">قیمت : @price.Amount</label>
-                                                    </div>
-                                                }
-                                                else if (price.ColorId > 1)
-                                                {
-                                                    <div style="background-color: @price.Color.ColorCode">
-                                                        <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                                        <label for="price-@price.Id">@price.Color.Name - </label>
-                                                        <label for="price-@price.Id">قیمت : @price.Amount</label>
-                                                    </div>
-                                                }
-                                                <br>
-                                            }
-                                        </div>*@
 			<div class="sin-pro-color f-left">
-				@foreach (var price in Model.Product.Prices)
+				@foreach (var price in Model.Product.Prices.Where(x=>x.Exist>0))
 				{
 					var select = price.Id == priceId ? "checked" : "";
 					if ((int)price.Grade > 1)
