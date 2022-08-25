@@ -27,7 +27,7 @@ public class StarService : EntityService<ProductUserRank>, IStarService
         return temp;
     }
 
-    public async Task<string> SaveStars(int productId, int starNumber, string productUrl)
+    public async Task<string> SaveStars(int productId, int starNumber)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0) return "برای امتیاز دادن ابتدا لاگین کنید";

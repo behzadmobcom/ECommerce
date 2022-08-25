@@ -10,7 +10,6 @@ namespace ArshaHamrah.Pages;
 public class ProductModel : PageModel
 {
    private readonly IProductAttributeGroupService _productAttributeGroupService;
-    private readonly ICartService _cartService;
     private readonly IProductService _productService;
     private readonly IStarService _starService;
 
@@ -19,7 +18,6 @@ public class ProductModel : PageModel
     {
         _productService = productService;
         _starService = starService;
-        _cartService = cartService;
         _productAttributeGroupService = productAttributeGroupService;
     }
 
@@ -44,5 +42,11 @@ public class ProductModel : PageModel
         RelatedProduct = (await _productService.TopRelatives(Product.Id)).ReturnData;
 
         Stars = await _starService.SumStarsByProductId(Product.Id);
+    }
+
+    public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
+    {
+        var result = await _starService.SaveStars(id, starNumber);
+        return new JsonResult(result);
     }
 }

@@ -48,6 +48,7 @@ public class Product : BaseEntity
     //ForeignKey
     public ICollection<Category>? ProductCategories { get; set; }
 
+    //[JsonIgnore] 
     public ICollection<Price>? Prices { get; set; } = new List<Price>();
 
     public int StoreId { get; set; } = 1;
