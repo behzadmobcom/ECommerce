@@ -14,7 +14,7 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
         _context = context;
     }
 
-    public bool IsRepetitiveProduct(int id,int productId, CancellationToken cancellationToken)
+    public bool IsRepetitiveProduct(int id, int productId, CancellationToken cancellationToken)
     {
         var repetitive = true;
         repetitive = id == 0 ? _context.SlideShows.Any(x => x.ProductId == productId) : _context.SlideShows.Any(x => x.ProductId == productId && x.Id != id);
@@ -28,6 +28,6 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
 
     public async Task<IEnumerable<SlideShow>> GetAllWithInclude(CancellationToken cancellationToken)
     {
-        return await _context.SlideShows.Include(x=>x.Product).ThenInclude(p=>p.Prices).ToListAsync(cancellationToken);
+        return await _context.SlideShows.Include(x => x.Product).ThenInclude(p => p.Prices).ThenInclude(x => x.Discount).ToListAsync(cancellationToken);
     }
 }
