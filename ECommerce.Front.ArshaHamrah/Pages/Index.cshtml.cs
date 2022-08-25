@@ -113,10 +113,11 @@ public class IndexModel : PageModel
                 var priceAmount = product.PriceAmount - discount;
                 decimal sumPrice = (priceAmount * product.Quantity) ?? 0;
 
-                product.DiscountAmount = 1;
+                product.DiscountAmount = discount.Value;
+                product.PriceAmount = priceAmount.Value;
+                product.SumPrice = sumPrice;
             }
         }
-
         return new JsonResult(result);
     }
 

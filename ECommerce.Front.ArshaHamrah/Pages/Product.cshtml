@@ -98,12 +98,16 @@
                                                     {
                                                         discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
                                                     }
+                                                var discountAmount = amount - discount;
+
                                             }
                                             @if (discount > 0)
                                             {
-                                                <h6 class="old-price">@amount.ToString("###,###,###,###") تومان</h6>
+                                                <div class="s-price-box">
+                                                    <h6 class="old-price">@amount.ToString("###,###,###,###") تومان</h6>
+                                                </div>
                                             }
-                                            <h6 class="brand-name-2">@amount.ToString("###,###,###,###") تومان</h6>
+                                            <h6 class="brand-name-2">@discountAmount?.ToString("###,###,###,###") تومان</h6>
                                         </div>
                                     </div>
 
@@ -170,7 +174,7 @@
                                                     {
                                                         discountPrice = price.Amount * (decimal)price.Discount.Percent / 100;
                                                     }
-                                               
+                                                decimal? discountPriceAmount = amountPrice - discountPrice;
                                                 if ((int)price.Grade > 1)
                                                 {
                                                     <div class="widget-color f-left">
@@ -179,12 +183,12 @@
                                                                 <a style="background: @price.Color.ColorCode; width: 30px; height: 30px; border: 1px solid black"> </a>
                                                                 <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                                                 <label for="price-@price.Id">@price.Grade - </label>
-                                                               
+
                                                                 @if (discountPrice > 0)
                                                                 {
-                                                                    <label for="price-@price.Id">قیمت : @(amountPrice - discountPrice)?.ToString("###,###,###,###")</label>
+                                                                    <label for="price-@price.Id" class="old-price">قیمت بدون تخفیف : @amountPrice.ToString("###,###,###,###")</label>
                                                                 }
-                                                                <label for="price-@price.Id">قیمت : @amountPrice.ToString("###,###,###,###")</label>
+                                                                <label for="price-@price.Id">قیمت : @discountPriceAmount?.ToString("###,###,###,###")</label>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -199,9 +203,9 @@
                                                                 <label for="price-@price.Id">@price.Color.Name - </label>
                                                                 @if (discountPrice > 0)
                                                                 {
-                                                                    <label for="price-@price.Id">قیمت : @(amountPrice - discountPrice)?.ToString("###,###,###,###")</label>
+                                                                    <label for="price-@price.Id">قیمت بدون تخفیف : @amountPrice.ToString("###,###,###,###")</label>
                                                                 }
-                                                                <label for="price-@price.Id">قیمت : @amountPrice.ToString("###,###,###,###")</label>
+                                                                <label for="price-@price.Id">قیمت : @discountPriceAmount?.ToString("###,###,###,###")</label>
                                                             </li>
                                                         </ul>
                                                     </div>

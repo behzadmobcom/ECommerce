@@ -260,16 +260,21 @@ public class PurchaseOrdersController : ControllerBase
                 await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, cancellationToken);
 
             var repetitivePurchaseOrderDetails =
-                repetitivePurchaseOrder?.PurchaseOrderDetails?.First(x =>
+                repetitivePurchaseOrder?.PurchaseOrderDetails?.FirstOrDefault(x =>
                     x.ProductId == createPurchaseCommand.ProductId);
 
             var repetitiveQuantity = repetitivePurchaseOrderDetails?.Quantity ?? 0;
 
             if (createPurchaseCommand.Quantity + repetitiveQuantity > product.MaxOrder)
             {
-                createPurchaseCommand.Quantity = Convert.ToUInt16( product.MaxOrder);
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotExist,
+                    Messages = new[] { $"تعداد انتخابی کالا بیشتز از حد مجاز است. حد مجاز {product.MaxOrder} است" }
+                });
             }
 
+            if (product.MinInStore == null) product.MinInStore = 0;
 
             if (price.ArticleCode != null)
             {
