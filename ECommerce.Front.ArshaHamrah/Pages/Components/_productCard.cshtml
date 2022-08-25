@@ -15,7 +15,11 @@
                                             <a asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">@Model.Name</a>
                                         </h6>
                                         <h6 class="brand-name">@Model.Brand</h6>
-                                        <h3 class="pro-price">@Model.Prices.First().Amount.ToString("###,###,###,###") تومان</h3>
+                                        @{                                       
+                                            int? _discount=@Model.Prices.First().Discount==null? 0 : @Model.Prices.First().Discount.Amount;
+                                            decimal? _amount=@Model.Prices.First().Amount - @_discount;                                         
+                                        }
+                                        <h3 class="pro-price">@_amount?.ToString("###,###,###,###") تومان</h3>
                                     </div>
                                     <ul class="action-button">
                                         <li>

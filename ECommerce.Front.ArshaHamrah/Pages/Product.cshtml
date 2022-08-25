@@ -83,8 +83,21 @@
                                         <div class="col-md-6">
                                             <h6 class="brand-name-2">@Model.Product.Brand?.Name</h6>
                                         </div>
-                                        <div class="col-md-6">
-                                            <h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
+                                        <div class="col-md-6">                
+											@{
+												if (@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).DiscountId!=1 ) {
+													var _amount = @Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount;
+													var _discount = @Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Discount.Amount.Value;
+													var _newamount = @_amount - @_discount;
+													<s><h7 class="brand-name-2">@_amount.ToString("###,###,###,###") تومان</h7></s>
+													<h6 class="brand-name-2">@_newamount.ToString("###,###,###,###") تومان</h6>
+												}
+												else
+												{
+													<h6 class="brand-name-2">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount.ToString("###,###,###,###") تومان</h6>
+												}
+											}
+											
                                         </div>
                                     </div>
 
@@ -177,8 +190,20 @@
 									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
-									<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
-
+																@{
+																	if (@price.DiscountId != 1)
+																	{
+																		decimal _amount = price.Amount;
+																		int? _discount = price.Discount.Amount;
+																		var _newamount = (@_amount - @_discount);
+																		<label for="price-@price.Id">قیمت : @_newamount?.ToString("###,###,###,###")</label>
+																	}
+																	else
+																	{
+																		<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
+																	}
+																}
+																
 								</li>
 							</ul>
 						</div>
@@ -191,8 +216,19 @@
 									<a style="background: @price.Color.ColorCode; width: 30px; height: 30px;border: 1px solid black"> </a>
 									<input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
 									<label for="price-@price.Id">@price.Color.Name - </label>
-									<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
-
+																@{
+																	if (@price.DiscountId != 1)
+																	{
+																		decimal _amount = price.Amount;
+																		int? _discount = price.Discount.Amount;
+																		var _newamount = (@_amount - @_discount);
+																		<label for="price-@price.Id">قیمت : @_newamount?.ToString("###,###,###,###")</label>
+																	}
+																	else
+																	{
+																		<label for="price-@price.Id">قیمت : @price.Amount.ToString("###,###,###,###")</label>
+																	}
+																}
 								</li>
 							</ul>
 						</div>
@@ -318,7 +354,7 @@
 
 		var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
 		function SetPriceId(id) {
-	
+			
 			var price = prices.find(x => x.id == id);
 		
 			if (price.exist > 0) {
@@ -332,4 +368,3 @@
 		}
 	</script>
 }
-
