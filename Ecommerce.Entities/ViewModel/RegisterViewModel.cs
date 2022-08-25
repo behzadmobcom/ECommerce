@@ -63,6 +63,11 @@ public class RegisterViewModel
 
     public int CityId { get; set; }
 
+    [Display(Name = "کدملی")]
+    [Required(ErrorMessage = @"{0} را وارد کنید")]
+    [StringLength(10, MinimumLength = 10, ErrorMessage = "تعداد ارقام غلط است")]
+    public string NationalCode { get; set; }
+
     //============== UserColleague ==============
 
     [Display(Name = "تصویر مدرک")] public string? LicensePath { get; set; }
@@ -91,7 +96,8 @@ public class RegisterViewModel
             StateId = x.StateId,
             CityId = x.CityId,
             LicensePath = x.LicensePath,
-            CompanyName = x.Name
+            CompanyName = x.Name,
+            NationalCode = x.NationalCode
         };
     }
 }

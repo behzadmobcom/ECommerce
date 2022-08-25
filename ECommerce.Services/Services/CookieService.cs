@@ -124,6 +124,7 @@ public class CookieService : ICookieService
         {
             var token = GetToken();
             var handler = new JwtSecurityTokenHandler();
+            if(string.IsNullOrEmpty(token)) return new LoginViewModel();
             var jwtSecurityToken = handler.ReadJwtToken(token);
             var loginViewModel = new LoginViewModel
             {

@@ -112,7 +112,7 @@ public class CheckoutModel : PageModel
         }
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice)+PostPrice;
-        SumPrice = Convert.ToInt32(tempSumPrice) * 10;
+        SumPrice = Convert.ToInt32(tempSumPrice);
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
@@ -138,7 +138,8 @@ public class CheckoutModel : PageModel
                         return RedirectToPage("Error");
                     }
                 case "mellat":
-                    //Zarinpal
+                    //mellat
+                    SumPrice *= 10;
                     purchaseOrder.OrderGuid = Guid.NewGuid();
                     byte[] gb = purchaseOrder.OrderGuid.ToByteArray();
                     purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
