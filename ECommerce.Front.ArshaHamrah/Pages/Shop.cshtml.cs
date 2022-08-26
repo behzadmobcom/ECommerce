@@ -65,9 +65,15 @@ public class ShopModel : PageModel
         Categories = categoryResult.ReturnData;
     }
 
-    public async Task<IActionResult> OnPostPriceRange(int minprice, int maxprice)
+    public async Task<IActionResult> OnPostPriceRange(string? path = null,int minprice=0, int maxprice=0, bool isExist=false)
     {
-        Products = await _productService.TopProducts("", "", 0, 10, 1, maxprice, minprice);
+        string categoryId = "0";
+        if (!string.IsNullOrEmpty(path))
+        {
+            var resultCategory = await _categoryService.GetByUrl(path);
+            if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
+        }
+        Products = await _productService.TopProducts(categoryId, "", 0, 9, 1, maxprice, minprice, isExist);
         await Initial();
         Max = maxprice;
         Min = minprice;

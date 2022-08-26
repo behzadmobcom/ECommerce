@@ -85,29 +85,42 @@
                                         </div>
                                         <div class="col-md-6">
                                             @{
-                                                var singlePrice = Model.Product.Prices.OrderBy(p => p.Amount).First(x => !x.IsColleague && x.Exist > 0);
-                                                var amount = singlePrice.Amount;
-
                                                 decimal? discount = 0;
-                                                if (singlePrice.Discount != null)
-                                                    if (singlePrice.Discount.Amount > 0)
-                                                    {
-                                                        discount = (decimal)singlePrice.Discount.Amount;
-                                                    }
-                                                    else if (singlePrice.Discount.Percent > 0)
-                                                    {
-                                                        discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
-                                                    }
-                                                var discountAmount = amount - discount;
+                                                decimal? amount = 0;
+                                                decimal? discountAmount = 0;
+                                                var singlePrice = Model.Product.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+                                                if (singlePrice != null)
+                                                {
+                                                    amount = singlePrice.Amount;
+
+
+                                                    if (singlePrice.Discount != null)
+                                                        if (singlePrice.Discount.Amount > 0)
+                                                        {
+                                                            discount = (decimal)singlePrice.Discount.Amount;
+                                                        }
+                                                        else if (singlePrice.Discount.Percent > 0)
+                                                        {
+                                                            discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+                                                        }
+                                                    discountAmount = amount - discount;
+                                                }
 
                                             }
-                                            @if (discount > 0)
+                                            @if (singlePrice == null)
                                             {
-                                                <div class="s-price-box">
-                                                    <h6 class="old-price">@amount.ToString("###,###,###,###") تومان</h6>
-                                                </div>
+                                                <h6 class="brand-name-2">نا موجود</h6>
                                             }
-                                            <h6 class="brand-name-2">@discountAmount?.ToString("###,###,###,###") تومان</h6>
+                                            else
+                                            {
+                                                @if (discount > 0)
+                                                {
+                                                    <div class="s-price-box">
+                                                        <h6 class="old-price">@amount?.ToString("###,###,###,###") تومان</h6>
+                                                    </div>
+                                                }
+                                                <h6 class="brand-name-2">@discountAmount?.ToString("###,###,###,###") تومان</h6>
+                                            }
                                         </div>
                                     </div>
 

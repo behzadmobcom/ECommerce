@@ -184,7 +184,41 @@
 															<i class="zmdi zmdi-star-outline"></i>
 														</a>
 													</div>
-													<h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount.ToString("###,###,###,###") تومان</h3>
+                                                    @{
+                                                        decimal? discount = 0;
+                                                        decimal? discountAmount = 0;
+                                                        decimal? amount = 0;
+														var price = product.Prices.OrderBy(o => o.Amount).FirstOrDefault(x => x.Exist > 0);
+                                                        if (price != null)
+                                                        {
+
+                                                            if (price.Discount != null)
+                                                                if (price.Discount.Amount > 0)
+                                                                {
+                                                                    discount = (decimal) price.Discount.Amount;
+                                                                }
+                                                                else if (price.Discount.Percent > 0)
+                                                                {
+                                                                    discount = price.Amount * (decimal) price.Discount.Percent / 100;
+                                                                }
+                                                            discountAmount = price.Amount - discount;
+                                                            amount = price.Amount;
+                                                        }
+                                                    }
+                                                    <div class="s-price-box">
+                                                        @if (price == null)
+                                                        {
+                                                            <h3 class="pro-price">نا موجود</h3>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (discount > 0)
+                                                            {
+                                                                <h3 class="old-price">@amount?.ToString("###,###,###,###") تومان</h3>
+                                                            }
+                                                            <h3 class="pro-price">@discountAmount?.ToString("###,###,###,###") تومان</h3>
+                                                        }
+                                                    </div>
 													<ul class="action-button">
 														<li>
 															<a href="javascript:void(0)" onclick="AddWishList(@product.Id)" title="لیست علاقمندی ها">
@@ -262,7 +296,41 @@
 														</div>
 													</div>
 													<h6 class="brand-name mb-15">@product.Brand</h6>
-													<h3 class="pro-price">@product.Prices.FirstOrDefault(x => x.IsColleague == Model.IsColleague)?.Amount تومان</h3>
+													@{
+														decimal? discount = 0;
+														decimal? discountAmount = 0;
+														decimal? amount = 0;
+														var price = product.Prices.OrderBy(o => o.Amount).FirstOrDefault(x => x.Exist > 0);
+														if (price != null)
+														{
+
+															if (price.Discount != null)
+																if (price.Discount.Amount > 0)
+																{
+																	discount = (decimal)price.Discount.Amount;
+																}
+																else if (price.Discount.Percent > 0)
+																{
+																	discount = price.Amount * (decimal)price.Discount.Percent / 100;
+																}
+															discountAmount = price.Amount - discount;
+															amount = price.Amount;
+														}
+													}
+													<div class="s-price-box">
+														@if (price == null)
+														{
+															<h3 class="pro-price">نا موجود</h3>
+														}
+														else
+														{
+															if (discount > 0)
+															{
+																<h3 class="old-price">@amount?.ToString("###,###,###,###") تومان</h3>
+															}
+															<h3 class="pro-price">@discountAmount?.ToString("###,###,###,###") تومان</h3>
+														}
+													</div>
 													<p> @Html.Raw(product.Description)</p>
 													<ul class="action-button">
 														<li>
@@ -315,14 +383,7 @@
 							</button>
 						</form>
 					</aside>
-					<!--- Widget-switch --->
-					<aside class="widget box-shadow mb-30">
-						<h6 class="widget-title border-left mb-20">نمایش کالاهای موجود</h6>
-						<label class="switch">
-							<input type="checkbox">
-							<span class="slider round"></span>
-						</label>
-					</aside>
+					
 					<!-- widget-categories -->
 					<aside class="widget widget-categories box-shadow mb-30">
 						<h6 class="widget-title border-left mb-20">دسته ها</h6>
@@ -351,18 +412,25 @@
 					<aside class="widget shop-filter box-shadow mb-30">
 						<h6 class="widget-title border-left mb-20">قیمت</h6>
 						<div class="price_filter">
-							<form  asp-page-handler="PriceRange" method="post">
-								<label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br />
-								<span id="min-price-txt">1000000</span>
-								<input type="range" class="form-range" min="1000000" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
+                            <form asp-page-handler="PriceRange" method="post">
 							
-								<label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br />
-								<span id="max-price-txt">20000000</span>
-								<input type="range" class="form-range" min="1000000" max="20000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
-							
-								<button type="submit" class="submit-btn-1 black-bg btn-hover-2"
-								        style="margin-top: 20px">اعمال</button>
-								</form>
+                                <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br/>
+                                <span id="min-price-txt">1000000</span>
+                                <input type="range" class="form-range" min="1000000" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
+
+                                <label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br/>
+                                <span id="max-price-txt">20000000</span>
+                                <input type="range" class="form-range" min="1000000" max="20000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
+                                <br/>
+                                <h6 class="widget-title border-left mb-20">فقط نمایش کالاهای موجود</h6>
+                                <label class="switch">
+                                    <input type="checkbox" name="isExist" value="true">
+                                    <span class="slider round"></span>
+                                </label>
+                                <br/>
+                                <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
+                                        style="margin-top: 20px">اعمال</button>
+                            </form>
 						</div>
 					</aside>
 					<!-- widget-product -->

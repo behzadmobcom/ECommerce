@@ -357,6 +357,11 @@ public class ProductsController : ControllerBase
             {
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) > productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) < productListFilteredViewModel.EndPrice).ToList();
             }
+
+            if (productListFilteredViewModel.IsExist != null)
+            {
+                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e=> e.Exist > 0)).ToList();
+            }
             switch (productListFilteredViewModel.ProductSort)
             {
                 case ProductSort.New:

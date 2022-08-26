@@ -432,21 +432,25 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<List<ProductIndexPageViewModel>> TopRelatives(int productId, int count, CancellationToken cancellationToken)
     {
-        var categories = await _context.Categories
-            .Where(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()))
-            .ToListAsync(cancellationToken);
-        var products = new List<ProductIndexPageViewModel>();
-        var countPerCategory = count;
-        if (categories.Count > 1)
-        {
-            countPerCategory = count / categories.Count;
-            if (countPerCategory < 1) countPerCategory = 1;
-        }
+        //var categories = await _context.Categories
+        //    .Where(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()))
+        //    .ToListAsync(cancellationToken);
 
-        foreach (var category in categories)
-            products.AddRange(await _context.Products
-                .Where(x => x.ProductCategories.Any(x => x.Id == category.Id) && x.Id != productId)
-                .Take(countPerCategory)
+        var product = await _context.Products.Include(i => i.Tags).FirstAsync(x => x.Id == productId, cancellationToken: cancellationToken);
+
+        var products = new List<ProductIndexPageViewModel>();
+        //var countPerCategory = count;
+        //if (categories.Count > 1)
+        //{
+        //    countPerCategory = count / categories.Count;
+        //    if (countPerCategory < 1) countPerCategory = 1;
+        //}
+        Random rnd = new Random();
+        foreach (var tag in product.Tags)
+        {
+            var selectedProduct = await _context.Products
+                .Where(x => x.Tags.Contains(tag) && x.Id != productId)
+                .Skip(rnd.Next(0, tag.Products.Count - 1))
                 .Select(p => new ProductIndexPageViewModel
                 {
                     Prices = p.Prices!,
@@ -459,9 +463,38 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                     Stars = p.Star,
                     Url = p.Url
                 })
-                .ToListAsync(cancellationToken));
-        //productsList.AddRange(temp);
+                .FirstOrDefaultAsync(cancellationToken);
+            if (selectedProduct != null)
+                products.Add(selectedProduct);
+        }
 
+        if (products.Count < 3)
+        {
+            var category = await _context.Categories
+                .FirstAsync(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()));
+
+            var categoryProductCount = _context.Products.Count(x=> x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId) - 1;
+            for (var i = 1; i <= count; i++)
+            {
+                var selectedProductByCategory  = await _context.Products
+                    .Where(x => x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId)
+                    .Skip(rnd.Next(0, categoryProductCount))
+                    .Select(p => new ProductIndexPageViewModel
+                    {
+                        Prices = p.Prices!,
+                        Alt = p.Images!.First().Alt,
+                        Brand = p.Brand!.Name,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Id = p.Id,
+                        ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                        Stars = p.Star,
+                        Url = p.Url
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+                if(selectedProductByCategory != null) products.Add(selectedProductByCategory);
+            }
+        }
         return products.Take(count).ToList();
     }
 
