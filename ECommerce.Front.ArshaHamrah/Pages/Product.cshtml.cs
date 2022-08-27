@@ -44,9 +44,10 @@ public class ProductModel : PageModel
         Stars = await _starService.SumStarsByProductId(Product.Id);
     }
 
-    public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
+    public async Task<IActionResult> OnPostSaveStars(int id, int starNumber)
     {
         var result = await _starService.SaveStars(id, starNumber);
         return new JsonResult(result);
     }
+  
 }

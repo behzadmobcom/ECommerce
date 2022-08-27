@@ -23,4 +23,11 @@
 	<ItemGroup>
 	  <Folder Include="wwwroot\img\pattern\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\css\Stars.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
 </Project>

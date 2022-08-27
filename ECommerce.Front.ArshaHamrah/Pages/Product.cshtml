@@ -4,7 +4,7 @@
     ViewData["Title"] = "توضیحات کالا";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
-
+<link href="~/css/stars.css" rel="stylesheet" />
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -227,24 +227,20 @@
                                             }
                                             <input id="PriceId" hidden="hidden" value="@priceId" />
                                         </div>
-                                        <div class="pro-rating sin-pro-rating f-right">
-                                            <a href="#" tabindex="0">
-                                                <i class="zmdi zmdi-star"></i>
-                                            </a>
-                                            <a href="#" tabindex="0">
-                                                <i class="zmdi zmdi-star"></i>
-                                            </a>
-                                            <a href="#" tabindex="0">
-                                                <i class="zmdi zmdi-star"></i>
-                                            </a>
-                                            <a href="#" tabindex="0">
-                                                <i class="zmdi zmdi-star-half"></i>
-                                            </a>
-                                            <a href="#" tabindex="0">
-                                                <i class="zmdi zmdi-star-outline"></i>
-                                            </a>
-                                            <span class="text-black-5">( 27 امتیاز )</span>
-                                        </div>
+
+
+                                      
+                                            <div class="pro-rating sin-pro-rating f-right">
+                                                @for (var i = 1; i <= 5; i++)
+                                                {
+                                                    <label for="@i" @if (Model.Stars >= i){<text> class="zmdi zmdi-star" </text>}>
+                                                        <input onclick="SaveStars(@Model.Product.Id, @i)" type="checkbox" id="@i" />
+                                                        <i class="zmdi zmdi-star-outline"></i>
+                                                    </label>
+                                                }
+                                          
+                                            </div>
+                                       
                                     </div>
                                     <!-- hr -->
                                     <hr>
@@ -355,20 +351,6 @@
             $("#price").text(price.amount + " تومان ");
             $("#PriceId").val(id);
         }
-
-        function SaveStars(id, starNumber) {
-            $.ajax({
-                type: "Get",
-                url: "/Product?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    swal(result.message);
-                },
-                failure: function (response) {
-                    swal(response);
-                }
-            });
-        }
+             
     </script>
 }

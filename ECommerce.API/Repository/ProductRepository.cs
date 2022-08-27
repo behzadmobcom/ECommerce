@@ -474,6 +474,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 .FirstAsync(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()));
 
             var categoryProductCount = _context.Products.Count(x=> x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId) - 1;
+            if (categoryProductCount <= 1) return products;
             for (var i = 1; i <= count; i++)
             {
                 var selectedProductByCategory  = await _context.Products
