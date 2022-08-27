@@ -90,9 +90,42 @@ public class UserService : IUserService
             Message = "ثبت نام با موفقیت انجام شد"
         };
     }
+    public async Task<ServiceResult> Update(User user)
+    {
+        var result = await _http.PutAsync(Url, user);
+
+        return new ServiceResult
+        {
+            Code = (ServiceCode)result.Code,
+            Message = result.GetBody()
+        };
+    }
+
+    public async Task<ServiceResult> ChangePassword(string oldPass,string newPass, string newConPass)
+    {
+        if (!newPass.Equals(newConPass)) return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = "پسوردها مطابقت ندارند"
+        };
+        var user = _cookieService.GetCurrentUser();
+        var resetPasswordViewModel = new ResetPasswordViewModel
+        {
+            Password = newPass,
+            OldPassword = oldPass,
+            Username = user.Username
+        };
+        var result = await _http.PostAsync(Url, resetPasswordViewModel, "ResetPassword");
+
+        return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = result.GetBody()
+        };
+    }
 
     public async Task<ServiceResult<List<UserListViewModel>>> UserList(string search = "",
-     int pageNumber = 0, int pageSize = 10, int userSort = 1,bool? isActive=null, bool? isColleague = null,bool? HasBuying= null)
+     int pageNumber = 0, int pageSize = 10, int userSort = 1, bool? isActive = null, bool? isColleague = null, bool? HasBuying = null)
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
@@ -100,7 +133,7 @@ public class UserService : IUserService
                       $"PaginationParameters.PageNumber={pageNumber}&" +
                       $"PaginationParameters.PageSize={pageSize}&";
         if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search='{search}'&";
-        if (isActive!= null) command += $"IsActive={isActive}&";
+        if (isActive != null) command += $"IsActive={isActive}&";
         if (isColleague != null) command += $"IsColleauge={isColleague}&";
         if (HasBuying != null) command += $"HasBuying={HasBuying}&";
         command += $"UserSort={userSort}";

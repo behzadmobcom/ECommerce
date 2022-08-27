@@ -25,7 +25,8 @@ public class EditModel : PageModel
         var resultParent = await _categoryService.GetParents();
         Category = result.ReturnData;
         Categories = resultParent.ReturnData;
-        Categories.First(x => x.Id == Category.ParentId).Checked = true;
+        if (Categories.Any(x => x.Id == Category.ParentId))
+            Categories.First(x => x.Id == Category.ParentId).Checked = true;
     }
 
     public async Task<IActionResult> OnPost()
@@ -37,7 +38,7 @@ public class EditModel : PageModel
             Code = result.Code.ToString();
             if (result.Code == 0)
                 return RedirectToPage("/Categories/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             Message = result.Message;
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
@@ -45,7 +46,7 @@ public class EditModel : PageModel
 
         var resultParent = await _categoryService.GetParents();
         Categories = resultParent.ReturnData;
-        
+
         return Page();
     }
 }

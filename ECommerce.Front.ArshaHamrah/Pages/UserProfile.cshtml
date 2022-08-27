@@ -28,7 +28,27 @@
 <!-- BREADCRUMBS SETCTION END -->
 <!-- Start page content -->
 <div id="page-content" class="page-wrapper">
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
 
+    Model.Message = null;
+    Model.Code = null;
+}
     <!-- LOGIN SECTION START -->
     <div class="login-section mb-80">
         <div class="container">
@@ -43,8 +63,8 @@
                         <div class="panel-collapse " role="tabpanel">
                             <div class="panel-body">
                                 <div class="contact-address box-shadow">
-                                    <h6>@Model.User.FirstName @Model.User.LastName</h6>
-                                    <h5>@Model.User.Mobile</h5>
+                                    <h6>@Model.UserInformation.FirstName @Model.UserInformation.LastName</h6>
+                                    <h5>@Model.UserInformation.Mobile</h5>
                                 </div>
                             </div>
                         </div>
@@ -145,13 +165,13 @@
                             <div id="my_shipping" class="panel-collapse collapse" role="tabpanel">
                                 <div class="panel-body">
                                     <div class="new-customers p-30">
-                                        <input type="text" id="OldPass" placeholder="رمز عبور فعلی" dir="ltr">
-                                        <input type="text" id="NewPass" placeholder="رمز عبور جدید" dir="ltr">
-                                        <input type="text" id="NewConPass" placeholder="تکرار رمز عبور جدید" dir="ltr">
+                                        <input type="password" id="OldPass" placeholder="رمز عبور قدیمی" dir="ltr">
+                                        <input type="password" id="NewPass" placeholder="رمز عبور جدید" dir="ltr">
+                                        <input type="password" id="NewConPass" placeholder="تکرار رمز عبور جدید" dir="ltr">
                                         <div class="row">
 
                                             <div class="col-md-6">
-                                                <button class="submit-btn-1 mt-20 btn-hover-1 f-right" onclick="">تغییر پسورد</button>
+                                                <button class="submit-btn-1 mt-20 btn-hover-1 f-right" onclick="ChangePassword()">تغییر پسورد</button>
                                             </div>
                                         </div>
                                     </div>
@@ -168,41 +188,34 @@
                             </div>
                             <div id="billing_address" class="panel-collapse collapse" role="tabpanel">
                                 <div class="panel-body">
-                                    <form action="#">
+                                    <form method="post" asp-page-handler="Edit">
                                         <div class="billing-details p-30">
-                                            <input type="text" placeholder="نام شما ...">
-                                            <input type="text" placeholder="نام خانوادگی">
-                                            <input type="text" placeholder="... آدرس ایمیل" dir="ltr">
-                                            <input type="text" placeholder="... شماره تلفن" dir="ltr">
-                                            <input type="text" placeholder="نام شرکت ...">
-                                            <input type="text" placeholder="... شماره موبایل" dir="ltr">
+                                            <input asp-for="@Model.UserInformation" hidden="hidden"/>
+                                            <input asp-for="@Model.UserInformation.FirstName" type="text" placeholder="نام شما ...">
+                                            <input asp-for="@Model.UserInformation.LastName" type="text" placeholder="نام خانوادگی">
+                                            <input asp-for="@Model.UserInformation.Email" type="text" placeholder="... آدرس ایمیل" dir="ltr">
+                                            <input asp-for="@Model.UserInformation.CompanyName" type="text" placeholder="نام شرکت ...">
+                                            <input asp-for="@Model.UserInformation.Mobile" type="text" placeholder="... شماره موبایل" dir="ltr">
+                                            <input asp-for="@Model.UserInformation.NationalCode" type="text" placeholder="... کد ملی" dir="ltr">
 
-                                            <select class="custom-select">
-                                                <option value="defalt">کشور</option>
-                                                <option value="c-1">ایران</option>
-                                                <option value="c-2">بنگلادش</option>
-                                                <option value="c-3">آمریکا</option>
-                                                <option value="c-4">انگلستان</option>
+                                            <select asp-for="@Model.UserInformation.StateId" class="custom-select" id="state" onchange="setCities();">
+                                                @foreach (var state in Model.StateList.ReturnData)
+                                                {
+                                                    <option value="@state.Id">@state.Name</option>
+                                                }
                                             </select>
-                                            <select class="custom-select">
-                                                <option value="defalt">استان</option>
-                                                <option value="c-1">آذربایجان شرقی</option>
-                                                <option value="c-2">تهران</option>
-                                                <option value="c-3">اصفهان</option>
-                                                <option value="c-4">همدان</option>
+
+                                            <select asp-for="@Model.UserInformation.CityId" class="custom-select" id="city">
+                                                @foreach (var city in Model.CityList.ReturnData)
+                                                {
+                                                    <option value="@city.Id">@city.Name</option>
+                                                }
                                             </select>
-                                            <select class="custom-select">
-                                                <option value="defalt">شهر/شهرستان</option>
-                                                <option value="c-1">تبریز</option>
-                                                <option value="c-2">تهران</option>
-                                                <option value="c-3">بوشهر</option>
-                                                <option value="c-4">مشهد</option>
-                                            </select>
-                                            <textarea class="custom-textarea" placeholder="آدرس شما ..."></textarea>
+
                                             <div class="row">
 
                                                 <div class="col-md-6">
-                                                    <button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">ویرایش</button>
+                                                    <button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="submit">ویرایش</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -212,7 +225,7 @@
                         </div>
 
                         <!-- تیکت Method -->
-                        <div class="panel panel-default">
+                        @*<div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion2" href="#My_payment_method">ارسال تیکت</a>
@@ -311,7 +324,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>
@@ -322,15 +335,15 @@
 
 
 @section Scripts
-    {
+{
     <script>
-        function DeleteCart(id, productId, priceId) {
-            var oldPass = $("#OldPass").text();
-            var newPass = $("#NewPass").text();
-            var newConPass = $("#NewConPass").text();
+        function ChangePassword() {
+            var oldPass = $("#OldPass").val();
+            var newPass = $("#NewPass").val();
+            var newConPass = $("#NewConPass").val();
             $.ajax({
                 type: "Get",
-                url: "userProfile?handler=ChangePassword&oldPass=" + oldPass + "&newPass=" + newPass + "&newConPass=" + newConPass,
+                url: "userProfile?handler=ChangePassword&newPass='" + encodeURIComponent(newPass) + "'&newConPass='" + encodeURIComponent(newConPass) +  "'&oldPass='" + encodeURIComponent(oldPass) + "'",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
@@ -341,6 +354,21 @@
                 }
             });
         }
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Checkout?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#city").html(result);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
 
+        }
     </script>
-                                                    }
+}

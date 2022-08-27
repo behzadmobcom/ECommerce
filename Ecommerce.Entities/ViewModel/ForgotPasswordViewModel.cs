@@ -15,12 +15,11 @@ public class VerifyCodeViewModel
 
 public class ResetPasswordViewModel
 {
-    [Required] public string Email { get; set; }
-
-    [Required] public string Token { get; set; }
+    [Required] public string Username { get; set; }
 
     [Required]
     [DataType(DataType.Password)]
     [Display(Name = "کلمه عبور")]
     public string Password { get; set; }
+    public string OldPassword { get; set; }
 }

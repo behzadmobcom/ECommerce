@@ -396,7 +396,7 @@ public class UsersController : ControllerBase
 
     [HttpPut]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
-    public async Task<ActionResult<bool>> Put(MyAccountViewModel accountViewModel, CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> PutOld(MyAccountViewModel accountViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -514,25 +514,42 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,
         CancellationToken cancellationToken)
     {
-        if (ModelState.IsValid)
+        try
         {
-            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Token))
-                return new ApiResult { Code = ResultCode.BadRequest };
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(model.Username))
+                    return new ApiResult { Code = ResultCode.BadRequest };
 
-            var user = await _userRepository.GetByEmailOrUserName(model.Email, cancellationToken);
+                var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
 
-            if (user == null)
-                return new ApiResult
-                { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
+                if (user == null)
+                    return new ApiResult
+                    { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
 
-            var recoveryCode = model.Token.Replace(" ", string.Empty);
-            var result = await _userManager.ResetPasswordAsync(user, model.Token, recoveryCode);
+                if (result.Succeeded)
+                {
 
-            if (result.Succeeded) return Ok(new ApiResult { Code = ResultCode.BadRequest });
-            return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "کد بازیابی معتبر نیست" } });
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Success,
+                        Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                    });
+                }
+
+                return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
+            }
+
+            return Ok(new ApiResult { Code = ResultCode.BadRequest });
         }
-
-        return Ok(new ApiResult { Code = ResultCode.BadRequest });
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
     }
 
     private string GetIpAddress()
@@ -543,4 +560,45 @@ public class UsersController : ControllerBase
 
         return HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
     }
+
+    [HttpPut]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult> Put(User user, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                var list = new List<string>();
+                foreach (var modelState in ModelState.Values)
+                    foreach (var error in modelState.Errors)
+                        list.Add(error.ErrorMessage);
+
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.BadRequest,
+                    Messages = list
+                });
+            }
+            
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Success,
+                    Messages = new List<string> { "ویرایش با موفقیت انجام شد" }
+                });
+            }
+
+            return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
 }

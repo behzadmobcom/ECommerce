@@ -65,7 +65,7 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     public async Task<User> GetByEmailOrUserName(string input, CancellationToken cancellationToken)
     {
         return await TableNoTracking.Where(p => p.Email == input || p.PhoneNumber == input || p.UserName == input)
-            .Include(x => x.UserRole).SingleOrDefaultAsync(cancellationToken);
+            .Include(x => x.UserRole).AsNoTracking().SingleOrDefaultAsync(cancellationToken);
     }
 
     public async Task<User> GetByPhoneNumber(string phone, CancellationToken cancellationToken)
