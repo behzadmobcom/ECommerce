@@ -647,6 +647,23 @@
             });
         }
 
+            function SaveStars(id, starNumber) {
+
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
         function DeleteCart(id, productId, priceId) {
             var elementId = "CartDrop-" + id;
             var sumPriceId = "#SumPrice-" + id;

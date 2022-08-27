@@ -227,20 +227,16 @@
                                             }
                                             <input id="PriceId" hidden="hidden" value="@priceId" />
                                         </div>
-
-                                        <form method="post" asp-page-handler="SaveStars">
-                                            <div class="pro-rating sin-pro-rating f-right">
-                                                @for (var i = 1; i <= 5; i++)
-                                                {
-                                                    <label for="@i" @if (Model.Stars >= i){<text> class="zmdi zmdi-star" </text>}>
-                                                        <input type="submit" id="@i" hidden="hidden"/>
-                                                        <i class="zmdi zmdi-star-outline"></i>
-                                                    </label>
-                                                  
-                                                }
-                                          
-                                            </div>
-                                       </form>
+                                        <div class="pro-rating sin-pro-rating f-right">
+                                            @for (var i = 1; i <= 5; i++)
+                                            {
+                                                <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
+                                                   {<text> class="rankChecked" </text> }>
+                                                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                                                <i class="zmdi zmdi-star"></i>
+                                                        </label>
+                                            }
+                                        </div>
                                     </div>
                                     <!-- hr -->
                                     <hr>
@@ -369,47 +365,7 @@
             }
         );
 
-        labels.click(function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            var parentName = $(this).parent().attr('id');
+    
 
-            var labelSelected = $(this);
-            // reset label class and input checkbox
-            $("#" + parentName).find("label").removeClass("rankChecked checked")
-                .find("input[type=checkbox]")
-                .removeAttr("checked");
-
-            // add checked when label clicked
-            //labelSelected.find("input[type=checkbox]").attr("checked", "checked")
-            //    .parent().addClass("checked");
-
-            // add rankChecked Class
-            labelSelected.addClass("rankChecked")
-                .removeAttr("style")
-                .prevUntil()
-                .removeAttr("style").addClass("rankChecked");
-            var numItems = $("#" + parentName + ' .rankChecked').length;
-
-            $.ajax({
-                url: "/Home/SaveStars",
-                dataType: "json",
-                type: "GET",
-                contentType: 'application/json; charset=utf-8', //define a contentType of your request
-                cache: false,
-                data: {
-                    numItems: numItems,
-                    parentName: parentName
-                },
-                success: function (result) {
-                    if (result.success) {
-                        alert(result.message);
-                        $("#Brokers_Table").html(result.Script);
-                    }
-                }
-            });
-
-            //alert(numItems);
-        });
     </script>
 }

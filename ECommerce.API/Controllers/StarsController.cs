@@ -12,11 +12,13 @@ public class StarsController : ControllerBase
 {
     private readonly ILogger<StarsController> _logger;
     private readonly IProductUserRankRepository _productUserRankRepository;
+    private readonly IProductRepository _productRepository;
 
-    public StarsController(IProductUserRankRepository productUserRankRepository, ILogger<StarsController> logger)
+    public StarsController(IProductUserRankRepository productUserRankRepository, ILogger<StarsController> logger, IProductRepository productRepository)
     {
         _productUserRankRepository = productUserRankRepository;
         _logger = logger;
+        _productRepository = productRepository;
     }
 
     [HttpGet]
@@ -41,7 +43,7 @@ public class StarsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -67,7 +69,7 @@ public class StarsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -93,7 +95,7 @@ public class StarsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -109,30 +111,34 @@ public class StarsController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
 
+
             var repetitiveProductUserRank = await _productUserRankRepository.GetByProductUser(productUserRank.ProductId,
                 productUserRank.UserId, cancellationToken);
             if (repetitiveProductUserRank != null)
             {
                 repetitiveProductUserRank.Stars = productUserRank.Stars;
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success,
-                    ReturnData =
-                        await _productUserRankRepository.UpdateAsync(repetitiveProductUserRank, cancellationToken)
-                });
+                await _productUserRankRepository.UpdateAsync(repetitiveProductUserRank, cancellationToken);
+            }
+            else
+            {
+                await _productUserRankRepository.AddAsync(productUserRank, cancellationToken);
             }
 
+            var productUserRanks =await _productUserRankRepository.GetBySumProduct(productUserRank.ProductId, cancellationToken);
+            var product = await _productRepository.GetByIdAsync(cancellationToken, productUserRank.ProductId);
+            product.Star = productUserRanks;
+            await _productRepository.UpdateAsync(product, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _productUserRankRepository.AddAsync(productUserRank, cancellationToken)
+                ReturnData = productUserRanks
             });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -152,7 +158,7 @@ public class StarsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 }

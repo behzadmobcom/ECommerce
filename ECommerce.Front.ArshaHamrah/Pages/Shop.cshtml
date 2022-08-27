@@ -62,6 +62,7 @@
 		border-radius: 50%;
 	}
 </style>
+<link href="~/css/stars.css" rel="stylesheet" />
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
 	<div class="breadcrumbs overlay-bg">
@@ -168,21 +169,14 @@
 														<a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
 													</h6>
 													<div class="pro-rating">
-														<a href="#">
-															<i class="zmdi zmdi-star"></i>
-														</a>
-														<a href="#">
-															<i class="zmdi zmdi-star"></i>
-														</a>
-														<a href="#">
-															<i class="zmdi zmdi-star"></i>
-														</a>
-														<a href="#">
-															<i class="zmdi zmdi-star-half"></i>
-														</a>
-														<a href="#">
-															<i class="zmdi zmdi-star-outline"></i>
-														</a>
+													  @for (var i = 1; i <= 5; i++)
+                                            {
+															<label for="starLable-@product.Id-@i" @if (product.Stars >= i)
+                                                   {<text> class="rankChecked" </text> }>
+																		<input onclick="SaveStars(@product.Id, @i)" type="checkbox" id="starLable-@product.Id-@i" />
+                                                                <i class="zmdi zmdi-star"></i>
+                                                        </label>
+                                            }
 													</div>
                                                     @{
                                                         decimal? discount = 0;
@@ -278,21 +272,14 @@
 															<a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name </a>
 														</h6>
 														<div class="pro-rating f-right">
-															<a href="#">
-																<i class="zmdi zmdi-star"></i>
-															</a>
-															<a href="#">
-																<i class="zmdi zmdi-star"></i>
-															</a>
-															<a href="#">
-																<i class="zmdi zmdi-star"></i>
-															</a>
-															<a href="#">
-																<i class="zmdi zmdi-star-half"></i>
-															</a>
-															<a href="#">
-																<i class="zmdi zmdi-star-outline"></i>
-															</a>
+															  @for (var i = 1; i <= 5; i++)
+                                            {
+                                                <label for="starLable-@product.Id-@i" @if (product.Stars >= i)
+                                                   {<text> class="rankChecked" </text> }>
+																		<input onclick="SaveStars(@product.Id, @i)" type="checkbox" id="starLable-@product.Id-@i" />
+                                                                <i class="zmdi zmdi-star"></i>
+                                                        </label>
+                                            }
 														</div>
 													</div>
 													<h6 class="brand-name mb-15">@product.Brand</h6>

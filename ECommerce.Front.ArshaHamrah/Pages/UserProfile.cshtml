@@ -2,6 +2,9 @@
 @model ArshaHamrah.Pages.UserProfile
 @{
 }
+<style>
+
+</style>
 <!-- BREADCRUMBS SETCTION START -->
 <div class="breadcrumbs-section plr-200 mb-80">
     <div class="breadcrumbs overlay-bg">
@@ -59,10 +62,11 @@
 		<div id="My_order_info" class="panel-collapse" role="tabpanel">
 			<div class="panel-body" style="padding: 15px">
 				<!-- our order -->
-				<div class="contact-address box-shadow" style="text-align: right">
-					<a href="#">
+				<div class="pro contact-address box-shadow" style="text-align: right">
+					<a href="#detailfactor" data-toggle="tab">
 						<h6 class="blog-section-title border-left mb-30">جزییات فاکتور
-							<i style="font-size: 20px; background: none; color: black;margin-bottom: 0" class="zmdi zmdi-arrow-back"></i>
+													<i style="font-size: 20px; background: none; color: black;margin-bottom: 0" class="zmdi zmdi-arrow-back"></i>
+												
 						</h6>
 					</a>
 					<ul class="breadcrumb-list" style="padding: 0">
@@ -88,87 +92,103 @@
 					</a>
 					<hr> 
 					<div style="text-align: left">
-						<a><i></i>مشاهده فاکتور</a></div>
+											<a href="#viewfactor" data-toggle="tab"><i></i>مشاهده فاکتور</a>
+										</div>
 				</div>
-			<div class="panel-body" style="padding: 15px">
-				<!-- our order -->
-				<div class="contact-address box-shadow">
-					<h6>علیرضا سیاح نیا</h6>
-					<h5>09111307006</h5>
-				</div>
-			</div>
+									<div class="tab-content" style="margin-top:10px">
+										<div role="tabpanel" class="tab-pane" id="detailfactor">
+											<div class="contact-address box-shadow" style="text-align:right">
+												<ul class="breadcrumb-list" style="padding: 0">
+													
+													<li>کد پیگیری سفارش:14623</li>
+													<li>
+														تاریخ ثبت سفارش
+														۸ مرداد ۱۴۰۱
+													</li>
+													<li>
+														تحویل گیرنده
+														علیرضا سیاح نیا
+													</li>
+													<li>
+														شماره موبایل
+														۰۹۱۱۱۳۰۷۰۰۶
+													</li>
+													<br>
+													<li>
+														آدرس
+														لاکانشهر فاز ۲ بلوک ۲۳۵ واحد اول
+													</li>
+												</ul><hr>
+												<ul class="breadcrumb-list" style="padding: 0">
+<li>
+														مبلغ
+														۱,۱۱۱,۵۷۰
+تومان
+													</li>
+													<li>
+														هزینه ارسال
+														رایگان
+													</li>
+													<br>
+													<li>
+														آدرس
+														لاکانشهر فاز ۲ بلوک ۲۳۵ واحد اول
+													</li>
+												</ul><hr>
+												<div class="row">
+													<div class="col-md-2">
+														<img style="width: 80px" src="./img/product/4.jpg" alt="">
+													</div>
+													<div class="col-md-8">
+																<a>اپل مدل iphone 13 Pro Max حافظه داخلی 256 گیگابایت رم 6 گیگابایت</a>
+														<br />
+														<a class="brand-name">سامسونک</a>
+													</div>
+													
+												</div>
+													
+										
+    
+									</div>
+									</div>
+										<div role="tabpanel" class="tab-pane" id="viewfactor">
+											<div class="contact-address box-shadow">22
+									</div>
+									</div>
+									</div>
+	
 		</div>
 	</div>
-		<!-- My shipping address -->
+		<!-- My password -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" data-parent="#accordion2" href="#my_shipping">آدرس ارسال من</a>
+					<a data-toggle="collapse" data-parent="#accordion2" href="#my_shipping">تغییر پسورد من</a>
 				</h4>
 			</div>
 			<div id="my_shipping" class="panel-collapse collapse" role="tabpanel">
 				<div class="panel-body">
 					<form action="#">
 						<div class="new-customers p-30">
-							<div class="row">
-								<div class="col-sm-6">
-									<input type="text" placeholder="نام">
-								</div>
-								<div class="col-sm-6">
-									<input type="text" placeholder="نام خانوادگی">
-								</div>
-								<div class="col-sm-6">
-									<select class="custom-select">
-										<option value="defalt">کشور</option>
-										<option value="c-1">ایران</option>
-										<option value="c-2">بنگلادش</option>
-										<option value="c-3">آمریکا</option>
-										<option value="c-4">انگلستان</option>
-									</select>
-								</div>
-								<div class="col-sm-6">
-									<select class="custom-select">
-										<option value="defalt">استان</option>
-										<option value="c-1">آذربایجان شرقی</option>
-										<option value="c-2">تهران</option>
-										<option value="c-3">اصفهان</option>
-										<option value="c-4">همدان</option>
-									</select>
-								</div>
-								<div class="col-sm-6">
-									<select class="custom-select">
-										<option value="defalt">شهر/شهرستان</option>
-										<option value="c-1">تبریز</option>
-										<option value="c-2">تهران</option>
-										<option value="c-3">بوشهر</option>
-										<option value="c-4">مشهد</option>
-									</select>
-								</div>
-								<div class="col-sm-6">
-									<input type="text" placeholder="... شماره تلفن" dir="ltr">
-								</div>
-							</div>
-							<input type="text" placeholder="نام شرکت ...">
-							<input type="text" placeholder="... آدرس ایمیل" dir="ltr">
-							<textarea class="custom-textarea" placeholder="اطلاعات بیشتر ..."></textarea>
-							<div class="row">
-								<div class="col-md-6">
-									<button class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="register">ذخیره</button>
-								</div>
-								<div class="col-md-6">
-									<button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">پاکسازی</button>
-								</div>
-							</div>
-						</div>
+												<input type="text" placeholder="رمز عبور فعلی" dir="ltr">
+												<input type="text" placeholder="رمز عبور جدید" dir="ltr">
+												<input type="text" placeholder="تکرار رمز عبور جدید" dir="ltr">
+												<div class="row">
+
+													<div class="col-md-6">
+														<button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">ذخیره</button>
+													</div>
+												</div>
+												</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		<!-- My billing details -->
+		<!-- My user details -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a data-toggle="collapse" data-parent="#accordion2" href="#billing_address">اطلاعات بانکی من</a>
+					<a data-toggle="collapse" data-parent="#accordion2" href="#billing_address">اطلاعات شخصی من</a>
 				</h4>
 			</div>
 			<div id="billing_address" class="panel-collapse collapse" role="tabpanel">
@@ -176,9 +196,12 @@
 					<form action="#">
 						<div class="billing-details p-30">
 							<input type="text" placeholder="نام شما ...">
+								<input type="text" placeholder="نام خانوادگی">
 							<input type="text" placeholder="... آدرس ایمیل" dir="ltr">
 							<input type="text" placeholder="... شماره تلفن" dir="ltr">
 							<input type="text" placeholder="نام شرکت ...">
+												<input type="text" placeholder="... شماره موبایل" dir="ltr">
+										
 							<select class="custom-select">
 								<option value="defalt">کشور</option>
 								<option value="c-1">ایران</option>
@@ -202,11 +225,9 @@
 							</select>
 							<textarea class="custom-textarea" placeholder="آدرس شما ..."></textarea>
 							<div class="row">
+							
 								<div class="col-md-6">
-									<button class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="register">ذخیره</button>
-								</div>
-								<div class="col-md-6">
-									<button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">پاکسازی</button>
+									<button class="submit-btn-1 mt-20 btn-hover-1 f-right" type="reset">ویرایش</button>
 								</div>
 							</div>
 						</div>
@@ -215,7 +236,7 @@
 			</div>
 		</div>
 
-		<!-- Payment Method -->
+		<!-- تیکت Method -->
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h4 class="panel-title">
@@ -233,7 +254,7 @@
 									<input type="text" placeholder="عنوان">
 								</div>
 								<div class="col-sm-6">
-									<input type="text" placeholder="نام بانک">
+									<input type="text" placeholder="ایمیل">
 								</div>
 								<div class="col-sm-12">
 									<textarea class="custom-textarea" placeholder="متن تیکت ..."></textarea>
@@ -244,6 +265,73 @@
 									<button class="submit-btn-1 mt-20 btn-hover-1" type="submit" value="register">ارسال</button>
 								</div>
 							</div>
+							<hr>
+												<!-- single-product-tab -->
+												<div class="single-product-tab">
+													<ul class="reviews-tab mb-20">
+														<li class="active"><a href="#description" data-toggle="tab">همه ی تیکت ها</a></li>
+														<li><a href="#information" data-toggle="tab">تیکت در انتظار</a></li>
+														<li><a href="#reviews" data-toggle="tab">تیکت پاسخ داده شده</a></li>
+													</ul>
+													<div class="tab-content">
+														<div role="tabpanel" class="tab-pane active" id="description">
+															<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان</p>
+														</div>
+														<div role="tabpanel" class="tab-pane" id="information">
+															<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی</p>
+															<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها</p>
+														</div>
+														<div role="tabpanel" class="tab-pane" id="reviews">
+															<!-- reviews-tab-desc -->
+															<div class="reviews-tab-desc">
+																<!-- single comments -->
+																<div class="media mt-30">
+																	<div class="media-left">
+																		<a href="#"><img class="media-object" src="img/author/1.jpg" alt="#"></a>
+																	</div>
+																	<div class="media-body">
+																		<div class="clearfix">
+																			<div class="name-commenter pull-left">
+																				<h6 class="media-heading"><a href="#">تونی استارک</a></h6>
+																				<p class="mb-10">27 شهریور 1398 در 14:30</p>
+																			</div>
+																			<div class="pull-right">
+																				<ul class="reply-delate">
+																					<li><a href="#">پاسخ</a></li>
+																					<li>/</li>
+																					<li><a href="#">گزارش</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																		<p class="mb-0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+																	</div>
+																</div>
+																<!-- single comments -->
+																<div class="media mt-30">
+																	<div class="media-left">
+																		<a href="#"><img class="media-object" src="img/author/2.jpg" alt="#"></a>
+																	</div>
+																	<div class="media-body">
+																		<div class="clearfix">
+																			<div class="name-commenter pull-left">
+																				<h6 class="media-heading"><a href="#">تونی استارک</a></h6>
+																				<p class="mb-10">27 شهریور 1398 در 14:30</p>
+																			</div>
+																			<div class="pull-right">
+																				<ul class="reply-delate">
+																					<li><a href="#">پاسخ</a></li>
+																					<li>/</li>
+																					<li><a href="#">گزارش</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																		<p class="mb-0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 						</div>
 					</form>
 				</div>

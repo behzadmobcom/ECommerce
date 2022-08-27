@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 using Entities;
+using Services.Services;
 
 namespace ArshaHamrah.Pages;
 
@@ -16,10 +17,11 @@ public class IndexModel : PageModel
     private readonly ISlideShowService _slideShowService;
     private readonly IWishListService _wishListService;
     private readonly IDiscountService _discountService;
+    private readonly IStarService _starService;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService, IDiscountService discountService)
+        ICookieService cookieService, IDiscountService discountService, IStarService starService)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -28,6 +30,7 @@ public class IndexModel : PageModel
         _compareService = compareService;
         _cookieService = cookieService;
         _discountService = discountService;
+        _starService = starService;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
@@ -154,6 +157,12 @@ public class IndexModel : PageModel
     public IActionResult OnGetDeleteCompare(int id)
     {
         var result = _compareService.Remove(HttpContext, id);
+        return new JsonResult(result);
+    }
+
+    public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
+    {
+        var result = await _starService.SaveStars(id, starNumber);
         return new JsonResult(result);
     }
 }

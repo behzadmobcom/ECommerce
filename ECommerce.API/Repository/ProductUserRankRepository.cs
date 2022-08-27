@@ -14,9 +14,20 @@ public class ProductUserRankRepository : AsyncRepository<ProductUserRank>, IProd
         _context = context;
     }
 
-    public Task<ProductUserRank> GetByProductUser(int productId, int userId, CancellationToken cancellationToken)
+    public async Task<ProductUserRank?> GetByProductUser(int productId, int userId, CancellationToken cancellationToken)
     {
-        return _context.ProductUserRanks
+        return await _context.ProductUserRanks
             .Where(x => x.ProductId == productId && x.UserId == userId).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<int> GetBySumProduct(int productId, CancellationToken cancellationToken)
+    {
+        var sum = await _context.ProductUserRanks
+            .Where(x => x.ProductId == productId).SumAsync(s => s.Stars,cancellationToken);
+
+        var count = await _context.ProductUserRanks
+            .Where(x => x.ProductId == productId).CountAsync(cancellationToken);
+
+        return sum/ count;
     }
 }

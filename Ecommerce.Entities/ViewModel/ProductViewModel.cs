@@ -158,7 +158,7 @@ public class ProductIndexPageViewModel
         var imageName = "NoImage.png";
         var imageAlt = "NoImage";
         var brandName = x.Brand == null ? "برند متفرقه" : x.Brand.Name;
-        var stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(x => x.Stars) / x.ProductUserRanks.Count : 5;
+        //var stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(x => x.Stars) / x.ProductUserRanks.Count : 0;
         if (x.Images.Count > 0)
         {
             imagePath = x.Images.FirstOrDefault().Path;
@@ -177,7 +177,7 @@ public class ProductIndexPageViewModel
             Url = x.Url,
             Brand = brandName,
             Alt = imageAlt,
-            Stars = stars,
+            Stars = x.Star,
             MaxOrder =Convert.ToUInt16(x.MaxOrder),
         };
     }

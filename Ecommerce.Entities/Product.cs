@@ -24,7 +24,7 @@ public class Product : BaseEntity
     //[Display(Name = "موجودی")]
     //public double Exist { get; set; } = 0;
 
-    [Display(Name = "امتیاز")] public double Star { get; set; } = 5;
+    [Display(Name = "امتیاز")] public double Star { get; set; }
 
     [Display(Name = "حداقل سفارش")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
