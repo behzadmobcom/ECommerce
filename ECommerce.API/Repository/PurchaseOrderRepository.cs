@@ -21,19 +21,22 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         CancellationToken cancellationToken)
     {
         var query = _context.PurchaseOrders.Where(x => x.User.UserName.Contains(purchaseFiltreOrderViewModel.PaginationParameters.Search))
-            .Include(d => d.PurchaseOrderDetails)
             .Include(d => d.PaymentMethod)
+            .Include(d => d.SendInformation)
+            .Include(d => d.PurchaseOrderDetails)
+            .ThenInclude(pro =>pro.Product)
+            .ThenInclude(b =>b.Images)
             .AsNoTracking();
 
         if (purchaseFiltreOrderViewModel.IsPaied != null) query = query.Where(x => x.IsPaid == purchaseFiltreOrderViewModel.IsPaied);
-        if (purchaseFiltreOrderViewModel.UserId > 0 ) query = query.Where(x => x.UserId == purchaseFiltreOrderViewModel.UserId);
+        if (purchaseFiltreOrderViewModel.UserId > 0) query = query.Where(x => x.UserId == purchaseFiltreOrderViewModel.UserId);
         if (purchaseFiltreOrderViewModel.ToCreationDate != null) query = query.Where(x => x.CreationDate <= purchaseFiltreOrderViewModel.ToCreationDate);
         if (purchaseFiltreOrderViewModel.FromCreationDate != null) query = query.Where(x => x.CreationDate >= purchaseFiltreOrderViewModel.FromCreationDate);
-        if (purchaseFiltreOrderViewModel.StatusId != null) query = query.Where(x => x.Status == (Status)purchaseFiltreOrderViewModel.StatusId );
-        if (purchaseFiltreOrderViewModel.MinimumAmount != null) query = query.Where(x=> x.Amount >= purchaseFiltreOrderViewModel.MinimumAmount);
-        if (purchaseFiltreOrderViewModel.MaximumAmount != null) query = query.Where(x=> x.Amount <= purchaseFiltreOrderViewModel.MaximumAmount);
-        if (purchaseFiltreOrderViewModel.PaymentMethodStatus != null) query = query.Where(x=> x.PaymentMethod.PaymentMethodStatus == purchaseFiltreOrderViewModel.PaymentMethodStatus);
-      
+        if (purchaseFiltreOrderViewModel.StatusId != null) query = query.Where(x => x.Status == (Status)purchaseFiltreOrderViewModel.StatusId);
+        if (purchaseFiltreOrderViewModel.MinimumAmount != null) query = query.Where(x => x.Amount >= purchaseFiltreOrderViewModel.MinimumAmount);
+        if (purchaseFiltreOrderViewModel.MaximumAmount != null) query = query.Where(x => x.Amount <= purchaseFiltreOrderViewModel.MaximumAmount);
+        if (purchaseFiltreOrderViewModel.PaymentMethodStatus != null) query = query.Where(x => x.PaymentMethod.PaymentMethodStatus == purchaseFiltreOrderViewModel.PaymentMethodStatus);
+
 
         var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
 
@@ -55,15 +58,16 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
 
         var purchaseList = await query.Select(p => new PurchaseListViewModel
         {
-          Id = p.Id,
-          Amount=p.Amount,
-          CreationDate=p.CreationDate,
-          IsPaied=p.IsPaid,
-          Description =p.Description,
-          Status=p.Status,
-          PaymentMethod=p.PaymentMethod,
-          PurchaseOrderDetails=p.PurchaseOrderDetails.ToList()
-           
+            Id = p.Id,
+            Amount = p.Amount,
+            CreationDate = p.CreationDate,
+            IsPaied = p.IsPaid,
+            Description = p.Description,
+            Status = p.Status,
+            PaymentMethod = p.PaymentMethod,
+            PurchaseOrderDetails = p.PurchaseOrderDetails.ToList(),
+            Discount = p.DiscountAmount ?? 0,
+            SendInformation = p.SendInformation
         }).ToListAsync(cancellationToken);
 
         return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,
@@ -71,7 +75,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             purchaseFiltreOrderViewModel.PaginationParameters.PageSize);
     }
 
-    public async Task<PurchaseOrder> GetByOrderIdWithInclude(long orderId,CancellationToken cancellationToken)
+    public async Task<PurchaseOrder> GetByOrderIdWithInclude(long orderId, CancellationToken cancellationToken)
     {
         var query = _context.PurchaseOrders.Where(x => x.OrderId == orderId)
             .Include(d => d.PurchaseOrderDetails)
@@ -81,8 +85,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
-        public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
-            .FirstOrDefaultAsync(cancellationToken);
+    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
+        .FirstOrDefaultAsync(cancellationToken);
     public async Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.OrderId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
            .FirstOrDefaultAsync(cancellationToken);
     public async Task<IEnumerable<PurchaseOrderViewModel>> GetProductListByUserId(int userId,
@@ -110,7 +114,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 Quantity = p.Quantity,
                 SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
                 ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color.Name,
-                DiscountAmount =0
+                DiscountAmount = 0
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;

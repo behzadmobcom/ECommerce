@@ -2,6 +2,7 @@
 using Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Ecommerce.Entities.ViewModel;
+using Entities;
 
 namespace Services.Services;
 
@@ -104,6 +105,14 @@ public class UserService : IUserService
         if (HasBuying != null) command += $"HasBuying={HasBuying}&";
         command += $"UserSort={userSort}";
         var result = await _http.GetAsync<List<UserListViewModel>>(Url, command);
+        return Return(result);
+    }
+
+    public async Task<ServiceResult<User>> GetUser()
+    {
+        var resultCurrentUser = _cookieService.GetCurrentUser();
+        var command = "Get/" + resultCurrentUser.Id;
+        var result = await _http.GetAsync<User>(Url, command);
         return Return(result);
     }
 

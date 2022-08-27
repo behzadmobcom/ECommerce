@@ -45,10 +45,12 @@ public class PurchaseListViewModel
 {
     public int Id { get; set; }
     public decimal Amount { get; set; }
+    public int Discount { get; set; }
     public DateTime CreationDate { get; set; }
     public bool IsPaied { get; set; }
     public string? Description { get; set; }
     public Status?  Status { get; set; }
+    public SendInformation? SendInformation { get; set; }
     public PaymentMethod? PaymentMethod { get; set; }
     public List<PurchaseOrderDetail>? PurchaseOrderDetails  { get; set; }
 

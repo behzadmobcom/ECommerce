@@ -326,7 +326,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> Get(int id)
     {
         try
@@ -334,13 +334,20 @@ public class UsersController : ControllerBase
             var result = await _userManager.FindByIdAsync(id.ToString());
             if (result == null) return NotFound();
 
-            return result;
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+            {
+                Code = ResultCode.DatabaseError,
+                Messages = new List<string> { "اشکال در سمت سرور" }
+            });
         }
     }
 
