@@ -330,22 +330,11 @@
             var newConPass = $("#NewConPass").text();
             $.ajax({
                 type: "Get",
-                url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+                url: "userProfile?handler=ChangePassword&oldPass=" + oldPass + "&newPass=" + newPass + "&newConPass=" + newConPass,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {
                     swal(result.message);
-                    if (result.code === 0) {
-                        location.reload();
-                        //const element = document.getElementById(elementId);
-                        //element.remove();
-                        //count--;
-                        //allPrice = allPrice - price;
-                        //$('#Cart-Count').text(count);
-                        //$('#All-Price').text(allPrice + ' تومان');
-                        //$("#Cart-Count-Value").val(count);
-                        //$("#AllPrice-Value").val(allPrice);
-                    }
                 },
                 failure: function (response) {
                     alert(response);
