@@ -15,7 +15,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string searchText, int page, int quantityPerPage = 9);
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice= null, int? startPrice= null);
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice= null, int? startPrice= null, bool isExist = false);
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count = 10);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count = 3);

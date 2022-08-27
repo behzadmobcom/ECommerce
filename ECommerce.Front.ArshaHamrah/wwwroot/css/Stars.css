@@ -1,0 +1,31 @@
+﻿#ranks {
+    display: flex;
+    padding-top: 25px;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 0;
+    height: 0;
+}
+
+label {
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+
+label.rankChecked {
+    color: gold !important;
+}
+
+.rateTitle {
+    font-size: 0.85em;
+    color: gray;
+    display: inline-block;
+    padding: 0 0 0 0.7em;
+}

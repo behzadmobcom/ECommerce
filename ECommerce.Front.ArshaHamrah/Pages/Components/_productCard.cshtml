@@ -15,24 +15,38 @@
             <h6 class="brand-name">@Model.Brand</h6>
             @{
                 decimal? discount = 0;
-                if (Model.Prices.First().Discount != null)
-                    if (Model.Prices.First().Discount.Amount > 0)
-                    {
-                        discount = (decimal)Model.Prices.First().Discount.Amount;
-                    }
-                    else if (Model.Prices.First().Discount.Percent > 0)
-                    {
-                        discount = Model.Prices.First().Amount * (decimal)Model.Prices.First().Discount.Percent / 100;
-                    }
-                decimal? discountAmount = Model.Prices.First().Amount - discount;
-                decimal? amount = Model.Prices.First().Amount;
+                decimal? discountAmount = 0;
+                decimal? amount = 0;
+                var price = Model.Prices.OrderBy(o => o.Amount).FirstOrDefault(x => x.Exist>0);
+                if (price != null)
+                {
+
+                    if (price.Discount != null)
+                        if (price.Discount.Amount > 0)
+                        {
+                            discount = (decimal) price.Discount.Amount;
+                        }
+                        else if (price.Discount.Percent > 0)
+                        {
+                            discount = price.Amount * (decimal) price.Discount.Percent / 100;
+                        }
+                    discountAmount = price.Amount - discount;
+                    amount = price.Amount;
+                }
             }
             <div class="s-price-box">
-                @if (discount > 0)
+                @if (price == null)
                 {
-                    <h3 class="old-price">@amount?.ToString("###,###,###,###") تومان</h3>
+                    <h3 class="pro-price">نا موجود</h3>
                 }
-                <h3 class="pro-price">@discountAmount?.ToString("###,###,###,###") تومان</h3>
+                else
+                {
+                    if (discount > 0)
+                    {
+                        <h3 class="old-price">@amount?.ToString("###,###,###,###") تومان</h3>
+                    }
+                    <h3 class="pro-price">@discountAmount?.ToString("###,###,###,###") تومان</h3>
+                }
             </div>
         </div>
         <ul class="action-button">
