@@ -28,6 +28,11 @@ public class ProductModel : PageModel
 
     public async Task OnGet(string productUrl)
     {
+        await Inital(productUrl);
+    }
+
+    private async Task Inital(string productUrl)
+    {
         var resultProduct = await _productService.GetProduct(productUrl);
         if (resultProduct.Code > 0) return;
         Product = resultProduct.ReturnData;
@@ -43,11 +48,11 @@ public class ProductModel : PageModel
 
         Stars = await _starService.SumStarsByProductId(Product.Id);
     }
-
-    public async Task<IActionResult> OnPostSaveStars(int id, int starNumber)
+    public async Task<IActionResult> OnPostSaveStars(string productUrl,int id, int starNumber)
     {
         var result = await _starService.SaveStars(id, starNumber);
-        return new JsonResult(result);
+        await Inital(productUrl);
+        return Page();
     }
   
 }
