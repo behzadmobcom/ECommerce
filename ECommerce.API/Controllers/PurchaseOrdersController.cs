@@ -25,12 +25,13 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IHolooFBailRepository _holooFBailRepository;
     private readonly IHolooSanadRepository _holooSanadRepository;
     private readonly IHolooSanadListRepository _holooSanadListRepository;
+    private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IUserRepository _userRepository;
 
 
     public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
-        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository, IHolooFBailRepository holooFBailRepository, IHolooABailRepository holooABailRepository, IHolooSanadRepository holooSanadRepository, IHolooSanadListRepository holooSanadListRepository, IUserRepository userRepository)
+        ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository, IHolooFBailRepository holooFBailRepository, IHolooABailRepository holooABailRepository, IHolooSanadRepository holooSanadRepository, IHolooSanadListRepository holooSanadListRepository, IUserRepository userRepository, IHolooCustomerRepository holooCustomerRepository)
     {
         _purchaseOrderRepository = discountRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
@@ -43,6 +44,7 @@ public class PurchaseOrdersController : ControllerBase
         _holooSanadRepository = holooSanadRepository;
         _holooSanadListRepository = holooSanadListRepository;
         _userRepository = userRepository;
+        _holooCustomerRepository = holooCustomerRepository;
     }
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
         List<PurchaseOrderViewModel> products)
@@ -452,12 +454,14 @@ public class PurchaseOrdersController : ControllerBase
             await _holooABailRepository.Add(aBail, cancellationToken);
             purchaseOrder.FBailCode = fBail;
 
+
+            var customer =await _holooCustomerRepository.GetCustomerByCode(cCode);
             var sanad = new HolooSanad(purchaseOrder.Description);
             var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
             purchaseOrder.Transaction.SanadCode = sanadCode;
 
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "901", "0001", "", Convert.ToDouble(purchaseOrder.Amount),0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", cCode, "", 0,Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0,Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
 

@@ -40,7 +40,14 @@ builder.Services.AddRazorPages()
 //builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //If using Kestrel:
 builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("https://widget-react.raychat.io").AllowAnyMethod();
+        });
+});
 //If using IIS:
 builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
 
@@ -123,5 +130,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
-
+app.UseCors();
 app.Run();

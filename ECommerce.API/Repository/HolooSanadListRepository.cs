@@ -17,9 +17,9 @@ namespace ECommerce.API.Repository
 
         public async Task<bool> Add(HolooSndList sanadList, CancellationToken cancellationToken)
         {
-            _context.Entry(sanadList).State = EntityState.Detached;
+           // _context.Entry(sanadList).State = EntityState.Detached;
             await _context.Snd_List.AddAsync(sanadList, cancellationToken);
-           var result= await _context.SaveChangesAsync();
+           var result= await _context.SaveChangesAsync(cancellationToken);
             return result == 0;
         }
     }

@@ -28,5 +28,9 @@ namespace ECommerce.API.Repository
             var customerCode = customer == null ? "00000" : customer.C_Code;
             return (Convert.ToInt32(customerCode) + 1).ToString("D5");
         }
+        public async Task<HolooCustomer> GetCustomerByCode(string customerCode)
+        {
+            return await _context.Customer.FirstAsync(x => x.C_Code== customerCode);
+        }
     }
 }
