@@ -128,13 +128,18 @@ public class UsersController : ControllerBase
 
                     return Ok(new ApiResult { Code = ResultCode.Success, ReturnData = securityToken });
                 }
-
                 if (result.IsLockedOut)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.Error,
                         Messages = new List<string> { "حساب کاربری شما قفل شده است. دیرتر سعی کنید" }
                     });
+                return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Error,
+                        Messages = new List<string> { "نام کاربری یا پسورد اشتباه است" }
+                    });
+             
             }
 
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
