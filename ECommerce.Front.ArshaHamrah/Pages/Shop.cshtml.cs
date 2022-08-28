@@ -34,9 +34,9 @@ public class ShopModel : PageModel
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
 
     public async Task OnGet(string? path = null, string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
-        string? message = null, string? code = null)
+        string? message = null, string? code = null,int minprice= 0, int maxprice = 0, bool isExist = false)
     {
-        Min = 1000000;
+        Min = 100000;
         Max = 200000000;
         string categoryId = "0";
         if (!string.IsNullOrEmpty(path))
@@ -48,7 +48,7 @@ public class ShopModel : PageModel
         {
             search = $"Name={search}";
         }
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, isExist);
        
         await Initial();
 

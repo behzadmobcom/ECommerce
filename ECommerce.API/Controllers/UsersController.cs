@@ -136,7 +136,7 @@ public class UsersController : ControllerBase
                     });
                 return Ok(new ApiResult
                     {
-                        Code = ResultCode.Error,
+                        Code = ResultCode.NotFound,
                         Messages = new List<string> { "نام کاربری یا پسورد اشتباه است" }
                     });
              

@@ -44,10 +44,8 @@
 	input:checked + .slider {
 		background-color: orangered;
 	}
-
-
-
-	input:checked + .slider:before {
+	
+    input:checked + .slider:before {
 		-webkit-transform: translateX(26px);
 		-ms-transform: translateX(26px);
 		transform: translateX(26px);
@@ -402,12 +400,12 @@
                             <form asp-page-handler="PriceRange" method="post">
 							
                                 <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br/>
-                                <span id="min-price-txt">1000000</span>
-                                <input type="range" class="form-range" min="1000000" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
+                                <span id="min-price-txt">@Model.Min</span>
+								<input type="range" class="form-range" min="@Model.Min" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
 
                                 <label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br/>
-                                <span id="max-price-txt">20000000</span>
-                                <input type="range" class="form-range" min="1000000" max="20000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
+								<span id="max-price-txt">@Model.Max</span>
+								<input type="range" class="form-range" min="1000000" max="@Model.Max" id="max-price" name="maxprice" step="100000" value="@Model.Max">
                                 <br/>
                                 <h6 class="widget-title border-left mb-20">فقط نمایش کالاهای موجود</h6>
                                 <label class="switch">
