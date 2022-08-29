@@ -113,6 +113,7 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice)+PostPrice;
         SumPrice = Convert.ToInt32(tempSumPrice);
+        SumPrice = 10000;
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
