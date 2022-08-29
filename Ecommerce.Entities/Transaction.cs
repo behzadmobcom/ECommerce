@@ -11,7 +11,7 @@ public class Transaction : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public decimal Amount { get; set; }
 
-    [StringLength(15)]
+    [StringLength(20)]
     [Display(Name = "کد رهگیری")]
     public string? RefId { get; set; }
 
