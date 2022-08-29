@@ -26,7 +26,27 @@
 <!-- BREADCRUMBS SETCTION END -->
 <!-- Start page content -->
 <section id="page-content" class="page-wrapper">
+    @if (Model.Message != null)
+    {
+        switch (Model.Code)
+        {
+            case "Error":
+                <div class="alert alert-danger"> @Model.Message </div>
+                break;
+            case "Warning":
+                <div class="alert alert-warning"> @Model.Message </div>
+                break;
+            case "Info":
+                <div class="alert alert-info"> @Model.Message </div>
+                break;
+            default:
+                <div class="alert alert-success"> @Model.Message </div>
+                break;
+        }
 
+        Model.Message = null;
+        Model.Code = null;
+    }
     <!-- SHOP SECTION START -->
     <div class="shop-section mb-80">
         <div class="container">

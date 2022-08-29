@@ -1,9 +1,8 @@
-using Entities.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 using Entities;
 using Entities.Helper;
+using Entities.ViewModel;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ArshaHamrah.Pages;
 

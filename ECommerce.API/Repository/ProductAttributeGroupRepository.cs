@@ -51,8 +51,17 @@ public class ProductAttributeGroupRepository : AsyncRepository<ProductAttributeG
 
         foreach (var productAttributeGroup in group)
         foreach (var attribute in productAttributeGroup.Attribute)
-            if (attribute.AttributeValue.Count == 0)
+        {
+            var value = productValues.FirstOrDefault(x => x.ProductAttributeId == attribute.Id);
+            if (value == null)
+            {
                 attribute.AttributeValue.Add(new ProductAttributeValue());
+            }
+            else
+            {
+                attribute.AttributeValue.Add(value);
+            }
+        }
 
         return group;
     }
