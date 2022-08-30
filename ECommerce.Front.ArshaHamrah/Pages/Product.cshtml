@@ -260,9 +260,9 @@
                 <br />
                 <table class="table table-bordered">
 
-	                <tbody style="color: black">
+	                <tbody style="color: black;">
 	                <tr>
-		                <th id="specification" style="font-size: 20px;text-align: center" colspan="2">مشخصات</th>
+		                <th id="specification" style="font-size: 20px; text-align: center;" colspan="2">مشخصات</th>
 	                </tr>
 	                @for (var g = 0; g < Model.AttributeGroups.Count; g++)
 	                {
@@ -281,7 +281,8 @@
                 </div>
                 </div>
 
-                <h2 id="review">بررسی محصول</h2>
+					<h2 id="review" style=" padding-top: 100px;
+                                           margin-top: -100px;">بررسی محصول</h2>
                 <p>
 	                @Html.Raw(Model.Product.Review)
                 </p>
