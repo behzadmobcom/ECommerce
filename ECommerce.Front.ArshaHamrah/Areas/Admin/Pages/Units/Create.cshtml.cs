@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Units;
 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class CreateModel : PageModel
 {
     private readonly IHolooUnitService _holooUnitService;

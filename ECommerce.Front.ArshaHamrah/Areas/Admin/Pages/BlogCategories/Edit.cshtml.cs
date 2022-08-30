@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArshaHamrah.Areas.Admin.Pages.BlogCategories;
 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class EditModel : PageModel
 {
     private readonly IBlogCategoryService _blogcategoryService;
