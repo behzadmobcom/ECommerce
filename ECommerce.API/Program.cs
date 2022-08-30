@@ -37,7 +37,7 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
             BatchPostingLimit = 1000,
             BatchPeriod = new TimeSpan(00, 00, 30)
         }
-        , restrictedToMinimumLevel: LogEventLevel.Warning)
+        , restrictedToMinimumLevel: LogEventLevel.Error)
     .ReadFrom.Configuration(hostingContext.Configuration)
 );
 
