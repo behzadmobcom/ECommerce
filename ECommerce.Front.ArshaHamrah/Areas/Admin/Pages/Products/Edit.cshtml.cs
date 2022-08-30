@@ -57,7 +57,7 @@ public class EditModel : PageModel
         var result = await Initial(id);
         if (result.Code == 0) return Page();
         return RedirectToPage("/Products/Index",
-            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
 
     public async Task<IActionResult> OnPost()
@@ -82,7 +82,7 @@ public class EditModel : PageModel
                 }
 
                 return RedirectToPage("/Products/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             }
 
             Message = result.Message;
@@ -96,16 +96,13 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteImage(string imageName, int id, int productId)
     {
-        {
-            var result = await _imageService.Delete($"Images/Products/{imageName}", id, _environment.ContentRootPath);
+        var result = await _imageService.Delete($"Images/Products/{imageName}", id, _environment.ContentRootPath);
 
-            if (result.Code == 0)
-                return RedirectToPage("/Products/Edit",
-                    new { id = productId, message = result.Message, code = result.Code.ToString() });
-            Message = result.Message;
-            Code = result.Code.ToString();
-            ModelState.AddModelError("", result.Message);
-        }
+        if (result.Code == 0)
+            return RedirectToPage("/Products/Edit",
+                new { id = productId, message = result.Message, code = result.Code.ToString() });
+        Message = result.Message;
+        Code = result.Code.ToString();
         return Page();
     }
 

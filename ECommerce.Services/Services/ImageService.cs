@@ -28,7 +28,7 @@ public class ImageService : EntityService<Image>, IImageService
 
         var extension = Path.GetExtension(file.FileName).ToLower();
 
-        string[] allowExtensions = {".gif", ".jpg", ".jpeg", ".png"};
+        string[] allowExtensions = { ".gif", ".jpg", ".jpeg", ".png" };
 
         if (!allowExtensions.Contains(extension.ToLower()))
             return new ServiceResult<List<string>>
@@ -109,10 +109,9 @@ public class ImageService : EntityService<Image>, IImageService
     {
         var fileName = imageName.Split("/");
         var filePath = Path.Combine(contentRootPath, "wwwroot", fileName[0], fileName[1], fileName[2]);
-        if (!File.Exists(filePath)) return new ServiceResult {Code = ServiceCode.Error, Message = "عکس پیدا نشد"};
-        File.Delete(filePath);
+        //if (!File.Exists(filePath)) return new ServiceResult {Code = ServiceCode.Error, Message = "عکس پیدا نشد"};
+        if (File.Exists(filePath)) File.Delete(filePath);
         var result = await Delete(Url, id);
-        ;
         return Return(result);
     }
 
