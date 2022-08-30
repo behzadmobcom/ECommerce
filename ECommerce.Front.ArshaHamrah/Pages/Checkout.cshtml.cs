@@ -6,9 +6,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Specialized;
 using ServiceReferenceMellat;
-using System.Text;
 using ZarinpalSandbox;
 
 namespace ArshaHamrah.Pages;
@@ -47,9 +45,11 @@ public class CheckoutModel : PageModel
 
     public int SumPrice { get; set; }
 
-    public async Task OnGet()
+    public async Task<IActionResult> OnGet()
     {
         await Initial();
+        if (CartList.ReturnData.Count == 0) return RedirectToPage("Cart", new { Message = "هیچ کالایی انتخاب نشده است" });
+        return Page();
     }
 
     private async Task Initial()
@@ -113,7 +113,6 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice)+PostPrice;
         SumPrice = Convert.ToInt32(tempSumPrice);
-        SumPrice = 10000;
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
