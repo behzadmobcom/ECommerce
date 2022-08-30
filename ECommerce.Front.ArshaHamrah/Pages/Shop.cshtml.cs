@@ -29,6 +29,7 @@ public class ShopModel : PageModel
     public int Sort { get; set; }
     public int Min { get; set; }
     public int Max { get; set; }
+  [BindProperty]  public bool IsExist { get; set; }
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
@@ -36,6 +37,7 @@ public class ShopModel : PageModel
     public async Task OnGet(string? path = null, string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
         string? message = null, string? code = null,int minprice= 0, int maxprice = 0, bool isExist = false)
     {
+        IsExist = isExist;
         Min = 100000;
         Max = 200000000;
         string categoryId = "0";
@@ -48,7 +50,7 @@ public class ShopModel : PageModel
         {
             search = $"Name={search}";
         }
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, isExist);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsExist);
        
         await Initial();
 
@@ -67,13 +69,14 @@ public class ShopModel : PageModel
 
     public async Task<IActionResult> OnPostPriceRange(string? path = null,int minprice=0, int maxprice=0, bool isExist=false)
     {
+        IsExist = isExist;
         string categoryId = "0";
         if (!string.IsNullOrEmpty(path))
         {
             var resultCategory = await _categoryService.GetByUrl(path);
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
-        Products = await _productService.TopProducts(categoryId, "", 0, 9, 1, maxprice, minprice, isExist);
+        Products = await _productService.TopProducts(categoryId, "", 0, 9, 1, maxprice, minprice, IsExist);
         await Initial();
         Max = maxprice;
         Min = minprice;

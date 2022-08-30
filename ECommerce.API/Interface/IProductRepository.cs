@@ -30,7 +30,7 @@ public interface IProductRepository : IAsyncRepository<Product>
 
     IQueryable<Product> GetProductByIdWithInclude(int productId);
 
-    IQueryable<Product?> GetProducts(int categpryId, List<int>? brandsId, List<int>? starsCount, List<int>? tagsId);
+    IQueryable<Product?> GetProducts(List<int> categoriesId, List<int>? brandsId, List<int>? starsCount, List<int>? tagsId);
 
     Task<List<Product>> GetByCategoryId(int categoryId, CancellationToken cancellationToken);
 

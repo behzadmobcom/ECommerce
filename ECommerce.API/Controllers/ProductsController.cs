@@ -260,9 +260,11 @@ public class ProductsController : ControllerBase
         try
         {
             //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
-
-            var products = new List<Product>();
-            var productQuery = _productRepository.GetProducts(productListFilteredViewModel.PaginationParameters.CategoryId, productListFilteredViewModel.BrandsId,
+            var categoriesId = new List<int>();
+            categoriesId = await  _categoryRepository.ChildrenCategory(productListFilteredViewModel.PaginationParameters.CategoryId,
+                    cancellationToken);
+            categoriesId.Add(productListFilteredViewModel.PaginationParameters.CategoryId);
+            var productQuery = _productRepository.GetProducts(categoriesId, productListFilteredViewModel.BrandsId,
                 productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
             
             var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');

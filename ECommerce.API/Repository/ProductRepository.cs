@@ -5,6 +5,7 @@ using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace API.Repository;
 
@@ -230,12 +231,13 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     /// <param name="starsCount"></param>
     /// <param name="tagsId"></param>
     /// <returns></returns>
-    public IQueryable<Product?> GetProducts(int categoryId, List<int>? brandsId, List<int>? starsCount, List<int>? tagsId)
+    public IQueryable<Product?> GetProducts(List<int> categoriesId, List<int>? brandsId, List<int>? starsCount, List<int>? tagsId)
     {
 
         var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
 
-        if (categoryId > 0) products = products.Where(x => x.ProductCategories.Any(cat => cat.Id == categoryId));
+        if (categoriesId.Count > 0) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId =>  cat.Id == categoryId)));
+        var s = products.ToList();
 
         if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
 
