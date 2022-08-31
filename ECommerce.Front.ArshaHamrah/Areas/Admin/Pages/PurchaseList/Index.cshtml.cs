@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 using Entities.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArshaHamrah.Areas.Admin.Pages.PurchaseList;
 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class IndexModel : PageModel
 {
     private readonly IPurchaseOrderService _purchaseOrderService;

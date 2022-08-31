@@ -2,9 +2,12 @@ using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Sizes;
 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class DetailModel : PageModel
 {
     private readonly ISizeService _sizeService;

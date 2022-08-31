@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace ArshaHamrah.Areas.Admin.Pages.Keywords;
 
+[Authorize(Roles = "Admin,SuperAdmin")]
 public class CreateModel : PageModel
 {
     private readonly IKeywordService _keywordService;
