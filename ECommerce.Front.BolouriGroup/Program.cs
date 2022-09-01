@@ -18,7 +18,7 @@ builder.Services.AddRazorPages(options =>
     //options.Conventions.AuthorizeAreaFolder("Admin", "/");
     //options.Conventions.AuthorizeAreaFolder("Admin", "/", "SuperAdmin");
     //options.Conventions.AuthorizeAreaFolder("Admin", "/");
-    //options.Conventions.AuthorizeFolder("/Register");
+    //options.Conventions.("/Register");
     options.Conventions.AuthorizeFolder("/");
     options.Conventions.AllowAnonymousToPage("/register");
     options.Conventions.AllowAnonymousToPage("/Login");

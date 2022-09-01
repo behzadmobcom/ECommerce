@@ -16,6 +16,10 @@
       "files": [
         "masonry.pkgd.min.js"
       ]
+    },
+    {
+      "library": "jquery@3.6.1",
+      "destination": "wwwroot/lib/jquery/"
     }
   ]
 }
