@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "خانه";
 }
-<link href="~/Banner.css" rel="stylesheet" type="text/css"/>
+<link href="~/Banner.css" rel="stylesheet" type="text/css" />
 <div class="modal" id="product-view">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -149,24 +149,6 @@
     </div>
 </div>
 
-@*<section class="home-classic-slider slider-arrow">
-	<div class="banner-part banner-1">
-		<div class="container">
-			<div class="row rtl">
-				<div class="col-md-8 col-lg-6">
-					<div class="banner-content">
-						<h1>برای اولین خرید خود 10٪ تخفیف بگیرید</h1>
-						<p>بسیاری از متنهای متن ساختگی در دسترس است ، اما اکثریت از طنز تزریق شده یا کلمات تصادفی که حتی کمی باور پذیر به نظر نمی رسند دچار تغییراتی شده اند. </p>
-						<div class="banner-btn">
-							<a class="btn btn-inline" href="shop-grid.html"><i class="far fa-shopping-cart"></i><span>الان خرید کن</span></a>
-							<a class="btn btn-outline" href="offer.html"><i class="far fa-badge-percent"></i><span>بهترین معامله</span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>*@
 <section class="home-classic-slider slider-arrow">
 
     @{
@@ -181,37 +163,41 @@
             var imageClass = i % 2 == 0 ? "layer-2-1" : "";
             i++;
 
-            <div class="banner-part banner-1">
+@*            <div class="banner-part banner-1">
                 <div class="container">
-	                <div class="row rtl">
-		                <div class="banner-img">
-			                <img src=@slide.ImagePath alt="@slide.Name" style="width: 1920PX;height: 1000px">
-		                </div>
-		                <div class="col-md-6 col-lg-6" style="position: absolute;">
-			                <div class="banner-content" >
-				                <h1>@slide.Title</h1>
-				                <h3>@slide.Name</h3>
-				                <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
-					                <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
-				                </div>
-				                <div class="banner-btn">
-					                <a class="btn btn-inline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
-						                <i class="far fa-shopping-cart"></i><span>الان خرید کن</span>
-					                </a>
-					                @*<a class="btn btn-outline" asp-area="" asp-page="/Offer"><i class="far fa-badge-percent"></i><span>بهترین معامله</span></a>*@
-				                </div>
-			                </div>
-		                </div>
-		                <div class="col-md-6 col-lg-6">
+                    <div class="row rtl">
+                        <div class="banner-img">
+                            <img src=@slide.ImagePath alt="@slide.Name" style="object-fit: contain;">
+                        </div>
+                        <div class="banner-content" style="position: absolute">
+                            <h1>@slide.Title</h1>
+                            <h3>@slide.Name</h3>
+                            <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
+                                <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
+                            </div>
+                            <div class="banner-btn">
+                                <a class="btn btn-inline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
+                                    <i class="far fa-shopping-cart"></i><span>الان خرید کن</span>
+                                </a>
+                            </div>
+                        </div>
 
-		                </div>
-	                </div>
+
+                    </div>
                 </div>
-            </div>
+            </div>*@
+            <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
+    <div class="banner-img" style="z-index: -1;">
+    <img src=@slide.ImagePath alt="@slide.Name" style="width: 1903px; height:650px;">
+    </div>
+                 </a>
         }
     }
 </section>
-<br /><br /><br /><br />
+<br />
+<br />
+<br />
+<br />
 <section class="section suggest-part">
     <div class="container">
         <ul class="suggest-slider slider-arrow">
@@ -242,7 +228,7 @@
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
             @foreach (var starProduct in Model.StarProducts)
             {
-                <partial name="Components/_productCard" model="starProduct"/>
+                <partial name="Components/_productCard" model="starProduct" />
             }
 
         </div>
@@ -270,7 +256,7 @@
         <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
             @foreach (var expensiveProducts in Model.ExpensiveProducts)
             {
-                <partial name="Components/_productDetailsCart" model="expensiveProducts"/>
+                <partial name="Components/_productDetailsCart" model="expensiveProducts" />
             }
         </div>
         <div class="row">
@@ -299,7 +285,7 @@
                 <ul class="new-slider slider-arrow">
                     @foreach (var topProduct in Model.NewProducts)
                     {
-                        <partial name="Components/_productCard" model="topProduct"/>
+                        <partial name="Components/_productCard" model="topProduct" />
                     }
                 </ul>
             </div>
