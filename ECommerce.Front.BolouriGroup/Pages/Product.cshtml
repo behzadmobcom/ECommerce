@@ -31,10 +31,7 @@
                             @foreach (var image in Model.Product.Images)
                             {
                                 <li>
-                                    <img class="drift-demo-trigger"
-                                 src="/@($"{image.Path}/{image.Name}")?w=400"
-                                 data-zoom="/@($"{image.Path}/{image.Name}")?w=800"
-                                 alt="@image.Alt">
+                                    <img src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
                                 </li>
                             }
                         </ul>
@@ -47,7 +44,6 @@
                             }
                         </ul>
                     </div>
-                    <div class="column"><div class="details"></div></div>
                 </div>
             }
             <div class="col-lg-7">
@@ -177,11 +173,14 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs">
+	                <li>
+		                <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
+	                </li>
+	                <li>
+		                <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">بررسی محصول</a>
+	                </li>
                     <li>
-                        <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
-                    </li>
-                    <li>
-                        <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">نظرات (05)</a>
+                        <a href="#tab-coma" class="tab-link" data-bs-toggle="tab">نظرات (05)</a>
                     </li>
                 </ul>
             </div>
@@ -221,7 +220,16 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="tab-reve">
+	    <div class="tab-pane" id="tab-reve">
+		    <div class="row">
+			    <div class="col-lg-12">
+				    <p class="blog-details-desc">
+					    @Html.Raw(Model.Product.Review)
+				    </p>
+			    </div>
+		    </div>
+	    </div>
+         <div class="tab-pane" id="tab-coma">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product-details-frame">
@@ -288,40 +296,6 @@
                             </li>
                         </ul>
                     </div>
-                    @*   <div class="product-details-frame p-5">
-                    <h3 class="frame-title">بررسی خود را اضافه کنید</h3>
-                    <form class="review-form">
-                    <div class="row">
-                    <div class="col-lg-12">
-                    <div class="star-rating">
-                    <input type="radio" name="rating" id="star-1"><label for="star-1"></label><input type="radio" name="rating" id="star-2"><label for="star-2"></label>
-                    <input type="radio" name="rating" id="star-3"><label for="star-3"></label><input type="radio" name="rating" id="star-4"><label for="star-4"></label>
-                    <input type="radio" name="rating" id="star-5"><label for="star-5"></label>
-                    </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="form-group">
-                    <input type="text" class="form-control" placeholder="نام">
-                    </div>
-                    </div>
-                    <div class="col-lg-6">
-                    <div class="form-group">
-                    <input type="email" class="form-control" placeholder="پست الکترونیک">
-                    </div>
-                    </div>
-                    <div class="col-lg-12">
-                    <div class="form-group">
-                    <textarea class="form-control" placeholder="بررسی شما"></textarea>
-                    </div>
-                    </div>
-                    <div class="col-lg-12">
-                    <button class="btn btn-inline">
-                    <i class="far fa-paper-plane"></i><span>بررسی خود را بگذارید</span>
-                    </button>
-                    </div>
-                    </div>
-                    </form>
-                    </div>*@
                 </div>
             </div>
         </div>
@@ -365,14 +339,6 @@
             }
             $("#price").text(price.amount + " تومان ");
         }
-
-
-        new Drift(document.querySelector('.drift-demo-trigger'), {
-            paneContainer: document.querySelector('.details'),
-            zoomFactor: 3,
-            containInline: true,
-            hoverBoundingBox: true
-        });
 
 
     </script>

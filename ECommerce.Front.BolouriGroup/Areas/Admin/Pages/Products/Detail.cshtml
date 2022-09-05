@@ -56,12 +56,16 @@
                         </div>*@
                         <div class="form-group">
                             <label>توضیحات</label>
-                            <label class="form-control form-control-solid">@Model.Product.Description</label>
+	                        <label class="form-control form-control-solid" style="overflow-y: scroll; height: 100px;">
+		                        @Model.Product.Description
+	                        </label>
                         </div>
-                        @*  <div class="form-group">
-                            <label>موجودی</label>
-                            <label class="form-control form-control-solid">@Model.Product.Exist</label>
-                        </div>*@
+                        <div class="form-group">
+	                        <label>نقد و بررسی</label>
+	                        <label class="form-control form-control-solid" style="overflow-y: scroll; height: 100px;">
+		                        @Html.Raw(Model.Product.Review)
+	                        </label>
+                        </div>
                         <div class="form-group">
                             <label>حداقل سفارش</label>
                             <label class="form-control form-control-solid">@Model.Product.MinOrder</label>
