@@ -46,7 +46,7 @@ public class IndexModel : PageModel
         StarProducts = (await _productService.TopStars(10)).ReturnData;
         //SellProducts = (await _productService.TopSells()).ReturnData;
         Brands = (await _brandService.Load()).ReturnData;
-
+        Brands.RemoveAt(0);
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
