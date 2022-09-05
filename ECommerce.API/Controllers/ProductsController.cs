@@ -342,6 +342,9 @@ public class ProductsController : ControllerBase
             {
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e=> e.Exist > 0)).ToList();
             }
+
+            productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
             switch (productListFilteredViewModel.ProductSort)
             {
                 case ProductSort.New:
