@@ -198,7 +198,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
         foreach (var product in products)
         {
-            _ = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
+            product.AttributeValues = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
                 .ToListAsync(cancellationToken);
         }
 
