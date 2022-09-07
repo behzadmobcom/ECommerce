@@ -24,4 +24,7 @@ public class PaginationDetails
     public bool HasPrevious { get; set; }
     public bool HasNext { get; set; }
     public string? Address { get; set; }
+    public int MinPrice { get; set; }
+    public int MaxPrice { get; set; }
+    public bool isExist { get; set; }
 }
