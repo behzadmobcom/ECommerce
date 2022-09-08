@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
+using Entities.ViewModel;
 
 namespace Services.Services;
 
@@ -58,5 +59,21 @@ public class BlogCategoryService : EntityService<BlogCategory>, IBlogCategorySer
     {
         var result = await _http.GetAsync<BlogCategory>(Url, $"GetById?id={id}");
         return Return(result);
+    }
+
+    public async Task<ServiceResult<List<CategoryParentViewModel>>> GetParents(int blogId = 0)
+    {
+        var result = await _http.GetAsync<List<CategoryParentViewModel>>(Url, $"GetParents?blogId={blogId}");
+        if (result.Code == ResultCode.Success)
+            return new ServiceResult<List<CategoryParentViewModel>>
+            {
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData
+            };
+        return new ServiceResult<List<CategoryParentViewModel>>
+        {
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
     }
 }
