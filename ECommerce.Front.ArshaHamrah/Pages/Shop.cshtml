@@ -374,11 +374,11 @@
 						<h6 class="widget-title border-left mb-20">دسته ها</h6>
 						<div class="product-cat">
 							<ul>
-								@foreach (var parent in Model.Categories.OrderBy(x => x.DisplayOrder))
+								@foreach (var parent in Model.Categories)
 								{
 									<li>
 										<a style="font-weight: bolder;font-size: 16px" asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-										@foreach (var child in parent.Children.OrderBy(x => x.DisplayOrder))
+										@foreach (var child in parent.Children)
 										{
 											<ul>
 												<li>
@@ -401,11 +401,10 @@
 							
                                 <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br/>
                                 <span id="min-price-txt">@Model.Min</span>
-								<input type="range" class="form-range" min="@Model.Min" max="19000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
-
+								<input type="range" class="form-range" min="100000" max="200000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
                                 <label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br/>
 								<span id="max-price-txt">@Model.Max</span>
-								<input type="range" class="form-range" min="1000000" max="@Model.Max" id="max-price" name="maxprice" step="100000" value="@Model.Max">
+								<input type="range" class="form-range" min="1000000" max="200000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
                                 <br/>
                                 <h6 class="widget-title border-left mb-20">فقط نمایش کالاهای موجود</h6>
                                 <label class="switch">
