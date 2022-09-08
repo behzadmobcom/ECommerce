@@ -1,7 +1,7 @@
 ﻿@model Entities.ViewModel.ProductIndexPageViewModel
 
 <div class="col">
-    <div class="feature-card">
+    <div class="feature-card" style="height: 299px">
         <div class="feature-media">
             <div class="feature-label">
                 <label class="label-text feat">ویژگی</label>
@@ -29,7 +29,18 @@
             <h6 class="feature-price">
                 <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
             </h6>
-            <p class="feature-desc">@Html.Raw(Model.Description)</p>
+            @{
+                var descriptionWords = Model.Description.Split(" ");
+                var description = "";
+                var count = descriptionWords.Length;
+                if (count >= 15) count = 25;
+                for (int i = 0; i < count; i++)
+                {
+                    description += $"{descriptionWords[i]} ";
+                }
+                description += "...";
+            }
+            <p class="feature-desc">@Html.Raw(description)</p>
             <a class="product-add" asp-area="" asp-page="/Productdetails" title="افزودن به سبد خرید">
                 <i class="far fa-shopping-cart"></i>
             </a>
