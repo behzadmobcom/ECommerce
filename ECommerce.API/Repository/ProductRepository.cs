@@ -461,10 +461,12 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         //    if (countPerCategory < 1) countPerCategory = 1;
         //}
         Random rnd = new Random();
+        var selectedProductId = new List<int>();
+        var j = 0;
         foreach (var tag in product.Tags)
         {
             var selectedProduct = await _context.Products
-                .Where(x => x.Tags.Contains(tag) && x.Id != productId)
+                .Where(x => x.Tags.Contains(tag) && x.Id != productId && !selectedProductId.Contains(x.Id))
                 .Skip(rnd.Next(0, tag.Products.Count - 1))
                 .Select(p => new ProductIndexPageViewModel
                 {
@@ -480,9 +482,20 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 })
                 .FirstOrDefaultAsync(cancellationToken);
             if (selectedProduct != null)
+            {
                 products.Add(selectedProduct);
+                selectedProductId.Add(selectedProduct.Id);
+            }
+            else
+            {
+                j++;
+                if(j == count)
+                    break;
+            }
+
         }
 
+        j = 0;
         if (products.Count == 0)
         {
             var category = await _context.Categories
@@ -493,7 +506,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             for (var i = 1; i <= count; i++)
             {
                 var selectedProductByCategory  = await _context.Products
-                    .Where(x => x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId && x.Id != productId)
+                    .Where(x => x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId && x.Id != productId &&!selectedProductId.Contains(x.Id)) 
                     .Skip(rnd.Next(0, categoryProductCount))
                     .Select(p => new ProductIndexPageViewModel
                     {
@@ -508,7 +521,17 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                         Url = p.Url
                     })
                     .FirstOrDefaultAsync(cancellationToken);
-                if(selectedProductByCategory != null) products.Add(selectedProductByCategory);
+                if (selectedProductByCategory != null)
+                {
+                    products.Add(selectedProductByCategory);
+                    selectedProductId.Add(selectedProductByCategory.Id);
+                }
+                else
+                {
+                    j++;
+                    if (j == count)
+                        break;
+                }
             }
         }
         return products.Take(count).ToList();
