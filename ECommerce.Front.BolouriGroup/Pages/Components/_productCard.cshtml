@@ -38,10 +38,48 @@
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)</a>
             </div>
             <div class="product-price">
-                <div>
-                    @*<del>5000 تومان</del>*@
-                    <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
-                </div>
+	            @{
+		            decimal? discount = 0;
+		            decimal? amount = 0;
+		            decimal? discountAmount = 0;
+		            var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+		            if (singlePrice != null)
+		            {
+			            amount = singlePrice.Amount;
+
+
+			            if (singlePrice.Discount != null)
+				            if (singlePrice.Discount.Amount > 0)
+				            {
+					            discount = (decimal)singlePrice.Discount.Amount;
+				            }
+				            else if (singlePrice.Discount.Percent > 0)
+				            {
+					            discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+				            }
+			            discountAmount = amount - discount;
+		            }
+
+	            }
+	            @if (singlePrice == null)
+	            {
+		            <h6 class="feature-price">
+			            <span>ناموجود</span>
+		            </h6>
+	            }
+	            else
+	            {
+		            @if (discount > 0)
+		            {
+			            <div class="feature-price">
+				            <del>@amount?.ToString("###,###,###,###") تومان</del>
+			            </div>
+		            }
+		            <h6 class="feature-price">
+			            <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+		            </h6>
+		        
+	            }
                 <a class="product-add" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id)">
                     <i class="far fa-shopping-cart"></i>
                 </a>
