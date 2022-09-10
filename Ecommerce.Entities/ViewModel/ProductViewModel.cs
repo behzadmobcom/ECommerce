@@ -207,7 +207,6 @@ public class ProductCompareViewModel
     public string Url { get; set; }
     public string Brand { get; set; }
     public virtual List<ProductAttributeGroup> AttributeGroupProducts { get; set; }
-    public virtual List<ProductAttributeValue> AttributeValues { get; set; }
 
     public static implicit operator ProductCompareViewModel(Product x)
     {
@@ -234,7 +233,6 @@ public class ProductCompareViewModel
             Url = x.Url,
             Brand = brandName,
             Alt = imageAlt,
-            AttributeValues = x.AttributeValues.ToList(),
             AttributeGroupProducts = x.AttributeGroupProducts.ToList()
         };
     }

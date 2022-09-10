@@ -14,8 +14,6 @@ public class CompareModel : PageModel
     }
 
     public List<ProductCompareViewModel> CompareProducts { get; set; }
-    public int ProductCount { get; set; }
-    public int GroupCount { get; set; }
     public string Message { get; set; }
 
     public async Task OnGetAsync()
@@ -29,7 +27,5 @@ public class CompareModel : PageModel
         }
 
         CompareProducts = result.ReturnData;
-        ProductCount = CompareProducts.Count;
-        GroupCount = CompareProducts[0].AttributeGroupProducts.Count;
     }
 }

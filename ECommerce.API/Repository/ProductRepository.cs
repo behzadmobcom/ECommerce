@@ -5,6 +5,7 @@ using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 
 namespace API.Repository;
@@ -170,7 +171,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return productIndexPageViewModel;
     }
 
-    public async Task<List<ProductCompareViewModel>> GetProductListWithAttribute(List<int> productIdList,
+    public async Task<List<ProductCompareViewModel>> GetProductListWithAttribute(List<int?> productIdList,
         CancellationToken cancellationToken)
     {
         var group = await _context.ProductAttributeGroups
@@ -178,6 +179,31 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .ToListAsync(cancellationToken);
 
         var productCompareViewModel = new List<ProductCompareViewModel>();
+       
+
+        //foreach (var product in products)
+        //{
+        //    product.AttributeValues = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
+        //        .ToListAsync(cancellationToken);
+        //}
+
+        var productValues = await _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
+            .ToListAsync(cancellationToken);
+
+        foreach (var productAttributeGroup in group)
+        foreach (var attribute in productAttributeGroup.Attribute)
+        {
+            var value = productValues.FirstOrDefault(x => x.ProductAttributeId == attribute.Id);
+            if (value == null)
+            {
+                attribute.AttributeValue.Add(new ProductAttributeValue());
+            }
+            else
+            {
+                attribute.AttributeValue.Add(value);
+            }
+        }
+
         var products = await _context.Products
             .Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
             .Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute)
@@ -191,22 +217,9 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Url = x.Url,
                 Brand = x.Brand.Name,
                 Alt = x.Images.FirstOrDefault().Alt,
-                AttributeValues = x.AttributeValues.ToList(),
                 AttributeGroupProducts = group
             })
             .ToListAsync(cancellationToken);
-
-        foreach (var product in products)
-        {
-            product.AttributeValues = await _context.ProductAttributeValues.Where(x => x.ProductId == product.Id)
-                .ToListAsync(cancellationToken);
-        }
-
-
-        //foreach (var productAttributeGroup in group)
-        //foreach (var attribute in productAttributeGroup.Attribute)
-        //    if (attribute.AttributeValue.Count == 0)
-        //        attribute.AttributeValue.Add(new ProductAttributeValue());
 
         productCompareViewModel.AddRange(products.Select(product => product));
         return productCompareViewModel;

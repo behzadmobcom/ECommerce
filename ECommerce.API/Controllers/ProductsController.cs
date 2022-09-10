@@ -675,7 +675,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> ProductsWithIdsForCompare(List<int> productIdList,
+    public async Task<IActionResult> ProductsWithIdsForCompare(List<int?> productIdList,
         CancellationToken cancellationToken)
     {
         try
