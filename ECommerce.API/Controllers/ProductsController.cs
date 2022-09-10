@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using API.Interface;
 using API.Utilities;
 using Entities;
@@ -22,12 +23,13 @@ public class ProductsController : ControllerBase
     private readonly IPriceRepository _priceRepository;
     private readonly IProductRepository _productRepository;
     private readonly IHolooSGroupRepository _sGroupRepository;
+    private readonly IHolooABailRepository _aBailRepository;
     private readonly IUnitRepository _unitRepository;
 
     public ProductsController(IProductRepository productRepository, IHolooArticleRepository articleRepository,
         IHolooMGroupRepository mGroupRepository, IHolooSGroupRepository sGroupRepository,
         ICategoryRepository categoryRepository, IPriceRepository priceRepository, IUnitRepository unitRepository,
-        ILogger<ProductsController> logger)
+        ILogger<ProductsController> logger, IHolooABailRepository aBailRepository)
     {
         _productRepository = productRepository;
         _articleRepository = articleRepository;
@@ -37,11 +39,13 @@ public class ProductsController : ControllerBase
         _priceRepository = priceRepository;
         _unitRepository = unitRepository;
         _logger = logger;
+        _aBailRepository = aBailRepository;
     }
 
     private async Task<List<ProductIndexPageViewModel>> AddPriceAndExistFromHolooListOld(
         List<ProductIndexPageViewModel> products, CancellationToken cancellationToken)
     {
+        var aBails = await _aBailRepository.GetAll(cancellationToken);
         foreach (var product in products.Where(x => x.Prices.Any(p => p.ArticleCode != null)))
             foreach (var productPrices in product.Prices)
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
@@ -49,7 +53,9 @@ public class ProductsController : ControllerBase
                     var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
                         productPrices.SellNumber!.Value);
                     productPrices.Amount = article.price / 10;
-                    productPrices.Exist = (double)article.exist;
+                    var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
+                    var soldExist = sold == null ? 0 : sold.First_Article;
+                    productPrices.Exist = (double)article.exist - soldExist;
                 }
 
         return products;
@@ -58,6 +64,7 @@ public class ProductsController : ControllerBase
     private async Task<List<ProductIndexPageViewModel>> AddPriceAndExistFromHolooList(
         List<ProductIndexPageViewModel> products, CancellationToken cancellationToken)
     {
+        var aBails = await _aBailRepository.GetAll(cancellationToken);
         var prices = products
             .Where(x => x.Prices.Any(p => p.ArticleCode != null))
             .Select(p => p.Prices)
@@ -113,7 +120,9 @@ public class ProductsController : ControllerBase
                             break;
                     }
                     productPrices.Amount = articlePrice / 10;
-                    productPrices.Exist = (double)article.Exist;
+                    var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
+                    var soldExist = sold == null ? 0 : sold.First_Article;
+                    productPrices.Exist = (double)article.Exist - soldExist;
                 }
 
         }
@@ -122,15 +131,18 @@ public class ProductsController : ControllerBase
     }
 
 
-    private async Task<Product> AddPriceAndExistFromHoloo(Product product)
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product,CancellationToken cancellationToken)
     {
+        var aBails = await _aBailRepository.GetAll(cancellationToken);
         foreach (var productPrices in product.Prices)
             if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
             {
                 var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
                     productPrices.SellNumber!.Value);
                 productPrices.Amount = article.price / 10;
-                productPrices.Exist = (double)article.exist;
+                var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
+                var soldExist = sold == null ? 0 : sold.First_Article;
+                productPrices.Exist = (double)article.exist - soldExist;
             }
 
         return product;
@@ -343,7 +355,6 @@ public class ProductsController : ControllerBase
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e=> e.Exist > 0)).ToList();
             }
 
-            productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
             switch (productListFilteredViewModel.ProductSort)
             {
@@ -363,6 +374,8 @@ public class ProductsController : ControllerBase
                     productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
             }
+
+            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
             var entity = PagedList<ProductIndexPageViewModel>.ToPagedList(productIndexPageViewModel,
                 productListFilteredViewModel.PaginationParameters.PageNumber,
@@ -576,7 +589,7 @@ public class ProductsController : ControllerBase
                     Code = ResultCode.NotFound
                 });
 
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result);
+            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, cancellationToken);
 
             return Ok(new ApiResult
             {
@@ -634,7 +647,7 @@ public class ProductsController : ControllerBase
                 });
 
             if (product.Prices.Any(p => p.ArticleCode != null))
-                product = await AddPriceAndExistFromHoloo(product);
+                product = await AddPriceAndExistFromHoloo(product, cancellationToken);
 
             var productModalViewModel = new ProductModalViewModel 
             {

@@ -28,6 +28,7 @@
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\Images\Banner\" />
+	  <Folder Include="wwwroot\Images\Blogs\" />
 	</ItemGroup>
 
 </Project>

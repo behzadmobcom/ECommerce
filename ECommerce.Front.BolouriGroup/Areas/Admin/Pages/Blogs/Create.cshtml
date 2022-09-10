@@ -52,7 +52,7 @@
 						</div>
 						<div class="form-group">
 							<label>تاریخ ایجاد</label>
-							<input name="Blog.CreateDateTime" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Blog.CreateDateTime" class="form-control form-control-solid"/>
 							<span asp-validation-for="@Model.Blog.CreateDateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
 						</div>
 						<div class="form-group">
@@ -65,11 +65,16 @@
 							<input asp-for="@Model.Blog.Url" class="form-control form-control-solid"/>
 							<span asp-validation-for="@Model.Blog.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
 						</div>
-						<div class="form-group">
-							<label>دسته بندی مقاله</label>
-							<input asp-for="@Model.Blog.BlogCategory" class="form-control form-control-solid"/>
-							<span asp-validation-for="@Model.Blog.BlogCategory" class="mt-5" style="color: red; margin-top: 10px"></span>
-						</div>
+                        <div class="form-group">
+                            <label>انتخاب دسته بندی مقاله</label>
+                            <br/>
+                            <input type="radio" id="0" checked="checked" name="Blog.BlogCategoryId" value="0">
+                            <label for="0">بی پدر! :))</label>
+                            <input hidden="hidden" id="path_0" value=""/>
+                            <input hidden="hidden" id="depth_0" value="-1"/>
+
+                            <partial name="_ParentBlogCategory" model="@Model.Categories"/>
+                        </div>
 						<div class="form-group">
 							<label>نویسنده مقاله</label>
 							<select asp-for="@Model.Blog.BlogAuthor" asp-items="@Model.BlogAuthors" class="form-control js-example-basic-multiple col-md-12"></select>

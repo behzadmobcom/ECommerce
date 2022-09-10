@@ -27,7 +27,7 @@ public class ServiceResult<T> : ActionResult
 {
     public int Status { get; set; } = 200;
     public string? StackTrace { get; set; }
-    public PaginationDetails? PaginationDetails { get; set; }
+    public PaginationDetails PaginationDetails { get; set; }
     public ServiceCode Code { get; set; }
     public string? Message { get; set; }
     public T ReturnData { get; set; }
