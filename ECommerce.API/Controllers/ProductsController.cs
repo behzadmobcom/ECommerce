@@ -415,6 +415,8 @@ public class ProductsController : ControllerBase
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 products = await AddPriceAndExistFromHolooList(products,cancellationToken);
 
+            products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
@@ -544,6 +546,9 @@ public class ProductsController : ControllerBase
             productIndexPageViewModel = productIndexPageViewModel.Distinct().Take(count).ToList();
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, cancellationToken);
+            
+            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
