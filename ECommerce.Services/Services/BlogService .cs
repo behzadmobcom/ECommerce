@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
+using Entities.ViewModel;
 
 namespace Services.Services;
 
@@ -57,10 +58,17 @@ public class BlogService : EntityService<Blog>, IBlogService
         };
     }
 
-    public async Task<ServiceResult> Add(Blog blog)
+    //public async Task<ServiceResult> Add(Blog blog)
+    //{
+    //    var result = await Create(Url, blog);
+    //    _blogs = null;
+    //    return Return(result);
+    //}
+
+    public async Task<ServiceResult<Blog>> Add(BlogViewModel blogViewModel)
     {
-        var result = await Create(Url, blog);
-        _blogs = null;
+        //if (blogViewModel.BrandId == 0) blogViewModel.BrandId = null;
+        var result = await Create<Blog>(Url, blogViewModel);
         return Return(result);
     }
 

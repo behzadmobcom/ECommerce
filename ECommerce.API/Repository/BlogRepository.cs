@@ -39,6 +39,10 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         foreach (var id in blogViewModel.KeywordsId) blog.Keywords.Add(await _context.Keywords.FindAsync(id));
         blog.Tags = new List<Tag>();
         foreach (var id in blogViewModel.TagsId) blog.Tags.Add(await _context.Tags.FindAsync(id));
+        blog.BlogCategory = new BlogCategory();
+        blog.BlogCategory=(await _context.BlogCategories.FindAsync(blogViewModel.BlogCategoryId));
+        blog.BlogAuthor = new BlogAuthor();
+        blog.BlogAuthor = (await _context.BlogAuthors.FindAsync(blogViewModel.BlogAuthorId));
 
         await _context.Blogs.AddAsync(blog, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
