@@ -824,6 +824,8 @@
 <!--end::Scrolltop-->
 
 
+
+
 <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
 <!--begin::Global Config(global config for global جی اس scripts)-->
 <script>
@@ -899,6 +901,13 @@
 <script src="~/Admin/js/widgets.js?v=7.0.6"></script>
 <!--end::Page Scripts-->
 @await RenderSectionAsync("Scripts", false)
+	<script>
+		$(".menu-toggle .menu-text").on("click", function () {
+			alert("test");
+			$(".ul").find(".menu-item-active").removeClass(".menu-item-active");
+			$(this).addClass(".menu-item-active");
+		});
+	</script>
 </body>
 <!--end::Body-->
 </html>
