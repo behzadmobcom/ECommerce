@@ -27,9 +27,13 @@ public class BlogViewModel
 
     public int BlogCategoryId { get; set; }
 
-    public ICollection<int> KeywordsId { get; set; }
+    //public ICollection<int> KeywordsId { get; set; }
 
-    public ICollection<int> TagsId { get; set; }
+    //public ICollection<int> TagsId { get; set; }
+    public List<int> KeywordsId { get; set; }
+    public List<Keyword>? Keywords { get; set; }
+    public List<int> TagsId { get; set; }
+    public List<Tag>? Tags { get; set; }
 
     public static implicit operator BlogViewModel(Blog x)
     {
@@ -43,7 +47,11 @@ public class BlogViewModel
             PublishDateTime = x.PublishDateTime,
             Url = x.Url,
             BlogAuthorId = x.BlogAuthorId,
-            BlogCategoryId = x.BlogCategoryId
+            BlogCategoryId = x.BlogCategoryId,
+            TagsId = x.Tags.Select(x => x.Id).ToList(),
+            KeywordsId = x.Keywords.Select(x => x.Id).ToList(),           
+            Tags = x.Tags.ToList(),
+            Keywords = x.Keywords.ToList()
         };
     }
 
@@ -59,7 +67,9 @@ public class BlogViewModel
             PublishDateTime = x.PublishDateTime,
             Url = x.Url,
             BlogAuthorId = x.BlogAuthorId,
-            BlogCategoryId = x.BlogCategoryId
+            BlogCategoryId = x.BlogCategoryId,
+            Tags = x.Tags?.ToList(),
+            Keywords = x.Keywords?.ToList(),
         };
     }
 }
