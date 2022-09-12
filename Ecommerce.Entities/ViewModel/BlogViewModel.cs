@@ -30,9 +30,9 @@ public class BlogViewModel
     //public ICollection<int> KeywordsId { get; set; }
 
     //public ICollection<int> TagsId { get; set; }
-    public List<int> KeywordsId { get; set; }
+    public List<int> KeywordsId { get; set; } = new List<int>();
     public List<Keyword>? Keywords { get; set; }
-    public List<int> TagsId { get; set; }
+    public List<int> TagsId { get; set; } = new List<int>();
     public List<Tag>? Tags { get; set; }
 
     public static implicit operator BlogViewModel(Blog x)

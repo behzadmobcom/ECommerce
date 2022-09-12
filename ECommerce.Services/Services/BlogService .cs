@@ -65,10 +65,10 @@ public class BlogService : EntityService<Blog>, IBlogService
     //    return Return(result);
     //}
 
-    public async Task<ServiceResult<BlogViewModel>> Add(BlogViewModel blogViewModel)
+    public async Task<ServiceResult<Blog>> Add(BlogViewModel blogViewModel)
     {
         //if (blogViewModel.BrandId == 0) blogViewModel.BrandId = null;
-        var result = await Create<BlogViewModel>(Url, blogViewModel);
+        var result = await Create<Blog>(Url, blogViewModel);
         return Return(result);
     }
 
