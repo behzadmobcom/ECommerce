@@ -374,11 +374,11 @@
 						<h6 class="widget-title border-left mb-20">دسته ها</h6>
 						<div class="product-cat">
 							<ul>
-								@foreach (var parent in Model.Categories)
+								@foreach (var parent in Model.Categories.OrderBy(x => x.DisplayOrder))
 								{
 									<li>
 										<a style="font-weight: bolder;font-size: 16px" asp-page="Shop" asp-route-path="@parent.Path">@parent.Name</a>
-										@foreach (var child in parent.Children)
+										@foreach (var child in parent.Children.OrderBy(x => x.DisplayOrder))
 										{
 											<ul>
 												<li>
