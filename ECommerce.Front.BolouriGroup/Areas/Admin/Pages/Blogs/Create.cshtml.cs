@@ -31,7 +31,7 @@ public class CreateModel : PageModel
         _blogCategoryService = blogCategoryService;
     }
 
-    [BindProperty] public Blog Blog { get; set; }
+    [BindProperty] public BlogViewModel Blog { get; set; }
 
     [BindProperty] public IFormFile Upload { get; set; }
 
@@ -76,8 +76,6 @@ public class CreateModel : PageModel
             .ReturnData;
         //Blog.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
 
-        ModelState["Blog.BlogCategory"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
-        ModelState["Blog.BlogAuthor"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
         if (ModelState.IsValid)
         {
             var result = await _blogService.Add(Blog);

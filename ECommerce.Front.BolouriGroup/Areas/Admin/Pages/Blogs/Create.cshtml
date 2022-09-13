@@ -68,8 +68,6 @@
                         <div class="form-group">
                             <label>انتخاب دسته بندی مقاله</label>
                             <br/>
-                            <input type="radio" id="0" checked="checked" name="Blog.BlogCategoryId" value="0">
-                            <label for="0">بی پدر! :))</label>
                             <input hidden="hidden" id="path_0" value=""/>
                             <input hidden="hidden" id="depth_0" value="-1"/>
 
@@ -77,15 +75,15 @@
                         </div>
 						<div class="form-group">
 							<label>نویسنده مقاله</label>
-							<select asp-for="@Model.Blog.BlogAuthor" asp-items="@Model.BlogAuthors" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.BlogAuthorId" asp-items="@Model.BlogAuthors" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
 						<div class="form-group">
 							<label>کلمات کلیدی</label>
-							<select asp-for="@Model.Blog.Keywords" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.KeywordsId" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
 						<div class="form-group">
 							<label>تگ</label>
-							<select asp-for="@Model.Blog.Tags" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.TagsId" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
                        
 						<div class="form-group">
