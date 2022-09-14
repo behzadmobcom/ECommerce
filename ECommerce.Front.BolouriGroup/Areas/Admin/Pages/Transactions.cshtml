@@ -1,4 +1,4 @@
-﻿@page  "/Admin/Transaction/{handler?}"
+﻿@page  "/Admin/Transactions/{handler?}"
 @model Bolouri.Areas.Admin.Pages.TransactionsModel
 @{
     ViewData["Title"] = "واریزی ها";
@@ -28,7 +28,7 @@
 	<th class="min-w-120px">قابل پرداخت</th>
 	<th class="min-w-120px">کد رهگیری</th>
 	<th class="min-w-120px">شناسه پرداخت</th>
-	<th class="min-w-120px">کد سند هلو</th>
+	<th class="min-w-120px">سفارش خرید</th>
 	<th class="min-w-100px text-end">عملیات</th>
 </tr>
 </thead>
@@ -40,20 +40,21 @@
 		1
 	</td>
 	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">56037-XDER</a>
+		56037-XDER
 	</td>
 	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">برزیل</a>
+		برزیل
 	</td>
 	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">05/28/2020</a>
+		05/28/2020
 	</td>
 	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">ساتراس</a>
+		152541
 	</td>
-	<td class="text-dark fw-bolder text-hover-primary fs-6">$3560</td>
+	<td >$3560</td>
 	<td>
-		<span class="badge badge-light-success">تایید شده</span>
+		<a asp-page="/purchaseOrder" asp-area="Admin" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">تایید شده</a>
+		
 	</td>
 	<td class="text-end">
 		<span class="svg-icon svg-icon-2" data-toggle="modal" data-target="#myModal">
