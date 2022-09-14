@@ -1,14 +1,11 @@
-﻿@page  "/Admin/Transaction/{handler?}"
-@model Bolouri.Areas.Admin.Pages.TransactionsModel
+﻿@page "/Admin/Purchase/{handler?}"
+@model Bolouri.Areas.Admin.Pages.PurchaseModel
 @{
-    ViewData["Title"] = "واریزی ها";
+    ViewData["Title"] = "سفارشات";
 }
-
-	<!--begin::Title-->
-<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست واریزی ها</h1>
-			<!--end::Title-->
-		
-	
+<!--begin::Title-->
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست سفارشات</h1>
+<!--end::Title-->
 
 <div class="card mb-5 mb-xl-8">
 <!--begin::Body-->
@@ -23,12 +20,12 @@
 	<th class="w-25px">
 		#
 	</th>
-	<th class="min-w-150px">تاریخ فاکتور</th>
-	<th class="min-w-140px">نام کاربری</th>
+	<th class="min-w-150px">تاریخ خرید</th>
+	<th class="min-w-140px">وضعیت سفارش</th>
+	<th class="min-w-120px">تاریخ انتظار</th>
 	<th class="min-w-120px">قابل پرداخت</th>
-	<th class="min-w-120px">کد رهگیری</th>
-	<th class="min-w-120px">شناسه پرداخت</th>
-	<th class="min-w-120px">کد سند هلو</th>
+	<th class="min-w-120px">تخفیف</th>
+	<th class="min-w-120px">هزینه حمل</th>
 	<th class="min-w-100px text-end">عملیات</th>
 </tr>
 </thead>
@@ -260,61 +257,60 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">جزئیات واریز</h4>
+					<h4 class="modal-title">جزئیات سفارش</h4>
 				</div>
 				<div class="modal-body">
 					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">تاریخ فاکتور </div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
-							<span class="fs-6">730</span>
+						<div class="fw-bold fs-6 me-2 col-md-6">مالیات:500 تومان </div>
+						<div class="d-flex col-md-6">
+							<span class="fs-6">نام کالا:قوری برقی</span>
 						</div>
 					</div>
 					<div class="separator separator-dashed my-3"></div>
 						<div class="d-flex row">
-							<div class="fw-bold fs-6 me-2 col-md-6">نام کاربری</div>
-							<div class="d-flex col-md-6" style="margin-right: 50%">
-								<span class="fs-6">730</span>
-							</div>
+							<div class="fw-bold fs-6 me-2 col-md-6">تاریخ پرداخت:02/05/1040</div>
+							<div class="fw-bold fs-6 me-2 col-md-6">تعداد:25</div>
 						</div>
 						<div class="separator separator-dashed my-3"></div>
 							<div class="d-flex row">
-								<div class="fw-bold fs-6 me-2 col-md-6">قابل پرداخت</div>
-								<div class="d-flex col-md-6" style="margin-right: 50%">
-									<span class="fs-6">730</span>
-								</div>
+								<div class="fw-bold fs-6 me-2 col-md-6">تاریخ تحویل</div>
+								<div class="fw-bold fs-6 me-2 col-md-6">قیمت واحد:250تومان</div>
 							</div>
 							<div class="separator separator-dashed my-3"></div>
 					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">کد رهگیری</div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
+						<div class="fw-bold fs-6 me-2 col-md-6">توضیحات</div>
+						<div class="fw-bold fs-6 me-2 col-md-6">جمع:25</div>
+					</div>
+					<div class="separator separator-dashed my-3"></div>
+					<div class="d-flex row">
+						<div class="fw-bold fs-6 me-2 col-md-6">تاریخ تائید</div>
+						<div class="fw-bold fs-6 me-2 col-md-6">شناسه قیمت:25</div>
+					</div>
+					<div class="separator separator-dashed my-3"></div>
+					<div class="d-flex row">
+						<div class="fw-bold fs-6 me-2 col-md-6">تاریخ ارسال</div>
+						<div class="d-flex col-md-6">
+							<span class="fs-6">DiscountAmount:14010</span>
+						</div>
+					</div>
+					<div class="separator separator-dashed my-3"></div>
+					<div class="d-flex row">
+						<div class="fw-bold fs-6 me-2 col-md-6">تاریخ تایید حسابداری </div>
+						<div class="d-flex col-md-6">
 							<span class="fs-6">730</span>
 						</div>
 					</div>
 					<div class="separator separator-dashed my-3"></div>
 					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">شناسه پرداخت</div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
+						<div class="fw-bold fs-6 me-2 col-md-6">وضعیت پرداخت</div>
+						<div class="d-flex col-md-6">
 							<span class="fs-6">$2,309</span>
 						</div>
-					</div>
+					</div>	
 					<div class="separator separator-dashed my-3"></div>
 					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">کد سند هلو</div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
-							<span class="fs-6">7.8</span>
-						</div>
-					</div>
-					<div class="separator separator-dashed my-3"></div>
-					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">PurchaseOrder </div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
-							<span class="fs-6">730</span>
-						</div>
-					</div>
-					<div class="separator separator-dashed my-3"></div>
-					<div class="d-flex row">
-						<div class="fw-bold fs-6 me-2 col-md-6">روش پرداخت</div>
-						<div class="d-flex col-md-6" style="margin-right: 50%">
+						<div class="fw-bold fs-6 me-2 col-md-6">کد فاکتور</div>
+						<div class="d-flex col-md-6">
 							<span class="fs-6">$2,309</span>
 						</div>
 					</div>
@@ -328,5 +324,3 @@
       
 		</div>
 	</div>
-  
-
