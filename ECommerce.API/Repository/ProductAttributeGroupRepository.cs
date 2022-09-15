@@ -57,10 +57,10 @@ public class ProductAttributeGroupRepository : AsyncRepository<ProductAttributeG
             {
                 attribute.AttributeValue.Add(new ProductAttributeValue());
             }
-            else
-            {
-                attribute.AttributeValue.Add(value);
-            }
+           // else
+           // {
+           //     attribute.AttributeValue.Add(value);
+           // }
         }
 
         return group;
