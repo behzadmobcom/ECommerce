@@ -69,6 +69,7 @@ builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IHolooAccountNumberService, HolooAccountNumberService>();
 builder.Services.AddScoped<IHolooArticleService, HolooArticleService>();
 builder.Services.AddScoped<IHolooMGroupService, HolooMGroupService>();

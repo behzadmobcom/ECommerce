@@ -11,4 +11,5 @@ public interface IDepartmentService : IEntityService<Department>
     Task<ServiceResult> Edit(Department department);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult<Department>> GetById(int id);
+    Task<ServiceResult<List<Department>>> GetAll();
 }

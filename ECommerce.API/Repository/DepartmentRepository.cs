@@ -30,4 +30,5 @@ public class DepartmentRepository : AsyncRepository<Department>, IDepartmentRepo
     {
         return await _context.Departments.Where(x => x.Title == name).FirstOrDefaultAsync(cancellationToken);
     }
+
 }

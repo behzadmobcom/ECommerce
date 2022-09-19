@@ -1,0 +1,47 @@
+﻿@page
+@model Bolouri.Areas.Admin.Pages.Employees.DetailModel
+@{
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        جزئیات کارمندان
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام:</label>
+                            <label class="form-control form-control-solid">@Model.Employee.Name</label>
+                        </div>
+	                    <div class="form-group">
+		                    <label>عنوان:</label>
+		                    <label class="form-control form-control-solid" style="height: auto">@Model.Employee.Title</label>
+	                    </div>
+	                    <div class="form-group">
+		                    <label>میزان کمیسیون:</label>
+		                    <label class="form-control form-control-solid" style="height: auto">@Model.Employee.Commission</label>
+	                    </div>
+	                    <div class="form-group">
+		                    <label>تاریخ استخدام:</label>
+		                    <label class="form-control form-control-solid" style="height: auto">@Model.Employee.HireDateTime</label>
+	                    </div>
+	                    <div class="form-group">
+		                    <label>شاغل:</label>
+		                    <label class="form-control form-control-solid" style="height: auto">@Model.Employee.IsActive</label>
+	                    </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary mr-2" asp-Page="/Employees/edit" asp-area="Admin" asp-route-id="@Model.Employee.Id">ویرایش</a>
+                        <a class="btn btn-secondary" asp-Page="/Employees/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

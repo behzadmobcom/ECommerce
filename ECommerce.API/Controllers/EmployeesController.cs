@@ -8,15 +8,18 @@ namespace API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class DepartmentsController : ControllerBase
+public class EmployeesController : ControllerBase
 {
-    private readonly IDepartmentRepository _departmentRepository;
-    private readonly ILogger<DepartmentsController> _logger;
+    private readonly IHolooArticleRepository _articleRepository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly ILogger<EmployeesController> _logger;
 
-    public DepartmentsController(IDepartmentRepository departmentRepository, ILogger<DepartmentsController> logger)
+    public EmployeesController(IEmployeeRepository employeeRepository, ILogger<EmployeesController> logger,
+                                IHolooArticleRepository articleRepository)
     {
-        _departmentRepository = departmentRepository;
+        _employeeRepository = employeeRepository;
         _logger = logger;
+        _articleRepository = articleRepository;
     }
 
     [HttpGet]
@@ -26,7 +29,7 @@ public class DepartmentsController : ControllerBase
         try
         {
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-            var entity = await _departmentRepository.Search(paginationParameters, cancellationToken);
+            var entity = await _employeeRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
             {
                 TotalCount = entity.TotalCount,
@@ -37,6 +40,7 @@ public class DepartmentsController : ControllerBase
                 HasPrevious = entity.HasPrevious,
                 Search = paginationParameters.Search
             };
+
             return Ok(new ApiResult
             {
                 PaginationDetails = paginationDetails,
@@ -47,41 +51,17 @@ public class DepartmentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<Department>> GetById(int id, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var result = await _departmentRepository.GetByIdAsync(cancellationToken, id);
-            if (result == null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.NotFound
-                });
-
             return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = result
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<Department>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<Employee>> GetById(int id, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _departmentRepository.GetAll(cancellationToken);
+            var result = await _employeeRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -98,59 +78,54 @@ public class DepartmentsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
-                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
+
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<IActionResult> Post(Department department, CancellationToken cancellationToken)
+    public async Task<IActionResult> Post(Employee employee, CancellationToken cancellationToken)
     {
         try
         {
-            if (department == null)
+            if (employee == null)
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest
                 });
-            department.Title = department.Title.Trim();
+            employee.Name = employee.Name.Trim();
 
-            var repetitiveDepartment = await _departmentRepository.GetByTitle(department.Title, cancellationToken);
-            if (repetitiveDepartment != null)
+            var repetitiveName = await _employeeRepository.GetByName(employee.Name, cancellationToken);
+            if (repetitiveName != null)
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"عنوان دپارتمان تکراری است"}
+                    Messages = new List<string> {"نام کارمند تکراری است"}
                 });
+
 
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _departmentRepository.AddAsync(department, cancellationToken)
+                ReturnData = await _employeeRepository.AddAsync(employee, cancellationToken)
             });
         }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<ActionResult<bool>> Put(Department department, CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> Put(Employee employee, CancellationToken cancellationToken)
     {
         try
         {
-            var repetitiveDepartment = await _departmentRepository.GetByTitle(department.Title, cancellationToken);
-            if (repetitiveDepartment != null && repetitiveDepartment.Id != department.Id)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Repetitive,
-                    Messages = new List<string> {"نام دپارتمان تکراری است"}
-                });
-            if (repetitiveDepartment != null) _departmentRepository.Detach(repetitiveDepartment);
-            await _departmentRepository.UpdateAsync(department, cancellationToken);
+            await _employeeRepository.UpdateAsync(employee, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -159,7 +134,8 @@ public class DepartmentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 
@@ -169,7 +145,7 @@ public class DepartmentsController : ControllerBase
     {
         try
         {
-            await _departmentRepository.DeleteAsync(id, cancellationToken);
+            await _employeeRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -178,7 +154,8 @@ public class DepartmentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult
+                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
         }
     }
 }

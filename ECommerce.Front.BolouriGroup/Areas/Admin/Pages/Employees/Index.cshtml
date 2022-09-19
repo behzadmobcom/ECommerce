@@ -1,13 +1,13 @@
 ﻿@page
-@model Bolouri.Areas.Admin.Pages.Stores.IndexModel
+@model Bolouri.Areas.Admin.Pages.Employees.IndexModel
 @{
-    var i = 1 + (Model.Stores.PaginationDetails.CurrentPage - 1) * Model.Stores.PaginationDetails.PageSize;
+    var i = 1 + (Model.Employees.PaginationDetails.CurrentPage - 1) * Model.Employees.PaginationDetails.PageSize;
 }
 
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <div class="card-title">
-            <h3 class="card-label">لیست انبارها</h3>
+            <h3 class="card-label">لیست کارمندان</h3>
         </div>
     </div>
     <div class="card-body">
@@ -35,21 +35,21 @@
         }
         <div class="example mb-10">
             <p>
-                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد انبار جدید</a>
+                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد کارمند جدید</a>
             </p>
-            <form asp-page="/Stores/Index" method="get">
+            <form asp-page="/Employees/Index" method="get">
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.Stores.PaginationDetails.Search"/>
+                        <input type="text" name="search" value="@Model.Employees.PaginationDetails.Search"/>
                         <input type="text" hidden="hidden" name="pageIndex" value="1"/>
                         <input type="submit" value="بجو" class="btn btn-primary"/> |
                         تعداد رکورد ها در صفحه :
-                        <a asp-page="/Stores/Index" asp-route-pageSize="10">10</a> -
-                        <a asp-page="/Stores/Index" asp-route-pageSize="20">20</a> -
-                        <a asp-page="/Stores/Index" asp-route-pageSize="30">30</a> -
-                        <a asp-page="/Stores/Index" asp-route-pageSize="40">40</a> -
-                        <a asp-page="/Stores/Index" asp-route-pageSize="50">50</a>
+                        <a asp-page="/Employees/Index" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Employees/Index" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Employees/Index" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Employees/Index" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Employees/Index" asp-route-pageSize="50">50</a>
                     </p>
                 </div>
             </form>
@@ -59,27 +59,27 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">نام</th>
-                        <th scope="col">آدرس</th>
+                        <th scope="col">عنوان شغلی</th>
                         <th scope="col">عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var store in Model.Stores.ReturnData)
+                    @foreach (var employee in Model.Employees.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
-                            <td>@store.Name</td>
-                            <td>@store.Address</td>
+                            <td>@employee.Name</td>
+                            <td>@employee.Title</td>
                             <td>
-                                <a asp-page="Edit" asp-route-id="@store.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@store.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@store.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                <a asp-page="Edit" asp-route-id="@employee.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@employee.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Detail" asp-route-id="@employee.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
                             </td>
                         </tr>
                     }
                     </tbody>
                 </table>
-                <partial name="_Pagination" model="@Model.Stores.PaginationDetails"/>
+                <partial name="_Pagination" model="@Model.Employees.PaginationDetails"/>
 
             </div>
 

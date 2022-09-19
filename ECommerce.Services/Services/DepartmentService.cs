@@ -20,6 +20,11 @@ public class DepartmentService : EntityService<Department>, IDepartmentService
         var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}");
         return Return(result);
     }
+    public async Task<ServiceResult<List<Department>>> GetAll()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
+    }
 
     public async Task<ServiceResult<List<Department>>> Filtering(string filter)
     {
