@@ -132,14 +132,20 @@ public class PricesController : ControllerBase
             }
 
             var messages = await CheckPrice(price, cancellationToken);
-            var newPrice = await _priceRepository.AddAsync(price, cancellationToken);
-            await _holooArticleRepository.SyncHolooWebId(newPrice.ArticleCodeCustomer, newPrice.ProductId, cancellationToken);
+            var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+            if (HolooPrice.price == 0)
+                messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");
             if (messages.Count == 0)
+            {
+                var newPrice = await _priceRepository.AddAsync(price, cancellationToken);
+                await _holooArticleRepository.SyncHolooWebId(newPrice.ArticleCodeCustomer, newPrice.ProductId, cancellationToken);
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.Success,
                     ReturnData = newPrice
                 });
+            }
+                
             return Ok(new ApiResult
             {
                 Messages = messages,
@@ -169,6 +175,10 @@ public class PricesController : ControllerBase
                 });
             }
             var messages = await CheckPrice(price, cancellationToken);
+            var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+            if (HolooPrice.price == 0)
+                messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");
+            
             if (messages.Count == 0)
             {
                 await _priceRepository.UpdateAsync(price, cancellationToken);
