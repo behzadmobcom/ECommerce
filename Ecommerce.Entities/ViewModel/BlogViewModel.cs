@@ -30,15 +30,17 @@ public class BlogViewModel
     //public ICollection<int> KeywordsId { get; set; }
 
     //public ICollection<int> TagsId { get; set; }
-    public List<int> KeywordsId { get; set; } = new List<int>();
+    public List<int>? KeywordsId { get; set; } = new List<int>();
     public List<Keyword>? Keywords { get; set; }
-    public List<int> TagsId { get; set; } = new List<int>();
+    public List<int>? TagsId { get; set; } = new List<int>();
     public List<Tag>? Tags { get; set; }
+    public Image? Image { get; set; }
 
     public static implicit operator BlogViewModel(Blog x)
     {
         return new BlogViewModel
         {
+            Id = x.Id,
             Title = x.Title,
             Summary = x.Summary,
             Text = x.Text,
@@ -49,9 +51,10 @@ public class BlogViewModel
             BlogAuthorId = x.BlogAuthorId,
             BlogCategoryId = x.BlogCategoryId,
             TagsId = x.Tags.Select(x => x.Id).ToList(),
-            KeywordsId = x.Keywords.Select(x => x.Id).ToList(),           
+            KeywordsId = x.Keywords.Select(x => x.Id).ToList(),
             Tags = x.Tags.ToList(),
-            Keywords = x.Keywords.ToList()
+            Keywords = x.Keywords.ToList(),
+            Image = x.Image
         };
     }
 
@@ -59,6 +62,7 @@ public class BlogViewModel
     {
         return new Blog
         {
+            Id = x.Id,
             Title = x.Title,
             Summary = x.Summary,
             Text = x.Text,
@@ -70,6 +74,7 @@ public class BlogViewModel
             BlogCategoryId = x.BlogCategoryId,
             Tags = x.Tags?.ToList(),
             Keywords = x.Keywords?.ToList(),
+            Image = x.Image
         };
     }
 }

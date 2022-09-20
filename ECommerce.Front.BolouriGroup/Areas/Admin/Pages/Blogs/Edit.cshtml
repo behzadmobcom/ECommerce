@@ -31,20 +31,155 @@
                         ویرایش مقاله
                     </h3>
                 </div>
-                <!--begin::Form-->
-                <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.Blog.Id"/>
-                    <input hidden="hidden" asp-for="@Model.Blog.Image"/>
-                    <div class="card-body">
-                  
-                   
-                  
+                <!--begin::Form-->              
+                    <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
+                    <input hidden="hidden" asp-for="@Model.Blog.Id"/>                   
+                    <input hidden="hidden" asp-for="@Model.Blog.Image.Id" />
+                    <input hidden="hidden" asp-for="@Model.Blog.Image.Name" />
+                    <input hidden="hidden" asp-for="@Model.Blog.Image.Path" />
+                    <input hidden="hidden" asp-for="@Model.Blog.Image.Alt" />
+					<div class="card-body">
+						<div class="form-group">
+							<label>عنوان</label>
+							<input asp-for="@Model.Blog.Title" class="form-control form-control-solid"/>
+							<span asp-validation-for="@Model.Blog.Title" class="mt-5" style="color: red; margin-top: 10px"></span>
+						</div>
+                          <div class="form-group">
+                            <label>متن مقاله</label>
+                            <textarea id="Description_Edit" asp-for="@Model.Blog.Text" class="form-control form-control-solid"></textarea>
+                            <span asp-validation-for="@Model.Blog.Text" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+
+						<div class="form-group">
+							<label>خلاصه</label>
+							<input asp-for="@Model.Blog.Summary" class="form-control form-control-solid"/>
+							<span asp-validation-for="@Model.Blog.Summary" class="mt-5" style="color: red; margin-top: 10px"></span>
+						</div>
+						<div class="form-group">
+							<label>تاریخ ایجاد</label>
+                            <input asp-for="@Model.Blog.CreateDateTime" class="form-control form-control-solid"/>
+							<span asp-validation-for="@Model.Blog.CreateDateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
+						</div>
+						<div class="form-group">
+							<label>تاریخ انتشار</label>
+							<input asp-for="@Model.Blog.PublishDateTime" class="form-control form-control-solid"/>
+							<span asp-validation-for="@Model.Blog.PublishDateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
+						</div>
+						<div class="form-group">
+							<label>آدرس اینترنتی</label>
+							<input asp-for="@Model.Blog.Url" class="form-control form-control-solid"/>
+							<span asp-validation-for="@Model.Blog.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
+						</div>
+                           <div class="form-group">
+                            <label>انتخاب دسته بندی مقاله</label>
+                            <select asp-for="@Model.Blog.BlogCategoryId" class="col-md-12 js-example-basic-single form-control">
+                                @foreach (var item in Model.Categories)
+                                {
+                                    if (Model.Blog.BlogCategoryId == item.Id)
+                                    {
+                                        <option selected="selected" value="@item.Id">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>						 
+						   <div class="form-group">
+                            <label>نویسنده</label>
+                            <select asp-for="@Model.Blog.BlogAuthorId" class="col-md-12 js-example-basic-single form-control">
+                                @foreach (var item in Model.BlogAuthors)
+                                {
+                                    if (Model.Blog.BlogAuthorId == item.Id)
+                                    {
+                                        <option selected="selected" value="@item.Id">@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+						@*<div class="form-group">
+							<label>کلمات کلیدی</label>
+							<select asp-for="@Model.Blog.KeywordsId" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
+						</div>
+
+						<div class="form-group">
+							<label>تگ</label>
+							<select asp-for="@Model.Blog.TagsId" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
+						</div>*@
+
+                        <div class="form-group">
+                            <label>انتخاب تگ ها</label>
+                            <select asp-for="@Model.Blog.TagsId" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                                @foreach (var item in Model.Tags)
+                                {
+                                    if (Model.Blog.Tags.Any(x => x.Id == item.Id))
+                                    {
+                                        <option selected="selected" value="@item.Id">@item.TagText</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.TagText</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    <div class="form-group">
+                        <label>انتخاب کلمات کلیدی</label>
+                        <select asp-for="@Model.Blog.KeywordsId" class="col-md-12 js-example-basic-multiple  form-control" multiple="multiple">
+                            @foreach (var item in Model.Keywords)
+                            {
+                                if (Model.Blog.Keywords.Any(x => x.Id == item.Id))
+                                {
+                                    <option selected="selected" value="@item.Id">@item.KeywordText</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">@item.KeywordText</option>
+                                }
+                            }
+                        </select>
                     </div>
+                      <div class="form-group">
+                        <label>تصویر کالا</label>
+                        <div class="custom-file">
+                            <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="files" accept=".gif,.jpg,.jpeg,.png" multiple="multiple"/>
+                            <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
+                        </div>
+                    </div>
+
+                 </div>
+
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
-                        <a class="btn btn-secondary" asp-Page="/blogs/index" asp-area="Admin">لغو</a>
-                    </div>
-                </form>
+						<button type="submit" class="btn btn-primary mr-2">ویرایش</button>
+						<a class="btn btn-secondary" asp-Page="/blogs/index" asp-area="Admin">لغو</a>
+					</div>
+                    </form>
+                    
+                        <div class="form-group">
+                        <label>تصویر</label>
+                        <ul class="details-preview">                          
+                                <form class="form" method="post" asp-page-handler="DeleteImage">
+                                    <li>
+                                        <img style="width: 50%" src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image?.Alt">
+                                        <input name="imageName" value="@Model.Blog.Image?.Name" hidden="hidden"/>
+                                        <input name="BlogId" value="@Model.Blog.Id" hidden="hidden"/>
+                                        <input name="id" value="@Model.Blog.Image?.Id" hidden="hidden"/>
+                                        <button type="submit">حذف</button>
+                                    </li>
+                                </form>  
+                        </ul>
+                        </div>
+                   
+
+					</div>
+					
+				
                 <!--end::Form-->
             </div>
         </div>
@@ -59,5 +194,8 @@
         window.onload = function() {
             CKEDITOR.replace('Description_Edit');
         };
+		   $(document).ready(function() {
+	        $('.js-example-basic-multiple').select2();
+        });
     </script>
 }

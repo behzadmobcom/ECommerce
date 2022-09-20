@@ -4,6 +4,7 @@ using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -53,11 +54,12 @@ public class BlogsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Blog>> GetById(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<BlogViewModel>> GetById(int id, bool isColleague,
+        CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _blogRepository.GetByIdAsync(cancellationToken, id);
+            var result = await _blogRepository.GetBlogByIdWithInclude(id).FirstOrDefaultAsync(cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {

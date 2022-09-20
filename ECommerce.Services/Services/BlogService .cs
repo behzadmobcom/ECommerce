@@ -65,16 +65,16 @@ public class BlogService : EntityService<Blog>, IBlogService
     //    return Return(result);
     //}
 
-    public async Task<ServiceResult<Blog>> Add(BlogViewModel blogViewModel)
+    public async Task<ServiceResult<BlogViewModel>> Add(BlogViewModel blogViewModel)
     {
         //if (blogViewModel.BrandId == 0) blogViewModel.BrandId = null;
-        var result = await Create<Blog>(Url, blogViewModel);
+        var result = await Create<BlogViewModel>(Url, blogViewModel);
         return Return(result);
     }
 
-    public async Task<ServiceResult> Edit(Blog blog)
+    public async Task<ServiceResult> Edit(BlogViewModel blogViewModel)
     {
-        var result = await Update(Url, blog);
+        var result = await Update(Url, blogViewModel);
         _blogs = null;
         return Return(result);
     }
@@ -86,9 +86,9 @@ public class BlogService : EntityService<Blog>, IBlogService
         return Return(result);
     }
 
-    public async Task<ServiceResult<Blog>> GetById(int id)
+    public async Task<ServiceResult<BlogViewModel>> GetById(int id)
     {
-        var result = await _http.GetAsync<Blog>(Url, $"GetById?id={id}");
+        var result = await _http.GetAsync<BlogViewModel>(Url, $"GetById?id={id}");
         return Return(result);
     }
 }

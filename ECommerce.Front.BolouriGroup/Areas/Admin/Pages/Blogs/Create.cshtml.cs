@@ -19,10 +19,10 @@ public class CreateModel : PageModel
     private readonly IBlogAuthorService _blogAuthorService;
     private readonly IBlogCategoryService _blogCategoryService;
 
-    public CreateModel(IBlogService brandService, IImageService imageService, ITagService tagService,
+    public CreateModel(IBlogService blogService, IImageService imageService, ITagService tagService,
         IKeywordService keywordService, IHostEnvironment environment, IBlogAuthorService blogAuthorService, IBlogCategoryService blogCategoryService)
     {
-        _blogService = brandService;
+        _blogService = blogService;
         _imageService = imageService;
         _environment = environment;
         _keywordService = keywordService;
@@ -33,7 +33,7 @@ public class CreateModel : PageModel
 
     [BindProperty] public BlogViewModel Blog { get; set; }
 
-    [BindProperty] public IFormFile Upload { get; set; }
+    [BindProperty] public IFormFile? Upload { get; set; }
 
     [TempData] public string Message { get; set; }
 
@@ -71,20 +71,28 @@ public class CreateModel : PageModel
             Code = ServiceCode.Error.ToString();
             return Page();
         }
-
-        var fileName = (await _imageService.Upload(Upload, "Images/Blogs", _environment.ContentRootPath))
-            .ReturnData;
-        //Blog.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
-
+        
         if (ModelState.IsValid)
         {
             var result = await _blogService.Add(Blog);
             if (result.Code == 0)
+            {
+                var resultImage = await _imageService.Add(Upload, result.ReturnData.Id, "Images/Blogs",
+                    _environment.ContentRootPath);
+                if (resultImage.Code > 0)
+                {
+                    Message = resultImage.Message;
+                    Code = resultImage.Code.ToString();
+                    ModelState.AddModelError("", resultImage.Message);
+                    await Initial();
+                    return Page();
+                }
                 return RedirectToPage("/Blogs/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-            Message = result.Message;
-            Code = result.Code.ToString();
-            ModelState.AddModelError("", result.Message);
+                        new { area = "Admin", message = result.Message, code = result.Code.ToString() });
+                Message = result.Message;
+                Code = result.Code.ToString();
+                ModelState.AddModelError("", result.Message);
+            }
         }
         await Initial();
         return Page();
