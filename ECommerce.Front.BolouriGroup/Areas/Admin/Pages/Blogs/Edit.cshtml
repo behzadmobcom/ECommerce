@@ -33,11 +33,7 @@
                 </div>
                 <!--begin::Form-->              
                     <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.Blog.Id"/>                   
-                    <input hidden="hidden" asp-for="@Model.Blog.Image.Id" />
-                    <input hidden="hidden" asp-for="@Model.Blog.Image.Name" />
-                    <input hidden="hidden" asp-for="@Model.Blog.Image.Path" />
-                    <input hidden="hidden" asp-for="@Model.Blog.Image.Alt" />
+                    <input hidden="hidden" asp-for="@Model.Blog.Id"/>                                     
 					<div class="card-body">
 						<div class="form-group">
 							<label>عنوان</label>

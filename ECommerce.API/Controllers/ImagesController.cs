@@ -121,4 +121,21 @@ public class ImagesController : ControllerBase
             Code = ResultCode.Success
         });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetByBlogId(int blogId, CancellationToken cancellationToken)
+    {
+        var result = await _imageRepository.GetByBlogId(blogId, cancellationToken);
+        if (result == null)
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.NotFound
+            });
+
+        return Ok(new ApiResult
+        {
+            Code = ResultCode.Success,
+            ReturnData = result
+        });
+    }
 }
