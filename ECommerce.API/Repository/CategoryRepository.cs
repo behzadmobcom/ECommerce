@@ -101,7 +101,7 @@ public class CategoryRepository : AsyncRepository<Category>, ICategoryRepository
     {
         var temp = new List<CategoryParentViewModel>();
         var ret = new List<CategoryParentViewModel>();
-        foreach (var parent in allCategory.Where(p => p.ParentId == parentId).ToList())
+        foreach (var parent in allCategory.Where(p => p.ParentId == parentId).OrderBy(x => x.DisplayOrder).ToList())
         {
             if (allCategory.Any(p => p.ParentId == parent.Id))
                 temp = await Children(allCategory, productCategory, parent.Id);
