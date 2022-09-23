@@ -195,6 +195,34 @@
 </section>
 <br />
 <br />
+
+<section class="section recent-part">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-heading">
+					<h2>موارد پرطرفدار</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+			@foreach (var starProduct in Model.StarProducts)
+			{
+				<partial name="Components/_productCard" model="starProduct" />
+			}
+
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-btn-25">
+					<a asp-area="" asp-page="/Shop" asp-route-productSort="2" class="btn btn-inline">
+						<span> بیشتر ببینید </span> <i class="far fa-long-arrow-left float-end ms-1"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <br />
 <br />
 <section class="section suggest-part">
@@ -215,33 +243,7 @@
 </section>
 
 
-<section class="section recent-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h2>موارد پرطرفدار</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            @foreach (var starProduct in Model.StarProducts)
-            {
-                <partial name="Components/_productCard" model="starProduct" />
-            }
 
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-btn-25">
-                    <a asp-area="" asp-page="/Shop" asp-route-productSort="2" class="btn btn-inline">
-                        <span> بیشتر ببینید </span> <i class="far fa-long-arrow-left float-end ms-1"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <div class="section promo-part">
     <div class="container">
         <div class="row">

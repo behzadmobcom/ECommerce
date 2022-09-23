@@ -2,12 +2,12 @@
 
 @if (Model != null)
 {
-    <li>
+    <li style="color: white">
         @foreach (var category in Model)
         {
             @if (category.Depth == 0)
             {
-                <a class="cate-link dropdown-link" href="#">
+                <a class="cate-link dropdown-link" href="#" style="font-size: 13px">
                     <i class="flaticon-vegetable"></i>@category.Name
                 </a>
             }
