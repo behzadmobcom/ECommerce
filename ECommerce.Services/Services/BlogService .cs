@@ -76,7 +76,7 @@ public class BlogService : EntityService<Blog>, IBlogService
 
     public async Task<ServiceResult> Edit(BlogViewModel blogViewModel)
     {
-        var result = await Update(Url, blogViewModel);
+        var result =await _http.PutAsync<BlogViewModel>(Url, blogViewModel);
         _blogs = null;
         return Return(result);
     }
