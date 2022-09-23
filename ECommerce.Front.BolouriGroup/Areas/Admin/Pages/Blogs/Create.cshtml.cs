@@ -79,16 +79,11 @@ public class CreateModel : PageModel
             {
                 var resultImage = await _imageService.Add(Upload, result.ReturnData.Id, "Images/Blogs",
                     _environment.ContentRootPath);
-                if (resultImage.Code > 0)
+                if (resultImage.Code == 0)
                 {
-                    Message = resultImage.Message;
-                    Code = resultImage.Code.ToString();
-                    ModelState.AddModelError("", resultImage.Message);
-                    await Initial();
-                    return Page();
-                }
-                return RedirectToPage("/Blogs/Index",
+                    return RedirectToPage("/Blogs/Index",
                         new { area = "Admin", message = result.Message, code = result.Code.ToString() });
+                }
                 Message = result.Message;
                 Code = result.Code.ToString();
                 ModelState.AddModelError("", result.Message);

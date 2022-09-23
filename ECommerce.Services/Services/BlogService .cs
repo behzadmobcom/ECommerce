@@ -2,6 +2,7 @@
 using Entities.Helper;
 using ECommerce.Services.IServices;
 using Entities.ViewModel;
+using System.Security.Policy;
 
 namespace Services.Services;
 
@@ -68,7 +69,8 @@ public class BlogService : EntityService<Blog>, IBlogService
     public async Task<ServiceResult<BlogViewModel>> Add(BlogViewModel blogViewModel)
     {
         //if (blogViewModel.BrandId == 0) blogViewModel.BrandId = null;
-        var result = await Create<BlogViewModel>(Url, blogViewModel);
+        //var result = await Create<BlogViewModel>(Url, blogViewModel);
+        var result = await _http.PostAsync<BlogViewModel, BlogViewModel>(Url, blogViewModel);
         return Return(result);
     }
 
