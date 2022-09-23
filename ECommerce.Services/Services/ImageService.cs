@@ -120,4 +120,10 @@ public class ImageService : EntityService<Image>, IImageService
         var result = await ReadList(Url, $"GetKeywordsByProductId?id={productId}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<Image>> GetImagesByBlogId(int blogId)
+    {
+        var result = await Read(Url, $"GetByBlogId?blogId={blogId}");
+        return Return(result);
+    }
 }

@@ -85,4 +85,17 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
     {
         return await _context.Blogs.Where(x => x.Url == url).FirstOrDefaultAsync(cancellationToken);
     }
+
+    public IQueryable<Blog> GetBlogByIdWithInclude(int blogId)
+    {
+        //return _context.Blogs.AsNoTracking().Where(x => x.Id == blogId)
+        //    .Include(c => c.Image)
+        //    .Include(t => t.Tags)
+        //    .Include(k => k.Keywords);
+
+        var result = _context.Blogs.Where(x => x.Id == blogId).Include(nameof(Blog.BlogAuthor))
+            .Include(nameof(Blog.Tags)).Include(nameof(Blog.Keywords)).Include(nameof(Blog.Image));
+
+        return result;
+    }
 }

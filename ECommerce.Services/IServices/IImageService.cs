@@ -11,4 +11,5 @@ public interface IImageService : IEntityService<Image>
     Task<ServiceResult> Delete(string imageName, int id, string contentRootPath);
     Task<ServiceResult<List<Image>>> GetImagesByProductId(int productId);
     Task<ServiceResult<List<string>>> Upload(IFormFile file, string path, string contentRootPath);
+    Task<ServiceResult<Image>> GetImagesByBlogId(int blogId);
 }

@@ -38,4 +38,9 @@ public class ImageRepository : AsyncRepository<Image>, IImageRepository
         return await
             _context.Images.Where(x => x.ProductId == productId).ToListAsync(cancellationToken);
     }
+
+    public async Task<Image> GetByBlogId(int blogId, CancellationToken cancellationToken)
+    {
+        return await _context.Images.Where(x => x.BlogId == blogId).FirstOrDefaultAsync(cancellationToken);
+    }
 }
