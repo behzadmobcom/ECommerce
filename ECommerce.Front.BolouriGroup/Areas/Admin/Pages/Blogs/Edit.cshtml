@@ -99,15 +99,6 @@
                             </select>
                         </div>
 
-						@*<div class="form-group">
-							<label>کلمات کلیدی</label>
-							<select asp-for="@Model.Blog.KeywordsId" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
-						</div>
-
-						<div class="form-group">
-							<label>تگ</label>
-							<select asp-for="@Model.Blog.TagsId" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
-						</div>*@
 
                         <div class="form-group">
                             <label>انتخاب تگ ها</label>
@@ -159,7 +150,8 @@
                     
                         <div class="form-group">
                         <label>تصویر</label>
-                        <ul class="details-preview">                          
+                            <ul class="details-preview">    
+                               
                                 <form class="form" method="post" asp-page-handler="DeleteImage">
                                     <li>
                                         <img style="width: 50%" src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image?.Alt">
@@ -180,12 +172,12 @@
             </div>
         </div>
     </div>
-</div>
+
 
 @section Scripts
 {
 <script src="~/Admin/js/ckeditor/ckeditor.js"></script>
-
+<script src="~/Admin/js/select2.min.js"></script>
     <script type="text/javascript">
         window.onload = function() {
             CKEDITOR.replace('Description_Edit');
