@@ -23,6 +23,16 @@
             <h6 class="product-name">
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
             </h6>
+            <div class="pro-rating">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <label for="starLable-Model.Id-@i" @if (Model.Stars >= i)
+                                                          {<text> class="rankChecked" </text> }>
+                                <input onclick="SaveStars(Model.Id, @i)" type="checkbox" id="starLable-Model.Id-@i" />
+                            <i class="far fa-star"></i>
+                    </label>
+                }
+            </div>
             <div class="product-rating">
 
                 @for (var i = 0; i < Model.Stars; i++)

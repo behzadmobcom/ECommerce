@@ -12,6 +12,7 @@ public class ProductModel : PageModel
     private readonly IProductService _productService;
     private readonly IStarService _starService;
 
+
     public ProductModel(IProductService productService, IStarService starService, ICartService cartService,
        IProductAttributeGroupService productAttributeGroupService)
     {

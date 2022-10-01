@@ -5,25 +5,8 @@
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
-<style>
-    * {
-        box-sizing: border-box;
-    }
+<link href="~/css/stars.css" rel="stylesheet" />
 
-    .img-magnifier-container {
-        position: relative;
-    }
-
-    .img-magnifier-glass {
-        position: absolute;
-        border: 3px solid #000;
-        border-radius: 50%;
-        cursor: none;
-        /*Set the size of the magnifier glass:*/
-        width: 100px;
-        height: 100px;
-    }
-</style>
 <section class="inner-section single-banner">
     <div class="container">
         <h2>جزئیات محصول</h2>
@@ -80,6 +63,16 @@
                     <div class="details-rating">
                         <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
+                    </div>
+                    <div class="pro-rating sin-pro-rating f-right">
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
+                                                              {<text> class="rankChecked" </text> }>
+                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                    <i class="fas fa-star"></i>
+                            </label>
+                        }
                     </div>
 
                     @{
@@ -141,15 +134,15 @@
                         </ul>
                     </div>
                     <div class="details-list-group">
-                        <label class="details-list-title">در انبار:</label>
+                        <span class="details-list-title">در انبار:</span>
                         <div id="exist">
                             @if (Model.Product.Prices.First().Exist > 0)
                             {
-                                <label>در دسترس</label>
+                                <span>در دسترس</span>
                             }
                             else
                             {
-                                <label>عدم موجودی</label>
+                                <span>عدم موجودی</span>
                             }
                         </div>
                     </div>
@@ -176,16 +169,16 @@
                             {
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                    <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
-                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                    <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
+                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
                                 </div>
                             }
                             else if (price.ColorId > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                    <label for="price-@price.Id">@price.Color.Name - </label>
-                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                    <span for="price-@price.Id">@price.Color.Name - </span>
+                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
                                 </div>
                             }
                             <br>
@@ -373,6 +366,24 @@
 </section>
 
 @section Scripts{
+    <script>
+        var labels = $("label");
+
+        labels.hover(
+            function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
+            , function () {
+                $(this).css("color", "inherit").prevUntil().css("color", "inherit");
+                var checkedNum = $("[name='Commissions'] .checked").length;
+                if (checkedNum === 1) {
+                    $(this + " .rateTitle").html($("[name='Commissions'] .checked").attr("data-rate"));
+                } else {
+                    $(this + " .rateTitle").html("");
+                }
+
+            }
+        );
+
+    </script>
     <script>
         function magnify(imgID, zoom) {
             var img, glass, w, h, bw;

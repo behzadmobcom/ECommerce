@@ -226,22 +226,7 @@
 </section>
 <br />
 <br />
-<section class="section suggest-part">
-    <div class="container">
-        <ul class="suggest-slider slider-arrow">
-            @foreach (var brand in Model.Brands)
-            {
-                <li>
-                    <a class="suggest-card" asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
-                        <img src="@brand.ImagePath" alt=@brand.Name>
 
-                        <h5>@brand.Name </h5>
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
-</section>
 
 
 
@@ -296,7 +281,22 @@
         </div>
     </div>
 </section>
+<section class="section suggest-part">
+    <div class="container">
+        <ul class="suggest-slider slider-arrow">
+            @foreach (var brand in Model.Brands)
+            {
+                <li>
+                    <a class="suggest-card" asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
+                        <img src="@brand.ImagePath" alt=@brand.Name>
 
+                        <h5>@brand.Name </h5>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
 @*<section class="section newitem-part">
     <div class="container">
         <div class="row">
