@@ -93,4 +93,18 @@ public class BlogService : EntityService<Blog>, IBlogService
         var result = await _http.GetAsync<BlogViewModel>(Url, $"GetById?id={id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = "", string search = "",
+    int pageNumber = 0, int pageSize = 10, int blogSort = 1 )
+    {
+        var command = "Get?" +
+                      $"PaginationParameters.PageNumber={pageNumber}&" +
+                      $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+        if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
+   
+        command += $"BlogSort={blogSort}";
+        var result = await _http.GetAsync<List<BlogViewModel>>(Url, command);
+        return Return(result);
+    }
 }

@@ -24,6 +24,7 @@ public class BlogViewModel
 
     //ForeignKey
     public int BlogAuthorId { get; set; }
+    public BlogAuthor? BlogAuthor { get; set; }
 
     public int BlogCategoryId { get; set; }
 
@@ -54,7 +55,8 @@ public class BlogViewModel
             KeywordsId = x.Keywords.Select(x => x.Id).ToList(),
             Tags = x.Tags.ToList(),
             Keywords = x.Keywords.ToList(),
-            Image = x.Image
+            Image = x.Image,
+            BlogAuthor=x.BlogAuthor
         };
     }
 
@@ -74,7 +76,8 @@ public class BlogViewModel
             BlogCategoryId = x.BlogCategoryId,
             Tags = x.Tags?.ToList(),
             Keywords = x.Keywords?.ToList(),
-            Image = x.Image
+            Image = x.Image,
+            BlogAuthor = x.BlogAuthor
         };
     }
 }

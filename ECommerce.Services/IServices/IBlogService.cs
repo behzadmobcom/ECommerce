@@ -13,4 +13,7 @@ public interface IBlogService : IEntityService<Blog>
     Task<ServiceResult> Edit(BlogViewModel blogViewModel);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult<BlogViewModel>> GetById(int id);
+    Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = "", string search = "",
+    int pageNumber = 0, int pageSize = 10, int blogSort = 1);
+
 }
