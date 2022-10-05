@@ -225,7 +225,15 @@
 						</li>
 						<li class="navbar-item dropdown">
 							<a class="navbar-link dropdown-arrow" href="#">وبلاگ ها</a>
-							<ul class="dropdown-position-list">
+							<div class="dropdown-position-list">
+								<div class="container">
+									<div class="row">
+										<div class="col-md-12">			
+											@await Component.InvokeAsync("BlogCategoriesMenu")
+										</div>
+									</div>
+								</div></div></li>
+						@*	<ul class="dropdown-position-list">
 								<li>
 									<a asp-area="" asp-page="/Blog">شبکه  ب وبلاگ</a>
 								</li>
@@ -235,7 +243,7 @@
 								<li>
 									<a href="blog-details.html">جزئیات وبلاگ</a>
 								</li>
-							</ul>
+							</ul>*@
 						</li>
 					</ul>
 					<div class="navbar-info-group">

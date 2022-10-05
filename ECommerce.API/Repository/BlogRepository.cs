@@ -21,7 +21,8 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         CancellationToken cancellationToken)
     {
         return PagedList<Blog>.ToPagedList(
-            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search)).AsNoTracking()
+            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search)).Include(x => x.Image)
+                .Include(x=>x.Keywords).Include(x=>x.Tags).Include(x=>x.BlogAuthor).AsNoTracking()
                 .OrderBy(on => on.Id).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
