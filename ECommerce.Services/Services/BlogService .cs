@@ -107,4 +107,11 @@ public class BlogService : EntityService<Blog>, IBlogService
         var result = await _http.GetAsync<List<BlogViewModel>>(Url, command);
         return Return(result);
     }
+
+    public async Task<ServiceResult<BlogDetailsViewModel>> GetByUrl(string blogUrl)
+    {
+        var result = await _http.GetAsync<BlogDetailsViewModel>(Url, $"GetByUrl?blogUrl={blogUrl}");
+        return Return(result);
+
+    }
 }

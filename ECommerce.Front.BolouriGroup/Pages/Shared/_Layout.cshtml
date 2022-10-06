@@ -235,29 +235,8 @@
 									<a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
 								</li>
 							</ul>
-						</li>
-						<li class="navbar-item dropdown">
-							<a class="navbar-link dropdown-arrow" href="#">وبلاگ ها</a>
-							<div class="dropdown-position-list">
-								<div class="container">
-									<div class="row">
-										<div class="col-md-12">			
-											@await Component.InvokeAsync("BlogCategoriesMenu")
-										</div>
-									</div>
-								</div></div></li>
-						@*	<ul class="dropdown-position-list">
-								<li>
-									<a asp-area="" asp-page="/Blog">شبکه  ب وبلاگ</a>
-								</li>
-								<li>
-									<a href="blog-standard.html">استاندارد وبلاگ</a>
-								</li>
-								<li>
-									<a href="blog-details.html">جزئیات وبلاگ</a>
-								</li>
-							</ul>*@
-						</li>
+						</li>				
+								@await Component.InvokeAsync("BlogCategoriesMenu")
 					</ul>
 					<div class="navbar-info-group">
 						<div class="navbar-info">
