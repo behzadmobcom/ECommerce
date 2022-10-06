@@ -23,29 +23,17 @@
             <h6 class="product-name">
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
             </h6>
-            <div class="pro-rating">
+         
+            <div class="pro-rating sin-pro-rating f-right">
                 @for (var i = 1; i <= 5; i++)
                 {
-                    <label for="starLable-Model.Id-@i" @if (Model.Stars >= i)
-                                                          {<text> class="rankChecked" </text> }>
-                                <input onclick="SaveStars(Model.Id, @i)" type="checkbox" id="starLable-Model.Id-@i" />
-                            <i class="far fa-star"></i>
+                    <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
+                                                      {<text> class="rankChecked" </text> }>
+                        <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@i" />
+                        <i class="fas fa-star"></i>
                     </label>
                 }
-            </div>
-            <div class="product-rating">
-
-                @for (var i = 0; i < Model.Stars; i++)
-                {
-                    <i class="active fas fa-star"></i>
-                }
-                @for (var i = Model.Stars; i < 5; i++)
-                {
-                    <i class="far fa-star"></i>
-                }
-
-
-                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)</a>
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
             </div>
             <div class="product-price">
 	            @{

@@ -20,7 +20,7 @@ label {
 }
 
 label.rankChecked {
-    color: gold !important;
+    color: blue !important;
 }
 
 .rateTitle {

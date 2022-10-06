@@ -64,6 +64,24 @@
                     </div>
                 </form>
                 <!--end::Form-->
+                <div class="form-group">
+                    <label>تصویر کالا</label>
+                    <ul class="details-preview">
+
+                        @foreach (var image in Model.Brand.ImagePath)
+                        {
+                            <form class="form" method="post" asp-page-handler="DeleteImage">
+                                <li>
+                                    <img style="width: 50%" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    <input name="imageName" value="@image.Name" hidden="hidden"/>
+                                <input name="productId" value="@Model.Brand.Id" hidden="hidden" />
+                                    <input name="id" value="@image.Id" hidden="hidden"/>
+                                    <button type="submit">حذف</button>
+                                </li>
+                            </form>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

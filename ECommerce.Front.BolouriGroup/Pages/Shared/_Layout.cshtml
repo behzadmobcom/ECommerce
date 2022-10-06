@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using ECommerce.Services.IServices
+@inject ICartService _cartService
+@inject ICompareService _compareService
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
@@ -22,7 +25,8 @@
 	<link rel="stylesheet" href="~/css/bootstrap-3.min.css" />
     <link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" />
     <link rel="stylesheet" href="~/css/slick.min.css" />
-	<link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link href="~/css/stars.css" rel="stylesheet" />
 	<!-- CSS only -->
 	
 </head>
@@ -34,7 +38,7 @@
 </div>
 
 
-<div class="header-top">
+@*<div class="header-top">
 	<div class="container">
 		<div class="row">
 			 <div class="col-md-12 col-lg-5">
@@ -45,9 +49,9 @@
 					<li>
 						<a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
 					</li>
-					@*<li>
+					<li>
 						<a asp-area="" asp-page="/Offer">تخفیف</a>
-					</li>*@
+					</li>
 					<li>
 						<a asp-area="" asp-page="/Faq">کمک خواستن؟</a>
 					</li>
@@ -73,7 +77,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>*@
 
 <div class="header-part">
 	<div class="container">
@@ -92,12 +96,19 @@
 					<i class="flaticon-menu-1"></i>
 				</button>
 			</div>
-			<form class="header-form">
-				<input type="text" placeholder="مورد خود را در اینجا جستجو کنید ...">
-				<button>
-					<i class="far fa-search"></i>
-				</button>
-			</form>
+            <form class="header-form">
+                <input type="text" placeholder="مورد خود را در اینجا جستجو کنید ...">
+                <button>
+                    <i class="far fa-search"></i>
+                </button>
+            </form>
+            @{
+                var result = await _cartService.Load(Context);
+                var cartList = result.ReturnData;
+                var resultCompare = _compareService.Load(Context);
+                var compareList = resultCompare.ReturnData;
+                decimal allPrice = 0;
+            }
 			<div class="header-widget-group right">
 				@if (User.Identity.IsAuthenticated)
 				{
@@ -113,15 +124,17 @@
 							<img src="~/img/user.jpg" alt="کاربر">
 						</a>
 					}
-
+				 
 					<a class="header-widget" asp-area="" asp-page="/Compare" title="مقایسه لیست">
-						<i class="far fa-exchange"></i><sup>2</sup>
+                        <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
+                        <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
 					</a>
 					<a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-						<i class="far fa-heart"></i><sup>3</sup>
+						<i class="far fa-heart"></i>
 					</a>
-					<button class="header-widget header-cart" title="سبد خرید">
-						<i class="far fa-shopping-cart"></i><sup id="Cart-Count">0</sup>
+						<button class="header-widget header-cart"  title="سبد خرید">
+                            <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
+                            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
 					</button>
 				}
 				else
@@ -611,6 +624,37 @@
 <script src="~/js/slick.js"></script>
 @await RenderSectionAsync("Scripts", false)
 <script>
+        var labels = $("label");
+        labels.hover(
+            function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
+            , function () {
+                $(this).css("color", "inherit").prevUntil().css("color", "inherit");
+                var checkedNum = $("[name='Commissions'] .checked").length;
+                if (checkedNum === 1) {
+                    $(this + " .rateTitle").html($("[name='Commissions'] .checked").attr("data-rate"));
+                } else {
+                    $(this + " .rateTitle").html("");
+                }
+            }
+        );
+		 function SaveStars(id, starNumber) {
+
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+    </script>
+<script>
 	$(LoadCard());
 
 	function DeleteCart(id, productId, priceId) {
@@ -795,23 +839,6 @@
 
 	; 
 // DOMContentLoaded  end
- function SaveStars(id, starNumber) {
-
-            $.ajax({
-                type: "Get",
-                url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    swal(result);
-                    location.reload();
-                },
-                failure: function (response) {
-                    swal(response);
-                }
-            });
-        }
-
 </script>
 
 </body>

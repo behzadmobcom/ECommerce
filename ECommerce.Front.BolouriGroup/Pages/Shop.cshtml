@@ -2,7 +2,7 @@
 @model Bolouri.Pages.ShopModel
 @{
 }
-
+<link href="~/css/stars.css" rel="stylesheet" />
 <section class="inner-section single-banner">
     <div class="container">
         <h2>لیست کالا</h2>
@@ -145,31 +145,31 @@
                         @{var count = false;}
                         @foreach (var brand in Model.Brands)
                         {
-                                @if (count)
-                                {
+                            @if (count)
+                            {
                                 <li>
-                                        <div class="shop-widget-content">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="brand_@brand.Key">
-                                                <label class="form-check-label" for="brand_@brand.Key">@brand.Value</label>
-                                            </div>
+                                    <div class="shop-widget-content">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" id="brand_@brand.Key">
+                                            <label class="form-check-label" for="brand_@brand.Key">@brand.Value</label>
                                         </div>
-                                    </li>
-                                }
+                                    </div>
+                                </li>
+                            }
                             count = true;
                         }
 
 
-                            </ul>
-                            </div>
-                            </div>
-                            <div class="col-lg-9 order-0 order-lg-1">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="shop-filter">
-                                            @{
-                                                var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
-                                                var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9 order-0 order-lg-1">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="shop-filter">
+                            @{
+                                var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
+                                var endNumber = Model.Products.PaginationDetails.CurrentPage * Model.Products.PaginationDetails.PageSize;
                                 var total = Model.Products.PaginationDetails.TotalCount;
                                 if (endNumber > total) endNumber = total;
                             }
@@ -203,3 +203,23 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        var labels = $("label");
+
+        labels.hover(
+            function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
+            , function () {
+                $(this).css("color", "inherit").prevUntil().css("color", "inherit");
+                var checkedNum = $("[name='Commissions'] .checked").length;
+                if (checkedNum === 1) {
+                    $(this + " .rateTitle").html($("[name='Commissions'] .checked").attr("data-rate"));
+                } else {
+                    $(this + " .rateTitle").html("");
+                }
+
+            }
+        );
+
+    </script>}

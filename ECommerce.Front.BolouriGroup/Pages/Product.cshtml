@@ -60,10 +60,10 @@
                             <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
                         }
                     </div>
-                    <div class="details-rating">
+                  @*  <div class="details-rating">
                         <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
-                    </div>
+                    </div>*@
                     <div class="pro-rating sin-pro-rating f-right">
                         @for (var i = 1; i <= 5; i++)
                         {
@@ -73,6 +73,7 @@
                                     <i class="fas fa-star"></i>
                             </label>
                         }
+                        <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
 
                     @{
@@ -146,21 +147,8 @@
                             }
                         </div>
                     </div>
-                    @*  <div class="details-list-group">
-                    <label class="details-list-title">تعداد:</label>
-                    <div class="cart-action-group">
-                    <div class="product-action">
-                    <button class="action-minus" title="مقدار منهای">
-                    <i class="far fa-minus"></i>
-                    </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                    <button class="action-plus" title="مقدار به علاوه">
-                    <i class="far fa-plus"></i>
-                    </button>
-                    </div>
-                    </div>
-                    </div>*@
 
-                    @if (Model.Product.Tags != null)
+                  @if (Model.Product.Tags != null)
                     {
                         @foreach (var price in Model.Product.Prices)
                         {
