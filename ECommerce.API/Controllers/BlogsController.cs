@@ -194,4 +194,30 @@ public class BlogsController : ControllerBase
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
+
+    [HttpGet]
+    public async Task<ActionResult<BlogViewModel>> GetByUrl(string blogUrl, bool isColleague,
+     CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _blogRepository.GetBlogByUrlWithInclude(blogUrl).FirstOrDefaultAsync(cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
 }

@@ -18,4 +18,5 @@ public interface IBlogRepository : IAsyncRepository<Blog>
 
     Task<Blog> GetByUrl(string url, CancellationToken cancellationToken);
     IQueryable<Blog> GetBlogByIdWithInclude(int blogId);
+    IQueryable<Blog> GetBlogByUrlWithInclude(string blogUrl);
 }

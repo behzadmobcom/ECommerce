@@ -10,8 +10,9 @@
        <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor.Name}")</a> </span></li>
        <li><i class="far fa-comments"></i><span>10 نظر</span></li>
       </ul>
-      <h4 class="blog-title"><a asp-area="" asp-page="Blog"> @Model.Summary</a></h4>       
-      <p asp-area="" class="blog-desc" asp-page="Blog">@($"{Model.Text.Substring(Model.Text.Length - 100, 100)}...")</p>
+      <h4 class="blog-title"><a asp-area="" asp-page="Blog"> @Model.Title</a></h4>       
+      @*<p asp-area="" class="blog-desc" asp-page="Blog">@($"{Html.Raw(Model.Text.Substring(Model.Text.Length - 100, 100))}...")</p>*@
+        <p asp-area="" class="blog-desc" asp-page="Blog">@(Html.Raw(Model.Text))</p>
 
       <a class="blog-btn" asp-area="" asp-page="/BlogDetails"><span> ادامه مطلب </span><i class="far fa-long-arrow-left"></i></a>
      </div>

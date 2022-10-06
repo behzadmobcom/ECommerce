@@ -99,4 +99,14 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
 
         return result;
     }
+   
+    public IQueryable<Blog> GetBlogByUrlWithInclude(string blogUrl)
+    {
+    
+
+        var result = _context.Blogs.Where(x => x.Url == blogUrl).Include(nameof(Blog.BlogAuthor))
+            .Include(nameof(Blog.Tags)).Include(nameof(Blog.Keywords)).Include(nameof(Blog.Image)).Include(nameof(Blog.BlogComments));
+
+        return result;
+    }
 }

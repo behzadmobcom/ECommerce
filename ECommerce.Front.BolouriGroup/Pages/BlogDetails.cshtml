@@ -1,8 +1,9 @@
-﻿@page
+﻿@page "/blog/{blogUrl}"
 @model Bolouri.Pages.BlogDetailsModel
 @{
     ViewData["Title"] = "جزئیات وبلاگ";
 }
+
 
 
 <section class="inner-section single-banner">
@@ -12,7 +13,7 @@
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
             </li>
-	        <li class="breadcrumb-item active" aria-current="page">جزئیات وبلاگ</li>
+	        <li class="breadcrumb-item active" aria-current="page">@Model.Blog.Summary</li>
         </ol>
     </div>
 </section>
@@ -21,18 +22,18 @@
   <div class="row justify-content-center">
    <div class="col-lg-8">
     <article class="blog-details">
-     <a class="blog-details-thumb" href="#"><img src="~/Images/Banner/2.jpg" alt="وبلاگ"></a>
+     <a class="blog-details-thumb" href="#"><img src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image.Alt"></a>
      <div class="blog-details-content">
       <ul class="blog-details-meta">
-       <li><i class="far fa-calendar"></i><span>20 خرداد 1400   </span></li>
-       <li><i class="far fa-user"></i><span>توسط مدیر</span></li>
+       <li><i class="far fa-calendar"></i><span> @Model.Blog.EditDateTime  </span></li>
+       <li><i class="far fa-user"></i><span> @($"توسط {Model.Blog.BlogAuthor.Name}")  </span></li>
        <li><i class="far fa-comments"></i><span>10 نظر</span></li>
        <li><i class="far fa-share-alt"></i><span>20 سهم</span></li>
       </ul>
-      <h2 class="blog-details-title">بسیاری از معابر که اکثر آنها رنج برده اند وجود دارد</h2>
+      <h2 class="blog-details-title">@Model.Blog.Title</h2>
       <p class="blog-details-desc">
-       بسیاری از متنهای متن ساختگی در دسترس است ، اما اکثریت از طنز تزریق شده یا کلمات تصادفی که حتی کمی باور پذیر به نظر نمی رسند دچار تغییراتی شده اند. اگر می خواهید از متن متن ساختگی استفاده کنید ، باید مطمئن باشید که هیچ چیز خجالت آور در وسط متن پنهان نشده است. تمام مولدهای متن ساختگی در اینترنت تمایل دارند که تکه های از پیش تعریف شده را در صورت لزوم تکرار کنند ، و این اولین تولید کننده واقعی در اینترنت است.
-      </p>
+          @(Html.Raw(Model.Blog.Text))
+       </p>
       <blockquote class="blog-details-quote">
        <p>این یک واقعیت ثابت شده طولانی است که خواننده از محتوای قابل خواندن منحرف می شود.</p>
        <footer>- نیکلاس تی لومیس</footer>
@@ -64,10 +65,10 @@
        </ul>
        <ul class="blog-details-tag">
         <h4>برچسب ها:</h4>
-        <li><a href="#">تازه</a></li>
-        <li><a href="#">ارگانیک</a></li>
-        <li><a href="#">دریا</a></li>
-        <li><a href="#">غذا</a></li>
+          @foreach (var item in Model.Blog.Tags)
+                {                               
+                     <li><a href="#"> @item.TagText </a></li>
+                }                           
        </ul>
       </div>
      </div>
