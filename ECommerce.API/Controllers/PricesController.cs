@@ -116,6 +116,7 @@ public class PricesController : ControllerBase
     {
         try
         {
+            var messages = new List<string>();
             if (price == null)
                 return Ok(new ApiResult
                 {
@@ -123,27 +124,26 @@ public class PricesController : ControllerBase
                 });
 
             if (price.ArticleCode == null && price.Amount == 0)
-            {
+                messages.Add("لطفا یا کد کالا وارد کنید یا مبلغ");
+
+            messages.AddRange(await CheckPrice(price, cancellationToken));
+            var holooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+            if (holooPrice.price == 0)
+                messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");
+
+            if(messages.Count > 0)
                 return Ok(new ApiResult
                 {
-                    Messages = new List<string> { "لطفا یا کد کالا وارد کنید یا مبلغ" },
-                    Code = ResultCode.Error
+                    Messages = new List<string> { },
+                    Code = ResultCode.BadRequest
                 });
-            }
 
-            var messages = await CheckPrice(price, cancellationToken);
             var newPrice = await _priceRepository.AddAsync(price, cancellationToken);
             await _holooArticleRepository.SyncHolooWebId(newPrice.ArticleCodeCustomer, newPrice.ProductId, cancellationToken);
-            if (messages.Count == 0)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success,
-                    ReturnData = newPrice
-                });
             return Ok(new ApiResult
             {
-                Messages = messages,
-                Code = ResultCode.BadRequest
+                Code = ResultCode.Success,
+                ReturnData = newPrice
             });
         }
         catch (Exception e)
@@ -160,28 +160,28 @@ public class PricesController : ControllerBase
     {
         try
         {
+            var messages = new List<string>();
             if (price.ArticleCode == null && price.Amount == 0)
-            {
-                return Ok(new ApiResult
-                {
-                    Messages =new List<string> {"لطفا یا کد کالا وارد کنید یا مبلغ"},
-                    Code = ResultCode.Error
-                });
-            }
-            var messages = await CheckPrice(price, cancellationToken);
-            if (messages.Count == 0)
-            {
-                await _priceRepository.UpdateAsync(price, cancellationToken);
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success
-                });
-            }
+                messages.Add("لطفا یا کد کالا وارد کنید یا مبلغ");
 
+            messages.AddRange(await CheckPrice(price, cancellationToken));
+
+            var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+
+            if (HolooPrice.price == 0)
+                messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");
+
+            if (messages.Count > 0)
+                return Ok(new ApiResult
+                {
+                    Messages = messages,
+                    Code = ResultCode.BadRequest
+                });
+
+            await _priceRepository.UpdateAsync(price, cancellationToken);
             return Ok(new ApiResult
             {
-                Messages = messages,
-                Code = ResultCode.BadRequest
+                Code = ResultCode.Success
             });
         }
         catch (Exception e)

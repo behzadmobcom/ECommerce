@@ -51,39 +51,42 @@
 							<span asp-validation-for="@Model.Blog.Summary" class="mt-5" style="color: red; margin-top: 10px"></span>
 						</div>
 						<div class="form-group">
-							<label>تاریخ ایجاد</label>
-							<input name="Blog.CreateDateTime" class="form-control form-control-solid"/>
-							<span asp-validation-for="@Model.Blog.CreateDateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
-						</div>
+                            <label>تاریخ ایجاد</label>
+							<input id="CreateDate" name="Employee.CreateDateTime" hidden="hidden" />
+							<input id="CreateDatepicker" class="form-control form-control-solid" placeholder="تاریخ ایجاد" />
+                        </div>
 						<div class="form-group">
-							<label>تاریخ انتشار</label>
-							<input asp-for="@Model.Blog.PublishDateTime" class="form-control form-control-solid"/>
-							<span asp-validation-for="@Model.Blog.PublishDateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <label>تاریخ انتشار</label>
+							<input id="PublishDate" name="Employee.PublishDateTime" hidden="hidden" />
+							<input id="PublishDatepicker" class="form-control form-control-solid" placeholder="تاریخ انتشار" />
+							
 						</div>
 						<div class="form-group">
 							<label>آدرس اینترنتی</label>
 							<input asp-for="@Model.Blog.Url" class="form-control form-control-solid"/>
 							<span asp-validation-for="@Model.Blog.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
 						</div>
-						<div class="form-group">
-							<label>دسته بندی مقاله</label>
-							<input asp-for="@Model.Blog.BlogCategory" class="form-control form-control-solid"/>
-							<span asp-validation-for="@Model.Blog.BlogCategory" class="mt-5" style="color: red; margin-top: 10px"></span>
-						</div>
+                        <div class="form-group">
+                            <label>انتخاب دسته بندی مقاله</label>
+                            <br/>
+                            <input hidden="hidden" id="path_0" value=""/>
+                            <input hidden="hidden" id="depth_0" value="-1"/>
+
+                            <partial name="_ParentBlogCategory" model="@Model.Categories"/>
+                        </div>
 						<div class="form-group">
 							<label>نویسنده مقاله</label>
-							<select asp-for="@Model.Blog.BlogAuthor" asp-items="@Model.BlogAuthors" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.BlogAuthorId" asp-items="@Model.BlogAuthors" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
 						<div class="form-group">
 							<label>کلمات کلیدی</label>
-							<select asp-for="@Model.Blog.Keywords" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.KeywordsId" asp-items="@Model.Keywords" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
 						<div class="form-group">
 							<label>تگ</label>
-							<select asp-for="@Model.Blog.Tags" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
+							<select asp-for="@Model.Blog.TagsId" asp-items="@Model.Tags" class="form-control js-example-basic-multiple col-md-12"></select>
 						</div>
-                       
-						<div class="form-group">
+                       <div class="form-group">
 							<label>تصویر مقاله</label>
 							<div class="custom-file">
 								<input asp-for="@Model.Upload" type="file" class="custom-file-input" id="selectFile" accept=".gif,.jpg,.jpeg,.png"/>
@@ -102,9 +105,28 @@
 	</div>
 </div>
 @section Scripts{
+    <script src="~/Admin/js/persianDatepicker.min.js"></script>
 <script src="~/Admin/js/ckeditor/ckeditor.js"></script>
     <script src="~/Admin/js/select2.min.js"></script>
     <script type="text/javascript">
+		$(document).ready(function () {
+			$('#CreateDatepicker').persianDatepicker({
+				theme: 'latoja',
+				fontSize: 15,
+				formatDate: "YYYY/MM/DD",
+				onSelect: function () {
+					$("#CreateDate").val($("#CreateDatepicker").attr("data-gdate"));
+				}
+			});
+			$('#PublishDatepicker').persianDatepicker({
+				theme: 'latoja',
+				fontSize: 15,
+				formatDate: "YYYY/MM/DD",
+				onSelect: function () {
+					$("#PublishDate").val($("#PublishDatepicker").attr("data-gdate"));
+				}
+			});
+		});
         window.onload = function() {
             CKEDITOR.replace('Description_Add');
         };
@@ -112,5 +134,6 @@
 	        $('.js-example-basic-multiple').select2();
         });
       
+    
     </script>
 }

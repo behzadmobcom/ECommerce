@@ -1,6 +1,7 @@
 ﻿using API.DataContext;
 using API.Interface;
 using Entities.HolooEntity;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Repository;
 
@@ -18,5 +19,10 @@ public class HolooABailRepository : HolooRepository<HolooABail>, IHolooABailRepo
         await _context.AddRangeAsync(aBails, cancellationToken);
         var result = await _context.SaveChangesAsync(cancellationToken);
         return result > 0;
+    }
+
+    public async Task<List<HolooABail>> GetAll(CancellationToken cancellationToken)
+    {
+        return await _context.ABAILPRE.ToListAsync(cancellationToken);
     }
 }

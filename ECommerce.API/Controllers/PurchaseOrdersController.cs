@@ -441,7 +441,7 @@ public class PurchaseOrdersController : ControllerBase
                 {
                     A_Code = orderDetail.Price.ArticleCode,
                     ACode_C = orderDetail.Price.ArticleCodeCustomer,
-                    A_Index = i++,
+                    A_Index = Convert.ToInt16(i++),
                     DarsadTakhfif = Convert.ToDouble(orderDetail.DiscountAmount),
                     Fac_Code = fBail,
                     Fac_Type = "P",
@@ -460,7 +460,7 @@ public class PurchaseOrdersController : ControllerBase
             var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
             purchaseOrder.Transaction.SanadCode = sanadCode;
 
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "901", "0001", "", Convert.ToDouble(purchaseOrder.Amount),0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0001", Convert.ToDouble(purchaseOrder.Amount),0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0,Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;

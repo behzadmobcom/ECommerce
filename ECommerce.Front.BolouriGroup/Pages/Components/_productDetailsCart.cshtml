@@ -26,9 +26,49 @@
                 <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(4 نظر)</a>
             </div>
-            <h6 class="feature-price">
-                <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
-            </h6>
+	      
+	        @{
+		        decimal? discount = 0;
+		        decimal? amount = 0;
+		        decimal? discountAmount = 0;
+		        var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+		        if (singlePrice != null)
+		        {
+			        amount = singlePrice.Amount;
+
+
+			        if (singlePrice.Discount != null)
+				        if (singlePrice.Discount.Amount > 0)
+				        {
+					        discount = (decimal)singlePrice.Discount.Amount;
+				        }
+				        else if (singlePrice.Discount.Percent > 0)
+				        {
+					        discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+				        }
+			        discountAmount = amount - discount;
+		        }
+
+	        }
+	        @if (singlePrice == null)
+	        {
+		        <h6 class="feature-price">
+			        <span>ناموجود</span>
+		        </h6>
+	        }
+	        else
+	        {
+		        @if (discount > 0)
+		        {
+			        <div class="feature-price">
+				        <del>@amount?.ToString("###,###,###,###") تومان</del>
+			        </div>
+		        }
+		        <h6 class="feature-price">
+			        <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+		        </h6>
+		        
+	        }
             @{
                 var descriptionWords = Model.Description.Split(" ");
                 var description = "";

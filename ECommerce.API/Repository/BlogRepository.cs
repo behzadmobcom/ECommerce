@@ -21,7 +21,8 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         CancellationToken cancellationToken)
     {
         return PagedList<Blog>.ToPagedList(
-            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search)).AsNoTracking()
+            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search)).Include(x => x.Image)
+                .Include(x=>x.Keywords).Include(x=>x.Tags).Include(x=>x.BlogAuthor).AsNoTracking()
                 .OrderBy(on => on.Id).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
@@ -39,6 +40,10 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         foreach (var id in blogViewModel.KeywordsId) blog.Keywords.Add(await _context.Keywords.FindAsync(id));
         blog.Tags = new List<Tag>();
         foreach (var id in blogViewModel.TagsId) blog.Tags.Add(await _context.Tags.FindAsync(id));
+        blog.BlogCategory = new BlogCategory();
+        blog.BlogCategory=(await _context.BlogCategories.FindAsync(blogViewModel.BlogCategoryId));
+        blog.BlogAuthor = new BlogAuthor();
+        blog.BlogAuthor = (await _context.BlogAuthors.FindAsync(blogViewModel.BlogAuthorId));
 
         await _context.Blogs.AddAsync(blog, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
@@ -80,5 +85,28 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
     public async Task<Blog> GetByUrl(string url, CancellationToken cancellationToken)
     {
         return await _context.Blogs.Where(x => x.Url == url).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public IQueryable<Blog> GetBlogByIdWithInclude(int blogId)
+    {
+        //return _context.Blogs.AsNoTracking().Where(x => x.Id == blogId)
+        //    .Include(c => c.Image)
+        //    .Include(t => t.Tags)
+        //    .Include(k => k.Keywords);
+
+        var result = _context.Blogs.Where(x => x.Id == blogId).Include(nameof(Blog.BlogAuthor))
+            .Include(nameof(Blog.Tags)).Include(nameof(Blog.Keywords)).Include(nameof(Blog.Image));
+
+        return result;
+    }
+   
+    public IQueryable<Blog> GetBlogByUrlWithInclude(string blogUrl)
+    {
+    
+
+        var result = _context.Blogs.Where(x => x.Url == blogUrl).Include(nameof(Blog.BlogAuthor))
+            .Include(nameof(Blog.Tags)).Include(nameof(Blog.Keywords)).Include(nameof(Blog.Image)).Include(nameof(Blog.BlogComments));
+
+        return result;
     }
 }

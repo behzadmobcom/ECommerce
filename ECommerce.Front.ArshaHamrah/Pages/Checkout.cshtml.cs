@@ -111,7 +111,7 @@ public class CheckoutModel : PageModel
             Code = resultCart.Code.ToString();
         }
         var cart = resultCart.ReturnData;
-        decimal tempSumPrice = cart.Sum(x => x.SumPrice)+PostPrice;
+        decimal tempSumPrice = cart.Sum(x => x.SumPrice) + PostPrice;
         SumPrice = Convert.ToInt32(tempSumPrice);
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
@@ -122,21 +122,21 @@ public class CheckoutModel : PageModel
             switch (Portal)
             {
                 case "zarinpal":
-                    //Zarinpal
-                    returnAction = "PaymentSuccessful";
-                    description = "خرید تستی ";
+                //Zarinpal
+                //returnAction = "PaymentSuccessful";
+                //description = "خرید تستی ";
 
-                    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
-                    if (paymentZarinpal.Status == 100)
-                    {
+                //var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                //if (paymentZarinpal.Status == 100)
+                //{
 
-                        await _purchaseOrderService.Edit(purchaseOrder);
-                        return Redirect(paymentZarinpal.Link);
-                    }
-                    else
-                    {  //return errorPage;
-                        return RedirectToPage("Error");
-                    }
+                //    await _purchaseOrderService.Edit(purchaseOrder);
+                //    return Redirect(paymentZarinpal.Link);
+                //}
+                //else
+                //{  //return errorPage;
+                //    return RedirectToPage("Error");
+                //}
                 case "mellat":
                     //mellat
                     SumPrice *= 10;
@@ -175,13 +175,8 @@ public class CheckoutModel : PageModel
                         string refId = returnCode[1];
                         return RedirectToPage("RedirectToMellat", new { refId = refId });
                     }
-                    else
-                    //return errorPage;
-                    {
-                        var message = MellatErrorCode.GetMessage(result.Body.@return);
-                        return RedirectToPage("Error", new { message = message });
-                    }
-                    break;
+                    var message = MellatErrorCode.GetMessage(result.Body.@return);
+                    return RedirectToPage("Error", new { message = message });
             }
 
             Message = "خطا هنگام اتصال به درگاه بانکی";

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Services.Services;
+using Entities.ViewModel;
 
 namespace Bolouri.Areas.Admin.Pages.Blogs;
 
@@ -15,22 +17,23 @@ public class CreateModel : PageModel
     private readonly ITagService _tagService;
     private readonly IKeywordService _keywordService;
     private readonly IBlogAuthorService _blogAuthorService;
+    private readonly IBlogCategoryService _blogCategoryService;
 
-    public CreateModel(IBlogService brandService, IImageService imageService, ITagService tagService,
-        IKeywordService keywordService, IHostEnvironment environment, IBlogAuthorService blogAuthorService)
+    public CreateModel(IBlogService blogService, IImageService imageService, ITagService tagService,
+        IKeywordService keywordService, IHostEnvironment environment, IBlogAuthorService blogAuthorService, IBlogCategoryService blogCategoryService)
     {
-        _blogService = brandService;
+        _blogService = blogService;
         _imageService = imageService;
         _environment = environment;
         _keywordService = keywordService;
         _tagService = tagService;
         _blogAuthorService = blogAuthorService;
-       
+        _blogCategoryService = blogCategoryService;
     }
 
-    [BindProperty] public Blog Blog { get; set; }
+    [BindProperty] public BlogViewModel Blog { get; set; }
 
-    [BindProperty] public IFormFile Upload { get; set; }
+    [BindProperty] public IFormFile? Upload { get; set; }
 
     [TempData] public string Message { get; set; }
 
@@ -38,6 +41,7 @@ public class CreateModel : PageModel
     public SelectList Tags { get; set; }
     public SelectList Keywords { get; set; }
     public SelectList BlogAuthors { get; set; }
+    public List<CategoryParentViewModel> Categories { get; set; }
 
     private async Task Initial()
     {
@@ -49,6 +53,9 @@ public class CreateModel : PageModel
 
         var blogAuthors = (await _blogAuthorService.GetAll()).ReturnData;
         BlogAuthors = new SelectList(blogAuthors, nameof(BlogAuthor.Id), nameof(BlogAuthor.Name));
+
+        var resultParent = await _blogCategoryService.GetParents();
+        Categories = resultParent.ReturnData;
     }
 
     public async Task OnGet()
@@ -64,22 +71,25 @@ public class CreateModel : PageModel
             Code = ServiceCode.Error.ToString();
             return Page();
         }
-
-        var fileName = (await _imageService.Upload(Upload, "Images/Blogs", _environment.ContentRootPath))
-            .ReturnData;
-        //Blog.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
-
+        
         if (ModelState.IsValid)
         {
             var result = await _blogService.Add(Blog);
             if (result.Code == 0)
-                return RedirectToPage("/Blogs/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-            Message = result.Message;
-            Code = result.Code.ToString();
-            ModelState.AddModelError("", result.Message);
+            {
+                var resultImage = await _imageService.Add(Upload, result.ReturnData.Id, "Images/Blogs",
+                    _environment.ContentRootPath);
+                if (resultImage.Code == 0)
+                {
+                    return RedirectToPage("/Blogs/Index",
+                        new { area = "Admin", message = result.Message, code = result.Code.ToString() });
+                }
+                Message = result.Message;
+                Code = result.Code.ToString();
+                ModelState.AddModelError("", result.Message);
+            }
         }
-
+        await Initial();
         return Page();
     }
 }

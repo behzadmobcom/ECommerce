@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Bolouri.Areas.Admin.Pages;
 
-public class BlogCategoryModel : PageModel
+
+public class TransactionsModel : PageModel
 {
     public void OnGet()
     {

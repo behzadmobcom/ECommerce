@@ -67,24 +67,30 @@
 	                    </div>
 	                    <div class="form-group">
 		                    <label>نویسنده مقاله</label>
-		                    <input asp-for="@Model.Blog.BlogAuthor" class="form-control form-control-solid"/>
-		                    <span asp-validation-for="@Model.Blog.BlogAuthor" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <select asp-for="@Model.Blog.BlogAuthorId" asp-items="@Model.BlogAuthors" class="col-md-12 js-example-basic-single  form-control"></select>	                   	                    
 	                    </div>
 	                    <div class="form-group">
 		                    <label>دسته بندی مقاله</label>
-		                    <input asp-for="@Model.Blog.BlogCategory" class="form-control form-control-solid"/>
-		                    <span asp-validation-for="@Model.Blog.BlogCategory" class="mt-5" style="color: red; margin-top: 10px"></span>
+		                    <select asp-for="@Model.Blog.BlogCategoryId" asp-items="@Model.BlogCategories" class="col-md-12 js-example-basic-single  form-control"></select>
 	                    </div>
-	                    <div class="form-group">
+	                  @*  <div class="form-group">
 		                    <label>کلمات کلیدی</label>
 		                    <input asp-for="@Model.Blog.Keywords" class="form-control form-control-solid"/>
 		                    <span asp-validation-for="@Model.Blog.Keywords" class="mt-5" style="color: red; margin-top: 10px"></span>
-	                    </div>
-	                    <div class="form-group">
+	                    </div>*@
+	                   @* <div class="form-group">
 		                    <label>تگ</label>
 		                    <input asp-for="@Model.Blog.Tags" class="form-control form-control-solid"/>
 		                    <span asp-validation-for="@Model.Blog.Tags" class="mt-5" style="color: red; margin-top: 10px"></span>
-	                    </div>
+	                    </div>*@
+                        <div class="form-group">
+                            <label>انتخاب تگ ها</label>
+                            <select asp-for="@Model.Blog.TagsId" asp-items="@Model.Tags" class="col-md-12 js-example-basic-multiple  form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>انتخاب کلمات کلیدی</label>
+                            <select asp-for="@Model.Blog.KeywordsId" asp-items="@Model.Keywords" class="col-md-12 js-example-basic-multiple  form-control"></select>
+                        </div>
                        
                         <div class="form-group">
                             <label>تصویر مقاله</label>

@@ -20,7 +20,7 @@ public class EditModel : PageModel
     }
 
     [BindProperty] public Brand Brand { get; set; }
-    [BindProperty] public IFormFile Upload { get; set; }
+    [BindProperty] public IFormFile? Upload { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 

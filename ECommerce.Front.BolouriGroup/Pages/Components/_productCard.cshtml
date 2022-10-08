@@ -23,25 +23,61 @@
             <h6 class="product-name">
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
             </h6>
-            <div class="product-rating">
-
-                @for (var i = 0; i < Model.Stars; i++)
+         
+            <div class="pro-rating sin-pro-rating f-right">
+                @for (var i = 1; i <= 5; i++)
                 {
-                    <i class="active fas fa-star"></i>
+                    <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
+                                                      {<text> class="rankChecked" </text> }>
+                        <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@i" />
+                        <i class="fas fa-star"></i>
+                    </label>
                 }
-                @for (var i = Model.Stars; i < 5; i++)
-                {
-                    <i class="far fa-star"></i>
-                }
-
-
-                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)</a>
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
             </div>
             <div class="product-price">
-                <div>
-                    @*<del>5000 تومان</del>*@
-                    <span>@Model.Prices.First().Amount.ToString("N0") تومان </span>
-                </div>
+	            @{
+		            decimal? discount = 0;
+		            decimal? amount = 0;
+		            decimal? discountAmount = 0;
+		            var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+		            if (singlePrice != null)
+		            {
+			            amount = singlePrice.Amount;
+
+
+			            if (singlePrice.Discount != null)
+				            if (singlePrice.Discount.Amount > 0)
+				            {
+					            discount = (decimal)singlePrice.Discount.Amount;
+				            }
+				            else if (singlePrice.Discount.Percent > 0)
+				            {
+					            discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+				            }
+			            discountAmount = amount - discount;
+		            }
+
+	            }
+	            @if (singlePrice == null)
+	            {
+		            <h6 class="feature-price">
+			            <span>ناموجود</span>
+		            </h6>
+	            }
+	            else
+	            {
+		            @if (discount > 0)
+		            {
+			            <div class="feature-price">
+				            <del>@amount?.ToString("###,###,###,###") تومان</del>
+			            </div>
+		            }
+		            <h6 class="feature-price">
+			            <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+		            </h6>
+		        
+	            }
                 <a class="product-add" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Id,@Model.Prices.First().Id)">
                     <i class="far fa-shopping-cart"></i>
                 </a>

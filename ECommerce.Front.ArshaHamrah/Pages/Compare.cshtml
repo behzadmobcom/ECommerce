@@ -27,30 +27,16 @@
                 </tr>
             </thead>
             <tbody>
-                @* @for (var g = 0; g < Model.GroupCount; g++)
-            {
-            @for (var att = 0; att < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; att++)
-            {
-            <tr>
-            <th scope="row">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].Title</th>
-
-            @for (var v = 0; v < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.Count; v++)
-            {
-            <td>@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[att].AttributeValue.ToList()[0].Value </td>
-            }
-            </tr>
-            }
-            }*@
-                @for (var g = 0; g < Model.GroupCount; g++)
+        
+                @for (var g = 0; g < Model.CompareProducts.FirstOrDefault().AttributeGroupProducts.Count; g++)
                 {
                     @for (var i = 0; i < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; i++)
                     {
-                        @if (string.IsNullOrWhiteSpace(Model.CompareProducts[0].AttributeValues[g].Value)) continue;
                         <tr>
                             <th style="width: 20%">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[i].Title</th>
                             @for (var p = 0; p < Model.CompareProducts.Count; p++)
                             {
-                                <td> @Model.CompareProducts[p].AttributeValues[i].Value</td>
+                                <td> @Model.CompareProducts[p].AttributeGroupProducts[g].Attribute[i].AttributeValue[0].Value</td>
                             }
                         </tr>
                     }

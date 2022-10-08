@@ -174,7 +174,7 @@ button:focus {
 }
 
 .section {
-    margin-bottom: 115px
+    margin-bottom: 60px
 }
 
 .inner-section {
@@ -5506,7 +5506,9 @@ tbody tr td:last-child {
         margin-right: 0
     }
 }
-
+.shop-filter a {
+    color: black;
+}
 .shop-filter {
     align-items: center;
     background: var(--white);

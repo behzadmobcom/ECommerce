@@ -645,4 +645,9 @@ public class SunflowerECommerceDbContext : IdentityDbContext<User, UserRole, int
         //modelBuilder.AddPluralizingTableNameConvention();
         modelBuilder.AddColumnProtector(_dataProtectionProvider, _configRoot);
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.EnableSensitiveDataLogging();
+    }
 }

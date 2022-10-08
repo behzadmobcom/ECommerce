@@ -19,7 +19,7 @@ public class EditModel : PageModel
         _imageService = imageService;
     }
 
-    [BindProperty] public IFormFile Upload { get; set; }
+    [BindProperty] public IFormFile? Upload { get; set; }
     [BindProperty] public BlogAuthor BlogAuthor { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }

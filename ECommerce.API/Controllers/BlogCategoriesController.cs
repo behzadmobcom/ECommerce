@@ -79,6 +79,34 @@ public class BlogCategoriesController : ControllerBase
         }
     }
 
+
+    [HttpGet]
+    public async Task<IActionResult> GetParents(int blogId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _blogCategoryRepository.Parents(blogId, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(BlogCategory blogCategory, CancellationToken cancellationToken)

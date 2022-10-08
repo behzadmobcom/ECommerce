@@ -81,7 +81,7 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
 
     public async Task<List<UserRole>> GetUserRoles(int id, CancellationToken cancellationToken)
     {
-        var userRoles = await DbContext.UserRoles.Where(q => q.UserId == id).Select(p => p.RoleId)
+        var userRoles = await DbContext.UserRoles.AsNoTracking().Where(q => q.UserId == id).Select(p => p.RoleId)
             .ToListAsync(cancellationToken);
         return await DbContext.Roles.Where(p => userRoles.Contains(p.Id)).ToListAsync(cancellationToken);
     }

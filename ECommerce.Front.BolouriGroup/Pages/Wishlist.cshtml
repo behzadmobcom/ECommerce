@@ -31,105 +31,42 @@
                             <th scope="col">نام</th>
                             <th scope="col">قیمت</th>
                             <th scope="col">نام تجاری</th>
-                            <th scope="col">وضعیت</th>
-                            <th scope="col">عمل</th>
+                            <th scope="col">عملیات</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>1</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>25 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-out">ناموجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="wish" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>2</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>20 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-in">موجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="wish" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>3</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>30 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-out">ناموجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="wish" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
+                        @foreach (var wish in Model.WishList.ReturnData)
+                        {
+                            <tr>
+                                <td class="table-serial">
+                                    <h6>1</h6>
+                                </td>
+                                <td class="table-image">
+                                    <img src="~/@wish.ImagePath" alt="@wish.Alt">
+                                </td>
+                                <td class="table-name">
+                                    <h6>
+                                        <a asp-page="Product" asp-route-productId="@wish.Url">@wish.Name</a>
+                                    </h6>
+                                </td>
+                                <td class="table-price">
+                                    <h6>
+                                            @wish.Price.ToString("N0") تومان
+                                    </h6>
+                                </td>
+                                <td class="table-vendor">
+                                        <h6>@wish.Brand</h6>
+                                </td>
+                                <td class="table-action">
+                                    <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.PriceId,1)" title="اضافه کردن به سبد خرید">
+                                            <i class="far fa-shopping-cart"></i>
+                                    </a>
+                                        <a href="javascript:void(0)" onclick="RemoveWish(@wish.Id,1)" title="حذف">
+                                            <i class="far fa-closed-captioning"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }  </tbody>
                     </table>
                 </div>
             </div>
@@ -165,3 +102,26 @@
         </div>
     </div>
 </section>
+@section Scripts
+    {
+    <script>
+        function RemoveWish(id) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=RemoveWishList&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        var elementId = "#wishlist-" + id;
+                        $(elementId).remove();
+                    }
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        }
+    </script>
+}

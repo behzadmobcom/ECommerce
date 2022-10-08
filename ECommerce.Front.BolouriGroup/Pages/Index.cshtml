@@ -127,17 +127,14 @@
                             <div class="view-list-group mt-4">
                                 <label class="view-list-title">اشتراک گذاری:</label>
                                 <ul class="view-share-list">
-                                    <li>
-                                        <a href="#" class="fab fa-facebook-f" title="فیس بوک"></a>
+	                                <li>
+	                                    <a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="fab fa-twitter" title="توییتر"></a>
+                                        <a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>
                                     </li>
                                     <li>
-                                        <a href="#" class="fab fa-linkedin-in" title="لینک شده"></a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="fab fa-instagram" title="اینستاگرام"></a>
+                                        <a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>
                                     </li>
                                 </ul>
                             </div>
@@ -190,60 +187,38 @@
 
             <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
     <div class="banner-img" style="z-index: -1;">
-    <img src=@slide.ImagePath alt="@slide.Name" style="width: 1903px; height:650px;">
+    <img src=@slide.ImagePath alt="@slide.Name" style="width: 1920px; height:790px; justify-content:center !important">
     </div>
                  </a>
         }
     }
 </section>
-<br />
-<br />
-<br />
-<br />
-<section class="section suggest-part">
-    <div class="container">
-        <ul class="suggest-slider slider-arrow">
-            @foreach (var brand in Model.Brands)
-            {
-                <li>
-                    <a class="suggest-card" asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
-                        <img src="@brand.ImagePath" alt=@brand.Name>
-
-                        <h5>@brand.Name </h5>
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
-</section>
-
-
 <section class="section recent-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h2>موارد پرطرفدار</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            @foreach (var starProduct in Model.StarProducts)
-            {
-                <partial name="Components/_productCard" model="starProduct" />
-            }
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-heading">
+					<h2>موارد پرطرفدار</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+			@foreach (var starProduct in Model.StarProducts)
+			{
+				<partial name="Components/_productCard" model="starProduct" />
+			}
 
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-btn-25">
-                    <a asp-area="" asp-page="/Shop" asp-route-productSort="2" class="btn btn-inline">
-                        <span> بیشتر ببینید </span> <i class="far fa-long-arrow-left float-end ms-1"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-btn-25">
+					<a asp-area="" asp-page="/Shop" asp-route-productSort="2" class="btn btn-inline">
+						<span> بیشتر ببینید </span> <i class="far fa-long-arrow-left float-end ms-1"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 <div class="section promo-part">
     <div class="container">
@@ -252,17 +227,17 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="#"><img src="~/images/banner/1.jpg" alt="تبلیغاتی"></a>
+                            <a href="/Shop/Coffee/shop/equipment/Tool"><img src="~/images/banner/1.jpg" alt="ابزار و لوازم بار گرم"></a>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="#"><img src="~/images/banner/2.jpg" alt="تبلیغاتی"></a>
+                            <a href="/Shop/Refrigeration/food-storage/Hot"><img src="~/images/banner/2.jpg" alt="تجهیزات نگهداری گرم"></a>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="#"><img src="~/images/banner/3.jpg" alt="تبلیغاتی"></a>
+                            <a href="/Shop/ Catering/Containers/Metal/Cast-iron"><img src="~/images/banner/3.jpg" alt="ظروف سرو فلزی"></a>
                         </div>
                     </div>
                 </div>
@@ -296,7 +271,22 @@
         </div>
     </div>
 </section>
+<section class="section suggest-part">
+    <div class="container">
+        <ul class="suggest-slider slider-arrow">
+            @foreach (var brand in Model.Brands)
+            {
+                <li>
+                    <a class="suggest-card" asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
+                        <img src="@brand.ImagePath" alt=@brand.Name>
 
+                        <h5>@brand.Name </h5>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
 @*<section class="section newitem-part">
     <div class="container">
         <div class="row">

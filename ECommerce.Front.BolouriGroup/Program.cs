@@ -21,16 +21,24 @@ builder.Services.AddRazorPages(options =>
     //options.Conventions.("/Register");
     options.Conventions.AuthorizeFolder("/");
     options.Conventions.AllowAnonymousToPage("/register");
+    options.Conventions.AllowAnonymousToPage("/Shop");
     options.Conventions.AllowAnonymousToPage("/Login");
-    options.Conventions.AllowAnonymousToPage("/Coming-Soon");
+    options.Conventions.AllowAnonymousToPage("/Product");
+    options.Conventions.AllowAnonymousToPage("/Privacy");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Faq");
+    options.Conventions.AllowAnonymousToPage("/Error");
+    options.Conventions.AllowAnonymousToPage("/Contact");
+    options.Conventions.AllowAnonymousToPage("/Compare");
+    options.Conventions.AllowAnonymousToPage("/AboutUs");
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
-builder.Services.AddMvc().AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddPageRoute("/Coming-Soon", "");
-});
+//builder.Services.AddMvc().AddRazorPagesOptions(options =>
+//{
+//    options.Conventions.AddPageRoute("/Coming-Soon", "");
+//});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => { options.LoginPath = "/Login"; });
 
@@ -69,6 +77,7 @@ builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IHolooAccountNumberService, HolooAccountNumberService>();
 builder.Services.AddScoped<IHolooArticleService, HolooArticleService>();
 builder.Services.AddScoped<IHolooMGroupService, HolooMGroupService>();

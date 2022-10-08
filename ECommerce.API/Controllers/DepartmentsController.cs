@@ -75,6 +75,32 @@ public class DepartmentsController : ControllerBase
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<Department>> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _departmentRepository.GetAll(cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]

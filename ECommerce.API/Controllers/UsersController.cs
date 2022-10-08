@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using API.Interface;
+using API.Repository;
 using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
@@ -531,18 +532,18 @@ public class UsersController : ControllerBase
                 if (user == null)
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
+                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                //var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
+            
 
-                if (result.Succeeded)
-                {
 
+
+                
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.Success,
                         Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
                     });
-                }
 
                 return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
             }

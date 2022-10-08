@@ -38,7 +38,7 @@
                 <div class="single-product-area mb-80">
                 <div class="row">
                 <!-- imgs-zoom-area start -->
-                <div class="col-md-5 col-sm-5 col-xs-12">
+                <div class="col-md-5 col-sm-5 col-xs-12"  style=" margin-bottom: 100px;">
 	                <div class="imgs-zoom-area">
 
 		                @if (Model.Product.Images.Any())
@@ -167,7 +167,7 @@
 					                {
 						                discountPrice = (decimal)price.Discount.Amount;
 					                }
-					                else if (singlePrice.Discount.Percent > 0)
+					                else if (price.Discount.Percent > 0)
 					                {
 						                discountPrice = price.Amount * (decimal)price.Discount.Percent / 100;
 					                }

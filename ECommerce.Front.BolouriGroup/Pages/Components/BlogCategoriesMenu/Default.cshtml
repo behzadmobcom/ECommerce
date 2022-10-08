@@ -1,0 +1,25 @@
+﻿@model List<Entities.ViewModel.CategoryParentViewModel>
+
+@if (Model != null)
+{
+	var path = $"/Blog/";
+	var isActive = true;
+
+						<li class="navbar-item dropdown">
+							<a class="navbar-link dropdown-arrow" href="#">وبلاگ</a>
+							<ul class="dropdown-position-list">
+									@foreach (var parentCategory in Model)
+										{
+											var parentPath = path + parentCategory.Path;
+											var s = "#Section" + parentCategory.Id;								
+											<li role="presentation"
+												@if (isActive)
+												{<text> class="active"</text>}>
+												<a href="@s" aria-controls="@parentCategory.Name" role="tab" data-toggle="tab">@parentCategory.Name</a>
+											</li>				
+											 isActive = false;
+										}							 
+							</ul>
+						</li>
+
+}

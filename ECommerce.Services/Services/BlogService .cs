@@ -1,6 +1,8 @@
 ﻿using Entities;
 using Entities.Helper;
 using ECommerce.Services.IServices;
+using Entities.ViewModel;
+using System.Security.Policy;
 
 namespace Services.Services;
 
@@ -57,16 +59,24 @@ public class BlogService : EntityService<Blog>, IBlogService
         };
     }
 
-    public async Task<ServiceResult> Add(Blog blog)
+    //public async Task<ServiceResult> Add(Blog blog)
+    //{
+    //    var result = await Create(Url, blog);
+    //    _blogs = null;
+    //    return Return(result);
+    //}
+
+    public async Task<ServiceResult<BlogViewModel>> Add(BlogViewModel blogViewModel)
     {
-        var result = await Create(Url, blog);
-        _blogs = null;
+        //if (blogViewModel.BrandId == 0) blogViewModel.BrandId = null;
+        //var result = await Create<BlogViewModel>(Url, blogViewModel);
+        var result = await _http.PostAsync<BlogViewModel, BlogViewModel>(Url, blogViewModel);
         return Return(result);
     }
 
-    public async Task<ServiceResult> Edit(Blog blog)
+    public async Task<ServiceResult> Edit(BlogViewModel blogViewModel)
     {
-        var result = await Update(Url, blog);
+        var result =await _http.PutAsync<BlogViewModel>(Url, blogViewModel);
         _blogs = null;
         return Return(result);
     }
@@ -78,9 +88,30 @@ public class BlogService : EntityService<Blog>, IBlogService
         return Return(result);
     }
 
-    public async Task<ServiceResult<Blog>> GetById(int id)
+    public async Task<ServiceResult<BlogViewModel>> GetById(int id)
     {
-        var result = await _http.GetAsync<Blog>(Url, $"GetById?id={id}");
+        var result = await _http.GetAsync<BlogViewModel>(Url, $"GetById?id={id}");
         return Return(result);
+    }
+
+    public async Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = "", string search = "",
+    int pageNumber = 0, int pageSize = 10, int blogSort = 1 )
+    {
+        var command = "Get?" +
+                      $"PaginationParameters.PageNumber={pageNumber}&" +
+                      $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+        if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
+   
+        command += $"BlogSort={blogSort}";
+        var result = await _http.GetAsync<List<BlogViewModel>>(Url, command);
+        return Return(result);
+    }
+
+    public async Task<ServiceResult<BlogDetailsViewModel>> GetByUrl(string blogUrl)
+    {
+        var result = await _http.GetAsync<BlogDetailsViewModel>(Url, $"GetByUrl?blogUrl={blogUrl}");
+        return Return(result);
+
     }
 }

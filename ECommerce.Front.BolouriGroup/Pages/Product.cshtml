@@ -5,23 +5,8 @@
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
 }
-<style>
-	* {box-sizing: border-box;}
+<link href="~/css/stars.css" rel="stylesheet" />
 
-	.img-magnifier-container {
-		position:relative;
-	}
-
-	.img-magnifier-glass {
-		position: absolute;
-		border: 3px solid #000;
-		border-radius: 50%;
-		cursor: none;
-		/*Set the size of the magnifier glass:*/
-		width: 100px;
-		height: 100px;
-	}
-</style>
 <section class="inner-section single-banner">
     <div class="container">
         <h2>جزئیات محصول</h2>
@@ -62,7 +47,7 @@
                     </div>
                 </div>
             }
-           
+
             <div class="col-lg-7">
                 <div class="details-content">
                     <h3 class="details-name">
@@ -75,13 +60,64 @@
                             <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
                         }
                     </div>
-                    <div class="details-rating">
+                  @*  <div class="details-rating">
                         <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
                         <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
+                    </div>*@
+                    <div class="pro-rating sin-pro-rating f-right">
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
+                                                              {<text> class="rankChecked" </text> }>
+                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                    <i class="fas fa-star"></i>
+                            </label>
+                        }
+                        <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
-                    <h3 class="details-price">
-                        <span id="price">@Model.Product.Prices.FirstOrDefault(x => !x.IsColleague).Amount تومان </span>
-                    </h3>
+
+                    @{
+                        decimal? discount = 0;
+                        decimal? amount = 0;
+                        decimal? discountAmount = 0;
+                        var singlePrice = Model.Product.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+                        if (singlePrice != null)
+                        {
+                            amount = singlePrice.Amount;
+
+
+                            if (singlePrice.Discount != null)
+                                if (singlePrice.Discount.Amount > 0)
+                                {
+                                    discount = (decimal)singlePrice.Discount.Amount;
+                                }
+                                else if (singlePrice.Discount.Percent > 0)
+                                {
+                                    discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+                                }
+                            discountAmount = amount - discount;
+                        }
+
+                    }
+                    @if (singlePrice == null)
+                    {
+                        <h6 class="details-price">
+                            <span id="price">ناموجود</span>
+                        </h6>
+                    }
+                    else
+                    {
+                        @if (discount > 0)
+                        {
+                            <div class="details-price">
+                                <del>@amount?.ToString("###,###,###,###") تومان</del>
+                            </div>
+                        }
+                        <h6 class="details-price">
+                            <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+                        </h6>
+
+                    }
                     <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
                     <br />
                     <div class="details-list-group">
@@ -99,33 +135,20 @@
                         </ul>
                     </div>
                     <div class="details-list-group">
-                        <label class="details-list-title">در انبار:</label>
+                        <span class="details-list-title">در انبار:</span>
                         <div id="exist">
                             @if (Model.Product.Prices.First().Exist > 0)
                             {
-                                <label>در دسترس</label>
+                                <span>در دسترس</span>
                             }
                             else
                             {
-                                <label>عدم موجودی</label>
+                                <span>عدم موجودی</span>
                             }
                         </div>
                     </div>
-                    @*  <div class="details-list-group">
-                    <label class="details-list-title">تعداد:</label>
-                    <div class="cart-action-group">
-                    <div class="product-action">
-                    <button class="action-minus" title="مقدار منهای">
-                    <i class="far fa-minus"></i>
-                    </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                    <button class="action-plus" title="مقدار به علاوه">
-                    <i class="far fa-plus"></i>
-                    </button>
-                    </div>
-                    </div>
-                    </div>*@
 
-                    @if (Model.Product.Tags != null)
+                  @if (Model.Product.Tags != null)
                     {
                         @foreach (var price in Model.Product.Prices)
                         {
@@ -134,16 +157,16 @@
                             {
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                    <label for="price-@price.Id">درجه کیفیت : @price.Grade - </label>
-                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                    <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
+                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
                                 </div>
                             }
                             else if (price.ColorId > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                    <label for="price-@price.Id">@price.Color.Name - </label>
-                                    <label for="price-@price.Id">قیمت : @price.Amount</label>
+                                    <span for="price-@price.Id">@price.Color.Name - </span>
+                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
                                 </div>
                             }
                             <br>
@@ -167,16 +190,13 @@
                         <label class="details-list-title">اشتراک گذاری:</label>
                         <ul class="details-share-list">
                             <li>
-                                <a href="#" class="fab fa-facebook-f" title="فیس بوک"></a>
+                                <a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>
                             </li>
                             <li>
-                                <a href="#" class="fab fa-twitter" title="توییتر"></a>
+                                <a class="fab fa-linkedin" title="لینکدین" href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/"></a>
                             </li>
                             <li>
-                                <a href="#" class="fab fa-linkedin-in" title="لینک شده"></a>
-                            </li>
-                            <li>
-                                <a href="#" class="fab fa-instagram" title="اینستاگرام"></a>
+                                <a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>
                             </li>
                         </ul>
                     </div>
@@ -190,12 +210,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs">
-	                <li>
-		                <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
-	                </li>
-	                <li>
-		                <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">بررسی محصول</a>
-	                </li>
+                    <li>
+                        <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
+                    </li>
+                    <li>
+                        <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">بررسی محصول</a>
+                    </li>
                     <li>
                         <a href="#tab-coma" class="tab-link" data-bs-toggle="tab">نظرات (05)</a>
                     </li>
@@ -207,46 +227,40 @@
                 <div class="col-lg-12">
                     <div class="product-details-frame">
                         <table class="table table-bordered">
-
-
-                            @for (var g = 0; g < Model.AttributeGroups.Count; g++)
-                            {
-                                @*  <thead>
+                            @*  <thead>
                             <tr>
                             <th>@Model.AttributeGroups[g].Name</th>
                             </tr>
                             </thead>*@
 
-                                <tbody>
+                            <tbody>
+                                @for (var g = 0; g < Model.AttributeGroups.Count; g++)
+                                {
                                     @for (var i = 0; i < Model.AttributeGroups[g].Attribute.Count; i++)
                                     {
+                                        @if (string.IsNullOrWhiteSpace(Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value)) continue;
                                         <tr>
                                             <th>@Model.AttributeGroups[g].Attribute[i].Title</th>
-
-                                            @for (var j = 0; j < Model.AttributeGroups[g].Attribute[i].AttributeValue.Count; j++)
-                                            {
-                                                <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[j].Value</td>
-                                            }
+                                            <td> @Model.AttributeGroups[g].Attribute[i].AttributeValue[0].Value</td>
                                         </tr>
                                     }
-                                </tbody>
-                            }
-
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-	    <div class="tab-pane" id="tab-reve">
-		    <div class="row">
-			    <div class="col-lg-12">
-				    <p class="blog-details-desc">
-					    @Html.Raw(Model.Product.Review)
-				    </p>
-			    </div>
-		    </div>
-	    </div>
-         <div class="tab-pane" id="tab-coma">
+        <div class="tab-pane" id="tab-reve">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p class="blog-details-desc">
+                        @Html.Raw(Model.Product.Review)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab-coma">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="product-details-frame">
@@ -340,82 +354,100 @@
 </section>
 
 @section Scripts{
-	<script>
-function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-  /*create magnifier glass:*/
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-  /*insert magnifier glass:*/
-  img.parentElement.insertBefore(glass, img);
-  /*set background properties for the magnifier glass:*/
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /*execute a function when someone moves the magnifier glass over the image:*/
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  /*and also for touch screens:*/
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-  function moveMagnifier(e) {
-    var pos, x, y;
-    /*prevent any other actions that may occur when moving over the image*/
-    e.preventDefault();
-    /*get the cursor's x and y positions:*/
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    /*prevent the magnifier glass from being positioned outside the image:*/
-    if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-    if (x < w / zoom) {x = w / zoom;}
-    if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-    if (y < h / zoom) {y = h / zoom;}
-    /*set the position of the magnifier glass:*/
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    /*display what the magnifier glass "sees":*/
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-  }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /*get the x and y positions of the image:*/
-    a = img.getBoundingClientRect();
-    /*calculate the cursor's x and y coordinates, relative to the image:*/
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /*consider any page scrolling:*/
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-}
-</script>
-	<script>
-		/* Initiate Magnify Function
-with the id of the image, and the strength of the magnifier glass:*/
-		magnify("myimage", 3);
-	</script>
+    <script>
+        var labels = $("label");
+
+        labels.hover(
+            function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
+            , function () {
+                $(this).css("color", "inherit").prevUntil().css("color", "inherit");
+                var checkedNum = $("[name='Commissions'] .checked").length;
+                if (checkedNum === 1) {
+                    $(this + " .rateTitle").html($("[name='Commissions'] .checked").attr("data-rate"));
+                } else {
+                    $(this + " .rateTitle").html("");
+                }
+
+            }
+        );
+
+    </script>
+    <script>
+        function magnify(imgID, zoom) {
+            var img, glass, w, h, bw;
+            img = document.getElementById(imgID);
+            /*create magnifier glass:*/
+            glass = document.createElement("DIV");
+            glass.setAttribute("class", "img-magnifier-glass");
+            /*insert magnifier glass:*/
+            img.parentElement.insertBefore(glass, img);
+            /*set background properties for the magnifier glass:*/
+            glass.style.backgroundImage = "url('" + img.src + "')";
+            glass.style.backgroundRepeat = "no-repeat";
+            glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+            bw = 3;
+            w = glass.offsetWidth / 2;
+            h = glass.offsetHeight / 2;
+            /*execute a function when someone moves the magnifier glass over the image:*/
+            glass.addEventListener("mousemove", moveMagnifier);
+            img.addEventListener("mousemove", moveMagnifier);
+            /*and also for touch screens:*/
+            glass.addEventListener("touchmove", moveMagnifier);
+            img.addEventListener("touchmove", moveMagnifier);
+            function moveMagnifier(e) {
+                var pos, x, y;
+                /*prevent any other actions that may occur when moving over the image*/
+                e.preventDefault();
+                /*get the cursor's x and y positions:*/
+                pos = getCursorPos(e);
+                x = pos.x;
+                y = pos.y;
+                /*prevent the magnifier glass from being positioned outside the image:*/
+                if (x > img.width - (w / zoom)) { x = img.width - (w / zoom); }
+                if (x < w / zoom) { x = w / zoom; }
+                if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+                if (y < h / zoom) { y = h / zoom; }
+                /*set the position of the magnifier glass:*/
+                glass.style.left = (x - w) + "px";
+                glass.style.top = (y - h) + "px";
+                /*display what the magnifier glass "sees":*/
+                glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+            }
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /*get the x and y positions of the image:*/
+                a = img.getBoundingClientRect();
+                /*calculate the cursor's x and y coordinates, relative to the image:*/
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /*consider any page scrolling:*/
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return { x: x, y: y };
+            }
+        }
+    </script>
+    <script>
+        /* Initiate Magnify Function
+        with the id of the image, and the strength of the magnifier glass:*/
+        magnify("myimage", 3);
+    </script>
     <script>
 
-	    var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
+        var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
 
-	    function SetPriceId(id) {
-		    var price = prices.find(x => x.id == id);
+        function SetPriceId(id) {
+            var price = prices.find(x => x.id == id);
 
-		    if (price.exist > 0) {
-			    $("#exist").text("در دسترس");
+            if (price.exist > 0) {
+                $("#exist").text("در دسترس");
 
-		    } else {
-			    $("#exist").text("عدم موجودی");
-		    }
-		    $("#price").text(price.amount + " تومان ");
-	    }
+            } else {
+                $("#exist").text("عدم موجودی");
+            }
+            $("#price").text(price.amount + " تومان ");
+        }
 
 
     </script>

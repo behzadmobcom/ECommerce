@@ -53,7 +53,7 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SunflowerECommerceDbContext>(option =>
-    option.UseSqlServer(builder.Configuration.GetConnectionString("SunflowerECommerce")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("SunflowerECommerce")));
 builder.Services.AddDbContext<HolooDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("HolooConnectionString")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
