@@ -14,7 +14,7 @@ public class BlogDetailsModel : PageModel
 
     public BlogDetailsViewModel Blog {get; set;}
 
-    public async void OnGet(string blogUrl)
+    public async Task OnGet(string blogUrl)
     {
         var result=await _blogService.GetByUrl("saman");
         if (result.Code > 0) return;

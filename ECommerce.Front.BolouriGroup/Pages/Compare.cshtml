@@ -15,126 +15,99 @@
         </ol>
     </div>
 </section>
-
-
 <section class="inner-section compare-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="table-scroll">
-                    <table class="table-list">
-                        <thead>
-                        <tr>
-                            <th scope="col"># </th>
-                            <th scope="col">تولید - محصول</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">قیمت</th>
-                            <th scope="col">نام تجاری</th>
-                            <th scope="col">وضعیت</th>
-                            <th scope="col">عمل</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>1</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>25 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-out">ناموجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>2</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>20 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-in">موجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-serial">
-                                <h6>3</h6>
-                            </td>
-                            <td class="table-image">
-                                <img src="~/img/product/01.png" alt="تولید - محصول">
-                            </td>
-                            <td class="table-name">
-                                <h6>غذای ارگانیک تازه</h6>
-                            </td>
-                            <td class="table-price">
-                                <h6>30 تومان </h6>
-                            </td>
-                            <td class="table-vendor">
-                                <a href="#">تلوگیلا</a>
-                            </td>
-                            <td class="table-status">
-                                <h6 class="stock-out">ناموجود</h6>
-                            </td>
-                            <td class="table-action">
-                                <a class="view" href="#" title="مشاهده سریع" data-bs-toggle="modal" data-bs-target="#product-view">
-                                    <i class="far fa-eye"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-heart"></i>
-                                </a>
-                                <a class="wish" href="#" title="افزودن به لیست علاقه مندی ها">
-                                    <i class="far fa-shopping-cart"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+ <div class="container">
+  <div class="row">
+   <div class="col-lg-12">
+    <div class="table-scroll">
+     <table class="table-list">
+      <thead>
+      <tr>
+       <th scope="col">تصویر محصول</th>
+       <th scope="col">نام</th>
+       <th scope="col">قیمت</th>
+       <th scope="col">نام تجاری</th>
+       <th scope="col">توضیحات</th>
+       <th scope="col">عملیات</th>
+      </tr>
+      </thead>
+      <tbody>
+                            @foreach (var compare in Model.CompareProducts)
+      {
+          <tr>
+              <td class="table-image">
+                                        <img src="~/@compare.ImagePath" alt="@compare.Alt">
+              </td>
+              <td class="table-name"><h6>@compare.Name</h6></td>
+              <td class="table-price">
+                  <h6>@compare.Price </h6>
+              </td>
+              <td class="table-vendor"><a href="#">@compare.Brand</a></td>
+              <td class="table-status"><h6 class="stock-out">@compare.Description</h6></td>
+              <td class="table-action">
+                  <a class="wish" href="javascript:void(0)" onclick="AddCart(@compare.ProductId,@compare.PriceId,1)" title="افزودن به لیست علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                        <a href="javascript:void(0)" onclick="DeleteCompare(@compare.Id,1)" title="حذف">
+                      <i class="far fa-window-close"></i>
+                  </a>
+                  
+              </td>
+          </tr>
+          }
+      </tbody>
+     </table>
     </div>
+   </div>
+  </div>
+ </div>
 </section>
+
+
+
+<div class="container table-responsive" style="margin-top: 100px;">
+    @if (Model.Message.Length == 0)
+    {
+        <table class="table table-bordered table-hover sticky-header">
+            <thead>
+            <tr style="background-color: #9EC9D4">
+                <th scope="col"></th>
+                @foreach (var product in Model.CompareProducts)
+                {
+
+                    <th scope="col">
+
+
+                        <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt" />
+                        <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)" style="padding-right: 40%">
+                                <i class="far fa-closed-captioning"></i>
+                        </a>
+                        <h3 style="font-size: 12px">@product.Name</h3>
+                    </th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+        
+            @for (var g = 0; g < Model.CompareProducts.FirstOrDefault().AttributeGroupProducts.Count; g++)
+            {
+                @for (var i = 0; i < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; i++)
+                {
+                    <tr>
+                        <th style="width: 20%">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[i].Title</th>
+                        @for (var p = 0; p < Model.CompareProducts.Count; p++)
+                        {
+                            <td> @Model.CompareProducts[p].AttributeGroupProducts[g].Attribute[i].AttributeValue[0].Value</td>
+                        }
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h1>@Model.Message</h1>
+    }
+</div>
 
 
 <section class="news-part">
@@ -157,3 +130,4 @@
         </div>
     </div>
 </section>
+

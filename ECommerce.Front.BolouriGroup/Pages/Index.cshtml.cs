@@ -3,6 +3,7 @@ using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Services.Services;
 
 namespace Bolouri.Pages;
 
@@ -15,10 +16,11 @@ public class IndexModel : PageModel
     private readonly IProductService _productService;
     private readonly ISlideShowService _slideShowService;
     private readonly IWishListService _wishListService;
+    private readonly IStarService _starService;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService, IBrandService brandService)
+        ICookieService cookieService, IBrandService brandService, IStarService starService)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -27,6 +29,7 @@ public class IndexModel : PageModel
         _compareService = compareService;
         _cookieService = cookieService;
         _brandService = brandService;
+        _starService = starService;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
@@ -107,10 +110,30 @@ public class IndexModel : PageModel
         return new JsonResult(result.ToString());
     }
 
+    public async Task<IActionResult> OnGetRemoveWishList(int id)
+    {
+        var result = await _wishListService.Delete(id);
+        return new JsonResult(result);
+    }
+
     public IActionResult OnGetAddCompareList(int id)
     {
         var result = _compareService.Add(HttpContext, id);
         return new JsonResult(result.Message);
     }
-
+    public IActionResult OnGetDeleteCompare(int id)
+    {
+        var result = _compareService.Remove(HttpContext, id);
+        return new JsonResult(result);
+    }
+    public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
+    {
+        var result = await _starService.SaveStars(id, starNumber);
+        return new JsonResult(result);
+    }
+    public async Task<JsonResult> OnGetQuickView(int id)
+    {
+        var result = await _productService.GetByIdViewModel(id);
+        return new JsonResult(result);
+    }
 }

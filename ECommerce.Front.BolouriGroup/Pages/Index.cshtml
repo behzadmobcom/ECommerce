@@ -4,147 +4,6 @@
     ViewData["Title"] = "خانه";
 }
 <link href="~/Banner.css" rel="stylesheet" type="text/css" />
-<div class="modal" id="product-view">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <button class="modal-close far fa-times" data-bs-dismiss="modal"></button>
-            <div class="product-view">
-                <div class="row">
-                    <div class="col-md-6 col-lg-6">
-                        <div class="view-gallery">
-                            <div class="view-label-group">
-                                <label class="view-label new">جدید</label>
-                            </div>
-                            <ul class="preview-slider slider-arrow">
-                                <li>
-                                    <img src="~/img/product/01.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/02.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/03.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/04.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/05.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/06.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/07.png" alt="تولید - محصول">
-                                </li>
-                            </ul>
-                            <ul class="thumb-slider">
-                                <li>
-                                    <img src="~/img/product/01.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/02.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/03.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/04.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/05.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/06.png" alt="تولید - محصول">
-                                </li>
-                                <li>
-                                    <img src="~/img/product/07.png" alt="تولید - محصول">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6">
-                        <div class="view-details">
-                            <h3 class="view-name">
-                                <a asp-area="" asp-page="/Productdetails">سیب ارگانیک تازه</a>
-                            </h3>
-                            <div class="view-meta">
-                                <p>کد محصول: <span>3214567</span></p>
-                                <p><a href="#">مارک</a> تجاری: <a href="#">تسولیا</a></p>
-                            </div>
-                            <div class="view-rating">
-                                <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
-                                <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
-                            </div>
-                            <h3 class="view-price">
-                                <del>50000تومان</del><span>30000تومان </span>
-                            </h3>
-                            <p class="view-desc">تنوع زیادی از معابر سنگ معدن سنگ معدن وجود دارد اما اکثریت آنها به نوعی با شوخ تزریق شده یا تصادفی دچار تغییر شده اند.</p>
-                            <div class="view-list-group">
-                                <label class="view-list-title">برچسب ها:</label>
-                                <ul class="view-tag-list">
-                                    <li>
-                                        <a href="#">میوه ها</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">ارگانیک</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">سبزیجات</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="view-list-group">
-                                <label class="view-list-title">در انبار:</label>
-                                <div>در دسترس</div>
-                            </div>
-                            <div class="view-list-group">
-                                <label class="view-list-title">تعداد:</label>
-                                <div class="cart-action-group">
-                                    <div class="product-action">
-                                        <button class="action-minus" title="مقدار منهای">
-                                            <i class="far fa-minus"></i>
-                                        </button><input class="action-input" title="تعداد" type="text" name="quantity" value="1">
-                                        <button class="action-plus" title="مقدار به علاوه">
-                                            <i class="far fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="view-add-group">
-                                <button class="product-add w-100" title="افزودن به سبد خرید">
-                                    <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
-                                </button>
-                            </div>
-                            <div class="view-action-group">
-                                <a class="view-wish wish" href="#" title="لیست علاقه مندی های خود را اضافه کنید">
-                                    <i class="far fa-heart"></i><span>به آرزو اضافه کردن</span>
-                                </a>
-                                <a class="view-compare" asp-area="" asp-page="/Compare" title="مقایسه این مورد">
-                                    <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
-                                </a>
-                            </div>
-                            <div class="view-list-group mt-4">
-                                <label class="view-list-title">اشتراک گذاری:</label>
-                                <ul class="view-share-list">
-	                                <li>
-	                                    <a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <section class="home-classic-slider slider-arrow">
 
@@ -287,72 +146,16 @@
         </ul>
     </div>
 </section>
-@*<section class="section newitem-part">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section-heading">
-                    <h2> تازه رسیده ها</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <ul class="new-slider slider-arrow">
-                    @foreach (var topProduct in Model.NewProducts)
-                    {
-                        <partial name="Components/_productCard" model="topProduct" />
-                    }
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="section-btn-25">
-                    <a asp-area="" asp-page="/Shop" class="btn btn-outline">
-                        <span> بیشتر ببینید </span> <i class="far fa-long-arrow-left float-end ms-1"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>*@
-
-
 <section class="section visual-part">
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-lg-3">
                 <div class="visual-wrap">
                     <div class="visual-icon">
-                        <i class="fal fa-truck"></i>
+                        <i class="fal fa-truck-moving"></i>
                     </div>
                     <div class="visual-content">
-                        <h5>تحویل رایگان</h5>
-                        <p>تعداد زیادی از معابر سنگ معدن موجود است.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="visual-wrap">
-                    <div class="visual-icon">
-                        <i class="fal fa-sack-dollar"></i>
-                    </div>
-                    <div class="visual-content">
-                        <h5>پرداخت امن</h5>
-                        <p>تعداد زیادی از معابر سنگ معدن موجود است.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <div class="visual-wrap">
-                    <div class="visual-icon">
-                        <i class="fal fa-sync-alt"></i>
-                    </div>
-
-                    <div class="visual-content">
-                        <h5>30 روز برگشت پول</h5>
-                        <p>تعداد زیادی از معابر سنگ معدن موجود است.</p>
+                        <h5>تحویل اکسپرس</h5>
                     </div>
                 </div>
             </div>
@@ -362,16 +165,34 @@
                         <i class="fal fa-headset"></i>
                     </div>
                     <div class="visual-content">
-                        <h5>پشتیبانی 24/7 مشتری</h5>
-                        <p>تعداد زیادی از معابر سنگ معدن موجود است.</p>
+                        <h5>پشتیبانی سریع</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="visual-wrap">
+                    <div class="visual-icon">
+                        <i class="fal fa-check"></i>
+                    </div>
+
+                    <div class="visual-content">
+                        <h5>تضمین کیفیت</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="visual-wrap">
+                    <div class="visual-icon">
+                        <i class="fal fa-file-contract"></i>
+                    </div>
+                    <div class="visual-content">
+                        <h5>ضمانت اصالت کالا</h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-
 <section class="section blog-part">
     <div class="container">
         <div class="row">

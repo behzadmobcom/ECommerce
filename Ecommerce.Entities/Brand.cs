@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Entities;
@@ -13,6 +14,9 @@ public class Brand : BaseEntity
     [Display(Name = "توضیحات")] public string? Description { get; set; }
 
     [Display(Name = "عکس")] public string? ImagePath { get; set; }
+
+    [NotMapped]
+    public Image? Image { get; set; }
 
     [Display(Name = "آدرس سایت برند")] public string? Url { get; set; }
 

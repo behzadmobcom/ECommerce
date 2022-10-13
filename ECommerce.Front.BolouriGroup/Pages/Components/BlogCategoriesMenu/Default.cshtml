@@ -2,7 +2,6 @@
 
 @if (Model != null)
 {
-	var path = $"/Blog/";
 	var isActive = true;
 
 						<li class="navbar-item dropdown">
@@ -10,12 +9,10 @@
 							<ul class="dropdown-position-list">
 									@foreach (var parentCategory in Model)
 										{
-											var parentPath = path + parentCategory.Path;
-											var s = "#Section" + parentCategory.Id;								
-											<li role="presentation"
-												@if (isActive)
-												{<text> class="active"</text>}>
-												<a href="@s" aria-controls="@parentCategory.Name" role="tab" data-toggle="tab">@parentCategory.Name</a>
+											var path = "/Blogs/" + parentCategory.Id;								
+										    <li role="presentation">
+                                                <a href="@path">
+                                                    <h3>@parentCategory.Name</h3></a>
 											</li>				
 											 isActive = false;
 										}							 

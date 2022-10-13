@@ -22,6 +22,8 @@ public class BlogViewModel
 
     public int Visit { get; set; }
 
+    public int CommentCount { get; set; }
+
     //ForeignKey
     public int BlogAuthorId { get; set; }
     public BlogAuthor? BlogAuthor { get; set; }
@@ -56,7 +58,8 @@ public class BlogViewModel
             Tags = x.Tags.ToList(),
             Keywords = x.Keywords.ToList(),
             Image = x.Image,
-            BlogAuthor=x.BlogAuthor
+            BlogAuthor=x.BlogAuthor,
+            CommentCount = x.BlogComments.Count
         };
     }
 

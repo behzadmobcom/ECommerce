@@ -13,9 +13,8 @@
                 <img src="~/@Model.ImagePath" alt="@Model.Alt">
             </a>
             <div class="feature-widget">
-                @* <a title="فیلم محصول" href="https://www.youtube.com/watch?v=ckHzmP1evNU" class="venobox far fa-play" data-autoplay="true" data-vbtype="video"></a>*@
                 <a title="نمای محصول" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
-                <a title="مقایسه محصول" asp-area="" asp-page="/Compare" class="far fa-exchange"></a>
+                <a title="مقایسه محصول" href="javascript:void(0)" onclick="AddCompareList(@Model.Id)" class="far fa-exchange"></a>
             </div>
         </div>
         <div class="feature-content">

@@ -179,10 +179,10 @@
                         </button>
                     </div>
                     <div class="details-action-group">
-                        <a class="view-wish wish" href="#" title="لیست علاقه مندی های خود را اضافه کنید">
+                        <a class="view-wish wish" href="javascript:void(0)" onclick="AddWishList(@Model.Product.Id)" title="افزودن به لیست علاقه مندی ها ">
                             <i class="far fa-heart"></i><span>به آرزو اضافه کردن</span>
                         </a>
-                        <a class="view-compare" asp-area="" asp-page="/Compare" title="مقایسه این مورد">
+                        <a class="view-compare" href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه این مورد">
                             <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
                         </a>
                     </div>

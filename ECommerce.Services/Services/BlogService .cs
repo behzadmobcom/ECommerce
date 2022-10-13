@@ -95,7 +95,7 @@ public class BlogService : EntityService<Blog>, IBlogService
     }
 
     public async Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = "", string search = "",
-    int pageNumber = 0, int pageSize = 10, int blogSort = 1 )
+    int pageNumber = 0, int pageSize = 3, int blogSort = 1 )
     {
         var command = "Get?" +
                       $"PaginationParameters.PageNumber={pageNumber}&" +
