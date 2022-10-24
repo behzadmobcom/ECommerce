@@ -72,8 +72,8 @@ public class UsersController : ControllerBase
                     return Ok(new ApiResult
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
-                //var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                //var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
                 if (result.Succeeded)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);

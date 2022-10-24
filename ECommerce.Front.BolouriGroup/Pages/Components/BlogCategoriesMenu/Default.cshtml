@@ -1,22 +1,9 @@
 ﻿@model List<Entities.ViewModel.CategoryParentViewModel>
 
-@if (Model != null)
+@foreach (var parentCategory in Model)
 {
-	var isActive = true;
-
-						<li class="navbar-item dropdown">
-							<a class="navbar-link dropdown-arrow" href="#">وبلاگ</a>
-							<ul class="dropdown-position-list">
-									@foreach (var parentCategory in Model)
-										{
-											var path = "/Blogs/" + parentCategory.Id;								
-										    <li role="presentation">
-                                                <a href="@path">
-                                                    <h3>@parentCategory.Name</h3></a>
-											</li>				
-											 isActive = false;
-										}							 
-							</ul>
-						</li>
-
+    var path = "/Blogs/" + parentCategory.Id;
+    <li>
+        <a asp-page="@path">@parentCategory.Name</a>
+    </li>
 }

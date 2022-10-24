@@ -4,565 +4,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-	<title>@ViewData["Title"] - Boloori</title>
+    <title>@ViewData["Title"] - Boloori</title>
 
-	<link rel="icon" href="~/img/favicon.png" />
+    <link rel="icon" href="~/img/favicon.png" />
 
-	<link rel="stylesheet" href="~/css/flaticon.css" />
+    <link rel="stylesheet" href="~/css/flaticon.css" />
 
-	<link rel="stylesheet" href="~/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/css/fontawesome.min.css" />
 
-	<link rel="stylesheet" href="~/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/nice-select.min.css" />
-	<link rel="stylesheet" href="~/css/jquery-ui.min.css" />
-	<link rel="stylesheet" href="~/css/venobox.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/nice-select.min.css" />
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/css/venobox.min.css" />
 
-	
-	<link rel="stylesheet" href="~/css/MegaMenu.css" />
-	<link rel="stylesheet" href="~/css/bootstrap-3.min.css" />
+
+    <link rel="stylesheet" href="~/css/MegaMenu.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-3.min.css" />
     <link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" />
     <link rel="stylesheet" href="~/css/slick.min.css" />
     <link rel="stylesheet" href="~/css/style.css" />
     <link href="~/css/stars.css" rel="stylesheet" />
-	<!-- CSS only -->
-	
+    <!-- CSS only -->
+
 </head>
 
 <body>
 
-<div class="preloader" id="preloader">
-	<div class="loader"></div>
-</div>
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
 
-<div class="header-part">
-	<div class="container">
-		<div class="header-content-group">
-			<div class="header-widget-group left">
-				<button class="header-widget header-user" title="حساب من">
-					<img src="~/img/user.jpg" alt="کاربر">
-				</button>
-				<a class="header-logo" asp-area="" asp-page="/Index">
-						<img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.png" alt="لوگو">
-						<img id="WhiteLogoImage"style="display: inline;" src="~/img/WhiteLogo.png" alt="لوگو">
-				</a>
-				<button class="header-widget header-src" title="نوار جستجو">
-					<i class="far fa-search"></i>
-				</button>
-				<button class="header-widget header-cate" title="لیست دسته بندی">
-					<i class="flaticon-menu-1"></i>
-				</button>
-			</div>
-            <form class="header-form">
-                <input type="text" placeholder="مورد خود را در اینجا جستجو کنید ...">
-                <button>
-                    <i class="far fa-search"></i>
-                </button>
-            </form>
-            @{
-                var result = await _cartService.Load(Context);
-                var cartList = result.ReturnData;
-                var resultCompare = _compareService.Load(Context);
-                var compareList = resultCompare.ReturnData;
-                decimal allPrice = 0;
-            }
-			<div class="header-widget-group right">
-				@if (User.Identity.IsAuthenticated)
-				{
-					if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-					{
-						<a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
-							<img src="~/img/user.jpg" alt="کاربر">
-						</a>
-					}
-					else
-					{
-						<a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
-							<img src="~/img/user.jpg" alt="کاربر">
-						</a>
-					}
-				    <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-                        <i class="far fa-heart"></i>
+    <div class="header-part">
+        <div class="container">
+            <div class="header-content-group">
+                <div class="header-widget-group left">
+                    <button class="header-widget header-user" title="حساب من">
+                        <img src="~/img/user.jpg" alt="کاربر">
+                    </button>
+                    <a class="header-logo" asp-area="" asp-page="/Index">
+                        <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.png" alt="لوگو">
+                        <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.png" alt="لوگو">
                     </a>
-					<a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
-                        <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
-                        <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
-					</a>
-				    <button class="header-widget header-cart"  title="سبد خرید">
+                    <button class="header-widget header-src" title="نوار جستجو">
+                        <i class="far fa-search"></i>
+                    </button>
+                    <button class="header-widget header-cate" title="لیست دسته بندی">
+                        <i class="flaticon-menu-1"></i>
+                    </button>
+                </div>
+                <form class="header-form">
+                    <input type="text" placeholder="مورد خود را در اینجا جستجو کنید ...">
+                    <button>
+                        <i class="far fa-search"></i>
+                    </button>
+                </form>
+                @{
+                    var result = await _cartService.Load(Context);
+                    var cartList = result.ReturnData;
+                    var resultCompare = _compareService.Load(Context);
+                    var compareList = resultCompare.ReturnData;
+                    decimal allPrice = 0;
+                }
+                <div class="header-widget-group right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
+                        {
+                            <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
+                                <img src="~/img/user.jpg" alt="کاربر">
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
+                                <img src="~/img/user.jpg" alt="کاربر">
+                            </a>
+                        }
+                        <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+                            <i class="far fa-heart"></i>
+                        </a>
+                        <a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
+                            <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
+                            <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+                        </a>
+                        <button class="header-widget header-cart" title="سبد خرید">
                             <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
                             <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
-					</button>
-				}
-				else
-				{
-					<a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
-						<img src="~/img/user.jpg" alt="کاربر">
-					</a>
-				}
-			</div>
-		</div>
-	</div>
-</div>
+                        </button>
+                    }
+                    else
+                    {
+                        <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
+                            <img src="~/img/user.jpg" alt="کاربر">
+                        </a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-<nav class="navbar-part">
-	<div class="container" style="background-color: white">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="navbar-content">
-					<ul class="navbar-list">
-						<li class="navbar-item dropdown">
-							<a class="navbar-link" href="/">خانه</a>
-						</li>
-						<li class="navbar-item dropdown">
-							<a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
-							<div class="dropdown-position-list">
-								<div class="container">
-									<div class="row">
-										<div class="col-md-12">
-											@await Component.InvokeAsync("CategoriesMenu")
-										</div>
-									</div>
-								</div></div></li>
-						<li class="navbar-item dropdown">
-							<a class="navbar-link dropdown-arrow" href="#">صفحات</a>
-							<ul class="dropdown-position-list">
-								<li>
-									<a asp-area="" asp-page="/AboutUs">درباره ما</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
-								</li>
-								@*<li>
-									<a asp-area="" asp-page="/Offer">تخفیف</a>
-								</li>*@
-								<li>
-									<a asp-area="" asp-page="/Faq">سوالات متداول</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Cart">سبد خرید</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
-								</li>
-							</ul>
-						</li>
-						<li class="navbar-item dropdown">
-							<a class="navbar-link dropdown-arrow" href="#">حساب</a>
-							<ul class="dropdown-position-list">
-								<li>
-									<a asp-area="" asp-page="/Profile">پروفایل من</a>
-								</li>
-								@if (User.Identity.IsAuthenticated)
-								{
-									<li>
-										<a href="index?handler=Logout">خروج</a>
-									</li>
-								}
-								else
-								{
-									<li>
-										<a asp-area="" asp-page="/Login">ورود</a>
-									</li>
-								}
+    <nav class="navbar-part">
+        <div class="container" style="background-color: white">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navbar-content">
+                        <ul class="navbar-list">
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link" href="/">خانه</a>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
+                                <div class="dropdown-position-list">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @await Component.InvokeAsync("CategoriesMenu")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link dropdown-arrow" href="#">صفحات</a>
+                                <ul class="dropdown-position-list">
+                                    <li>
+                                        <a asp-area="" asp-page="/AboutUs">درباره ما</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
+                                    </li>
+                                    @*<li>
+                                    <a asp-area="" asp-page="/Offer">تخفیف</a>
+                                    </li>*@
+                                    <li>
+                                        <a asp-area="" asp-page="/Faq">سوالات متداول</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Cart">سبد خرید</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link dropdown-arrow" href="#">حساب</a>
+                                <ul class="dropdown-position-list">
+                                    <li>
+                                        <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                    </li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li>
+                                            <a href="index?handler=Logout">خروج</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-area="" asp-page="/Login">ورود</a>
+                                        </li>
+                                    }
 
-								<li>
-									<a asp-area="" asp-page="/Register">ثبت نام</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
-								</li>
-								<li>
-									<a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
-								</li>
-							</ul>
-						</li>				
-								@await Component.InvokeAsync("BlogCategoriesMenu")
-					</ul>
-					<div class="navbar-info-group">
-						<div class="navbar-info">
-							<i class="fal fa-phone"></i>
-							<p>
-								<small>شماره تماس</small><span>۰۱۳-۳۳۹۵</span>
-							</p>
-						</div>
-						<div class="navbar-info">
-							<i class="fal fa-envelope-open-text"></i>
-							<p>
-								<small>برای ما ایمیل بزنید </small>
-								<span>
-									<a class="__cf_email__" data-cfemail="9cf5f2faf3dcf9e4fdf1ecf0f9b2fff3f1">boloorico@gmail.com</a>
-								</span>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</nav>
+                                    <li>
+                                        <a asp-area="" asp-page="/Register">ثبت نام</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
+                                    </li>
+                                    <li>
+                                        <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link dropdown-arrow" href="#">وبلاگ</a>
+                                <ul class="dropdown-position-list">
+                                    @await Component.InvokeAsync("BlogCategoriesMenu")
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="navbar-info-group">
+                            <div class="navbar-info">
+                                <i class="fal fa-phone"></i>
+                                <p>
+                                    <small>شماره تماس</small><span>۰۱۳-۳۳۹۵</span>
+                                </p>
+                            </div>
+                            <div class="navbar-info">
+                                <i class="fal fa-envelope-open-text"></i>
+                                <p>
+                                    <small>برای ما ایمیل بزنید </small>
+                                    <span>
+                                        <a class="__cf_email__" data-cfemail="9cf5f2faf3dcf9e4fdf1ecf0f9b2fff3f1">boloorico@gmail.com</a>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<aside class="category-part">
-	<div class="category-container">
-		<div class="category-header">
-			<a href="#">
-				<img src="~/img/logo.png" alt="لوگو">
-			</a>
-			<button class="category-close">
-				<i class="far fa-times"></i>
-			</button>
-		</div>
-		<ul class="category-list">
-			@await Component.InvokeAsync("CategoriesList")
-		</ul>
-		<div class="category-footer">
-			<p> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-		</div>
-	</div>
-</aside>
-
-
-<aside class="cart-part">
-	<div class="cart-container">
-		<div class="cart-header">
-			<div class="cart-total">
-				<i class="far fa-shopping-cart"></i><span id="Cart-Count2">کل مورد (0)</span>
-				<input hidden="hidden" value="0" id="Cart-Count-Value" />
-			</div>
-			<button class="cart-close">
-				<i class="far fa-times"></i>
-			</button>
-		</div>
-		<ul id="Cart-List" class="cart-list">
-		</ul>
-		<div class="cart-footer">
-			<a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span>تومان</a>
-			<input hidden="hidden" id="AllPrice-Value" value="0" />
-		</div>
-	</div>
-</aside>
+    <aside class="category-part">
+        <div class="category-container">
+            <div class="category-header">
+                <a href="#">
+                    <img src="~/img/logo.png" alt="لوگو">
+                </a>
+                <button class="category-close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <ul class="category-list">
+                @await Component.InvokeAsync("CategoriesList")
+            </ul>
+            <div class="category-footer">
+                <p> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+            </div>
+        </div>
+    </aside>
 
 
-<aside class="mobile-nav">
-	<div class="nav-container">
-		<div class="nav-header">
-			<a href="#">
-				<img src="~/img/logo.png" alt="لوگو">
-			</a>
-			<button class="nav-close">
-				<i class="fal fa-times"></i>
-			</button>
-		</div>
-		<div class="nav-content">
-			<div class="nav-profile">
-				<a class="nav-user" href="#">
-					<img src="~/img/user.jpg" alt="کاربر">
-				</a>
-				<h4 class="nav-name">
-					<a asp-area="" asp-page="/Login">جیمز گلایدول</a>
-				</h4>
-			</div>
-			<ul class="nav-list">
-				<li>
-					<a class="nav-link dropdown-link" href="#">خانه</a>
-					<ul class="dropdown-list">
-						<li>
-							<a asp-area="" asp-page="/Index">صفحه اصلی</a>
-						</li>
-						<li>
-							<a href="#">صفحه اصلی دو</a>
-						</li>
-						<li>
-							<a href="#">صفحه اصلی سه</a>
-						</li>
-						<li>
-							<a href="#">صفحه اصلی چهار</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="nav-link dropdown-link" href="#">خرید</a>
-					<ul class="dropdown-list">
-						<li>
-							<a asp-area="" asp-page="/Shopgrid">شبکه مغازه</a>
-						</li>
-						<li>
-							<a href="shop-standard.html">استاندارد خرید</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Productdetails">جزئیات محصول</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="nav-link dropdown-link" href="#">صفحات</a>
-					<ul class="dropdown-list">
-						<li>
-							<a asp-area="" asp-page="/AboutUs">درباره ما</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Offer">تخفیف</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Faq">سوالات متداول</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Compare">مقایسه کنید</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Coming_Soon">به زودی</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Error">خطای 404</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Checkout">پرداخت</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Cart">سبد خرید</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Orderdetail">جزئیات سفارش</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Invoice">فاکتور سفارش</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="nav-link dropdown-link" href="#">حساب</a>
-					<ul class="dropdown-list">
-						<li>
-							<a asp-area="" asp-page="/Profile">پروفایل من</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Login">ورود</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Register">ثبت نام</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
-						</li>
-						<li>
-							<a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
-					<ul class="dropdown-list">
-						<li>
-							<a asp-area="" asp-page="/Blog">شبکه f وبلاگ</a>
-						</li>
-						<li>
-							<a href="blog-standard.html">استاندارد وبلاگ</a>
-						</li>
-						<li>
-							<a href="blog-details.html">جزئیات وبلاگ</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a class="nav-link" asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
-				</li>
-			</ul>
-			<div class="nav-info-group">
-				<div class="nav-info">
-					<i class="icofont-ui-touch-phone"></i>
-					<p>
-						<small>شماره تماس</small><span>021444676</span>
-					</p>
-				</div>
-				<div class="nav-info">
-					<i class="icofont-ui-email"></i>
-					<p>
-						<small>برای ما ایمیل بزنید </small>
-						<span>
-							<a href="#" class="__cf_email__" data-cfemail="9af3f4fcf5daffe2fbf7eaf6ffb4f9f5f7">info@gmail.com</a>
-						</span>
-					</p>
-				</div>
-			</div>
-			<div class="nav-footer">
-				<p> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-			</div>
-		</div>
-	</div>
-</aside>
+    <aside class="cart-part">
+        <div class="cart-container">
+            <div class="cart-header">
+                <div class="cart-total">
+                    <i class="far fa-shopping-cart"></i><span id="Cart-Count2">کل مورد (0)</span>
+                    <input hidden="hidden" value="0" id="Cart-Count-Value" />
+                </div>
+                <button class="cart-close">
+                    <i class="far fa-times"></i>
+                </button>
+            </div>
+            <ul id="Cart-List" class="cart-list">
+            </ul>
+            <div class="cart-footer">
+                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span>تومان</a>
+                <input hidden="hidden" id="AllPrice-Value" value="0" />
+            </div>
+        </div>
+    </aside>
 
 
-<div class="mobile-menu">
-	<a asp-area="" asp-page="/Index" title="صفحه نخست">
-		<i class="far fa-home"></i><span>خانه</span>
-	</a>
-	<button class="cate-btn" title="لیست دسته بندی">
-		<i class="far fa-th-large"></i><span>دسته بندی</span>
-	</button>
-	<button class="cart-btn" title="سبد خرید">
-		<i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup>5</sup>
-	</button>
-	<a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-		<i class="far fa-heart"></i><span>لیست آرزوها </span><sup>3</sup>
-	</a>
-	<a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
-		<i class="far fa-exchange"></i><span>مقایسه کنید </span><sup>2</sup>
-	</a>
-</div>
+    <aside class="mobile-nav">
+        <div class="nav-container">
+            <div class="nav-header">
+                <a href="#">
+                    <img src="~/img/logo.png" alt="لوگو">
+                </a>
+                <button class="nav-close">
+                    <i class="fal fa-times"></i>
+                </button>
+            </div>
+            <div class="nav-content">
+                <div class="nav-profile">
+                    <a class="nav-user" href="#">
+                        <img src="~/img/user.jpg" alt="کاربر">
+                    </a>
+                    <h4 class="nav-name">
+                        <a asp-area="" asp-page="/Login">جیمز گلایدول</a>
+                    </h4>
+                </div>
+                <ul class="nav-list">
+                    <li>
+                        <a class="nav-link dropdown-link" href="#">خانه</a>
+                        <ul class="dropdown-list">
+                            <li>
+                                <a asp-area="" asp-page="/Index">صفحه اصلی</a>
+                            </li>
+                            <li>
+                                <a href="#">صفحه اصلی دو</a>
+                            </li>
+                            <li>
+                                <a href="#">صفحه اصلی سه</a>
+                            </li>
+                            <li>
+                                <a href="#">صفحه اصلی چهار</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-link" href="#">خرید</a>
+                        <ul class="dropdown-list">
+                            <li>
+                                <a asp-area="" asp-page="/Shopgrid">شبکه مغازه</a>
+                            </li>
+                            <li>
+                                <a href="shop-standard.html">استاندارد خرید</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Productdetails">جزئیات محصول</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-link" href="#">صفحات</a>
+                        <ul class="dropdown-list">
+                            <li>
+                                <a asp-area="" asp-page="/AboutUs">درباره ما</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Offer">تخفیف</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Faq">سوالات متداول</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Compare">مقایسه کنید</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Coming_Soon">به زودی</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Error">خطای 404</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Checkout">پرداخت</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Cart">سبد خرید</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Orderdetail">جزئیات سفارش</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Invoice">فاکتور سفارش</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-link" href="#">حساب</a>
+                        <ul class="dropdown-list">
+                            <li>
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Login">ورود</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Register">ثبت نام</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
+                        <ul class="dropdown-list">
+                            <li>
+                                <a asp-area="" asp-page="/Blog">شبکه f وبلاگ</a>
+                            </li>
+                            <li>
+                                <a href="blog-standard.html">استاندارد وبلاگ</a>
+                            </li>
+                            <li>
+                                <a href="blog-details.html">جزئیات وبلاگ</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="nav-link" asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
+                    </li>
+                </ul>
+                <div class="nav-info-group">
+                    <div class="nav-info">
+                        <i class="icofont-ui-touch-phone"></i>
+                        <p>
+                            <small>شماره تماس</small><span>021444676</span>
+                        </p>
+                    </div>
+                    <div class="nav-info">
+                        <i class="icofont-ui-email"></i>
+                        <p>
+                            <small>برای ما ایمیل بزنید </small>
+                            <span>
+                                <a href="#" class="__cf_email__" data-cfemail="9af3f4fcf5daffe2fbf7eaf6ffb4f9f5f7">info@gmail.com</a>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="nav-footer">
+                    <p> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+                </div>
+            </div>
+        </div>
+    </aside>
 
 
-		@RenderBody()
-	
-
-<footer class="footer-part">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-6 col-md-4 col-xl-4">
-				<div class="footer-widget">
-					<a class="footer-logo" href="#">
-						<img src="~/img/BlueLogo.png" alt="لوگو">
-					</a>
-					<p class="footer-desc">برای یک خرید خوب و مطمئن باید خوب ببینید، مقایسه کنید و اطلاعات کافی کسب کنید.
-                        تجهیزات آشپزی و پذیرایی بلوری یک فروشگاه حرفه ای، قابل اعتماد و با سابقه درزمینه تجهیز و تامین کلیه لوازم مورد نیاز  فعالان حوزه خوراک، این امکان را فراهم نموده تا شما مشتری عزیز بتوانید به راحتی ضمن مقایسه و دریافت اطلاعات کافی با اطمینان خرید و از خدمات پس از فروش  نیز برخوردار شوید.</p>
-					<ul class="footer-social">
-						<partial name="Components/_socialMedia" />
-					</ul>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-4 col-xl-4">
-				<div class="footer-widget">
-					<h3 class="footer-title">لینک های سریع</h3>
-					<div class="footer-links">
-						<ul>
-							<li>
-								<a asp-area="" asp-page="/Profile">پروفایل من</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/Orderlist">تاریخچه سفارش ها</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/Register">ایجاد حساب</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/Login">ورود به سیستم</a>
-							</li>
-						</ul>
-						<ul>
-							<li>
-								<a asp-area="" asp-page="/AboutUs">درباره ما</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
-							</li>
-							<li>
-								<a asp-area="" asp-page="/faq">پرسش و پاسخ</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-4 col-xl-4">
-				<div class="footer-widget contact">
-					<h3 class="footer-title">با ما تماس بگیرید</h3>
-					<ul class="footer-contact">
-						<li>
-							<i class="fal fa-envelope-open-text"></i>
-							<p>
-								<span>
-									<a class="__cf_email__" data-cfemail="3851565e57785d40595548545d165b5755">boloorico@gmail.com</a>
-								</span>
-							</p>
-						</li>
-						<li>
-							<i class="fal fa-phone"></i>
-							<p>
-								<span>۰۱۳-۳۳۹۵ خط ویژه</span><span>۰۱۳-۳۴۴۹۷۴۸۰</span><span>۰۱۳-۳۴۴۹۷۴۸1</span><span>۰۱۳-۳۴۴۹۷۴۸2</span>
-							</p>
-						</li>
-						<li>
-							<i class="fal fa-map-marker-alt"></i>
-							<p>
-								ایران، گیلان، رشت، خمام، جاده چوکام، جنب سایپا پور رستگار، خیابان شریفی
-								<br />
-								کدپستی : ۴۳۴۵۱۴۱۴۴۱
-							</p>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				<div class="footer-bottom">
-					<p class="footer-copytext"> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">حریم خصوصی</a></p>
-				</div>
-			</div>
-		</div>
-	</div>
-</footer>
-	<div class="modal" id="product-view">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<button class="modal-close far fa-times" data-bs-dismiss="modal"></button>
-				<div class="product-view" id="modal_body">
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="mobile-menu">
+        <a asp-area="" asp-page="/Index" title="صفحه نخست">
+            <i class="far fa-home"></i><span>خانه</span>
+        </a>
+        <button class="cate-btn" title="لیست دسته بندی">
+            <i class="far fa-th-large"></i><span>دسته بندی</span>
+        </button>
+        <button class="cart-btn" title="سبد خرید">
+            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup>5</sup>
+        </button>
+        <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+            <i class="far fa-heart"></i><span>لیست آرزوها </span><sup>3</sup>
+        </a>
+        <a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
+            <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup>2</sup>
+        </a>
+    </div>
 
 
-<a href="#" class="back-to-top">
-	<i class="far fa-long-arrow-up"></i>
-</a>
+    @RenderBody()
 
- <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-<script src="./js/jquery-3.6.0.min.js"></script>
-<script src="~/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/nice-select.min.js"></script>
-<script src="~/js/venobox.min.js"></script>
-<script src="~/js/jquery-ui.js"></script>
-<script src="~/js/finalcountdown.min.js"></script>
 
-<script src="~/js/price-range.js"></script>
-<script src="~/js/accordion.js"></script>
-<script src="~/js/venobox.js"></script>
-<script src="~/js/bootstrap.min.js"></script>
-<script src="~/js/jquery-1.12.0.min.js"></script>
-<script src="~/js/main.js"></script>
+    <footer class="footer-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-xl-4">
+                    <div class="footer-widget">
+                        <a class="footer-logo" href="#">
+                            <img src="~/img/BlueLogo.png" alt="لوگو">
+                        </a>
+                        <p class="footer-desc">
+                            برای یک خرید خوب و مطمئن باید خوب ببینید، مقایسه کنید و اطلاعات کافی کسب کنید.
+                            تجهیزات آشپزی و پذیرایی بلوری یک فروشگاه حرفه ای، قابل اعتماد و با سابقه درزمینه تجهیز و تامین کلیه لوازم مورد نیاز  فعالان حوزه خوراک، این امکان را فراهم نموده تا شما مشتری عزیز بتوانید به راحتی ضمن مقایسه و دریافت اطلاعات کافی با اطمینان خرید و از خدمات پس از فروش  نیز برخوردار شوید.
+                        </p>
+                        <ul class="footer-social">
+                            <partial name="Components/_socialMedia" />
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-4">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">لینک های سریع</h3>
+                        <div class="footer-links">
+                            <ul>
+                                <li>
+                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Orderlist">تاریخچه سفارش ها</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Register">ایجاد حساب</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Login">ورود به سیستم</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <a asp-area="" asp-page="/AboutUs">درباره ما</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/faq">پرسش و پاسخ</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-4">
+                    <div class="footer-widget contact">
+                        <h3 class="footer-title">با ما تماس بگیرید</h3>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="fal fa-envelope-open-text"></i>
+                                <p>
+                                    <span>
+                                        <a class="__cf_email__" data-cfemail="3851565e57785d40595548545d165b5755">boloorico@gmail.com</a>
+                                    </span>
+                                </p>
+                            </li>
+                            <li>
+                                <i class="fal fa-phone"></i>
+                                <p>
+                                    <span>۰۱۳-۳۳۹۵ خط ویژه</span><span>۰۱۳-۳۴۴۹۷۴۸۰</span><span>۰۱۳-۳۴۴۹۷۴۸1</span><span>۰۱۳-۳۴۴۹۷۴۸2</span>
+                                </p>
+                            </li>
+                            <li>
+                                <i class="fal fa-map-marker-alt"></i>
+                                <p>
+                                    ایران، گیلان، رشت، خمام، جاده چوکام، جنب سایپا پور رستگار، خیابان شریفی
+                                    <br />
+                                    کدپستی : ۴۳۴۵۱۴۱۴۴۱
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-bottom">
+                        <p class="footer-copytext"> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">حریم خصوصی</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal" id="product-view">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button class="modal-close far fa-times" data-bs-dismiss="modal"></button>
+                <div class="product-view" id="modal_body">
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script src="~/lib/sweetalert/sweetalert.min.js"></script>
-<script src="~/lib/masonry/masonry.pkgd.min.js"></script>
-<script src="~/lib/drift-zoom/Drift.min.js"></script>
-<script src="~/js/nice-select.js"></script>
-<script src="~/js/nice-select.min.js"></script>
-<script src="~/js/slick.min.js"></script>
-<script src="~/js/slick.js"></script>
-@await RenderSectionAsync("Scripts", false)
-<script>
+
+    <a href="#" class="back-to-top">
+        <i class="far fa-long-arrow-up"></i>
+    </a>
+
+    @* <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/nice-select.min.js"></script>
+    <script src="~/js/venobox.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/finalcountdown.min.js"></script>
+
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/accordion.js"></script>
+    <script src="~/js/venobox.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery-1.12.0.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
+    <script src="~/lib/drift-zoom/Drift.min.js"></script>
+    <script src="~/js/nice-select.js"></script>
+    <script src="~/js/nice-select.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/slick.js"></script>
+    @await RenderSectionAsync("Scripts", false)
+    <script>
         var labels = $("label");
         labels.hover(
             function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
@@ -577,7 +586,7 @@
             }
         );
 
-		 function SaveStars(id, starNumber) {
+        function SaveStars(id, starNumber) {
 
             $.ajax({
                 type: "Get",
@@ -593,289 +602,290 @@
                 }
             });
         }
-  
-	$(LoadCard());
 
-	function DeleteCart(id, productId, priceId) {
-		var elementId = "#CartDrop-" + id;
-		var sumPriceId = "#SumPrice-" + id;
-		var price = parseInt($(sumPriceId).val());
-		var count = parseInt($("#Cart-Count-Value").val());
-		var allPrice = parseInt($("#AllPrice-Value").val());
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(result) {
-				swal(result.message);
-				if (result.code === 0) {
-					alert(elementId);
-					$(elementId).remove();
-					count--;
-					allPrice = allPrice - price;
-					$('#Cart-Count').text(count);
-					$('#Cart-Count2').text("کل مورد (" + count + ")");
-					$('#All-Price').text(allPrice + ' تومان');
-					$("#Cart-Count-Value").val(count);
-					$("#AllPrice-Value").val(allPrice);
-				}
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
-	}
+        $(LoadCard());
 
-	function DecreaseCart(id, productId, priceId) {
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(result) {
-				swal(result.message);
-				LoadCard();
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
-	}
-
-	function AddWishList(id) {
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=AddWishList&id=" + id,
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(response) {
-				swal(response);
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
-	}
-
-		function RemoveWishList(id) {
+        function DeleteCart(id, productId, priceId) {
+            var elementId = "#CartDrop-" + id;
+            var sumPriceId = "#SumPrice-" + id;
+            var price = parseInt($(sumPriceId).val());
+            var count = parseInt($("#Cart-Count-Value").val());
+            var allPrice = parseInt($("#AllPrice-Value").val());
             $.ajax({
                 type: "Get",
-				url: "/index?handler=RemoveWishList&id=" + id,
+                url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(result) {
-	                swal(result.message);
+                success: function (result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        alert(elementId);
+                        $(elementId).remove();
+                        count--;
+                        allPrice = allPrice - price;
+                        $('#Cart-Count').text(count);
+                        $('#Cart-Count2').text("کل مورد (" + count + ")");
+                        $('#All-Price').text(allPrice + ' تومان');
+                        $("#Cart-Count-Value").val(count);
+                        $("#AllPrice-Value").val(allPrice);
+                    }
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function DecreaseCart(id, productId, priceId) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                    LoadCard();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function AddWishList(id) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=AddWishList&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    swal(response);
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function RemoveWishList(id) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=RemoveWishList&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
                     if (result.code === 0) {
                         location.reload();
                     }
                 },
-                failure: function(response) {
+                failure: function (response) {
                     alert(response);
                 }
             });
         }
 
-	function AddCompareList(id) {
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=AddCompareList&id=" + id,
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(response) {
-				swal(response);
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
-	}
-	
-	 function DeleteCompare(id) {
+        function AddCompareList(id) {
             $.ajax({
                 type: "Get",
-                url: "/index?handler=DeleteCompare&id=" + id ,
+                url: "/index?handler=AddCompareList&id=" + id,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(result) {
-	                swal(result.message);
+                success: function (response) {
+                    swal(response);
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
+        function DeleteCompare(id) {
+            alert("Hello! I am an alert box!!");
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=DeleteCompare&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
                     if (result.code === 0) {
                         location.reload();
                     }
                 },
-                failure: function(response) {
+                failure: function (response) {
                     alert(response);
                 }
             });
         }
 
-	function OpenProductModal() {
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=wish",
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(response) {
-				swal(response);
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
-	}
+        function OpenProductModal() {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=wish",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    swal(response);
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
 
-	function AddCart(id, priceId) {
-		$.ajax({
-			type: "Get",
-			url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
-			success: function(result) {
-				swal(result.message);
-				if (result.code === 0) {
-					LoadCard();
-				}
-			},
-			failure: function(response) {
-				swal(response);
-			}
-		});
+        function AddCart(id, priceId) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        LoadCard();
+                    }
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
 
-	}
+        }
 
-	function LoadCard() {
-		var count = 0;
-		var allPrice = 0;
-		$('#Cart-List').text('');
-		$.get('/index?handler=LoadCart').done(function(products) {
-			$.each(products.returnData,
-				function(i, product) {
-					var item =
-						'<li class="cart-item" id="CartDrop-' + product.id + '">' +
-							' <div class="cart-media">' +
-							'<a asp-page="Product" asp-route-productUrl="' + product.url + '"><img src="/' + product.imagePath + '" alt="' + product.alt + '">' + '</a>' +
-							'<button class="cart-delete" onclick="DeleteCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')"><i class="far fa-times"></i></button>' +
-							'</div>' +
-							'  <div class="cart-info-group">' +
-							'<div class="cart-info">' +
-							'  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
-							product.name +
-							'</a></h5>' +
-							'  <h6>برند' +
-							product.brand +
-							'</h6>' +
-							'<p>' +
-							product.priceAmount +
-							'</p>' +
-							'</div>' +
-							'<div class="cart-action-group">' +
-							'<div class="product-action">' +
-							'<button class="action-minus" onclick="DecreaseCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
-							product.quantity +
-							'">' +
-							'<button class="action-plus" onclick="AddCart(' + product.productId + ',' + product.priceId + ')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
-							'</div>' +
-							'<h6>' +
-							product.sumPrice +
-							'</h6><h6>تومان</h6>' +
-							' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>' +
-							'</div>' +
-							'</div>' +
-							'</li>';
-					$('#Cart-List').append(item);
-					count++;
-					allPrice = allPrice + product.sumPrice;
-				});
-			$('#Cart-Count').text(count);
-			$('#Cart-Count-Value').val(count);
-			$('#Cart-Count2').text("کل مورد (" + count + ")");
-			$('#All-Price').text(allPrice);
-			$('#AllPrice-Value').val(allPrice);
-		});
-	}
-
-		function OpenProductModal(id) {
-			$.ajax({
-				type: "Get",
-				url: "/index?handler=QuickView&id=" + id,
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (result) {
-					if (result.code == 0) {
-						var item =
-				     ' <div class="row">' +
-							'<div class="col-md-6 col-lg-6">' +
-                      '  <div class="view-gallery">' +
-                            '<img src="' +
-							result.returnData.imagePath +
-							'" alt="' +
-							result.returnData.alt +
-							'">' +
-                                    '<div class="view-list-group mt-4">' +
-                                        '<label class="view-list-title">اشتراک گذاری:</label>' +
-                                        '<ul class="view-share-list">' +
-							'<li>' +
-                                                '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
-                                            '</li>' +
-                                            '<li>' +
-							'<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
-                                            '</li>' +
-                                            '<li>' +
-                                                '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
-                                            '</li>' +
-                                        '</ul>' +
-							'</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="col-md-6 col-lg-6">' +
-                        '<div class="view-details">' +
-                            '<h3 class="view-name">' +
-                                '<a asp-area="" asp-page="/Productdetails">' +
-							result.returnData.name +
-								'</a>' +
-                            '</h3>' +
-                            '<div class="view-meta">' +
-							'<p><a>مارک تجاری:</a>' +
-								result.returnData.brand +
-								'</p>' +
+        function LoadCard() {
+            var count = 0;
+            var allPrice = 0;
+            $('#Cart-List').text('');
+            $.get('/index?handler=LoadCart').done(function (products) {
+                $.each(products.returnData,
+                    function (i, product) {
+                        var item =
+                            '<li class="cart-item" id="CartDrop-' + product.id + '">' +
+                            ' <div class="cart-media">' +
+                            '<a asp-page="Product" asp-route-productUrl="' + product.url + '"><img src="/' + product.imagePath + '" alt="' + product.alt + '">' + '</a>' +
+                            '<button class="cart-delete" onclick="DeleteCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')"><i class="far fa-times"></i></button>' +
                             '</div>' +
-                            '<div class="view-rating">' +
-                                '<br/>' +
+                            '  <div class="cart-info-group">' +
+                            '<div class="cart-info">' +
+                            '  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
+                            product.name +
+                            '</a></h5>' +
+                            '  <h6>برند' +
+                            product.brand +
+                            '</h6>' +
+                            '<p>' +
+                            product.priceAmount +
+                            '</p>' +
                             '</div>' +
-                            '<h3 class="view-price">' +
-							'<span>' +
-								result.returnData.price +
-								'</span>' +
-                            '</h3>' +
-                            '<p class="view-desc">' +
-							result.returnData.description +
-							'</p>' +
-                            '<div class="view-list-group">' +
-                                '<label class="view-list-title">برچسب ها:</label>' +
-                                '<ul class="view-tag-list">' +
-                                    '<li>' +
-                                        '<a href="#">میوه ها</a>' +
-                                    '</li>' +
-                                    '<li>' +
-                                        '<a href="#">ارگانیک</a>' +
-                                    '</li>' +
-                                '</ul>' +
+                            '<div class="cart-action-group">' +
+                            '<div class="product-action">' +
+                            '<button class="action-minus" onclick="DecreaseCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
+                            product.quantity +
+                            '">' +
+                            '<button class="action-plus" onclick="AddCart(' + product.productId + ',' + product.priceId + ')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
                             '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +;
-						$('#modal_body').html(item);
-						$('#product-view').modal('show');
-					}
-				},
-				failure: function (response) {
-					alert(response);
-				}
-			});
-		}
-	; 
-// DOMContentLoaded  end
-</script>
+                            '<h6>' +
+                            product.sumPrice +
+                            '</h6><h6>تومان</h6>' +
+                            ' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                        $('#Cart-List').append(item);
+                        count++;
+                        allPrice = allPrice + product.sumPrice;
+                    });
+                $('#Cart-Count').text(count);
+                $('#Cart-Count-Value').val(count);
+                $('#Cart-Count2').text("کل مورد (" + count + ")");
+                $('#All-Price').text(allPrice);
+                $('#AllPrice-Value').val(allPrice);
+            });
+        }
+
+        //function OpenProductModal(id) {
+        //    $.ajax({
+        //        type: "Get",
+        //        url: "/index?handler=QuickView&id=" + id,
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (result) {
+        //            if (result.code == 0) {
+        //                var item =
+        //                    ' <div class="row">' +
+        //                    '<div class="col-md-6 col-lg-6">' +
+        //                    '  <div class="view-gallery">' +
+        //                    '<img src="' +
+        //                    result.returnData.imagePath +
+        //                    '" alt="' +
+        //                    result.returnData.alt +
+        //                    '">' +
+        //                    '<div class="view-list-group mt-4">' +
+        //                    '<label class="view-list-title">اشتراک گذاری:</label>' +
+        //                    '<ul class="view-share-list">' +
+        //                    '<li>' +
+        //                    '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
+        //                    '</li>' +
+        //                    '<li>' +
+        //                    '<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
+        //                    '</li>' +
+        //                    '<li>' +
+        //                    '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
+        //                    '</li>' +
+        //                    '</ul>' +
+        //                    '</div>' +
+        //                    '</div>' +
+        //                    '</div>' +
+        //                    '<div class="col-md-6 col-lg-6">' +
+        //                    '<div class="view-details">' +
+        //                    '<h3 class="view-name">' +
+        //                    '<a asp-area="" asp-page="/Productdetails">' +
+        //                    result.returnData.name +
+        //                    '</a>' +
+        //                    '</h3>' +
+        //                    '<div class="view-meta">' +
+        //                    '<p><a>مارک تجاری:</a>' +
+        //                    result.returnData.brand +
+        //                    '</p>' +
+        //                    '</div>' +
+        //                    '<div class="view-rating">' +
+        //                    '<br/>' +
+        //                    '</div>' +
+        //                    '<h3 class="view-price">' +
+        //                    '<span>' +
+        //                    result.returnData.price +
+        //                    '</span>' +
+        //                    '</h3>' +
+        //                    '<p class="view-desc">' +
+        //                    result.returnData.description +
+        //                    '</p>' +
+        //                    '<div class="view-list-group">' +
+        //                    '<label class="view-list-title">برچسب ها:</label>' +
+        //                    '<ul class="view-tag-list">' +
+        //                    '<li>' +
+        //                    '<a href="#">میوه ها</a>' +
+        //                    '</li>' +
+        //                    '<li>' +
+        //                    '<a href="#">ارگانیک</a>' +
+        //                    '</li>' +
+        //                    '</ul>' +
+        //                    '</div>' +
+        //                    '</div>' +
+        //                    '</div>' +
+        //                    '</div>' +;
+        //                $('#modal_body').html(item);
+        //                $('#product-view').modal('show');
+        //            }
+        //        },
+        //        failure: function (response) {
+        //            alert(response);
+        //        }
+        //    });
+        //}
+
+                // DOMContentLoaded  end
+    </script>
 
 </body>
 

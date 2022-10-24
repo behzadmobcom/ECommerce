@@ -90,6 +90,7 @@ public class UserService : IUserService
             Message = "ثبت نام با موفقیت انجام شد"
         };
     }
+
     public async Task<ServiceResult> Update(User user)
     {
         var result = await _http.PutAsync(Url, user);

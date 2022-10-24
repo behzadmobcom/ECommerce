@@ -1,19 +1,21 @@
 ﻿@model Entities.ViewModel.BlogViewModel
 
-  <div class="blog-card">
-     <div class="blog-media">
-        <a class="blog-img" href="#"><img src="~/@($"{Model.Image?.Path}/{Model.Image?.Name}")" alt="@Model.Image.Alt?"></a>     
-     </div>
-     <div class="blog-content">
-      <ul class="blog-meta">     
-       <li><i class="far fa-calendar"></i><span> <a asp-area="" asp-page="Blog">@Model.EditDateTime</a> </span></li>
-       <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor.Name}")</a> </span></li>
+<div class="blog-card">
+    <div class="blog-media">
+        <a class="blog-img" href="#"><img src="~/@($"{Model.Image?.Path}/{Model.Image?.Name}")" alt="@Model.Image?.Alt"></a>
+    </div>
+    <div class="blog-content">
+        <ul class="blog-meta">
+            <li><i class="far fa-calendar"></i><span> <a asp-area="" asp-page="Blog">@Model.EditDateTime</a> </span></li>
+            <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor?.Name}")</a> </span></li>
             <li><i class="far fa-comments"></i><span>@Model.CommentCount نظر</span></li>
-      </ul>
-      <h4 class="blog-title"><a asp-area="" asp-page="Blog"> @Model.Title</a></h4>       
-      @*<p asp-area="" class="blog-desc" asp-page="Blog">@($"{Html.Raw(Model.Text.Substring(Model.Text.Length - 100, 100))}...")</p>*@
-        <p asp-area="" class="blog-desc" asp-page="Blog">@(Html.Raw(Model.Text))</p>
+        </ul>
+        <h4 class="blog-title"><a asp-area="" asp-page="Blog"> @Model.Title</a></h4>
+        @{
+            int positionOfNewLine = Model.Text.IndexOf("\r\n");
+        }
+        <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text.Substring(0,positionOfNewLine))...</p>
 
         <a class="blog-btn" asp-area="" asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url"><span> ادامه مطلب </span><i class="far fa-long-arrow-left"></i></a>
-     </div>
     </div>
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
 using Services.Services;
+using Entities.Helper;
 
 namespace Bolouri.Pages;
 
@@ -17,10 +18,11 @@ public class IndexModel : PageModel
     private readonly ISlideShowService _slideShowService;
     private readonly IWishListService _wishListService;
     private readonly IStarService _starService;
+    private readonly IBlogService _blogService;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService, IBrandService brandService, IStarService starService)
+        ICookieService cookieService, IBrandService brandService, IStarService starService, IBlogService blogService)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -30,17 +32,18 @@ public class IndexModel : PageModel
         _cookieService = cookieService;
         _brandService = brandService;
         _starService = starService;
+        _blogService = blogService;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
     public List<ProductIndexPageViewModel> ExpensiveProducts { get; set; }
     public List<ProductIndexPageViewModel> StarProducts { get; set; }
+    public ServiceResult<List<BlogViewModel>> Blogs { get; set; }
     //public List<ProductIndexPageViewModel> SellProducts { get; set; }
     public List<Brand> Brands { get; set; }
-
     public bool IsColleague { get; set; }
-
+    
     public async Task OnGetAsync()
     {
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
@@ -50,13 +53,12 @@ public class IndexModel : PageModel
         //SellProducts = (await _productService.TopSells()).ReturnData;
         Brands = (await _brandService.Load()).ReturnData;
         Brands.RemoveAt(0);
+        Blogs = await _blogService.TopBlogs("", "", 0, 3);
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
 
     }
-
-
 
     public IActionResult OnPost()
     {

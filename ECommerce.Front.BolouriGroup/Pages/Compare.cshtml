@@ -16,118 +16,53 @@
     </div>
 </section>
 <section class="inner-section compare-part">
- <div class="container">
-  <div class="row">
-   <div class="col-lg-12">
-    <div class="table-scroll">
-     <table class="table-list">
-      <thead>
-      <tr>
-       <th scope="col">تصویر محصول</th>
-       <th scope="col">نام</th>
-       <th scope="col">قیمت</th>
-       <th scope="col">نام تجاری</th>
-       <th scope="col">توضیحات</th>
-       <th scope="col">عملیات</th>
-      </tr>
-      </thead>
-      <tbody>
-                            @foreach (var compare in Model.CompareProducts)
-      {
-          <tr>
-              <td class="table-image">
-                                        <img src="~/@compare.ImagePath" alt="@compare.Alt">
-              </td>
-              <td class="table-name"><h6>@compare.Name</h6></td>
-              <td class="table-price">
-                  <h6>@compare.Price </h6>
-              </td>
-              <td class="table-vendor"><a href="#">@compare.Brand</a></td>
-              <td class="table-status"><h6 class="stock-out">@compare.Description</h6></td>
-              <td class="table-action">
-                  <a class="wish" href="javascript:void(0)" onclick="AddCart(@compare.ProductId,@compare.PriceId,1)" title="افزودن به لیست علاقه مندی ها"><i class="far fa-heart"></i></a>
-                                        <a href="javascript:void(0)" onclick="DeleteCompare(@compare.Id,1)" title="حذف">
-                      <i class="far fa-window-close"></i>
-                  </a>
-                  
-              </td>
-          </tr>
-          }
-      </tbody>
-     </table>
-    </div>
-   </div>
-  </div>
- </div>
-</section>
-
-
-
-<div class="container table-responsive" style="margin-top: 100px;">
-    @if (Model.Message.Length == 0)
-    {
-        <table class="table table-bordered table-hover sticky-header">
-            <thead>
-            <tr style="background-color: #9EC9D4">
-                <th scope="col"></th>
-                @foreach (var product in Model.CompareProducts)
-                {
-
-                    <th scope="col">
-
-
-                        <img style="width: 150px" src="~/@product.ImagePath" alt="@product.Alt" />
-                        <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)" style="padding-right: 40%">
-                                <i class="far fa-closed-captioning"></i>
-                        </a>
-                        <h3 style="font-size: 12px">@product.Name</h3>
-                    </th>
-                }
-            </tr>
-            </thead>
-            <tbody>
-        
-            @for (var g = 0; g < Model.CompareProducts.FirstOrDefault().AttributeGroupProducts.Count; g++)
-            {
-                @for (var i = 0; i < Model.CompareProducts[0].AttributeGroupProducts[g].Attribute.Count; i++)
-                {
-                    <tr>
-                        <th style="width: 20%">@Model.CompareProducts[0].AttributeGroupProducts[g].Attribute[i].Title</th>
-                        @for (var p = 0; p < Model.CompareProducts.Count; p++)
-                        {
-                            <td> @Model.CompareProducts[p].AttributeGroupProducts[g].Attribute[i].AttributeValue[0].Value</td>
-                        }
-                    </tr>
-                }
-            }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h1>@Model.Message</h1>
-    }
-</div>
-
-
-<section class="news-part">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-5 col-lg-6 col-xl-7">
-                <div class="news-text">
-                    <h2>برای به روزرسانی خبرنامه ما مشترک شوید</h2>
-                    <p>تنوع زیادی از معابر سنگ معدن سنگ معدن موجود است</p>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-scroll">
+                    <table class="table-list">
+                        <thead>
+                            <tr>
+                                <th scope="col">تصویر محصول</th>
+                                <th scope="col">نام</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">نام تجاری</th>
+                                <th scope="col">توضیحات</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var compare in Model.CompareProducts)
+                            {
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="~/@compare.ImagePath" alt="@compare.Alt">
+                                    </td>
+                                    <td class="table-name"><h6>@compare.Name</h6></td>
+                                    <td class="table-price">
+                                        
+                                    </td>
+                                    <td class="table-vendor"><a href="#">@compare.Brand</a></td>
+                                    <td class="table-status">@Html.Raw(@compare.Description)</td>
+                                    <td class="table-action">
+                                        <a class="wish" href="javascript:void(0)" onclick="AddWishList(@compare.Id)" title="افزودن به لیست علاقه مندی ها">
+                                            <i class="far fa-heart"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
+                                            <i class="far fa-window-close"></i>
+                                        </a>
+                                        @*  <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)">
+                                    <i class="far fa-closed-captioning"></i>
+                                    </a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <div class="col-md-7 col-lg-6 col-xl-5">
-                <form class="news-form">
-                    <input type="text" placeholder="آدرس ایمیل خود را وارد کنید">
-                    <button>
-                        <span> اشتراک <i class="far fa-paper-plane"></i> </span>
-                    </button>
-                </form>
             </div>
         </div>
     </div>
 </section>
+
 

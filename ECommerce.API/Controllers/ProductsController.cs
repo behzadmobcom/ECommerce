@@ -84,54 +84,57 @@ public class ProductsController : ControllerBase
             foreach (var productPrices in product.Prices)
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
                 {
-                    var article = holooArticle.First(x=>x.A_Code== productPrices.ArticleCode);
+                    var article = holooArticle.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
                     decimal articlePrice = 0;
-                    switch (productPrices.SellNumber)
+                    if (article != null)
                     {
-                        case Price.HolooSellNumber.Sel_Price:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price2:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price2);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price3:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price3);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price4:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price4);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price5:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price5);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price6:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price6);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price7:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price7);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price8:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price8);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price9:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price9);
-                            break;
-                        case Price.HolooSellNumber.Sel_Price10:
-                            articlePrice = Convert.ToDecimal(article.Sel_Price10);
-                            break;
-                    }
-                    productPrices.Amount = articlePrice / 10;
-                    var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
-                    var soldExist = sold == null ? 0 : sold.First_Article;
-                    productPrices.Exist = (double)article.Exist - soldExist;
-                }
+                        switch (productPrices.SellNumber)
+                        {
+                            case Price.HolooSellNumber.Sel_Price:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price2:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price2);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price3:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price3);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price4:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price4);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price5:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price5);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price6:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price6);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price7:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price7);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price8:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price8);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price9:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price9);
+                                break;
+                            case Price.HolooSellNumber.Sel_Price10:
+                                articlePrice = Convert.ToDecimal(article.Sel_Price10);
+                                break;
+                        }
 
+                        productPrices.Amount = articlePrice / 10;
+                        var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
+                        var soldExist = sold == null ? 0 : sold.First_Article;
+                        productPrices.Exist = (double)article.Exist - soldExist;
+                    }
+                }
         }
 
         return products;
     }
 
 
-    private async Task<Product> AddPriceAndExistFromHoloo(Product product,CancellationToken cancellationToken)
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product, CancellationToken cancellationToken)
     {
         var aBails = await _aBailRepository.GetAll(cancellationToken);
         foreach (var productPrices in product.Prices)
@@ -273,12 +276,12 @@ public class ProductsController : ControllerBase
         {
             //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
             var categoriesId = new List<int>();
-            categoriesId = await  _categoryRepository.ChildrenCategory(productListFilteredViewModel.PaginationParameters.CategoryId,
+            categoriesId = await _categoryRepository.ChildrenCategory(productListFilteredViewModel.PaginationParameters.CategoryId,
                     cancellationToken);
             categoriesId.Add(productListFilteredViewModel.PaginationParameters.CategoryId);
             var productQuery = _productRepository.GetProducts(categoriesId, productListFilteredViewModel.BrandsId,
                 productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
-            
+
             var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             if (search is { Length: > 1 })
@@ -342,17 +345,17 @@ public class ProductsController : ControllerBase
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel,cancellationToken);
+                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, cancellationToken);
             }
 
-            if(productListFilteredViewModel.EndPrice > 0)
+            if (productListFilteredViewModel.EndPrice > 0)
             {
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) > productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) < productListFilteredViewModel.EndPrice).ToList();
             }
 
             if (productListFilteredViewModel.IsExist != null)
             {
-                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e=> e.Exist > 0)).ToList();
+                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             }
 
 
@@ -413,7 +416,7 @@ public class ProductsController : ControllerBase
         {
             var products = await _productRepository.TopNew(count, cancellationToken);
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                products = await AddPriceAndExistFromHolooList(products,cancellationToken);
+                products = await AddPriceAndExistFromHolooList(products, cancellationToken);
 
             products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
@@ -638,14 +641,14 @@ public class ProductsController : ControllerBase
         }
     }
 
-      [HttpGet]
+    [HttpGet]
     public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague,
-        CancellationToken cancellationToken)
+      CancellationToken cancellationToken)
     {
         try
         {
             var product = await _productRepository.GetProductById(id, cancellationToken);
-         
+
             if (product == null)
                 return Ok(new ApiResult
                 {
@@ -655,7 +658,7 @@ public class ProductsController : ControllerBase
             if (product.Prices.Any(p => p.ArticleCode != null))
                 product = await AddPriceAndExistFromHoloo(product, cancellationToken);
 
-            var productModalViewModel = new ProductModalViewModel 
+            var productModalViewModel = new ProductModalViewModel
             {
                 Alt = product.Images.FirstOrDefault().Alt,
                 ImagePath = $"{product.Images!.First().Path}/{product.Images!.First().Name}",
