@@ -123,16 +123,19 @@ public class IndexModel : PageModel
         var result = _compareService.Add(HttpContext, id);
         return new JsonResult(result.Message);
     }
+
     public IActionResult OnGetDeleteCompare(int id)
     {
         var result = _compareService.Remove(HttpContext, id);
         return new JsonResult(result);
     }
+
     public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
     {
         var result = await _starService.SaveStars(id, starNumber);
         return new JsonResult(result);
     }
+
     public async Task<JsonResult> OnGetQuickView(int id)
     {
         var result = await _productService.GetByIdViewModel(id);
