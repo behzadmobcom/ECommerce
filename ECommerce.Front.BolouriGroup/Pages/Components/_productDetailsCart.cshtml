@@ -25,54 +25,54 @@
                 <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(4 نظر)</a>
             </div>
-	      
-	        @{
-		        decimal? discount = 0;
-		        decimal? amount = 0;
-		        decimal? discountAmount = 0;
-		        var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
-		        if (singlePrice != null)
-		        {
-			        amount = singlePrice.Amount;
+
+            @{
+                decimal? discount = 0;
+                decimal? amount = 0;
+                decimal? discountAmount = 0;
+                var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+                if (singlePrice != null)
+                {
+                    amount = singlePrice.Amount;
 
 
-			        if (singlePrice.Discount != null)
-				        if (singlePrice.Discount.Amount > 0)
-				        {
-					        discount = (decimal)singlePrice.Discount.Amount;
-				        }
-				        else if (singlePrice.Discount.Percent > 0)
-				        {
-					        discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
-				        }
-			        discountAmount = amount - discount;
-		        }
+                    if (singlePrice.Discount != null)
+                        if (singlePrice.Discount.Amount > 0)
+                        {
+                            discount = (decimal)singlePrice.Discount.Amount;
+                        }
+                        else if (singlePrice.Discount.Percent > 0)
+                        {
+                            discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+                        }
+                    discountAmount = amount - discount;
+                }
 
-	        }
-	        @if (singlePrice == null)
-	        {
-		        <h6 class="feature-price">
-			        <span>ناموجود</span>
-		        </h6>
-	        }
-	        else
-	        {
-		        @if (discount > 0)
-		        {
-			        <div class="feature-price">
-				        <del>@amount?.ToString("###,###,###,###") تومان</del>
-			        </div>
-		        }
-		        <h6 class="feature-price">
-			        <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
-		        </h6>
-		        
-	        }
+            }
+            @if (singlePrice == null)
+            {
+                <h6 class="feature-price">
+                    <span>ناموجود</span>
+                </h6>
+            }
+            else
+            {
+                @if (discount > 0)
+                {
+                    <div class="feature-price">
+                        <del>@amount?.ToString("###,###,###,###") تومان</del>
+                    </div>
+                }
+                <h6 class="feature-price">
+                    <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+                </h6>
+
+            }
             @{
                 var descriptionWords = Model.Description.Split(" ");
                 var description = "";
                 var count = descriptionWords.Length;
-                if (count >= 15) count = 25;
+                if (count >= 25) count = 25;
                 for (int i = 0; i < count; i++)
                 {
                     description += $"{descriptionWords[i]} ";
