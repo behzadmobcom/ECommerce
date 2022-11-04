@@ -10,16 +10,6 @@ var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<F
 
 builder.Services.AddRazorPages(options =>
 {
-    //options.RootDirectory = "/Pages";
-    //options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
-    //options.Conventions.AuthorizePage("/Contact");
-    //options.Conventions.AuthorizeFolder("/");
-    //options.Conventions.AllowAnonymousToPage("/Login");
-    //options.Conventions.AllowAnonymousToFolder("/Private/PublicPages");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/", "SuperAdmin");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/");
-    //options.Conventions.AuthorizeFolder("/Register");
     options.Conventions.AuthorizeFolder("/");
     options.Conventions.AllowAnonymousToPage("/");
     options.Conventions.AllowAnonymousToPage("/Index");

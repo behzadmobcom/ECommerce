@@ -108,35 +108,6 @@
                                 <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: red"></span>
                                 <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword">
 
-
-                                <div class="checkbox">
-                                    <label class="mr-10">
-                                        <br />
-                                        <p class="text-muted font-weight-bold">در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید.</p>
-                                        <input laceholder="شماره مشتری" dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" />
-                                        <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
-                                    </label>
-                                    <label>
-                                        <small>
-                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode">آیا شما در قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
-                                            <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
-                                        </small>
-                                    </label>
-                                    <label>
-                                        <small>
-                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsColleague">آیا شما بعنوان همکار خرید میکنید؟
-                                            <span asp-validation-for="RegisterViewModel.IsColleague"></span>
-                                        </small>
-                                        <uploadimage asp-for="RegisterViewModel.PicturePath" />
-                                        <span asp-validation-for="RegisterViewModel.PicturePath"></span>
-                                    </label>
-                                    <label>
-                                        <small>
-                                            <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsFeeder">عضویت در خبرنامه!
-                                            <span asp-validation-for="RegisterViewModel.IsFeeder"></span>
-                                        </small>
-                                    </label>
-                                </div>
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="checkbox-inline">

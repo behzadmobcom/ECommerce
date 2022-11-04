@@ -26,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
     .Enrich.FromLogContext()
     .WriteTo.Console(new CustomLogFormatter(),
-        LogEventLevel.Warning)
+        LogEventLevel.Error)
     .WriteTo.MSSqlServer(
         builder.Configuration.GetConnectionString("SunflowerECommerce"),
         new MSSqlServerSinkOptions

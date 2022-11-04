@@ -272,7 +272,7 @@ public class PurchaseOrdersController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.NotExist,
-                    Messages = new[] { $"تعداد انتخابی کالا بیشتز از حد مجاز است. حد مجاز {product.MaxOrder} است" }
+                    Messages = new[] { $"تعداد انتخابی کالا بیشتر از حد مجاز است. حد مجاز {product.MaxOrder} است" }
                 });
             }
 
@@ -286,7 +286,7 @@ public class PurchaseOrdersController : ControllerBase
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] { "تعداد انتخابی کالا بیشتز از موجودی است" }
+                        Messages = new[] { "تعداد انتخابی کالا بیشتر از موجودی است" }
                     });
                 unitPrice = holooPrice.price;
             }
@@ -297,7 +297,7 @@ public class PurchaseOrdersController : ControllerBase
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
-                        Messages = new[] { "تعداد انتخابی کالا بیشتز از موجودی است" }
+                        Messages = new[] { "تعداد انتخابی کالا بیشتر از موجودی است" }
                     });
                 unitPrice = price?.Amount ?? 0;
             }
