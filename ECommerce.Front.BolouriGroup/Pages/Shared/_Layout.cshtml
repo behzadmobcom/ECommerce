@@ -98,7 +98,7 @@
                     else
                     {
                         <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
-                            <img src="~/img/user.jpg" alt="کاربر">
+                            <i class="fal fa-user"></i>
                         </a>
                     }
                 </div>
@@ -448,7 +448,7 @@
                 <div class="col-sm-6 col-md-4 col-xl-4">
                     <div class="footer-widget">
                         <a class="footer-logo" href="#">
-                            <img src="~/img/BlueLogo.png" alt="لوگو">
+                            <img src="~/img/Logo.png" alt="لوگو">
                         </a>
                         <p class="footer-desc">
                             برای یک خرید خوب و مطمئن باید خوب ببینید، مقایسه کنید و اطلاعات کافی کسب کنید.
@@ -618,7 +618,6 @@
                 success: function (result) {
                     swal(result.message);
                     if (result.code === 0) {
-                        alert(elementId);
                         $(elementId).remove();
                         count--;
                         allPrice = allPrice - price;

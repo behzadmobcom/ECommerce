@@ -36,7 +36,7 @@ public class LoginModel : PageModel
         //ReturnUrl = "/Shop/Coffee/shop/equipment/Hot.bar/Coffee.makers";
         var result = await _userService.Login(LoginViewModel);
         if (result.Code == 0)
-            return RedirectToPage(ReturnUrl == "/" ? "Index" : ReturnUrl);
+            return RedirectToPage(ReturnUrl == "/" ? "/Index" : ReturnUrl);
 
         Message = result.Message;
         Code = result.Code.ToString();

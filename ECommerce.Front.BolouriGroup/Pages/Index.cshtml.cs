@@ -80,7 +80,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetLogout()
     {
         await _cookieService.LogOut();
-        return RedirectToPage("/index");
+        return RedirectToPage();
     }
 
     public async Task<JsonResult> OnGetAddCart(int id,int priceId,int count = 1)

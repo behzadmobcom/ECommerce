@@ -121,9 +121,9 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Code = ServiceCode.Error
         };
     }
-    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId,int count)
+    public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId, int count)
     {
-        var productResult = await _productService.ProductsWithIdsForCart(new List<int>{ productId });
+        var productResult = await _productService.ProductsWithIdsForCart(new List<int> { productId });
         var productFromServer = productResult.ReturnData[0];
 
         var exist = productFromServer.Prices.First(x => x.Id == priceId).Exist;
@@ -145,7 +145,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 };
             }
 
-            if (newCount > maxOrder)
+            if (newCount > maxOrder && maxOrder > 0)
             {
                 return new ServiceResult
                 {
@@ -166,7 +166,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         {
             IsColleague = currentUser.IsColleague,
             UserId = currentUser.Id,
-            Quantity =Convert.ToUInt16(count),
+            Quantity = Convert.ToUInt16(count),
             ProductId = productId,
             PriceId = priceId
         };

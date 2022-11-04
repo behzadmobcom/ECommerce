@@ -1488,7 +1488,7 @@ tbody tr td:last-child {
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
-    background: rgba(0, 0, 0, .4);
+  /*  background: rgba(0, 0, 0, .4);*/
     border-radius: 8px;
     content: "";
     height: 100%;
@@ -1500,7 +1500,7 @@ tbody tr td:last-child {
 }
 
 .suggest-card:hover::before {
-    background: rgba(17, 151, 68, .9)
+    background: rgba(12, 76, 163, .5)
 }
 
 .suggest-card img {
@@ -1596,12 +1596,12 @@ tbody tr td:last-child {
     background: var(--red)
 }
 
-.label-text.new {
-    background: var(--green)
-}
+    .label-text.new {
+        background: var(--blue-dark)
+    }
 
 .label-text.sale {
-    background: var(--orange)
+.    background: var(--orange)
 }
 
 .label-text.feat {
@@ -1868,9 +1868,9 @@ tbody tr td:last-child {
     background: var(--red)
 }
 
-.label-text.new {
-    background: var(--green)
-}
+    .label-text.new {
+        background: var(--blue-dark)
+    }
 
 .label-text.sale {
     background: var(--orange)
@@ -4985,9 +4985,6 @@ tbody tr td:last-child {
     }
 }
 
-.footer-part {
-    padding-top: 95px
-}
 
 .footer-widget {
     display: grid;
