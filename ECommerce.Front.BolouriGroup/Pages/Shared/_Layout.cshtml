@@ -555,14 +555,12 @@
     <script src="~/js/venobox.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/finalcountdown.min.js"></script>
-
     <script src="~/js/price-range.js"></script>
     <script src="~/js/accordion.js"></script>
     <script src="~/js/venobox.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/jquery-1.12.0.min.js"></script>
     <script src="~/js/main.js"></script>
-
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
     <script src="~/lib/drift-zoom/Drift.min.js"></script>
@@ -571,7 +569,7 @@
     <script src="~/js/slick.min.js"></script>
     <script src="~/js/slick.js"></script>
     @await RenderSectionAsync("Scripts", false)
-    <script>
+<script>
         var labels = $("label");
         labels.hover(
             function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
@@ -585,7 +583,6 @@
                 }
             }
         );
-
         function SaveStars(id, starNumber) {
             $.ajax({
                 type: "Get",
@@ -601,9 +598,7 @@
                 }
             });
         }
-
         $(LoadCard());
-
         function DeleteCart(id, productId, priceId) {
             var elementId = "#CartDrop-" + id;
             var sumPriceId = "#SumPrice-" + id;
@@ -633,7 +628,6 @@
                 }
             });
         }
-
         function DecreaseCart(id, productId, priceId) {
             $.ajax({
                 type: "Get",
@@ -649,7 +643,6 @@
                 }
             });
         }
-
         function AddWishList(id) {
             $.ajax({
                 type: "Get",
@@ -664,7 +657,6 @@
                 }
             });
         }
-
         function RemoveWishList(id) {
             $.ajax({
                 type: "Get",
@@ -682,7 +674,6 @@
                 }
             });
         }
-
         function AddCompareList(id) {
             $.ajax({
                 type: "Get",
@@ -697,7 +688,6 @@
                 }
             });
         }
-
         function DeleteCompare(id) {
             alert("Hello! I am an alert box!!");
             $.ajax({
@@ -716,22 +706,6 @@
                 }
             });
         }
-
-        function OpenProductModal() {
-            $.ajax({
-                type: "Get",
-                url: "/index?handler=wish",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    swal(response);
-                },
-                failure: function (response) {
-                    swal(response);
-                }
-            });
-        }
-
         function AddCart(id, priceId) {
             $.ajax({
                 type: "Get",
@@ -750,7 +724,6 @@
             });
 
         }
-
         function LoadCard() {
             var count = 0;
             var allPrice = 0;
@@ -801,86 +774,78 @@
                 $('#AllPrice-Value').val(allPrice);
             });
         }
-
-        //function OpenProductModal(id) {
-        //    $.ajax({
-        //        type: "Get",
-        //        url: "/index?handler=QuickView&id=" + id,
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function (result) {
-        //            if (result.code == 0) {
-        //                var item =
-        //                    ' <div class="row">' +
-        //                    '<div class="col-md-6 col-lg-6">' +
-        //                    '  <div class="view-gallery">' +
-        //                    '<img src="' +
-        //                    result.returnData.imagePath +
-        //                    '" alt="' +
-        //                    result.returnData.alt +
-        //                    '">' +
-        //                    '<div class="view-list-group mt-4">' +
-        //                    '<label class="view-list-title">اشتراک گذاری:</label>' +
-        //                    '<ul class="view-share-list">' +
-        //                    '<li>' +
-        //                    '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
-        //                    '</li>' +
-        //                    '<li>' +
-        //                    '<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
-        //                    '</li>' +
-        //                    '<li>' +
-        //                    '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
-        //                    '</li>' +
-        //                    '</ul>' +
-        //                    '</div>' +
-        //                    '</div>' +
-        //                    '</div>' +
-        //                    '<div class="col-md-6 col-lg-6">' +
-        //                    '<div class="view-details">' +
-        //                    '<h3 class="view-name">' +
-        //                    '<a asp-area="" asp-page="/Productdetails">' +
-        //                    result.returnData.name +
-        //                    '</a>' +
-        //                    '</h3>' +
-        //                    '<div class="view-meta">' +
-        //                    '<p><a>مارک تجاری:</a>' +
-        //                    result.returnData.brand +
-        //                    '</p>' +
-        //                    '</div>' +
-        //                    '<div class="view-rating">' +
-        //                    '<br/>' +
-        //                    '</div>' +
-        //                    '<h3 class="view-price">' +
-        //                    '<span>' +
-        //                    result.returnData.price +
-        //                    '</span>' +
-        //                    '</h3>' +
-        //                    '<p class="view-desc">' +
-        //                    result.returnData.description +
-        //                    '</p>' +
-        //                    '<div class="view-list-group">' +
-        //                    '<label class="view-list-title">برچسب ها:</label>' +
-        //                    '<ul class="view-tag-list">' +
-        //                    '<li>' +
-        //                    '<a href="#">میوه ها</a>' +
-        //                    '</li>' +
-        //                    '<li>' +
-        //                    '<a href="#">ارگانیک</a>' +
-        //                    '</li>' +
-        //                    '</ul>' +
-        //                    '</div>' +
-        //                    '</div>' +
-        //                    '</div>' +
-        //                    '</div>' +;
-        //                $('#modal_body').html(item);
-        //                $('#product-view').modal('show');
-        //            }
-        //        },
-        //        failure: function (response) {
-        //            alert(response);
-        //        }
-        //    });
-        //}
+        function OpenProductModal(id) {
+            alert("guig");
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=QuickView&id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code == 0) {
+                        var item =
+                            '<div class="row">' +
+                            '<div class="col-md-6 col-lg-6">' +
+                            '<div class="view-gallery">' +
+                            '<img src="' +result.returnData.imagePath +'" alt="' +result.returnData.alt +'">' +
+                            '<div class="view-list-group mt-4">' +
+                            '<label class="view-list-title">اشتراک گذاری:</label>' +
+                            '<ul class="view-share-list">' +
+                            '<li>' +
+                            '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
+                            '</li>' +
+                            '<li>' +
+                            '<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
+                            '</li>' +
+                            '<li>' +
+                            '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="col-md-6 col-lg-6">' +
+                            '<div class="view-details">' +
+                            '<h3 class="view-name">' +
+                            '<a asp-area="" asp-page="/Productdetails">' +result.returnData.name +'</a>' +
+                            '</h3>' +
+                            '<div class="view-meta">' +
+                            '<p><a>مارک تجاری:</a>' +result.returnData.brand +'</p>' +
+                            '</div>' +
+                            '<div class="view-rating">' +
+                            '<br/>' +
+                            '</div>' +
+                            '<h3 class="view-price">' +
+                            '<span>' +
+                            result.returnData.price +
+                            '</span>' +
+                            '</h3>' +
+                            '<p class="view-desc">' +
+                            result.returnData.description +
+                            '</p>' +
+                            '<div class="view-list-group">' +
+                            '<label class="view-list-title">برچسب ها:</label>' +
+                            '<ul class="view-tag-list">' +
+                            '<li>' +
+                            '<a href="#">میوه ها</a>' +
+                            '</li>' +
+                            '<li>' +
+                            '<a href="#">ارگانیک</a>' +
+                            '</li>' +
+                            '</ul>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' ;
+                        $('#modal_body').html(item);
+                        $('#product-view').modal('show');
+                    }
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        }
 
                 // DOMContentLoaded  end
     </script>
