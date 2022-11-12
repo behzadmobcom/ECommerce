@@ -74,13 +74,13 @@
                         if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                         {
                             <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
-                                <img src="~/img/user.jpg" alt="کاربر">
+                                <i class="fal fa-user"></i>
                             </a>
                         }
                         else
                         {
                             <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
-                                <img src="~/img/user.jpg" alt="کاربر">
+                                <i class="fal fa-user"></i>
                             </a>
                         }
                         <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
