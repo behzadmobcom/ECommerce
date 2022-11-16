@@ -42,49 +42,52 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<HolooArticle>> GetHolooArticle(List<string> aCodes, CancellationToken cancellationToken)
+    public async Task<IEnumerable<HolooArticle>> GetHolooArticles(List<string> aCodeCs, CancellationToken cancellationToken)
     {
-        return await _context.ARTICLE.Where(x => aCodes.Any(aCode => aCode == x.A_Code)).ToListAsync(cancellationToken);
+        var temp = _context.ARTICLE.Where(
+            x => aCodeCs.Any(
+                aCodeC => aCodeC == x.A_Code_C));
+        return await temp.Where(x => Convert.ToInt32(x.A_Code) < 3400000).ToListAsync(cancellationToken);
     }
 
-    public async Task<(decimal price, double? exist)> GetHolooPrice(string aCode, Price.HolooSellNumber sellPrice)
+    public async Task<(decimal price, double? exist)> GetHolooPrice(string aCodeC, Price.HolooSellNumber sellPrice)
     {
-        var article = await _context.ARTICLE.FirstOrDefaultAsync(x => x.A_Code.Equals(aCode));
+        var article = await _context.ARTICLE.Where(x => x.A_Code_C.Equals(aCodeC) && Convert.ToInt32(x.A_Code) < 3400000).ToListAsync();
         decimal price = 0;
         switch (sellPrice)
         {
             case Price.HolooSellNumber.Sel_Price:
-                price = Convert.ToUInt64(article.Sel_Price);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price);
                 break;
             case Price.HolooSellNumber.Sel_Price2:
-                price = Convert.ToUInt64(article.Sel_Price2);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price2);
                 break;
             case Price.HolooSellNumber.Sel_Price3:
-                price = Convert.ToUInt64(article.Sel_Price3);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price3);
                 break;
             case Price.HolooSellNumber.Sel_Price4:
-                price = Convert.ToUInt64(article.Sel_Price4);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price4);
                 break;
             case Price.HolooSellNumber.Sel_Price5:
-                price = Convert.ToUInt64(article.Sel_Price5);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price5);
                 break;
             case Price.HolooSellNumber.Sel_Price6:
-                price = Convert.ToUInt64(article.Sel_Price6);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price6);
                 break;
             case Price.HolooSellNumber.Sel_Price7:
-                price = Convert.ToUInt64(article.Sel_Price7);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price7);
                 break;
             case Price.HolooSellNumber.Sel_Price8:
-                price = Convert.ToUInt64(article.Sel_Price8);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price8);
                 break;
             case Price.HolooSellNumber.Sel_Price9:
-                price = Convert.ToUInt64(article.Sel_Price9);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price9);
                 break;
             case Price.HolooSellNumber.Sel_Price10:
-                price = Convert.ToUInt64(article.Sel_Price10);
+                price = Convert.ToUInt64(article.FirstOrDefault().Sel_Price10);
                 break;
         }
 
-        return (price, article.Exist);
+        return (price, article.Sum(x => x.Exist));
     }
 }

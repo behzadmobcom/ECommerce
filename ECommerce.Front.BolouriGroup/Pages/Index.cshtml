@@ -19,36 +19,25 @@
             var imageClass = i % 2 == 0 ? "layer-2-1" : "";
             i++;
 
-            @*            <div class="banner-part banner-1">
-    <div class="container">
-    <div class="row rtl">
-    <div class="banner-img">
-    <img src=@slide.ImagePath alt="@slide.Name" style="object-fit: contain;">
-    </div>
-    <div class="banner-content" style="position: absolute">
-    <h1>@slide.Title</h1>
-    <h3>@slide.Name</h3>
-    <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
-    <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
-    </div>
-    <div class="banner-btn">
-    <a class="btn btn-inline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
-    <i class="far fa-shopping-cart"></i><span>الان خرید کن</span>
-    </a>
-    </div>
-    </div>
-
-
-    </div>
-    </div>
-    </div>*@
-
-
-            <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Url">
-                <div class="banner-img" style="z-index: -1;">
-                    <img src=@slide.ImagePath alt="@slide.Name" style="width: 1920px; height:790px; justify-content:center !important">
-                </div>
-            </a>
+            if (slide.Product != null)
+            {
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
+                    <div class="banner-img" style="z-index: -1;">
+                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 1920px; height: 790px; justify-content: center !important">
+                    </div>
+                </a>
+            }
+            else
+            {
+                if (slide.Category != null)
+                {
+                    <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
+                        <div class="banner-img" style="z-index: -1;">
+                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 1920px; height: 790px; justify-content: center !important">
+                        </div>
+                    </a>
+                }
+            }
         }
     }
 </section>

@@ -52,7 +52,7 @@ public class PurchaseOrdersController : ControllerBase
         foreach (var product in products.Where(x => x.Price.ArticleCode != null))
             if (product.Price.SellNumber != null && product.Price.SellNumber != Price.HolooSellNumber.خالی)
             {
-                var article = await _articleRepository.GetHolooPrice(product.Price.ArticleCode,
+                var article = await _articleRepository.GetHolooPrice(product.Price.ArticleCodeCustomer!,
                     product.Price.SellNumber!.Value);
                 product.PriceAmount = article.price / 10;
                 product.Exist = (double)article.exist;

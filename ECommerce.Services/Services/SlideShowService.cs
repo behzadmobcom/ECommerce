@@ -15,7 +15,7 @@ public class SlideShowService : EntityService<SlideShowViewModel>, ISlideShowSer
         _http = http;
     }
 
-    public async Task<ServiceResult<List<SlideShowViewModel>>> Load(int pageNumber = 0, int pageSize = 10)
+    public async Task<ServiceResult<List<SlideShowViewModel>>> Load(int pageNumber = 1, int pageSize = 10)
     {
         var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}");
         return Return(result);
@@ -25,7 +25,7 @@ public class SlideShowService : EntityService<SlideShowViewModel>, ISlideShowSer
     {
         if (_slideShows == null)
         {
-            var slideShows = await Load();
+            var slideShows = await Load(1,5);
             if (slideShows.Code > 0) return slideShows;
             _slideShows = slideShows.ReturnData;
         }
@@ -51,7 +51,7 @@ public class SlideShowService : EntityService<SlideShowViewModel>, ISlideShowSer
             _slideShows = slideShows.ReturnData;
         }
 
-        var result = _slideShows.Where(x => x.Name.Contains(filter)).ToList();
+        var result = _slideShows.Where(x => x.Title.Contains(filter)).ToList();
         if (result.Count == 0)
             return new ServiceResult<List<SlideShowViewModel>>
                 {Code = ServiceCode.Info, Message = "اسلایدشویی یافت نشد"};
