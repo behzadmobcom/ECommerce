@@ -107,25 +107,7 @@
 								</li>
 							</ul>
 							<!-- short-by -->
-							<div class="short-by f-left text-center">
-								<form asp-page-handler="Shop" method="get">
-									<select name="productSort" id="productSort">
-										<option value="1">
-											جدیدترین ها
-										</option>
-										<option value="2">
-											محبوب ترین ها
-										</option>
-										<option value="3">
-											قیمت صعودی
-										</option>
-										<option value="4">
-											قیمت نزولی
-										</option>
-									</select>
-									<button type="submit">مرتب سازی</button>
-								</form>
-							</div>
+						
 							<!-- showing -->
 							@{
 								var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
@@ -412,6 +394,32 @@
                                                                                            <text>checked</text>}>
                                     <span class="slider round"></span>
                                 </label>
+								<h6 class="widget-title border-left mb-20">مرتب سازی بر اساس</h6>
+									<select name="ProductSort" id="ProductSort" value="@Model.ProductSort">
+										@{
+											bool sel1 = false;
+											bool sel2 = false;
+											bool sel3 = false;
+											bool sel4 = false;
+											if (Model.ProductSort == 1) sel1 = true;
+											if (Model.ProductSort == 2) sel2 = true;
+											if (Model.ProductSort == 3) sel3 = true;
+											if (Model.ProductSort == 4) sel4 = true;
+										}
+										<option value="1" selected=@sel1>
+											جدیدترین ها
+										</option>
+										<option value="2" selected=@sel2>
+											محبوب ترین ها
+										</option>							
+										<option value="3" selected=@sel3>   
+											قیمت صعودی
+										</option>
+										<option value="4" selected=@sel4>
+											قیمت نزولی
+										</option>
+									</select>
+									
                                 <br/>
                                 <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
                                         style="margin-top: 20px">اعمال</button>
