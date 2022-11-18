@@ -47,12 +47,14 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         var temp = _context.ARTICLE.Where(
             x => aCodeCs.Any(
                 aCodeC => aCodeC == x.A_Code_C));
-        return await temp.Where(x => Convert.ToInt32(x.A_Code) < 3400000).ToListAsync(cancellationToken);
+        var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
+        return await temp.Where(x => Convert.ToInt32(x.A_Code) < 3400000 || !bolooryFlag).ToListAsync(cancellationToken);
     }
 
     public async Task<(decimal price, double? exist)> GetHolooPrice(string aCodeC, Price.HolooSellNumber sellPrice)
     {
-        var article = await _context.ARTICLE.Where(x => x.A_Code_C.Equals(aCodeC) && Convert.ToInt32(x.A_Code) < 3400000).ToListAsync();
+        var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
+        var article = await _context.ARTICLE.Where(x => x.A_Code_C.Equals(aCodeC) && (Convert.ToInt32(x.A_Code) < 3400000 || !bolooryFlag)).ToListAsync();
         decimal price = 0;
         switch (sellPrice)
         {

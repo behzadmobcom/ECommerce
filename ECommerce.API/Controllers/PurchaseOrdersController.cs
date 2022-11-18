@@ -280,7 +280,7 @@ public class PurchaseOrdersController : ControllerBase
 
             if (price.ArticleCode != null)
             {
-                var holooPrice = await _articleRepository.GetHolooPrice(price.ArticleCode,
+                var holooPrice = await _articleRepository.GetHolooPrice(price.ArticleCodeCustomer,
                     (Price.HolooSellNumber)price.SellNumber);
                 if (repetitiveQuantity + createPurchaseCommand.Quantity > holooPrice.exist + product.MinInStore)
                     return Ok(new ApiResult

@@ -50,15 +50,15 @@ public class ProductsController : ControllerBase
             .Where(x => x.Prices.Any(p => p.ArticleCode != null))
             .Select(p => p.Prices)
             .ToList();
-        var aCodes = new List<string>();
+        var aCodeCs = new List<string>();
         foreach (var price in prices)
         {
             foreach (var aCode in price)
             {
-                aCodes.Add(aCode.ArticleCodeCustomer);
+                aCodeCs.Add(aCode.ArticleCodeCustomer);
             }
         }
-        var holooArticle = await _articleRepository.GetHolooArticles(aCodes, cancellationToken);
+        var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
 
         foreach (var product in products.Where(x => x.Prices.Any(p => p.ArticleCode != null)))
         {
