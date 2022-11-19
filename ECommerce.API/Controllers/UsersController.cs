@@ -532,14 +532,15 @@ public class UsersController : ControllerBase
                 if (user == null)
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
-            
+                await _userManager.ChangePasswordAsync(user, model.Password, model.OldPassword);
+				//var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+				//var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
 
 
 
-                
-                    return Ok(new ApiResult
+
+
+					return Ok(new ApiResult
                     {
                         Code = ResultCode.Success,
                         Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
