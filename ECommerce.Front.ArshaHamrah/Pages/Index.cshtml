@@ -60,13 +60,13 @@
                                 <h1 class="slider2-title-2">@slide.Title</h1>
                             </div>
                             <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.5s">
-                                <h2 class="slider2-title-3">@slide.Name</h2>
+                                <h2 class="slider2-title-3">@slide.Title</h2>
                             </div>
                             <div class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
                                 <div class="slider2-title-4">@Html.Raw(slide.Description)</div>
                             </div>
                             <div class="slider-button wow fadeInUp" data-wow-duration="1s" data-wow-delay="2.5s">
-                                <a asp-page="Product" asp-route-productUrl="@slide.Url" class="button extra-small button-black">
+                                <a asp-page="Product" asp-route-productUrl="@slide.Product.Url" class="button extra-small button-black">
                                     <span>هم اکنون بخرید</span>
                                 </a>
                             </div>
@@ -76,7 +76,7 @@
                     <div class="slider-content-1-image">
                         <div class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.5s">
                             <div class="layer-1-1 @imageClass">
-                                <img src=@slide.ImagePath alt="@slide.Name">
+                                <img src=@slide.ImagePath alt="@slide.Title">
                             </div>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                                 decimal? amountOne = priceOne.Amount;
                                 decimal? discountOne = 0;
                                 if (priceOne.Discount != null)
-                                    if (priceOne.Amount > 0)
+                                    if (priceOne.Discount.Amount > 0)
                                     {
                                         discountOne = (decimal)priceOne.Discount.Amount;
                                     }

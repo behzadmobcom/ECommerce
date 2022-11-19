@@ -1,8 +1,7 @@
+using ECommerce.Services.IServices;
 using Entities.Helper;
 using Entities.ViewModel;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
 namespace Bolouri.Pages;
 
@@ -35,7 +34,7 @@ public class ShopModel : PageModel
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
 
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort,isWithoutBail:true);
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
     }

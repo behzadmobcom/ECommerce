@@ -15,15 +15,15 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string searchText, int page, int quantityPerPage = 9);
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice= null, int? startPrice= null, bool isExist = false);
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice= null, int? startPrice= null, bool isExist = false, bool isWithoutBail= false);
 
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count = 10);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count = 3);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count = 10);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count = 10);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count = 8);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count = 8);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count = 10, bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count = 3,bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count = 10, bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count = 10, bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3, bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count = 8, bool isWithoutBail = false);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count = 8, bool isWithoutBail = false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList);
     Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList);
     Task<ServiceResult<ProductViewModel>> GetById(int id);

@@ -3,11 +3,11 @@
 public class SlideShowViewModel
 {
     public int Id { get; set; }
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
     public Product? Product { get; set; }
-    public string? Name { get; set; }
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
     public string Title { get; set; }
-    public string? Url { get; set; }
     public string Description { get; set; }
     public string ImagePath { get; set; }
     public decimal? Price { get; set; }
@@ -19,13 +19,12 @@ public class SlideShowViewModel
         {
             Id = s.Id,
             ProductId = s.ProductId,
+            CategoryId = s.CategoryId,
             Title = s.Title,
             Description = s.Description,
             ImagePath = s.ImagePath,
-            Name = s.Product?.Name,
             DisplayOrder = s.DisplayOrder,
-            Price = s.Product?.Prices?.FirstOrDefault()?.Amount,
-            Url = s.Product?.Url
+            Price = s.Product?.Prices?.FirstOrDefault()?.Amount
         };
     }
 }

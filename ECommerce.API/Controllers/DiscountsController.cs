@@ -98,7 +98,7 @@ public class DiscountsController : ControllerBase
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی && productPrices.ArticleCode != null)
                 {
 
-                    var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
+                    var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCodeCustomer,
                          productPrices.SellNumber!.Value);
 
                     productPrices.Amount = article.price / 10;

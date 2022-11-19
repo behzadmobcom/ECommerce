@@ -27,4 +27,5 @@ public class PaginationDetails
     public int MinPrice { get; set; }
     public int MaxPrice { get; set; }
     public bool isExist { get; set; }
+    public int ProductSort { get; set; }
 }

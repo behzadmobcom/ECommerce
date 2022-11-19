@@ -1,11 +1,11 @@
-﻿using Entities;
+﻿using ECommerce.Services.IServices;
+using Entities;
 using Entities.Helper;
 using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.SlideShows;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.SlideShows;
 
 public class CreateModel : PageModel
 {
@@ -13,14 +13,16 @@ public class CreateModel : PageModel
     private readonly IImageService _imageService;
     private readonly IProductService _productService;
     private readonly ISlideShowService _slideShowService;
+    private readonly ICategoryService _categoryService;
 
     public CreateModel(ISlideShowService slideShowService, IImageService imageService, IHostEnvironment environment,
-        IProductService productService)
+        IProductService productService, ICategoryService categoryService)
     {
         _slideShowService = slideShowService;
         _imageService = imageService;
         _environment = environment;
         _productService = productService;
+        _categoryService = categoryService;
     }
 
     [BindProperty] public SlideShow SlideShow { get; set; }
@@ -29,6 +31,7 @@ public class CreateModel : PageModel
 
     //public PaginationViewModel PaginationViewModel { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
+    public List<CategoryParentViewModel> Categories { get; set; }
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
@@ -42,18 +45,20 @@ public class CreateModel : PageModel
             Code = result.Code.ToString();
             Products = result;
         }
+        var resultCategory = await _categoryService.GetParents();
+        Categories = resultCategory.ReturnData;
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPost(int selectItem)
     {
-        var resultProduct = await _productService.Search("", 1, 30);
-        if (resultProduct.Code == ServiceCode.Success)
+        if (selectItem == 1)
         {
-            Message = resultProduct.Message;
-            Code = resultProduct.Code.ToString();
-            Products = resultProduct;
+            SlideShow.CategoryId = null;
         }
-
+        else
+        {
+            SlideShow.ProductId = null;
+        }
         if (Upload == null)
         {
             Message = "لطفا عکس را انتخاب کنید";
@@ -76,6 +81,10 @@ public class CreateModel : PageModel
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
         }
+
+        Products = await _productService.Search("", 1, 30);
+        var resultCategory = await _categoryService.GetParents();
+        Categories = resultCategory.ReturnData;
 
         return Page();
     }
