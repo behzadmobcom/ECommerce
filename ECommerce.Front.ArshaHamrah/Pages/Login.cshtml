@@ -60,7 +60,7 @@
                                 <input type="password" asp-for="LoginViewModel.Password" placeholder="رمز عبور" dir="ltr">
                                 <p>
                                     <small>
-                                        <a href="#">رمز عبور خود را فراموش کرده اید؟</a>
+                                        <a href="#" data-toggle="modal" data-target="#forgetModal">رمز عبور خود را فراموش کرده اید؟</a>
                                     </small>
                                 </p>
                                 <button class="submit-btn-1 btn-hover-1" type="submit">ورود</button>
@@ -137,7 +137,7 @@
     <!-- LOGIN SECTION END -->
     <partial name="_ValidationScriptsPartial" />
 </div>
-<!-- Modal -->
+<!-- Modal role -->
 <div class="modal fade" id="roleModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document" style="margin-top: 100px">
         <div class="modal-content">
@@ -174,6 +174,29 @@
                            _ مدت زمان واریز وجه کالای عودت داده شده به حساب مبدا 3 روز کاری می‌باشد.<br />
                             </div>
 
+                </div><!-- .modal-product -->
+            </div><!-- .modal-body -->
+        </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+</div>
+<!-- END Modal -->
+<!-- Modal -->
+<div class="modal fade" id="forgetModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="margin-top: 100px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h3 style="text-align: right">رمز عبور خود را فراموش کرده اید؟</h3>
+            </div>
+            <div class="modal-body">
+                <div class="modal-product clearfix">
+                    <div class="quick-desc">
+                        <div class="login-account p-30 box-shadow">
+                            <p>ایمیل خود را وارد کنید.</p>
+                            <input type="email"  placeholder="ایمیل" dir="ltr">
+                    </div>
+                    </div>
+                    <button class="submit-btn-1 btn-hover-1" type="submit">ورود</button>
                 </div><!-- .modal-product -->
             </div><!-- .modal-body -->
         </div><!-- .modal-content -->
