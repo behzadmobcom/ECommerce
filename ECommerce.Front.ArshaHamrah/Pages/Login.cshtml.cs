@@ -1,7 +1,8 @@
-using Entities.ViewModel;
+﻿using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ArshaHamrah.Pages;
 
@@ -44,10 +45,17 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
-
-        ModelState["Username"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
-        ModelState["Password"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
-        ModelState["ReturnUrl"].ValidationState = Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Valid;
+        if (!RegisterViewModel.IsRole)
+        {
+            //          !qa@ws#ed123
+            //          !qa@ws#ed123123
+            Message = "لطفا ایتدا قوانین و مقررارت را تایید کنید";
+            Code = "Error";
+            return Page();
+        }
+        ModelState["Username"].ValidationState = ModelValidationState.Valid;
+        ModelState["Password"].ValidationState = ModelValidationState.Valid;
+        ModelState["ReturnUrl"].ValidationState = ModelValidationState.Valid;
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
         Message = result.Message;
