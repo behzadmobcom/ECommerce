@@ -38,6 +38,7 @@ public class ShopModel : PageModel
     public async Task OnGet(string? path = null, string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
         string? message = null, string? code = null, int minprice = 0, int maxprice = 0, bool isExist = false)
     {
+        string tempSearch = search;
         ProductSort = productSort;
         IsExist = isExist;
         Min = minprice == 0 ? 100000 : minprice;
@@ -61,6 +62,8 @@ public class ShopModel : PageModel
         Products.PaginationDetails.MinPrice = minprice;
         Products.PaginationDetails.MaxPrice = maxprice;
         Products.PaginationDetails.ProductSort = productSort;
+        Products.PaginationDetails.Search = tempSearch;
+       
     }
 
     private async Task Initial()

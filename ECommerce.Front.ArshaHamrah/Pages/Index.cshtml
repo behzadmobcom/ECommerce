@@ -111,7 +111,7 @@
                                 decimal? amountOne = priceOne.Amount;
                                 decimal? discountOne = 0;
                                 if (priceOne.Discount != null)
-                                    if (priceOne.Amount > 0)
+                                    if (priceOne.Discount.Amount > 0)
                                     {
                                         discountOne = (decimal)priceOne.Discount.Amount;
                                     }

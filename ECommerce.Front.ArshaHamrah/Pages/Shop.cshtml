@@ -379,7 +379,7 @@
 					<aside class="widget shop-filter box-shadow mb-30">
 						<h6 class="widget-title border-left mb-20">قیمت</h6>
 						<div class="price_filter">
-                            <form asp-page-handler="PriceRange" method="post">
+                            <form asp-page-handler="OnGet" method="get">
 							
                                 <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br/>
                                 <span id="min-price-txt">@Model.Min</span>
@@ -421,6 +421,9 @@
 									</select>
 									
                                 <br/>
+								<input name="pageSize" value="@Model.Products.PaginationDetails.PageSize" hidden="hidden" />
+								<input name="search" value="@Model.Products.PaginationDetails.Search" hidden="hidden" />
+
                                 <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
                                         style="margin-top: 20px">اعمال</button>
                             </form>

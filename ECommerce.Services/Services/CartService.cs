@@ -82,7 +82,9 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         for (var i = 0; i < responseProduct.ReturnData.Count; i++)
         {
             var priceId = productPriceIdList[i];
-            var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).First();
+            var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).FirstOrDefault();
+            if(price == null)
+                continue;
             var quantity = responseProduct.ReturnData[i].MaxOrder < productNumberList[i]
                 ? responseProduct.ReturnData[i].MaxOrder
                 : productNumberList[i];
