@@ -247,8 +247,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
         var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
 
-        if (categoriesId.Count > 0) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId =>  cat.Id == categoryId)));
-        var s = products.ToList();
+        if (categoriesId.Any(x => x != 0)) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId =>  cat.Id == categoryId)));
 
         if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
 

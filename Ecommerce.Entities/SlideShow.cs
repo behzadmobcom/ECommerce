@@ -20,6 +20,8 @@ public class SlideShow : BaseEntity
     [Display(Name = "ترتیب نمایش")] public int DisplayOrder { get; set; } = 0;
 
     //ForeignKey
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
     public Product? Product { get; set; }
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
 }

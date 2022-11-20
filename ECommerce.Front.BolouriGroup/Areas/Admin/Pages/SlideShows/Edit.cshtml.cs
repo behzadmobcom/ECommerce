@@ -46,6 +46,7 @@ public class EditModel : PageModel
             return Page();
         }
 
+        ModelState.Remove("Upload");
         if (ModelState.IsValid)
         {
             var result = await _slideShowService.Edit(SlideShow);

@@ -14,7 +14,7 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
         _context = context;
     }
 
-    public bool IsRepetitiveProduct(int id, int productId, CancellationToken cancellationToken)
+    public bool IsRepetitiveProduct(int id, int? productId, int? categoryId, CancellationToken cancellationToken)
     {
         var repetitive = true;
         repetitive = id == 0 ? _context.SlideShows.Any(x => x.ProductId == productId) : _context.SlideShows.Any(x => x.ProductId == productId && x.Id != id);
@@ -26,8 +26,16 @@ public class SlideShowRepository : AsyncRepository<SlideShow>, ISlideShowReposit
         return await _context.SlideShows.Where(x => x.Title == title).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<SlideShow>> GetAllWithInclude(CancellationToken cancellationToken)
+    public async Task<IEnumerable<SlideShow>> GetAllWithInclude(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        return await _context.SlideShows.Include(x => x.Product).ThenInclude(p => p.Prices).ThenInclude(x => x.Discount).ToListAsync(cancellationToken);
+        return await _context.SlideShows
+            .Include(c => c.Category)
+            .Include(x => x.Product)
+            .ThenInclude(p => p.Prices)
+            .ThenInclude(x => x.Discount)
+            .OrderBy(x => x.DisplayOrder)
+            .Skip((pageNumber-1)* pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
     }
 }

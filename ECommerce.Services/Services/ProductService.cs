@@ -136,13 +136,14 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     //}
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts( string CategoryId = "", string search = "", 
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice=null, int? startPrice=null, bool isExist= false)
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice=null, int? startPrice=null, bool isExist= false, bool isWithoutBail = false)
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
 
         var command = "GetProducts?" +
                       $"PaginationParameters.PageNumber={pageNumber}&" +
+                       $"IsWithoutBail={isWithoutBail}&" +
                       $"PaginationParameters.PageSize={pageSize}&";
         if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
         if (!string.IsNullOrEmpty(CategoryId)) command+= $"PaginationParameters.CategoryId={CategoryId}&";
@@ -162,33 +163,33 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count,bool isWithoutBail = false)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count, bool isWithoutBail = false)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
         return Return(result);
     }
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count, bool isWithoutBail = false)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopPrice?count={count}");
         return Return(result);
     }
-     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count)
+     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count, bool isWithoutBail = false)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopStars?count={count}");
         return Return(result);
     }
-     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count)
+     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count, bool isWithoutBail = false)
      {
          var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopDiscount?count={count}");
          return Return(result);
      }
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count, bool isWithoutBail = false)
     {
         var result =
             await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
@@ -196,7 +197,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count, bool isWithoutBail = false)
     {
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopSells?count={count}");
         return Return(result);

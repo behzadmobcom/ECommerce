@@ -28,14 +28,14 @@ namespace Ecommerce.Entities.HolooEntity
         public int Sanad_Code { get; set; }
         public Nullable<int> Sanad_Code_C { get; set; }
         public Nullable<int> Sanad_Code_C2 { get; set; }
-        public Nullable<System.DateTime> Sanad_Date { get; set; }
-        public Nullable<System.DateTime> Sanad_Time { get; set; }
+        public Nullable<DateTime> Sanad_Date { get; set; }
+        public Nullable<DateTime> Sanad_Time { get; set; }
         public string Comment { get; set; }
         public Nullable<short> Sanad_Type { get; set; }
         public string DateUser { get; set; }
         public string TimeUser { get; set; }
         public Nullable<int> UserCodeInc { get; set; }
-        public Nullable<System.DateTime> Endeditdate { get; set; }
+        public Nullable<DateTime> Endeditdate { get; set; }
         public short sanad_state { get; set; }
         public bool Transfer_Recive_Snd { get; set; }
         public bool Transfer_Send_Snd { get; set; }

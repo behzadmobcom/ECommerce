@@ -32,7 +32,7 @@ public class SlideShowsController : ControllerBase
         foreach (var productPrices in product.Prices)
             if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
             {
-                var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCode,
+                var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCodeCustomer,
                     productPrices.SellNumber!.Value);
                 productPrices.Amount = article.price / 10;
                 productPrices.Exist = (double)article.exist;
@@ -42,33 +42,33 @@ public class SlideShowsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         try
         {
-            var slideShowsList = await _slideShowRepository.GetAllWithInclude(cancellationToken);
+            var slideShowsList = await _slideShowRepository.GetAllWithInclude(pageNumber, pageSize, cancellationToken);
             var returnSlideShow = new List<SlideShowViewModel>();
             var slideShowViewModelList = slideShowsList.Select(s => new SlideShowViewModel
             {
                 Id = s.Id,
                 ProductId = s.ProductId,
+                Product = s.Product,
+                CategoryId = s.CategoryId,
+                Category = s.Category,
                 Title = s.Title,
                 Description = s.Description,
-                ImagePath = s.ImagePath,
-                Name = s.Product.Name,
-                Product = s.Product,
-                Url = s.Product.Url
+                ImagePath = s.ImagePath
             });
-            var currency = _settingRepository.IsDollar();
             foreach (var slideShow in slideShowViewModelList)
             {
-                //var temp = await _priceRepository.PriceOfProduct(slideShow.ProductId, cancellationToken);
-                //if (temp.Count() == 0) continue;
-                //slideShow.Price =
-                //    temp.FirstOrDefault(x => x.Currency.Name == currency && !x.IsColleague && x.MinQuantity == 1)
-                //        ?.Amount;
-                var productTemp = await AddPriceAndExistFromHoloo(slideShow.Product);
-                slideShow.Price = productTemp.Prices != null && productTemp.Prices.FirstOrDefault() == null ? 0 : productTemp.Prices.FirstOrDefault().Amount;
+                if (slideShow.Product != null)
+                {
+                    var productTemp = await AddPriceAndExistFromHoloo(slideShow.Product);
+                    slideShow.Price = productTemp.Prices != null && productTemp.Prices.FirstOrDefault() == null
+                        ? 0
+                        : productTemp.Prices.FirstOrDefault().Amount;
+                }
+
                 returnSlideShow.Add(slideShow);
             }
 
@@ -128,15 +128,17 @@ public class SlideShowsController : ControllerBase
                     Code = ResultCode.Repetitive,
                     Messages = new List<string> { "عنوان اسلاید شو تکراری است" }
                 });
-
-            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(0,slideShow.ProductId, cancellationToken);
-            if (repetitiveProduct)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Repetitive,
-                    Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
-                });
-            var result = await _slideShowRepository.AddAsync(slideShow, cancellationToken);
+            if(slideShow.ProductId!= null)
+            {
+                var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(0, slideShow.ProductId, slideShow.CategoryId, cancellationToken);
+                if (repetitiveProduct)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Repetitive,
+                        Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
+                    });
+            }
+            await _slideShowRepository.AddAsync(slideShow, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -165,13 +167,18 @@ public class SlideShowsController : ControllerBase
                 });
             if (repetitiveTitle != null) _slideShowRepository.Detach(repetitiveTitle);
 
-            var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(slideShow.Id, slideShow.ProductId, cancellationToken);
-            if (repetitiveProduct)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Repetitive,
-                    Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
-                });
+            if (slideShow.ProductId != null)
+            {
+                var repetitiveProduct = _slideShowRepository.IsRepetitiveProduct(slideShow.Id, slideShow.ProductId,
+                    slideShow.CategoryId, cancellationToken);
+                if (repetitiveProduct)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Repetitive,
+                        Messages = new List<string> { "این کالا قبلا برای یک اسلاید شو دیگر انتخاب شده" }
+                    });
+            }
+
             await _slideShowRepository.UpdateAsync(slideShow, cancellationToken);
             return Ok(new ApiResult
             {

@@ -29,7 +29,9 @@ public class Category : BaseEntity
     public Category? Parent { get; set; }
 
     [JsonIgnore] public ICollection<Category>? Categories { get; set; } = new List<Category>();
-
+    
+    [JsonIgnore] public ICollection<SlideShow>? SlideShows { get; set; }
+    
     [JsonIgnore] public ICollection<Product>? Products { get; set; }
 
     //public ICollection<ProductAttributeGroup> AttributeGroups { get; set; }

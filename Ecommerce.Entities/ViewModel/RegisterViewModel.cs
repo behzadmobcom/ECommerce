@@ -30,8 +30,11 @@ public class RegisterViewModel
     [EmailAddress]
     public string Email { get; set; }
 
+    [Display(Name = "قوانین و مقررارت", Description ="قبول قوانین و مقررات سایت")]
+    [Required(ErrorMessage = @"لطفا ایتدا {0} را تایید کنید")]
+    public bool IsRole { get; set; } = false;
 
-    [Display(Name = "همکار", Description = "در صورتی که همکار هستید باید مدارک مورد نیاز را ارسال کنید تا تایید شود")]
+	[Display(Name = "همکار", Description = "در صورتی که همکار هستید باید مدارک مورد نیاز را ارسال کنید تا تایید شود")]
     public bool IsColleague { get; set; } = false;
 
     [Display(Name = "موبایل")]

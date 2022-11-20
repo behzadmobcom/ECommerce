@@ -343,7 +343,7 @@
             var newConPass = $("#NewConPass").val();
             $.ajax({
                 type: "Get",
-                url: "userProfile?handler=ChangePassword&newPass='" + encodeURIComponent(newPass) + "'&newConPass='" + encodeURIComponent(newConPass) +  "'&oldPass='" + encodeURIComponent(oldPass) + "'",
+                url: "userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) +  "&oldPass=" + encodeURIComponent(oldPass),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (result) {

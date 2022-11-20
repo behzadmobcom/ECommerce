@@ -62,7 +62,7 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
             userFilterdParameters.PaginationParameters.PageSize);
     }
 
-    public async Task<User> GetByEmailOrUserName(string input, CancellationToken cancellationToken)
+    public async Task<User?> GetByEmailOrUserName(string input, CancellationToken cancellationToken)
     {
         return await TableNoTracking.Where(p => p.Email == input || p.PhoneNumber == input || p.UserName == input)
             .Include(x => x.UserRole).AsNoTracking().SingleOrDefaultAsync(cancellationToken);

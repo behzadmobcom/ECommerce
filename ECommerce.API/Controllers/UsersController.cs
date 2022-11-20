@@ -69,6 +69,7 @@ public class UsersController : ControllerBase
                     return Ok(new ApiResult
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
+                var s = _userManager.PasswordHasher.HashPassword(user, model.Password);
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                 //var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
                 if (result.Succeeded)
@@ -133,11 +134,11 @@ public class UsersController : ControllerBase
                         Messages = new List<string> { "حساب کاربری شما قفل شده است. دیرتر سعی کنید" }
                     });
                 return Ok(new ApiResult
-                    {
-                        Code = ResultCode.NotFound,
-                        Messages = new List<string> { "نام کاربری یا پسورد اشتباه است" }
-                    });
-             
+                {
+                    Code = ResultCode.NotFound,
+                    Messages = new List<string> { "نام کاربری یا پسورد اشتباه است" }
+                });
+
             }
 
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
@@ -524,23 +525,27 @@ public class UsersController : ControllerBase
                 if (string.IsNullOrEmpty(model.Username))
                     return new ApiResult { Code = ResultCode.BadRequest };
 
-                var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
+                var userFindByUsername = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
+                var userId = userFindByUsername?.Id;
+                var user = await _userManager.FindByIdAsync(userId.ToString());
 
                 if (user == null)
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
-                //var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                //var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
-            
+                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+                //var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                //var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+
+                //user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
+                //var result = await _userManager.UpdateAsync(user);
 
 
-
-                
-                    return Ok(new ApiResult
-                    {
-                        Code = ResultCode.Success,
-                        Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
-                    });
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Success,
+                    Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                });
 
                 return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
             }
@@ -583,7 +588,7 @@ public class UsersController : ControllerBase
                     Messages = list
                 });
             }
-            
+
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -603,5 +608,6 @@ public class UsersController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
+
 
 }

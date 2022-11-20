@@ -29,6 +29,7 @@ public class ShopModel : PageModel
     [BindProperty] public int Min { get; set; }
     [BindProperty] public int Max { get; set; }
     [BindProperty] public bool IsExist { get; set; }
+    [BindProperty] public int ProductSort { get; set; }
     //public PaginationViewModel Pagination { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public List<ProductIndexPageViewModel> NewProducts { get; set; }
@@ -36,6 +37,8 @@ public class ShopModel : PageModel
     public async Task OnGet(string? path = null, string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
         string? message = null, string? code = null, int minprice = 0, int maxprice = 0, bool isExist = false)
     {
+        string tempSearch = search;
+        ProductSort = productSort;
         IsExist = isExist;
         Min = minprice == 0 ? 100000 : minprice;
         Max = maxprice == 0 ? 200000000 : maxprice;
@@ -57,6 +60,9 @@ public class ShopModel : PageModel
         Products.PaginationDetails.isExist = isExist;
         Products.PaginationDetails.MinPrice = minprice;
         Products.PaginationDetails.MaxPrice = maxprice;
+        Products.PaginationDetails.ProductSort = productSort;
+        Products.PaginationDetails.Search = tempSearch;
+       
     }
 
     private async Task Initial()
@@ -69,8 +75,9 @@ public class ShopModel : PageModel
         Categories = categoryResult.ReturnData;
     }
 
-    public async Task<IActionResult> OnPostPriceRange(string? path = null, int minprice = 0, int maxprice = 0, bool isExist = false)
+    public async Task<IActionResult> OnPostPriceRange(string? path = null, int minprice = 0, int maxprice = 0, bool isExist = false, int productSort = 1)
     {
+        ProductSort = productSort;
         IsExist = isExist;
         Min = minprice;
         Max = maxprice;
@@ -80,11 +87,12 @@ public class ShopModel : PageModel
             var resultCategory = await _categoryService.GetByUrl(path);
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
-        Products = await _productService.TopProducts(categoryId, "", 0, 9, 1, maxprice, minprice, IsExist);
+        Products = await _productService.TopProducts(categoryId, "", 0, 9, productSort, maxprice, minprice, IsExist);
         await Initial();
         Products.PaginationDetails.isExist = isExist;
         Products.PaginationDetails.MinPrice = minprice;
         Products.PaginationDetails.MaxPrice = maxprice;
+        Products.PaginationDetails.ProductSort = productSort;
         return Page();
     }
 }

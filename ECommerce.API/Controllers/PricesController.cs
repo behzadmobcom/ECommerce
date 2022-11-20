@@ -127,7 +127,7 @@ public class PricesController : ControllerBase
                 messages.Add("لطفا یا کد کالا وارد کنید یا مبلغ");
 
             messages.AddRange(await CheckPrice(price, cancellationToken));
-            var holooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+            var holooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCodeCustomer, price.SellNumber.Value);
             if (holooPrice.price == 0)
                 messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");
 
@@ -166,7 +166,7 @@ public class PricesController : ControllerBase
 
             messages.AddRange(await CheckPrice(price, cancellationToken));
 
-            var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCode, price.SellNumber.Value);
+            var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCodeCustomer, price.SellNumber.Value);
 
             if (HolooPrice.price == 0)
                 messages.Add("شماره قیمت انتخاب شده فاقد مقدار می باشد");

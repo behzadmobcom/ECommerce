@@ -32,19 +32,24 @@
                         ایجاد اسلاید شو جدید
                     </h3>
                 </div>
-                  <form asp-page-handler="OnGet">
-                <div class="form-actions no-color">
-                    <p>
-                        جستجو بر اساس نام:
-                        <input type="text" id="searchId" name="search" value="@Model.Products.PaginationDetails.Search"/>
-                        <input type="button" id="searchBtn" value="بجو" class="btn btn-primary"/>
-                    </p>
-                </div>
+                <form asp-page-handler="OnGet">
+                    <div class="form-actions no-color">
+                        <p>
+                            جستجو بر اساس نام:
+                            <input type="text" id="searchId" name="search" value="@Model.Products.PaginationDetails.Search" />
+                            <input type="button" id="searchBtn" value="بجو" class="btn btn-primary" />
+                        </p>
+                    </div>
                 </form>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
                     <div class="card-body">
-                        <div class="form-group">
+                        <input type="radio" name="SelectItem" id="radioSelectProdoct" value="1" onclick="SelectProdoct()" checked="checked">
+                        <label for="radioSelectProdoct">انتخاب کالا برای اسلاید شو</label>
+                        <input type="radio" name="SelectItem" id="radioSelectCatehory" value="2" onclick="SelectCatehory()">
+                        <label for="radioSelectCatehory">انتخاب دسته بندی برای اسلاید شو</label>
+
+                        <div class="form-group" id="SelectProdoctId">
                             <label>انتخاب نام کالا</label>
                             <select id="cmbProduct" name="SlideShow.ProductId">
                                 @foreach (var product in Model.Products.ReturnData)
@@ -53,9 +58,17 @@
                                 }
                             </select>
                         </div>
+                        <div class="form-group" style="display: none;" id="SelectCatehoryId">
+                            <label>انتخاب دسته بندی</label>
+                            <br />
+                            <input type="radio" id="0" checked="checked" name="SlideShow.CategoryId" value="0">
+                            <input hidden="hidden" id="path_0" value="" />
+
+                            <partial name="_ParentCategory" model="@Model.Categories" />
+                        </div>
                         <div class="form-group">
                             <label>عنوان</label>
-                            <input asp-for="@Model.SlideShow.Title" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.SlideShow.Title" class="form-control form-control-solid" />
                             <span asp-validation-for="@Model.SlideShow.Title" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
@@ -65,12 +78,12 @@
                         </div>
                         <div class="form-group">
                             <label>ترتیب نمایش</label>
-                            <input id="kt_touchspin_4" asp-for="@Model.SlideShow.DisplayOrder" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
+                            <input id="kt_touchspin_4" asp-for="@Model.SlideShow.DisplayOrder" class="form-control form-control-solid bootstrap-touchspin-vertical-btn" />
                         </div>
                         <div class="form-group">
                             <label>تصویر اسلاید شو</label>
                             <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png"/>
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customفایل" accept=".gif,.jpg,.jpeg,.png" />
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
@@ -87,27 +100,36 @@
 </div>
 
 @section Scripts
-{
+    {
     <script src="/Admin/js/bootstrap-touchspin.js"></script>
-<script src="~/Admin/js/ckeditor/ckeditor.js"></script>
+    <script src="~/Admin/js/ckeditor/ckeditor.js"></script>
 
     <script type="text/javascript">
-        window.onload = function() {
+        window.onload = function () {
             CKEDITOR.replace('Description_Add');
         };
         $('#searchBtn').on("click",
-            function() {
+            function () {
                 var search = $('#searchId').val();
                 $("#cmbProduct").empty();
                 $.getJSON(`?handler=ReturnProducts&search=${search}`,
                     (data) => {
                         $.each(data,
-                            function(i, item) {
+                            function (i, item) {
                                 console.log(item);
                                 $("#cmbProduct").append(`<option value="${item.id}">${item.name}</option>`);
                             });
                     });
             });
+
+        function SelectProdoct() {
+            $("#SelectCatehoryId").hide("slow");
+            $("#SelectProdoctId").show("slow");
+        }
+        function SelectCatehory() {
+            $("#SelectProdoctId").hide("slow");
+            $("#SelectCatehoryId").show("slow");
+        }
     </script>
 
 
