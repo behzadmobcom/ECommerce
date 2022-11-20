@@ -1,4 +1,4 @@
-﻿namespace Entities.HolooEntity;
+﻿namespace Ecommerce.Entities.HolooEntity;
 
 public class HolooFBail
 {

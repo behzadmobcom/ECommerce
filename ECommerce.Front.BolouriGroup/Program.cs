@@ -1,9 +1,8 @@
+using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
-using Entities.Helper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();

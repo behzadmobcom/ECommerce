@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ECommerce.Services.IServices;
+﻿using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ECommerce.Front.Bolouri.ViewComponents;
+namespace ECommerce.Front.BolouriGroup.ViewComponents;
 
 public class BlogCategoriesMenuViewComponent : ViewComponent
 {

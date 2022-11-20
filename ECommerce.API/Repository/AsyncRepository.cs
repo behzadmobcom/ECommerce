@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
-using API.DataContext;
-using API.Interface;
-using API.Utilities;
-using Entities;
+using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
+using ECommerce.API.Utilities;
+using Ecommerce.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity : class, IBaseEntity<int>
 {

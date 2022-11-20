@@ -783,46 +783,58 @@
                 dataType: "json",
                 success: function (result) {
                     if (result.code == 0) {
-                        var item =
-                            '<div class="row">' +
-                            '<div class="col-md-6 col-lg-6">' +
-                            '<div class="view-gallery">' +
-                            '<img src="' +result.returnData.imagePath +'" alt="' +result.returnData.alt +'">' +
-                            '<div class="view-list-group mt-4">' +
-                            '<label class="view-list-title">اشتراک گذاری:</label>' +
-                            '<ul class="view-share-list">' +
-                            '<li>' +
-                            '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
-                            '</li>' +
-                            '<li>' +
-                            '<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
-                            '</li>' +
-                            '<li>' +
-                            '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
-                            '</li>' +
-                            '</ul>' +
+	                    var item =
+		                    '<div class="row">' +
+			                    '<div class="col-md-6 col-lg-6">' +
+			                    '<div class="view-gallery">' +
+			                    '<img style="width: 250px" src="' +
+			                    result.returnData.imagePath +
+			                    '" alt="' +
+			                    result.returnData.alt +
+			                    '">' +
+			                    '<div class="view-list-group mt-4">' +
+			                    '<label class="view-list-title">اشتراک گذاری:</label>' +
+			                    '<ul class="view-share-list">' +
+			                    '<li>' +
+			                    '<a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>' +
+			                    '</li>' +
+			                    '<li>' +
+			                    '<a href="https://www.linkedin.com/in/boloorico-%D8%AA%D8%AC%D9%87%DB%8C%D8%B2%D8%A7%D8%AA-%D8%B5%D9%86%D8%B9%D8%AA%DB%8C-%D8%A8%D9%84%D9%88%D8%B1%DB%8C-506aa6217/" class="fab fa-linkedin-in" title="لینکدین"></a>' +
+			                    '</li>' +
+			                    '<li>' +
+			                    '<a href="https://www.instagram.com/boloorico/" class="fab fa-instagram" title="اینستاگرام"></a>' +
+			                    '</li>' +
+			                    '</ul>' +
+			                    '</div>' +
+			                    '</div>' +
+			                    '</div>' +
+			                    '<div class="col-md-6 col-lg-6">' +
+			                    '<div class="view-details">' +
+			                    '<h3 class="view-name">' +
+			                    '<a asp-area="" asp-page="/Productdetails">' +
+			                    result.returnData.name +
+			                    '</a>' +
+			                    '</h3>' +
+			                    '<div class="view-meta">' +
+			                    '<p><a>مارک تجاری:</a>' +
+			                    result.returnData.brand +
+			                    '</p>' +
+			                    '</div>' +
+			                    '<h3 class="view-price">' +
+			                    '<span>' +
+			                    result.returnData.price +
+			                    '</span>' +
+			                    '</h3>' +
+			                    '<div class="view-list-group">' +
+			                    '<label class="view-list-title">در انبار:</label>'+
+	                    ' <div id="exist">';
+                           if (result.returnData.Exist > 0) {
+	                           item = item + '<div>در دسترس</div>';
+                           } else {
+	                           item = item + '<div>عدم موجودی</div>';
+                           }
+	                    item = item+     '</div>'  +
                             '</div>' +
-                            '</div>' +
-                            '</div>' +
-                            '<div class="col-md-6 col-lg-6">' +
-                            '<div class="view-details">' +
-                            '<h3 class="view-name">' +
-                            '<a asp-area="" asp-page="/Productdetails">' +result.returnData.name +'</a>' +
-                            '</h3>' +
-                            '<div class="view-meta">' +
-                            '<p><a>مارک تجاری:</a>' +result.returnData.brand +'</p>' +
-                            '</div>' +
-                            '<div class="view-rating">' +
-                            '<br/>' +
-                            '</div>' +
-                            '<h3 class="view-price">' +
-                            '<span>' +
-                            result.returnData.price +
-                            '</span>' +
-                            '</h3>' +
-                            '<p class="view-desc">' +
-                            result.returnData.description +
-                            '</p>' +
                             '<div class="view-list-group">' +
                             '<label class="view-list-title">برچسب ها:</label>' +
                             '<ul class="view-tag-list">' +
@@ -836,7 +848,14 @@
                             '</div>' +
                             '</div>' +
                             '</div>' +
-                            '</div>' ;
+                            '</div>' +
+                            '<div class="row">' +
+                            '<div class="col-md-10 col-md-offset-1">' +
+                            '<p class="view-desc">' +
+                            result.returnData.description +
+                            '</p>'+
+                            '</div>' +
+	                        '</div>' ;
                         $('#modal_body').html(item);
                         $('#product-view').modal('show');
                     }

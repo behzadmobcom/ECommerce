@@ -1,20 +1,17 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using API.Interface;
-using API.Repository;
+using ECommerce.API.Interface;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
-using ECommerce.API.Interface;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Controllers;
+namespace ECommerce.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]/[action]")]

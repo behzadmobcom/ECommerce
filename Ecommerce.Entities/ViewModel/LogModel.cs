@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Entities.ViewModel;
+namespace Ecommerce.Entities.ViewModel;
 
 public class LogModel
 {

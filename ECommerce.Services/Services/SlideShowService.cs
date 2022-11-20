@@ -1,8 +1,8 @@
-﻿using Entities.Helper;
-using Entities.ViewModel;
+﻿using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class SlideShowService : EntityService<SlideShowViewModel>, ISlideShowService
 {

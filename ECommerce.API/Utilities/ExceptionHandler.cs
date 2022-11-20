@@ -1,11 +1,11 @@
 ﻿using System.Security.Claims;
-using Entities.Helper;
-using Entities.ViewModel;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public class ExceptionHandler : IActionFilter
 {

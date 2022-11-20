@@ -1,10 +1,9 @@
-﻿using Entities.Helper;
-using Entities.ViewModel;
-using ECommerce.Services.IServices;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
-using Entities;
+using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class UserService : IUserService
 {

@@ -1,4 +1,4 @@
-﻿namespace Entities;
+﻿namespace Ecommerce.Entities;
 
 public interface IBaseEntity<TKey>
 {

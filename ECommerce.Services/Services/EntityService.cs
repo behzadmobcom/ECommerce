@@ -1,7 +1,7 @@
-﻿using Entities.Helper;
+﻿using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class EntityService<T> : IEntityService<T>
 {

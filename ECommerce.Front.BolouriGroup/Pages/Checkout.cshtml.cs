@@ -1,12 +1,11 @@
-﻿using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 using ZarinpalSandbox;
 
-namespace Bolouri.Pages;
+namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class CheckoutModel : PageModel
 {

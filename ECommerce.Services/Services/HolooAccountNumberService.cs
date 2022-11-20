@@ -1,7 +1,7 @@
-﻿using Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
 using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class HolooAccountNumberService : EntityService<HolooAccountNumber>, IHolooAccountNumberService
 {

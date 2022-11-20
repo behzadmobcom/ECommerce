@@ -1,9 +1,8 @@
-﻿using API.Utilities;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
+﻿using ECommerce.API.Utilities;
+using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IPurchaseOrderRepository : IAsyncRepository<PurchaseOrder>
 {

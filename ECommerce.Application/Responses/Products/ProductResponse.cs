@@ -1,4 +1,4 @@
-﻿using Entities;
+﻿using Ecommerce.Entities;
 
 namespace ECommerce.Application.Responses.Products;
 

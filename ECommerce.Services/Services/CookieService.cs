@@ -1,13 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Entities.Helper;
-using Entities.ViewModel;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class CookieService : ICookieService
 {

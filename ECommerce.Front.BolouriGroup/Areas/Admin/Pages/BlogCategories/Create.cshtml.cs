@@ -1,10 +1,9 @@
-﻿using Entities;
-using Entities.Helper;
+﻿using Ecommerce.Entities;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.BlogCategories;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogCategories;
 
 public class CreateModel : PageModel
 {

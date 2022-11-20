@@ -1,10 +1,10 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Entities.Helper;
+using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class HttpService : IHttpService
 {

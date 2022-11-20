@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using API.Interface;
+using ECommerce.API.Interface;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class EmailRepository : IEmailRepository
 {

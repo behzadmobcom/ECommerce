@@ -1,11 +1,11 @@
-﻿using API.Interface;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
+﻿using ECommerce.API.Interface;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace ECommerce.API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]

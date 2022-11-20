@@ -1,10 +1,10 @@
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Bolouri.Pages;
+namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class BlogModel : PageModel
 {

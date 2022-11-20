@@ -1,6 +1,6 @@
-﻿using Entities;
+﻿using Ecommerce.Entities;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IProductUserRankRepository : IAsyncRepository<ProductUserRank>
 {

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Entities;
-using Entities.Helper;
 using ECommerce.Services.IServices;
-using Services.Services;
-using Entities.ViewModel;
 
 namespace ECommerce.Services.Services
 {

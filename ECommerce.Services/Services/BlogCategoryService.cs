@@ -1,9 +1,9 @@
-﻿using Entities;
-using Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Entities.ViewModel;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class BlogCategoryService : EntityService<BlogCategory>, IBlogCategoryService
 {

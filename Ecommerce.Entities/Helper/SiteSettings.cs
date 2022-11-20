@@ -1,4 +1,4 @@
-﻿namespace Entities.Helper;
+﻿namespace Ecommerce.Entities.Helper;
 
 public class SiteSettings
 {

@@ -1,12 +1,10 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using API.DataContext;
-using API.Interface;
-using API.Repository;
+using ECommerce.API.DataContext;
 using ECommerce.API.Interface;
 using ECommerce.API.Repository;
-using Entities;
-using Entities.Helper;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

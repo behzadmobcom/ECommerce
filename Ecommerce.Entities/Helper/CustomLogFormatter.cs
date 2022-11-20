@@ -1,7 +1,7 @@
 ﻿using Serilog.Events;
 using Serilog.Formatting;
 
-namespace Entities.Helper;
+namespace Ecommerce.Entities.Helper;
 
 public class CustomLogFormatter : ITextFormatter
 {

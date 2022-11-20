@@ -1,4 +1,4 @@
-﻿namespace API.Interface;
+﻿namespace ECommerce.API.Interface;
 
 public interface IHolooRepository<T> : IDisposable
 {

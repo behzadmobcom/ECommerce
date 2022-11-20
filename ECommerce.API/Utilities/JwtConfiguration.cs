@@ -1,12 +1,12 @@
 ﻿using System.Net;
 using System.Security.Claims;
 using System.Text;
-using Entities.Helper;
+using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public static class JwtConfiguration
 {

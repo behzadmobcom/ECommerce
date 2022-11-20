@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using ClaimsIdentity = System.Security.Claims.ClaimsIdentity;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public static class IdentityExtensions
 {

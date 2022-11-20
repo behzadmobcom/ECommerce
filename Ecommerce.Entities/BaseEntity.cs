@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities;
+namespace Ecommerce.Entities;
 
 public abstract class BaseEntity<TKey> : IBaseEntity<TKey>
 {

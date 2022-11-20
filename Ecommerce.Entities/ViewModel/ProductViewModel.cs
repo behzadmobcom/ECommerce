@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Entities.Helper;
+using Ecommerce.Entities.Helper;
 
-namespace Entities.ViewModel;
+namespace Ecommerce.Entities.ViewModel;
 
 public class ProductViewModel
 {
@@ -192,6 +192,7 @@ public class ProductModalViewModel
     public string ImagePath { get; set; }
     public string Alt { get; set; }
     public string Url { get; set; }
+    public double Exist { get; set; }
 }
 
 public class ProductCompareViewModel

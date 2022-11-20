@@ -1,5 +1,5 @@
 ﻿@page "{**path}"
-@model Bolouri.Pages.ShopModel
+@model ECommerce.Front.BolouriGroup.Pages.ShopModel
 @{
 }
 <link href="~/css/stars.css" rel="stylesheet" />
@@ -22,7 +22,7 @@
             <div class="col-lg-3 order-1 order-lg-0">
                 <div class="shop-widget">
                     <h6 class="shop-widget-title">دسته بندی</h6>
-                    @await Component.InvokeAsync("CategoriesList")
+	                @await Component.InvokeAsync("CategoriesList")
                 </div>
                 <div class="shop-widget">
                     <h6 class="shop-widget-title">حدود قیمت</h6>

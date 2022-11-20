@@ -1,12 +1,11 @@
-﻿using Entities;
+﻿using Ecommerce.Entities;
+using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ECommerce.Services.IServices;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
-namespace ArshaHamrah.Areas.Admin.Pages.ProductAttributes;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages.ProductAttributes;
 
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class CreateModel : PageModel

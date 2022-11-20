@@ -1,4 +1,4 @@
-﻿using Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
 
 namespace ECommerce.Services.IServices;
 

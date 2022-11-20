@@ -1,6 +1,6 @@
-﻿using Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
 
-namespace Entities.ViewModel;
+namespace Ecommerce.Entities.ViewModel;
 
 public class FactorViewModel
 {

@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using Entities.Helper;
+using Ecommerce.Entities.Helper;
 
-namespace Entities;
+namespace Ecommerce.Entities;
 
 public class Price : BaseEntity
 {

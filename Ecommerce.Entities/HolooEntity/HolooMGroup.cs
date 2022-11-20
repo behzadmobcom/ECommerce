@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities.HolooEntity;
+namespace Ecommerce.Entities.HolooEntity;
 
 public class HolooMGroup
 {

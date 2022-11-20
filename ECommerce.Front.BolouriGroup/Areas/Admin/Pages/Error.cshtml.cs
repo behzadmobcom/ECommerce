@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Bolouri.Areas.Admin.Pages;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages;
 
 public class ErrorModel : PageModel
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Entities;
+namespace Ecommerce.Entities;
 
 public class UserRole : IdentityRole<int>, IBaseEntity<int>
 {

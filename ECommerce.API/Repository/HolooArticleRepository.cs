@@ -1,10 +1,10 @@
-﻿using API.DataContext;
-using API.Interface;
-using Entities;
-using Entities.HolooEntity;
+﻿using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
+using Ecommerce.Entities;
+using Ecommerce.Entities.HolooEntity;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArticleRepository
 {

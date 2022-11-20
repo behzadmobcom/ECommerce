@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Net;
 
-namespace Entities.Helper;
+namespace Ecommerce.Entities.Helper;
 
 public class CustomException : Exception
 {
