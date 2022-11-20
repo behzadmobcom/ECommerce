@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.ArshaHamrah.Pages;

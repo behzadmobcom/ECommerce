@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Tags.IndexModel
 @{
     var i = 1 + (Model.Tags.PaginationDetails.CurrentPage - 1) * Model.Tags.PaginationDetails.PageSize;

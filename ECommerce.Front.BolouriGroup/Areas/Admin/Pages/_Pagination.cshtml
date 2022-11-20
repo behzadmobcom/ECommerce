@@ -1,4 +1,5 @@
-﻿@model Ecommerce.Entities.Helper.PaginationDetails 
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Ecommerce.Entities.Helper.PaginationDetails 
 
 @{
     var prevDisabled = Model.CurrentPage == 1 ? "disabled" : "";
