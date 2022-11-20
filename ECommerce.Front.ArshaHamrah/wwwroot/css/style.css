@@ -515,14 +515,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 200px;
+    width: 350px;
 }
 
 .vmsNowrapList {
     direction: rtl;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 200px;
+    width: 350px;
 }
 
 .banner-title-2 {
@@ -531,7 +531,7 @@
 }
 
 .banner-2 .banner-title-2 {
-    left: 18px;
+    /*left: 18px;*/
     position: absolute;
     top: 2%;
 }
