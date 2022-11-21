@@ -1,13 +1,12 @@
-using Entities;
-using Entities.Helper;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
-using Entities.ViewModel;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
-namespace ArshaHamrah.Areas.Admin.Pages.PurchaseList;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages.PurchaseList;
 
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class IndexModel : PageModel

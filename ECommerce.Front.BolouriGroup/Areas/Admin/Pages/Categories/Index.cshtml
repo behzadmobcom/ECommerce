@@ -1,5 +1,6 @@
 ﻿@page
-@model Bolouri.Areas.Admin.Pages.Categories.IndexModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Categories.IndexModel
 @{
     var i = 1 + (Model.Categories.PaginationDetails.CurrentPage - 1) * Model.Categories.PaginationDetails.PageSize;
 }

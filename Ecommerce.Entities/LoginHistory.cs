@@ -1,4 +1,4 @@
-﻿namespace Entities;
+﻿namespace Ecommerce.Entities;
 
 public class LoginHistory : BaseEntity
 {

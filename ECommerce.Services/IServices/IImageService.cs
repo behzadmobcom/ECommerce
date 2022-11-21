@@ -1,5 +1,5 @@
-﻿using Entities;
-using Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Services.IServices;

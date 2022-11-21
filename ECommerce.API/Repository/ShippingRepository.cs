@@ -1,8 +1,8 @@
-﻿using API.DataContext;
-using API.Interface;
-using Entities;
+﻿using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
+using Ecommerce.Entities;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class ShippingRepository : AsyncRepository<Shipping>, IShippingRepository
 {

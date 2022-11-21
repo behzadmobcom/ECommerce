@@ -1,7 +1,7 @@
-﻿using Entities;
-using Entities.HolooEntity;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.HolooEntity;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IHolooArticleRepository : IHolooRepository<HolooArticle>
 {

@@ -1,11 +1,11 @@
-﻿using API.Utilities;
-using Entities;
+﻿using ECommerce.API.Utilities;
+using Ecommerce.Entities;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.DataContext;
+namespace ECommerce.API.DataContext;
 
 public class SunflowerECommerceDbContext : IdentityDbContext<User, UserRole, int>
 {

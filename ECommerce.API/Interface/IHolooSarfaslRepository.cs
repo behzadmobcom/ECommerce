@@ -1,5 +1,4 @@
-﻿using API.Interface;
-using Ecommerce.Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
 
 namespace ECommerce.API.Interface
 {

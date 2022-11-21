@@ -1,7 +1,7 @@
-﻿using Entities;
-using Entities.ViewModel;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IWishListRepository : IAsyncRepository<WishList>
 {

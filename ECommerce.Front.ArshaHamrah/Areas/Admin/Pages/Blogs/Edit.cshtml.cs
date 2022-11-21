@@ -1,12 +1,11 @@
-﻿using Entities;
-using Entities.Helper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Blogs;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages.Blogs;
 
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class EditModel : PageModel

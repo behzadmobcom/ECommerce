@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Application.Commands.Purchase;
+﻿namespace ECommerce.Application.Commands.Purchase.Purchases;
 
 public class CreatePurchaseCommand
 {

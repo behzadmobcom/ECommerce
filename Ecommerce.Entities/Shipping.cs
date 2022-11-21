@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities;
+namespace Ecommerce.Entities;
 
 public class Shipping : BaseEntity
 {

@@ -1,13 +1,12 @@
-﻿using Entities.Helper;
-using Entities.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages.SlideShows;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages.SlideShows;
 
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class EditModel : PageModel

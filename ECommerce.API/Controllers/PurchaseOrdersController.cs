@@ -1,15 +1,13 @@
-﻿using API.Interface;
+﻿using ECommerce.API.Interface;
+using ECommerce.Application.Commands.Purchase.Purchases;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.HolooEntity;
-using ECommerce.API.Interface;
-using ECommerce.Application.Commands.Purchase;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
+namespace ECommerce.API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
@@ -417,7 +415,7 @@ public class PurchaseOrdersController : ControllerBase
             var resultUser =await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
-            var fBail = await _holooFBailRepository.Add(new Entities.HolooEntity.HolooFBail
+            var fBail = await _holooFBailRepository.Add(new HolooFBail
             {
                 C_Code = cCode,
                 Fac_Code = fCode,
@@ -430,14 +428,14 @@ public class PurchaseOrdersController : ControllerBase
 
             }, cancellationToken);
 
-            var aBail = new List<Entities.HolooEntity.HolooABail>();
+            var aBail = new List<HolooABail>();
             var i = 1;
 
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByPurchaseOrderId(purchaseOrder.Id, cancellationToken);
             foreach (var orderDetail in purchaseOrderDetails)
             {
 
-                aBail.Add(new Entities.HolooEntity.HolooABail
+                aBail.Add(new HolooABail
                 {
                     A_Code = orderDetail.Price.ArticleCode,
                     ACode_C = orderDetail.Price.ArticleCodeCustomer,

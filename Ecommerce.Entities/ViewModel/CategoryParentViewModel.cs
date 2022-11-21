@@ -1,4 +1,4 @@
-﻿namespace Entities.ViewModel;
+﻿namespace Ecommerce.Entities.ViewModel;
 
 public class CategoryParentViewModel
 {

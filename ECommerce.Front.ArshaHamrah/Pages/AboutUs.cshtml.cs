@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Pages;
+namespace ECommerce.Front.ArshaHamrah.Pages;
 
 public class AboutUsModel : PageModel
 {

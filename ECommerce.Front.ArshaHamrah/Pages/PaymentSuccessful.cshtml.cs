@@ -1,12 +1,11 @@
-﻿using ECommerce.Services.IServices;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Entities;
 using ZarinpalSandbox;
-using Entities.ViewModel;
-using ServiceReferenceMellat;
 
-namespace ArshaHamrah.Pages;
+namespace ECommerce.Front.ArshaHamrah.Pages;
 
 public class PaymentSuccessfulModel : PageModel
 {

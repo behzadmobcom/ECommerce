@@ -1,10 +1,10 @@
-﻿using Entities.ViewModel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Pages;
+namespace ECommerce.Front.ArshaHamrah.Pages;
 
 public class LoginModel : PageModel
 {

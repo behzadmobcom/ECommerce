@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages;
 
 //[Authorize(AuthenticationSchemes ="ClientCookie")]
 [Authorize(Roles = "Admin,SuperAdmin")]

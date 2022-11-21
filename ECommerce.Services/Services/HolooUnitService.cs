@@ -1,8 +1,8 @@
-﻿using Entities.Helper;
-using Entities.HolooEntity;
+﻿using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.HolooEntity;
 using ECommerce.Services.IServices;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class HolooUnitService : EntityService<HolooUnit>, IHolooUnitService
 {

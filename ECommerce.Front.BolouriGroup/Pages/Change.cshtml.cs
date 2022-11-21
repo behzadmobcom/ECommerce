@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Bolouri.Pages;
+namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class ChangeModel : PageModel
 {

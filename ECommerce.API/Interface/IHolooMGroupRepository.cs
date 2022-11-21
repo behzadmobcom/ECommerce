@@ -1,6 +1,6 @@
-﻿using Entities.HolooEntity;
+﻿using Ecommerce.Entities.HolooEntity;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IHolooMGroupRepository : IHolooRepository<HolooMGroup>
 {

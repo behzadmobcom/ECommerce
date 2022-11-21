@@ -1,10 +1,10 @@
-﻿using Entities;
-using Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.Brands;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Brands;
 
 public class EditModel : PageModel
 {

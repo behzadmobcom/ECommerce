@@ -1,11 +1,11 @@
-﻿using Entities;
-using Entities.HolooEntity;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.HolooEntity;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.Units;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Units;
 
 public class CreateModel : PageModel
 {

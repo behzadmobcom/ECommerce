@@ -1,4 +1,5 @@
 ﻿@page "{handler?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 
 @{
@@ -103,7 +104,7 @@
                                     <img style="float: right" src="@Model.ExpensiveProducts[0].ImagePath" alt="@Model.ExpensiveProducts[0].Alt" />
                                 </a>
                             </div>
-                            <h3 class="banner-title-2 vmsNowrap">
+                            <h3 class="banner-title-2 vmsNowrap" style="padding-right: 5px;font-size: 15px">
                                 <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[0].Url">@Model.ExpensiveProducts[0].Name</a>
                             </h3>
                             @{
@@ -145,7 +146,7 @@
                                     <img style="float: right" src="@Model.ExpensiveProducts[1].ImagePath" alt="@Model.ExpensiveProducts[1].Alt" />
                                 </a>
                             </div>
-                            <h3 class="banner-title-2 vmsNowrap">
+                            <h3 class="banner-title-2 vmsNowrap" style="padding-right: 5px;font-size: 15px">
                                 <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[1].Url">@Model.ExpensiveProducts[1].Name</a>
                             </h3>
                             @{
@@ -187,7 +188,7 @@
                                     <img style="float: right" src="@Model.ExpensiveProducts[2].ImagePath" alt="@Model.ExpensiveProducts[2].Alt" />
                                 </a>
                             </div>
-                            <h3 class="banner-title-2 vmsNowrap">
+                            <h3 class="banner-title-2 vmsNowrap" style="padding-right: 5px;font-size: 15px">
                                 <a asp-page="Product" asp-route-productUrl="@Model.ExpensiveProducts[2].Url">@Model.ExpensiveProducts[2].Name</a>
                             </h3>
                             @{

@@ -1,11 +1,10 @@
-﻿using Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Ecommerce.Entities;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ArshaHamrah.Areas.Admin.Pages.Tags;
+namespace ECommerce.Front.ArshaHamrah.Areas.Admin.Pages.Tags;
 
 [Authorize(Roles = "Admin,SuperAdmin")]
 public class CreateModel : PageModel

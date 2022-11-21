@@ -1,8 +1,8 @@
-﻿using API.Utilities;
-using Entities;
-using Entities.Helper;
+﻿using ECommerce.API.Utilities;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IProductAttributeRepository : IAsyncRepository<ProductAttribute>
 {

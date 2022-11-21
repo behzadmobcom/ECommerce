@@ -1,9 +1,9 @@
-﻿using Entities;
-using Entities.Helper;
-using Microsoft.AspNetCore.Http;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Http;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class ImageService : EntityService<Image>, IImageService
 {

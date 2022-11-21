@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
-using Entities.Helper;
+using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public class ProtectedConverter : ValueConverter<string, string>
 {

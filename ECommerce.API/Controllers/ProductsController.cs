@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using API.Interface;
-using API.Utilities;
-using Entities;
-using Entities.Helper;
-using Entities.HolooEntity;
-using Entities.ViewModel;
+﻿using ECommerce.API.Interface;
+using ECommerce.API.Utilities;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.HolooEntity;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
+namespace ECommerce.API.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
@@ -658,7 +656,8 @@ public class ProductsController : ControllerBase
                 Description = product.Description,
                 Name = product.Name,
                 Price = product.Prices.FirstOrDefault().Amount.ToString("###,###,###,###"),
-                Url = product.Url
+                Url = product.Url,
+                Exist = product.Prices.FirstOrDefault().Exist
             };
 
             return Ok(new ApiResult

@@ -1,9 +1,9 @@
-using Entities.ViewModel;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.SlideShows;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.SlideShows;
 
 public class DetailModel : PageModel
 {

@@ -1,6 +1,6 @@
 ﻿@page "/product/{productUrl}"
-@using Entities
-@model Bolouri.Pages.ProductdetailsModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;

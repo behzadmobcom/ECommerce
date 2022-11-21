@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 
-namespace Entities;
+namespace Ecommerce.Entities;
 
 public class User : IdentityUser<int>, IBaseEntity<int>
 {

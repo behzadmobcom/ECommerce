@@ -1,5 +1,5 @@
-﻿using Entities.Helper;
-using Entities.ViewModel;
+﻿using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.Services.IServices;
 

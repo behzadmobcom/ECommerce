@@ -1,15 +1,14 @@
-﻿using ECommerce.Front.ArshaHamrah.Utilities;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Front.ArshaHamrah.Utilities;
 using ECommerce.Services.IServices;
-using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceReferenceMellat;
-using ZarinpalSandbox;
 
-namespace ArshaHamrah.Pages;
+namespace ECommerce.Front.ArshaHamrah.Pages;
 
 public class CheckoutModel : PageModel
 {

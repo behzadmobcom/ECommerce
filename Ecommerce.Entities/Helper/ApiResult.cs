@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Entities.Helper;
+namespace Ecommerce.Entities.Helper;
 
 public class CookieData : ActionResult
 {

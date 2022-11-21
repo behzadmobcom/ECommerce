@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities.ViewModel;
+namespace Ecommerce.Entities.ViewModel;
 
 public class MyAccountViewModel
 {

@@ -1,6 +1,4 @@
-﻿using API.DataContext;
-using API.Interface;
-using API.Repository;
+﻿using ECommerce.API.DataContext;
 using Ecommerce.Entities.HolooEntity;
 using ECommerce.API.Interface;
 using Microsoft.EntityFrameworkCore;

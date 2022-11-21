@@ -1,4 +1,4 @@
-﻿@model List<Entities.ViewModel.CategoryParentViewModel>
+﻿@model List<Ecommerce.Entities.ViewModel.CategoryParentViewModel>
 
 @if (Model != null)
 {
@@ -29,7 +29,7 @@
 			var s = "Section" + parentCategory.Id;
 			var c ="";
 			@if (isActive){c = "row tab-pane fade in active";}else{c = "row tab-pane fade in";}
-			<div role="tabpanel" class="@c" id="@s" ز>
+			<div role="tabpanel" class="@c" id="@s">
 				@foreach (var firstChild in parentCategory.Children)
 				{
 					

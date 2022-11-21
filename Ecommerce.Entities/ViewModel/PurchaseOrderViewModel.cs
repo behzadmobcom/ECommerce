@@ -1,6 +1,6 @@
-﻿using Entities.Helper;
+﻿using Ecommerce.Entities.Helper;
 
-namespace Entities.ViewModel;
+namespace Ecommerce.Entities.ViewModel;
 
 public class PurchaseOrderViewModel
 {

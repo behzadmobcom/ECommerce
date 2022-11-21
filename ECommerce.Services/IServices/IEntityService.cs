@@ -1,4 +1,4 @@
-﻿using Entities.Helper;
+﻿using Ecommerce.Entities.Helper;
 
 namespace ECommerce.Services.IServices;
 

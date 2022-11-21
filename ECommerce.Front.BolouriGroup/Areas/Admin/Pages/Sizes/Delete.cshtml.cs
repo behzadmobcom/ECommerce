@@ -1,9 +1,9 @@
-using Entities;
+using Ecommerce.Entities;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.Sizes;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Sizes;
 
 public class DeleteModel : PageModel
 {

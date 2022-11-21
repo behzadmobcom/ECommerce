@@ -1,9 +1,8 @@
-﻿using API.Utilities;
+﻿using ECommerce.API.Utilities;
+using Ecommerce.Entities;
 using Ecommerce.Entities.ViewModel;
-using Entities;
-using Entities.Helper;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IUserRepository : IAsyncRepository<User>
 {

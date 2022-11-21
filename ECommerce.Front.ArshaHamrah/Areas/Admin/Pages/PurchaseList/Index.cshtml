@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ArshaHamrah.Areas.Admin.Pages.PurchaseList.IndexModel
 @{
     var i = 1 + (Model.PurchaseList.PaginationDetails.CurrentPage - 1) * Model.PurchaseList.PaginationDetails.PageSize;

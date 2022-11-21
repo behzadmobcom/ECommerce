@@ -1,10 +1,10 @@
-using Entities;
+using Ecommerce.Entities;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ECommerce.Services.IServices;
 
-namespace Bolouri.Areas.Admin.Pages.ProductAttributes;
+namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.ProductAttributes;
 
 public class IndexModel : PageModel
 {

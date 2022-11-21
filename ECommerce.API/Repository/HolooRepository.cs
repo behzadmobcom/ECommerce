@@ -1,8 +1,8 @@
-﻿using API.DataContext;
-using API.Interface;
+﻿using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class HolooRepository<T> : IHolooRepository<T> where T : class
 {

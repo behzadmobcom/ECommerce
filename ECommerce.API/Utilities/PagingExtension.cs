@@ -1,8 +1,8 @@
-﻿using Entities;
-using Entities.ViewModel;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public static class PagingExtension
 {

@@ -1,11 +1,11 @@
-﻿using API.DataContext;
-using API.Interface;
-using API.Utilities;
-using Entities;
-using Entities.Helper;
+﻿using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
+using ECommerce.API.Utilities;
+using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class ProductAttributeRepository : AsyncRepository<ProductAttribute>, IProductAttributeRepository
 {

@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
-using Entities;
+using Ecommerce.Entities;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Pluralize.NET.Core;
 
-namespace API.Utilities;
+namespace ECommerce.API.Utilities;
 
 public static class ModelBuilderExtensions
 {

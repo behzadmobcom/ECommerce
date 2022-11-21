@@ -1,12 +1,11 @@
-﻿using Entities.ViewModel;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
+using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.IServices;
-using Entities;
-using Services.Services;
 
-namespace ArshaHamrah.Pages;
+namespace ECommerce.Front.ArshaHamrah.Pages;
 
 public class IndexModel : PageModel
 {

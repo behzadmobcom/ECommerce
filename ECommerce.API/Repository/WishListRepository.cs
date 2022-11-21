@@ -1,10 +1,10 @@
-﻿using API.DataContext;
-using API.Interface;
-using Entities;
-using Entities.ViewModel;
+﻿using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
+using Ecommerce.Entities;
+using Ecommerce.Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository;
+namespace ECommerce.API.Repository;
 
 public class WishListRepository : AsyncRepository<WishList>, IWishListRepository
 {

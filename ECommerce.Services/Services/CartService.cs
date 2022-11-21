@@ -1,10 +1,9 @@
-﻿using Entities;
-using Entities.Helper;
-using Entities.ViewModel;
-using Microsoft.AspNetCore.Http;
+﻿using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Http;
 
-namespace Services.Services;
+namespace ECommerce.Services.Services;
 
 public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
 {

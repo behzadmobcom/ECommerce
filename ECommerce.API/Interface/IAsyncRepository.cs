@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
-using Entities;
+using Ecommerce.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Interface;
+namespace ECommerce.API.Interface;
 
 public interface IAsyncRepository<TEntity> where TEntity : class, IBaseEntity<int>
 {

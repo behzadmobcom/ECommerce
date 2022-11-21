@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Entities.Helper;
+namespace Ecommerce.Entities.Helper;
 
 public enum SystemRoles : byte
 {
