@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 
 namespace API.Controllers;
 
@@ -72,9 +73,7 @@ public class UsersController : ControllerBase
                     return Ok(new ApiResult
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
-                var s = _userManager.PasswordHasher.HashPassword(user, model.Password);
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                //var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
                 if (result.Succeeded)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
@@ -509,8 +508,11 @@ public class UsersController : ControllerBase
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var emailMessage = Url.Link(url,
-            new { username = user.Email, token = emailPasswordResetToken });
+        //var emailMessage = Url.Link(url,
+        //    new { username = user.Email, token = emailPasswordResetToken });
+        var emailMessage = "<a href='"
+                           + url+ "/ResetForgotPassword/?token=" + emailPasswordResetToken
+                           + "'>dsf</a>";
 
         await _emailRepository.SendEmailAsync(email, "تغییر کلمه عبور", emailMessage, cancellationToken);
         return Ok();
@@ -536,19 +538,13 @@ public class UsersController : ControllerBase
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
-                //var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                //var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
-
-                //user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
-                //var result = await _userManager.UpdateAsync(user);
-
-
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.Success,
-                    Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
-                });
+                if (result.Succeeded)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Success,
+                        Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                    });
 
                 return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
             }
