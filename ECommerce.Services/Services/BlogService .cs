@@ -93,7 +93,7 @@ public class BlogService : EntityService<Blog>, IBlogService
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = "", string search = "",
+    public async Task<ServiceResult<List<BlogViewModel>>> TopBlogs(string CategoryId = null, string search = "",
     int pageNumber = 0, int pageSize = 3, int blogSort = 1 )
     {
         var command = "Get?" +
@@ -107,10 +107,25 @@ public class BlogService : EntityService<Blog>, IBlogService
         return Return(result);
     }
 
+    public async Task<ServiceResult<List<BlogViewModel>>> TopBlogsByTagText(string CategoryId = "", string TagText = "",
+    int pageNumber = 0, int pageSize = 3, int blogSort = 1)
+    {
+        var command = "GetByTagText?" +
+                      $"PaginationParameters.PageNumber={pageNumber}&" +
+                      $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(TagText)) command += $"PaginationParameters.TagText={TagText}&";
+        if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
+
+        command += $"BlogSort={blogSort}";
+        var result = await _http.GetAsync<List<BlogViewModel>>(Url, command);
+        return Return(result);
+    }
+
     public async Task<ServiceResult<BlogDetailsViewModel>> GetByUrl(string blogUrl)
     {
         var result = await _http.GetAsync<BlogDetailsViewModel>(Url, $"GetByUrl?blogUrl={blogUrl}");
         return Return(result);
 
     }
+
 }

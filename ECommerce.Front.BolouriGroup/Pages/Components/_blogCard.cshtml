@@ -11,7 +11,7 @@
             <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor?.Name}")</a> </span></li>
             <li><i class="far fa-comments"></i><span>@Model.CommentCount نظر</span></li>
         </ul>
-        <h4 class="blog-title"><a asp-area="" asp-page="Blog"> @Model.Title</a></h4>
+        <h4 class="blog-title"><a asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url" asp-page="Blog"> @Model.Title</a></h4>
         @{
             int positionOfNewLine = Model.Text.IndexOf("\r\n");
         }
