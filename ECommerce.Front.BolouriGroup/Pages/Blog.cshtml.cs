@@ -25,8 +25,7 @@ public class BlogModel : PageModel
 
     public async Task OnGet(string blogCategoryId, string search, int pageNumber = 1, int pageSize = 3, int productSort = 1,
         string message = null, string code = null)
-    {
-       search=Search;
+    {   
        if (int.TryParse(blogCategoryId, out var intResult)) 
         { 
            Blogs = await _blogService.TopBlogs(blogCategoryId, search, pageNumber, pageSize);
@@ -39,9 +38,9 @@ public class BlogModel : PageModel
         Tags = await _tagService.GetAll();
     }
 
-    public async Task OnPost(string search)
+    public async Task OnPost(string blogCategoryId,string search)
     {
-        Blogs = await _blogService.TopBlogs(null, search, 1, 3);
+        Blogs = await _blogService.TopBlogs(blogCategoryId, search, 1, 3);
         Tags = await _tagService.GetAll();
     }
 }
