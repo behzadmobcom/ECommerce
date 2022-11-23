@@ -14,7 +14,9 @@
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
             </li>
-	        <li class="breadcrumb-item active" aria-current="page">@Model.Blog.Summary</li>
+	        <li class="breadcrumb-item active">
+                <a href="/blogs/@Model.BlogCategory.Id"> @Model.BlogCategory.Name </a>
+            </li>
         </ol>
     </div>
 </section>
@@ -35,22 +37,7 @@
       <p class="blog-details-desc">
           @(Html.Raw(Model.Blog.Text))
        </p>
-      <blockquote class="blog-details-quote">
-       <p>این یک واقعیت ثابت شده طولانی است که خواننده از محتوای قابل خواندن منحرف می شود.</p>
-       <footer>- نیکلاس تی لومیس</footer>
-      </blockquote>
-      <p class="blog-details-desc">
-       اگر می خواهید از متن متن ساختگی استفاده کنید ، باید مطمئن باشید که هیچ چیز خجالت آور در وسط متن پنهان نشده است. تمام مولدهای متن ساختگی در اینترنت تمایل دارند که تکه های از پیش تعریف شده را در صورت لزوم تکرار کنند ، و این اولین تولید کننده واقعی در اینترنت است. این از یک فرهنگ لغت با بیش از 200 کلمه لاتین ، در ترکیب استفاده می کند.
-      </p>
-      <div class="row blog-details-grid">
-	      <div class="col-md-6 col-lg-6"><img class="img-fluid" src="~/Images/Banner/1.jpg" alt="وبلاگ"></div>
-       <div class="col-md-6 col-lg-6">
-        <p>
-         از آنجا که لورم ایپسوم، شباهت زیادی به متن های واقعی دارد، طراحان معمولا از لورم ایپسوم استفاده میکنند تا فقط به مشتری یا کار فرما نشان دهند که قالب طراحی شده بعد از اینکه متن در آن قرار میگرد چگونه خواهد بود و فونت ها و اندازه ها چگونه در نظر گرفته شده است.
 
-        </p>
-       </div>
-      </div>
       <div class="blog-details-footer">
        <ul class="blog-details-share">
         <h4>اشتراک گذاری:</h4>
@@ -144,38 +131,29 @@
     <div class="blog-widget">
      <h3 class="blog-widget-title">آخرین ارسال ها</h3>
      <ul class="blog-widget-feed">
-      <li>
-       <a class="blog-widget-media" href="#"><img src="~/Images/Blogs/935c2b14-0c53-40d0-a425-5fa42447858b.jpg" alt="ویجت وبلاگ"></a>
-       <h6 class="blog-widget-text"><a href="#">تغییرات زیادی در </a><span>20 خرداد 1400    وجود دارد</span></h6>
-      </li>
-      <li>
-       <a class="blog-widget-media" href="#"><img src="~/Images/Blogs/bf5adcd1-9d9c-4e23-9dfb-fddd445ef6f2.jpg" alt="ویجت وبلاگ"></a>
-       <h6 class="blog-widget-text"><a href="#">تغییرات زیادی در </a><span>20 خرداد 1400    وجود دارد</span></h6>
-      </li>
-      <li>
-       <a class="blog-widget-media" href="#"><img src="~/Images/Blogs/ca44aed5-11d5-4a97-91b4-24fd9fa93e8f.jpg" alt="ویجت وبلاگ"></a>
-       <h6 class="blog-widget-text"><a href="#">تغییرات زیادی در </a><span>20 خرداد 1400    وجود دارد</span></h6>
-      </li>
+        
+         @foreach (var blog in Model.Blogs.ReturnData)
+                        {
+                           <li>
+                           <a class="blog-widget-media" href="/blog/@blog.Url"><img src="/@($"{blog.Image.Path}/{blog.Image.Name}")" alt="@blog.Image.Alt"></a>
+                           <h6 class="blog-widget-text"><a href="/blog/@blog.Url">@blog.Title</a>
+                           <span>@blog.CreateDateTime</span></h6>
+                           </li>
+                        }    
      </ul>
     </div>
     <div class="blog-widget">
      <h3 class="blog-widget-title">دسته های برتر</h3>
      <ul class="blog-widget-category">
-      <li>
-       <a href="#">ارگانیک <span>(10)</span></a>
-      </li>
-      <li>
-       <a href="#">غذای تازه <span>(20)</span></a>
-      </li>
-      <li>
-       <a href="#">بررسی کیفیت <span>(30)</span></a>
-      </li>
-      <li>
-       <a href="#">سبزیجات <span>(20)</span></a>
-      </li>
-      <li>
-       <a href="#">زندگی روزمره <span>(05)</span></a>
-      </li>
+
+                        @foreach (var cat in Model.Categories.ReturnData)
+                        {
+                            <li>
+                            <a href="/Blogs/@cat.Id">@cat.Name <span></span></a>
+                            </li>
+                            
+                        } 
+ 
      </ul>
     </div>
     <div class="blog-widget">

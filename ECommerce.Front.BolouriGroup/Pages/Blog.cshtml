@@ -42,14 +42,18 @@
             <div class="col-md-7 col-lg-4">
                 <div class="blog-widget">
                     <h3 class="blog-widget-title">جستجو کردن</h3>
-                    <form class="blog-widget-form"><input type="text" placeholder="جستجو کردن..."><button class="far fa-search"></button></form>
+                    <form method="post" asp-page-handler="OnPost" class="blog-widget-form">
+                       @* <input name="@Model.Search" type="text" placeholder="جستجو کردن...">*@
+                        <input type="text" placeholder="جستجو کردن..." dir="rtl" asp-for="@Model.Search">
+                        <button class="far fa-search"></button>
+                        </form>
                 </div>
                 <div class="blog-widget">
                     <h3 class="blog-widget-title">برچسب های محبوب</h3>
                     <ul class="blog-widget-tag">
                         @foreach (var tag in Model.Tags.ReturnData)
                         {
-                            var path = $"/Blogs/&search={tag.TagText}";
+                            var path = $"/Blogs/{tag.TagText}";
                             <li><a href="@path">@tag.TagText</a></li>
                         }
                     </ul>

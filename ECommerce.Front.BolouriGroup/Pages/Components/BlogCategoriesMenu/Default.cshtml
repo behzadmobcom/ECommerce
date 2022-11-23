@@ -4,7 +4,7 @@
 @foreach (var parentCategory in Model)
 {
     var path = "/Blogs/" + parentCategory.Id;
-    <li>
-        <a asp-page="@path">@parentCategory.Name</a>
+    <li>              
+        <a href="@path">@parentCategory.Name</a>
     </li>
 }

@@ -8,6 +8,7 @@ namespace ECommerce.API.Interface;
 public interface IBlogRepository : IAsyncRepository<Blog>
 {
     Task<PagedList<Blog>> Search(PaginationParameters paginationParameters, CancellationToken cancellationToken);
+    Task<PagedList<Blog>> GetByTagText(PaginationParameters paginationParameters, CancellationToken cancellationToken);
     Task<Blog> GetByTitle(string title, CancellationToken cancellationToken);
 
     Task<Blog> AddWithRelations(BlogViewModel blogViewModel, CancellationToken cancellationToken);
