@@ -21,11 +21,25 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         CancellationToken cancellationToken)
     {
         return PagedList<Blog>.ToPagedList(
-            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search)).Include(x => x.Image)
+            await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search) 
+                                            && (x.BlogCategoryId==paginationParameters.CategoryId || paginationParameters.CategoryId ==0))
+                .Include(x => x.Image)
                 .Include(x=>x.Keywords).Include(x=>x.Tags).Include(x=>x.BlogAuthor).AsNoTracking()
                 .OrderBy(on => on.Id).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
+    }
+
+    public async Task<PagedList<Blog>> GetByTagText(PaginationParameters paginationParameters,
+    CancellationToken cancellationToken)
+    {
+        var result= PagedList<Blog>.ToPagedList(
+            await _context.Blogs.Where(x => x.Tags.Any(t=>t.TagText==paginationParameters.TagText)).Include(x => x.Image)
+                .Include(x => x.Keywords).Include(x => x.Tags).Include(x => x.BlogAuthor).AsNoTracking()
+                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
+            paginationParameters.PageNumber,
+            paginationParameters.PageSize);
+        return result;
     }
 
     public async Task<Blog> GetByTitle(string title, CancellationToken cancellationToken)

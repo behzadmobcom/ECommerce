@@ -81,7 +81,8 @@ h1, h2, h3, h4, h5, h6, p, ol, ul, li, span, label {
 }
 
 html, body {
-    scroll-behavior: smooth
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -5141,9 +5142,23 @@ tbody tr td:last-child {
     .footer-part .container-fluid {
         padding: 0 25px
     }
-
-    .footer-widget.contact {
-        margin-right: 0
+    .footer-desc {
+        margin-right: 10px
+    }
+    .footer-social {
+        margin-right: 10px
+    }
+    .footer-widget {
+        margin-right: 10px
+    }
+    .navmargin {
+        margin-right: 60px
+    }
+    .shop-filter {
+        margin-right: 60px
+    }
+    .pagination {
+        margin-right: 20px
     }
 }
 
@@ -5176,7 +5191,11 @@ tbody tr td:last-child {
         margin: 0 3px
     }
 }
-
+@media (min-width: 585px) and (max-width: 768px) {
+    .footer-widget.contact {
+        margin-right: 10px
+    }
+}
 @media (min-width: 768px) and (max-width: 991px) {
     .footer-bottom {
         padding: 25px 30px 75px
