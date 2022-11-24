@@ -209,7 +209,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs navmargin">
                     <li>
                         <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
                     </li>
@@ -432,6 +432,18 @@
         /* Initiate Magnify Function
         with the id of the image, and the strength of the magnifier glass:*/
         magnify("myimage", 3);
+        
+        
+        
+        
+        
+        
+        //Resize window
+function resize() {
+  if ($(window).width() < 991) {
+                $('.img-magnifier-container').removeClass('.slick-initialized');
+  }
+    }
     </script>
     <script>
 
