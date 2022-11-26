@@ -84,7 +84,8 @@ public class CategoryRepository : AsyncRepository<Category>, ICategoryRepository
         var categories = _context.Categories.Where(x => x.ParentId == categoryId);
         if (categories.Any())
             foreach (var i in categories.Select(x => x.Id))
-                categoriesId.AddRange(await ChildrenCategory(i, cancellationToken));
+                categoriesId.Add(i);
+        //categoriesId.AddRange(await ChildrenCategory(i, cancellationToken));
         else
             categoriesId.Add(categoryId);
 
