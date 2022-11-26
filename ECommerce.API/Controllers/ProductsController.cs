@@ -23,11 +23,12 @@ public class ProductsController : ControllerBase
     private readonly IHolooSGroupRepository _sGroupRepository;
     private readonly IHolooABailRepository _aBailRepository;
     private readonly IUnitRepository _unitRepository;
+    private readonly ITagRepository _tagRepository;
 
     public ProductsController(IProductRepository productRepository, IHolooArticleRepository articleRepository,
         IHolooMGroupRepository mGroupRepository, IHolooSGroupRepository sGroupRepository,
         ICategoryRepository categoryRepository, IPriceRepository priceRepository, IUnitRepository unitRepository,
-        ILogger<ProductsController> logger, IHolooABailRepository aBailRepository)
+        ILogger<ProductsController> logger, IHolooABailRepository aBailRepository, ITagRepository tagRepository)
     {
         _productRepository = productRepository;
         _articleRepository = articleRepository;
@@ -38,6 +39,7 @@ public class ProductsController : ControllerBase
         _unitRepository = unitRepository;
         _logger = logger;
         _aBailRepository = aBailRepository;
+        _tagRepository = tagRepository;
     }
 
     private async Task<List<ProductIndexPageViewModel>> AddPriceAndExistFromHolooList(
@@ -118,7 +120,7 @@ public class ProductsController : ControllerBase
     }
 
 
-    private async Task<Product> AddPriceAndExistFromHoloo(Product product,bool isWithoutBil, CancellationToken cancellationToken)
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBil, CancellationToken cancellationToken)
     {
         var aBails = await _aBailRepository.GetAll(cancellationToken);
         foreach (var productPrices in product.Prices)
@@ -265,6 +267,13 @@ public class ProductsController : ControllerBase
         try
         {
             //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
+
+            if (!string.IsNullOrEmpty(productListFilteredViewModel.PaginationParameters.TagText))
+            {
+                var resultTags = await _tagRepository.GetByTagText(productListFilteredViewModel.PaginationParameters.TagText, cancellationToken);
+                productListFilteredViewModel.TagsId = new List<int> { resultTags.Id };
+            }
+
             var categoriesId = new List<int>();
             categoriesId = await _categoryRepository.ChildrenCategory(productListFilteredViewModel.PaginationParameters.CategoryId,
                     cancellationToken);
@@ -400,7 +409,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopNew(int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopNew(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -425,7 +434,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopPrice(int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopPrice(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -452,7 +461,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopDiscounts(int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopDiscounts(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -478,7 +487,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopRelatives(int productId, int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopRelatives(int productId, int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -504,7 +513,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopSells(int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopSells(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -530,7 +539,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> TopStars(int count,bool isWithoutBail, CancellationToken cancellationToken)
+    public async Task<IActionResult> TopStars(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
         {
@@ -577,7 +586,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl,bool isWithoutBil, CancellationToken cancellationToken)
+    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil, CancellationToken cancellationToken)
     {
         try
         {
@@ -632,7 +641,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague,bool isWithoutBil,
+    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool isWithoutBil,
       CancellationToken cancellationToken)
     {
         try
@@ -702,7 +711,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList,bool isWithoutBail,
+    public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBail,
         CancellationToken cancellationToken)
     {
         try

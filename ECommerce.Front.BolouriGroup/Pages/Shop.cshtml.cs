@@ -1,7 +1,7 @@
+using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
@@ -12,71 +12,50 @@ public class ShopModel : PageModel
     private readonly ICartService _cartService;
     private readonly ICategoryService _categoryService;
     private readonly IProductService _productService;
-    private readonly ICookieService _cookieService;
+    private readonly ITagService _tagService;
 
     public ShopModel(ICategoryService categoryService, IProductService productService, IBrandService brandService,
-        ICartService cartService, ICookieService cookieService)
+        ICartService cartService, ITagService tagService)
     {
         _categoryService = categoryService;
         _productService = productService;
         _brandService = brandService;
         _cartService = cartService;
-        _cookieService = cookieService;
+        _tagService = tagService;
     }
 
-    public List<CategoryParentViewModel> Categories { get; set; }
-    public bool IsColleague { get; set; }
-    public int Sort { get; set; }
-    [BindProperty] public int Min { get; set; }
-    [BindProperty] public int Max { get; set; }
-    [BindProperty] public bool IsExist { get; set; }
-    [BindProperty] public int ProductSort { get; set; }
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
-    public List<ProductIndexPageViewModel> NewProducts { get; set; }
+    public ServiceResult<List<Tag>> Tags { get; set; }
     public Dictionary<int, string> Brands { get; set; }
 
-    public async Task OnGet(string? path = null,string? search = null, int pageNumber = 1, int pageSize = 9, int productSort = 1,
-        string? message = null, string? code = null, int minprice = 0, int maxprice = 0, bool isExist = false)
+    public async Task OnGet(string path, string search, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+        string message = null, string code = null, string tagText = "")
     {
-        string tempSearch = search;
-        ProductSort = productSort;
-        IsExist = isExist;
-        Min = minprice == 0 ? 100000 : minprice;
-        Max = maxprice == 0 ? 200000000 : maxprice;
-        string categoryId = "0";
+        string[]? resultPath = path.Split('=');
+        if (resultPath.Length > 0)
+        {
+            if (resultPath[0].Contains("tag"))
+            {
+                tagText = resultPath[1];
+                path = null;
+            }
+        }
+
+        string? categoryId = null;
         if (!string.IsNullOrEmpty(path))
         {
             var resultCategory = await _categoryService.GetByUrl(path);
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
-        if (!string.IsNullOrEmpty(search))
-        {
-            search = $"Name={search}";
-        }
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, isExist);
+
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, isWithoutBail: true, tagText: tagText);
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
-        
-        await Initial();
 
-        Sort = productSort;
-        Products.PaginationDetails.isExist = isExist;
-        Products.PaginationDetails.MinPrice = minprice;
-        Products.PaginationDetails.MaxPrice = maxprice;
-       // Products.PaginationDetails.ProductSort = productSort;
-        Products.PaginationDetails.Search = tempSearch;
-        
+        Tags = await _tagService.GetAllProductTags();
+
     }
 
-    private async Task Initial()
-    {
-        NewProducts = (await _productService.TopNewShop()).ReturnData;
-        var result = _cookieService.GetCurrentUser();
-        if (result.Id > 0) IsColleague = result.IsColleague;
-        IsColleague = false;
-        var categoryResult = await _categoryService.GetParents();
-        Categories = categoryResult.ReturnData;
-    }
 
-   
+
 }

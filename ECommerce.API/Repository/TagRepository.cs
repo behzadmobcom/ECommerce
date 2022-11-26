@@ -38,4 +38,11 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
             .Select(x => new TagProductId {Id = x.Id, ProductsId = x.Products.Select(x => x.Id)})
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<List<Tag>> GetAllProductTags(CancellationToken cancellationToken)
+    {
+        var result = await _context.Tags.Where(x => x.Products.Any()).ToListAsync(cancellationToken);
+        return result;
+    }
+
 }
