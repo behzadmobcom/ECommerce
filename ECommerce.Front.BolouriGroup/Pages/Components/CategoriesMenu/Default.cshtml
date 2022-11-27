@@ -2,59 +2,71 @@
 
 @if (Model != null)
 {
-	var path = $"/Shop/";
-	var isActive = true;
-	<div class="vertical-tab" role="tabpanel">
-		<!-- Nav tabs -->
-	<ul class="nav nav-tabs" role="tablist">
-			@foreach (var parentCategory in Model)
-			{
-				var parentPath = path + parentCategory.Path;
-				var s = "#Section" + parentCategory.Id;
-			@*	<a href="@parentPath"></a>*@<br />
-				<li role="presentation"
-				    @if (isActive)
-				    {<text> class="active"</text>}>
-					<a href="@s" aria-controls="@parentCategory.Name" role="tab" data-toggle="tab">@parentCategory.Name</a>
-				</li>
-				
-				 isActive = false;
-			}
-		</ul>
-		<!-- Tab panes -->
-		@{isActive = true;}
-		<div class="tab-content tabs">
-		@foreach (var parentCategory in Model)
-		{
-			var s = "Section" + parentCategory.Id;
-			var c ="";
-			@if (isActive){c = "row tab-pane fade in active";}else{c = "row tab-pane fade in";}
-			<div role="tabpanel" class="@c" id="@s">
-				@foreach (var firstChild in parentCategory.Children)
-				{
-					
-						<div class="col-md-4">
-							@{ var firstPath = path + firstChild.Path; }
-							<a href="@firstPath">
-								<h3>@firstChild.Name</h3></a> >
-							<br/>
-							@foreach (var secondChild in firstChild.Children)
-							{
-								var secondPath = path + secondChild.Path;
-								<a href="@secondPath">
-									<p style="font-size: 12px;color: gray">@secondChild.Name</p></a><br/>
-							}
-						</div>
+    var path = "/Shop/";
+    var isActive = true;
+    <div class="vertical-tab" role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            @foreach (var parentCategory in Model)
+            {
+                var parentPath = path + parentCategory.Path;
+                var sectionId = "#Section" + parentCategory.Id;
+                var sectionLinkId = sectionId + "Id";
+                @*	<a href="@parentPath"></a>*@
+                <br />
+                <li role="presentation" class="menu_hover"
+            @if (isActive)
+            {
+        <text> class="active"</text>
+}>
+                                            <a href="@sectionId" id="@sectionLinkId" aria-controls="@parentCategory.Name" role="tab" data-toggle="tab">@parentCategory.Name</a>
+                        </li>
+
+                isActive = false;
+            }
+        </ul>
+        <!-- Tab panes -->
+        @{
+            isActive = true;
+        }
+        <div class="tab-content tabs">
+            @foreach (var parentCategory in Model)
+            {
+                var s = "Section" + parentCategory.Id;
+                var c = "";
+                @if (isActive) { c = "row tab-pane fade in active"; } else { c = "row tab-pane fade in"; }
+                <div role="tabpanel" class="@c" id="@s">
+                    @foreach (var firstChild in parentCategory.Children)
+                    {
+
+                        <div class="col-md-4">
+                            @{
+                                var firstPath = path + firstChild.Path;
+                            }
+                            <a href="@firstPath">
+                                <h3>@firstChild.Name</h3>
+                            </a> >
+                            <br />
+                            @foreach (var secondChild in firstChild.Children)
+                            {
+                                var secondPath = path + secondChild.Path;
+                                <a href="@secondPath">
+                                    <p style="font-size: 12px;color: gray">@secondChild.Name</p>
+                                </a>
+
+                                <br />
+                            }
+                        </div>
 
 
-				}
-			</div>
+                    }
+                </div>
 
-			isActive = false;
-		}
-		</div>
+                isActive = false;
+            }
+        </div>
 
-	</div>
+    </div>
 
 
 }

@@ -1,7 +1,8 @@
 ﻿@using ECommerce.Services.IServices
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject ICartService _cartService
-@inject ICompareService _compareService
+@inject ICartService CartService
+@inject ICompareService CompareService
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,9 +64,9 @@
                     </button>
                 </form>
                 @{
-                    var result = await _cartService.Load(Context);
+                    var result = await CartService.Load(Context);
                     var cartList = result.ReturnData;
-                    var resultCompare = _compareService.Load(Context);
+                    var resultCompare = CompareService.Load(Context);
                     var compareList = resultCompare.ReturnData;
                     decimal allPrice = 0;
                 }
@@ -553,7 +554,7 @@
     </a>
 
     @* <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
-    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/nice-select.min.js"></script>
     <script src="~/js/venobox.min.js"></script>
@@ -872,7 +873,12 @@
                 }
             });
         }
-
+        
+        $(".menu_hover").mouseover(function(){
+            var sectionId = $(this).find("a").attr("href");
+            var sectionLinkId = s +"Id";
+            $(sectionLinkId).click()
+        });
                 // DOMContentLoaded  end
     </script>
 
