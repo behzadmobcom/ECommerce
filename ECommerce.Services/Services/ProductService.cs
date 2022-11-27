@@ -135,8 +135,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     //    return Return(result);
     //}
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts( string CategoryId = "", string search = "", 
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice=null, int? startPrice=null, bool isExist= false, bool isWithoutBail = false)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
+        bool isExist = false, bool isWithoutBail = false, string tagText = "")
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
@@ -146,14 +147,16 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                        $"IsWithoutBail={isWithoutBail}&" +
                       $"PaginationParameters.PageSize={pageSize}&";
         if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
-        if (!string.IsNullOrEmpty(CategoryId)) command+= $"PaginationParameters.CategoryId={CategoryId}&";
-        if (startPrice != null) command+= $"StartPrice={startPrice}&";
-        if (endPrice != null) command+= $"EndPrice={endPrice}&";
-        if (isExist) command+= $"IsExist={isExist}&";
+        if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
+        if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
+        if (startPrice != null) command += $"StartPrice={startPrice}&";
+        if (endPrice != null) command += $"EndPrice={endPrice}&";
+        if (isExist) command += $"IsExist={isExist}&";
         command += $"ProductSort={productSort}";
-         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
         return Return(result);
     }
+
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1)

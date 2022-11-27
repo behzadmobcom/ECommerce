@@ -127,8 +127,9 @@
                             {
                                 @foreach (var tag in Model.Product.Tags)
                                 {
+                                     var path = $"/Shop/tag={tag.TagText}";
                                     <li>
-                                        <a href="#">@tag.TagText</a>
+                                        <a href="@path">@tag.TagText</a>
                                     </li>
                                 }
                             }
@@ -209,7 +210,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <ul class="nav nav-tabs navmargin">
+                <ul class="nav nav-tabs">
                     <li>
                         <a href="#tab-spec" class="tab-link active" data-bs-toggle="tab">اطلاعات اضافی</a>
                     </li>
@@ -432,18 +433,6 @@
         /* Initiate Magnify Function
         with the id of the image, and the strength of the magnifier glass:*/
         magnify("myimage", 3);
-        
-        
-        
-        
-        
-        
-        //Resize window
-function resize() {
-  if ($(window).width() < 991) {
-                $('.img-magnifier-container').removeClass('.slick-initialized');
-  }
-    }
     </script>
     <script>
 
