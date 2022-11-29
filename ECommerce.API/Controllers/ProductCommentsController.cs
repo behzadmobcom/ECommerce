@@ -3,6 +3,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
@@ -13,7 +14,7 @@ public class ProductCommentsController : ControllerBase
     private readonly ILogger<ProductCommentsController> _logger;
     private readonly IProductCommentRepository _productCommentRepository;
 
-    public ProductCommentsController(IProductCommentRepository productCommentRepository,
+    public ProductCommentsController(IProductCommentRepository productCommentRepository, IProductRepository productRepository,
         ILogger<ProductCommentsController> logger)
     {
         _productCommentRepository = productCommentRepository;
@@ -78,7 +79,7 @@ public class ProductCommentsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    //[Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductComment productComment, CancellationToken cancellationToken)
     {
         try
@@ -88,6 +89,11 @@ public class ProductCommentsController : ControllerBase
                 {
                     Code = ResultCode.BadRequest
                 });
+
+            productComment.IsAccepted = false;
+            productComment.IsRead = false;
+            productComment.IsAnswered=false;
+            productComment.DateTime = DateTime.Now;
 
             return Ok(new ApiResult
             {
@@ -137,6 +143,26 @@ public class ProductCommentsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAccesptedComments(int productId, CancellationToken cancellationToken)
+    {
+        var result = _productCommentRepository.GetAllAccesptedComments(productId,cancellationToken);
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await result.ToListAsync()
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 }

@@ -104,6 +104,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IProductCommentService, ProductCommentService>();
 
 #endregion
 
