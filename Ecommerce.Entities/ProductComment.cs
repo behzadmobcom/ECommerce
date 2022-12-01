@@ -12,7 +12,7 @@ public class ProductComment : BaseEntity
     [Display(Name = "تایید شده")] public bool IsAccepted { get; set; }
 
     [Display(Name = "تاریخ")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public DateTime DateTime { get; set; }
 
     [Display(Name = "خوانده شده")] public bool IsRead { get; set; }
