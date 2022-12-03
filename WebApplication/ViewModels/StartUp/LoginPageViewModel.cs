@@ -10,6 +10,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApplication.Models;
 using WebApplication.Services;
+using ECommerce.Services.IServices;
+using Ecommerce.Entities.ViewModel;
+using Ecommerce.Entities.Helper;
 
 namespace WebApplication.ViewModels.StartUp
 {
@@ -20,22 +23,29 @@ namespace WebApplication.ViewModels.StartUp
         [ObservableProperty]
         private string _password;
 
+        private readonly IUserService _userService;
         private readonly ILoginService _loginService;
+
+        public LoginPageViewModel(IUserService userService)
+        {
+            _userService = userService;
+        }
         public LoginPageViewModel(ILoginService loginService)
         {
             _loginService = loginService;
         }
         #region Commands
         [ICommand]
-        async void Login()
+        async void LoginUser()
         {
-            var response = await _loginService.Authinticate(new LoginRequest
+            var result = await _userService.Login(new LoginViewModel
             {
-                UserName = UserName,
+                Username = UserName,
                 Password = Password
             });
-            if (response != null)
-            {
+            //if (response != null)
+             if (result.Code == ServiceCode.Success)
+                {
                 // await AppShell.Current.DisplayAlert("Valid username","valid username","Ok");
 
                 await Launcher.Default.OpenAsync("https://boloorico.com");
@@ -68,7 +78,7 @@ namespace WebApplication.ViewModels.StartUp
             else
             {
                 // await AppShell.Current.DisplayAlert("inValid username", "invalid username", "Ok");
-                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", "نام کاربری یا کلمه عبور صحیح نمی باشد", "Ok");
+                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", response.Messages, "Ok");
             }
             // await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}");
         }
