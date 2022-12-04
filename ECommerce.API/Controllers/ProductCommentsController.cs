@@ -59,6 +59,7 @@ public class ProductCommentsController : ControllerBase
         try
         {
             var result = await _productCommentRepository.GetByIdAsync(cancellationToken, id);
+            if (result.AnswerId!=null) result.Answer = await _productCommentRepository.GetByIdAsync(cancellationToken, result.AnswerId);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -114,7 +115,31 @@ public class ProductCommentsController : ControllerBase
     {
         try
         {
-            await _productCommentRepository.UpdateAsync(productComment, cancellationToken);
+            
+            ProductComment? _commentAnswer;
+            if (productComment.AnswerId != null)
+            {
+                _commentAnswer = await _productCommentRepository.GetByIdAsync(cancellationToken, productComment.AnswerId);            
+                _commentAnswer.Text = productComment.Answer.Text;
+                _commentAnswer.DateTime = DateTime.Now;
+                await _productCommentRepository.UpdateAsync(_commentAnswer, cancellationToken);                 
+            }
+            else
+            {
+                if (productComment.Answer?.Text != null)
+                {
+                    productComment.Answer.Name = "پاسخ ادمین";
+                    productComment.Answer.IsAccepted = false;
+                    productComment.Answer.IsRead = false;
+                    productComment.Answer.IsAnswered = false;
+                    productComment.Answer.DateTime = DateTime.Now;
+                    _commentAnswer = await _productCommentRepository.AddAsync(productComment.Answer, cancellationToken);
+                    if (_commentAnswer != null) { productComment.Answer = _commentAnswer; productComment.AnswerId = _commentAnswer.Id; }
+                }
+
+            }     
+           
+                await _productCommentRepository.UpdateAsync(productComment, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -165,4 +190,5 @@ public class ProductCommentsController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
+
 }
