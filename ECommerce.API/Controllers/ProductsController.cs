@@ -7,6 +7,7 @@ using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ECommerce.API.Controllers;
 
@@ -60,7 +61,9 @@ public class ProductsController : ControllerBase
         }
         var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
 
-        foreach (var product in products.Where(x => x.Prices.Any(p => p.ArticleCode != null)))
+        products = products.Where(x => x.Prices.Any(p => p.ArticleCode != null)).ToList();
+        List<ProductIndexPageViewModel> newProducts = new();
+        foreach (var product in products)
         {
             foreach (var productPrices in product.Prices)
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
@@ -103,6 +106,12 @@ public class ProductsController : ControllerBase
                                 break;
                         }
 
+                        if (articlePrice < 10)
+                        {
+                            product.Prices.Remove(productPrices);
+                            continue;
+                        }
+
                         productPrices.Amount = articlePrice / 10;
                         double soldExist = 0;
                         if (!isWithoutBil)
@@ -114,9 +123,13 @@ public class ProductsController : ControllerBase
                         productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
                     }
                 }
+
+            if (product.Prices.Count == 0) continue;
+         
+            newProducts.Add(product);
         }
 
-        return products;
+        return newProducts;
     }
 
 
@@ -357,6 +370,7 @@ public class ProductsController : ControllerBase
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             }
 
+            var s = productIndexPageViewModel.Where(x => x.Prices.Count == 0).ToList();
 
             switch (productListFilteredViewModel.ProductSort)
             {
