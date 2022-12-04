@@ -192,14 +192,15 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                     return new ServiceResult
                     {
                         Code = ServiceCode.Success,
-                        Message = "کالا با موفقیت از سبد شما کم شد"
+                        Message = "کالا با موفقیت از سبد شما حذف شد"
                     };
                 }
 
                 _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", count));
                 return new ServiceResult
                 {
-                    Code = ServiceCode.Success
+                    Code = ServiceCode.Success,
+                    Message = "کالا با موفقیت از سبد شما کم شد"
                 };
             }
         }

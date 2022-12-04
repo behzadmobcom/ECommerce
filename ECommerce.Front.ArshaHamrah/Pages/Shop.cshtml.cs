@@ -67,7 +67,7 @@ public class ShopModel : PageModel
 
     private async Task Initial()
     {
-        NewProducts = (await _productService.TopNewShop()).ReturnData;
+        NewProducts = (await _productService.TopNew(3)).ReturnData;
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;
