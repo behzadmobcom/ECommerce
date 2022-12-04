@@ -78,7 +78,7 @@ namespace WebApplication.ViewModels.StartUp
             else
             {
                 // await AppShell.Current.DisplayAlert("inValid username", "invalid username", "Ok");
-                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", response.Messages, "Ok");
+                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", "invalid username", "Ok");
             }
             // await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}");
         }

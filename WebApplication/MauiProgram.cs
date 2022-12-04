@@ -38,10 +38,11 @@ namespace WebApplication
 
             builder.Services.AddSingleton<LoginViewModel>();
             builder.Services.AddSingleton<SiteSettings>();
-           
+            //builder.Services.AddSingleton<FrontSettings>();
 
-        
-           builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
+            var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
+
+            builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
            builder.Services.AddHttpContextAccessor();
 
             return builder.Build();
