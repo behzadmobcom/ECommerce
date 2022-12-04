@@ -279,16 +279,21 @@
                                         <a href="#">@item.Name</a><span>@item.DateTime</span>
                                     </h5>
                                 </div>
-                                <ul class="review-rating">
+                              @*  <ul class="review-rating">
                                     <li class="fas fa-star"></li>
                                     <li class="fas fa-star"></li>
                                     <li class="fas fa-star"></li>
                                     <li class="fas fa-star"></li>
                                     <li class="far fa-star"></li>
-                                </ul>
-                                <p class="review-desc">
-                                    @item.Text
-                                </p>
+                                </ul>*@
+                                <div class="review-desc">
+                                    @item.Text                                    
+                                     <p style="background-color:darkgrey"> 
+                                        @{string _answer="";}
+                                        @if ( !string.IsNullOrEmpty(item.Answer?.Text) ) { _answer = $"{item.Answer?.Name} : {item.Answer?.Text}"; }                                  
+                                        @_answer
+                                     </p>
+                                </div>
                             </li>                           
                             }
                             
