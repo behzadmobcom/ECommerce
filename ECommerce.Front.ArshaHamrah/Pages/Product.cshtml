@@ -167,7 +167,7 @@
                                     <!-- single-pro-color-rating -->
                                     <div class="single-pro-color-rating clearfix">
                                         <div class="sin-pro-color f-left">
-                                            @foreach (var price in Model.Product.Prices.Where(x => x.Exist > 0))
+                                            @foreach (var price in Model.Product.Prices.Where(x => x.Exist > 0).OrderByDescending(x => x.Amount))
                                             {
                                                 var select = price.Id == priceId ? "checked" : "";
                                                 var amountPrice = price.Amount;
