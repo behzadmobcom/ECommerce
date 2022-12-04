@@ -124,6 +124,17 @@ public class UserService : IUserService
         };
     }
 
+    public async Task<ServiceResult> ForgotPassword(string email)  
+    {
+        var forgotPasswordViewModel = new ForgotPasswordViewModel { EmailOrPhoneNumber = email };
+        var result = await _http.PostAsync(Url, forgotPasswordViewModel, "ForgotPassword");
+
+        return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = result.GetBody()
+        };
+    }
     public async Task<ServiceResult<List<UserListViewModel>>> UserList(string search = "",
      int pageNumber = 0, int pageSize = 10, int userSort = 1, bool? isActive = null, bool? isColleague = null, bool? HasBuying = null)
     {
