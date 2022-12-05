@@ -210,7 +210,19 @@
     <script>
         function ForgotPassword()
         {
-
+            var email = $("#Email").val();
+            $.ajax({
+                type: "Get",
+                url: "Login?handler=ForgotPassword&email=" + encodeURIComponent(email),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
         };
     </script>
 

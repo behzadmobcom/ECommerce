@@ -25,7 +25,7 @@ public class EmailRepository : IEmailRepository
             using var emailMessage = new MailMessage
             {
                 To = {new MailAddress(toEmail)},
-                From = new MailAddress("ayyah.alireza@gmail.com"), // with @gmail.com
+                From = new MailAddress("sayyah.alireza@gmail.com"), // with @gmail.com
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = isMessageHtml
