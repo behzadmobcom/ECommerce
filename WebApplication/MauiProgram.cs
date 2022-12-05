@@ -15,7 +15,7 @@ using Android.Telephony.Data;
 
 namespace WebApplication
 {
-    public static class MauiProgram
+    public static class MauiProgram 
     {
 
 
@@ -24,14 +24,6 @@ namespace WebApplication
 
 
             var builder = MauiApp.CreateBuilder();
-            //var a = Assembly.GetExecutingAssembly();
-            //var stream = a.GetManifestResourceStream("WebApplication.appsettings.json");
-
-            //var config = new ConfigurationBuilder()
-            //.AddJsonStream(stream)
-            //.Build();
-
-            // builder.Configuration.AddConfiguration(config);
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -40,6 +32,7 @@ namespace WebApplication
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 }) ;
 
+           
             builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
             builder.Services.AddScoped<IHttpService, HttpService>();
             //builder.Services.AddSingleton<ILoginService, LoginService>();
@@ -57,10 +50,26 @@ namespace WebApplication
             builder.Services.AddScoped<SiteSettings>();
             //builder.Services.AddSingleton<FrontSettings>();
 
+            var stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("WebApplication.appsettings.json");
+
+            var config = new ConfigurationBuilder()
+            .AddJsonStream(stream)
+            .Build();
+
+            
+
+            builder.Configuration.AddConfiguration(config);
+
+
             var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
 
             builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
-           builder.Services.AddHttpContextAccessor();
+            builder.Services.AddHttpContextAccessor();
+
+
+            //var a = Assembly.GetExecutingAssembly();
+            
 
             return builder.Build();
         }

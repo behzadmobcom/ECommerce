@@ -36,13 +36,17 @@ namespace WebApplication.ViewModels.StartUp
         //}
         #region Commands
         [ICommand]
-        async void LoginUser()
+       
+    async void LoginUser()
         {
-            var result = await _userService.Login(new LoginViewModel
-            {
-                Username = UserName,
-                Password = Password
-            });
+           
+                var result = await _userService.Login(new LoginViewModel
+                {
+                    Username = UserName,
+                    Password = Password
+                });
+            
+                       
             //if (response != null)
              if (result.Code == ServiceCode.Success)
                 {
@@ -58,7 +62,7 @@ namespace WebApplication.ViewModels.StartUp
             else
             {
                 // await AppShell.Current.DisplayAlert("inValid username", "invalid username", "Ok");
-                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", "invalid username", "Ok");
+                await AppShell.Current.DisplayAlert("Invalid User Name Or Password", result.Message, "Ok");
             }
             // await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}");
         }

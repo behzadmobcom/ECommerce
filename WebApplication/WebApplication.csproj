@@ -49,22 +49,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="appsettings.Development.json" />
-	  <None Remove="appsettings.json" />
-	  <None Remove="Resources\Images\wallpaper.jpg" />
+	  <MauiAsset Remove="Resources\Raw\appsettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="appsettings.Development.json">
+	  <None Remove="appsettings.json" />
+	  <None Remove="Resources\Images\wallpaper.jpg" />
+	  <None Remove="Resources\Raw\appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="appsettings.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <Content Include="Resources\appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,6 +75,12 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Ecommerce.Entities\Ecommerce.Entities.csproj" />
 	  <ProjectReference Include="..\ECommerce.Services\ECommerce.Services.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\Raw\appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 
 	<ItemGroup>
