@@ -703,7 +703,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var result = await _productRepository.GetProductListWithAttribute(productIdList, cancellationToken);
+            var result = _productRepository.GetProductListWithAttribute(productIdList);
             if (result == null)
                 return Ok(new ApiResult
                 {
