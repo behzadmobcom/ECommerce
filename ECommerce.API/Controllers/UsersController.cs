@@ -28,7 +28,7 @@ public class UsersController : ControllerBase
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IHolooSarfaslRepository _holooSarfaslRepository;
     private readonly IConfiguration _configuration;
-    
+
 
 
     public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
@@ -508,7 +508,7 @@ public class UsersController : ControllerBase
         if (user == null) return Ok(new ApiResult { Code = ResultCode.BadRequest });
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-
+        
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
         var emailMessage = "<a href='"
@@ -516,7 +516,12 @@ public class UsersController : ControllerBase
                            + "'>dsf</a>";
 
         await _emailRepository.SendEmailAsync(model.EmailOrPhoneNumber, "تغییر کلمه عبور", emailMessage, cancellationToken);
-        return Ok();
+
+        return Ok(new ApiResult
+        {
+            Code = ResultCode.Success,
+            Messages = new List<string> { "ایمیل با موفقیت ارسال شد" }
+        });
     }
 
     [HttpPost]
