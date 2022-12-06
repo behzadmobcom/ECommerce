@@ -20,9 +20,15 @@ public class BlogCommentRepository : AsyncRepository<BlogComment>, IBlogCommentR
         CancellationToken cancellationToken)
     {
         return PagedList<BlogComment>.ToPagedList(
-            await _context.BlogComments.Where(x => x.Name.Contains(paginationParameters.Search)).AsNoTracking()
+            await _context.BlogComments.Where(x => x.Name.Contains(paginationParameters.Search) && x.BlogId != null).Include(x=>x.Blog).AsNoTracking()
                 .OrderBy(on => on.Id).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
+    }
+
+    public IQueryable<BlogComment> GetAllAccesptedComments(int blogId, CancellationToken cancellationToken)
+    {
+        var result = _context.BlogComments.Where(x => x.IsAccepted == true && x.BlogId == blogId).Include(x => x.Answer).AsQueryable();
+        return result;
     }
 }

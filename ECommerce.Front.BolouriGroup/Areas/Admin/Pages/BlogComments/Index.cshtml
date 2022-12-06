@@ -56,26 +56,30 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">کامنت</th>
-                        <th scope="col">مقاله</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">نظر</th>
+                        <th scope="col">عنوان مقاله</th>
+                        <th scope="col">تایید</th>
                         <th scope="col">عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var blogComment in Model.BlogComments.ReturnData)
+                       @foreach (var Comment in Model.BlogComments.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
-                            <td>@blogComment.Text</td>
+                            <td>@Comment.Name</td>
                             <td >
                                 <div class="shortened">
-                                    <h2>@blogComment.Email</h2>
+                                    <h2>@Comment.Text</h2>
                                 </div>
                             </td>
-                            <td>
-                                <a asp-page="Edit" asp-route-id="@blogComment.Id" class="label label-inline label-light-success font-weight-bold">اکسپت</a>
-                                <a asp-page="Delete" asp-route-id="@blogComment.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@blogComment.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                            <td>@Comment.Blog?.Title</td>
+                                @{string acceptResult=""; if (Comment.IsAccepted) acceptResult="√";  }
+                                <td> @acceptResult </td>
+                                <td>                                
+                                <a asp-page="Delete" asp-route-id="@Comment.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Edit" asp-route-id="@Comment.Id" class="label label-inline label-light-warning font-weight-bold">ویرایش</a>
                             </td>
                         </tr>
                     }

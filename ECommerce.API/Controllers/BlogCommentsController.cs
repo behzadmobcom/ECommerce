@@ -3,6 +3,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
@@ -58,6 +59,7 @@ public class BlogCommentsController : ControllerBase
         try
         {
             var result = await _blogCommentRepository.GetByIdAsync(cancellationToken, id);
+            if (result.AnswerId != null) result.Answer = await _blogCommentRepository.GetByIdAsync(cancellationToken, result.AnswerId);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -78,7 +80,7 @@ public class BlogCommentsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,SuperAdmin")]
+    //[Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(BlogComment blogComment, CancellationToken cancellationToken)
     {
         try
@@ -88,6 +90,11 @@ public class BlogCommentsController : ControllerBase
                 {
                     Code = ResultCode.BadRequest
                 });
+
+            blogComment.IsAccepted = false;
+            blogComment.IsRead = false;
+            blogComment.IsAnswered = false;
+            blogComment.DateTime = DateTime.Now;
 
             return Ok(new ApiResult
             {
@@ -108,6 +115,28 @@ public class BlogCommentsController : ControllerBase
     {
         try
         {
+            BlogComment? _commentAnswer;
+            if (blogComment.AnswerId != null)
+            {
+                _commentAnswer = await _blogCommentRepository.GetByIdAsync(cancellationToken, blogComment.AnswerId);
+                _commentAnswer.Text = blogComment.Answer.Text;
+                _commentAnswer.DateTime = DateTime.Now;
+                await _blogCommentRepository.UpdateAsync(_commentAnswer, cancellationToken);
+            }
+            else
+            {
+                if (blogComment.Answer?.Text != null)
+                {
+                    blogComment.Answer.Name = "پاسخ ادمین";
+                    blogComment.Answer.IsAccepted = false;
+                    blogComment.Answer.IsRead = false;
+                    blogComment.Answer.IsAnswered = false;
+                    blogComment.Answer.DateTime = DateTime.Now;
+                    _commentAnswer = await _blogCommentRepository.AddAsync(blogComment.Answer, cancellationToken);
+                    if (_commentAnswer != null) { blogComment.Answer = _commentAnswer; blogComment.AnswerId = _commentAnswer.Id; }
+                }
+            }
+
             await _blogCommentRepository.UpdateAsync(blogComment, cancellationToken);
             return Ok(new ApiResult
             {
@@ -137,6 +166,25 @@ public class BlogCommentsController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAccesptedComments(int blogId, CancellationToken cancellationToken)
+    {
+        var result = _blogCommentRepository.GetAllAccesptedComments(blogId, cancellationToken);
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await result.ToListAsync()
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 }

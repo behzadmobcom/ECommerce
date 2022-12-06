@@ -12,4 +12,5 @@ public interface IBlogCommentService : IEntityService<BlogComment>
     Task<ServiceResult> Edit(BlogComment blogComment);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult<BlogComment>> GetById(int id);
+    Task<ServiceResult<List<BlogComment>>> GetAllAccesptedComments(int blogId);
 }

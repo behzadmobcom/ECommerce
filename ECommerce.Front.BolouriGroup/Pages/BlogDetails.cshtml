@@ -61,7 +61,7 @@
       </div>
      </div>
     </article>
-    <div class="blog-details-profile">
+ @*   <div class="blog-details-profile">
      <a href="#"><img src="~/Images/BlogAuthors/784d5095-85f7-4033-86c6-9a7222b4f49f.jpg" alt="آواتار"></a>
      <h3>نرگس</h3>
      <ul>
@@ -74,54 +74,52 @@
      <p>
       این یک واقعیت ثابت شده طولانی است که خواننده هنگام مشاهده صفحه آن از محتوای خواندنی آن منحرف می شود. نکته ای که در استفاده از متن ساختگی وجود دارد این است که توزیع حروف کم و بیش طبیعی دارد.
      </p>
-    </div>
+    </div>*@
+
+
     <div class="blog-details-comment">
-     <h3 class="comment-title">10 نظر</h3>
-     <ul class="comment-list">
-      <li class="comment-item">
+     
+     <h3 class="comment-title">@Model.BlogComments.Count نظر</h3>
+     <ul class="comment-list">      
+                        
+      @foreach (var blogComment in Model.BlogComments)
+      {                          
+     <li class="comment-item">
        <div class="comment-media">
         <a class="comment-avatar" href="#"><img src="~/Images/BlogAuthors/29271c6e-60ec-4dd5-bc42-ae94c91624c5.jpg" alt="مرور"></a>
-        <h6 class="comment-meta"><a href="#">نیلوفر </a><span>4 خرداد 1400   </span></h6>
+        <h6 class="comment-meta"><a href="#"> @blogComment.Name </a><span> @blogComment.DateTime </span></h6>
        </div>
        <p class="comment-desc">
-        بسیاری از متنهای متن ساختگی در دسترس است ، اما اکثریت از طنز تزریق شده یا کلمات تصادفی که حتی کمی باور پذیر به نظر نمی رسند دچار تغییراتی شده اند.
+           @blogComment.Text
+       </p>
+       <p style="background-color:darkgrey"> 
+              @{string _answer="";}
+              @if ( !string.IsNullOrEmpty(blogComment.Answer?.Text) ) { _answer = $"{blogComment.Answer?.Name} : {blogComment.Answer?.Text}"; }                                  
+              @_answer
        </p>
       </li>
-      <li class="comment-item">
-       <div class="comment-media">
-        <a class="comment-avatar" href="#"><img src="~/Images/BlogAuthors/1307821d-da36-4b3a-84f5-4b5a32e9ed9e.jpg" alt="مرور"></a>
-        <h6 class="comment-meta"><a href="#">نیلوفر </a><span>4 خرداد 1400   </span></h6>
-       </div>
-       <p class="comment-desc">
-        بسیاری از متنهای متن ساختگی در دسترس است ، اما اکثریت از طنز تزریق شده یا کلمات تصادفی که حتی کمی باور پذیر به نظر نمی رسند دچار تغییراتی شده اند.
-       </p>
-      </li>
-      <li class="comment-item">
-       <div class="comment-media">
-        <a class="comment-avatar" href="#"><img src="~/Images/BlogAuthors/0477f163-d5cf-41db-86c1-860be06f85eb.jpg" alt="مرور"></a>
-        <h6 class="comment-meta"><a href="#">نیلوفر </a><span>4 خرداد 1400   </span></h6>
-       </div>
-       <p class="comment-desc">
-        بسیاری از متنهای متن ساختگی در دسترس است ، اما اکثریت از طنز تزریق شده یا کلمات تصادفی که حتی کمی باور پذیر به نظر نمی رسند دچار تغییراتی شده اند.
-       </p>
-      </li>
+      }
+    
      </ul>
     </div>
-    <form class="blog-details-form">
-     <h3 class="details-form-title">ارسال نظر</h3>
-     <div class="row">
-      <div class="col-lg-6">
-       <div class="form-group"><input type="text" class="form-control" placeholder="اسمت را وارد کن"></div>
-      </div>
-      <div class="col-lg-6">
-       <div class="form-group"><input type="email" class="form-control" placeholder="ایمیل خود را وارد کنید"></div>
-      </div>
-      <div class="col-lg-12">
-       <div class="form-group"><textarea class="form-control" placeholder="نظر خود را بنویسید"></textarea></div>
-      </div>
-     </div>
-     <button class="form-btn">ارسال نظر</button>
-    </form>
+
+   <form class="blog-details-form" method="post" asp-page-handler="OnPost">
+                             <h3 class="details-form-title">ارسال نظر</h3>                            
+                             <a hidden>@Model.Blog.Url</a>
+                             <div class="row">
+                              <div class="col-lg-6">
+                               <div class="form-group"><input type="text" class="form-control" asp-for="@Model.BlogComment.Name"  placeholder="اسمت را وارد کن"></div>
+                              </div>
+                              <div class="col-lg-6">
+                               <div class="form-group"><input type="email" class="form-control" asp-for="@Model.BlogComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
+                              </div>
+                              <div class="col-lg-12">
+                               <div class="form-group"><textarea class="form-control" asp-for="@Model.BlogComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
+                              </div>
+                             </div>
+                             <button class="form-btn">ارسال نظر</button>
+   </form>
+
    </div>
    <div class="col-lg-4">
     <div class="blog-widget">
