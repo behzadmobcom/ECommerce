@@ -47,7 +47,7 @@ public class IndexModel : PageModel
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
         NewProducts = (await _productService.TopNew()).ReturnData;
         NewTop8Products = NewProducts.Take(8).ToList();
-        ExpensiveProducts = (await _productService.TopProducts("","",0,3,4)).ReturnData;
+        ExpensiveProducts = (await _productService.TopProducts("","",0,3,4, isExist: true)).ReturnData;
         //ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
         StarProducts = (await _productService.TopStars(8)).ReturnData;
         SellProducts = (await _productService.TopSells(8)).ReturnData;
