@@ -8,4 +8,5 @@ public interface IBlogCommentRepository : IAsyncRepository<BlogComment>
 {
     Task<PagedList<BlogComment>> Search(PaginationParameters paginationParameters,
         CancellationToken cancellationToken);
+    IQueryable<BlogComment> GetAllAccesptedComments(int blogId, CancellationToken cancellationToken);
 }
