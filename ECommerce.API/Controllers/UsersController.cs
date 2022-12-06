@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ECommerce.API.Controllers;
 
+
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class UsersController : ControllerBase
@@ -27,6 +28,8 @@ public class UsersController : ControllerBase
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IHolooSarfaslRepository _holooSarfaslRepository;
     private readonly IConfiguration _configuration;
+
+
 
     public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
         UserManager<User> userManager, SiteSettings siteSettings, IUserRepository userRepository,
@@ -498,21 +501,27 @@ public class UsersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> ForgotPassword(string email, string url, CancellationToken cancellationToken)
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await _userManager.FindByEmailAsync(model.EmailOrPhoneNumber);
         if (user == null) return Ok(new ApiResult { Code = ResultCode.BadRequest });
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-
+        
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
         var emailMessage = "<a href='"
-                           + url+ "/ResetForgotPassword/?token=" + emailPasswordResetToken
+                           + "localhost:7176" + "/ResetForgotPassword/?token=" + emailPasswordResetToken
                            + "'>dsf</a>";
 
-        await _emailRepository.SendEmailAsync(email, "تغییر کلمه عبور", emailMessage, cancellationToken);
-        return Ok();
+        await _emailRepository.SendEmailAsync(model.EmailOrPhoneNumber, "تغییر کلمه عبور", emailMessage, cancellationToken);
+
+        return Ok(new ApiResult
+        {
+            Code = ResultCode.Success,
+            Messages = new List<string> { "ایمیل با موفقیت ارسال شد" }
+        });
     }
 
     [HttpPost]
