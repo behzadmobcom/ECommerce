@@ -124,6 +124,22 @@ public class UserService : IUserService
         };
     }
 
+    public async Task<ServiceResult> ChangeForgotPassword(ResetForgotPasswordViewModel resetForgotPasswordViewModel)
+    {
+        if (!resetForgotPasswordViewModel.Password.Equals(resetForgotPasswordViewModel.ConPass)) return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = "پسوردها مطابقت ندارند"
+        };
+        var result = await _http.PostAsync(Url, resetForgotPasswordViewModel, "ResetForgotPassword");
+
+        return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = result.GetBody()
+        };
+    }
+
     public async Task<ServiceResult> ForgotPassword(string email)  
     {
         var forgotPasswordViewModel = new ForgotPasswordViewModel { EmailOrPhoneNumber = email };

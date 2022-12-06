@@ -13,8 +13,8 @@ public class EmailRepository : IEmailRepository
         {
             var credentials = new NetworkCredential
             {
-                UserName = "sayyah.alireza", // without @gmail.com
-                Password = "!qAz@wSx#eDc123"
+                UserName = "tozi.gilan.reader", // without @gmail.com
+                Password = "gahbxisdelllxzkj"
             };
 
             client.Credentials = credentials;
@@ -25,7 +25,7 @@ public class EmailRepository : IEmailRepository
             using var emailMessage = new MailMessage
             {
                 To = {new MailAddress(toEmail)},
-                From = new MailAddress("sayyah.alireza@gmail.com"), // with @gmail.com
+                From = new MailAddress("tozi.gilan.reader@gmail.com"), // with @gmail.com
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = isMessageHtml

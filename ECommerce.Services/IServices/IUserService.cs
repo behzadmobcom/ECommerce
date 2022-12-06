@@ -15,4 +15,5 @@ public interface IUserService
     Task<ServiceResult> ChangePassword(string oldPass, string newPass, string newConPass);
     Task<ServiceResult> Update(User user);
     Task<ServiceResult> ForgotPassword(string email);
+    Task<ServiceResult> ChangeForgotPassword(ResetForgotPasswordViewModel resetForgotPasswordViewModel);
 }
