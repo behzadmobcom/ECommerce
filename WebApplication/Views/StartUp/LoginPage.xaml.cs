@@ -1,4 +1,3 @@
-using AndroidX.Lifecycle;
 using WebApplication.ViewModels.StartUp;
 
 namespace WebApplication.Views.StartUp;

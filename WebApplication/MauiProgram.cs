@@ -9,7 +9,6 @@ using ECommerce.Services.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System.Reflection;
-using Android.Telephony.Data;
 
 
 
@@ -32,11 +31,25 @@ namespace WebApplication
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 }) ;
 
-           
+            var stream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("WebApplication.appsettings.json");
+
+            var config = new ConfigurationBuilder()
+            .AddJsonStream(stream)
+            .Build();
+
+            builder.Configuration.AddConfiguration(config);
+
+            var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
+
+            builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
+            builder.Services.AddHttpContextAccessor();
+
             builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+            builder.Services.AddScoped<ICookieService, CookieService>();
+            
             builder.Services.AddScoped<IHttpService, HttpService>();
             //builder.Services.AddSingleton<ILoginService, LoginService>();
-            builder.Services.AddScoped<ICookieService, CookieService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             //Views
@@ -49,27 +62,19 @@ namespace WebApplication
             builder.Services.AddScoped<LoginViewModel>();
             builder.Services.AddScoped<SiteSettings>();
             //builder.Services.AddSingleton<FrontSettings>();
-
-            var stream = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("WebApplication.appsettings.json");
-
-            var config = new ConfigurationBuilder()
-            .AddJsonStream(stream)
-            .Build();
+           
+            
 
             
 
-            builder.Configuration.AddConfiguration(config);
+            
 
 
-            var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
-
-            builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
-            builder.Services.AddHttpContextAccessor();
+           
 
 
             //var a = Assembly.GetExecutingAssembly();
-            
+
 
             return builder.Build();
         }
