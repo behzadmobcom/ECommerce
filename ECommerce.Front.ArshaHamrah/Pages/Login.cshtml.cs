@@ -63,4 +63,10 @@ public class LoginModel : PageModel
         //if (result.Code == 0) return RedirectToPage("Index");
         return Page();
     }
+
+    public async Task<IActionResult> OnGetForgotPassword(string email) 
+    {
+        var result = await _userService.ForgotPassword(email);
+        return new JsonResult(result);
+    }
 }

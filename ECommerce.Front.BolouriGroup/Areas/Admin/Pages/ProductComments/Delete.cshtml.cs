@@ -34,6 +34,7 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.ProductComments;
     {
         if (ModelState.IsValid)
         {
+            if (ProductComment.AnswerId != null) await _productComment.Delete(ProductComment.AnswerId ?? default(int));
             var result = await _productComment.Delete(ProductComment.Id);
             Message = result.Message;
             Code = result.Code.ToString();
