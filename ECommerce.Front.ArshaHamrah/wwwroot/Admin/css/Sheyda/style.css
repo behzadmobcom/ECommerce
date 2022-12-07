@@ -624,6 +624,7 @@
 	transition: all 0.3s ease 0s;
 	visibility: hidden;
 	width: 100%;
+    text-align: center;
 }
 .product-item-2 .action-button > li > a {
 	background: rgba(0, 0, 0, 0) none repeat scroll 100% 0;
