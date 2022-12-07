@@ -42,7 +42,7 @@
             BackgroundColor="DeepSkyBlue"
             WidthRequest="100"
             CornerRadius="20"
-            Command="{Binding LoginCommand} "/>
+            Command="{Binding LoginUserCommand} "/>
 
 
     </VerticalStackLayout>
