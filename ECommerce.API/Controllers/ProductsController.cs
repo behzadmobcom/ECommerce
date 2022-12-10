@@ -72,38 +72,46 @@ public class ProductsController : ControllerBase
                     decimal articlePrice = 0;
                     if (article != null)
                     {
-                        switch (productPrices.SellNumber)
+                        try
                         {
-                            case Price.HolooSellNumber.Sel_Price:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price2:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price2);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price3:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price3);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price4:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price4);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price5:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price5);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price6:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price6);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price7:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price7);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price8:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price8);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price9:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price9);
-                                break;
-                            case Price.HolooSellNumber.Sel_Price10:
-                                articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price10);
-                                break;
+                            switch (productPrices.SellNumber)
+                            {
+                                case Price.HolooSellNumber.Sel_Price:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price2:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price2);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price3:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price3);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price4:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price4);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price5:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price5);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price6:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price6);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price7:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price7);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price8:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price8);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price9:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price9);
+                                    break;
+                                case Price.HolooSellNumber.Sel_Price10:
+                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price10);
+                                    break;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogCritical(e,
+                                $"Product Prices ID : {productPrices.Id}, Article Code : {productPrices.ArticleCode}, Article Code Customer : {productPrices.ArticleCodeCustomer}");
                         }
 
                         if (articlePrice < 10)
