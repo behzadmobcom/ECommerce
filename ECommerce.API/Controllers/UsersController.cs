@@ -523,14 +523,14 @@ public class UsersController : ControllerBase
             Messages = new List<string> { "ایمیل با موفقیت ارسال شد" }
         });
     }
-    
+
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> ResetForgotPassword([FromBody]ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
+    public async Task<IActionResult> ResetForgotPassword([FromBody] ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
     {
         try
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
                 if (user == null)
@@ -538,10 +538,10 @@ public class UsersController : ControllerBase
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
                 var passToken = UserManager<User>.ResetPasswordTokenPurpose;
                 var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, passToken, model.PasswordResetToken);
-                if(VerifyToken.Result)
+                if (VerifyToken.Result)
                 {
                     var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
-                    
+
                     if (result.Succeeded)
                         return Ok(new ApiResult
                         {
