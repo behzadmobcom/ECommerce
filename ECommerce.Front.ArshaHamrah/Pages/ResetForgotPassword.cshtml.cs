@@ -16,18 +16,18 @@ namespace ECommerce.Front.ArshaHamrah.Pages
             _userService = userService;
         }
         
-        [BindProperty] public string token { get; set; }
-        [BindProperty] public string username { get; set; }
+        [BindProperty] public string Token { get; set; }
+        
         [TempData] public string Message { get; set; }
 
         [TempData] public string Code { get; set; }
 
-        public void OnGet()
+       public void OnGet(string token)
         {
-            
+            Token = token;
+
         }
-        
-        public async Task<IActionResult> OnGetResetForgot(string password, string conpass,string token,string username)
+        public async Task<IActionResult> OnPost(string password, string conpass, string token, string username) 
         {
             var resetForgotPasswordViewModel = new ResetForgotPasswordViewModel
             {
@@ -37,9 +37,9 @@ namespace ECommerce.Front.ArshaHamrah.Pages
                 Username = username
             };
             var result = await _userService.ChangeForgotPassword(resetForgotPasswordViewModel);
-            return new JsonResult(result);
+            return RedirectToPage("index");
         }
         
-        
+
     }
 }

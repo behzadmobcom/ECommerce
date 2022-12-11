@@ -511,10 +511,10 @@ public class UsersController : ControllerBase
         
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
-        var emailMessage = "<a href='"
-                           + "localhost:7176" + "/ResetForgotPassword/?token=" + emailPasswordResetToken + "&user=" + user.UserName
-                           + "'>dsf</a>";
-
+        var emailMessage = "<html><body><a href='"
+                           + "localhost:7176" + "/ResetForgotPassword/token=" + emailPasswordResetToken + "&user=" + user.UserName
+                           + "'>dsf</a></body></html>";
+        var verifytoken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", emailPasswordResetToken);
         await _emailRepository.SendEmailAsync(model.EmailOrPhoneNumber, "تغییر کلمه عبور", emailMessage, cancellationToken);
 
         return Ok(new ApiResult
@@ -537,11 +537,12 @@ public class UsersController : ControllerBase
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
                 var passToken = UserManager<User>.ResetPasswordTokenPurpose;
-                var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, passToken, model.PasswordResetToken);
+                string resetToken = model.PasswordResetToken.Replace(" ", "+");
+                var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
                 if (VerifyToken.Result)
                 {
-                    var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
-
+                    var result = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+                    
                     if (result.Succeeded)
                         return Ok(new ApiResult
                         {
