@@ -561,6 +561,8 @@ public class UsersController : ControllerBase
             return Ok(new ApiResult
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
+        return Ok();
+
     }
     
     [HttpPost]
