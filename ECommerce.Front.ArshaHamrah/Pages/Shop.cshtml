@@ -163,7 +163,7 @@
                                                         decimal? discount = 0;
                                                         decimal? discountAmount = 0;
                                                         decimal? amount = 0;
-														var price = product.Prices.OrderBy(o => o.Amount).FirstOrDefault(x => x.Exist > 0);
+														var price = product.Prices.OrderByDescending(o => o.Amount).FirstOrDefault(x => x.Exist > 0);
                                                         if (price != null)
                                                         {
 

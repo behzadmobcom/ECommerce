@@ -101,7 +101,7 @@
                                                             <input hidden="hidden" id="quantity-old-@product.ProductId" value="@product.Quantity" />
                                                         </td>
 
-                                                        <td id="sum-@product.ProductId">@product.SumPrice.ToString("N0") تومان</td>
+                                                        <td id="sum-@product.ProductId" price="@product.SumPrice" class="sum-Product">@product.SumPrice.ToString("N0") تومان</td>
 
                                                         <td class="product-remove" id="product-remove">
                                                             <a href="javascript:void(0)" class="delete" onclick="RemoveCart(@product.Id ,@product.ProductId,@product.PriceId)">
@@ -127,20 +127,8 @@
                                                 <h6 class="widget-title border-left mb-20">جزئیات پرداخت</h6>
                                                 <table>
                                                     <tr>
-                                                        <td class="td-title-1">جمع سبد</td>
-                                                        <td class="td-title-2">@sum.ToString("N0") تومان</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-title-1">حمل و نقل</td>
-                                                        <td class="td-title-2">0 تومان</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-title-1">مالیات</td>
-                                                        <td class="td-title-2">0 تومان</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="order-total">مجموع سفارش</td>
-                                                        <td class="order-total-price">@sum.ToString("N0") تومان</td>
+                                                        <td class="order-total">جمع سبد خرید</td>
+                                                        <td id="order-total-price-id" class="order-total-price">@sum.ToString("N0") تومان</td>
                                                     </tr>
                                                 </table>
                                                 <br />
@@ -186,13 +174,13 @@
 @section Scripts
     {
     <script>
-        
+
         function RemoveCart(id, productId, priceId) {
             DeleteCart(id);
             location.reload();
         }
 
-        $(".product_qty").click(function(event) {
+        $(".product_qty").click(async function (event) {
             var id = $(this).attr('id');
             var cartId = $(this).attr('cartId');
             var priceIdCart = $(this).attr('priceId');
@@ -201,18 +189,32 @@
             var quantity = parseInt($(quantityId).val());
             var quantityOld = parseInt($(quantityOldId).val());
             if (quantityOld > quantity) {
-                DecreaseCart(cartId, id, priceIdCart);
+                let decreaseSuccess = await DecreaseCart(cartId, id, priceIdCart);
+                if (!Boolean(decreaseSuccess)) {
+                    $(quantityId).val(quantity + 1);
+                    return;
+                }
             }
             if (quantityOld < quantity) {
-                AddCart(id, priceIdCart,1);
+                let  addSuccess = await AddCart(id, priceIdCart, 1);
+                if (!Boolean(addSuccess)) {
+                    $(quantityId).val(quantity - 1);
+                    return;
+                }
             }
-            //$(quantityOldId).val(quantity);
-            //var priceId = "#price-" + id;
-            //var price = parseInt($(priceId).val());
-            //var sum = price * parseInt(quantity);
-            //var sumId = "#sum-" + id;
-            //$(sumId).text(sum + ' تومان');
-            location.reload();
+            $(quantityOldId).val(quantity);
+            var priceId = "#price-" + id;
+            var price = parseInt($(priceId).val());
+            var sum = price * parseInt(quantity);
+            var sumId = "#sum-" + id;
+            $(sumId).text(sum + ' تومان');
+            $(sumId).attr("price", sum);
+            var totalPrice = 0;
+            $(".sum-Product").each(function () {
+                totalPrice += parseInt($(this).attr("price"));
+            });
+            $("#order-total-price-id").text(totalPrice + ' تومان')
+            //location.reload();
         });
 
     </script>

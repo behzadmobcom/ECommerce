@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ecommerce.Entities;
+﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
-using ECommerce.Services.IServices;
 using ECommerce.Services.IServices;
 
 namespace ECommerce.Services.Services

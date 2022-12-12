@@ -83,4 +83,11 @@ public class BlogCommentService : EntityService<BlogComment>, IBlogCommentServic
         var result = await _http.GetAsync<BlogComment>(Url, $"GetById?id={id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<BlogComment>>> GetAllAccesptedComments(int blogId)
+    {
+        var result = await ReadList(Url, $"GetAllAccesptedComments?blogId={blogId}");
+        return Return(result);
+    }
+
 }

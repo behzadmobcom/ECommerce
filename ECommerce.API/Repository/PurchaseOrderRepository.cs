@@ -85,7 +85,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
+    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation).ThenInclude(x => x.State).Include(x => x.SendInformation).ThenInclude(x => x.City)
         .FirstOrDefaultAsync(cancellationToken);
     public async Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.OrderId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
            .FirstOrDefaultAsync(cancellationToken);

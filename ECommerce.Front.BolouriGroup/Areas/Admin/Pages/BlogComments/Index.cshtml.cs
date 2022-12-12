@@ -16,9 +16,7 @@ public class IndexModel : PageModel
     }
 
     public ServiceResult<List<BlogComment>> BlogComments { get; set; }
-
     [TempData] public string Message { get; set; }
-
     [TempData] public string Code { get; set; }
 
     public async Task<IActionResult> OnGet(string search = "", int pageNumber = 1, int pageSize = 10,

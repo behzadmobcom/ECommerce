@@ -13,7 +13,14 @@
             <h6 class="product-title">
                 <a asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">@Model.Name</a>
             </h6>
-            <h6 class="brand-name">@Model.Brand</h6>
+            @if (!string.IsNullOrWhiteSpace(Model.Brand))
+          {
+              <h6 class="brand-name">@Model.Brand</h6>
+          }
+          else
+          {
+              <h6 class="brand-name">بدون برند</h6>
+          }
             @{
                 decimal? discount = 0;
                 decimal? discountAmount = 0;

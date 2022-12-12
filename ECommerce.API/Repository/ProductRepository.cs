@@ -169,15 +169,14 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return productIndexPageViewModel;
     }
 
-    public async Task<List<ProductCompareViewModel>> GetProductListWithAttribute(List<int?> productIdList,
-        CancellationToken cancellationToken)
+    public IEnumerable<ProductCompareViewModel> GetProductListWithAttribute(List<int?> productIdList)
     {
-        var group = await _context.ProductAttributeGroups
+        var group =  _context.ProductAttributeGroups.AsNoTracking()
             .Include(a => a.Attribute)
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         var productCompareViewModel = new List<ProductCompareViewModel>();
-       
+
 
         //foreach (var product in products)
         //{
@@ -185,26 +184,12 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         //        .ToListAsync(cancellationToken);
         //}
 
-        var productValues = await _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
-            .ToListAsync(cancellationToken);
+        var productValues =  _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
+            .ToList();
 
-        foreach (var productAttributeGroup in group)
-        foreach (var attribute in productAttributeGroup.Attribute)
-        {
-            var value = productValues.FirstOrDefault(x => x.ProductAttributeId == attribute.Id);
-            if (value == null)
-            {
-                attribute.AttributeValue.Add(new ProductAttributeValue());
-            }
-            else
-            {
-                attribute.AttributeValue.Add(value);
-            }
-        }
-
-        var products = await _context.Products
+        var products =  _context.Products.AsNoTracking()
             .Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
-            .Include(x => x.AttributeValues).ThenInclude(x => x.ProductAttribute)
+            .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
             .Select(x => new ProductCompareViewModel
             {
                 Id = x.Id,
@@ -214,13 +199,35 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 ImagePath = $"{x.Images.FirstOrDefault().Path}/{x.Images.FirstOrDefault().Name}",
                 Url = x.Url,
                 Brand = x.Brand.Name,
-                Alt = x.Images.FirstOrDefault().Alt,
-                AttributeGroupProducts = group
+                Alt = x.Images.FirstOrDefault().Alt
             })
-            .ToListAsync(cancellationToken);
+            .ToList();
 
-        productCompareViewModel.AddRange(products.Select(product => product));
-        return productCompareViewModel;
+        foreach (var product in products)
+        {
+            foreach (var productAttributeGroup in group)
+            {
+                foreach (var attribute in productAttributeGroup.Attribute)
+                {
+
+                    var value = productValues.FirstOrDefault(x =>
+                        x.ProductAttributeId == attribute.Id && x.ProductId == product.Id);
+                    if (value != null)
+                    {
+                        attribute.AttributeValue = new List<ProductAttributeValue> { value };
+                    }
+                    else
+                    {
+                        attribute.AttributeValue = new List<ProductAttributeValue>();
+                    }
+                }
+            }
+
+            product.AttributeGroupProducts = group;
+            yield return product;
+        }
+
+        //productCompareViewModel.AddRange(products.Select(product => product));
     }
 
     public async Task<List<Product>> GetByCategoryId(int categoryId, CancellationToken cancellationToken)
@@ -247,7 +254,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
         var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
 
-        if (categoriesId.Any(x => x != 0)) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId =>  cat.Id == categoryId)));
+        if (categoriesId.Any(x => x != 0)) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId => cat.Id == categoryId)));
 
         if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
 
@@ -486,7 +493,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             else
             {
                 j++;
-                if(j == count)
+                if (j == count)
                     break;
             }
 
@@ -498,12 +505,12 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             var category = await _context.Categories
                 .FirstAsync(y => y.Products.Any(x => x.Id == productId && x.Prices.Any()));
 
-            var categoryProductCount = _context.Products.Count(x=> x.ProductCategories.Any(c => c.Id == category.Id)) - 1;
+            var categoryProductCount = _context.Products.Count(x => x.ProductCategories.Any(c => c.Id == category.Id)) - 1;
             if (categoryProductCount <= 1) return products;
             for (var i = 1; i <= count; i++)
             {
-                var selectedProductByCategory  = await _context.Products
-                    .Where(x => x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId && x.Id != productId &&!selectedProductId.Contains(x.Id)) 
+                var selectedProductByCategory = await _context.Products
+                    .Where(x => x.ProductCategories.Any(c => c.Id == category.Id) && x.Id != productId && x.Id != productId && !selectedProductId.Contains(x.Id))
                     .Skip(rnd.Next(0, categoryProductCount))
                     .Select(p => new ProductIndexPageViewModel
                     {

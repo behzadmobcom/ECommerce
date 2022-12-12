@@ -49,6 +49,7 @@ public class ShopModel : PageModel
         }
 
         Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, isWithoutBail: true, tagText: tagText);
+        
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
 

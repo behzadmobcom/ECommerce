@@ -75,7 +75,8 @@
                                 </div>
                             </td>
                             <td>@Comment.Product?.Name</td>
-                            <td>@Comment.IsAccepted</td>
+                             @{string acceptResult=""; if (Comment.IsAccepted) acceptResult="√";  }
+                            <td> @acceptResult </td>
                             <td>                                
                                 <a asp-page="Delete" asp-route-id="@Comment.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
                                 <a asp-page="Edit" asp-route-id="@Comment.Id" class="label label-inline label-light-warning font-weight-bold">ویرایش</a>

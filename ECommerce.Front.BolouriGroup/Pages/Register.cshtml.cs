@@ -1,4 +1,4 @@
-using Ecommerce.Entities.ViewModel;
+﻿using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,6 +27,14 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
+        if (!RegisterViewModel.IsRole)
+        {
+            //          !qa@ws#ed123
+            //          !qa@ws#ed123123
+            Message = "لطفا ایتدا قوانین و مقررارت را تایید کنید";
+            Code = "Error";
+            return Page();
+        }
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
         if(result.Code>0)
