@@ -33,6 +33,20 @@ public class AsyncRepository<TEntity> : IAsyncRepository<TEntity> where TEntity 
         return query;
     }
 
+    
+    public virtual TEntity GetByIdWithInclude(string includeProperties, int ids)
+    {
+        IQueryable<TEntity> query = Entities;
+        query = query.Where(x => x.Id == ids);
+
+        if (includeProperties != null)
+            foreach (var includeProperty in includeProperties.Split
+                         (new[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                query = query.Include(includeProperty);    
+
+        return query.FirstOrDefault(); 
+    }
+
     public virtual async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await DbContext.SaveChangesAsync(cancellationToken);

@@ -4,9 +4,6 @@
 @{
     ViewData["Title"] = "جزئیات وبلاگ";
 }
-
-
-
 <section class="inner-section single-banner">
     <div class="container">
         <h2>جزئیات وبلاگ</h2>
@@ -76,13 +73,12 @@
      </p>
     </div>*@
 
-
     <div class="blog-details-comment">
      
-     <h3 class="comment-title">@Model.BlogComments.Count نظر</h3>
+     <h3 class="comment-title">@Model.BlogComments.PaginationDetails.TotalCount نظر</h3>
      <ul class="comment-list">      
                         
-      @foreach (var blogComment in Model.BlogComments)
+      @foreach (var blogComment in Model.BlogComments.ReturnData)
       {                          
      <li class="comment-item">
        <div class="comment-media">
@@ -102,6 +98,9 @@
     
      </ul>
     </div>
+
+     <partial name="_Pagination" model="@Model.BlogComments.PaginationDetails"/>  
+     <label>@Model.Message</label>
 
    <form class="blog-details-form" method="post" asp-page-handler="OnPost">
                              <h3 class="details-form-title">ارسال نظر</h3>                            

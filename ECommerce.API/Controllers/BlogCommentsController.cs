@@ -13,11 +13,14 @@ public class BlogCommentsController : ControllerBase
 {
     private readonly IBlogCommentRepository _blogCommentRepository;
     private readonly ILogger<BlogCommentsController> _logger;
+    private readonly IImageRepository _imageRepository;
 
-    public BlogCommentsController(IBlogCommentRepository blogCommentRepository, ILogger<BlogCommentsController> logger)
+    public BlogCommentsController(IBlogCommentRepository blogCommentRepository, ILogger<BlogCommentsController> logger
+                                 ,IImageRepository imageRepository)
     {
         _blogCommentRepository = blogCommentRepository;
         _logger = logger;
+        _imageRepository = imageRepository;
     }
 
     [HttpGet]
@@ -58,8 +61,9 @@ public class BlogCommentsController : ControllerBase
     {
         try
         {
-            var result = await _blogCommentRepository.GetByIdAsync(cancellationToken, id);
-            if (result.AnswerId != null) result.Answer = await _blogCommentRepository.GetByIdAsync(cancellationToken, result.AnswerId);
+            var result = _blogCommentRepository.GetByIdWithInclude("Answer,Blog",id);
+            result.Blog.Image = await _imageRepository.GetByBlogId(result.Blog.Id, cancellationToken);
+
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -170,15 +174,28 @@ public class BlogCommentsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllAccesptedComments(int blogId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllAccesptedComments([FromQuery] PaginationParameters paginationParameters,
+    CancellationToken cancellationToken)
     {
-        var result = _blogCommentRepository.GetAllAccesptedComments(blogId, cancellationToken);
         try
         {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _blogCommentRepository.GetAllAccesptedComments(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
             return Ok(new ApiResult
             {
+                PaginationDetails = paginationDetails,
                 Code = ResultCode.Success,
-                ReturnData = await result.ToListAsync()
+                ReturnData = entity
             });
         }
         catch (Exception e)
@@ -187,4 +204,5 @@ public class BlogCommentsController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
+
 }

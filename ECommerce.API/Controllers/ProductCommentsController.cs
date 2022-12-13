@@ -13,12 +13,14 @@ public class ProductCommentsController : ControllerBase
 {
     private readonly ILogger<ProductCommentsController> _logger;
     private readonly IProductCommentRepository _productCommentRepository;
+    private readonly IImageRepository _imageRepository;
 
     public ProductCommentsController(IProductCommentRepository productCommentRepository, IProductRepository productRepository,
-        ILogger<ProductCommentsController> logger)
+        ILogger<ProductCommentsController> logger, IImageRepository imageRepository)
     {
         _productCommentRepository = productCommentRepository;
         _logger = logger;
+        _imageRepository = imageRepository;
     }
 
     [HttpGet]
@@ -57,9 +59,9 @@ public class ProductCommentsController : ControllerBase
     public async Task<ActionResult<ProductComment>> GetById(int id, CancellationToken cancellationToken)
     {
         try
-        {
-            var result = await _productCommentRepository.GetByIdAsync(cancellationToken, id);
-            if (result.AnswerId!=null) result.Answer = await _productCommentRepository.GetByIdAsync(cancellationToken, result.AnswerId);
+        {          
+            var result = _productCommentRepository.GetByIdWithInclude("Answer,Product", id);
+            result.Product.Images = await _imageRepository.GetByProductId(result.Product.Id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -171,17 +173,29 @@ public class ProductCommentsController : ControllerBase
         }
     }
 
-
     [HttpGet]
-    public async Task<IActionResult> GetAllAccesptedComments(int productId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllAccesptedComments([FromQuery] PaginationParameters paginationParameters,
+    CancellationToken cancellationToken)
     {
-        var result = _productCommentRepository.GetAllAccesptedComments(productId,cancellationToken);
         try
         {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _productCommentRepository.GetAllAccesptedComments(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
             return Ok(new ApiResult
             {
+                PaginationDetails = paginationDetails,
                 Code = ResultCode.Success,
-                ReturnData = await result.ToListAsync()
+                ReturnData = entity
             });
         }
         catch (Exception e)

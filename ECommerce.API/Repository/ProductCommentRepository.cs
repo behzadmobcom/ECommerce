@@ -25,11 +25,14 @@ public class ProductCommentRepository : AsyncRepository<ProductComment>, IProduc
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
     }
-
-    public IQueryable<ProductComment> GetAllAccesptedComments(int productId , CancellationToken cancellationToken)
-    {        
-        var result =  _context.ProductComments.Where(x => x.IsAccepted == true && x.ProductId==productId).Include(x=>x.Answer).AsQueryable();
-        return result;
+    public async Task<PagedList<ProductComment>> GetAllAccesptedComments(PaginationParameters paginationParameters,
+    CancellationToken cancellationToken)
+    {
+        return PagedList<ProductComment>.ToPagedList(
+            await _context.ProductComments.Where(x => x.IsAccepted == true && x.ProductId == System.Convert.ToInt32(paginationParameters.Search) )
+            .AsNoTracking().OrderByDescending(on => on.Id).Include(x => x.Answer).ToListAsync(cancellationToken),
+            paginationParameters.PageNumber,
+            paginationParameters.PageSize);
     }
- 
+
 }
