@@ -13,7 +13,7 @@
                         <div class="row align-items-center">
                             <div class="col-md-3 my-2 my-md-0">
                                 <div class="input-icon">
-                                    <input type="text" class="form-control" placeholder="جستجو..." id="kt_datatable_search_query"/>
+                                    <input type="text" class="form-control" placeholder="جستجو..." id="kt_datatable_search_query" />
                                     <span>
                                         <i class="flaticon2-search-1 text-muted"></i>
                                     </span>
@@ -54,8 +54,44 @@
                     </div>
 
                 </div>
+                <div class="table-responsive mt-5">
+                    <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                <th>نام کاربری</th>
+                                <th>استان/شهر</th>
+                                <th>تاریخ</th>
+                                <th>نام شرکت</th>
+                                <th>کد هلو</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>2011/04/25</td>
+                                <td>61</td>
+                                <td>256314</td>
+                                <td>
+                                    <a asp-page="/Purchases" asp-area="Admin" class="label label-inline label-light-success font-weight-bold">فاکتور</a>
+                                    <a  class="label label-inline label-light-danger font-weight-bold">غیرفعال</a>
+                                    <a asp-page="/UserDetails" asp-area="Admin" class="label label-inline label-light-warning font-weight-bold">جزئیات کاربر</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Garrett Winters</td>
+                                <td>اکانتant</td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td>2011/07/25</td>
+                                <td>$170,750</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <!--begin: جدول داده ها-->
-                <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>
+                @*  <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>*@
                 <!--end: جدول داده ها-->
             </div>
         </div>
@@ -63,7 +99,7 @@
 </div>
 
 @section Scripts
-{
+    {
 
     <script src="~/Admin/js/data-local.js"></script>
 }
