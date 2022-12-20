@@ -64,8 +64,9 @@ function DeleteCart(id, productId, priceId) {
     });
 }
 
-function DecreaseCart(id, productId, priceId) {
-    $.ajax({
+async function DecreaseCart(id, productId, priceId) {
+    var ret = false;
+    await $.ajax({
         type: "Get",
         url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
         contentType: "application/json; charset=utf-8",
@@ -73,6 +74,7 @@ function DecreaseCart(id, productId, priceId) {
         success: function (result) {
             swal(result.message);
             if (result.code === 0) {
+                ret = true;
                 LoadCard();
             }
         },
@@ -80,6 +82,7 @@ function DecreaseCart(id, productId, priceId) {
             swal(response);
         }
     });
+    return ret;
 }
 
 function AddWishList(id) {
@@ -131,8 +134,10 @@ function OpenProductModal() {
     });
 }
 
-function AddCart(id, priceId, count) {
-    $.ajax({
+async function AddCart(id, priceId, count) {
+    var ret = false;
+    await $.ajax({
+        async: true,
         type: "Get",
         url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId + "&count=" + count,
         contentType: "application/json; charset=utf-8",
@@ -140,6 +145,7 @@ function AddCart(id, priceId, count) {
         success: function (result) {
             swal(result.message);
             if (result.code === 0) {
+                ret = true;
                 LoadCard();
             }
         },
@@ -147,7 +153,7 @@ function AddCart(id, priceId, count) {
             alert(response);
         }
     });
-
+    return ret;
 }
 
 function OpenProductModal(id) {

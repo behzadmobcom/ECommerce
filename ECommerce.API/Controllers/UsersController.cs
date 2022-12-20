@@ -511,10 +511,10 @@ public class UsersController : ControllerBase
         
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
-        var emailMessage = "<a href='"
-                           + "localhost:7176" + "/ResetForgotPassword/?token=" + emailPasswordResetToken
-                           + "'>dsf</a>";
-
+        var emailMessage = "<html><body><a href='"
+                           + "localhost:7176" + "/ResetForgotPassword/token=" + emailPasswordResetToken + "&user=" + user.UserName
+                           + "'>dsf</a></body></html>";
+        var verifytoken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", emailPasswordResetToken);
         await _emailRepository.SendEmailAsync(model.EmailOrPhoneNumber, "تغییر کلمه عبور", emailMessage, cancellationToken);
 
         return Ok(new ApiResult
@@ -524,6 +524,48 @@ public class UsersController : ControllerBase
         });
     }
 
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetForgotPassword([FromBody] ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
+                if (user == null)
+                    return new ApiResult
+                    { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
+                var passToken = UserManager<User>.ResetPasswordTokenPurpose;
+                string resetToken = model.PasswordResetToken.Replace(" ", "+");
+                var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
+                if (VerifyToken.Result)
+                {
+                    var result = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+                    
+                    if (result.Succeeded)
+                        return Ok(new ApiResult
+                        {
+                            Code = ResultCode.Success,
+                            Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                        });
+
+                    return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
+
+                }
+            }
+            return Ok(new ApiResult { Code = ResultCode.BadRequest });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+        return Ok();
+
+    }
+    
     [HttpPost]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,

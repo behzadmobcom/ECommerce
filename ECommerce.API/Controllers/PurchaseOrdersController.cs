@@ -420,7 +420,7 @@ public class PurchaseOrdersController : ControllerBase
                 C_Code = cCode,
                 Fac_Code = fCode,
                 Fac_Code_C = fCodeC,
-                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid}",
+                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid} به آدرس : {purchaseOrder.SendInformation.State.Name} - {purchaseOrder.SendInformation.City.Name} - {purchaseOrder.SendInformation.Address}, کد پستی : {purchaseOrder.SendInformation.PostalCode}, شماره تماس : {purchaseOrder.SendInformation.Mobile}",
                 Fac_Date = DateTime.Now,
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
