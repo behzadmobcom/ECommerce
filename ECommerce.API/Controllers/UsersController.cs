@@ -508,7 +508,7 @@ public class UsersController : ControllerBase
         if (user == null) return Ok(new ApiResult { Code = ResultCode.BadRequest });
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-        
+
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
         var emailMessage = "<html><body><a href='"
@@ -542,7 +542,7 @@ public class UsersController : ControllerBase
                 if (VerifyToken.Result)
                 {
                     var result = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
-                    
+
                     if (result.Succeeded)
                         return Ok(new ApiResult
                         {
@@ -565,7 +565,7 @@ public class UsersController : ControllerBase
         return Ok();
 
     }
-    
+
     [HttpPost]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,
@@ -655,6 +655,33 @@ public class UsersController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
+
+    [HttpGet]
+    //[Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<User>> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userRepository.GetByIdAsync(cancellationToken, id);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
 
 
 }

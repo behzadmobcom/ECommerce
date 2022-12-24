@@ -1,0 +1,140 @@
+﻿@page
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = "کاربران سایت";
+    var i = 1 + (Model.Users.PaginationDetails.CurrentPage - 1) * Model.Users.PaginationDetails.PageSize;
+}
+   @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
+
+        <p>
+           <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد کاربر جدید</a>
+        </p>
+           <form asp-page="/Users/Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Users/Index" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Users/Index" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Users/Index" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Users/Index" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Users/Index" asp-route-pageSize="50">50</a>
+                    </p>
+                </div>
+            </form>
+
+<div class="post d-flex flex-column-fluid" id="kt_post">
+    <div id="kt_content_container" class="container">
+        <div class="card card-custom">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-lg-10 col-xl-8">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 my-2 my-md-0">
+                                <div class="input-icon">
+                                           <input type="text" name="search" value="@Model.Users.PaginationDetails.Search"/>
+                                           <input type="text" hidden="hidden" name="pageIndex" value="1"/>                                          
+                                     <span>
+                                        <i class="flaticon2-search-1 text-muted"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label class="mr-3 mb-0 d-none d-md-block">نوع:</label>
+                                    <select class="form-control" id="kt_datatable_search_status">
+                                        <option value="">همه</option>
+                                        <option value="1">همکار</option>
+                                        <option value="2">کاربر عادی</option>
+                                        <option value="3">پرسنل</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label class="mr-3 mb-0 d-none d-md-block">خرید:</label>
+                                    <select class="form-control" id="kt_datatable_search_type">
+                                        <option value="">همه</option>
+                                        <option value="1">خرید کرده</option>
+                                        <option value="2">بدون خرید</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label class="mr-3 mb-0 d-none d-md-block">وضعیت:</label>
+                                    <select class="form-control" id="kt_datatable_search_type">
+                                        <option value="">همه</option>
+                                        <option value="1">فعال</option>
+                                        <option value="2">غیر فعال</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-responsive mt-5">
+                    <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                <th>ردیف</th>        
+                                <th>نام کاربری</th>
+                                <th>استان/شهر</th>
+                                <th>تاریخ</th>
+                                <th>نام شرکت</th>
+                                <th>کد هلو</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @foreach (var user in Model.Users.ReturnData)
+                          {
+                          <tr>
+                          <th scope="row">@(i++)</th>
+                          <td>@user.Username</td>
+                          <td>@user.City</td>
+                          <td>@user.RegisterDate</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>
+                                <a asp-page="Edit" asp-route-id="@user.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@user.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Purchases" asp-route-id="@user.Id"  class="label label-inline label-light-warning font-weight-bold">فاکتور</a>
+                          </td>
+                        </tr>
+                               }
+                        </tbody>
+                    </table>
+                </div>
+                <!--begin: جدول داده ها-->
+                @*  <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>*@
+                <!--end: جدول داده ها-->
+            </div>
+        </div>
+    </div>
+</div> 
+
+ @section Scripts
+ {
+  <script src="~/Admin/js/data-local.js"></script>
+ }
