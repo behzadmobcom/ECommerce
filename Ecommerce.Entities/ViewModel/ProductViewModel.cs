@@ -151,6 +151,7 @@ public class ProductIndexPageViewModel
     public string Url { get; set; }
     public string Brand { get; set; }
     public ushort MaxOrder { get; set; }
+    public string? TopCategory { get; set; }
 
     public static implicit operator ProductIndexPageViewModel(Product x)
     {

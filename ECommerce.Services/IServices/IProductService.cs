@@ -32,5 +32,6 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1);
-  
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBail = false);
+
 }
