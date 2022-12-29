@@ -511,7 +511,7 @@ public class UsersController : ControllerBase
         
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
-        var emailMessage = "<html><body><a href='"
+        var emailMessage = "<!DOCTYPE html><html><body><a href='"
                            + "localhost:7176" + "/ResetForgotPassword/token=" + emailPasswordResetToken + "&user=" + user.UserName
                            + "'>dsf</a></body></html>";
         var verifytoken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", emailPasswordResetToken);
@@ -532,16 +532,16 @@ public class UsersController : ControllerBase
         {
             if (ModelState.IsValid)
             {
-                var user = await _userRepository.GetByEmailOrUserName(model.Username, cancellationToken);
+                var user = await _userRepository.GetByEmailOrUserName(model.Email, cancellationToken);
                 if (user == null)
                     return new ApiResult
                     { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
-                var passToken = UserManager<User>.ResetPasswordTokenPurpose;
-                string resetToken = model.PasswordResetToken.Replace(" ", "+");
-                var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
-                if (VerifyToken.Result)
-                {
-                    var result = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+                //var passToken = UserManager<User>.ResetPasswordTokenPurpose;
+                //string resetToken = model.PasswordResetToken.Replace(" ", "+");
+                //var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
+                //if (VerifyToken.Result)
+                //{
+                    var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
                     
                     if (result.Succeeded)
                         return Ok(new ApiResult
@@ -552,7 +552,8 @@ public class UsersController : ControllerBase
 
                     return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
 
-                }
+                //
+                //}
             }
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
         }

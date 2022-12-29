@@ -13,19 +13,19 @@ public class EmailRepository : IEmailRepository
         {
             var credentials = new NetworkCredential
             {
-                UserName = "tozi.gilan.reader", // without @gmail.com
-                Password = "gahbxisdelllxzkj"
+                UserName = "info", // without @gmail.com
+                Password = "Arash1358"
             };
 
             client.Credentials = credentials;
-            client.Host = "smtp.gmail.com";
+            client.Host = "webmail.arshahamrah.com";
             client.Port = 587;
-            client.EnableSsl = true;
+            client.EnableSsl = false;
 
             using var emailMessage = new MailMessage
             {
                 To = {new MailAddress(toEmail)},
-                From = new MailAddress("tozi.gilan.reader@gmail.com"), // with @gmail.com
+                From = new MailAddress("info@arshahamrah.com"), // with @gmail.com
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = isMessageHtml
