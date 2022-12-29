@@ -12,6 +12,8 @@ input[type="checkbox"] {
     height: 0;
 }
 
+
+
 label {
     display: inline-block;
     cursor: pointer;
