@@ -5,7 +5,7 @@ using Ecommerce.Entities.ViewModel;
 namespace ECommerce.Services.IServices;
 
 public interface IUserService
-{ 
+{
     Task<ServiceResult> Logout();
     Task<ServiceResult<LoginViewModel>> Login(LoginViewModel loginViewModel);
     Task<ServiceResult> Register(RegisterViewModel registerViewModel);
@@ -16,4 +16,9 @@ public interface IUserService
     Task<ServiceResult> Update(User user);
     Task<ServiceResult> ForgotPassword(string email);
     Task<ServiceResult> ChangeForgotPassword(ResetForgotPasswordViewModel resetForgotPasswordViewModel);
+
+    Task<ServiceResult<User>> GetById(int id);
+    Task<ServiceResult> Delete(int id);
+    Task<ServiceResult> Edit(User user);
+
 }

@@ -26,9 +26,13 @@ public class BlogCommentRepository : AsyncRepository<BlogComment>, IBlogCommentR
             paginationParameters.PageSize);
     }
 
-    public IQueryable<BlogComment> GetAllAccesptedComments(int blogId, CancellationToken cancellationToken)
+    public async Task<PagedList<BlogComment>> GetAllAccesptedComments(PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
     {
-        var result = _context.BlogComments.Where(x => x.IsAccepted == true && x.BlogId == blogId).Include(x => x.Answer).AsQueryable();
-        return result;
+        return PagedList<BlogComment>.ToPagedList(
+            await _context.BlogComments.Where(x => x.IsAccepted == true && x.BlogId == System.Convert.ToInt32(paginationParameters.Search))
+            .AsNoTracking().OrderByDescending(on => on.Id).Include(x => x.Answer).ToListAsync(cancellationToken),
+            paginationParameters.PageNumber,
+            paginationParameters.PageSize);
     }
 }

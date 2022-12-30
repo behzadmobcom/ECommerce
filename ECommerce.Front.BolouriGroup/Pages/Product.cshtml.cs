@@ -37,9 +37,9 @@ public class ProductdetailsModel : PageModel
     public List<ProductAttributeGroup> AttributeGroups { get; set; }
     public ProductComment? ProductComment { get; set; }
     [BindProperty] public string? Message { get; set; }
-    public List<ProductComment> ProductComments { get; set; }
+    public ServiceResult<List<ProductComment>> ProductComments { get; set; }  
  
-    private  async Task Initial(string productUrl)
+    private  async Task Initial(string productUrl, int pageNumber = 1 , int pageSize = 10)
     {
         var resultProduct = await _productService.GetProduct(productUrl);
         if (resultProduct.Code > 0) return;
@@ -55,14 +55,12 @@ public class ProductdetailsModel : PageModel
 
         Stars = await _starService.SumStarsByProductId(Product.Id);
 
-        var reultProductComments = await _productCommandService.GetAllAccesptedComments(Product.Id);
-        ProductComments = reultProductComments.ReturnData;
-    
-
+        ProductComments = await _productCommandService.GetAllAccesptedComments(search: System.Convert.ToString(Product.Id), pageNumber, pageSize);
     }
-    public async Task OnGet(string productUrl)
+
+    public async Task OnGet(string productUrl, int pageNumber = 1, int pageSize = 10)
     {
-        await Initial(productUrl);
+        await Initial(productUrl, pageNumber, pageSize);
         
     }
 

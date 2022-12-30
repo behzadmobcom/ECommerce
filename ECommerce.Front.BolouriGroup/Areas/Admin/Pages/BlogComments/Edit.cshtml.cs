@@ -18,7 +18,6 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments;
     }
 
     [BindProperty] public BlogComment BlogComment { get; set; }
-    public Blog Blog { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 
@@ -28,9 +27,6 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments;
         Code = code;
         var BlogCommentResult = await _blogCommentService.GetById(id);
         BlogComment = BlogCommentResult.ReturnData;
-        int _blogId = BlogComment.BlogId ?? default(int);
-        var BlogResult = await _blogService.GetById(_blogId);
-        Blog = BlogResult.ReturnData;
     }
 
     public async Task<IActionResult> OnPost()

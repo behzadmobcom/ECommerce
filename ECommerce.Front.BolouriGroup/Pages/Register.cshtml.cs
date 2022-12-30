@@ -35,6 +35,11 @@ public class RegisterModel : PageModel
             Code = "Error";
             return Page();
         }
+        ModelState.Remove("RegisterViewModel.NationalCode");
+        if(RegisterViewModel.NationalCode ==  null)
+        {
+            RegisterViewModel.NationalCode = "0000000000";
+        }
         if (!ModelState.IsValid) return Page();
         var result = await _userService.Register(RegisterViewModel);
         if(result.Code>0)
