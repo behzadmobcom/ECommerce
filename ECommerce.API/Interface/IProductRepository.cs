@@ -53,6 +53,7 @@ public interface IProductRepository : IAsyncRepository<Product>
     Task<List<ProductIndexPageViewModel>> TopSells(int count, CancellationToken cancellationToken);
 
     Task<List<ProductIndexPageViewModel>> TopRelatives(int productId, int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> GetTops(string includeProperties, CancellationToken cancellationToken);
 
     #endregion
 }
