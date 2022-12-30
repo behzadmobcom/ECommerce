@@ -5,13 +5,13 @@ using ECommerce.Services.IServices;
 
 namespace ECommerce.Services.Services;
 
-public class UserService : IUserService
+public class UserService : EntityService<User>, IUserService
 {
     private const string Url = "api/Users";
     private readonly ICookieService _cookieService;
     private readonly IHttpService _http;
 
-    public UserService(IHttpService http, ICookieService cookieService)
+    public UserService(IHttpService http, ICookieService cookieService) : base(http)
     {
         _http = http;
         _cookieService = cookieService;
@@ -101,7 +101,7 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<ServiceResult> ChangePassword(string oldPass,string newPass, string newConPass)
+    public async Task<ServiceResult> ChangePassword(string oldPass, string newPass, string newConPass)
     {
         if (!newPass.Equals(newConPass)) return new ServiceResult
         {
@@ -124,7 +124,23 @@ public class UserService : IUserService
         };
     }
 
-    public async Task<ServiceResult> ForgotPassword(string email)  
+    public async Task<ServiceResult> ChangeForgotPassword(ResetForgotPasswordViewModel resetForgotPasswordViewModel)
+    {
+        if (!resetForgotPasswordViewModel.Password.Equals(resetForgotPasswordViewModel.ConPass)) return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = "پسوردها مطابقت ندارند"
+        };
+        var result = await _http.PostAsync(Url, resetForgotPasswordViewModel, "ResetForgotPassword");
+
+        return new ServiceResult
+        {
+            Code = ServiceCode.Success,
+            Message = result.GetBody()
+        };
+    }
+
+    public async Task<ServiceResult> ForgotPassword(string email)
     {
         var forgotPasswordViewModel = new ForgotPasswordViewModel { EmailOrPhoneNumber = email };
         var result = await _http.PostAsync(Url, forgotPasswordViewModel, "ForgotPassword");
@@ -177,5 +193,21 @@ public class UserService : IUserService
             Message = result?.GetBody(),
             ReturnData = (TResult)typeOfTResult
         };
+    }
+
+    public async Task<ServiceResult<User>> GetById(int id)
+    {
+        var result = await _http.GetAsync<User>(Url, $"GetById?id={id}");
+        return Return(result);
+    }
+    public async Task<ServiceResult> Delete(int id)
+    {
+        var result = await Delete(Url, id);
+        return Return(result);
+    }
+    public async Task<ServiceResult> Edit(User user)
+    {
+        var result = await _http.PutAsync(Url, user);
+        return Return(result);
     }
 }

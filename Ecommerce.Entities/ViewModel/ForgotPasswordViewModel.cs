@@ -7,6 +7,18 @@ public class ForgotPasswordViewModel
     public string EmailOrPhoneNumber { get; set; }
 }
 
+public class ResetForgotPasswordViewModel
+{
+    [Required]
+    public string Email { get; set; }
+    [Required]
+    [DataType(DataType.Password)]
+    public string Password { get; set; }
+    [DataType(DataType.Password)]
+    public string ConPass { get; set; }
+    public string PasswordResetToken { get; set; }
+}
+
 public class VerifyCodeViewModel
 {
     public string EmailOrPhoneNumber { get; set; }

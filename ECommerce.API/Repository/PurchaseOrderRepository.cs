@@ -24,8 +24,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             .Include(d => d.PaymentMethod)
             .Include(d => d.SendInformation)
             .Include(d => d.PurchaseOrderDetails)
-            .ThenInclude(pro =>pro.Product)
-            .ThenInclude(b =>b.Images)
+            .ThenInclude(pro => pro.Product)
+            .ThenInclude(b => b.Images)
             .AsNoTracking();
 
         if (purchaseFiltreOrderViewModel.IsPaied != null) query = query.Where(x => x.IsPaid == purchaseFiltreOrderViewModel.IsPaied);
@@ -85,7 +85,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
+    public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation).ThenInclude(x => x.State).Include(x => x.SendInformation).ThenInclude(x => x.City)
         .FirstOrDefaultAsync(cancellationToken);
     public async Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.OrderId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation)
            .FirstOrDefaultAsync(cancellationToken);
@@ -118,5 +118,15 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;
+    }
+
+    public async Task<PurchaseOrder> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
+    {
+        var query = _context.PurchaseOrders.Where(x => x.Id == id)
+            .Include(d => d.PurchaseOrderDetails)
+            .Include(d => d.PaymentMethod)
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }
 }

@@ -122,6 +122,32 @@ public class PurchaseOrdersController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<List<PurchaseOrder>>> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById(id, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByUserId(int userId, CancellationToken cancellationToken)
     {
         try
@@ -291,7 +317,7 @@ public class PurchaseOrdersController : ControllerBase
             else
             {
 
-                if (repetitiveQuantity+ createPurchaseCommand.Quantity > price.Exist + product.MinInStore)
+                if (repetitiveQuantity + createPurchaseCommand.Quantity > price.Exist + product.MinInStore)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
@@ -301,7 +327,7 @@ public class PurchaseOrdersController : ControllerBase
             }
 
             decimal sumPrice = unitPrice * createPurchaseCommand.Quantity;
-           
+
             if (repetitivePurchaseOrder != null)
             {
                 var repetitiveDetail =
@@ -412,7 +438,7 @@ public class PurchaseOrdersController : ControllerBase
             purchaseOrder.Transaction.TransactionDate = DateTime.Now;
             purchaseOrder.Transaction.PurchaseOrders = new List<PurchaseOrder>();
             purchaseOrder.Transaction.PurchaseOrders.Add(purchaseOrder);
-            var resultUser =await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
+            var resultUser = await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
             var fBail = await _holooFBailRepository.Add(new HolooFBail
@@ -420,11 +446,11 @@ public class PurchaseOrdersController : ControllerBase
                 C_Code = cCode,
                 Fac_Code = fCode,
                 Fac_Code_C = fCodeC,
-                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid}",
+                Fac_Comment = $"پیش فاکتور از سایت برای سفارش شماره {purchaseOrder.OrderGuid} به آدرس : {purchaseOrder.SendInformation.State.Name} - {purchaseOrder.SendInformation.City.Name} - {purchaseOrder.SendInformation.Address}, کد پستی : {purchaseOrder.SendInformation.PostalCode}, شماره تماس : {purchaseOrder.SendInformation.Mobile}",
                 Fac_Date = DateTime.Now,
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
-                Sum_Price =Convert.ToDouble(purchaseOrder.Amount)
+                Sum_Price = Convert.ToDouble(purchaseOrder.Amount)
 
             }, cancellationToken);
 
@@ -445,7 +471,7 @@ public class PurchaseOrdersController : ControllerBase
                     Fac_Type = "P",
                     Few_Article = orderDetail.Quantity,
                     First_Article = orderDetail.Quantity,
-                    Price_BS =Convert.ToDouble( orderDetail.UnitPrice),
+                    Price_BS = Convert.ToDouble(orderDetail.UnitPrice),
                     Unit_Few = 0
                 });
             }
@@ -453,13 +479,13 @@ public class PurchaseOrdersController : ControllerBase
             purchaseOrder.FBailCode = fBail;
 
 
-            var customer =await _holooCustomerRepository.GetCustomerByCode(cCode);
+            var customer = await _holooCustomerRepository.GetCustomerByCode(cCode);
             var sanad = new HolooSanad(purchaseOrder.Description);
             var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
             purchaseOrder.Transaction.SanadCode = sanadCode;
 
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0001", Convert.ToDouble(purchaseOrder.Amount),0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0,Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0001", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
 

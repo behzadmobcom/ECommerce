@@ -508,13 +508,13 @@ public class UsersController : ControllerBase
         if (user == null) return Ok(new ApiResult { Code = ResultCode.BadRequest });
 
         var emailPasswordResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-        
+
         //var emailMessage = Url.Link(url,
         //    new { username = user.Email, token = emailPasswordResetToken });
-        var emailMessage = "<a href='"
-                           + "localhost:7176" + "/ResetForgotPassword/?token=" + emailPasswordResetToken
-                           + "'>dsf</a>";
-
+        var emailMessage = "<!DOCTYPE html><html><body><a href='"
+                           + "localhost:7176" + "/ResetForgotPassword/token=" + emailPasswordResetToken + "&user=" + user.UserName
+                           + "'>dsf</a></body></html>";
+        var verifytoken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", emailPasswordResetToken);
         await _emailRepository.SendEmailAsync(model.EmailOrPhoneNumber, "تغییر کلمه عبور", emailMessage, cancellationToken);
 
         return Ok(new ApiResult
@@ -522,6 +522,50 @@ public class UsersController : ControllerBase
             Code = ResultCode.Success,
             Messages = new List<string> { "ایمیل با موفقیت ارسال شد" }
         });
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetForgotPassword([FromBody] ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userRepository.GetByEmailOrUserName(model.Email, cancellationToken);
+                if (user == null)
+                    return new ApiResult
+                    { Code = ResultCode.NotFound, Messages = new List<string> { "کاربری با این مشخصات یافت نشد" } };
+
+                //var passToken = UserManager<User>.ResetPasswordTokenPurpose;
+                //string resetToken = model.PasswordResetToken.Replace(" ", "+");
+                //var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
+                //if (VerifyToken.Result)
+                //{
+                    var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
+                   
+                    if (result.Succeeded)
+                        return Ok(new ApiResult
+                        {
+                            Code = ResultCode.Success,
+                            Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                        });
+
+                    return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
+
+                //
+                //}
+            }
+            return Ok(new ApiResult { Code = ResultCode.BadRequest });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+        return Ok();
+
     }
 
     [HttpPost]
@@ -613,6 +657,33 @@ public class UsersController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
+
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<User>> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userRepository.GetByIdAsync(cancellationToken, id);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
 
 
 }

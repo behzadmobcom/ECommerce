@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ecommerce.Entities;
+﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
-using ECommerce.Services.IServices;
 using ECommerce.Services.IServices;
 
 namespace ECommerce.Services.Services
@@ -40,13 +34,22 @@ namespace ECommerce.Services.Services
         {
             var result = await Read(Url, $"GetByOrderId?orderId={orderId}");
 
-            return Return(result); 
+            return Return(result);
 
         }
 
+        public async Task<ServiceResult<PurchaseOrder>> GetPurchaseOrderWithIncludeById(int id)
+        {
+
+            var result = await _http.GetAsync<PurchaseOrder>(Url, $"GetPurchaseOrderWithIncludeById?id={id}");
+            return Return(result);
+
+        }
+
+
         public async Task<ServiceResult> Pay(PurchaseOrder purchaseOrder)
         {
-            var result =await Update(Url, purchaseOrder,"Pay");
+            var result = await Update(Url, purchaseOrder, "Pay");
             return Return(result);
         }
 
@@ -62,7 +65,7 @@ namespace ECommerce.Services.Services
         }
 
 
-        public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId=0,string search = "",
+        public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId = 0, string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,
           DateTime? toCreationDate = null, int? statusId = null, decimal? minimumAmount = null, decimal? maximumAmount = null,
           PaymentMethodStatus? paymentMethodStatus = null)
@@ -75,14 +78,14 @@ namespace ECommerce.Services.Services
                           $"PaginationParameters.PageSize={pageSize}&";
             if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
             if (isPaied != null) command += $"IsPaied={isPaied}&";
-            if (userId >0) command += $"UserId={userId}&";
+            if (userId > 0) command += $"UserId={userId}&";
             if (fromCreationDate != null) command += $"FromCreationDate={fromCreationDate}&";
             if (toCreationDate != null) command += $"ToCreationDate={toCreationDate}&";
             if (statusId != null) command += $"StatusId={statusId}&";
             if (minimumAmount != null) command += $"MinimumAmount={minimumAmount}&";
             if (maximumAmount != null) command += $"MaximumAmount={maximumAmount}&";
             if (paymentMethodStatus != null) command += $"PaymentMethodStatus={paymentMethodStatus}&";
-            
+
             command += $"PurchaseSort={purchaseSort}";
             var result = await _http.GetAsync<List<PurchaseListViewModel>>(Url, command);
             return Return(result);

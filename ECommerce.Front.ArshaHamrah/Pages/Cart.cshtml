@@ -172,15 +172,15 @@
 </section>
 <!-- End page content -->
 @section Scripts
-{
+    {
     <script>
-        
+
         function RemoveCart(id, productId, priceId) {
             DeleteCart(id);
             location.reload();
         }
 
-        $(".product_qty").click(function(event) {
+        $(".product_qty").click(async function (event) {
             var id = $(this).attr('id');
             var cartId = $(this).attr('cartId');
             var priceIdCart = $(this).attr('priceId');
@@ -189,10 +189,18 @@
             var quantity = parseInt($(quantityId).val());
             var quantityOld = parseInt($(quantityOldId).val());
             if (quantityOld > quantity) {
-                DecreaseCart(cartId, id, priceIdCart);
+                let decreaseSuccess = await DecreaseCart(cartId, id, priceIdCart);
+                if (!Boolean(decreaseSuccess)) {
+                    $(quantityId).val(quantity + 1);
+                    return;
+                }
             }
             if (quantityOld < quantity) {
-                AddCart(id, priceIdCart,1);
+                let  addSuccess = await AddCart(id, priceIdCart, 1);
+                if (!Boolean(addSuccess)) {
+                    $(quantityId).val(quantity - 1);
+                    return;
+                }
             }
             $(quantityOldId).val(quantity);
             var priceId = "#price-" + id;
@@ -200,7 +208,7 @@
             var sum = price * parseInt(quantity);
             var sumId = "#sum-" + id;
             $(sumId).text(sum + ' تومان');
-            $(sumId).attr("price",sum);
+            $(sumId).attr("price", sum);
             var totalPrice = 0;
             $(".sum-Product").each(function () {
                 totalPrice += parseInt($(this).attr("price"));

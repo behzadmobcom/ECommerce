@@ -2,6 +2,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
@@ -27,11 +28,17 @@ public class ShopModel : PageModel
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public ServiceResult<List<Tag>> Tags { get; set; }
     public Dictionary<int, string> Brands { get; set; }
+    [BindProperty] public int Min { get; set; }
+    [BindProperty] public int Max { get; set; }
+    [BindProperty] public bool IsExist { get; set; }
 
     public async Task OnGet(string path, string search, int pageNumber = 1, int pageSize = 20, int productSort = 1,
-        string message = null, string code = null, string tagText = "")
+        string message = null, string code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isExist = false)
     {
         string[]? resultPath = path.Split('=');
+        IsExist = isExist;
+        Min = minprice == 0 ? 100000 : minprice;
+        Max = maxprice == 0 ? 200000000 : maxprice;
         if (resultPath.Length > 0)
         {
             if (resultPath[0].Contains("tag"))
@@ -48,11 +55,15 @@ public class ShopModel : PageModel
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
 
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, isWithoutBail: true, tagText: tagText);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsExist, isWithoutBail: true, tagText: tagText );
+        
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
 
         Tags = await _tagService.GetAllProductTags();
+        Products.PaginationDetails.isExist = isExist;
+        Products.PaginationDetails.MinPrice = minprice;
+        Products.PaginationDetails.MaxPrice = maxprice;
 
     }
 

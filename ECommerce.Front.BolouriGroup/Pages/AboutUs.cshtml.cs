@@ -7,6 +7,7 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 public class AboutUsModel : PageModel
 {
     private readonly IBrandService _brandService;
+
     public AboutUsModel(IBrandService brandService)
     {
         _brandService = brandService;

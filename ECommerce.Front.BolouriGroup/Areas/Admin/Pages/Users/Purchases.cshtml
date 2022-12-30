@@ -1,0 +1,83 @@
+﻿@page "/Admin/Users/Purchases/{handler?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.PurchaseModel
+@{
+    ViewData["Title"] = "سفارشات";
+    var i = 1 + (Model.PurchaseOrder.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrder.PaginationDetails.PageSize;
+}
+<!--begin::Title-->
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست سفارشات</h1>
+<!--end::Title-->
+
+<div class="card mb-5 mb-xl-8">
+<!--begin::Body-->
+<div class="card-body py-3">
+<!--begin::Table container-->
+<div class="table-responsive">
+<!--begin::Table-->
+<table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+<!--begin::Table head-->
+       <form asp-page="/Users/Purchases" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="50">50</a>
+                    </p>
+                </div>
+         </form>
+<thead>
+<tr class="fw-bolder text-muted">
+	<th class="w-25px">
+		#
+	</th>
+	<th class="min-w-150px">تاریخ خرید</th>
+	<th class="min-w-140px">وضعیت سفارش</th>
+	<th class="min-w-120px">وضعیت پرداخت</th>
+	<th class="min-w-120px">قابل پرداخت</th>
+    <th class="min-w-120px">تخفیف</th>
+	<th class="min-w-100px text-end">عملیات</th>
+</tr>
+</thead>
+<!--end::Table head-->
+<!--begin::Table body-->
+<tbody>
+
+ @foreach (var item in Model.PurchaseOrder.ReturnData)
+ {							
+	<tr>
+	<td>@item.Id</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate</a>
+	</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
+	</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.IsPaied</a>
+	</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount</a>
+	</td>
+	<td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
+	<td class="text-end">
+		 <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-success font-weight-bold">جزئیات</a>
+	</td>
+	</tr>
+ }
+
+</tbody>
+<!--end::Table body-->
+</table>
+<!--end::Table-->
+</div>
+<!--end::Table container-->
+</div>
+		 <div class="card-footer">
+              <a class="btn btn-secondary" asp-Page="/Users/Index">لغو</a>
+         </div>
+<!--begin::Body-->
+</div>
