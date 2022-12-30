@@ -5754,7 +5754,7 @@ tbody tr td:last-child {
 }
 
 .single-banner::before {
-    background: linear-gradient(to right, rgba(6, 23, 56, 0.8), rgba(17, 151, 68, 0.8));
+  /*  background: linear-gradient(to right, rgba(6, 23, 56, 0.8), rgba(17, 151, 68, 0.8));*/
     content: "";
     height: 100%;
     position: absolute;
@@ -6143,9 +6143,9 @@ tbody tr td:last-child {
     background: var(--red)
 }
 
-.details-label.new {
-    background: var(--green)
-}
+    .details-label.new {
+        background: var(--blue-dark)
+    }
 
 .details-label.sale {
     background: var(--orange)
