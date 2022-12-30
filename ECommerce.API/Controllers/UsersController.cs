@@ -657,7 +657,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    //[Authorize(Roles = "Client,Admin,SuperAdmin")]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> GetById(int id, CancellationToken cancellationToken)
     {
         try

@@ -12,9 +12,11 @@ public class DeleteModel : PageModel
     {
         _userService = userService;
     }
+
     public User User { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
+
     public async Task<IActionResult> OnGet(int id)
     {
         var result = await _userService.GetById(id);
@@ -23,7 +25,6 @@ public class DeleteModel : PageModel
             User = result.ReturnData;
             return Page();
         }
-
         return RedirectToPage("/Users/Index",
             new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
@@ -41,10 +42,6 @@ public class DeleteModel : PageModel
             Message = result.Message;
             Code = result.Code.ToString();
         }
-
-        return RedirectToPage("/Users/Delete",
-                  new { id = id });
+        return RedirectToPage("/Users/RDelete",new { id = id });
     }
-
 }
-

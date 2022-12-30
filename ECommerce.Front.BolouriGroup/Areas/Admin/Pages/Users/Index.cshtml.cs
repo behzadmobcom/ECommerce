@@ -13,6 +13,7 @@ public class IndexModel : PageModel
     {
         _userService = userService;
     }
+
     public ServiceResult<List<UserListViewModel>> Users { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
@@ -33,9 +34,4 @@ public class IndexModel : PageModel
 
         return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
-
 }
-     
-        
-     
-

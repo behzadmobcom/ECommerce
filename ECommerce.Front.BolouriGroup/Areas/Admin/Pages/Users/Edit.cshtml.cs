@@ -12,6 +12,7 @@ public class EditModel : PageModel
     {
         _userService = userService;
     }
+
     [BindProperty] public User User { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }

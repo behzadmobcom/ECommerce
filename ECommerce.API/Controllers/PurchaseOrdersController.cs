@@ -121,7 +121,7 @@ public class PurchaseOrdersController : ControllerBase
     }
 
     [HttpGet]
-    //[Authorize(Roles = "Client,Admin,SuperAdmin")]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<List<PurchaseOrder>>> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
     {
         try
