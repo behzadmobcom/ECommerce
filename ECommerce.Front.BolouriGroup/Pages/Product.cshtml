@@ -4,8 +4,16 @@
 @{
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
+    var imageTemp = Model.Product.Images.FirstOrDefault();
+    string imagePath = $"{imageTemp.Path}/{imageTemp.Name}";
 }
-<link href="~/css/stars.css" rel="stylesheet" />
+
+@section Head{
+    <meta name="description" content="@Model.Product.Description" />
+    <meta property="og:title" content="@Model.Product.Name" />
+    <meta property="og:image" content="@imagePath" />
+    <link href="~/css/stars.css" rel="stylesheet" />
+}
 
 <section class="inner-section single-banner">
     <div class="container">
@@ -60,18 +68,20 @@
                             <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
                         }
                     </div>
-                  @*  <div class="details-rating">
-                        <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
-                        <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
+                    @*  <div class="details-rating">
+                    <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
+                    <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
                     </div>*@
                     <div class="pro-rating sin-pro-rating f-right">
                         @for (var i = 1; i <= 5; i++)
                         {
                             <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
-                                                              {<text> class="rankChecked" </text> }>
-                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
-                                    <i class="fas fa-star"></i>
-                            </label>
+                               {
+                        <text> class="rankChecked" </text>
+ }>
+                                    <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                        <i class="fas fa-star"></i>
+                                </label>
                         }
                         <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
@@ -127,7 +137,7 @@
                             {
                                 @foreach (var tag in Model.Product.Tags)
                                 {
-                                     var path = $"/Shop/tag={tag.TagText}";
+                                    var path = $"/Shop/tag={tag.TagText}";
                                     <li>
                                         <a href="@path">@tag.TagText</a>
                                     </li>
@@ -149,7 +159,7 @@
                         </div>
                     </div>
 
-                  @if (Model.Product.Tags != null)
+                    @if (Model.Product.Tags != null)
                     {
                         @foreach (var price in Model.Product.Prices)
                         {
@@ -223,7 +233,7 @@
                 </ul>
             </div>
         </div>
-         <label>@Model.Message</label>
+        <label>@Model.Message</label>
         <div class="tab-pane active" id="tab-spec">
             <div class="row">
                 <div class="col-lg-12">
@@ -270,49 +280,51 @@
 
                             @foreach (var item in Model.ProductComments.ReturnData)
                             {
-                            <li class="review-item">
-                                <div class="review-media">
-                                    <a class="review-avatar" href="#">
-                                        <img src="~/img/avatar/com.jpg" alt="مرور">
-                                    </a>
-                                    <h5 class="review-meta">
-                                        <a href="#">@item.Name</a><span>@item.DateTime</span>
-                                    </h5>
-                                </div>
-                              @*  <ul class="review-rating">
-                                    <li class="fas fa-star"></li>
-                                    <li class="fas fa-star"></li>
-                                    <li class="fas fa-star"></li>
-                                    <li class="fas fa-star"></li>
-                                    <li class="far fa-star"></li>
+                                <li class="review-item">
+                                    <div class="review-media">
+                                        <a class="review-avatar" href="#">
+                                            <img src="~/img/avatar/com.jpg" alt="مرور">
+                                        </a>
+                                        <h5 class="review-meta">
+                                            <a href="#">@item.Name</a><span>@item.DateTime</span>
+                                        </h5>
+                                    </div>
+                                    @*  <ul class="review-rating">
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="fas fa-star"></li>
+                                <li class="far fa-star"></li>
                                 </ul>*@
-                                <div class="review-desc">
-                                    @item.Text                                    
-                                     <p style="background-color:darkgrey"> 
-                                        @{string _answer="";}
-                                        @if ( !string.IsNullOrEmpty(item.Answer?.Text) ) { _answer = $"{item.Answer?.Name} : {item.Answer?.Text}"; }                                  
-                                        @_answer
-                                     </p>
-                                </div>
-                            </li>                           
-                            }                                               
-                        </ul>                           
-                            <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails"/>                               
+                                    <div class="review-desc">
+                                        @item.Text
+                                        <p style="background-color:darkgrey">
+                                            @{
+                                                string _answer = "";
+                                            }
+                                            @if (!string.IsNullOrEmpty(item.Answer?.Text)) { _answer = $"{item.Answer?.Name} : {item.Answer?.Text}"; }
+                                            @_answer
+                                        </p>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails" />
                         <form class="blog-details-form" method="post" asp-page-handler="OnPost">
-                             <h3 class="details-form-title">ارسال نظر</h3>                            
-                             <a hidden>@Model.Product.Url</a>
-                             <div class="row">
-                              <div class="col-lg-6">
-                               <div class="form-group"><input type="text" class="form-control" asp-for="@Model.ProductComment.Name"  placeholder="اسمت را وارد کن"></div>
-                              </div>
-                              <div class="col-lg-6">
-                               <div class="form-group"><input type="email" class="form-control" asp-for="@Model.ProductComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
-                              </div>
-                              <div class="col-lg-12">
-                               <div class="form-group"><textarea class="form-control" asp-for="@Model.ProductComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
-                              </div>
-                             </div>
-                             <button class="form-btn">ارسال نظر</button>
+                            <h3 class="details-form-title">ارسال نظر</h3>
+                            <a hidden>@Model.Product.Url</a>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group"><input type="text" class="form-control" asp-for="@Model.ProductComment.Name" placeholder="اسمت را وارد کن"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group"><input type="email" class="form-control" asp-for="@Model.ProductComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group"><textarea class="form-control" asp-for="@Model.ProductComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
+                                </div>
+                            </div>
+                            <button class="form-btn">ارسال نظر</button>
                         </form>
                     </div>
                 </div>
