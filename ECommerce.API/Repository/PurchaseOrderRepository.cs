@@ -24,8 +24,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             .Include(d => d.PaymentMethod)
             .Include(d => d.SendInformation)
             .Include(d => d.PurchaseOrderDetails)
-            .ThenInclude(pro =>pro.Product)
-            .ThenInclude(b =>b.Images)
+            .ThenInclude(pro => pro.Product)
+            .ThenInclude(b => b.Images)
             .AsNoTracking();
 
         if (purchaseFiltreOrderViewModel.IsPaied != null) query = query.Where(x => x.IsPaid == purchaseFiltreOrderViewModel.IsPaied);
@@ -118,5 +118,15 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             })
             .ToListAsync(cancellationToken);
         return purchaseOrderViewModel;
+    }
+
+    public async Task<PurchaseOrder> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
+    {
+        var query = _context.PurchaseOrders.Where(x => x.Id == id)
+            .Include(d => d.PurchaseOrderDetails)
+            .Include(d => d.PaymentMethod)
+            .AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }
 }

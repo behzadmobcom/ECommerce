@@ -26,11 +26,11 @@ public class BlogDetailsModel : PageModel
     public BlogCategory BlogCategory { get; set; }
     public ServiceResult<List<BlogViewModel>> Blogs { get; set; }
     public ServiceResult<List<BlogCategory>> Categories { get; set; }
-    public List<BlogComment>? BlogComments { get; set; }
+    public ServiceResult<List<BlogComment>> BlogComments { get; set; }
     public BlogComment? BlogComment { get; set; }
     [BindProperty] public string? Message { get; set; }
 
-    private async Task Initial(string blogUrl)
+    private async Task Initial(string blogUrl, int pageNumber = 1, int pageSize = 10)
     {
         var result = await _blogService.GetByUrl(blogUrl);
         if (result.Code > 0) return;
@@ -38,17 +38,15 @@ public class BlogDetailsModel : PageModel
         var blogCategory = await _blogCategoryService.GetById(Blog.BlogCategoryId);
         BlogCategory = blogCategory.ReturnData;
 
-        var _blogComments = await _blogCommentService.GetAllAccesptedComments(Blog.Id);
-        BlogComments = _blogComments.ReturnData;
-
+        BlogComments = await _blogCommentService.GetAllAccesptedComments(search: System.Convert.ToString(Blog.Id),pageNumber,pageSize);
 
         Blogs = await _blogService.TopBlogs(null, null, 1, 3, 1);
         Categories = await _blogCategoryService.GetAll();
     }
 
-        public async Task OnGet(string blogUrl)
+        public async Task OnGet(string blogUrl, int pageNumber = 1, int pageSize = 10)
     {
-        await Initial(blogUrl);
+        await Initial(blogUrl, pageNumber, pageSize);
     }
 
     public async Task OnPost(BlogComment blogComment, string blogUrl)

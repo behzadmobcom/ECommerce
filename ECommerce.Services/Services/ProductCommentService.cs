@@ -33,9 +33,9 @@ namespace ECommerce.Services.Services;
         return Return(result);
     }
 
-    public async Task<ServiceResult<List<ProductComment>>> GetAllAccesptedComments(int productId)
+    public async Task<ServiceResult<List<ProductComment>>> GetAllAccesptedComments(string search = "", int pageNumber = 0, int pageSize = 10)
     {
-        var result = await ReadList(Url, $"GetAllAccesptedComments?productId={productId}");       
+        var result = await ReadList(Url, $"GetAllAccesptedComments?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
         return Return(result);
     }
 
