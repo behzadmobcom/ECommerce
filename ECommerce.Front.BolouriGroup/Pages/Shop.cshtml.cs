@@ -38,11 +38,11 @@ public class ShopModel : PageModel
     {
         string tempSearch = search;
         ProductSort = productSort;
-        string[]? resultPath = path.Split('=');
+        string[]? resultPath = path?.Split('=');
         IsExist = isExist;
         Min = minprice == 0 ? 100000 : minprice;
         Max = maxprice == 0 ? 200000000 : maxprice;
-        if (resultPath.Length > 0)
+        if (resultPath != null && resultPath.Length > 0)
         {
             if (resultPath[0].Contains("tag"))
             {
@@ -57,7 +57,7 @@ public class ShopModel : PageModel
             var resultCategory = await _categoryService.GetByUrl(path);
             if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
         }
-        if (!string.IsNullOrEmpty(search))
+        if (!string.IsNullOrEmpty(search) && !search.Contains('='))
         {
             search = $"Name={search}";
         }
