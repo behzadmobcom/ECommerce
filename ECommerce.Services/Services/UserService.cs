@@ -67,9 +67,9 @@ public class UserService : IUserService
 
     public async Task<ServiceResult> Register(RegisterViewModel registerViewModel)
     {
-        var result = await _http.PostAsync(Url, registerViewModel, "Register");
+        ApiResult<object> result = await _http.PostAsync(Url, registerViewModel, "Register");
 
-        if (result.Code != 0) return new ServiceResult
+        if (result.Code != 0 || result.Status != 200) return new ServiceResult
         {
             Code = ServiceCode.Error,
             Message = result.GetBody()
