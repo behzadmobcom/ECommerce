@@ -204,5 +204,4 @@ public class BlogCommentsController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
-
 }

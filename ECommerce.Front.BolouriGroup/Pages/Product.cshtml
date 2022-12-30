@@ -296,10 +296,8 @@
                                 </div>
                             </li>                           
                             }                                               
-                        </ul>
-                            
-                            <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails"/>    
-                            
+                        </ul>                           
+                            <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails"/>                               
                         <form class="blog-details-form" method="post" asp-page-handler="OnPost">
                              <h3 class="details-form-title">ارسال نظر</h3>                            
                              <a hidden>@Model.Product.Url</a>
