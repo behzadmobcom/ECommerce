@@ -15,8 +15,7 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.ProductComments;
         _productService = productService;
     }
 
-    [BindProperty] public ProductComment ProductComment { get; set; }
-    public Product Product { get; set; }  
+    [BindProperty] public ProductComment ProductComment { get; set; } 
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 
@@ -26,9 +25,6 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.ProductComments;
         Code=code;
         var ProductCommentResult = await _productComment.GetById(id);
         ProductComment = ProductCommentResult.ReturnData;
-        int _productId= ProductComment.ProductId ??  default(int);
-        var ProductResult = await _productService.GetById(_productId);
-        Product = ProductResult.ReturnData;
     }
 
     public async Task<IActionResult> OnPost()

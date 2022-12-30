@@ -218,7 +218,7 @@
                         <a href="#tab-reve" class="tab-link" data-bs-toggle="tab">بررسی محصول</a>
                     </li>
                     <li>
-                        <a href="#tab-coma" class="tab-link" data-bs-toggle="tab">نظرات (@Model.ProductComments.Count)</a>
+                        <a href="#tab-coma" class="tab-link" data-bs-toggle="tab">نظرات (@Model.ProductComments.PaginationDetails.TotalCount)</a>
                     </li>
                 </ul>
             </div>
@@ -268,7 +268,7 @@
                     <div class="product-details-frame">
                         <ul class="review-list">
 
-                            @foreach (var item in Model.ProductComments)
+                            @foreach (var item in Model.ProductComments.ReturnData)
                             {
                             <li class="review-item">
                                 <div class="review-media">
@@ -295,10 +295,9 @@
                                      </p>
                                 </div>
                             </li>                           
-                            }
-                            
-                   
-                        </ul>
+                            }                                               
+                        </ul>                           
+                            <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails"/>                               
                         <form class="blog-details-form" method="post" asp-page-handler="OnPost">
                              <h3 class="details-form-title">ارسال نظر</h3>                            
                              <a hidden>@Model.Product.Url</a>
@@ -319,7 +318,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 <section class="inner-section">
