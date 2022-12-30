@@ -571,11 +571,7 @@ public class ProductsController : ControllerBase
         try
         {
             var productIndexPageViewModel = await _productRepository.TopStars(count, cancellationToken);
-
-            if (productIndexPageViewModel.Count < 10)
-                productIndexPageViewModel.AddRange(await _productRepository.TopNew(10, cancellationToken));
-
-            productIndexPageViewModel = productIndexPageViewModel.Distinct().Take(count).ToList();
+           
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
@@ -1080,6 +1076,30 @@ public class ProductsController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBail, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var products = await _productRepository.GetTops(includeProperties, cancellationToken);
+            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                products = await AddPriceAndExistFromHolooList(products, isWithoutBail, true, cancellationToken);
+            products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = products
             });
         }
         catch (Exception e)

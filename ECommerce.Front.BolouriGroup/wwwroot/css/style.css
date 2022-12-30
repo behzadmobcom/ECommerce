@@ -659,6 +659,7 @@ button:focus {
     height: 45px;
     padding: 0 20px 2px;
     width: 100%;
+    direction: rtl
 }
 
 .form-control:focus-within {
@@ -872,9 +873,9 @@ button:focus {
     color: var(--text);
     height: 40px;
     line-height: 40px;
-    padding: 0;
+    padding: 5PX;
     text-align: center;
-    width: 40px;
+    width: 40px;font-size: 14px
 }
 
 .page-link:hover {

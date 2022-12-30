@@ -233,4 +233,11 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await _http.GetAsync<ProductModalViewModel>(Url, $"GetByIdViewModel?id={id}");
         return Return(result);
     }
+
+    
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBail = false)
+    {
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
+        return Return(result);
+    }
 }

@@ -27,14 +27,14 @@ namespace ECommerce.Front.ArshaHamrah.Pages
             Token = token;
 
         }
-        public async Task<IActionResult> OnPost(string password, string conpass, string token, string username) 
+        public async Task<IActionResult> OnPost(string password, string conpass, string token, string email) 
         {
             var resetForgotPasswordViewModel = new ResetForgotPasswordViewModel
             {
                 Password = password,
                 ConPass = conpass,
                 PasswordResetToken = token,
-                Username = username
+                Email = email
             };
             var result = await _userService.ChangeForgotPassword(resetForgotPasswordViewModel);
             return RedirectToPage("index");
