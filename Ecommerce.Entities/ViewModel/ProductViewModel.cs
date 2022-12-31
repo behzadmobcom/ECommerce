@@ -152,6 +152,8 @@ public class ProductIndexPageViewModel
     public string Brand { get; set; }
     public ushort MaxOrder { get; set; }
     public string? TopCategory { get; set; }
+    public ICollection<ProductUserRank> ProductUserRank { get; set; }
+    public decimal? MaxPrice { get; set; }
 
     public static implicit operator ProductIndexPageViewModel(Product x)
     {
@@ -178,8 +180,8 @@ public class ProductIndexPageViewModel
             Url = x.Url,
             Brand = brandName,
             Alt = imageAlt,
-            Stars = x.Star,
-            MaxOrder =Convert.ToUInt16(x.MaxOrder),
+            Stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count : 0,
+            MaxOrder = Convert.ToUInt16(x.MaxOrder),
         };
     }
 }
