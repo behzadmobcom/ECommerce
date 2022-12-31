@@ -30,6 +30,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Contact");
     options.Conventions.AllowAnonymousToPage("/Compare");
     options.Conventions.AllowAnonymousToPage("/AboutUs");
+    options.Conventions.AllowAnonymousToPage("/Cart");
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

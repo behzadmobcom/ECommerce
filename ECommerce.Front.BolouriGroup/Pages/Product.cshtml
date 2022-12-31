@@ -5,13 +5,24 @@
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
     var imageTemp = Model.Product.Images.FirstOrDefault();
-    string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}";
+    string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
+    var description = @Html.Raw(Model.Product.Description).ToString();
 }
 
 @section Head{
-    <meta name="description" content="@Model.Product.Description" />
+    <meta name="description" content="@description" />
     <meta property="og:title" content="@Model.Product.Name" />
     <meta property="og:image" content="@imagePath" />
+    <meta property="og:locale" content="@imagePath" />
+    <meta property="og:type" content="product" />
+    <meta property="og:description" content="@description" />
+    <meta property="og:locale" content="fa_IR" />
+    <meta property="og:site_name" content="بلوری" />
+    <meta property="og:availability" content="in stock" />
+
+    <meta property="twitter:title" content="@Model.Product.Name" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:image" content="@imagePath" />
     <link href="~/css/stars.css" rel="stylesheet" />
 }
 
@@ -76,12 +87,10 @@
                         @for (var i = 1; i <= 5; i++)
                         {
                             <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
-                               {
-                        <text> class="rankChecked" </text>
- }>
-                                    <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
-                                        <i class="fas fa-star"></i>
-                                </label>
+                               {<text> class="rankChecked" </text> }>
+                                        <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                            <i class="fas fa-star"></i>
+                                    </label>
                         }
                         <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
