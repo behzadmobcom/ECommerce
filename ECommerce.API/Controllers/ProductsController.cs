@@ -1091,17 +1091,112 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.GetTops(includeProperties, cancellationToken);
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                products = await AddPriceAndExistFromHolooList(products, isWithoutBail, true, cancellationToken);
-            products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+            List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
+            var allproducts = await _productRepository.GetAllWithInclude(cancellationToken)
+                                 .Select(p => new ProductIndexPageViewModel
+                                 {
+                                     Prices = p.Prices,
+                                     Alt = p.Images!.First().Alt,
+                                     Brand = p.Brand!.Name,
+                                     Name = p.Name,
+                                     Description = p.Description,
+                                     Id = p.Id,
+                                     ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                                     Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
+                                     Url = p.Url,
+                                 }).ToListAsync(cancellationToken);
+          
+            if (allproducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                allproducts = await AddPriceAndExistFromHolooList(allproducts, isWithoutBail, true, cancellationToken);
+            allproducts = allproducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
+            string[] parameters = includeProperties.Split(",");
+            foreach (var param in parameters)
+            {
+               List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
+               var resultCount = param.Split(":");
+                int _count = System.Convert.ToInt32(resultCount[1]);
+                switch (resultCount[0])
+                {
+                 case "TopNew":
+                             products = allproducts.OrderByDescending(x=>x.Id).Take(_count)
+                            .Select(p => new ProductIndexPageViewModel
+                                {
+                                    Prices = p.Prices,
+                                    Alt = p.Alt,
+                                    Brand = p.Brand,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Id = p.Id,
+                                    ImagePath = p.ImagePath,
+                                    Stars = p.Stars,
+                                    Url = p.Url,                                   
+                                    TopCategory = resultCount[0]
+                                }).ToList();                     
+                            break;
+
+                 case "TopPrices":
+                            products = allproducts                       
+                            .Select(p => new ProductIndexPageViewModel
+                                {
+                                    Prices = p.Prices,
+                                    Alt = p.Alt,
+                                    Brand = p.Brand,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Id = p.Id,
+                                    ImagePath = p.ImagePath,
+                                    Stars = p.Stars,
+                                    Url = p.Url,
+                                    MaxPrice = p.Prices.Sum(x => x.Exist) >0 ? p.Prices.Select(x=>x.Amount).Max() : 0,
+                                    TopCategory = resultCount[0]
+                            })
+                            .OrderByDescending(o=> o.MaxPrice)
+                            .Take(_count)
+                            .ToList();
+                            break;
+
+                 case "TopChip":
+                        
+                            break;
+                 case "TopDiscount":
+
+                            break;
+                 case "TopRelative":
+
+                            break;
+                 case "TopSells":
+
+                            break;
+
+                 case "TopStars":
+                             products = allproducts.OrderByDescending(x => x.Stars).Take(_count)
+                             .Select(p => new ProductIndexPageViewModel
+                             {
+                                     Prices = p.Prices,
+                                     Alt = p.Alt,
+                                     Brand = p.Brand,
+                                     Name = p.Name,
+                                     Description = p.Description,
+                                     Id = p.Id,
+                                     ImagePath = p.ImagePath,
+                                     Stars = p.Stars,
+                                     Url = p.Url,                                
+                                     TopCategory = resultCount[0]
+                             }).ToList();
+                             break;
+
+                    default: break;
+                }
+                foreach (var product in products) selectedProducts.Add(product);
+            }
 
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = products
+                ReturnData = selectedProducts
             });
-        }
+    }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);

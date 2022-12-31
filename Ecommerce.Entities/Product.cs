@@ -76,7 +76,7 @@ public class Product : BaseEntity
 
     public ICollection<Image>? Images { get; set; }
 
-    public ICollection<ProductUserRank>? ProductUserRanks { get; set; }
+    public ICollection<ProductUserRank>? ProductUserRanks { get; set; }= new List<ProductUserRank>();
 
     [JsonIgnore] public ICollection<SlideShow>? SlideShows { get; set; }
 
