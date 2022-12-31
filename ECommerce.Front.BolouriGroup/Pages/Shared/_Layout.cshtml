@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <title>@ViewData["Title"] - Boloori</title>
-
+    @await RenderSectionAsync("Head", false)
     <link rel="icon" href="~/img/favicon.png" />
 
     <link rel="stylesheet" href="~/css/flaticon.css" />
@@ -92,16 +92,17 @@
                             <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
                             <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
                         </a>
-                        <button class="header-widget header-cart" title="سبد خرید">
-                            <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
-                            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
-                        </button>
+                  
                     }
                     else
                     {
                         <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
                             <i class="fal fa-user"></i>
                         </a>
+                        <button class="header-widget header-cart" title="سبد خرید">
+                            <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
+                            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value" />
+                        </button>
                     }
                 </div>
             </div>
@@ -494,6 +495,9 @@
                                 </li>
                                 <li>
                                     <a asp-area="" asp-page="/faq">پرسش و پاسخ</a>
+                                </li>
+                                <li>
+                                    <a asp-area="" asp-page="/Rules">قوانین و مقررات</a>
                                 </li>
                             </ul>
                         </div>

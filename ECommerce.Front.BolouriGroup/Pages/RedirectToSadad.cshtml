@@ -1,0 +1,18 @@
+﻿@page
+@model ECommerce.Front.BolouriGroup.Pages.RedirectToSadadModel
+@{
+}
+
+<h1>در حال انتقال به درگاه بانک</h1>
+
+<form id="PostForm" name="PostForm" action="https://sadad.shaparak.ir/Purchase" method="POST">
+    <input type="hidden" name="Token" id="Token" value="@Model.Token.ToUpper()" />
+</form>
+
+@section scripts
+    {
+    <script language='javascript'>
+        var vPostForm = document.PostForm;
+        vPostForm.submit();
+    </script>
+}

@@ -313,9 +313,9 @@ public class ProductsController : ControllerBase
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             if (search is { Length: > 1 })
             {
-                switch (search[0])
+                switch (search[0].ToLower())
                 {
-                    case "BrandId":
+                    case "brandid":
                         productIndexPageViewModel.AddRange(await productQuery
                             .Where(x => x.BrandId == Convert.ToInt32(search[1]))
                             .Select(p => new ProductIndexPageViewModel
@@ -332,9 +332,9 @@ public class ProductsController : ControllerBase
                             })
                             .ToListAsync(cancellationToken));
                         break;
-                    case "Name":
+                    case "name":
                         productIndexPageViewModel.AddRange(await productQuery
-                            .Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1]))
+                            .Where(x => x.Name.Contains(search[1]) && x.Description.Contains(search[1]))
                             .Select(p => new ProductIndexPageViewModel
                             {
                                 Prices = p.Prices!,
