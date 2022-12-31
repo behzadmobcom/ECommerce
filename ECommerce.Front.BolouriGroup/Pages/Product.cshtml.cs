@@ -2,8 +2,10 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -16,10 +18,11 @@ public class ProductdetailsModel : PageModel
     private readonly ITagService _tagService;
     private readonly IUserService _userService;
     private readonly IProductCommentService _productCommandService;
-    
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
     public ProductdetailsModel(IProductService productService, IStarService starService, ICartService cartService,
         ITagService tagService, IProductAttributeGroupService attributeGroupService, IUserService userService
-        , IProductCommentService productCommandService)
+        , IProductCommentService productCommandService, IHttpContextAccessor httpContextAccessor)
     {
         _productService = productService;
         _starService = starService;
@@ -28,8 +31,9 @@ public class ProductdetailsModel : PageModel
         _attributeGroupService = attributeGroupService;
         _userService = userService;
         _productCommandService = productCommandService;
+        _httpContextAccessor = httpContextAccessor;
     }
-
+    public string siteUrl { get; set; }
     public ProductViewModel Product { get; set; }
     public List<Tag> tags { get; set; }
     public List<ProductIndexPageViewModel> RelatedProducts { get; set; }
@@ -37,9 +41,9 @@ public class ProductdetailsModel : PageModel
     public List<ProductAttributeGroup> AttributeGroups { get; set; }
     public ProductComment? ProductComment { get; set; }
     [BindProperty] public string? Message { get; set; }
-    public ServiceResult<List<ProductComment>> ProductComments { get; set; }  
- 
-    private  async Task Initial(string productUrl, int pageNumber = 1 , int pageSize = 10)
+    public ServiceResult<List<ProductComment>> ProductComments { get; set; }
+
+    private async Task Initial(string productUrl, int pageNumber = 1, int pageSize = 10)
     {
         var resultProduct = await _productService.GetProduct(productUrl);
         if (resultProduct.Code > 0) return;
@@ -56,31 +60,34 @@ public class ProductdetailsModel : PageModel
         Stars = await _starService.SumStarsByProductId(Product.Id);
 
         ProductComments = await _productCommandService.GetAllAccesptedComments(search: System.Convert.ToString(Product.Id), pageNumber, pageSize);
+      
+        string[] url = HttpContext.Request.GetDisplayUrl().Split("/");
+        siteUrl = string.Format("{0}//{1}", url[0], url[2]);
     }
 
     public async Task OnGet(string productUrl, int pageNumber = 1, int pageSize = 10)
     {
         await Initial(productUrl, pageNumber, pageSize);
-        
+
     }
 
-    public async Task OnPost(ProductComment productComment , string productUrl)
+    public async Task OnPost(ProductComment productComment, string productUrl)
     {
         var user = await _userService.GetUser();
         if (user != null)
         {
             productComment.UserId = user.ReturnData.Id;
             productComment.Name = user.ReturnData.UserName;
-        }        
+        }
 
         var resultProduct = await _productService.GetProduct(productUrl);
         if (resultProduct.Code > 0) return;
         Product = resultProduct.ReturnData;
         productComment.ProductId = Product.Id;
-     
+
         if (ModelState.IsValid)
         {
-            var result = await _productCommandService.Add(productComment);            
+            var result = await _productCommandService.Add(productComment);
             Message = result.Message;
         }
         else
@@ -89,5 +96,5 @@ public class ProductdetailsModel : PageModel
         }
         await Initial(productUrl);
     }
-  
+
 }

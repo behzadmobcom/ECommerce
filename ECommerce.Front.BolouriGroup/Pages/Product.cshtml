@@ -5,7 +5,7 @@
     ViewData["Title"] = "جزئیات محصول";
     int priceId = Model.Product.Prices.FirstOrDefault().Id;
     var imageTemp = Model.Product.Images.FirstOrDefault();
-    string imagePath = $"{imageTemp.Path}/{imageTemp.Name}";
+    string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}";
 }
 
 @section Head{
