@@ -178,7 +178,8 @@
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
-                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
+                                    @{string _priceAmount = @price.Exist>0 ? @price.Amount.ToString("N0") : "-" ;}
+                                    <span for="price-@price.Id">قیمت : @_priceAmount </span>
                                 </div>
                             }
                             else if (price.ColorId > 1)
@@ -186,7 +187,8 @@
                                 <div style="background-color: @price.Color.ColorCode">
                                     <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <span for="price-@price.Id">@price.Color.Name - </span>
-                                    <span for="price-@price.Id">قیمت : @price.Amount</span>
+                                    @{string _priceAmount = @price.Exist>0 ? @price.Amount.ToString("N0") : "-" ;}
+                                    <span for="price-@price.Id">قیمت : @_priceAmount </span>
                                 </div>
                             }
                             <br>
