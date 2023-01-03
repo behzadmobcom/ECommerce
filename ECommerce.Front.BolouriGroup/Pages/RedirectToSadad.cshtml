@@ -5,14 +5,15 @@
 
 <h1>در حال انتقال به درگاه بانک</h1>
 
-<form id="PostForm" name="PostForm" action="https://sadad.shaparak.ir/Purchase" method="POST">
+<form id="GetForm" name="GetForm" action="https://sadad.shaparak.ir/Purchase" method="get">
     <input type="hidden" name="Token" id="Token" value="@Model.Token.ToUpper()" />
 </form>
 
 @section scripts
     {
     <script language='javascript'>
-        var vPostForm = document.PostForm;
-        vPostForm.submit();
+        var form = document.GetForm;
+        form.method = 'GET';
+        form.submit();
     </script>
 }

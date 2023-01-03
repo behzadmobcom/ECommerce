@@ -105,7 +105,13 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
         SumPrice = Convert.ToInt32(tempSumPrice);
-
+        if(SumPrice >= 50000000)
+        {
+            Message = "مبلغ سفارش نمی تواند بیشتر از 50 میلیون تومان باشد";
+            Code = "Error";
+            await Initial();
+            return Page();
+        }
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
@@ -115,52 +121,53 @@ public class CheckoutModel : PageModel
             {
         
                 case "sadad":
-                    SumPrice *= 10;
                     purchaseOrder.OrderGuid = Guid.NewGuid();
                     byte[] gb = purchaseOrder.OrderGuid.ToByteArray();
                     purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
                     var date = DateTime.Now.ToString("yyyyMMdd");
                     var time = DateTime.Now.ToString("HHmmss");
-                    long terminalId = 6547305;
-                    var merchantId = "24102279";
-                    var merchantKey = "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
+                    long merchantId = 000000140341290;
+                    var terminalId = "24102279";
+                    var terminalKey = "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
 
-                    var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", terminalId, purchaseOrder.OrderGuid, SumPrice));
+                    var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", terminalId, purchaseOrder.OrderId, SumPrice));
                     var symmetric = SymmetricAlgorithm.Create("TripleDes");
                     symmetric.Mode = CipherMode.ECB;
                     symmetric.Padding = PaddingMode.PKCS7;
-                    var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(merchantKey), new byte[8]);
+                    var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(terminalKey), new byte[8]);
                     var signData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
                     
                     var ipgUri = "https://sadad.shaparak.ir/api/v0/Request/PaymentRequest";
                     var data = new
                     {
-                        terminalId,
-                        merchantId,
-                        SumPrice,
-                        purchaseOrder.OrderGuid,
-                        LocalDateTime = DateTime.Now,   
-                        returnUrl = url + returnAction,
+                        MerchantId = merchantId,
+                        TerminalId = terminalId,
+                        Amount =SumPrice,
+                        purchaseOrder.OrderId,
+                        LocalDateTime = DateTime.Now,
+                        ReturnUrl = url + returnAction,
                         signData
                     };
 
-                    var res = CallApi<PayResultData>(ipgUri, data);
-                    res.Wait();
+                    var res =await CallApi<PayResultData>(ipgUri, data);
 
-                    if (res.Result.ResCode == "0")
+                    if (res.ResCode == "0")
                     {
                         await _purchaseOrderService.Edit(purchaseOrder);
-                        return RedirectToPage("RedirectToSadad", new { redirectUrl = returnAction ,token = res.Result.Token });
+                        return RedirectToPage("RedirectToSadad", new { redirectUrl = returnAction ,token = res.Token });
                     }
-                    return RedirectToPage("Error", new { message = res.Result.Description });
+                    return RedirectToPage("Error", new { message = res.Description });
             }
-
+            Code = "Error";
             Message = "خطا هنگام اتصال به درگاه بانکی";
         }
         else
         {
             if (string.IsNullOrEmpty(Message) || Message.Equals("\n\r"))
+            {
                 Message = "لطفا اطلاعات آدرس را تکمیل کنید یا از لیست یک آدرس را انتخاب کنید";
+                Code = "Info";
+            }
         }
         Code = resultSendInformation.ToString();
         await Initial();
@@ -169,20 +176,16 @@ public class CheckoutModel : PageModel
 
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+        //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
         using (var client = new HttpClient())
         {
 
             client.BaseAddress = new Uri(apiUrl);
             client.DefaultRequestHeaders.Accept.Clear();
-            var w = client.PostAsJsonAsync(apiUrl, value);
-            w.Wait();
-            HttpResponseMessage response = w.Result;
+            HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, value);
             if (response.IsSuccessStatusCode)
             {
-                var result = response.Content.ReadFromJsonAsync<T>();
-                result.Wait();
-                return result.Result;
+                return await response.Content.ReadFromJsonAsync<T>();
             }
             return default(T);
         }
