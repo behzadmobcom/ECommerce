@@ -543,7 +543,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public IQueryable<Product> GetAllWithInclude(CancellationToken cancellationToken)
     {
         var products = _context.Products.Include(x => x.Prices).Include(x => x.Brand)
-                                        .Include(x => x.Images).Include(x=>x.ProductUserRanks);
+                                        .Include(x => x.Images).Include(x=>x.ProductUserRanks).Take(20);
         return products;
     }
 
