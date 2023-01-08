@@ -31,6 +31,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Compare");
     options.Conventions.AllowAnonymousToPage("/AboutUs");
     options.Conventions.AllowAnonymousToPage("/Cart");
+    options.Conventions.AllowAnonymousToPage("/MeliSuccess");
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

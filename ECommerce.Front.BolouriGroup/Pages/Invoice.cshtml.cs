@@ -37,7 +37,7 @@ public class InvoiceModel : PageModel
         var symmetric = SymmetricAlgorithm.Create("TripleDes");
         symmetric.Mode = CipherMode.ECB;
         symmetric.Padding = PaddingMode.PKCS7;
-        var merchantKey = "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
+        var merchantKey = "8v8AEee8YfZX+wwc1TzfShRgH3O9WOho";// "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
         var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(merchantKey), new byte[8]);
 
         var signedData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
@@ -77,20 +77,15 @@ public class InvoiceModel : PageModel
 
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
-        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
         using (var client = new HttpClient())
         {
 
             client.BaseAddress = new Uri(apiUrl);
             client.DefaultRequestHeaders.Accept.Clear();
-            var w = client.PostAsJsonAsync(apiUrl, value);
-            w.Wait();
-            HttpResponseMessage response = w.Result;
+            HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, value);
             if (response.IsSuccessStatusCode)
             {
-                var result = response.Content.ReadFromJsonAsync<T>();
-                result.Wait();
-                return result.Result;
+                return await response.Content.ReadFromJsonAsync<T>();
             }
             return default(T);
         }
