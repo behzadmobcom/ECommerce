@@ -540,104 +540,12 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         }
         return products.Take(count).ToList();
     }
-
-    public async Task<List<ProductIndexPageViewModel>> GetTops(string includeProperties, CancellationToken cancellationToken)
+    public IQueryable<Product> GetAllWithInclude(CancellationToken cancellationToken)
     {
-        List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
-        string[] parameters = includeProperties.Split(",");
-        foreach (var param in parameters)
-        {
-            var resultCount = param.Split(":");
-            int _count = System.Convert.ToInt32(resultCount[1]);
-            List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
-            switch (resultCount[0])
-            {
-                case "TopNew": products = await _context.Products.Where(x => x.Images!.Count > 0 && x.Prices!.Any()).OrderByDescending(x => x.Id).Take(_count)
-                            .Include(x => x.Prices).ThenInclude(c => c.Discount)
-                            .Select(p => new ProductIndexPageViewModel
-                            {
-                                Prices = p.Prices!,
-                                Alt = p.Images!.First().Alt,
-                                Brand = p.Brand!.Name,
-                                Name = p.Name,
-                                Description = p.Description,
-                                Id = p.Id,
-                                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                                Stars = p.Star,
-                                Url = p.Url,
-                                TopCategory = resultCount[0]
-                            }).ToListAsync(cancellationToken);            
-                            break;
-
-                case "TopPrices": products = await _context.Prices.OrderByDescending(x => x.Amount)
-                               .Where(x => x.Product.Images.Count > 0).Include(x => x.Discount)
-                               .Take(_count)
-                               .Select(p => new ProductIndexPageViewModel
-                               {
-                                   Prices = p.Product!.Prices!,
-                                   Alt = p.Product.Images!.First().Alt,
-                                   Brand = p.Product.Brand!.Name,
-                                   Name = p.Product.Name,
-                                   Description = p.Product.Description,
-                                   Id = p.Product.Id,
-                                   ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
-                                   Stars = p.Product.Star,
-                                   Url = p.Product.Url,
-                                   TopCategory = resultCount[0]
-                               }).ToListAsync(cancellationToken);
-                               break;
-
-               case "TopChip": products = await _context.Prices.OrderBy(x => x.Amount)
-                               .Where(x => x.Product!.Images!.Count > 0).Include(x => x.Discount)
-                               .Take(_count)
-                               .Select(p => new ProductIndexPageViewModel
-                               {
-                                   Prices = p.Product!.Prices!,
-                                   Alt = p.Product.Images!.First().Alt,
-                                   Brand = p.Product.Brand!.Name,
-                                   Name = p.Product.Name,
-                                   Description = p.Product.Description,
-                                   Id = p.Product.Id,
-                                   ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
-                                   Stars = p.Product.Star,
-                                   Url = p.Product.Url,
-                                   TopCategory = resultCount[0]
-                               }).ToListAsync(cancellationToken);
-                               break;
-
-                case "TopStars": products = await _context.ProductUserRanks.OrderByDescending(x => x.Stars)
-                                .Where(x => x.Product!.Images!.Count > 0 && x.Product.Prices!.Any()).Include(x => x.Product).ThenInclude(x => x.Prices).ThenInclude(x => x.Discount)
-                                .Take(_count)
-                                .Select(p => new ProductIndexPageViewModel
-                                {
-                                    Prices = p.Product!.Prices!,
-                                    Alt = p.Product.Images!.First().Alt,
-                                    Brand = p.Product.Brand!.Name,
-                                    Name = p.Product.Name,
-                                    Description = p.Product.Description,
-                                    Id = p.Product.Id,
-                                    ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
-                                    Stars = p.Product.Star,
-                                    Url = p.Product.Url,
-                                    TopCategory = resultCount[0]
-                                })
-                                .ToListAsync(cancellationToken);
-                                break;
-
-                default: break;
-            }
-            foreach (var product in products) selectedProducts.Add(product);
-
-        }
-
-        //IQueryable<Product?>? products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
-        //var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
-        //return result;
-
-        return selectedProducts;
-
+        var products = _context.Products.Include(x => x.Prices).Include(x => x.Brand)
+                                        .Include(x => x.Images).Include(x=>x.ProductUserRanks).Take(20);
+        return products;
     }
-
 
     #endregion
 }

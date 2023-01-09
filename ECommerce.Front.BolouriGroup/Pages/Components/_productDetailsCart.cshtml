@@ -70,13 +70,13 @@
 
             }
             @{
-                var descriptionWords = Model.Description.Split(" ");
+                var descriptionWords = Model.Description?.Split(" ");
                 var description = "";
-                var count = descriptionWords.Length;
+                var count = descriptionWords?.Length;
                 if (count >= 25) count = 25;
                 for (int i = 0; i < count; i++)
                 {
-                    description += $"{descriptionWords[i]} ";
+                    description += $"{descriptionWords?[i]} ";
                 }
                 description += "...";
             }
