@@ -17,301 +17,303 @@
     </div>
 </section>
 
+<!-- Start page content -->
+<div id="page-content" class="page-wrapper">
+    @if (Model.Message != null)
+    {
+        switch (Model.Code)
+        {
+            case "Error":
+                <div class="alert alert-danger"> @Model.Message </div>
+                break;
+            case "Warning":
+                <div class="alert alert-warning"> @Model.Message </div>
+                break;
+            case "Info":
+                <div class="alert alert-info"> @Model.Message </div>
+                break;
+            default:
+                <div class="alert alert-success"> @Model.Message </div>
+                break;
+        }
 
-<section class="inner-section profile-part">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>مشخصات شما</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#profile-edit"><i class="fal fa-edit"></i> ویرایش نمایه</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="profile-image">
-                                    <a href="#">
-                                        <img src="~/img/user.jpg" alt="کاربر">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-5">
-                                <div class="form-group">
-                                    <label class="form-label">نام</label><input class="form-control" type="text" value="فرانک اسمیت">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-5">
-                                <div class="form-group">
-                                    <label class="form-label">پست الکترونیک</label><input class="form-control" type="email" value="info@example.com">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="profile-btn">
-                                    <a asp-area="" asp-page="/Change"><i class="fal fa-pen"></i> رمز عبور را تغییر دهید</a>
+        Model.Message = null;
+        Model.Code = null;
+    }
+    <!-- LOGIN SECTION START -->
+    <div class="login-section mb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="form-btn">
+                                <a>اطلاعات شخصی من</a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse " role="tabpanel">
+                            <div class="panel-body">
+                                <div class="contact-address box-shadow">
+                                    <h6>@Model.UserInformation?.FirstName @Model.UserInformation?.LastName</h6>
+                                    <h5>@Model.UserInformation?.Mobile</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>شماره تماس</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#contact-add">
-                            <i class="fal fa-phone"></i> افزودن مخاطب
-                        </button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact active">
-                                    <h6>شماره تماس</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
-                                </div>
+                <div class="col-md-9">
+                    <div class="my-account-content" id="accordion2">
+                        <!-- My Order info -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="form-btn">
+                                    <a data-toggle="collapse" data-parent="#accordion2" href="#My_order_info">تاریخچه سفارشات</a>
+                                </h4>
                             </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>شماره تماس</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-4 alert fade show">
-                                <div class="profile-card contact">
-                                    <h6>شماره تماس</h6>
-                                    <p>021343555</p>
-                                    <ul>
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#contact-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="account-card mb-0">
-                    <div class="account-title">
-                        <h4>گزینه پرداخت</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#payment-add"><i class="fal fa-credit-card"></i> کارت اضافه کن</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="payment-card payment active">
-                                    <img src="~/img/payment/01.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p>
-                                        <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
-                                    </p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="payment-card payment">
-                                    <img src="~/img/payment/02.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p>
-                                        <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
-                                    </p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="payment-card payment">
-                                    <img src="~/img/payment/03.png" alt="پرداخت">
-                                    <h4>شماره کارت</h4>
-                                    <p>
-                                        <span>**** </span><span>**** </span><span>**** </span><sup>5071</sup>
-                                    </p>
-                                    <h5>نام کاربری</h5>
-                                    <button class="far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="account-card">
-                    <div class="account-title">
-                        <h4>نشانی تحویل</h4>
-                        <button data-bs-toggle="modal" data-bs-target="#address-add"><i class="fal fa-map-marker-alt"></i> اضافه کردن آدرس</button>
-                    </div>
-                    <div class="account-content">
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="profile-card address active">
-                                    <h6>آدرس یک</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>آدرس دو</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-6 alert fade show">
-                                <div class="profile-card address">
-                                    <h6>آدرس سه</h6>
-                                    <p>ایران - تهران - خیابان بهار</p>
-                                    <ul class="user-action">
-                                        <li>
-                                            <button class="edit far fa-pen" title="ویرایش این" data-bs-toggle="modal" data-bs-target="#address-edit"></button>
-                                        </li>
-                                        <li>
-                                            <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                    </ul>
+                            <div id="My_order_info" class="panel-collapse" role="tabpanel">
+                                <div class="panel-body" style="padding: 15px">
+                                    <!-- our order -->
+                                    @if (Model.PurchaseOrders != null)
+                                    {
+                                        @foreach (var purchaseOrder in Model.PurchaseOrders)
+                                        {
+                                            <div class="pro contact-address box-shadow" style="text-align: right">
+                                                <a >
+                                                    <h6 class="blog-section-title border-left mb-30">جزییات فاکتور:
+
+                                                    </h6>
+                                                </a>
+                                                <div class="view-list-group">
+                                                    <label class="view-list-title">تاریخ:</label>
+                                                    <div>    @purchaseOrder.CreationDate</div>
+                                                </div>
+                                                <div class="view-list-group">
+                                                    <label class="view-list-title">کدسفارش:</label>
+                                                    <div>    @purchaseOrder.Id</div>
+                                                </div>
+                                             
+                                                    @if (purchaseOrder.IsPaied)
+                                                    {
+                                                        <div class="view-list-group">
+                                                            <label class="view-list-title">وضعیت پرداخت:</label>
+                                                            <div>  پرداخت شده</div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="view-list-group">
+                                                            <label class="view-list-title">وضعیت پرداخت:</label>
+                                                            <div>  پرداخت نشده</div>
+                                                        </div>
+                                                    }
+                                                    <div class="view-list-group">
+                                                        <label class="view-list-title">مبلغ:</label>
+                                                        <div>@purchaseOrder.Amount.ToString("###,###,###,###") تومان</div>
+                                                    </div>
+                                                    <div class="view-list-group">
+                                                    <label class="view-list-title">تخفیف:</label>
+                                                        <div>@purchaseOrder.Discount.ToString("###,###,###,###") تومان</div>
+                                                    </div>
+<hr>
+                                                <div style="text-align: left;">
+                                                    <a href="#detailfactor-@purchaseOrder.Id" data-toggle="tab" style="color: black">
+                                                     مشاهده جزییات فاکتور
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="tab-content" style="margin-top: 10px">
+                                                <div role="tabpanel" class="tab-pane" id="detailfactor-@purchaseOrder.Id">
+                                                    <div class="contact-address box-shadow" style="text-align: right">
+                                                        <hr>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                            <label class="view-list-title"> نام تحویل گیرنده:</label>
+                                                            <div> @purchaseOrder.SendInformation.RecipientName</div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                            <label class="view-list-title"> شماره موبایل:</label>
+                                                            <div>@purchaseOrder.SendInformation.Mobile</div>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="view-list-group">
+                                                            <label class="view-list-title">  آدرس:</label>
+                                                            <div>  @purchaseOrder.SendInformation.Address</div>
+                                                        </div>
+                                                           
+                                                        <hr>
+                                                        @foreach (var purchaseOrderDetail in purchaseOrder.PurchaseOrderDetails)
+                                                        {
+
+                                                            <div class="row">
+                                                                <div class="col-md-2">
+                                                                    <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt">
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
+                                                                       style="color: black">@purchaseOrderDetail.Product.Name</a>
+                                                                    <br/>
+                                                                </div>
+
+                                                            </div>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
+
+                        <!-- My password -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="form-btn">
+                                    <a data-toggle="collapse" data-parent="#accordion2" href="#my_shipping">تغییر پسورد من</a>
+                                </h4>
+                            </div>
+                            <div id="my_shipping" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <div class="new-customers p-30">
+                                        <div class="form-group">
+                                            <label class="form-label">رمز عبور قدیمی</label>
+                                            <input class="form-control" type="password" id="OldPass" placeholder="رمز عبور قدیمی ..." dir="ltr">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">رمز عبور جدید</label>
+                                            <input class="form-control" type="password" id="NewPass" placeholder="رمز عبور جدید ..." dir="ltr">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">تکرار رمز عبور جدید</label>
+                                            <input class="form-control" type="password" id="NewConPass" placeholder="تکرار رمز عبور جدید ..." dir="ltr">
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <button class="form-btn" onclick="ChangePassword()"><i class="fal fa-edit"></i>&nbsp;&nbsp;تغییر پسورد</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- My user details -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="form-btn">
+                                    <a data-toggle="collapse" data-parent="#accordion2" href="#billing_address">اطلاعات شخصی من</a>
+                                </h4>
+                            </div>
+                            <div id="billing_address" class="panel-collapse collapse" role="tabpanel">
+                                <div class="panel-body">
+                                    <form method="post" asp-page-handler="Edit">
+                                        <div class="billing-details p-30">
+                                            <input asp-for="@Model.UserInformation" hidden="hidden"/>
+                                            <div class="form-group">
+                                                <label class="form-label">نام:</label>
+                                                <input class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">نام خانوادگی:</label>
+                                                <input class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">آدرس ایمیل:</label>
+                                                <input class="form-control" type="text" placeholder="آدرس ایمیل ..." asp-for="@Model.UserInformation.Email" dir="ltr">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">نام شرکت:</label>
+                                                <input class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">شماره موبایل:</label>
+                                                <input class="form-control" type="text" placeholder="شماره موبایل ..." asp-for="@Model.UserInformation.Mobile" dir="ltr">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label">کد ملی:</label>
+                                                <input class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
+                                            </div>
+                                            
+                                                    <select asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
+                                                    @if (Model.StateList != null)
+                                                    {
+                                                        @foreach (var state in Model.StateList?.ReturnData)
+                                                        {
+                                                            <option value="@state.Id">@state.Name</option>
+                                                        }
+
+                                                    }
+                                                </select>
+
+                                                    <select asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
+                                                    @if (Model.CityList != null)
+                                                    {
+                                                        @foreach (var city in Model.CityList?.ReturnData)
+                                                        {
+                                                            <option value="@city.Id">@city.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <br/>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="form-btn" type="submit"><i class="fal fa-edit"></i>&nbsp;&nbsp;ویرایش</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+              
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<div class="modal" id="contact-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-                <i class="far fa-times"></i>
-            </button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>مخاطب جدید اضافه کنید</h3>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عدد</label><input class="form-control" type="text" placeholder="شماره ات را وارد کن">
-                </div>
-                <button class="form-btn" type="submit">اطلاعات تماس را ذخیره کنید</button>
-            </form>
-        </div>
-    </div>
+    <!-- LOGIN SECTION END -->
 </div>
-<div class="modal" id="address-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-                <i class="far fa-times"></i>
-            </button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>آدرس جدید اضافه کنید</h3>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عنوان</label><input class="form-control" type="text" placeholder="عنوان را وارد کنید">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">نشانی</label><textarea class="form-control" placeholder="آدرس خود را وارد کنید"></textarea>
-                </div>
-                <button class="form-btn" type="submit">اطلاعات آدرس را ذخیره کنید</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal" id="payment-add">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-                <i class="far fa-times"></i>
-            </button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>پرداخت جدید اضافه کنید</h3>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">شماره کارت</label><input class="form-control" type="text" placeholder="شماره کارت">
-                </div>
-                <button class="form-btn" type="submit">اطلاعات کارت را ذخیره کنید</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal" id="contact-edit">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-                <i class="far fa-times"></i>
-            </button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>ویرایش اطلاعات تماس</h3>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عنوان</label><input class="form-control" type="text" value=" تماس بگیرید">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عدد</label><input class="form-control" type="text" value="021343555">
-                </div>
-                <button class="form-btn" type="submit">اطلاعات تماس را ذخیره کنید</button>
-            </form>
-        </div>
-    </div>
-</div>
-<div class="modal" id="address-edit">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <button class="modal-close" data-bs-dismiss="modal">
-                <i class="far fa-times"></i>
-            </button>
-            <form class="modal-form">
-                <div class="form-title">
-                    <h3>ویرایش اطلاعات آدرس</h3>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">عنوان</label><input class="form-control" type="text" value="آدرس ">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">نشانی</label><textarea class="form-control">ایران - تهران</textarea>
-                </div>
-                <button class="form-btn" type="submit">اطلاعات آدرس را ذخیره کنید</button>
-            </form>
-        </div>
-    </div>
-</div>
+
+
+@section Scripts
+    {
+    <script>
+        function ChangePassword() {
+            var oldPass = $("#OldPass").val();
+            var newPass = $("#NewPass").val();
+            var newConPass = $("#NewConPass").val();
+            $.ajax({
+                type: "Get",
+                url: "userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        }
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Checkout?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    $("#city").html(result);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
+}

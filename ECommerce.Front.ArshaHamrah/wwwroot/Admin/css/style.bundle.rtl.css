@@ -156,10 +156,10 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    color: #0073e9;
-    text-decoration: underline;
-}
+    a:hover {
+        color: white;
+        text-decoration: underline;
+    }
 
 a:not([href]) {
     color: inherit;
@@ -69630,7 +69630,9 @@ router-outlet { display: none; }
 
 a:hover,
 a:active,
-a:focus { text-decoration: none !important; }
+a:focus { text-decoration: none !important;
+    color: white;
+}
 
 canvas {
     -moz-user-select: none;
