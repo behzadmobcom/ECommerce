@@ -130,13 +130,13 @@
                             {
                                 <tr>
                                     <td class="table-price">
-                                        @index
+                                        @index++
                                     </td>
                                     <td class="table-name">
                                         <h6>@product.Name</h6>
                                     </td>
                                     <td class="table-price">
-                                        <h6>@product.Price?.Amount تومان </h6>
+                                        <h6>@product.Price?.Amount.ToString("###,###,###") تومان </h6>
                                     </td>
                                     <td class="table-price">
                                         <h6>@product.Quantity</h6>

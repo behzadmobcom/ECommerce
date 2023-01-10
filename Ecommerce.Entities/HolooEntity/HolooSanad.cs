@@ -11,8 +11,8 @@ namespace Ecommerce.Entities.HolooEntity
         public HolooSanad(string comment)
         {
             Comment = comment;
-            Sanad_Date = DateTime.Now;
-            Sanad_Time = DateTime.Now;
+            Sanad_Date = DateTime.Now.Date;
+            Sanad_Time = new DateTime(1900,1,1, DateTime.Now.ToLocalTime().Hour, DateTime.Now.ToLocalTime().Minute, DateTime.Now.ToLocalTime().Second);
             Sanad_Type = 1;
             DateUser = DateTime.Now.ToString("yyyy/MM/dd");
             TimeUser = DateTime.Now.ToString("HH:mm");

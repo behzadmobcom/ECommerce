@@ -125,9 +125,9 @@ public class CheckoutModel : PageModel
                     purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
                     var date = DateTime.Now.ToString("yyyyMMdd");
                     var time = DateTime.Now.ToString("HHmmss");
-                    long merchantId = 000000140336964;//000000140341290;
-                    var terminalId = 24095674;// "24102279";
-                    var terminalKey = "8v8AEee8YfZX+wwc1TzfShRgH3O9WOho";// "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
+                    long merchantId = 000000140341290;//000000140336964;//000000140341290;
+                    var terminalId = "24102279";//24095674;// "24102279";
+                    var terminalKey = "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";//"8v8AEee8YfZX+wwc1TzfShRgH3O9WOho";// "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
                     var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", terminalId, purchaseOrder.OrderId, SumPrice));
                     var symmetric = SymmetricAlgorithm.Create("TripleDes");
                     symmetric.Mode = CipherMode.ECB;
