@@ -4,10 +4,8 @@ using ECommerce.Front.BolouriGroup.Models;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -79,8 +77,8 @@ public class CheckoutModel : PageModel
 
     public async Task<IActionResult> OnPost(string Portal, int PostPrice)
     {
-        string returnAction = "MeliSuccess";
-        string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/";
+        string returnAction = "melisuccess";
+        string url = $"https://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
         if (SendInformation.Id == 0)
@@ -105,7 +103,7 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
         SumPrice = Convert.ToInt32(tempSumPrice);
-        if(SumPrice >= 50000000)
+        if (SumPrice >= 50000000)
         {
             Message = "مبلغ سفارش نمی تواند بیشتر از 50 میلیون تومان باشد";
             Code = "Error";
@@ -119,23 +117,24 @@ public class CheckoutModel : PageModel
         {
             switch (Portal)
             {
-        
+
                 case "sadad":
+                    SumPrice = 10000;
                     purchaseOrder.OrderGuid = Guid.NewGuid();
                     byte[] gb = purchaseOrder.OrderGuid.ToByteArray();
                     purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
                     var date = DateTime.Now.ToString("yyyyMMdd");
                     var time = DateTime.Now.ToString("HHmmss");
-                    long merchantId = 000000140341290; //000000140336964;//000000140341290;
-                    var terminalId = 24102279;//24095674;// "24102279";
-                    var terminalKey = "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";//"8v8AEee8YfZX+wwc1TzfShRgH3O9WOho";// "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
+                    long merchantId = 000000140336964;//000000140341290;
+                    var terminalId = 24095674;// "24102279";
+                    var terminalKey = "8v8AEee8YfZX+wwc1TzfShRgH3O9WOho";// "CSlQf8zTne2YH3mnrbwAnKx3rl9ckHKz";
                     var dataBytes = Encoding.UTF8.GetBytes(string.Format("{0};{1};{2}", terminalId, purchaseOrder.OrderId, SumPrice));
                     var symmetric = SymmetricAlgorithm.Create("TripleDes");
                     symmetric.Mode = CipherMode.ECB;
                     symmetric.Padding = PaddingMode.PKCS7;
                     var encryptor = symmetric.CreateEncryptor(Convert.FromBase64String(terminalKey), new byte[8]);
                     var signData = Convert.ToBase64String(encryptor.TransformFinalBlock(dataBytes, 0, dataBytes.Length));
-                    
+
                     var ipgUri = "https://sadad.shaparak.ir/api/v0/Request/PaymentRequest";
                     var data = new
                     {
@@ -148,12 +147,12 @@ public class CheckoutModel : PageModel
                         signData
                     };
 
-                    var res =await CallApi<PayResultData>(ipgUri, data);
+                    var res = await CallApi<PayResultData>(ipgUri, data);
 
                     if (res.ResCode == "0")
                     {
                         await _purchaseOrderService.Edit(purchaseOrder);
-                        return RedirectToPage("RedirectToSadad", new { redirectUrl = returnAction ,token = res.Token });
+                        return Redirect($"https://sadad.shaparak.ir/Purchase?Token={res.Token}");
                     }
                     return RedirectToPage("Error", new { message = res.Description });
             }

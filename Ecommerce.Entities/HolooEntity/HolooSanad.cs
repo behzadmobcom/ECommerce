@@ -14,7 +14,7 @@ namespace Ecommerce.Entities.HolooEntity
             Sanad_Date = DateTime.Now;
             Sanad_Time = DateTime.Now;
             Sanad_Type = 1;
-            DateUser = DateTime.Now.ToShortDateString();
+            DateUser = DateTime.Now.ToString("yyyy/MM/dd");
             TimeUser = DateTime.Now.ToString("HH:mm");
             Endeditdate = DateTime.Now;
             UserCodeInc = 1;

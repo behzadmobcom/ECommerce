@@ -2,22 +2,13 @@ using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
 builder.Services.AddRazorPages(options =>
 {
-    //options.RootDirectory = "/Pages";
-    //options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
-    //options.Conventions.AuthorizePage("/Contact");
-    //options.Conventions.AuthorizeFolder("/");
-    //options.Conventions.AllowAnonymousToPage("/Login");
-    //options.Conventions.AllowAnonymousToFolder("/Private/PublicPages");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/", "SuperAdmin");
-    //options.Conventions.AuthorizeAreaFolder("Admin", "/");
-    //options.Conventions.("/Register");
     options.Conventions.AuthorizeFolder("/");
     options.Conventions.AllowAnonymousToPage("/register");
     options.Conventions.AllowAnonymousToPage("/Shop");
@@ -31,10 +22,11 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/Compare");
     options.Conventions.AllowAnonymousToPage("/AboutUs");
     options.Conventions.AllowAnonymousToPage("/Cart");
-    options.Conventions.AllowAnonymousToPage("/MeliSuccess");
+    options.Conventions.AllowAnonymousToPage("/melisuccess");
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+
 
 //builder.Services.AddMvc().AddRazorPagesOptions(options =>
 //{
@@ -51,12 +43,12 @@ builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynch
 //If using IIS:
 builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
 
-builder.Services.Configure<RouteOptions>(options =>
-{
-    options.LowercaseUrls = true;
-    options.LowercaseQueryStrings = true;
-    //options.AppendTrailingSlash = true;
-});
+//builder.Services.Configure<RouteOptions>(options =>
+//{
+//    options.LowercaseUrls = true;
+//    options.LowercaseQueryStrings = true;
+//    //options.AppendTrailingSlash = true;
+//});
 
 builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
 builder.Services.AddHttpContextAccessor();

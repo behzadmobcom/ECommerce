@@ -60,14 +60,7 @@
                                             <div class="profile-card address active">
                                                 <h6>@sendInformation.RecipientName</h6>
                                                 <p>@sendInformation.Address</p>
-                                                @* <ul class="user-action">
-                                        <li>
-                                        <button class="select far fa-pen"title="انتخاب این"></button>
-                                        </li>
-                                        <li>
-                                        <button class="trash far fa-times" title="حذف این" data-bs-dismiss="alert"></button>
-                                        </li>
-                                        </ul>*@
+                                         
                                             </div>
                                         </div>
                                     }
@@ -111,12 +104,9 @@
 			            </div>
 			            <div class="account-content">
 				            <div class="row">
-					          @*  <div class="col-md-6 col-lg-4 alert show">
-					            </div>*@
                                 <input type="radio" id="sadad" checked="checked" name="Portal" width="100" value="sadad">
-						            <div class="payment-card payment active">
+						            <div class="payment active">
 							            <img src="/img/payment/sadad.png" alt="سداد">
-
 						            </div>
 
 
@@ -129,18 +119,6 @@
 					            <h4>خلاصه سفارش</h4>
 				            </div>
 				            <ul>
-					            @*  <li>
-                                <span>زیر کل </span><span>250000تومان</span>
-                                </li>
-                                <li>
-                                <span>هزینه تحویل </span><span>20000تومان</span>
-                                </li>
-                                <li>
-                                <span>تخفیف</span><span>10000 تومان </span>
-                                </li>
-                                <li>
-                                <span>مالیات </span><span>15000 تومان</span>
-                                </li>*@
 					            <li>
 						            <span>کل </span><span>@Model.SumPrice تومان</span>
 					            </li>

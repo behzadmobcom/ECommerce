@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.BolouriGroup.Pages
 {
-    [IgnoreAntiforgeryToken]
+    [IgnoreAntiforgeryToken(Order = 1001)]
     public class MeliSuccessModel : PageModel
     {
         public IActionResult OnPost(PurchaseResult result)
         {
-            return RedirectToPage("Invoice", result );
+            return RedirectToPage("invoice", result );
         }
     }
 }

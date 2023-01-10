@@ -1,4 +1,4 @@
-﻿@page "/Invoice"
+﻿@page "/invoice"
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using PersianDate.Standard
 @model ECommerce.Front.BolouriGroup.Pages.InvoiceModel
@@ -68,7 +68,7 @@
                         <ul class="invoice-details">
                             <li>
                                 <h6>کل مورد</h6>
-                                <p>@Model.CartList.Count() مورد</p>
+                                <p>@Model.PurchaseOrder.PurchaseOrderDetails.Count() مورد</p>
                             </li>
                             <li>
                                 <h6>زمان سفارش</h6>
@@ -118,7 +118,7 @@
                     <table class="table-list">
                         <thead>
                             <tr>
-                                <th scope="col">تولید - محصول</th>
+                                <th scope="col">ردیف</th>
                                 <th scope="col">نام</th>
                                 <th scope="col">قیمت</th>
                                 <th scope="col">تعداد</th>
@@ -126,28 +126,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var product in Model.CartList)
+                            @foreach (var (product, index) in Model.PurchaseOrder.PurchaseOrderDetails.Select((value, i) => (value, i)))
                             {
                                 <tr>
-                                    <td class="table-image">
-                                        <img src="@product.ImagePath" alt="@product.Alt">
+                                    <td class="table-price">
+                                        @index
                                     </td>
                                     <td class="table-name">
                                         <h6>@product.Name</h6>
                                     </td>
                                     <td class="table-price">
-                                        <h6>@product.PriceAmount تومان </h6>
+                                        <h6>@product.Price?.Amount تومان </h6>
                                     </td>
-                                    <td class="table-brand">
+                                    <td class="table-price">
                                         <h6>@product.Quantity</h6>
                                     </td>
-                                    <td class="table-quantity">
+                                    <td class="table-price">
                                         <h6>@product.SumPrice</h6>
                                     </td>
                                 </tr>
                             }
-
-
                         </tbody>
                     </table>
                 </div>
