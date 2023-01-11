@@ -119,7 +119,7 @@ public class CheckoutModel : PageModel
             {
 
                 case "sadad":
-                    SumPrice = 10000;
+                    SumPrice *= 10;
                     purchaseOrder.OrderGuid = Guid.NewGuid();
                     byte[] gb = purchaseOrder.OrderGuid.ToByteArray();
                     purchaseOrder.OrderId = BitConverter.ToInt64(gb, 0);
