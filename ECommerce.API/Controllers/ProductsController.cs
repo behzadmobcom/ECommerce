@@ -334,7 +334,7 @@ public class ProductsController : ControllerBase
                         break;
                     case "name":
                         productIndexPageViewModel.AddRange(await productQuery
-                            .Where(x => x.Name.Contains(search[1]) && x.Description.Contains(search[1]))
+                            .Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1]))
                             .Select(p => new ProductIndexPageViewModel
                             {
                                 Prices = p.Prices!,
