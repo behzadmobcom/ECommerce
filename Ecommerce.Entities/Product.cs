@@ -49,7 +49,7 @@ public class Product : BaseEntity
     public ICollection<Category>? ProductCategories { get; set; }
 
     //[JsonIgnore] 
-    public ICollection<Price>? Prices { get; set; } = new List<Price>();
+    public List<Price>? Prices { get; set; } = new List<Price>();
 
     public int StoreId { get; set; } = 1;
     public Store? Store { get; set; }
