@@ -142,7 +142,7 @@ public class ProductIndexPageViewModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public ICollection<Price> Prices { get; set; }
+    public List<Price> Prices { get; set; } = new();
     public double Stars { get; set; }
     public string ImagePath { get; set; }
     public string Alt { get; set; }

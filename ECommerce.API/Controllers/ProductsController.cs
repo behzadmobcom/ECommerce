@@ -65,6 +65,7 @@ public class ProductsController : ControllerBase
         List<ProductIndexPageViewModel> newProducts = new();
         foreach (var product in products)
         {
+            List<Price> tempPriceList = new();
             foreach (var productPrices in product.Prices)
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
                 {
@@ -116,7 +117,8 @@ public class ProductsController : ControllerBase
 
                         if (articlePrice < 10)
                         {
-                            product.Prices.Remove(productPrices);
+                            //product.Prices.Remove(productPrices);
+                            tempPriceList.Add(productPrices);
                             continue;
                         }
 
@@ -134,11 +136,13 @@ public class ProductsController : ControllerBase
 
                         if (isExist == true && productPrices.Exist == 0)
                         {
-                            product.Prices.Remove(productPrices);
+                            //product.Prices.Remove(productPrices);
+                            tempPriceList.Add(productPrices);
                         }
                     }
                 }
 
+            product.Prices.RemoveAll(x => tempPriceList.Contains(x));
             if (product.Prices.Count == 0) continue;
          
             newProducts.Add(product);
@@ -431,7 +435,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails =new PaginationDetails() , Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
