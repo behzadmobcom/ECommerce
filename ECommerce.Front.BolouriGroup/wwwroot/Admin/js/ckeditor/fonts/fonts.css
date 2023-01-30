@@ -1,4 +1,5 @@
 ﻿@font-face {
     font-family: 'titr';
+    font-display: swap;
     src: url('BTitrBold.eot?#') format('eot'), /* IE6?8 */ url('BTitrBold.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/ url('BTitrBold.ttf') format('truetype'); /* Saf3?5, Chrome4+, FF3.5, Opera 10+ */
 }

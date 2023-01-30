@@ -121,6 +121,7 @@
 @font-face {
     font-family: "Ki";
     font-style: normal;
+    font-display: swap;
     font-weight: normal;
     src: url("../fonts/keenthemes-icons/Ki.eot");
     src: url("../fonts/keenthemes-icons/Ki.eot?#iefix") format("embedded-opentype"), url("../fonts/keenthemes-icons/Ki.woff") format("woff"), url("../fonts/keenthemes-icons/Ki.ttf") format("truetype"), url("../fonts/keenthemes-icons/Ki.svg#Ki") format("svg");
@@ -6348,7 +6349,7 @@ Build date: 2019-12-19 16:51:02
  */
 
 @font-face {
-    font-display: auto;
+    font-display: swap;
     font-family: "summernote";
     font-style: normal;
     font-weight: 400;
@@ -17116,7 +17117,7 @@ readers do not read off random characters that represent icons */
 }
 
 @font-face {
-    font-display: auto;
+    font-display: swap;
     font-family: 'Line Awesome Brands';
     font-style: normal;
     font-weight: normal;
@@ -17127,7 +17128,7 @@ readers do not read off random characters that represent icons */
 .lab { font-family: 'Line Awesome Brands'; }
 
 @font-face {
-    font-display: auto;
+    font-display: swap;
     font-family: 'Line Awesome Free';
     font-style: normal;
     font-weight: 400;
@@ -23832,9 +23833,9 @@ readers do not read off random characters that represent icons */
 .fab { font-family: "Font Awesome 5 Brands"; }
 
 @font-face {
-    font-display: block;
+    font-display: swap;
     font-family: "Font Awesome 5 Free";
-    font-style: normal;
+    font-display: swap;
     font-weight: 400;
     src: url("../fonts/@fortawesome/fa-regular-400.eot");
     src: url("../fonts/@fortawesome/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("../fonts/@fortawesome/fa-regular-400.woff2") format("woff2"), url("../fonts/@fortawesome/fa-regular-400.woff") format("woff"), url("../fonts/@fortawesome/fa-regular-400.ttf") format("truetype"), url("../fonts/@fortawesome/fa-regular-400.svg#fontawesome") format("svg");
@@ -23843,7 +23844,7 @@ readers do not read off random characters that represent icons */
 .fab, .far { font-weight: 400; }
 
 @font-face {
-    font-display: block;
+    font-display: swap;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-weight: 900;
