@@ -2,7 +2,7 @@
 using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using ECommerce.API.DataContext;
 
 namespace ECommerce.API.Controllers;
 
@@ -10,12 +10,14 @@ namespace ECommerce.API.Controllers;
 [ApiController]
 public class BrandsController : ControllerBase
 {
-    private readonly IBrandRepository _brandRepository;
+    //private readonly IBrandRepository _brandRepository;
     private readonly ILogger<BrandsController> _logger;
 
-    public BrandsController(IBrandRepository brandRepository, ILogger<BrandsController> logger)
+    private SunflowerECommerceDbContext _dbContext;
+
+    public BrandsController(SunflowerECommerceDbContext dbContext, ILogger<BrandsController> logger)
     {
-        _brandRepository = brandRepository;
+        _dbContext = dbContext;
         _logger = logger;
     }
 
@@ -28,8 +30,8 @@ public class BrandsController : ControllerBase
         try
         {
             var result = await _brandRepository.GetAll(cancellationToken);
-         var brands =   result.ToList();
-         brands.Insert(0,new Brand
+            var brands =   result.ToList();
+            brands.Insert(0,new Brand
             {
                 Name = "بدون برند"
             });
@@ -93,12 +95,12 @@ public class BrandsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Brand>> GetById(int id, CancellationToken cancellationToken)
+    public Brand GetById(int id, CancellationToken cancellationToken)
     {
         try
         {
             var x = User.Identity.Name;
-            var result = await _brandRepository.GetByIdAsync(cancellationToken, id);
+            var result = _dbContext.Brands.Find(id);
             if (result == null)
                 return Ok(new ApiResult
                 {

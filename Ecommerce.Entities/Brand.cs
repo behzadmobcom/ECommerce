@@ -11,14 +11,17 @@ public class Brand : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public string Name { get; set; }
 
-    [Display(Name = "توضیحات")] public string? Description { get; set; }
+    [Display(Name = "توضیحات")] 
+    public string? Description { get; set; }
 
-    [Display(Name = "عکس")] public string? ImagePath { get; set; }
+    [Display(Name = "عکس")] 
+    public string? ImagePath { get; set; }
 
     [NotMapped]
     public Image? Image { get; set; }
 
-    [Display(Name = "آدرس سایت برند")] public string? Url { get; set; }
+    [Display(Name = "آدرس سایت برند")] 
+    public string? Url { get; set; }
 
     //ForeignKey
     [JsonIgnore] public ICollection<Product>? Products { get; set; }
