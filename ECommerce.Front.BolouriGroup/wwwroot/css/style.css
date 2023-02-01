@@ -1,6 +1,7 @@
 @font-face {
     font-family: iransans;
     src: url('../fonts/IRANSansWeb(FaNum).ttf');
+    font-display: swap;
 }
 
 :root {

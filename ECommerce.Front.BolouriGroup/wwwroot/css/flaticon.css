@@ -1,5 +1,6 @@
 @font-face {
     font-family: flaticon;
+    font-display: swap;
     src: url(../fonts/flaticon99c9.ttf?80dde508dcd86a42236a192d1ce5c026) format("truetype"), url(../fonts/flaticon99c9.woff?80dde508dcd86a42236a192d1ce5c026) format("woff"), url(../fonts/flaticon99c9.woff2?80dde508dcd86a42236a192d1ce5c026) format("woff2"), url(../fonts/flaticon99c9.eot?80dde508dcd86a42236a192d1ce5c026#iefix) format("embedded-opentype"), url(../fonts/flaticon99c9.svg?80dde508dcd86a42236a192d1ce5c026#flaticon) format("svg")
 }
 

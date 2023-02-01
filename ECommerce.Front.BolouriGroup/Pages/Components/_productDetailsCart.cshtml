@@ -11,7 +11,7 @@
                 <i class="far fa-heart"></i>
             </button>
             <a class="feature-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
-                <img src="~/@Model.ImagePath" alt="@Model.Alt">
+                <img src="~/@Model.ImagePath" alt="@Model.Alt" width="170" height="170">
             </a>
             <div class="feature-widget">
                 <a title="نمای محصول" href="javascript:void(0)" onclick="OpenProductModal(@Model.Id)" data-toggle="modal" data-target="#product-view" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
