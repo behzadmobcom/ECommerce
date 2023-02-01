@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Application", "EC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{9720AA02-ED8E-426C-9206-3A9BB1283290}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dto", "Dto\Dto.csproj", "{30967F7F-07D3-4889-9A08-3BCFBAA4D327}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Dto", "Dto\ECommerce.Dto.csproj", "{30967F7F-07D3-4889-9A08-3BCFBAA4D327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
