@@ -54,13 +54,19 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         };
     }
 
+    private struct CookiesProduct
+    {
+        public int ProductId { get; set; }
+        public ushort ProductNumber { get; set; }
+        public int ProductPrice { get; set; }
+    }
+
     private async Task<List<PurchaseOrderViewModel>> ReadFromCookies(HttpContext context)
     {
         var carts = new List<PurchaseOrderViewModel>();
 
-        var productIdList = new List<int>();
-        var productNumberList = new List<ushort>();
-        var productPriceIdList = new List<int>();
+        var productList = new List<CookiesProduct>();
+      
         var cookies = _cookieService.GetCookie(context, _key);
         foreach (var cookie in cookies.OrderBy(x => x.Key))
         {
@@ -69,24 +75,28 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             var productCount = Convert.ToUInt16(cookie.Value);
             var priceId = Convert.ToInt32(temp[2]);
             if (productCode <= 0 || productCount <= 0 || priceId <= 0) continue;
-            productIdList.Add(productCode);
-            productNumberList.Add(productCount);
-            productPriceIdList.Add(priceId);
+            productList.Add(new CookiesProduct
+            {
+               ProductId = productCode,
+               ProductNumber = productCount,
+               ProductPrice = priceId,
+            });
         }
 
-        var responseProduct = await _productService.ProductsWithIdsForCart(productIdList);
+        var responseProduct = await _productService.ProductsWithIdsForCart(productList.Select(x => x.ProductId).ToList());
         if (responseProduct.Code > 0)
             return carts;
 
         for (var i = 0; i < responseProduct.ReturnData.Count; i++)
         {
-            var priceId = productPriceIdList[i];
+            var product = productList.First(x => x.ProductId == responseProduct.ReturnData[i].Id);
+            var priceId = product.ProductPrice;
             var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).FirstOrDefault();
             if(price == null)
                 continue;
-            var quantity = responseProduct.ReturnData[i].MaxOrder < productNumberList[i]
+            var quantity = responseProduct.ReturnData[i].MaxOrder < product.ProductNumber
                 ? responseProduct.ReturnData[i].MaxOrder
-                : productNumberList[i];
+                : product.ProductNumber;
             var tempPurchaseOrderDetail = new PurchaseOrderViewModel
             {
                 ProductId = responseProduct.ReturnData[i].Id,

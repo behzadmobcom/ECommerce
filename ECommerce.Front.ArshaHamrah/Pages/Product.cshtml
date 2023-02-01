@@ -13,7 +13,7 @@
     }
     @{
     ViewData["Title"] = "توضیحات کالا";
-    int priceId = Model.Product.Prices.FirstOrDefault().Id;
+    int priceId = Model.Product.Prices.Where(x => x.Exist > 0).MaxBy(x => x.Amount).Id;
 }
 <link href="~/css/stars.css" rel="stylesheet" />
 
