@@ -1,19 +1,23 @@
 ﻿using Ecommerce.Entities;
+using ECommerce.Dto.BlogCategoriesDto;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Dto.BlogsDtos
 {
-    public class BlogsGetByIdDto
+    public class GetBlogDto
     {
-        public string Text { get; set; }
+        
+        public string? Text { get; set; }
 
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
 
         public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
@@ -21,7 +25,7 @@ namespace Dto.BlogsDtos
 
         public DateTime PublishDateTime { get; set; } = DateTime.Now;
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         public int Like { get; set; }
 
@@ -31,7 +35,7 @@ namespace Dto.BlogsDtos
 
         //ForeignKey
         public int BlogAuthorId { get; set; }
-        public BlogAuthor BlogAuthor { get; set; }
+        public BlogAuthorDto BlogAuthor { get; set; }
 
         public int BlogCategoryId { get; set; }
         public BlogCategory BlogCategory { get; set; }
@@ -44,5 +48,4 @@ namespace Dto.BlogsDtos
 
         public Image? Image { get; set; }
     }
-}
 }
