@@ -4,6 +4,10 @@
 @{
     ViewData["Title"] = "ثبت نام";
 }
+
+@section Head{
+    <link href="~/css/shop.css" rel="stylesheet" />
+}
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -39,8 +43,18 @@
                         <p>حساب خود را به صورت رایگان ثبت کنید</p>
                     </div>
                     <form method="post" asp-page-handler="Register" class="user-form">
-                        <h6 class="widget-title border-left mb-40">مشتریان جدید</h6>
-
+                        <div class="row">
+                            <div class="col-sm-6 form-check" >
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" style="margin-right: 1em;margin-left: 1em">
+                                <span class="widget-title border-left mb-40">شخصی</span>
+                            </div>
+                            <div class="col-sm-6 form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" style="margin-right: 1em;margin-left: 1em">
+                                <span class="widget-title border-left mb-20">مجموعه</span>
+                            </div>
+                        </div>
+                     
+                       
                         <div class="row">
                             <div class="col-sm-6 form-group">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
@@ -49,10 +63,6 @@
                             <div class="col-sm-6 form-group">
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.LastName"></span>
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
-                                <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
                             </div>
                             <div class="col-sm-6 form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
@@ -68,8 +78,8 @@
                             <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
                         </div>
                         <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.Username" style="color: red"></span>
-                            <input type="text" placeholder="نام کاربری" dir="ltr" asp-for="RegisterViewModel.Username" class="form-control">
+                            <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
+                            <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
                         </div>
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
@@ -84,20 +94,20 @@
                             <label>
                                 <small style="font-size: 12px">
                                     <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode"
-                                           style=" width: 18px; height: 18px; visibility: inherit; position: sticky;margin-right: -1.5em">
+                                           style="width: 18px; height: 18px; visibility: inherit; position: sticky; margin-right: -1.5em">
                                     آیا شما قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
 
                                     <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
                                 </small>
                             </label>
-                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
+                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control"/>
+                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br/>
                         </div>
 
                         <div class="form-check mb-3">
-                            <input type="checkbox" asp-for="RegisterViewModel.IsRole" class="form-check-input" id="agree" style=" width: 18px; height: 18px; visibility: inherit;position: sticky">
+                            <input type="checkbox" asp-for="RegisterViewModel.IsRole" class="form-check-input" id="agree" style="width: 18px; height: 18px; visibility: inherit; position: sticky">
                             <label class="form-check-label" for="agree">
-                                با <a asp-area="" asp-page="/Rules">قوانین و مقررات</a> موافقم.
+                                با <a asp-area="" asp-page="/Rules" style="color: black">قوانین و مقررات</a> موافقم.
                             </label>
                         </div>
                         <div class="form-button">

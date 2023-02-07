@@ -6,6 +6,7 @@
 
 @section Head{
     <link href="~/css/stars.css" rel="stylesheet" />
+    <link href="~/css/shop.css" rel="stylesheet" />
 }
 <section class="inner-section single-banner">
     <div class="container">
@@ -32,7 +33,7 @@
                     <h6 class="shop-widget-title">حدود قیمت</h6>
                     <form asp-page-handler="OnGet" method="get">
 
-                        <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br />
+                        <label for="min-price" class="form-label" style="margin-top: 20px">حداقل قیمت (تومان) </label><br />
                         <span id="min-price-txt">@Model.Min</span>
                         <input type="range" class="form-range" min="100000" max="200000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
                         <label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br />
@@ -193,3 +194,28 @@
     </div>
 </section>
 
+@section scripts{
+    <script>
+		window.onload = function() {
+			min_price = parseInt($("#min-price").val());
+			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#min-price-txt").text(minPrice);
+
+			max_price = parseInt($("#max-price").val());
+			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#max-price-txt").text(maxPrice);
+		};
+
+		$("#min-price").on("change mousemove", function () {
+			min_price = parseInt($("#min-price").val());
+			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#min-price-txt").text(minPrice);
+		});
+
+		$("#max-price").on("change mousemove", function () {
+			max_price = parseInt($("#max-price").val());
+			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$("#max-price-txt").text(maxPrice);
+		});
+	</script>
+}
