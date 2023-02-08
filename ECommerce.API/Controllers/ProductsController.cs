@@ -11,7 +11,7 @@ using System;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ProductsController : ControllerBase
 {
@@ -181,7 +181,7 @@ public class ProductsController : ControllerBase
         return product;
     }
 
-    [HttpGet]
+    [HttpGet("GetAllWithPagination")]
     public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
@@ -217,7 +217,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("Search")]
     public async Task<IActionResult> Search([FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
     {
         try
@@ -299,7 +299,7 @@ public class ProductsController : ControllerBase
     /// <param name="productListFilteredViewModel"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("GetProducts")]
     public async Task<IActionResult> GetProducts([FromQuery] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
     {
         try
@@ -445,7 +445,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopNew/{count}/{isWithoutBail}")]
+    //public async Task<IActionResult> TopNew([FromQuery]int count, [FromQuery]bool isWithoutBail, CancellationToken cancellationToken)
     public async Task<IActionResult> TopNew(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -470,7 +471,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopPrice/{count}/{isWithoutBail}")]
     public async Task<IActionResult> TopPrice(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -497,7 +498,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopDiscounts/{count}/{isWithoutBail}")]
     public async Task<IActionResult> TopDiscounts(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -523,7 +524,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopRelatives/{productId}/{count}/{isWithoutBail}")]
     public async Task<IActionResult> TopRelatives(int productId, int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -549,7 +550,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopSells/{count}/{isWithoutBail}")]
     public async Task<IActionResult> TopSells(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -575,7 +576,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("TopStars/{count}/{isWithoutBail}")]
     public async Task<IActionResult> TopStars(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
@@ -599,7 +600,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetCategoryProductCount/{categoryId}")]
     public IActionResult GetCategoryProductCount(int categoryId, CancellationToken cancellationToken)
     {
         try
@@ -618,7 +619,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByProductUrl/{productUrl}/{isWithoutBil}")]
     public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil, CancellationToken cancellationToken)
     {
         try
@@ -646,7 +647,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}/{isColleague}")]
     public async Task<ActionResult<ProductViewModel>> GetById(int id, bool isColleague,
         CancellationToken cancellationToken)
     {
@@ -673,7 +674,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByIdViewModel/{id}/{isColleague}/{isWithoutBil}")]
     public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool isWithoutBil,
       CancellationToken cancellationToken)
     {
@@ -716,7 +717,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("ProductsWithIdsForCompare/{productIdList}")]
     public async Task<IActionResult> ProductsWithIdsForCompare(List<int?> productIdList,
         CancellationToken cancellationToken)
     {
@@ -743,7 +744,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("ProductsWithIdsForCart/{productIdList}/{isWithoutBail}")]
     public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBail,
         CancellationToken cancellationToken)
     {
@@ -771,7 +772,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("Post")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
@@ -814,7 +815,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPut("Put")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<int>> Put(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
@@ -858,7 +859,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("Delete/{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -878,7 +879,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetMGroup")]
     public async Task<IActionResult> GetMGroup(CancellationToken cancellationToken)
     {
         try
@@ -897,7 +898,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetSGroupByMGroupCode/{mCode}")]
     public async Task<IActionResult> GetSGroupByMGroupCode(string mCode, CancellationToken cancellationToken)
     {
         try
@@ -923,7 +924,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetAllArticleMCodeSCode/{code}")]
     public async Task<IActionResult> GetAllArticleMCodeSCode(string code, CancellationToken cancellationToken)
     {
         try
@@ -966,9 +967,9 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("ConvertHolooToSunflower/{mCode}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<IActionResult> ConvertHolooToSunflower([FromBody] string mCode,
+    public async Task<IActionResult> ConvertHolooToSunflower(string mCode,
         CancellationToken cancellationToken)
     {
         try
@@ -1096,7 +1097,7 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetTops/{includeProperties}/{isWithoutBail}")]
     public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try
