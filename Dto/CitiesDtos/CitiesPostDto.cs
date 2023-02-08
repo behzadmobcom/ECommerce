@@ -17,7 +17,7 @@ namespace Dto.CitiesDtos
         //ForeignKey
         [JsonIgnore] public ICollection<SendInformation>? SendInformation { get; set; }
 
-        [JsonIgnore] public ICollection<User>? User { get; set; }
+        [JsonIgnore] public ICollection<UserDto>? User { get; set; }
 
         [Required] public int? StateId { get; set; }
 

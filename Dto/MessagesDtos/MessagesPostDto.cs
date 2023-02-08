@@ -17,6 +17,6 @@ namespace Dto.MessagesDtos
 
         public int? UserId { get; set; }
         public DateTime DateTime { get; set; }
-        public virtual User User { get; set; }
+        public virtual UserDto User { get; set; }
     }
 }

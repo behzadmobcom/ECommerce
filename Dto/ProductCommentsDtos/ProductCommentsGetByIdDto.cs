@@ -29,7 +29,7 @@ namespace Dto.ProductCommentsDtos
 
         //ForeignKey
         public int? UserId { get; set; }
-        public User? User { get; set; }
+        public UserDto? User { get; set; }
 
         public int? AnswerId { get; set; }
         public ProductComment? Answer { get; set; }
