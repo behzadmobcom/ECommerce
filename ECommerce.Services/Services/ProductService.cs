@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ECommerce.Services.Services;
 
@@ -12,15 +13,17 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     private readonly IImageService _imageService;
     private readonly IKeywordService _keywordService;
     private readonly ITagService _tagService;
+    private readonly IMemoryCache _cache;
 
     public ProductService(IHttpService http, ITagService tagService, IImageService imageService,
-        IKeywordService keywordService, ICategoryService categoryService) : base(http)
+        IKeywordService keywordService, ICategoryService categoryService, IMemoryCache cach) : base(http)
     {
         _http = http;
         _tagService = tagService;
         _imageService = imageService;
         _keywordService = keywordService;
         _categoryService = categoryService;
+        _cache = cach;
     }
 
     public async Task<ServiceResult<ProductViewModel>> FillProductEdit(ProductViewModel productViewModel)
@@ -46,8 +49,13 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("GetProduct", async entry =>
+        {
+            var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}");
+            return result;
+        });
+
+        return Return(cachEntry);
     }
 
     public ServiceResult CheckBeforeSend(ProductViewModel product)
@@ -99,28 +107,51 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<ProductViewModel>> Add(ProductViewModel productViewModel)
     {
-        if (productViewModel.BrandId == 0) productViewModel.BrandId = null;
-        var result = await Create<ProductViewModel>(Url, productViewModel);
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("Add", async entry =>
+        {
+            if (productViewModel.BrandId == 0) productViewModel.BrandId = null;
+            var result = await Create<ProductViewModel>(Url, productViewModel);
+            return result;
+        });
+
+        return Return(cachEntry);
     }
 
     public async Task<ServiceResult> Edit(ProductViewModel productViewModel)
     {
-        var result = await UpdateWithReturnId(Url, productViewModel);
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("Edit", async entry =>
+        {
+            var result = await UpdateWithReturnId(Url, productViewModel);
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("Delete", async entry =>
+        {
+            var result = await Delete(Url, id);
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string search = "", int pageNumber = 0, int pageSize = 9)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-            $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("Search", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+             $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     //public async Task<ServiceResult<PaginationViewModel>> Search(string searchText, int page, int quantityPerPage = 9)
@@ -141,103 +172,186 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     {
         //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
         //return Return<List<ProductIndexPageViewModel>>(result);
+        var cachEntry = await _cache.GetOrCreate("TopProducts", async entry =>
+        {
+            var command = "GetProducts?" +
+                          $"PaginationParameters.PageNumber={pageNumber}&" +
+                           $"IsWithoutBail={isWithoutBail}&" +
+                          $"PaginationParameters.PageSize={pageSize}&";
+            if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+            if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
+            if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
+            if (startPrice != null) command += $"StartPrice={startPrice}&";
+            if (endPrice != null) command += $"EndPrice={endPrice}&";
+            command += $"IsExist={isExist}&";
+            command += $"ProductSort={productSort}";
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+            return result;
+        });
 
-        var command = "GetProducts?" +
-                      $"PaginationParameters.PageNumber={pageNumber}&" +
-                       $"IsWithoutBail={isWithoutBail}&" +
-                      $"PaginationParameters.PageSize={pageSize}&";
-        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
-        if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
-        if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
-        if (startPrice != null) command += $"StartPrice={startPrice}&";
-        if (endPrice != null) command += $"EndPrice={endPrice}&";
-        command += $"IsExist={isExist}&";
-        command += $"ProductSort={productSort}";
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
-        return Return(result);
+
+        return Return(cachEntry);
     }
 
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+        var cachEntry = await _cache.GetOrCreate("GetProductList", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
             $"GetByCategoryId?PageNumber={pageNumber}&PageSize={pageSize}&Search={categoryId}&ProductSort={productSort}");
-        return Return(result);
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopNew", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopNewShop", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopNew?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopPrice?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopPrice", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopPrice?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopStars(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopStars?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopStars", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopStars?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopDiscount(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopDiscount?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopDiscount", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopDiscount?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count, bool isWithoutBail = false)
     {
-        var result =
-            await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-                $"TopRelatives?productId={productId}&count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopRelatives", async entry =>
+        {
+            var result =
+             await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+                 $"TopRelatives?productId={productId}&count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopSells(int count, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopSells?count={count}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("TopSells", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"TopSells?count={count}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList)
     {
-        var result =
-            await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
-                "ProductsWithIdsForCart");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("ProductsWithIdsForCart", async entry =>
+        {
+            var result =
+           await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
+               "ProductsWithIdsForCart");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList)
     {
-        var result =
-            await _http.PostAsync<List<int>, List<ProductCompareViewModel>>("api/Products", productIdList,
-                "ProductsWithIdsForCompare");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("ProductsWithIdsForCompare", async entry =>
+        {
+            var result =
+           await _http.PostAsync<List<int>, List<ProductCompareViewModel>>("api/Products", productIdList,
+               "ProductsWithIdsForCompare");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<ProductViewModel>> GetById(int id)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetById?id={id}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("GetById", async entry =>
+        {
+            var result = await _http.GetAsync<ProductViewModel>(Url, $"GetById?id={id}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
     public async Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id)
     {
-        var result = await _http.GetAsync<ProductModalViewModel>(Url, $"GetByIdViewModel?id={id}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("GetByIdViewModel", async entry =>
+        {
+            var result = await _http.GetAsync<ProductModalViewModel>(Url, $"GetByIdViewModel?id={id}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBail = false)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("GetTops", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
+            return result;
+        });
+
+        return Return(cachEntry);
+
     }
 }
