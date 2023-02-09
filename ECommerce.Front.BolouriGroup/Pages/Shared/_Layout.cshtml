@@ -593,6 +593,23 @@
                 }
             }
         );
+
+          function SendSms(mobile) {
+            $.ajax({
+                type: "Post",
+                url: "/login?handler=SendSms&mobile=" + mobile ,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
         function SaveStars(id, starNumber) {
             $.ajax({
                 type: "Get",

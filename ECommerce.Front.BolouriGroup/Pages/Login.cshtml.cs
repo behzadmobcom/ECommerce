@@ -51,7 +51,23 @@ public class LoginModel : PageModel
         Message = result.Message;
         Code = result.Code.ToString();
         if (result.Code == 0) return RedirectToPage("Index");
-
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostSendSms()
+    {        
+        Random randomCode = new Random();
+        int code = randomCode.Next(100000000);
+        if (code < 10000000) code = code + 10000000;
+        var result = await _userService.SetConfirmCodeByUsername(LoginViewModel.Username, code, DateTime.Now);
+        if (result.Status==200)
+        {
+            await _userService.SendAuthenticationSms(LoginViewModel.Username, code);
+        }
+        else
+        {
+
+        }       
+        return null;
     }
 }
