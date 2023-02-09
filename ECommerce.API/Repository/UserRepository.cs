@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 namespace ECommerce.API.Repository;
 
 public class UserRepository : AsyncRepository<User>, IUserRepository
-{
+{  
     public UserRepository(SunflowerECommerceDbContext dbContext) : base(dbContext)
-    {
+    {     
     }
 
     public async Task<PagedList<UserListViewModel>> Search(UserFilterdParameters userFilterdParameters,
@@ -103,4 +103,16 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         });
         await DbContext.SaveChangesAsync();
     }
+
+    public async Task<bool> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken)
+    {
+        var user = TableNoTracking.Where(x => x.UserName == username).FirstOrDefault();
+        if (user == null) return false;
+        user.ConfirmCode = confirmCode;
+        user.ConfirmCodeExpirationDate = codeConfirmExpairDate;
+        var result = DbContext.Update(user);
+        if (result==null) return false;
+        return  await DbContext.SaveChangesAsync() == 1;        
+    }
+
 }

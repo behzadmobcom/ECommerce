@@ -73,8 +73,9 @@ public class UsersController : ControllerBase
                     return Ok(new ApiResult
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);                
+                var OneTimePass = (model.Password == user.ConfirmCode + "" && (DateTime.Now - user.ConfirmCodeExpirationDate).Value.TotalSeconds<=130 );
+                if (result.Succeeded || OneTimePass )
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
                     var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey),
@@ -682,6 +683,33 @@ public class UsersController : ControllerBase
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userRepository.SetConfirmCodeByUsername(username, confirmCode, codeConfirmExpairDate, cancellationToken);
+            if (result == false)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.NotFound
+            });
+        }           
     }
 
 
