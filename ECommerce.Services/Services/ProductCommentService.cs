@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ECommerce.Services.Services;
 
@@ -8,9 +10,11 @@ namespace ECommerce.Services.Services;
 {
         private const string Url = "api/ProductComments";
         private readonly IHttpService _http;
-        public ProductCommentService(IHttpService http):base(http)
+        private readonly IMemoryCache _cache;
+    public ProductCommentService(IHttpService http,IMemoryCache cache):base(http)
         {
             _http = http;
+            _cache= cache;
         }
 
         public async Task<ServiceResult> Add(ProductComment productComment)
@@ -41,8 +45,13 @@ namespace ECommerce.Services.Services;
 
     public async Task<ServiceResult<ProductComment>> GetById(int id)
     {
-        var result = await _http.GetAsync<ProductComment>(Url, $"GetById?id={id}");
-        return Return(result);
+        var cachEntry = await _cache.GetOrCreate("GetById", async entry =>
+        {
+            var result = await _http.GetAsync<ProductComment>(Url, $"GetById?id={id}");
+            return result;
+        });
+       
+        return Return(cachEntry);
     }
 
     public async Task<ServiceResult<List<ProductComment>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
