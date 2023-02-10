@@ -1717,19 +1717,19 @@ tbody tr td:last-child {
 }
 
 
-.product-name a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    color:green;
-    transition: all linear .3s;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-line-clamp:1;
-    -webkit-box-orient:vertical;
-}
+    .product-name a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        color: var(--sub-heading);
+        transition: all linear .3s;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient:vertical;
+    }
 
 .product-name a:hover {
     color: var(--blue-dark)
