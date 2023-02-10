@@ -107,37 +107,25 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<ProductViewModel>> Add(ProductViewModel productViewModel)
     {
-        var cachEntry = await _cache.GetOrCreate("Add", async entry =>
-        {
-            if (productViewModel.BrandId == 0) productViewModel.BrandId = null;
-            var result = await Create<ProductViewModel>(Url, productViewModel);
-            return result;
-        });
+        if (productViewModel.BrandId == 0) productViewModel.BrandId = null;
+        var result = await Create<ProductViewModel>(Url, productViewModel);
 
-        return Return(cachEntry);
+        return Return(result);
     }
 
     public async Task<ServiceResult> Edit(ProductViewModel productViewModel)
     {
-        var cachEntry = await _cache.GetOrCreate("Edit", async entry =>
-        {
-            var result = await UpdateWithReturnId(Url, productViewModel);
-            return result;
-        });
+        var result = await UpdateWithReturnId(Url, productViewModel);
 
-        return Return(cachEntry);
+        return Return(result);
 
     }
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var cachEntry = await _cache.GetOrCreate("Delete", async entry =>
-        {
-            var result = await Delete(Url, id);
-            return result;
-        });
+        var result = await Delete(Url, id);
 
-        return Return(cachEntry);
+        return Return(result);
 
     }
 
@@ -292,29 +280,22 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList)
     {
-        var cachEntry = await _cache.GetOrCreate("ProductsWithIdsForCart", async entry =>
-        {
-            var result =
-           await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
-               "ProductsWithIdsForCart");
-            return result;
-        });
+        var result =
+            await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
+                "ProductsWithIdsForCart");
 
-        return Return(cachEntry);
+        return Return(result);
 
     }
 
     public async Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList)
     {
-        var cachEntry = await _cache.GetOrCreate("ProductsWithIdsForCompare", async entry =>
-        {
+       
             var result =
            await _http.PostAsync<List<int>, List<ProductCompareViewModel>>("api/Products", productIdList,
                "ProductsWithIdsForCompare");
-            return result;
-        });
 
-        return Return(cachEntry);
+          return Return(result);
 
     }
 
