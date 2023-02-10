@@ -280,11 +280,16 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList)
     {
-        var result =
+        var cachEntry = await _cache.GetOrCreate("ProductsWithIdsForCart", async entry =>
+        {
+            var result =
             await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
                 "ProductsWithIdsForCart");
+            return result;
+        });
+        
 
-        return Return(result);
+        return Return(cachEntry);
 
     }
 
