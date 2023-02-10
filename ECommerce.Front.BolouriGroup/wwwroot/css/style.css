@@ -1729,7 +1729,6 @@ tbody tr td:last-child {
     display:-webkit-box;
     -webkit-line-clamp:1;
     -webkit-box-orient:vertical;
-    
 }
 
 .product-name a:hover {
