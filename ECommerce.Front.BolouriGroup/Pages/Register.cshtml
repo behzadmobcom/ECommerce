@@ -44,46 +44,49 @@
                     </div>
                     <form method="post" asp-page-handler="Register" class="user-form">
                         <div class="row">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item form-check">
-                                    <a class="nav-link active" data-toggle="tab" href="#home">
+                            <div class="nav nav-tabs" role="tablist">
+                                <div class="nav-item form-check">
+                                    <a class="nav-link" data-toggle="tab" href="#home">
                                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" style="margin-right: 1em; margin-left: 1em">
                                         <span class="widget-title border-left mb-40">شخصی</span>
                                     </a>
-                                </li>
-                                <li class="nav-item form-check">
+                                </div>
+                                <div class="nav-item form-check">
                                     <a class="nav-link" data-toggle="tab" href="#menu1">
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" style="margin-right: 1em; margin-left: 1em">
                                         <span class="widget-title border-left mb-20">مجموعه</span>
                                     </a>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </div>
                      
                        
-                        <div class="row tab-content">
+                        <div class="container tab-content">
                             <div id="home" class="container tab-pane form-group">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.FirstName"></span>
                         <br/>
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.LastName"></span>
-                            </div>
+                                <br />
+                                <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
+                                </div> 
+                           
                             <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
                                 <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.Name" class="form-control">
+                                <br />
+                                <select  class="form-select">
+                                    <option value="10">رستوران</option>
+                                    <option value="11">هتل و کافی شاپ</option>
+                                    <option value="16">تالار</option>
+                                    <option value="21">اداری شرکتی</option>
+                                    <option value="15">فروشگاه</option>
+                                </select>
                             </div>
                         </div>
                
 
-                
-                        <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.Email" style="color: red"></span>
-                            <input type="text" placeholder="آدرس ایمیل" dir="ltr" asp-for="RegisterViewModel.Email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
-                        </div>
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
                             <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
