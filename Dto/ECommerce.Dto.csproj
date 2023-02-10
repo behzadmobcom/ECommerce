@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Ecommerce.Entities\Ecommerce.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ProductsDto\" />
+  </ItemGroup>
+
 </Project>
