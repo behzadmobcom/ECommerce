@@ -80,4 +80,6 @@ public class User : IdentityUser<int>, IBaseEntity<int>
     public int? HolooCompanyId { get; set; } = 1;
 
     public HolooCompany? HolooCompany { get; set; }
+    public int? ConfirmCode { get; set; }
+    public DateTime? ConfirmCodeExpirationDate { get; set; }
 }
