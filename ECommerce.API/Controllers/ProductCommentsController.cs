@@ -3,7 +3,6 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 

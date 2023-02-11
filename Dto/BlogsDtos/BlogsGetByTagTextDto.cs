@@ -1,11 +1,4 @@
-﻿using Ecommerce.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dto.BlogsDtos
+﻿namespace Dto.BlogsDtos
 {
     public class BlogsGetByTagTextDto
     {

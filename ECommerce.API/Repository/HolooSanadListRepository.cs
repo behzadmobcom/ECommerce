@@ -1,7 +1,6 @@
 ﻿using ECommerce.API.DataContext;
 using Ecommerce.Entities.HolooEntity;
 using ECommerce.API.Interface;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Repository
 {

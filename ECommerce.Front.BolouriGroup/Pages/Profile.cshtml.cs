@@ -3,7 +3,6 @@ using Ecommerce.Entities;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ECommerce.Services.Services;
 using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.Front.BolouriGroup.Pages;

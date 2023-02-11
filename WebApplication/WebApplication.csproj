@@ -53,15 +53,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="appsettings.json" />
-	  <None Remove="Resources\Images\wallpaper.jpg" />
-	  <None Remove="Resources\Raw\appsettings.json" />
+	  <MauiXaml Remove="App.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
+	  <None Remove="appsettings.json" />
+	  <None Remove="Resources\Images\wallpaper.jpg" />
+	  <None Remove="Resources\Raw\appsettings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
