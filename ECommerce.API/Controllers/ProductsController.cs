@@ -181,8 +181,8 @@ public class ProductsController : ControllerBase
         return product;
     }
 
-    [HttpGet("GetAllWithPagination")]
-    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+    [HttpGet("GetAllWithPagination/{isColleague}")]
+    public async Task<IActionResult> GetAllWithPagination(bool isColleague , [FromBody]PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -217,8 +217,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("Search")]
-    public async Task<IActionResult> Search([FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
+    [HttpPost("Search/{isColleague}")]
+    public async Task<IActionResult> Search(bool isColleague,[FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -299,8 +299,8 @@ public class ProductsController : ControllerBase
     /// <param name="productListFilteredViewModel"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    [HttpGet("GetProducts")]
-    public async Task<IActionResult> GetProducts([FromQuery] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
+    [HttpGet("GetProducts/{isColleague}")]
+    public async Task<IActionResult> GetProducts(bool isColleague,[FromBody] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -445,139 +445,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("TopNew/{count}/{isWithoutBail}")]
-    //public async Task<IActionResult> TopNew([FromQuery]int count, [FromQuery]bool isWithoutBail, CancellationToken cancellationToken)
-    public async Task<IActionResult> TopNew(int count, bool isWithoutBail, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var products = await _productRepository.TopNew(count, cancellationToken);
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                products = await AddPriceAndExistFromHolooList(products, isWithoutBail, true, cancellationToken);
-
-            products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = products
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-    }
-
-    [HttpGet("TopPrice/{count}/{isWithoutBail}")]
-    public async Task<IActionResult> TopPrice(int count, bool isWithoutBail, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var products = await _productRepository.TopPrices(count, cancellationToken);
-
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
-
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
-            products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = products
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-    }
-
-    [HttpGet("TopDiscounts/{count}/{isWithoutBail}")]
-    public async Task<IActionResult> TopDiscounts(int count, bool isWithoutBail, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var products = await _priceRepository.TopDiscounts(count, cancellationToken);
-
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
-            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = productIndexPageViewModel
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-    }
-
-    [HttpGet("TopRelatives/{productId}/{count}/{isWithoutBail}")]
-    public async Task<IActionResult> TopRelatives(int productId, int count, bool isWithoutBail, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var products = await _productRepository.TopRelatives(productId, count, cancellationToken);
-
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
-            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = productIndexPageViewModel
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-    }
-
-    [HttpGet("TopSells/{count}/{isWithoutBail}")]
-    public async Task<IActionResult> TopSells(int count, bool isWithoutBail, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var products = await _productRepository.TopSells(count, cancellationToken);
-
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
-            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
-            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = productIndexPageViewModel
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-    }
-
-    [HttpGet("TopStars/{count}/{isWithoutBail}")]
-    public async Task<IActionResult> TopStars(int count, bool isWithoutBail, CancellationToken cancellationToken)
+    [HttpGet("TopStars/{count}/{isWithoutBail}/{isColleague}")]
+    public async Task<IActionResult> TopStars(int count, bool isWithoutBail,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -600,8 +469,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetCategoryProductCount/{categoryId}")]
-    public IActionResult GetCategoryProductCount(int categoryId, CancellationToken cancellationToken)
+    [HttpGet("GetCategoryProductCount/{categoryId}/{isColleague}")]
+    public IActionResult GetCategoryProductCount(int categoryId,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -619,8 +488,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetByProductUrl/{productUrl}/{isWithoutBil}")]
-    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil, CancellationToken cancellationToken)
+    [HttpGet("GetByProductUrl/{productUrl}/{isWithoutBil}/{isColleague}")]
+    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -717,8 +586,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("ProductsWithIdsForCompare/{productIdList}")]
-    public async Task<IActionResult> ProductsWithIdsForCompare(List<int?> productIdList,
+    [HttpPost("ProductsWithIdsForCompare/{isColleague}")]
+    public async Task<IActionResult> ProductsWithIdsForCompare([FromBody]List<int?> productIdList,bool isColleague,
         CancellationToken cancellationToken)
     {
         try
@@ -744,8 +613,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("ProductsWithIdsForCart/{productIdList}/{isWithoutBail}")]
-    public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBail,
+    [HttpPost("ProductsWithIdsForCart/{isWithoutBail}/{isColleague}")]
+    public async Task<IActionResult> ProductsWithIdsForCart([FromBody]List<int> productIdList, bool isWithoutBail,bool isColleague,
         CancellationToken cancellationToken)
     {
         try
@@ -772,9 +641,9 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("Post")]
+    [HttpPost("{isColleague}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<IActionResult> Post(ProductViewModel productViewModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> Post(bool isColleague,[FromBody]ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -815,9 +684,9 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPut("Put")]
+    [HttpPut("{isColleague}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<ActionResult<int>> Put(ProductViewModel productViewModel, CancellationToken cancellationToken)
+    public async Task<ActionResult<int>> Put(bool isColleague,[FromBody]ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -859,9 +728,9 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpDelete("Delete/{id}")]
+    [HttpDelete("{id}/{isColleague}")]
     [Authorize(Roles = "SuperAdmin")]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(int id,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -879,8 +748,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetMGroup")]
-    public async Task<IActionResult> GetMGroup(CancellationToken cancellationToken)
+    [HttpGet("GetMGroup/{isColleague}")]
+    public async Task<IActionResult> GetMGroup(bool isColleague,CancellationToken cancellationToken)
     {
         try
         {
@@ -898,8 +767,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetSGroupByMGroupCode/{mCode}")]
-    public async Task<IActionResult> GetSGroupByMGroupCode(string mCode, CancellationToken cancellationToken)
+    [HttpGet("GetSGroupByMGroupCode/{mCode}/{isColleague}")]
+    public async Task<IActionResult> GetSGroupByMGroupCode(string mCode,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -924,8 +793,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetAllArticleMCodeSCode/{code}")]
-    public async Task<IActionResult> GetAllArticleMCodeSCode(string code, CancellationToken cancellationToken)
+    [HttpGet("GetAllArticleMCodeSCode/{code}/{isColleague}")]
+    public async Task<IActionResult> GetAllArticleMCodeSCode(string code,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
@@ -967,9 +836,9 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpPost("ConvertHolooToSunflower/{mCode}")]
+    [HttpPost("ConvertHolooToSunflower/{mCode}/{isColleague}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<IActionResult> ConvertHolooToSunflower(string mCode,
+    public async Task<IActionResult> ConvertHolooToSunflower(string mCode,bool isColleague,
         CancellationToken cancellationToken)
     {
         try
@@ -1097,8 +966,8 @@ public class ProductsController : ControllerBase
         }
     }
 
-    [HttpGet("GetTops/{includeProperties}/{isWithoutBail}")]
-    public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBail, CancellationToken cancellationToken)
+    [HttpGet("GetTops/{includeProperties}/{isWithoutBail}/{isColleague}")]
+    public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBail,bool isColleague, CancellationToken cancellationToken)
     {
         try
         {
