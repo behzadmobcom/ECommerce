@@ -61,7 +61,7 @@
                         </div>
                      
                        
-                        <div class="container tab-content">
+                        <div class="row tab-content">
                             <div id="home" class="container tab-pane form-group">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.FirstName"></span>
@@ -86,7 +86,20 @@
                             </div>
                         </div>
                
-
+                        <select asp-for="RegisterViewModel.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px">
+                            @foreach (var state in Model.StateList)
+                            {
+                                <option value="@state.Id">@state.Name</option>
+                            }
+                        </select>
+                        <br />
+                        <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city">
+                            @foreach (var city in Model.CityList)
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
+                        </select>
+                        <br />
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
                             <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
