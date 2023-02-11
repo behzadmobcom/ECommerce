@@ -7,7 +7,6 @@ using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ECommerce.API.Controllers;
 

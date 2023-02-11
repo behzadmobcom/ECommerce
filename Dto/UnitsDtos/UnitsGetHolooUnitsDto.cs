@@ -1,11 +1,5 @@
-﻿using Ecommerce.Entities.HolooEntity;
-using Ecommerce.Entities;
-using System;
-using System.Collections.Generic;
+﻿using Ecommerce.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dto.UnitsDtos
 {

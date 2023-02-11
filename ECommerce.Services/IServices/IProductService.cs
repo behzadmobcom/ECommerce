@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
-using Microsoft.AspNetCore.Http;
 
 namespace ECommerce.Services.IServices;
 

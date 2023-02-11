@@ -2,7 +2,6 @@ using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
