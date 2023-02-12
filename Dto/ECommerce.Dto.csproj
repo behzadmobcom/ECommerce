@@ -5,11 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Ecommerce.Entities\Ecommerce.Entities.csproj" />
-  </ItemGroup>
-
+ 
   <ItemGroup>
     <Folder Include="ProductsDto\" />
   </ItemGroup>

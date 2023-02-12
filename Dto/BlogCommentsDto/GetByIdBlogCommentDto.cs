@@ -1,7 +1,5 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.BlogsDto;
-
-namespace Dto.BlogCommentsDtos;
+﻿
+namespace ECommerce.Dto.BlogCommentsDto;
 
 public class GetByIdBlogCommentDto : BlogCommentDto 
 {

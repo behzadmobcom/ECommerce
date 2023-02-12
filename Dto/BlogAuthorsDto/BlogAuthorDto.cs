@@ -1,7 +1,6 @@
 ﻿using ECommerce.Dto.Base;
-using ECommerce.Dto.BlogsDto;
 
-namespace Dto.BlogAuthorsDto;
+namespace ECommerce.Dto.BlogAuthorsDto;
 
 public class BlogAuthorDto : BaseDto
 {

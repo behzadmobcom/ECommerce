@@ -1,4 +1,4 @@
-﻿namespace Dto.BlogAuthorsDto;
+﻿namespace ECommerce.Dto.BlogAuthorsDto;
 
 public class GetByIdBlogAuthorDto : BlogAuthorDto
 {

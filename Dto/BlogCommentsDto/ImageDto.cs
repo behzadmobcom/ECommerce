@@ -2,10 +2,11 @@
 
 namespace ECommerce.Dto.BlogCommentsDto;
 
-public class BlogCommentDto : BaseDto
+public class ImageDto : BaseDto
 {
-    public string? Text { get; set; }
-
     public string? Name { get; set; }
+    public string? Path { get; set; }
+    public string? Alt { get; set; }
+
 
 }

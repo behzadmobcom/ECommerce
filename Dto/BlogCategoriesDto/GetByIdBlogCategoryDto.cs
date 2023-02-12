@@ -5,6 +5,6 @@ namespace Dto.BlogCategoriesDtos;
 public class GetByIdBlogCategoryDto : BlogCategoryDto 
 {
 
-    public int? Depth { get; set; } = 0;
+    public int? Depth { get; set; } 
      
 }

@@ -1,6 +1,4 @@
-﻿using ECommerce.Dto.BlogsDto;
-
-namespace Dto.BlogCommentsDtos;
+﻿namespace ECommerce.Dto.BlogCommentsDto;
 
 public class GetAllAccesptedCommentsBlogCommentDto : BlogCommentDto
 {
@@ -11,7 +9,6 @@ public class GetAllAccesptedCommentsBlogCommentDto : BlogCommentDto
 
     public int? AnswerId { get; set; }
     public BlogCommentDto? Answer { get; set; }
-
-    public BlogDto? Blog { get; set; }
+     
 
 }

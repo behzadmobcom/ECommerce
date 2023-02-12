@@ -1,6 +1,6 @@
 ﻿using ECommerce.Dto.BlogsDto;
 
-namespace Dto.BlogsDtos;
+namespace ECommerce.Dto.BlogsDto;
 
 public class GetBlogDto : BlogDto
 { 

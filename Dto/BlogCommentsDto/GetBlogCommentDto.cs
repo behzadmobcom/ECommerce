@@ -1,12 +1,9 @@
-﻿using ECommerce.Dto.BlogsDto;
-
-namespace Dto.BlogCommentsDtos;
+﻿namespace ECommerce.Dto.BlogCommentsDto;
 
 public class GetBlogCommentDto : BlogCommentDto
 {
       
     public bool IsAccepted { get; set; }
-    public string? Email { get; set; }
 
     public BlogDto? Blog { get; set; }
 
