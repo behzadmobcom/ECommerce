@@ -445,6 +445,45 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetAllProducts(bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
+    {
+        try
+        {         
+            var productQuery = _productRepository.GetAllProducts();          
+            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            productIndexPageViewModel.AddRange(await productQuery                           
+                           .Select(p => new ProductIndexPageViewModel
+                           {
+                               Prices = p.Prices!,
+                               Alt = p.Images!.First().Alt,
+                               Brand = p.Brand!.Name,
+                               Name = p.Name,
+                               Description = p.Description,
+                               Id = p.Id,
+                               ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                               Stars = p.Star,
+                               Url = p.Url
+                           })
+                           .ToListAsync(cancellationToken));
+
+            if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            {
+                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBil, isExist, cancellationToken);
+            }          
+            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();           
+            return Ok(new ApiResult
+            {                
+                Code = ResultCode.Success,
+                ReturnData = productIndexPageViewModel
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails = new PaginationDetails(), Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+    [HttpGet]
     public async Task<IActionResult> TopNew(int count, bool isWithoutBail, CancellationToken cancellationToken)
     {
         try

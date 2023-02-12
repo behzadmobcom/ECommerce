@@ -211,6 +211,18 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetAllProducts(bool isWithoutBil = false, bool? isExist = false)
+    {
+        var cacheEntry = await _cache.GetOrCreate($"GetAllProducts-{isWithoutBil}-{isExist}", async entry =>
+        {
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetAllProducts?isWithoutBil={isWithoutBil}&isExist={isExist}");
+            return result;
+        });
+
+        return Return(cacheEntry);
+
+    }
+
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count, bool isWithoutBail = false)
     {
         var cacheEntry = await _cache.GetOrCreate($"TopNew-{count}", async entry =>

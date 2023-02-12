@@ -16,8 +16,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
       int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
       bool isExist = false, bool isWithoutBail = false, string tagText = "");
-
-
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> GetAllProducts(bool isWithoutBil=false, bool? isExist=false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNew(int count = 10, bool isWithoutBail = false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopNewShop(int count = 3,bool isWithoutBail = false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopPrice(int count = 10, bool isWithoutBail = false);
