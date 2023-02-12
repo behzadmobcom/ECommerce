@@ -1,5 +1,4 @@
-﻿using Ecommerce.Entities.ViewModel;
-using ECommerce.Dto.BlogCategoriesDto;
+﻿using ECommerce.Dto.BlogCategoriesDto;
 
 namespace Dto.BlogCategoriesDtos;
 
@@ -11,5 +10,4 @@ public class GetParentsBlogCategoryDto : BlogCategoryDto
     public bool Checked { get; set; }
     public int DisplayOrder { get; set; }
 
-    public List<CategoryParentViewModel>? Children { get; set; }
 }

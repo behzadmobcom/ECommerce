@@ -1,10 +1,8 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
-using ECommerce.Dto.BlogsDto;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.BlogCommentsDtos;
+namespace ECommerce.Dto.BlogCommentsDto;
 
-public class GetBlogCommentDto_ : BaseDto
+internal class GetBlogCommentDto_ : BaseDto
 {
     public string? Text { get; set; }
 
@@ -29,7 +27,6 @@ public class GetBlogCommentDto_ : BaseDto
     public int? BlogId { get; set; }
     public BlogDto? Blog { get; set; }
 
-    public int? EmployeeId { get; set; }
-
-    public Employee? Employee { get; set; }
+    //public int? EmployeeId { get; set; }
+    //public Employee? Employee { get; set; }
 }

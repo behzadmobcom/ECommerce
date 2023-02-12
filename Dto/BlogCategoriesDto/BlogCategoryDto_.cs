@@ -1,12 +1,10 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.BlogsDto;
+﻿using ECommerce.Dto.Base;
 
 namespace ECommerce.Dto.BlogCategoriesDto;
 
-internal class BlogCategoryDto_ :  BlogCategoryDto
+internal class BlogCategoryDto_ :  BaseDto
 {
-
-    public int? Depth { get; set; } = 0;
+    public int? Depth { get; set; } 
 
     public string? Description { get; set; }
 
@@ -15,6 +13,6 @@ internal class BlogCategoryDto_ :  BlogCategoryDto
 
     public ICollection<BlogCategoryDto>? BlogCategories { get; set; }
 
-    public ICollection<BlogDto>? Blogs { get; set; }
+    //public ICollection<BlogDto>? Blogs { get; set; }
 
 }
