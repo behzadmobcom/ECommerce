@@ -93,9 +93,16 @@
                     }
                     else
                     {
-                        <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
-                            <i class="fal fa-user"></i>
-                        </a>
+                        <div class="dropdown">
+                            <a class="header-widget dropbtn" asp-area="" asp-page="/Login" title="حساب من">
+                                <i class="fal fa-user"></i>
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#">Link 1</a>
+                                <a href="#">Link 2</a>
+                                <a href="#">Link 3</a>
+                            </div>
+                        </div>
                     }
                     <a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
                         <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
