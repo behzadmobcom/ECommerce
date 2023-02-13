@@ -201,11 +201,13 @@ public class UsersController : ControllerBase
 
             var moeinCode = await _holooSarfaslRepository.Add(register.Username, cancellationToken);
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
+            string customerName = "";
+            customerName = register.IsColleague ? $"{register.CompanyName}-{register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
             var holooCustomer = new HolooCustomer
             {
                 C_Code = customerCode,
                 C_Code_C = customerCode,
-                C_Name = register.Username,
+                C_Name = customerName,
                 C_Mobile = register.Mobile,
                 Col_Code_Bed = "103",
                 Moien_Code_Bed = moeinCode,
@@ -218,6 +220,8 @@ public class UsersController : ControllerBase
                 Arayeshgar = false,
                 Arayesh_Porsant = 0,
                 ArzID = 1,
+                City_Code = register.CityId,
+                GroupId = register.CompanyType.ToString(),
                 money_price = 1,
                 Cust_type = 1,
                 TasviehType = 3,
@@ -249,6 +253,11 @@ public class UsersController : ControllerBase
                 CustomerCode = customerCode,
                 NationalCode = register.NationalCode
             };
+
+            if (register.IsColleague)
+            {
+                user.CompanyName = register.CompanyName;
+            }
 
             //var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
