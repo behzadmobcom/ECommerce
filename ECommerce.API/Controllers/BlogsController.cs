@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class BlogsController : ControllerBase
 {
@@ -21,7 +21,7 @@ public class BlogsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -52,8 +52,8 @@ public class BlogsController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetByTagText([FromQuery] PaginationParameters paginationParameters,
+    [HttpGet("GetByTagText")]
+    public async Task<IActionResult> GetByTagText([FromBody] PaginationParameters paginationParameters,
     CancellationToken cancellationToken)
     {
         try
@@ -84,7 +84,7 @@ public class BlogsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}/{isColleague}")]
     public async Task<ActionResult<BlogViewModel>> GetById(int id, bool isColleague,
         CancellationToken cancellationToken)
     {
@@ -189,7 +189,7 @@ public class BlogsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -208,7 +208,7 @@ public class BlogsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByCategory/{id}")]
     public async Task<IActionResult> GetByCategory(int id, CancellationToken cancellationToken)
     {
         try
@@ -226,7 +226,7 @@ public class BlogsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByUrl/{blogUrl}/{isColleague}")]
     public async Task<ActionResult<BlogViewModel>> GetByUrl(string blogUrl, bool isColleague,
      CancellationToken cancellationToken)
     {
