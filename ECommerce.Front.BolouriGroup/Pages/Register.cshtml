@@ -74,13 +74,14 @@
                            
                             <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
-                                <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.Name" class="form-control">
+                                <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.CompanyName" class="form-control">
                                 <br />
-                                <select  class="form-select">
+                                <select asp-for="RegisterViewModel.CompanyType" class="form-select" >
                                     <option value="10">رستوران</option>
-                                    <option value="11">هتل و کافی شاپ</option>
+                                    <option value="11">کافی شاپ</option>
+                                    <option value="9">هتل</option>
                                     <option value="16">تالار</option>
-                                    <option value="21">اداری شرکتی</option>
+                                    <option value="21">شرکت</option>
                                     <option value="15">فروشگاه</option>
                                 </select>
                             </div>

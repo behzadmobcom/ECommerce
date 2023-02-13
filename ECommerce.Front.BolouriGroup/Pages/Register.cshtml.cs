@@ -58,6 +58,28 @@ public class RegisterModel : PageModel
             RegisterViewModel.NationalCode = "0000000000";
         }
         if (!ModelState.IsValid) return Page();
+        switch (RegisterViewModel.CompanyType)
+        {
+           case 10:
+               RegisterViewModel.CompanyTypeName = "رستوران";
+               break;
+           case 11:
+               RegisterViewModel.CompanyTypeName = "کافی شاپ";
+               break;
+           case 9 :
+               RegisterViewModel.CompanyTypeName = "هتل";
+               break;
+            case 16:
+                RegisterViewModel.CompanyTypeName = "تالار";
+               break;
+           case 21:
+               RegisterViewModel.CompanyTypeName = "شرکت";
+               break;
+           case 15:
+               RegisterViewModel.CompanyTypeName = "فروشگاه";
+               break;
+        }
+
         var result = await _userService.Register(RegisterViewModel);
         if(result.Code>0)
         {

@@ -270,6 +270,15 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     }
 
+    public IQueryable<Product?> GetAllProducts()
+    {
+
+        var products = _context.Products.AsQueryable();
+        var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
+        return result;
+
+    }
+
     public async Task<PagedList<ProductIndexPageViewModel>> Search(PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
