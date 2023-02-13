@@ -5,7 +5,6 @@ using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 

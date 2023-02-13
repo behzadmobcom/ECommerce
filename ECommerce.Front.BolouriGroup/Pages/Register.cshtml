@@ -4,6 +4,10 @@
 @{
     ViewData["Title"] = "ثبت نام";
 }
+
+@section Head{
+    <link href="~/css/shop.css" rel="stylesheet" />
+}
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -39,37 +43,61 @@
                         <p>حساب خود را به صورت رایگان ثبت کنید</p>
                     </div>
                     <form method="post" asp-page-handler="Register" class="user-form">
-                        <h6 class="widget-title border-left mb-40">مشتریان جدید</h6>
-
                         <div class="row">
-                            <div class="col-sm-6 form-group">
+                            <ul class="nav nav-tabs" role="tablist" style="margin-right: 10%">
+                                <li class="nav-item form-check active">
+                                    <a class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a> 
+                                </li>
+                                <li class="nav-item form-check">
+                                    <a class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a> 
+                                </li>
+                            </ul>
+                        </div>
+                     
+                       
+                        <div class="row tab-content" style="margin-right: 0;margin-left: 0">
+                            <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.FirstName"></span>
-                            </div>
-                            <div class="col-sm-6 form-group">
+                        <br/>
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.LastName"></span>
-                            </div>
-                            <div class="col-sm-6 form-group">
-                                <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
-                                <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
-                            </div>
-                            <div class="col-sm-6 form-group">
+                                <br />
+                                <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
+                                </div> 
+                           
+                            <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
-                                <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.Name" class="form-control">
+                                <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.CompanyName" class="form-control">
+                                <br />
+                                <select asp-for="RegisterViewModel.CompanyType" class="form-select" >
+                                    <option value="10">رستوران</option>
+                                    <option value="11">کافی شاپ</option>
+                                    <option value="9">هتل</option>
+                                    <option value="16">تالار</option>
+                                    <option value="21">شرکت</option>
+                                    <option value="15">فروشگاه</option>
+                                </select>
                             </div>
                         </div>
-
+               
+                        <select asp-for="RegisterViewModel.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px;color: gray">
+                            @foreach (var state in Model.StateList)
+                            {
+                                <option value="@state.Id">@state.Name</option>
+                            }
+                        </select>
+                        <br />
+                        <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city" style="color: gray">
+                            @foreach (var city in Model.CityList)
+                            {
+                                <option value="@city.Id">@city.Name</option>
+                            }
+                        </select>
+                        <br />
                         <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.Email" style="color: red"></span>
-                            <input type="text" placeholder="آدرس ایمیل" dir="ltr" asp-for="RegisterViewModel.Email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.Username" style="color: red"></span>
-                            <input type="text" placeholder="نام کاربری" dir="ltr" asp-for="RegisterViewModel.Username" class="form-control">
+                            <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
+                            <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
                         </div>
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
@@ -84,20 +112,20 @@
                             <label>
                                 <small style="font-size: 12px">
                                     <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode"
-                                           style=" width: 18px; height: 18px; visibility: inherit; position: sticky;margin-right: -1.5em">
+                                           style="width: 18px; height: 18px; visibility: inherit; position: sticky; margin-right: -1.5em">
                                     آیا شما قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
 
                                     <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
                                 </small>
                             </label>
-                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
+                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control"/>
+                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br/>
                         </div>
 
                         <div class="form-check mb-3">
-                            <input type="checkbox" asp-for="RegisterViewModel.IsRole" class="form-check-input" id="agree" style=" width: 18px; height: 18px; visibility: inherit;position: sticky">
+                            <input type="checkbox" asp-for="RegisterViewModel.IsRole" class="form-check-input" id="agree" style="width: 18px; height: 18px; visibility: inherit; position: sticky">
                             <label class="form-check-label" for="agree">
-                                با <a asp-area="" asp-page="/Rules">قوانین و مقررات</a> موافقم.
+                                با <a asp-area="" asp-page="/Rules" style="color: black">قوانین و مقررات</a> موافقم.
                             </label>
                         </div>
                         <div class="form-button">
@@ -115,3 +143,24 @@
     </div>
 </section>
 
+@section Scripts
+{
+    <script>
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Register?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    $("#city").html(result);
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
+}

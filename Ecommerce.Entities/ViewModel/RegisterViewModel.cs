@@ -54,6 +54,16 @@ public class RegisterViewModel
     [StringLength(30, MinimumLength = 3, ErrorMessage = @"حداکثر 30 کاراکتر")]
     public string? FirstName { get; set; }
 
+    [Display(Name = "نام شرکت")]
+    [StringLength(30, MinimumLength = 3, ErrorMessage = @"حداکثر 30 کاراکتر")]
+    public string? CompanyName { get; set; }
+
+    [Display(Name = "نوع شرکت")]
+    public string? CompanyTypeName { get; set; }
+
+    [Display(Name = "آی دی نوع شرکت")]
+    public int? CompanyType { get; set; }
+
     [Display(Name = "نام خانوادگی")]
     [StringLength(50, ErrorMessage = @"حداکثر 50 کاراکتر")]
     public string? LastName { get; set; }

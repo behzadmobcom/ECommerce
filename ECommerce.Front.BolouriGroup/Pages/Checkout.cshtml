@@ -135,3 +135,24 @@
         </form>
     </div>
 </section>
+@section Scripts
+{
+    <script>
+        function setCities() {
+            var stateId = $('#state').val();
+            $.ajax({
+                type: "Get",
+                url: "Checkout?handler=CityLoad&id=" + stateId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function(result) {
+                    $("#city").html(result);
+                },
+                failure: function(response) {
+                    alert(response);
+                }
+            });
+
+        }
+    </script>
+}

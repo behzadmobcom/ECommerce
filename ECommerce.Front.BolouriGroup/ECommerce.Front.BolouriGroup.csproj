@@ -30,4 +30,11 @@
 	  <Folder Include="wwwroot\Images\Blogs\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="wwwroot\css\Shop.css">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

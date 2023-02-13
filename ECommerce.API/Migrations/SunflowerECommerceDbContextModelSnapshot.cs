@@ -67,7 +67,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("CategoryProduct");
                 });
 
-            modelBuilder.Entity("Entities.Blog", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +126,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("Entities.BlogAuthor", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogAuthor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("BlogAuthors");
                 });
 
-            modelBuilder.Entity("Entities.BlogCategory", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,7 +184,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("BlogCategories");
                 });
 
-            modelBuilder.Entity("Entities.BlogComment", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,7 +199,6 @@ namespace Ecommerce.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -242,7 +241,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("BlogComments");
                 });
 
-            modelBuilder.Entity("Entities.Brand", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -269,7 +268,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("Entities.Category", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,7 +310,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Entities.City", b =>
+            modelBuilder.Entity("Ecommerce.Entities.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2923,7 +2922,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Color", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Color", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2954,7 +2953,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Currency", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2988,7 +2987,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Department", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3010,7 +3009,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("Entities.Discount", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Discount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3065,7 +3064,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Employee", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3120,7 +3119,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Entities.HolooCompany", b =>
+            modelBuilder.Entity("Ecommerce.Entities.HolooCompany", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3150,7 +3149,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Image", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3189,7 +3188,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("Entities.Keyword", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Keyword", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3207,7 +3206,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Keywords");
                 });
 
-            modelBuilder.Entity("Entities.LoginHistory", b =>
+            modelBuilder.Entity("Ecommerce.Entities.LoginHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3237,7 +3236,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("LoginHistories");
                 });
 
-            modelBuilder.Entity("Entities.Message", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3272,7 +3271,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PaymentMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3306,7 +3305,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("PaymentMethods");
                 });
 
-            modelBuilder.Entity("Entities.Price", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Price", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3381,7 +3380,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Prices");
                 });
 
-            modelBuilder.Entity("Entities.Product", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3453,7 +3452,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttribute", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3479,7 +3478,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductAttributes");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttributeGroup", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttributeGroup", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3497,7 +3496,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductAttributeGroups");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttributeValue", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttributeValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3523,7 +3522,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductAttributeValues");
                 });
 
-            modelBuilder.Entity("Entities.ProductComment", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3535,7 +3534,6 @@ namespace Ecommerce.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateTime")
-                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -3581,7 +3579,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductComments");
                 });
 
-            modelBuilder.Entity("Entities.ProductSellCount", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductSellCount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3602,7 +3600,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductSellCounts");
                 });
 
-            modelBuilder.Entity("Entities.ProductUserRank", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductUserRank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3628,7 +3626,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("ProductUserRanks");
                 });
 
-            modelBuilder.Entity("Entities.PurchaseOrder", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PurchaseOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3738,7 +3736,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("PurchaseOrders");
                 });
 
-            modelBuilder.Entity("Entities.PurchaseOrderDetail", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PurchaseOrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3787,7 +3785,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("PurchaseOrderDetails");
                 });
 
-            modelBuilder.Entity("Entities.SendInformation", b =>
+            modelBuilder.Entity("Ecommerce.Entities.SendInformation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3831,7 +3829,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("SendInformation");
                 });
 
-            modelBuilder.Entity("Entities.Setting", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3861,7 +3859,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Shipping", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Shipping", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3879,7 +3877,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Shipping");
                 });
 
-            modelBuilder.Entity("Entities.Size", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Size", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3907,7 +3905,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.SlideShow", b =>
+            modelBuilder.Entity("Ecommerce.Entities.SlideShow", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -3946,7 +3944,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("SlideShows");
                 });
 
-            modelBuilder.Entity("Entities.State", b =>
+            modelBuilder.Entity("Ecommerce.Entities.State", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4121,7 +4119,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Store", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Store", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4150,7 +4148,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Supplier", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Supplier", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4201,7 +4199,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.Tag", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4219,7 +4217,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Entities.Transaction", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4263,7 +4261,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Entities.Unit", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Unit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4298,7 +4296,7 @@ namespace Ecommerce.API.Migrations
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("Entities.User", b =>
+            modelBuilder.Entity("Ecommerce.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4322,6 +4320,12 @@ namespace Ecommerce.API.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ConfirmCode")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ConfirmCodeExpirationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerCode")
                         .HasMaxLength(5)
@@ -4451,7 +4455,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "4cedc9d2-f7e6-4bcd-850a-d18ee7e03128",
+                            ConcurrencyStamp = "bdc28071-b5d9-4076-808f-99694f61b3a5",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -4466,10 +4470,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHVjuDHUMflY1WgCdRDCGsVfRowfJKuCvQwpp40++Voy48WjWdtVG5OR1+2a+CNchA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKPgNF729oaK8t1pvQiiILzHzrSmenKAUAJhrplsGitl/zj9+cpvBF028feWaORFhg==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2022, 11, 15, 8, 16, 37, 92, DateTimeKind.Local).AddTicks(5619),
+                            RegisterDate = new DateTime(2023, 2, 11, 3, 43, 31, 302, DateTimeKind.Local).AddTicks(1983),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -4477,7 +4481,7 @@ namespace Ecommerce.API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Entities.UserRole", b =>
+            modelBuilder.Entity("Ecommerce.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4510,27 +4514,27 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "c54b6260-a1c3-49dd-9009-52e6c0c72acc",
+                            ConcurrencyStamp = "58d7bd9a-1623-47bc-8ec9-76f63705c445",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2f48e490-b9bd-415f-8138-e9243b561cdd",
+                            ConcurrencyStamp = "47d26cee-dd36-430e-ba7d-e90eb02ec176",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "103dfbae-ff42-41ef-86da-e428b871a64f",
+                            ConcurrencyStamp = "931db539-24d1-49b2-8911-cf6c8a9c488a",
                             Name = "Client",
                             NormalizedName = "Client"
                         });
                 });
 
-            modelBuilder.Entity("Entities.WishList", b =>
+            modelBuilder.Entity("Ecommerce.Entities.WishList", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -4710,13 +4714,13 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("BlogKeyword", b =>
                 {
-                    b.HasOne("Entities.Blog", null)
+                    b.HasOne("Ecommerce.Entities.Blog", null)
                         .WithMany()
                         .HasForeignKey("BlogsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Keyword", null)
+                    b.HasOne("Ecommerce.Entities.Keyword", null)
                         .WithMany()
                         .HasForeignKey("KeywordsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -4725,13 +4729,13 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("BlogTag", b =>
                 {
-                    b.HasOne("Entities.Blog", null)
+                    b.HasOne("Ecommerce.Entities.Blog", null)
                         .WithMany()
                         .HasForeignKey("BlogsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Tag", null)
+                    b.HasOne("Ecommerce.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -4740,28 +4744,28 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.HasOne("Entities.Category", null)
+                    b.HasOne("Ecommerce.Entities.Category", null)
                         .WithMany()
                         .HasForeignKey("ProductCategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Product", null)
+                    b.HasOne("Ecommerce.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Blog", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Blog", b =>
                 {
-                    b.HasOne("Entities.BlogAuthor", "BlogAuthor")
+                    b.HasOne("Ecommerce.Entities.BlogAuthor", "BlogAuthor")
                         .WithMany("Blogs")
                         .HasForeignKey("BlogAuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.BlogCategory", "BlogCategory")
+                    b.HasOne("Ecommerce.Entities.BlogCategory", "BlogCategory")
                         .WithMany("Blogs")
                         .HasForeignKey("BlogCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -4772,30 +4776,30 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("BlogCategory");
                 });
 
-            modelBuilder.Entity("Entities.BlogCategory", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogCategory", b =>
                 {
-                    b.HasOne("Entities.BlogCategory", "Parent")
+                    b.HasOne("Ecommerce.Entities.BlogCategory", "Parent")
                         .WithMany("BlogCategories")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Entities.BlogComment", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogComment", b =>
                 {
-                    b.HasOne("Entities.BlogComment", "Answer")
+                    b.HasOne("Ecommerce.Entities.BlogComment", "Answer")
                         .WithMany()
                         .HasForeignKey("AnswerId");
 
-                    b.HasOne("Entities.Blog", "Blog")
+                    b.HasOne("Ecommerce.Entities.Blog", "Blog")
                         .WithMany("BlogComments")
                         .HasForeignKey("BlogId");
 
-                    b.HasOne("Entities.Employee", "Employee")
+                    b.HasOne("Ecommerce.Entities.Employee", "Employee")
                         .WithMany("BlogComments")
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany("BlogComments")
                         .HasForeignKey("UserId");
 
@@ -4808,13 +4812,13 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Category", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Category", b =>
                 {
-                    b.HasOne("Entities.Discount", "Discount")
+                    b.HasOne("Ecommerce.Entities.Discount", "Discount")
                         .WithMany("Categories")
                         .HasForeignKey("DiscountId");
 
-                    b.HasOne("Entities.Category", "Parent")
+                    b.HasOne("Ecommerce.Entities.Category", "Parent")
                         .WithMany("Categories")
                         .HasForeignKey("ParentId");
 
@@ -4823,9 +4827,9 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Entities.City", b =>
+            modelBuilder.Entity("Ecommerce.Entities.City", b =>
                 {
-                    b.HasOne("Entities.State", "State")
+                    b.HasOne("Ecommerce.Entities.State", "State")
                         .WithMany("Cities")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -4834,17 +4838,17 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("State");
                 });
 
-            modelBuilder.Entity("Entities.Employee", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Employee", b =>
                 {
-                    b.HasOne("Entities.Department", "Department")
+                    b.HasOne("Ecommerce.Entities.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
 
-                    b.HasOne("Entities.HolooCompany", "HolooCompany")
+                    b.HasOne("Ecommerce.Entities.HolooCompany", "HolooCompany")
                         .WithMany()
                         .HasForeignKey("HolooCompanyId");
 
-                    b.HasOne("Entities.UserRole", "UserRole")
+                    b.HasOne("Ecommerce.Entities.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
 
@@ -4855,13 +4859,13 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("UserRole");
                 });
 
-            modelBuilder.Entity("Entities.Image", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Image", b =>
                 {
-                    b.HasOne("Entities.Blog", "Blog")
+                    b.HasOne("Ecommerce.Entities.Blog", "Blog")
                         .WithOne("Image")
-                        .HasForeignKey("Entities.Image", "BlogId");
+                        .HasForeignKey("Ecommerce.Entities.Image", "BlogId");
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId");
 
@@ -4870,40 +4874,40 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Entities.Message", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Message", b =>
                 {
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Price", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Price", b =>
                 {
-                    b.HasOne("Entities.Color", "Color")
+                    b.HasOne("Ecommerce.Entities.Color", "Color")
                         .WithMany("Prices")
                         .HasForeignKey("ColorId");
 
-                    b.HasOne("Entities.Currency", "Currency")
+                    b.HasOne("Ecommerce.Entities.Currency", "Currency")
                         .WithMany("Prices")
                         .HasForeignKey("CurrencyId");
 
-                    b.HasOne("Entities.Discount", "Discount")
+                    b.HasOne("Ecommerce.Entities.Discount", "Discount")
                         .WithMany("Prices")
                         .HasForeignKey("DiscountId");
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("Prices")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Size", "Size")
+                    b.HasOne("Ecommerce.Entities.Size", "Size")
                         .WithMany("Prices")
                         .HasForeignKey("SizeId");
 
-                    b.HasOne("Entities.Unit", "Unit")
+                    b.HasOne("Ecommerce.Entities.Unit", "Unit")
                         .WithMany("Prices")
                         .HasForeignKey("UnitId");
 
@@ -4920,25 +4924,25 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("Entities.Product", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Product", b =>
                 {
-                    b.HasOne("Entities.Brand", "Brand")
+                    b.HasOne("Ecommerce.Entities.Brand", "Brand")
                         .WithMany("Products")
                         .HasForeignKey("BrandId");
 
-                    b.HasOne("Entities.HolooCompany", "HolooCompany")
+                    b.HasOne("Ecommerce.Entities.HolooCompany", "HolooCompany")
                         .WithMany()
                         .HasForeignKey("HolooCompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Store", "Store")
+                    b.HasOne("Ecommerce.Entities.Store", "Store")
                         .WithMany()
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Supplier", "Supplier")
+                    b.HasOne("Ecommerce.Entities.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -4953,22 +4957,22 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttribute", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttribute", b =>
                 {
-                    b.HasOne("Entities.ProductAttributeGroup", "AttributeGroup")
+                    b.HasOne("Ecommerce.Entities.ProductAttributeGroup", "AttributeGroup")
                         .WithMany("Attribute")
                         .HasForeignKey("AttributeGroupId");
 
                     b.Navigation("AttributeGroup");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttributeValue", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttributeValue", b =>
                 {
-                    b.HasOne("Entities.ProductAttribute", "ProductAttribute")
+                    b.HasOne("Ecommerce.Entities.ProductAttribute", "ProductAttribute")
                         .WithMany("AttributeValue")
                         .HasForeignKey("ProductAttributeId");
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("AttributeValues")
                         .HasForeignKey("ProductId");
 
@@ -4977,21 +4981,21 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("ProductAttribute");
                 });
 
-            modelBuilder.Entity("Entities.ProductComment", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductComment", b =>
                 {
-                    b.HasOne("Entities.ProductComment", "Answer")
+                    b.HasOne("Ecommerce.Entities.ProductComment", "Answer")
                         .WithMany()
                         .HasForeignKey("AnswerId");
 
-                    b.HasOne("Entities.Employee", "Employee")
+                    b.HasOne("Ecommerce.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("ProductComments")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -5004,9 +5008,9 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.ProductSellCount", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductSellCount", b =>
                 {
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5015,15 +5019,15 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Entities.ProductUserRank", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductUserRank", b =>
                 {
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("ProductUserRanks")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5034,41 +5038,41 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.PurchaseOrder", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PurchaseOrder", b =>
                 {
-                    b.HasOne("Entities.Employee", "Accountant")
+                    b.HasOne("Ecommerce.Entities.Employee", "Accountant")
                         .WithMany("PurchaseOrderAccountant")
                         .HasForeignKey("AccountantId");
 
-                    b.HasOne("Entities.Employee", "ApprovedBy")
+                    b.HasOne("Ecommerce.Entities.Employee", "ApprovedBy")
                         .WithMany("PurchaseOrderApprovedBy")
                         .HasForeignKey("ApprovedById");
 
-                    b.HasOne("Entities.Discount", "Discount")
+                    b.HasOne("Ecommerce.Entities.Discount", "Discount")
                         .WithMany("PurchaseOrders")
                         .HasForeignKey("DiscountId");
 
-                    b.HasOne("Entities.PaymentMethod", "PaymentMethod")
+                    b.HasOne("Ecommerce.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany()
                         .HasForeignKey("PaymentMethodId");
 
-                    b.HasOne("Entities.SendInformation", "SendInformation")
+                    b.HasOne("Ecommerce.Entities.SendInformation", "SendInformation")
                         .WithMany()
                         .HasForeignKey("SendInformationId");
 
-                    b.HasOne("Entities.Shipping", "Shipping")
+                    b.HasOne("Ecommerce.Entities.Shipping", "Shipping")
                         .WithMany("PurchaseOrder")
                         .HasForeignKey("ShippingId");
 
-                    b.HasOne("Entities.Employee", "SubmittedBy")
+                    b.HasOne("Ecommerce.Entities.Employee", "SubmittedBy")
                         .WithMany("PurchaseOrderSubmittedBy")
                         .HasForeignKey("SubmittedById");
 
-                    b.HasOne("Entities.Transaction", "Transaction")
+                    b.HasOne("Ecommerce.Entities.Transaction", "Transaction")
                         .WithMany("PurchaseOrders")
                         .HasForeignKey("TransactionId");
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany("PurchaseOrders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5093,25 +5097,25 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.PurchaseOrderDetail", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PurchaseOrderDetail", b =>
                 {
-                    b.HasOne("Entities.Discount", "Discount")
+                    b.HasOne("Ecommerce.Entities.Discount", "Discount")
                         .WithMany("PurchaseOrderDetails")
                         .HasForeignKey("DiscountId");
 
-                    b.HasOne("Entities.Price", "Price")
+                    b.HasOne("Ecommerce.Entities.Price", "Price")
                         .WithMany()
                         .HasForeignKey("PriceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.PurchaseOrder", "PurchaseOrder")
+                    b.HasOne("Ecommerce.Entities.PurchaseOrder", "PurchaseOrder")
                         .WithMany("PurchaseOrderDetails")
                         .HasForeignKey("PurchaseOrderId");
 
@@ -5124,21 +5128,21 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("PurchaseOrder");
                 });
 
-            modelBuilder.Entity("Entities.SendInformation", b =>
+            modelBuilder.Entity("Ecommerce.Entities.SendInformation", b =>
                 {
-                    b.HasOne("Entities.City", "City")
+                    b.HasOne("Ecommerce.Entities.City", "City")
                         .WithMany("SendInformation")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.State", "State")
+                    b.HasOne("Ecommerce.Entities.State", "State")
                         .WithMany("SendInformation")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
@@ -5149,13 +5153,13 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.SlideShow", b =>
+            modelBuilder.Entity("Ecommerce.Entities.SlideShow", b =>
                 {
-                    b.HasOne("Entities.Category", "Category")
+                    b.HasOne("Ecommerce.Entities.Category", "Category")
                         .WithMany("SlideShows")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany("SlideShows")
                         .HasForeignKey("ProductId");
 
@@ -5164,17 +5168,17 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Entities.Transaction", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Transaction", b =>
                 {
-                    b.HasOne("Entities.HolooCompany", "HolooCompany")
+                    b.HasOne("Ecommerce.Entities.HolooCompany", "HolooCompany")
                         .WithMany()
                         .HasForeignKey("HolooCompanyId");
 
-                    b.HasOne("Entities.PaymentMethod", "PaymentMethod")
+                    b.HasOne("Ecommerce.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("Transactions")
                         .HasForeignKey("PaymentMethodId");
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId");
 
@@ -5185,30 +5189,30 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Unit", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Unit", b =>
                 {
-                    b.HasOne("Entities.HolooCompany", "HolooCompany")
+                    b.HasOne("Ecommerce.Entities.HolooCompany", "HolooCompany")
                         .WithMany()
                         .HasForeignKey("HolooCompanyId");
 
                     b.Navigation("HolooCompany");
                 });
 
-            modelBuilder.Entity("Entities.User", b =>
+            modelBuilder.Entity("Ecommerce.Entities.User", b =>
                 {
-                    b.HasOne("Entities.City", "City")
+                    b.HasOne("Ecommerce.Entities.City", "City")
                         .WithMany("User")
                         .HasForeignKey("CityId");
 
-                    b.HasOne("Entities.HolooCompany", "HolooCompany")
+                    b.HasOne("Ecommerce.Entities.HolooCompany", "HolooCompany")
                         .WithMany()
                         .HasForeignKey("HolooCompanyId");
 
-                    b.HasOne("Entities.State", "State")
+                    b.HasOne("Ecommerce.Entities.State", "State")
                         .WithMany("Users")
                         .HasForeignKey("StateId");
 
-                    b.HasOne("Entities.UserRole", "UserRole")
+                    b.HasOne("Ecommerce.Entities.UserRole", "UserRole")
                         .WithMany()
                         .HasForeignKey("UserRoleId");
 
@@ -5221,15 +5225,15 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("UserRole");
                 });
 
-            modelBuilder.Entity("Entities.WishList", b =>
+            modelBuilder.Entity("Ecommerce.Entities.WishList", b =>
                 {
-                    b.HasOne("Entities.Product", "Product")
+                    b.HasOne("Ecommerce.Entities.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.User", "User")
+                    b.HasOne("Ecommerce.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5242,13 +5246,13 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("KeywordProduct", b =>
                 {
-                    b.HasOne("Entities.Keyword", null)
+                    b.HasOne("Ecommerce.Entities.Keyword", null)
                         .WithMany()
                         .HasForeignKey("KeywordsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Product", null)
+                    b.HasOne("Ecommerce.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5257,7 +5261,7 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Entities.UserRole", null)
+                    b.HasOne("Ecommerce.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5266,7 +5270,7 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("Entities.User", null)
+                    b.HasOne("Ecommerce.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5275,7 +5279,7 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("Entities.User", null)
+                    b.HasOne("Ecommerce.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5284,13 +5288,13 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Entities.UserRole", null)
+                    b.HasOne("Ecommerce.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.User", null)
+                    b.HasOne("Ecommerce.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5299,7 +5303,7 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("Entities.User", null)
+                    b.HasOne("Ecommerce.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5308,13 +5312,13 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("ProductProductAttributeGroup", b =>
                 {
-                    b.HasOne("Entities.ProductAttributeGroup", null)
+                    b.HasOne("Ecommerce.Entities.ProductAttributeGroup", null)
                         .WithMany()
                         .HasForeignKey("AttributeGroupProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Product", null)
+                    b.HasOne("Ecommerce.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -5323,73 +5327,73 @@ namespace Ecommerce.API.Migrations
 
             modelBuilder.Entity("ProductTag", b =>
                 {
-                    b.HasOne("Entities.Product", null)
+                    b.HasOne("Ecommerce.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Tag", null)
+                    b.HasOne("Ecommerce.Entities.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Blog", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Blog", b =>
                 {
                     b.Navigation("BlogComments");
 
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("Entities.BlogAuthor", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogAuthor", b =>
                 {
                     b.Navigation("Blogs");
                 });
 
-            modelBuilder.Entity("Entities.BlogCategory", b =>
+            modelBuilder.Entity("Ecommerce.Entities.BlogCategory", b =>
                 {
                     b.Navigation("BlogCategories");
 
                     b.Navigation("Blogs");
                 });
 
-            modelBuilder.Entity("Entities.Brand", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Brand", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Entities.Category", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Category", b =>
                 {
                     b.Navigation("Categories");
 
                     b.Navigation("SlideShows");
                 });
 
-            modelBuilder.Entity("Entities.City", b =>
+            modelBuilder.Entity("Ecommerce.Entities.City", b =>
                 {
                     b.Navigation("SendInformation");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Entities.Color", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Color", b =>
                 {
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("Entities.Currency", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Currency", b =>
                 {
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("Entities.Department", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Department", b =>
                 {
                     b.Navigation("Employees");
                 });
 
-            modelBuilder.Entity("Entities.Discount", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Discount", b =>
                 {
                     b.Navigation("Categories");
 
@@ -5400,7 +5404,7 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("PurchaseOrders");
                 });
 
-            modelBuilder.Entity("Entities.Employee", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Employee", b =>
                 {
                     b.Navigation("BlogComments");
 
@@ -5411,12 +5415,12 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("PurchaseOrderSubmittedBy");
                 });
 
-            modelBuilder.Entity("Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PaymentMethod", b =>
                 {
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("Entities.Product", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Product", b =>
                 {
                     b.Navigation("AttributeValues");
 
@@ -5431,32 +5435,32 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("SlideShows");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttribute", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttribute", b =>
                 {
                     b.Navigation("AttributeValue");
                 });
 
-            modelBuilder.Entity("Entities.ProductAttributeGroup", b =>
+            modelBuilder.Entity("Ecommerce.Entities.ProductAttributeGroup", b =>
                 {
                     b.Navigation("Attribute");
                 });
 
-            modelBuilder.Entity("Entities.PurchaseOrder", b =>
+            modelBuilder.Entity("Ecommerce.Entities.PurchaseOrder", b =>
                 {
                     b.Navigation("PurchaseOrderDetails");
                 });
 
-            modelBuilder.Entity("Entities.Shipping", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Shipping", b =>
                 {
                     b.Navigation("PurchaseOrder");
                 });
 
-            modelBuilder.Entity("Entities.Size", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Size", b =>
                 {
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("Entities.State", b =>
+            modelBuilder.Entity("Ecommerce.Entities.State", b =>
                 {
                     b.Navigation("Cities");
 
@@ -5465,22 +5469,22 @@ namespace Ecommerce.API.Migrations
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("Entities.Supplier", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Supplier", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("Entities.Transaction", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Transaction", b =>
                 {
                     b.Navigation("PurchaseOrders");
                 });
 
-            modelBuilder.Entity("Entities.Unit", b =>
+            modelBuilder.Entity("Ecommerce.Entities.Unit", b =>
                 {
                     b.Navigation("Prices");
                 });
 
-            modelBuilder.Entity("Entities.User", b =>
+            modelBuilder.Entity("Ecommerce.Entities.User", b =>
                 {
                     b.Navigation("BlogComments");
 

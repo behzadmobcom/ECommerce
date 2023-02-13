@@ -3,7 +3,7 @@
     padding-top: 25px;
 }
 
-input[type="checkbox"] {
+.CheckboxStar {
     visibility: hidden;
     position: absolute;
     left: -9999px;

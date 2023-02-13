@@ -1,15 +1,11 @@
 ﻿using Ecommerce.Entities.Helper;
-using WebApplication.Services;
 using WebApplication.ViewModels.StartUp;
 using WebApplication.Views.StartUp;
-using WebApplication.Models;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using System.Reflection;
-
+using Microsoft.Extensions.Configuration;
 
 
 namespace WebApplication

@@ -2,6 +2,7 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using static System.Net.WebRequestMethods;
 
 namespace ECommerce.Services.Services;
 
@@ -210,4 +211,32 @@ public class UserService : EntityService<User>, IUserService
         var result = await _http.PutAsync(Url, user);
         return Return(result);
     }
+
+    public async Task SendAuthenticationSms(string? mobile , int code)
+    {
+        string apiKey = "a7PWGXQgKbgTLGscQbWS0PIN6ygPHuar8aazKW3lucUMhvYVW6rWelsIsf5pXNvE";
+        HttpClient httpClient = new HttpClient();
+        httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
+        var payload = @"{" + "\n" +
+        @"  ""mobile"": """ + mobile + @"""," + "\n" +
+        @"  ""templateId"": 100000," + "\n" +
+        @"  ""parameters"": [" + "\n" +
+        @"    {" + "\n" +
+        @"      ""name"": ""CODE""," + "\n" +
+        @"      ""value"": """ + code + @"""" + "\n" +
+        @"    }" + "\n" +
+        @"  ]" + "\n" +
+        @"}";
+        HttpContent content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync("https://api.sms.ir/v1/send/verify", content);
+        var result = await response.Content.ReadAsStringAsync();
+    }
+
+    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate)
+    {
+        var result = await _http.GetAsync<bool>(Url, $"SetConfirmCodeByUsername?username={username}" +
+                                                     $"&confirmCode={confirmCode}&codeConfirmExpairDate={codeConfirmExpairDate}");
+        return Return(result);
+    }
+
 }

@@ -75,15 +75,28 @@
                     {
                         if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                         {
-                            <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
-                                <i class="fal fa-user"></i>
-                            </a>
+                            <div class="dropdown">
+                                <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
+                                    <i class="fal fa-user"></i>
+                                </a>
+                                <div class="dropdown-content">
+                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                    <a href="index?handler=Logout">خروج</a>
+                                    <a asp-area="Admin" asp-page="/Index">مدیریت</a>
+                            </div>
+                            </div>
                         }
                         else
                         {
+                        <div class="dropdown">
                             <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
                                 <i class="fal fa-user"></i>
                             </a>
+                            <div class="dropdown-content">
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                <a href="index?handler=Logout">خروج</a>
+                            </div>
+                        </div>
                         }
                         <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
                             <i class="far fa-heart"></i>
@@ -93,9 +106,17 @@
                     }
                     else
                     {
-                        <a class="header-widget" asp-area="" asp-page="/Login" title="حساب من">
-                            <i class="fal fa-user"></i>
-                        </a>
+                        <div class="dropdown">
+                            <a class="header-widget dropbtn" asp-area="" asp-page="/Login" title="حساب من">
+                                <i class="fal fa-user"></i>
+                            </a>
+                            <div class="dropdown-content">
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                <a asp-area="" asp-page="/Login">ورود</a>
+                                <a href="index?handler=Logout">خروج</a>
+                                <a asp-area="" asp-page="/Register">ثبت نام</a>
+                            </div>
+                        </div>
                     }
                     <a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
                         <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
@@ -159,36 +180,6 @@
                                     </li>
                                     <li>
                                         <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="navbar-item dropdown">
-                                <a class="navbar-link dropdown-arrow" href="#">حساب</a>
-                                <ul class="dropdown-position-list">
-                                    <li>
-                                        <a asp-area="" asp-page="/Profile">پروفایل من</a>
-                                    </li>
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                        <li>
-                                            <a href="index?handler=Logout">خروج</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a asp-area="" asp-page="/Login">ورود</a>
-                                        </li>
-                                    }
-
-                                    <li>
-                                        <a asp-area="" asp-page="/Register">ثبت نام</a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
                                     </li>
                                 </ul>
                             </li>
@@ -593,6 +584,23 @@
                 }
             }
         );
+
+          function SendSms(mobile) {
+            $.ajax({
+                type: "Post",
+                url: "/login?handler=SendSms&mobile=" + mobile ,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
         function SaveStars(id, starNumber) {
             $.ajax({
                 type: "Get",

@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 
 namespace ECommerce.API.Controllers;
 
@@ -74,7 +73,8 @@ public class UsersController : ControllerBase
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                if (result.Succeeded)
+                var OneTimePass = (model.Password == user.ConfirmCode + "" && (DateTime.Now - user.ConfirmCodeExpirationDate).Value.TotalSeconds <= 130);
+                if (result.Succeeded || OneTimePass)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
                     var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey),
@@ -201,11 +201,13 @@ public class UsersController : ControllerBase
 
             var moeinCode = await _holooSarfaslRepository.Add(register.Username, cancellationToken);
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
+            string customerName = register.IsColleague ? $"{register.CompanyName}-{register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
+            int cityCode = register.CompanyType ?? 45;
             var holooCustomer = new HolooCustomer
             {
                 C_Code = customerCode,
                 C_Code_C = customerCode,
-                C_Name = register.Username,
+                C_Name = customerName,
                 C_Mobile = register.Mobile,
                 Col_Code_Bed = "103",
                 Moien_Code_Bed = moeinCode,
@@ -218,6 +220,7 @@ public class UsersController : ControllerBase
                 Arayeshgar = false,
                 Arayesh_Porsant = 0,
                 ArzID = 1,
+                City_Code = cityCode,
                 money_price = 1,
                 Cust_type = 1,
                 TasviehType = 3,
@@ -249,6 +252,11 @@ public class UsersController : ControllerBase
                 CustomerCode = customerCode,
                 NationalCode = register.NationalCode
             };
+
+            if (register.IsColleague)
+            {
+                user.CompanyName = register.CompanyName;
+            }
 
             //var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -542,16 +550,16 @@ public class UsersController : ControllerBase
                 //var VerifyToken = _userManager.VerifyUserTokenAsync(user, TokenOptions.DefaultProvider, "ResetPassword", resetToken);
                 //if (VerifyToken.Result)
                 //{
-                    var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
-                   
-                    if (result.Succeeded)
-                        return Ok(new ApiResult
-                        {
-                            Code = ResultCode.Success,
-                            Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
-                        });
+                var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.Password);
 
-                    return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
+                if (result.Succeeded)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.Success,
+                        Messages = new List<string> { "پسورد با موفقیت تغییر کرد" }
+                    });
+
+                return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "تغییر پسورد با شکست مواجه شد" } });
 
                 //
                 //}
@@ -681,6 +689,33 @@ public class UsersController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userRepository.SetConfirmCodeByUsername(username, confirmCode, codeConfirmExpairDate, cancellationToken);
+            if (result == false)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.NotFound
+            });
         }
     }
 

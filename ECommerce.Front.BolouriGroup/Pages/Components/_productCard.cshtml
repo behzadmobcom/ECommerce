@@ -33,7 +33,7 @@
                 {
                     <label id="starLable-@i" for="@Model.Id-@i" @if (Model.Stars >= i)
                                                       {<text> class="rankChecked" </text> }>
-                        <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@Model.Id-@i" />
+                        <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@Model.Id-@i" class="CheckboxStar"/>
                         <i class="fas fa-star"></i>
                     </label>
                 }

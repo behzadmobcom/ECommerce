@@ -1,18 +1,9 @@
-﻿using CommunityToolkit.Mvvm;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-//using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using WebApplication.Models;
-using WebApplication.Services;
+﻿//using Microsoft.Toolkit.Mvvm.ComponentModel;
 using ECommerce.Services.IServices;
 using Ecommerce.Entities.ViewModel;
 using Ecommerce.Entities.Helper;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace WebApplication.ViewModels.StartUp
 {

@@ -2002,14 +2002,19 @@ tbody tr td:last-child {
     text-transform: capitalize
 }
 
-.feature-name a {
-    -moz-transition: all linear .3s;
-    -ms-transition: all linear .3s;
-    -o-transition: all linear .3s;
-    -webkit-transition: all linear .3s;
-    color: var(--sub-heading);
-    transition: all linear .3s;
-}
+    .feature-name a {
+        -moz-transition: all linear .3s;
+        -ms-transition: all linear .3s;
+        -o-transition: all linear .3s;
+        -webkit-transition: all linear .3s;
+        color: var(--sub-heading);
+        transition: all linear .3s;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
 
 .feature-name a:hover {
     color: var(--blue-dark)
@@ -3349,7 +3354,45 @@ tbody tr td:last-child {
     width: 100%;
     z-index: 3;
 }
+    /*****startdropbtn*******/
+.dropbtn {
+    color: white;
+    font-size: 16px;
+    border: none;
+}
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 10px;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+    /*****enddropbtn*******/
     .header-part.active .header-widget:hover i {
         background: var(--blue-dark)
     }

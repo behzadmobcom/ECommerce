@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ecommerce.Entities.HolooEntity
+﻿namespace Ecommerce.Entities.HolooEntity
 {
     public class HolooCustomer
     {
@@ -65,5 +59,6 @@ namespace Ecommerce.Entities.HolooEntity
         public double Mandehgold750 { get; set; }
         public double MandehPelatin { get; set; }
         public double Etebargerami { get; set; }
+        public int City_Code { get; set; }
     }
 }

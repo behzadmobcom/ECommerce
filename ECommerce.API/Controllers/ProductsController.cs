@@ -7,7 +7,6 @@ using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace ECommerce.API.Controllers;
 
@@ -54,19 +53,23 @@ public class ProductsController : ControllerBase
         var aCodeCs = new List<string>();
         foreach (var price in prices)
         {
-            foreach (var aCode in price)
+            Parallel.ForEach(price , aCode =>
+            //foreach (var aCode in price)
             {
                 aCodeCs.Add(aCode.ArticleCodeCustomer);
-            }
+            });
         }
         var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
 
         products = products.Where(x => x.Prices.Any(p => p.ArticleCode != null)).ToList();
         List<ProductIndexPageViewModel> newProducts = new();
-        foreach (var product in products)
+        Parallel.ForEach(products, product =>
+        //foreach (var product in products)
         {
             List<Price> tempPriceList = new();
-            foreach (var productPrices in product.Prices)
+            //foreach (var productPrices in product.Prices)
+            Parallel.ForEach(product.Prices, productPrices =>
+            {
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
                 {
                     var article = holooArticle.Where(x => x.A_Code_C == productPrices.ArticleCodeCustomer).ToList();
@@ -119,34 +122,36 @@ public class ProductsController : ControllerBase
                         {
                             //product.Prices.Remove(productPrices);
                             tempPriceList.Add(productPrices);
-                            continue;
+                            //continue;
                         }
-
-                       
-
-                        productPrices.Amount = articlePrice / 10;
-                        double soldExist = 0;
-                        if (!isWithoutBil)
+                        else
                         {
-                            var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
-                            soldExist = sold == null ? 0 : sold.First_Article;
-                        }
+                            productPrices.Amount = articlePrice / 10;
+                            double soldExist = 0;
+                            if (!isWithoutBil)
+                            {
+                                var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
+                                soldExist = sold == null ? 0 : sold.First_Article;
+                            }
 
-                        productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
+                            productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
 
-                        if (isExist == true && productPrices.Exist == 0)
-                        {
-                            //product.Prices.Remove(productPrices);
-                            tempPriceList.Add(productPrices);
+                            if (isExist == true && productPrices.Exist == 0)
+                            {
+                                //product.Prices.Remove(productPrices);
+                                tempPriceList.Add(productPrices);
+                            }
                         }
                     }
                 }
 
+            });
+
             product.Prices.RemoveAll(x => tempPriceList.Contains(x));
-            if (product.Prices.Count == 0) continue;
-         
-            newProducts.Add(product);
-        }
+            if (product.Prices.Count != 0) newProducts.Add(product); 
+
+            
+        });
 
         return newProducts;
     }
@@ -436,6 +441,45 @@ public class ProductsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails =new PaginationDetails() , Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllProducts(bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
+    {
+        try
+        {         
+            var productQuery = _productRepository.GetAllProducts();          
+            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            productIndexPageViewModel.AddRange(await productQuery                           
+                           .Select(p => new ProductIndexPageViewModel
+                           {
+                               Prices = p.Prices!,
+                               Alt = p.Images!.First().Alt,
+                               Brand = p.Brand!.Name,
+                               Name = p.Name,
+                               Description = p.Description,
+                               Id = p.Id,
+                               ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                               Stars = p.Star,
+                               Url = p.Url
+                           })
+                           .ToListAsync(cancellationToken));
+
+            if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            {
+                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBil, isExist, cancellationToken);
+            }          
+            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();           
+            return Ok(new ApiResult
+            {                
+                Code = ResultCode.Success,
+                ReturnData = productIndexPageViewModel
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails = new PaginationDetails(), Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 

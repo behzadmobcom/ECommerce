@@ -26,6 +26,9 @@ public class LoginViewModel
     [Display(Name = "مرا به خاطر بسپار")] public bool RememberMe { get; set; }
 
     public string? AuthName { get; set; }
+    public int? ConfirmCode { get; set; }
+    public DateTime? ConfirmCodeExpirationDate { get; set; }
+
 
     public static implicit operator LoginViewModel(User user)
     {
@@ -38,4 +41,25 @@ public class LoginViewModel
             IsActive = user.IsActive
         };
     }
+
+    public static implicit operator User(LoginViewModel u)
+    {
+        try
+        {
+            return new User
+            {
+                UserName = u.Username,
+                ConfirmCode = u.ConfirmCode,
+                ConfirmCodeExpirationDate = u.ConfirmCodeExpirationDate,               
+            };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+ 
+
+
 }
