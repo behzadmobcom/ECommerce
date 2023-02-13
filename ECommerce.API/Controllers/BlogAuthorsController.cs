@@ -20,7 +20,7 @@ public class BlogAuthorsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -53,7 +53,7 @@ public class BlogAuthorsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<ActionResult<BlogAuthor>> GetAll(CancellationToken cancellationToken)
     {
         try
@@ -79,7 +79,7 @@ public class BlogAuthorsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<BlogAuthor>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -160,7 +160,7 @@ public class BlogAuthorsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
