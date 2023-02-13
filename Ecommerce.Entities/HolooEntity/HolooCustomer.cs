@@ -59,5 +59,6 @@
         public double Mandehgold750 { get; set; }
         public double MandehPelatin { get; set; }
         public double Etebargerami { get; set; }
+        public int City_Code { get; set; }
     }
 }
