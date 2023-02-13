@@ -44,25 +44,19 @@
                     </div>
                     <form method="post" asp-page-handler="Register" class="user-form">
                         <div class="row">
-                            <div class="nav nav-tabs" role="tablist">
-                                <div class="nav-item form-check">
-                                    <a class="nav-link" data-toggle="tab" href="#home">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" style="margin-right: 1em; margin-left: 1em">
-                                        <span class="widget-title border-left mb-40">شخصی</span>
-                                    </a>
-                                </div>
-                                <div class="nav-item form-check">
-                                    <a class="nav-link" data-toggle="tab" href="#menu1">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" style="margin-right: 1em; margin-left: 1em">
-                                        <span class="widget-title border-left mb-20">مجموعه</span>
-                                    </a>
-                                </div>
-                            </div>
+                            <ul class="nav nav-tabs" role="tablist" style="margin-right: 10%">
+                                <li class="nav-item form-check active">
+                                    <a class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a> 
+                                </li>
+                                <li class="nav-item form-check">
+                                    <a class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a> 
+                                </li>
+                            </ul>
                         </div>
                      
                        
-                        <div class="row tab-content">
-                            <div id="home" class="container tab-pane form-group">
+                        <div class="row tab-content" style="margin-right: 0;margin-left: 0">
+                            <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.FirstName"></span>
                         <br/>
@@ -87,14 +81,14 @@
                             </div>
                         </div>
                
-                        <select asp-for="RegisterViewModel.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px">
+                        <select asp-for="RegisterViewModel.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px;color: gray">
                             @foreach (var state in Model.StateList)
                             {
                                 <option value="@state.Id">@state.Name</option>
                             }
                         </select>
                         <br />
-                        <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city">
+                        <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city" style="color: gray">
                             @foreach (var city in Model.CityList)
                             {
                                 <option value="@city.Id">@city.Name</option>
