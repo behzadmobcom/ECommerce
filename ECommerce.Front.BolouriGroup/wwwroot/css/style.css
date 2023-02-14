@@ -5125,8 +5125,8 @@ tbody tr td:last-child {
 }
 
 .footer-copytext a {
-    color: #019345
-}
+        color: var(--blue-dark);
+    }
 
 .footer-copytext a:hover {
     text-decoration: underline
