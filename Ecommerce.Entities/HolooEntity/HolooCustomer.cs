@@ -60,6 +60,5 @@
         public double MandehPelatin { get; set; }
         public double Etebargerami { get; set; }
         public int City_Code { get; set; }
-        public string GroupId { get; set; }
     }
 }
