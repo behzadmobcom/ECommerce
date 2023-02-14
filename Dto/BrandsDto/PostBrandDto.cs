@@ -1,4 +1,4 @@
-﻿namespace Dto.BrandsDtos;
+﻿namespace ECommerce.Dto.BrandsDto;
 
 public class PostBrandDto : BrandDto
 {

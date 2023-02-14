@@ -1,6 +1,4 @@
-﻿using Dto.BrandsDtos;
-
-namespace Dto.Brands;
+﻿namespace ECommerce.Dto.BrandsDto;
 
 public class GetAllBrandDto : BrandDto
 {

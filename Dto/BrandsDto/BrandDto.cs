@@ -1,6 +1,6 @@
 ﻿using ECommerce.Dto.Base;
 
-namespace Dto.BrandsDtos;
+namespace ECommerce.Dto.BrandsDto;
 
 public class BrandDto : BaseDto
 {
