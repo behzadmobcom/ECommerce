@@ -115,4 +115,16 @@ public class HttpService : IHttpService
         var responseString = await httpResponse.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(responseString, options);
     }
+
+    public async Task<TResponse> PostAsyncWithApiKey<TResponse>(string apiName, string apiKey, string data, string url )
+    {
+        _http.DefaultRequestHeaders.Add(apiName, apiKey);
+        HttpContent content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+        var response = await _http.PostAsync(url, content);
+        var responseData = new ResponseData<ApiResult<TResponse>>(default, false, response);
+        var responseString = await response.Content.ReadAsStringAsync();
+        var result = JsonSerializer.Deserialize<TResponse>(responseString, DefaultJsonSerializerOptions);
+        return result;           
+    }
+
 }
