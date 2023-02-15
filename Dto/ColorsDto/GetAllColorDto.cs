@@ -1,8 +1,6 @@
-﻿using Ecommerce.Entities;
-
-namespace Dto.ColorsDtos;
+﻿namespace ECommerce.Dto.ColorsDto;
 
 public class GetAllColorDto : ColorDto
 {
-    public ICollection<Price>? Prices { get; set; }
+
 }

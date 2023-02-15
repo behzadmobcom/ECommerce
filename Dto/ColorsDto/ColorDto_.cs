@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.ColorsDtos;
+namespace ECommerce.Dto.ColorsDto;
 
 public class ColorDto_ : BaseDto
 {
@@ -9,5 +8,5 @@ public class ColorDto_ : BaseDto
 
     public string? ColorCode { get; set; }
 
-    public ICollection<Price>? Prices { get; set; }
+    //public ICollection<Price>? Prices { get; set; }
 }
