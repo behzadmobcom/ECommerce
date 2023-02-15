@@ -51,7 +51,7 @@
                             @foreach (var image in Model.Product.Images)
                             {
                                 <li>
-                                    <img id="myimage" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    <img id="myimage" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt"loding="lazy">
                                 </li>
                             }
                         </ul>
@@ -59,7 +59,7 @@
                             @foreach (var image in Model.Product.Images)
                             {
                                 <li>
-                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt"loding="lazy">
                                 </li>
                             }
                         </ul>
@@ -294,7 +294,7 @@
                                 <li class="review-item">
                                     <div class="review-media">
                                         <a class="review-avatar" href="#">
-                                            <img src="~/img/avatar/com.jpg" alt="مرور">
+                                            <img src="~/img/avatar/com.jpg" alt="مرور"loding="lazy">
                                         </a>
                                         <h5 class="review-meta">
                                             <a href="#">@item.Name</a><span>@item.DateTime</span>
