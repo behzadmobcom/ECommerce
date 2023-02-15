@@ -1,10 +1,7 @@
-﻿using Ecommerce.Entities;
-
-namespace Dto.CategoriesDtos;
+﻿namespace ECommerce.Dto.CategoriesDto;
 
 public class GetParentsCategoryDto : CategoryDto
 {
-    
      
 }
 

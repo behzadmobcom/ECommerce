@@ -1,8 +1,8 @@
-﻿using Ecommerce.Entities;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.CategoriesDtos;
+namespace ECommerce.Dto.CategoriesDto;
 
-public class CategoryDto_
+public class CategoryDto_ : BaseDto
 {
     public string? Name { get; set; }
 
@@ -15,14 +15,15 @@ public class CategoryDto_
     public int DisplayOrder { get; set; } 
 
     public int? ParentId { get; set; }
-    public Category? Parent { get; set; }
+    public CategoryDto? Parent { get; set; }
 
-    public ICollection<Category>? Categories { get; set; } 
+    public ICollection<CategoryDto>? Categories { get; set; } 
 
-    public ICollection<SlideShow>? SlideShows { get; set; }
+    //public ICollection<SlideShow>? SlideShows { get; set; }
 
-    public ICollection<Product>? Products { get; set; }
+    //public ICollection<Product>? Products { get; set; }
 
-    public int? DiscountId { get; set; }
-    public Discount? Discount { get; set; }
+    //public int? DiscountId { get; set; }
+    //public Discount? Discount { get; set; }
+
 }
