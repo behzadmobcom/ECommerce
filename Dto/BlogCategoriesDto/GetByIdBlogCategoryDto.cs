@@ -1,6 +1,4 @@
-﻿using ECommerce.Dto.BlogCategoriesDto;
-
-namespace Dto.BlogCategoriesDtos;
+﻿namespace ECommerce.Dto.BlogCategoriesDto;
 
 public class GetByIdBlogCategoryDto : BlogCategoryDto 
 {

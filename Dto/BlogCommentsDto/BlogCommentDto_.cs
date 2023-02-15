@@ -2,7 +2,7 @@
 
 namespace ECommerce.Dto.BlogCommentsDto;
 
-internal class GetBlogCommentDto_ : BaseDto
+internal class BlogCommentDto_ : BaseDto
 {
     public string? Text { get; set; }
 

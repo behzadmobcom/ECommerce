@@ -1,6 +1,4 @@
-﻿using ECommerce.Dto.BlogCategoriesDto;
-
-namespace ECommerce.Dto.BlogCategoriesDtos;
+﻿namespace ECommerce.Dto.BlogCategoriesDto;
 
 public class GetAllWithPaginationBlogCategoryDto : BlogCategoryDto 
 {
