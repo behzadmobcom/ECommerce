@@ -1,3 +1,4 @@
+﻿using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -55,19 +56,51 @@ public class LoginModel : PageModel
     }
 
     public async Task<IActionResult> OnPostSendSms()
-    {        
-        Random randomCode = new Random();
-        int code = randomCode.Next(100000000);
-        if (code < 10000000) code = code + 10000000;
-        var result = await _userService.SetConfirmCodeByUsername(LoginViewModel.Username, code, DateTime.Now);
-        if (result.Status==200)
+    {
+        try
         {
-            await _userService.SendAuthenticationSms(LoginViewModel.Username, code);
-        }
-        else
-        {
+            var SecondsLeftConfirmCodeExpire = await _userService.GetSecondsLeftConfirmCodeExpire(LoginViewModel.Username);
+            if (SecondsLeftConfirmCodeExpire.Code == ServiceCode.Error)
+            {
+                Message = "نام کاربری موجود نمی باشد";
+                Code = "Error";
+                return Page();
+            }
+            if (SecondsLeftConfirmCodeExpire.ReturnData > 0)
+            {
+                Message = $"{SecondsLeftConfirmCodeExpire.ReturnData}ثانیه باقی مانده";
+                Code = "Info";
+                return Page();
+            }
+            Random randomCode = new Random();
+            int code = randomCode.Next(100000000);
+            if (code < 10000000) code = code + 10000000;
+            SmsIr smsResponsModel = await _userService.SendAuthenticationSms(LoginViewModel.Username, code);
+            if (smsResponsModel.Status != 1)
+            {
+                Message = smsResponsModel.Message;
+                Code = "Error";
+                return Page();
+            }
+            var result = await _userService.SetConfirmCodeByUsername(LoginViewModel.Username, code, DateTime.Now.AddSeconds(130));
+            if (!result.ReturnData)
+            {
+                Message = "نام کاربری صحیح نمی باشد";
+                Code = "Error";
+                return Page();
+            }
 
-        }       
-        return null;
+            Message = "130 sec";
+            Code = "Info";
+            return Page();
+        }
+        catch (Exception ex)
+        {
+            Message = ex.Message;
+            Code = "Error";
+            return Page();
+        }
     }
+        
+
 }

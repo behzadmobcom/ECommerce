@@ -73,7 +73,7 @@ public class UsersController : ControllerBase
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                var OneTimePass = (model.Password == user.ConfirmCode + "" && (DateTime.Now - user.ConfirmCodeExpirationDate).Value.TotalSeconds <= 130);
+                var OneTimePass = (model.Password == user.ConfirmCode + "" && (user.ConfirmCodeExpirationDate! - DateTime.Now ).Value.TotalSeconds > 0 );
                 if (result.Succeeded || OneTimePass)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
@@ -719,6 +719,34 @@ public class UsersController : ControllerBase
         }
     }
 
+    [HttpGet]
+    public async Task<ActionResult<int?>> GetSecondsLeftConfirmCodeExpire(string username, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _userRepository.GetSecondsLeftConfirmCodeExpire(username, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.NotFound
+            });
+        }
+    }
+
+    
 
 
 }

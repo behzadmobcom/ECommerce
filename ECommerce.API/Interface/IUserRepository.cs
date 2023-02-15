@@ -14,4 +14,5 @@ public interface IUserRepository : IAsyncRepository<User>
     Task<List<UserRole>> GetApplicationRoles(CancellationToken cancellationToken);
     Task AddLoginHistory(int userId, string token, string ipAddress, DateTime expirationDate);
     Task<bool> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken);
+    Task<int?> GetSecondsLeftConfirmCodeExpire(string username, CancellationToken cancellationToken);
 }
