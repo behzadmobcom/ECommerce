@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class CategoriesController : ControllerBase
 {
@@ -22,7 +22,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -53,7 +53,7 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<Category>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -78,7 +78,7 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetParents/{productId}")]
     public async Task<IActionResult> GetParents(int productId, CancellationToken cancellationToken)
     {
         try
@@ -104,7 +104,7 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByUrl/{url}")]
     public async Task<ActionResult<CategoryViewModel>> GetByUrl(string url, CancellationToken cancellationToken)
     {
         try
@@ -130,7 +130,7 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetCategoriesByProduct/{productId}")]
     public async Task<IActionResult> GetCategoriesByProduct(int productId, CancellationToken cancellationToken)
     {
         try
@@ -208,7 +208,7 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
