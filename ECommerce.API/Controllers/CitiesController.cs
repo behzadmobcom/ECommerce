@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class CitiesController : ControllerBase
 {
@@ -19,7 +19,7 @@ public class CitiesController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -90,7 +90,7 @@ public class CitiesController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
