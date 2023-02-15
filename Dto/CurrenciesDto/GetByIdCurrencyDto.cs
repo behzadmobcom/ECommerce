@@ -1,6 +1,4 @@
-﻿using Ecommerce.Entities;
-
-namespace Dto.CurrenciesDtos;
+﻿namespace ECommerce.Dto.CurrenciesDto;
 
 public class GetByIdCurrencyDto : CurrencyDto
 {
