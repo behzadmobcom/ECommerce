@@ -20,6 +20,7 @@ public interface IUserService
     Task<ServiceResult<User>> GetById(int id);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult> Edit(User user);
-    Task SendAuthenticationSms(string? mobile, int code);
+    Task<SmsIr> SendAuthenticationSms(string? mobile, int code);
     Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate);
+    Task<ServiceResult<int?>> GetSecondsLeftConfirmCodeExpire(string username);
 }

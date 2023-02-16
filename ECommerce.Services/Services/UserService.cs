@@ -212,12 +212,11 @@ public class UserService : EntityService<User>, IUserService
         return Return(result);
     }
 
-    public async Task SendAuthenticationSms(string? mobile , int code)
+    public async Task<SmsIr> SendAuthenticationSms(string? mobile , int code)
     {
         string apiKey = "a7PWGXQgKbgTLGscQbWS0PIN6ygPHuar8aazKW3lucUMhvYVW6rWelsIsf5pXNvE";
-        HttpClient httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
-        var payload = @"{" + "\n" +
+        string apiName = "x-api-key";
+        string data = @"{" + "\n" +
         @"  ""mobile"": """ + mobile + @"""," + "\n" +
         @"  ""templateId"": 100000," + "\n" +
         @"  ""parameters"": [" + "\n" +
@@ -227,9 +226,9 @@ public class UserService : EntityService<User>, IUserService
         @"    }" + "\n" +
         @"  ]" + "\n" +
         @"}";
-        HttpContent content = new StringContent(payload, System.Text.Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync("https://api.sms.ir/v1/send/verify", content);
-        var result = await response.Content.ReadAsStringAsync();
+        string url = "https://api.sms.ir/v1/send/verify";
+        var result = await _http.PostAsyncWithApiKey<SmsIr>(apiName, apiKey, data, url);
+        return result;
     }
 
     public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate)
@@ -239,4 +238,10 @@ public class UserService : EntityService<User>, IUserService
         return Return(result);
     }
 
+    public async Task<ServiceResult<int?>> GetSecondsLeftConfirmCodeExpire(string username)
+    {
+        var result = await _http.GetAsync<int?>(Url, $"GetSecondsLeftConfirmCodeExpire?username={username}");
+        return Return(result);
+    }
+    
 }

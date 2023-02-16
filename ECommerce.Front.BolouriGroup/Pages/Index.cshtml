@@ -24,7 +24,7 @@
             {
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
                     <div class="banner-img" style="z-index: -1;">
-                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 1920px; height: 790px; justify-content: center !important">
+                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 1920px; height: 790px; justify-content: center !important"loding="lazy">
                     </div>
                 </a>
             }
@@ -34,7 +34,7 @@
                 {
                     <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
                         <div class="banner-img" style="z-index: -1;">
-                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 1920px; height: 790px; justify-content: center !important">
+                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 1920px; height: 790px; justify-content: center !important"loding="lazy">
                         </div>
                     </a>
                 }
@@ -76,17 +76,17 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="/Shop/Coffee/shop/equipment/Tool"><img src="~/images/banner/1.jpg" alt="ابزار و لوازم بار گرم" width="370" height="125"></a>
+                            <a href="/Shop/Coffee/shop/equipment/Tool"><img src="~/images/banner/1.jpg" alt="ابزار و لوازم بار گرم" width="370" height="125"loding="lazy"></a>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="/Shop/Refrigeration/food-storage/Hot"><img src="~/images/banner/2.jpg" alt="تجهیزات نگهداری گرم" width="370" height="125"></a>
+                            <a href="/Shop/Refrigeration/food-storage/Hot"><img src="~/images/banner/2.jpg" alt="تجهیزات نگهداری گرم" width="370" height="125"loding="lazy"></a>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="promo-img">
-                            <a href="/Shop/ Catering/Containers/Metal/Cast-iron"><img src="~/images/banner/3.jpg" alt="ظروف سرو فلزی" width="370" height="125"></a>
+                            <a href="/Shop/ Catering/Containers/Metal/Cast-iron"><img src="~/images/banner/3.jpg" alt="ظروف سرو فلزی" width="370" height="125"loding="lazy"></a>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
             {
                 <li>
                     <a class="suggest-card" asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
-                        <img src="@brand.ImagePath" alt=@brand.Name width="204" height="98">
+                        <img src="@brand.ImagePath" alt=@brand.Name width="204" height="98"loding="lazy">
 
                     </a>
                 </li>

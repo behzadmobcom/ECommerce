@@ -115,4 +115,14 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         return  await DbContext.SaveChangesAsync() == 1;        
     }
 
+    public async Task<int?> GetSecondsLeftConfirmCodeExpire(string username, CancellationToken cancellationToken)
+    {
+        var user = await TableNoTracking.Where(x => x.UserName == username).FirstOrDefaultAsync();
+        if (user == null) return null;
+        if (user.ConfirmCodeExpirationDate == null) return 0;
+        var result =(int) (user.ConfirmCodeExpirationDate - DateTime.Now).Value.TotalSeconds;
+        if (result <1) return 0;
+        return result;
+    }
+
 }

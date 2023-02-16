@@ -5173,8 +5173,8 @@ tbody tr td:last-child {
     font-size: 15px;
 }
 
-    .footer-copytext a {
-        color: #337ab7
+.footer-copytext a {
+        color: var(--blue-dark);
     }
 
 .footer-copytext a:hover {
