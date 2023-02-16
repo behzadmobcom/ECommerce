@@ -1,6 +1,4 @@
-﻿using Ecommerce.Entities;
-
-namespace Dto.DiscountsDtos;
+﻿namespace ECommerce.Dto.DiscountsDto;
 
 public class GetDiscountDto : DiscountDto
 {

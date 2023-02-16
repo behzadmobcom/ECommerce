@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.DiscountsDtos;
+namespace ECommerce.Dto.DiscountsDto;
 
 public class DiscountDto_ : BaseDto
 {
@@ -26,9 +25,9 @@ public class DiscountDto_ : BaseDto
     public string? Code { get; set; }
 
     //ForeignKey
-    public ICollection<Price>? Prices { get; set; }
-    public ICollection<Category>? Categories { get; set; }
-    public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
-    public ICollection<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }
+    //public ICollection<Price>? Prices { get; set; }
+    //public ICollection<Category>? Categories { get; set; }
+    //public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
+    //public ICollection<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }
 
 }

@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.DiscountsDtos;
+namespace ECommerce.Dto.DiscountsDto;
 
 public class DiscountDto : BaseDto
 {
