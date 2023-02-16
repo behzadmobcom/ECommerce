@@ -62,20 +62,24 @@
 						<div class="form-button">
 							<button type="submit" asp-page-handler="Submit">ورود</button>
 							@*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
-							<p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
-							<button type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>
+                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+							<div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
+								<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>
+                            </div>
+							<div class="row tab-content" >
+                                <div id="home" class="form-group container tab-pane">
+                                    <input type="text" class="form-control" placeholder="رمز دریافت شده را وارد کنید"/>
+                                    <span id="countdown" class="countdown"></span>
+                                    <a id="Send_Active">ارسال دوباره</a>
+                                </div>
+                            </div>
 						</div>
 						<div>
 						 
 					</div>
 					
-					</form>
-
-					 
-					
-			 
-					
-				</div>
+                    </form>
+                </div>
 				<div class="user-form-footer">
 					<p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
 				</div>
@@ -84,10 +88,45 @@
 		<partial name="_ValidationScriptsPartial"/>
 	</div>
 </section>
+@section Scripts
+{  
+    <script>
+		const btnSendActive = document.getElementById('Send_Active');
 
-<li>
-	<a asp-page="Index" asp-page-handler="Logout">خروج</a>
-</li>
+		function buttonClicked() {
+			btnSendActive.removeEventListener('click', buttonClicked);
+			enableButton();
+			alert('ok');
+		}
+
+		function enableButton() {
+
+			var timer2 = "00:20";
+
+			var interval = setInterval(function () {
+				var timer = timer2.split(':');
+				var minutes = parseInt(timer[0], 10);
+				var seconds = parseInt(timer[1], 10);
+
+				--seconds;
+				minutes = (seconds < 0) ? --minutes : minutes;
+				if (minutes < 0) clearInterval(interval);
+				seconds = (seconds < 0) ? 59 : seconds;
+
+				$('.countdown').html(minutes + ':' + seconds);
+				timer2 = minutes + ':' + seconds;
+				if (minutes == 0 && seconds == 0) {
+					clearInterval(interval);
+					btnSendActive.addEventListener('click', buttonClicked);
+				}
+			}, 1000);
+
+		}
+
+		enableButton();
+    </script>
+  
+}
 
 
 
