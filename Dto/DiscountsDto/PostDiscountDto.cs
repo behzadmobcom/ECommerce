@@ -1,8 +1,7 @@
-﻿namespace Dto.DiscountsDtos;
+﻿namespace ECommerce.Dto.DiscountsDto;
 
 public class PostDiscountDto : DiscountDto
 {
-
     public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
