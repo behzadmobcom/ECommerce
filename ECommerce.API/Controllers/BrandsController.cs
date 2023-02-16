@@ -47,8 +47,8 @@ public class BrandsController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+    [HttpGet("GetAllWithPagination")]
+    public async Task<IActionResult> GetAllWithPagination([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -92,7 +92,7 @@ public class BrandsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<Brand>> GetById(int id, CancellationToken cancellationToken)
     {
         try
