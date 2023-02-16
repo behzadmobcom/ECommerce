@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class DiscountsController : ControllerBase
 {
@@ -23,7 +23,7 @@ public class DiscountsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -56,7 +56,7 @@ public class DiscountsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<Discount>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -83,7 +83,7 @@ public class DiscountsController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet("GetLast")]
     public async Task<ActionResult<Discount>> GetLast(CancellationToken cancellationToken)
     {
         try
@@ -119,7 +119,7 @@ public class DiscountsController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet("GetWithTime")]
     public async Task<ActionResult<Discount>> GetWithTime(CancellationToken cancellationToken)
     {
         try
@@ -208,7 +208,7 @@ public class DiscountsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
