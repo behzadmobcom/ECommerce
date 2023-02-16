@@ -26,7 +26,6 @@
                             <tr>
                                 <th scope="col">تصویر محصول</th>
                                 <th scope="col">نام</th>
-                                <th scope="col">قیمت</th>
                                 <th scope="col">نام تجاری</th>
                                 <th scope="col">توضیحات</th>
                                 <th scope="col">عملیات</th>
@@ -40,16 +39,13 @@
                                         <img src="~/@compare.ImagePath" alt="@compare.Alt">
                                     </td>
                                     <td class="table-name"><h6>@compare.Name</h6></td>
-                                    <td class="table-price">
-                                        
-                                    </td>
                                     <td class="table-vendor"><a href="#">@compare.Brand</a></td>
                                     <td class="table-status">@Html.Raw(@compare.Description)</td>
                                     <td class="table-action">
                                         <a class="wish" href="javascript:void(0)" onclick="AddWishList(@compare.Id)" title="افزودن به لیست علاقه مندی ها">
                                             <i class="far fa-heart"></i>
                                         </a>
-                                        <a href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
+                                        <a class="wish" href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
                                             <i class="far fa-window-close"></i>
                                         </a>
                                         @*  <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)">

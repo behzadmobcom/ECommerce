@@ -5173,9 +5173,9 @@ tbody tr td:last-child {
     font-size: 15px;
 }
 
-.footer-copytext a {
-    color: #019345
-}
+    .footer-copytext a {
+        color: #337ab7
+    }
 
 .footer-copytext a:hover {
     text-decoration: underline
