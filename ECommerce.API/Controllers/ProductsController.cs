@@ -1140,7 +1140,7 @@ public class ProductsController : ControllerBase
         try
         {
             List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
-            var allproducts = await _productRepository.GetAllWithInclude(cancellationToken)
+            var allProducts = await _productRepository.GetAllWithInclude(cancellationToken)
                                  .Select(p => new ProductIndexPageViewModel
                                  {
                                      Prices = p.Prices,
@@ -1154,9 +1154,9 @@ public class ProductsController : ControllerBase
                                      Url = p.Url,
                                  }).ToListAsync(cancellationToken);
           
-            if (allproducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                allproducts = await AddPriceAndExistFromHolooList(allproducts, isWithoutBail, true, cancellationToken);
-            allproducts = allproducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+            if (allProducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                allProducts = await AddPriceAndExistFromHolooList(allProducts, isWithoutBail, true, cancellationToken);
+            allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
             string[] parameters = includeProperties.Split(",");
             foreach (var param in parameters)
@@ -1167,7 +1167,7 @@ public class ProductsController : ControllerBase
                 switch (resultCount[0])
                 {
                  case "TopNew":
-                             products = allproducts.OrderByDescending(x=>x.Id).Take(_count)
+                             products = allProducts.OrderByDescending(x=>x.Id).Take(_count)
                             .Select(p => new ProductIndexPageViewModel
                                 {
                                     Prices = p.Prices,
@@ -1184,7 +1184,7 @@ public class ProductsController : ControllerBase
                             break;
 
                  case "TopPrices":
-                            products = allproducts                       
+                            products = allProducts                       
                             .Select(p => new ProductIndexPageViewModel
                                 {
                                     Prices = p.Prices,
@@ -1218,7 +1218,7 @@ public class ProductsController : ControllerBase
                             break;
 
                  case "TopStars":
-                             products = allproducts.OrderByDescending(x => x.Stars).Take(_count)
+                             products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
                              .Select(p => new ProductIndexPageViewModel
                              {
                                      Prices = p.Prices,
