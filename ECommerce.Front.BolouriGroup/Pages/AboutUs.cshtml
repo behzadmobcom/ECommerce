@@ -24,11 +24,11 @@
         =325476<div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="about-img">
-                    <img src="~/img/about/1.jpg" alt="در باره">
-                    <img src="~/img/about/2.jpg" alt="در باره">
+                    <img src="~/img/about/1.jpg" alt="در باره" loding="lazy">
+                    <img src="~/img/about/2.jpg" alt="در باره" loding="lazy">
                 </div>
                 <div class="about-img-single">
-                    <img src="~/img/about/3.jpg" alt="در باره">
+                    <img src="~/img/about/3.jpg" alt="در باره" loding="lazy">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -122,7 +122,7 @@
 	                {
 		                <li>
 			                <a asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
-				                <img src="@brand.ImagePath" alt=@brand.Name width="133" height="61">
+                                <img src="@brand.ImagePath" alt=@brand.Name width="133" height="61"loding="lazy">
 
 			                </a>
 		                </li>
