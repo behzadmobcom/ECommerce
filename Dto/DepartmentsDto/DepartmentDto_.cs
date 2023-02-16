@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.DepartmentsDtos;
+namespace ECommerce.Dto.DepartmentsDto;
 
 public class DepartmentDto_ : BaseDto
 {
@@ -9,6 +8,6 @@ public class DepartmentDto_ : BaseDto
 
     public string? Location { get; set; }
 
-    public ICollection<Employee>? Employees { get; set; }
+    //public ICollection<Employee>? Employees { get; set; }
 
 }
