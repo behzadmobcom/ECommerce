@@ -1,13 +1,8 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.DepartmentsDtos;
+namespace ECommerce.Dto.DepartmentsDto;
 
 public class DepartmentDto : BaseDto
 {
-    //public string? Title { get; set; }
-
-    //public string? Location { get; set; }
-
 
 }

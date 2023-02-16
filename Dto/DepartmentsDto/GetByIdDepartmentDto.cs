@@ -1,4 +1,4 @@
-﻿namespace Dto.DepartmentsDtos;
+﻿namespace ECommerce.Dto.DepartmentsDto;
 
 public class GetByIdDepartmentDto : DepartmentDto
 {
