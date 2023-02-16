@@ -1,6 +1,4 @@
-﻿using Ecommerce.Entities;
-
-namespace Dto.CitiesDtos;
+﻿namespace ECommerce.Dto.CitiesDto;
 
 public class GetByIdCityDto : CityDto
 {
