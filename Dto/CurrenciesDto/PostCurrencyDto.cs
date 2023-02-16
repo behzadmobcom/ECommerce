@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Dto.CurrenciesDto;
 
-public class GetCurrencyDto : CurrencyDto
+public class PostCurrencyDto : CurrencyDto
 {
- 
+
 }

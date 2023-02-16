@@ -1,6 +1,6 @@
 ﻿using ECommerce.Dto.Base;
 
-namespace Dto.CurrenciesDtos;
+namespace ECommerce.Dto.CurrenciesDto;
 
 public class CurrencyDto : BaseDto
 {
