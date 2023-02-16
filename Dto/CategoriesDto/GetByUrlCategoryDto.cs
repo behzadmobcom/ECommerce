@@ -1,7 +1,4 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
-
-namespace Dto.CategoriesDtos;
+﻿namespace ECommerce.Dto.CategoriesDto;
 
 public class GetByUrlCategoryDto : CategoryDto 
 {

@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.CategoriesDtos;
+namespace ECommerce.Dto.CategoriesDto;
 
 public class CategoryDto : BaseDto
 {
@@ -16,6 +15,6 @@ public class CategoryDto : BaseDto
     public int DisplayOrder { get; set; }
 
     public int? ParentId { get; set; }
-    public Category? Parent { get; set; }
+    public CategoryDto? Parent { get; set; }
 
 }
