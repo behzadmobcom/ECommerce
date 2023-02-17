@@ -34,7 +34,7 @@
             <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
                 <div class="user-form-logo">
                     <a asp-area="" asp-page="/Index">
-                        <img src="~/img/logo.png" alt="لوگو" width="250" height="117"loding="lazy">
+                        <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
                     </a>
                 </div>
                 <div class="user-form-card">
@@ -46,31 +46,31 @@
                         <div class="row">
                             <ul class="nav nav-tabs" role="tablist" style="margin-right: 10%">
                                 <li class="nav-item form-check active">
-                                    <a class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a> 
+                                    <a class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a>
                                 </li>
                                 <li class="nav-item form-check">
-                                    <a class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a> 
+                                    <a class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a>
                                 </li>
                             </ul>
                         </div>
-                     
-                       
+
+
                         <div class="row tab-content" style="margin-right: 0;margin-left: 0">
                             <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.FirstName"></span>
-                        <br/>
+                                <br />
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.LastName"></span>
                                 <br />
                                 <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
-                                </div> 
-                           
+                            </div>
+
                             <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
                                 <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.CompanyName" class="form-control">
                                 <br />
-                                <select asp-for="RegisterViewModel.CompanyType" class="form-select" >
+                                <select asp-for="RegisterViewModel.CompanyType" class="form-select">
                                     <option value="10">رستوران</option>
                                     <option value="11">کافی شاپ</option>
                                     <option value="9">هتل</option>
@@ -80,7 +80,7 @@
                                 </select>
                             </div>
                         </div>
-               
+
                         <select asp-for="RegisterViewModel.StateId" class="custom-select form-control" id="state" onchange="setCities();" style="margin-top: 10px;color: gray">
                             @foreach (var state in Model.StateList)
                             {
@@ -118,8 +118,8 @@
                                     <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
                                 </small>
                             </label>
-                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control"/>
-                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br/>
+                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control" />
+                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
                         </div>
 
                         <div class="form-check mb-3">
@@ -129,7 +129,12 @@
                             </label>
                         </div>
                         <div class="form-button">
-                            <button type="submit">ایجاد حساب کاربری</button>
+                            <button type="submit" class="g-recaptcha"
+                                    data-sitekey="6LehwYokAAAAAMby2aEKnnEv2edHITiw9wIyUJHO"
+                                    data-callback='onSubmit'
+                                    data-action='submit'>
+                                ایجاد حساب کاربری
+                            </button>
                             <p>قبلاً حساب دارید؟ <a asp-area="" asp-page="/Login">ورود.</a></p>
                         </div>
                     </form>
@@ -144,7 +149,13 @@
 </section>
 
 @section Scripts
-{
+    {
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("demo-form").submit();
+        }
+    </script>
     <script>
         function setCities() {
             var stateId = $('#state').val();
@@ -153,10 +164,10 @@
                 url: "Register?handler=CityLoad&id=" + stateId,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(result) {
+                success: function (result) {
                     $("#city").html(result);
                 },
-                failure: function(response) {
+                failure: function (response) {
                     alert(response);
                 }
             });
