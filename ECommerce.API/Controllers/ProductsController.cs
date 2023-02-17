@@ -6,6 +6,7 @@ using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
@@ -43,7 +44,7 @@ public class ProductsController : ControllerBase
     }
 
     private async Task<List<ProductIndexPageViewModel>> AddPriceAndExistFromHolooList(
-        List<ProductIndexPageViewModel> products, bool isWithoutBil,bool? isExist,  CancellationToken cancellationToken)
+        List<ProductIndexPageViewModel> products, bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
     {
         var aBails = await _aBailRepository.GetAll(cancellationToken);
         var prices = products
@@ -53,7 +54,7 @@ public class ProductsController : ControllerBase
         var aCodeCs = new List<string>();
         foreach (var price in prices)
         {
-            Parallel.ForEach(price , aCode =>
+            Parallel.ForEach(price, aCode =>
             //foreach (var aCode in price)
             {
                 aCodeCs.Add(aCode.ArticleCodeCustomer);
@@ -148,9 +149,9 @@ public class ProductsController : ControllerBase
             });
 
             product.Prices.RemoveAll(x => tempPriceList.Contains(x));
-            if (product.Prices.Count != 0) newProducts.Add(product); 
+            if (product.Prices.Count != 0) newProducts.Add(product);
 
-            
+
         });
 
         return newProducts;
@@ -318,7 +319,7 @@ public class ProductsController : ControllerBase
             var productQuery = _productRepository.GetProducts(categoriesId, productListFilteredViewModel.BrandsId,
                 productListFilteredViewModel.StarsCount, productListFilteredViewModel.TagsId);
 
-            var search = productListFilteredViewModel.PaginationParameters.Search?.Split('=');
+            var search = productListFilteredViewModel.PaginationParameters.Search?.Split('='); //name=ali
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             if (search is { Length: > 1 })
             {
@@ -386,7 +387,7 @@ public class ProductsController : ControllerBase
 
             if (productListFilteredViewModel.EndPrice > 0)
             {
-                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) > productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) < productListFilteredViewModel.EndPrice).ToList();
+                productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) >= productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) <= productListFilteredViewModel.EndPrice).ToList();
             }
 
             if (productListFilteredViewModel.IsExist != null)
@@ -406,7 +407,7 @@ public class ProductsController : ControllerBase
                     productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
                 case ProductSort.LowToHighPrice:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
+                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
                     break;
                 case ProductSort.Bestsellers:
                     productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
@@ -440,7 +441,7 @@ public class ProductsController : ControllerBase
         }
         catch (Exception e)
         {
-            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails =new PaginationDetails() , Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails = new PaginationDetails(), Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
 
@@ -448,10 +449,10 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> GetAllProducts(bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
     {
         try
-        {         
-            var productQuery = _productRepository.GetAllProducts();          
+        {
+            var productQuery = _productRepository.GetAllProducts();
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
-            productIndexPageViewModel.AddRange(await productQuery                           
+            productIndexPageViewModel.AddRange(await productQuery
                            .Select(p => new ProductIndexPageViewModel
                            {
                                Prices = p.Prices!,
@@ -469,10 +470,10 @@ public class ProductsController : ControllerBase
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBil, isExist, cancellationToken);
-            }          
-            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();           
+            }
+            productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
-            {                
+            {
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
@@ -619,7 +620,7 @@ public class ProductsController : ControllerBase
         try
         {
             var productIndexPageViewModel = await _productRepository.TopStars(count, cancellationToken);
-           
+
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBail, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
@@ -1153,7 +1154,7 @@ public class ProductsController : ControllerBase
                                      Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
                                      Url = p.Url,
                                  }).ToListAsync(cancellationToken);
-          
+
             if (allProducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 allProducts = await AddPriceAndExistFromHolooList(allProducts, isWithoutBail, true, cancellationToken);
             allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
@@ -1161,78 +1162,78 @@ public class ProductsController : ControllerBase
             string[] parameters = includeProperties.Split(",");
             foreach (var param in parameters)
             {
-               List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
-               var resultCount = param.Split(":");
+                List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
+                var resultCount = param.Split(":");
                 int _count = System.Convert.ToInt32(resultCount[1]);
                 switch (resultCount[0])
                 {
-                 case "TopNew":
-                             products = allProducts.OrderByDescending(x=>x.Id).Take(_count)
-                            .Select(p => new ProductIndexPageViewModel
-                                {
-                                    Prices = p.Prices,
-                                    Alt = p.Alt,
-                                    Brand = p.Brand,
-                                    Name = p.Name,
-                                    Description = p.Description,
-                                    Id = p.Id,
-                                    ImagePath = p.ImagePath,
-                                    Stars = p.Stars,
-                                    Url = p.Url,                                   
-                                    TopCategory = resultCount[0]
-                                }).ToList();                     
-                            break;
+                    case "TopNew":
+                        products = allProducts.OrderByDescending(x => x.Id).Take(_count)
+                       .Select(p => new ProductIndexPageViewModel
+                       {
+                           Prices = p.Prices,
+                           Alt = p.Alt,
+                           Brand = p.Brand,
+                           Name = p.Name,
+                           Description = p.Description,
+                           Id = p.Id,
+                           ImagePath = p.ImagePath,
+                           Stars = p.Stars,
+                           Url = p.Url,
+                           TopCategory = resultCount[0]
+                       }).ToList();
+                        break;
 
-                 case "TopPrices":
-                            products = allProducts                       
-                            .Select(p => new ProductIndexPageViewModel
-                                {
-                                    Prices = p.Prices,
-                                    Alt = p.Alt,
-                                    Brand = p.Brand,
-                                    Name = p.Name,
-                                    Description = p.Description,
-                                    Id = p.Id,
-                                    ImagePath = p.ImagePath,
-                                    Stars = p.Stars,
-                                    Url = p.Url,
-                                    MaxPrice = p.Prices.Sum(x => x.Exist) >0 ? p.Prices.Select(x=>x.Amount).Max() : 0,
-                                    TopCategory = resultCount[0]
-                            })
-                            .OrderByDescending(o=> o.MaxPrice)
-                            .Take(_count)
-                            .ToList();
-                            break;
+                    case "TopPrices":
+                        products = allProducts
+                        .Select(p => new ProductIndexPageViewModel
+                        {
+                            Prices = p.Prices,
+                            Alt = p.Alt,
+                            Brand = p.Brand,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Id = p.Id,
+                            ImagePath = p.ImagePath,
+                            Stars = p.Stars,
+                            Url = p.Url,
+                            MaxPrice = p.Prices.Sum(x => x.Exist) > 0 ? p.Prices.Select(x => x.Amount).Max() : 0,
+                            TopCategory = resultCount[0]
+                        })
+                        .OrderByDescending(o => o.MaxPrice)
+                        .Take(_count)
+                        .ToList();
+                        break;
 
-                 case "TopChip":
-                        
-                            break;
-                 case "TopDiscount":
+                    case "TopChip":
 
-                            break;
-                 case "TopRelative":
+                        break;
+                    case "TopDiscount":
 
-                            break;
-                 case "TopSells":
+                        break;
+                    case "TopRelative":
 
-                            break;
+                        break;
+                    case "TopSells":
 
-                 case "TopStars":
-                             products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
-                             .Select(p => new ProductIndexPageViewModel
-                             {
-                                     Prices = p.Prices,
-                                     Alt = p.Alt,
-                                     Brand = p.Brand,
-                                     Name = p.Name,
-                                     Description = p.Description,
-                                     Id = p.Id,
-                                     ImagePath = p.ImagePath,
-                                     Stars = p.Stars,
-                                     Url = p.Url,                                
-                                     TopCategory = resultCount[0]
-                             }).ToList();
-                             break;
+                        break;
+
+                    case "TopStars":
+                        products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
+                        .Select(p => new ProductIndexPageViewModel
+                        {
+                            Prices = p.Prices,
+                            Alt = p.Alt,
+                            Brand = p.Brand,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Id = p.Id,
+                            ImagePath = p.ImagePath,
+                            Stars = p.Stars,
+                            Url = p.Url,
+                            TopCategory = resultCount[0]
+                        }).ToList();
+                        break;
 
                     default: break;
                 }
@@ -1244,7 +1245,7 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = selectedProducts
             });
-    }
+        }
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);

@@ -273,7 +273,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public IQueryable<Product?> GetAllProducts()
     {
 
-        var products = _context.Products.AsQueryable();
+        var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
         var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
         return result;
 
