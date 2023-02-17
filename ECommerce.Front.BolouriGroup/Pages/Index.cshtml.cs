@@ -115,7 +115,7 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAddWishList(int id)
     {
         var result = await _wishListService.Add(id);
-        return new JsonResult(result.ToString());
+        return new JsonResult(result.Message);
     }
 
     public async Task<IActionResult> OnGetRemoveWishList(int id)
@@ -127,7 +127,7 @@ public class IndexModel : PageModel
     public IActionResult OnGetAddCompareList(int id)
     {
         var result = _compareService.Add(HttpContext, id);
-        return new JsonResult(result.Message);
+        return new JsonResult(result);
     }
 
     public IActionResult OnGetDeleteCompare(int id)

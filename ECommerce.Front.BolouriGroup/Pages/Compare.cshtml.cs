@@ -13,7 +13,7 @@ public class CompareModel : PageModel
         _compareService = compareService;
     }
 
-    public List<ProductCompareViewModel> CompareProducts { get; set; }
+    public List<ProductCompareViewModel>? CompareProducts { get; set; }
     public string Message { get; set; }
 
     public async Task OnGetAsync()

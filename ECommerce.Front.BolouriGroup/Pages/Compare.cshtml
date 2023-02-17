@@ -32,27 +32,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var compare in Model.CompareProducts)
+                            @if (Model.CompareProducts != null)
                             {
-                                <tr>
-                                    <td class="table-image">
-                                        <img src="~/@compare.ImagePath" alt="@compare.Alt"loding="lazy">
-                                    </td>
-                                    <td class="table-name"><h6>@compare.Name</h6></td>
-                                    <td class="table-vendor"><a href="#">@compare.Brand</a></td>
-                                    <td class="table-status">@Html.Raw(@compare.Description)</td>
-                                    <td class="table-action">
-                                        <a class="wish" href="javascript:void(0)" onclick="AddWishList(@compare.Id)" title="افزودن به لیست علاقه مندی ها">
-                                            <i class="far fa-heart"></i>
-                                        </a>
-                                        <a class="wish" href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
-                                            <i class="far fa-window-close"></i>
-                                        </a>
-                                        @*  <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)">
+                                @foreach (var compare in Model.CompareProducts)
+                                {
+                                    <tr>
+                                        <td class="table-image">
+                                            <img src="~/@compare.ImagePath" alt="@compare.Alt" loding="lazy">
+                                        </td>
+                                        <td class="table-name"><h6>@compare.Name</h6></td>
+                                        <td class="table-price">
+                                        </td>
+                                        <td class="table-vendor"><a href="#">@compare.Brand</a></td>
+                                        <td class="table-status">@Html.Raw(@compare.Description)</td>
+                                        <td class="table-action">
+                                            <a class="wish" href="javascript:void(0)" onclick="AddWishList(@compare.Id)" title="افزودن به لیست علاقه مندی ها">
+                                                <i class="far fa-heart"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
+                                                <i class="far fa-window-close"></i>
+                                            </a>
+                                            @*  <a href="javascript:void(0)" class="delete" onclick="DeleteCompare(@product.Id)">
                                     <i class="far fa-closed-captioning"></i>
                                     </a>*@
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>

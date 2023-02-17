@@ -27,6 +27,16 @@ public class CompareService : ICompareService
                 Code = ServiceCode.Warning,
                 Message = "مقایسه بیشتر از 4 کالا امکانپذیر نمی باشد"
             };
+        var product = _cookieService.GetCookie(context, $"{_key}-{productId}");
+        if (product.Any())
+        {
+            return new ServiceResult<int>
+            {
+                ReturnData = cookies.Count,
+                Code = ServiceCode.Success,
+                Message = "این کالا قبلا برای مقایسه اضافه شده است"
+            };
+        }
         _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}", productId));
         return new ServiceResult<int> {
             ReturnData = cookies.Count+1,
