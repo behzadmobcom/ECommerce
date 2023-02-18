@@ -41,7 +41,7 @@
 					</div>
 					<form method="post" class="user-form">
 						<div class="form-group">
-							<label>نام کاربری</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
+							<label>نام کاربری</label><input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
 						</div>
 						<div class="form-group">
 							<label>کلمه عبور</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
@@ -64,7 +64,8 @@
 							@*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
                             <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
 							<div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
-								<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>
+								@*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
+								<input type="button" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
                             </div>
 							<div class="row tab-content" >
                                 <div id="home" class="form-group container tab-pane">
@@ -124,6 +125,24 @@
 		}
 
 		enableButton();
+
+		    function SendConfirmSms() {
+			username = document.getElementById("userName").value
+            $.ajax({
+                type: "Get",
+                url: "/login?handler=SendSms&username=" + username ,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
     </script>
   
 }
