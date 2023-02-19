@@ -55,11 +55,11 @@ public class LoginModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostSendSms()
+    public async Task<IActionResult> OnGetSendSms(string username)
     {
         try
         {
-            var SecondsLeftConfirmCodeExpire = await _userService.GetSecondsLeftConfirmCodeExpire(LoginViewModel.Username);
+            var SecondsLeftConfirmCodeExpire = await _userService.GetSecondsLeftConfirmCodeExpire(username);
             if (SecondsLeftConfirmCodeExpire.Code == ServiceCode.Error)
             {
                 Message = "نام کاربری موجود نمی باشد";
@@ -75,14 +75,14 @@ public class LoginModel : PageModel
             Random randomCode = new Random();
             int code = randomCode.Next(100000000);
             if (code < 10000000) code = code + 10000000;
-            SmsIr smsResponsModel = await _userService.SendAuthenticationSms(LoginViewModel.Username, code);
+            SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);
             if (smsResponsModel.Status != 1)
             {
                 Message = smsResponsModel.Message;
                 Code = "Error";
                 return Page();
             }
-            var result = await _userService.SetConfirmCodeByUsername(LoginViewModel.Username, code, DateTime.Now.AddSeconds(130));
+            var result = await _userService.SetConfirmCodeByUsername(username, code);
             if (!result.ReturnData)
             {
                 Message = "نام کاربری صحیح نمی باشد";
