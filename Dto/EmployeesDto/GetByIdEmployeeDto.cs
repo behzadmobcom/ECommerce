@@ -1,4 +1,4 @@
-﻿namespace Dto.EmployeesDtos;
+﻿namespace ECommerce.Dto.EmployeesDto;
 
 public class GetByIdEmployeeDto : EmployeeDto
 {

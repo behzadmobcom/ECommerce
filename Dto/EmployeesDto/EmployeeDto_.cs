@@ -1,7 +1,6 @@
-﻿using Ecommerce.Entities;
-using ECommerce.Dto.Base;
+﻿using ECommerce.Dto.Base;
 
-namespace Dto.EmployeesDtos;
+namespace ECommerce.Dto.EmployeesDto;
 
 public class EmployeeDto_ : BaseDto
 {
@@ -20,20 +19,20 @@ public class EmployeeDto_ : BaseDto
 
     public string? CustomerCodeCustomer { get; set; }
 
-    public ICollection<PurchaseOrder>? PurchaseOrderApprovedBy { get; set; }
+    //public ICollection<PurchaseOrder>? PurchaseOrderApprovedBy { get; set; }
 
-    public ICollection<PurchaseOrder>? PurchaseOrderSubmittedBy { get; set; }
+    //public ICollection<PurchaseOrder>? PurchaseOrderSubmittedBy { get; set; }
 
-    public ICollection<PurchaseOrder>? PurchaseOrderAccountant { get; set; }
+    //public ICollection<PurchaseOrder>? PurchaseOrderAccountant { get; set; }
 
-    public int? DepartmentId { get; set; }
-    public Department? Department { get; set; }
+    //public int? DepartmentId { get; set; }
+    //public Department? Department { get; set; }
 
-    public int? UserRoleId { get; set; }
-    public UserRole? UserRole { get; set; }
+    //public int? UserRoleId { get; set; }
+    //public UserRole? UserRole { get; set; }
 
-    public ICollection<BlogComment>? BlogComments { get; set; }
+    //public ICollection<BlogComment>? BlogComments { get; set; }
 
-    public int? HolooCompanyId { get; set; } = 1;
-    public HolooCompany? HolooCompany { get; set; }
+    //public int? HolooCompanyId { get; set; } = 1;
+    //public HolooCompany? HolooCompany { get; set; }
 }

@@ -1,6 +1,8 @@
-﻿namespace ECommerce.Dto.EmployeesDto;
+﻿using ECommerce.Dto.Base;
 
-public class PostEmployeeDto
+namespace ECommerce.Dto.EmployeesDto;
+
+public class PutEmployeeDto : BaseDto
 {
     public string? Name { get; set; }
 
@@ -11,8 +13,5 @@ public class PostEmployeeDto
     public int Commission { get; set; }
 
     public bool IsActive { get; set; }
-
-    public int? DepartmentId { get; set; }
-    public DepartmentDto? Department { get; set; }
 
 }
