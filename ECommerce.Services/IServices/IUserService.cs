@@ -21,6 +21,6 @@ public interface IUserService
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult> Edit(User user);
     Task<SmsIr> SendAuthenticationSms(string? mobile, int code);
-    Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate);
+    Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode);
     Task<ServiceResult<int?>> GetSecondsLeftConfirmCodeExpire(string username);
 }

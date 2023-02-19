@@ -231,10 +231,10 @@ public class UserService : EntityService<User>, IUserService
         return result;
     }
 
-    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate)
+    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode)
     {
         var result = await _http.GetAsync<bool>(Url, $"SetConfirmCodeByUsername?username={username}" +
-                                                     $"&confirmCode={confirmCode}&codeConfirmExpairDate={codeConfirmExpairDate}");
+                                                     $"&confirmCode={confirmCode}");
         return Return(result);
     }
 
