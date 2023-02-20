@@ -10,6 +10,7 @@
 }
 
 @section Head{
+    <link href="~/css/stars.css" rel="stylesheet" edia="print" onload="this.media='all'" />
     <meta name="description" content="@description" />
     <meta property="og:title" content="@Model.Product.Name" />
     <meta property="og:image" content="@imagePath" />
@@ -23,7 +24,7 @@
     <meta property="twitter:title" content="@Model.Product.Name" />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:image" content="@imagePath" />
-    <link href="~/css/stars.css" rel="stylesheet" />
+ 
 }
 
 <section class="inner-section single-banner">
@@ -88,7 +89,7 @@
                         {
                             <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
                                {<text> class="rankChecked" </text> }>
-                                        <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" />
+                                            <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
                                             <i class="fas fa-star"></i>
                                     </label>
                         }
@@ -381,7 +382,21 @@
 
             }
         );
-
+        function SaveStars(id, starNumber) {
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
     </script>
     <script>
         function magnify(imgID, zoom) {
