@@ -27,11 +27,6 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
             paginationParameters.PageSize);
     }
 
-    public async Task<Tag> GetByTagText(string tagText, CancellationToken cancellationToken)
-    {
-        return await _context.Tags.Where(x => x.TagText == tagText).FirstOrDefaultAsync(cancellationToken);
-    }
-
     public async Task<List<TagProductId>> GetByProductId(int productId, CancellationToken cancellationToken)
     {
         return await _context.Tags.Where(x => x.Products.Any(y => y.Id == productId))

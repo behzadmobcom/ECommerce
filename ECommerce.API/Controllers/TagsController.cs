@@ -69,23 +69,7 @@ public class TagsController : ControllerBase
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
-    [HttpGet]
-    public async Task<IActionResult> GetByTagText(string tagText , CancellationToken cancellationToken)
-    {
-        try
-        {
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = await _tagRepository.GetByTagText( tagText, cancellationToken)
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
-    }
+   
     [HttpGet]
     public async Task<IActionResult> GetByProductId(int id, CancellationToken cancellationToken)
     {
