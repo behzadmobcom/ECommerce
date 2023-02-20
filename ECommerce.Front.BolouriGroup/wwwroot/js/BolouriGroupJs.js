@@ -1,23 +1,4 @@
 ﻿/////////////////****StartWishlist****////////////////
-function OldRemoveWish(id) {
-    $.ajax({
-        type: "Get",
-        url: "/index?handler=RemoveWishList&id=" + id,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            swal(result.message);
-            if (result.code === 0) {
-                var elementId = "#wishlist-" + id;
-                $(elementId).remove();
-            }
-        },
-        failure: function (response) {
-            alert(response);
-        }
-    });
-}
-
 function RemoveWishList(id) {
     $.ajax({
         type: "Get",
@@ -107,12 +88,14 @@ function setCities() {
 
 }
 /////////////////****EndChekout****////////////////
-$(".menu_hover").mouseover(function () {
-    var sectionId = $(this).find("a").attr("href");
-    var sectionLinkId = s + "Id";
-    $(sectionLinkId).click()
-});
+/////////////////****Start Mega Menu Mouse Hover Change Panels***////////////////
 
+$(".menu_hover").mouseover(function () {
+    var section = $(this).find("a").attr("Id");
+    var panelId = "#" + section + "Panel";
+    $(".tab-pane").removeClass(" active in ")
+    $(panelId).addClass(" active in")
+});
 /////////////////****StartOpenProductModal****////////////////
 function OpenProductModal(id) {
     alert("guig");
@@ -255,6 +238,7 @@ function LoadCard() {
             });
         $('#Cart-Count').text(count);
         $('#Cart-Count-Value').val(count);
+        $('#Cart-Count-Value-Icon').val(count);
         $('#Cart-Count2').text("کل مورد (" + count + ")");
         $('#All-Price').text(allPrice);
         $('#AllPrice-Value').val(allPrice);
@@ -335,7 +319,8 @@ function DeleteCart(id, productId, priceId) {
     var elementId = "#CartDrop-" + id;
     var sumPriceId = "#SumPrice-" + id;
     var price = parseInt($(sumPriceId).val());
-    var count = parseInt($("#Cart-Count-Value").val());
+    
+    var count = parseInt($("#Cart-Count-Value-Icon").val());
     var allPrice = parseInt($("#AllPrice-Value").val());
     $.ajax({
         type: "Get",
@@ -352,6 +337,7 @@ function DeleteCart(id, productId, priceId) {
                 $('#Cart-Count2').text("کل مورد (" + count + ")");
                 $('#All-Price').text(allPrice + ' تومان');
                 $("#Cart-Count-Value").val(count);
+                $("#Cart-Count-Value-Icon").val(count);
                 $("#AllPrice-Value").val(allPrice);
             }
         },
@@ -393,4 +379,17 @@ function SaveStars(id, starNumber) {
     });
 }
 
-/////////////////****StartSaveStars****////////////////
+/////////////////****Register page - Check password****////////////////
+
+function CheckPassword() {
+    {
+        inputtxt = $("#RegisterViewModel_Password");
+        var decimal = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+        if (decimal.test(inputtxt.val())) {
+            $("#passwordHintId").hide();
+        }
+        else {
+            $("#passwordHintId").show();
+        }
+    }
+}

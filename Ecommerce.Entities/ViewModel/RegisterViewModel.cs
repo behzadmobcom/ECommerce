@@ -11,7 +11,7 @@ public class RegisterViewModel
     public string Username { get; set; }
 
     [RegularExpression(@"^(?=.*[a-z])(?=.*\d).{8,30}$",
-        ErrorMessage = "لطفا فقط انگلیسی! حداقل 8 حداکثر 30 کاراکتر و حتما باید از کاراکتر و عدد استفاده شده باشد")]
+        ErrorMessage = "لطفا فقط انگلیسی! حداقل 8 حداکثر 30 کاراکتر و حتما باید از حروف انگلیسی، عدد و حروف خاص استفاده شده باشد")]
     [Display(Name = "کلمه عبور")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     [StringLength(30, MinimumLength = 8, ErrorMessage = @"حداقل 8 و حداکثر 30 کاراکتر")]
