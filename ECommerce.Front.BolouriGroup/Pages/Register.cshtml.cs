@@ -30,8 +30,14 @@ public class RegisterModel : PageModel
 
     public async Task OnGet()
     {
+        await Load();
+    }
+
+    private async Task Load(int stateId = 0)
+    {
         StateList = (await _stateService.Load()).ReturnData;
-        CityList = (await _cityService.Load(StateList.First().Id)).ReturnData;
+        stateId = stateId == 0 ? StateList.First().Id : stateId;
+        CityList = (await _cityService.Load(stateId)).ReturnData;
     }
 
     public async Task<JsonResult> OnGetCityLoad(int id)
@@ -44,6 +50,7 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
+        await Load(RegisterViewModel.StateId);
         if (!RegisterViewModel.IsRole)
         {
             //          !qa@ws#ed123
@@ -53,40 +60,44 @@ public class RegisterModel : PageModel
             return Page();
         }
         ModelState.Remove("RegisterViewModel.NationalCode");
-        if(RegisterViewModel.NationalCode ==  null)
+        ModelState.Remove("RegisterViewModel.Email");
+        ModelState.Remove("RegisterViewModel.Username");
+        if (RegisterViewModel.NationalCode == null)
         {
             RegisterViewModel.NationalCode = "0000000000";
         }
         if (!ModelState.IsValid) return Page();
         switch (RegisterViewModel.CompanyType)
         {
-           case 10:
-               RegisterViewModel.CompanyTypeName = "رستوران";
-               break;
-           case 11:
-               RegisterViewModel.CompanyTypeName = "کافی شاپ";
-               break;
-           case 9 :
-               RegisterViewModel.CompanyTypeName = "هتل";
-               break;
+            case 10:
+                RegisterViewModel.CompanyTypeName = "رستوران";
+                break;
+            case 11:
+                RegisterViewModel.CompanyTypeName = "کافی شاپ";
+                break;
+            case 9:
+                RegisterViewModel.CompanyTypeName = "هتل";
+                break;
             case 16:
                 RegisterViewModel.CompanyTypeName = "تالار";
-               break;
-           case 21:
-               RegisterViewModel.CompanyTypeName = "شرکت";
-               break;
-           case 15:
-               RegisterViewModel.CompanyTypeName = "فروشگاه";
-               break;
+                break;
+            case 21:
+                RegisterViewModel.CompanyTypeName = "شرکت";
+                break;
+            case 15:
+                RegisterViewModel.CompanyTypeName = "فروشگاه";
+                break;
         }
-
+        RegisterViewModel.Username = RegisterViewModel.Mobile;
+        RegisterViewModel.Email = "boloorico@gmail.com";
+        RegisterViewModel.IsHaveEmail = false;
         var result = await _userService.Register(RegisterViewModel);
-        if(result.Code>0)
+        if (result.Code > 0)
         {
             Message = result.Message;
             Code = result.Code.ToString();
             return Page();
         }
-        return RedirectToPage("index");
+        return RedirectToPage("/index");
     }
 }

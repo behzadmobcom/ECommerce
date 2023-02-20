@@ -73,7 +73,7 @@ public class UsersController : ControllerBase
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                var OneTimePass = (model.Password == user.ConfirmCode + "" && (user.ConfirmCodeExpirationDate! - DateTime.Now ).Value.TotalSeconds > 0 );
+                var OneTimePass = (model.Password == user.ConfirmCode + "" && (user.ConfirmCodeExpirationDate! - DateTime.Now).Value.TotalSeconds > 0);
                 if (result.Succeeded || OneTimePass)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
@@ -191,22 +191,32 @@ public class UsersController : ControllerBase
                     Messages = new List<string> { "نام کاربری تکراری است" }
                 });
 
-            var repetitiveEmail = await _userRepository.GetByEmailOrUserName(register.Email, cancellationToken);
-            if (repetitiveEmail != null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.BadRequest,
-                    Messages = new List<string> { "ایمیل تکراری است" }
-                });
+            if (register.IsHaveEmail)
+            {
+                var repetitiveEmail = await _userRepository.GetByEmailOrUserName(register.Email, cancellationToken);
+                if (repetitiveEmail != null)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.BadRequest,
+                        Messages = new List<string> { "ایمیل تکراری است" }
+                    });
+            }
+            else
+            {
+                string[] emailSplit = register.Email.Split('@');
+                emailSplit[0] += _userRepository.TableNoTracking.Count();
+                register.Email = $"{emailSplit[0]}@{emailSplit[1]}";
+            }
 
-            var moeinCode = await _holooSarfaslRepository.Add(register.Username, cancellationToken);
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
-            string customerName = register.IsColleague ? $"{register.CompanyName}-{register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
+            string customerName = register.IsColleague ? $"{register.CompanyName} {register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
+            var moeinCode = await _holooSarfaslRepository.Add(customerName, cancellationToken);
+
             int cityCode = register.CompanyType ?? 45;
             var holooCustomer = new HolooCustomer
             {
-                C_Code = customerCode,
-                C_Code_C = customerCode,
+                C_Code = customerCode.customerCode,
+                C_Code_C = customerCode.customerCodeC,
                 C_Name = customerName,
                 C_Mobile = register.Mobile,
                 Col_Code_Bed = "103",
@@ -232,7 +242,7 @@ public class UsersController : ControllerBase
                 Porsant2 = 0,
                 First_BalanceSanad = 0
             };
-            customerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
+            string newCustomerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
 
             var user = new User
             {
@@ -249,7 +259,7 @@ public class UsersController : ControllerBase
                 IsFeeder = register.IsFeeder,
                 Mobile = register.Mobile,
                 UserRoleId = 4,
-                CustomerCode = customerCode,
+                CustomerCode = newCustomerCode,
                 NationalCode = register.NationalCode
             };
 
@@ -747,7 +757,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    
+
 
 
 }

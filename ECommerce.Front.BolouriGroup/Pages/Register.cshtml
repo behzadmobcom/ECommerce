@@ -97,7 +97,7 @@
                         <br />
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
-                            <input type="text" placeholder="شماره همراه" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
+                            <input type="text" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
                         </div>
                         <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
@@ -108,20 +108,6 @@
                             <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword" class="form-control">
                         </div>
 
-                        <div class="form-group">
-                            <label>
-                                <small style="font-size: 12px">
-                                    <input type="checkbox" name="signup" asp-for="RegisterViewModel.IsHaveCustomerCode"
-                                           style="width: 18px; height: 18px; visibility: inherit; position: sticky; margin-right: -1.5em">
-                                    آیا شما قبلا در سیستم حسابداری این شرکت ثبت شده اید؟
-
-                                    <span asp-validation-for="RegisterViewModel.IsHaveCustomerCode"></span>
-                                </small>
-                            </label>
-                            <input placeholder="در صورت داشتن کد مشتری در فاکتورهای قبلی، وارد کنید." dir="ltr" asp-for="RegisterViewModel.CustomerCodeCustomer" class="form-control" />
-                            <span asp-validation-for="RegisterViewModel.CustomerCodeCustomer"></span><br />
-                        </div>
-
                         <div class="form-check mb-3">
                             <input type="checkbox" asp-for="RegisterViewModel.IsRole" class="form-check-input" id="agree" style="width: 18px; height: 18px; visibility: inherit; position: sticky">
                             <label class="form-check-label" for="agree">
@@ -129,10 +115,7 @@
                             </label>
                         </div>
                         <div class="form-button">
-                            <button type="submit" class="g-recaptcha"
-                                    data-sitekey="6LehwYokAAAAAMby2aEKnnEv2edHITiw9wIyUJHO"
-                                    data-callback='onSubmit'
-                                    data-action='submit'>
+                            <button type="submit">
                                 ایجاد حساب کاربری
                             </button>
                             <p>قبلاً حساب دارید؟ <a asp-area="" asp-page="/Login">ورود.</a></p>
