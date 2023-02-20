@@ -191,15 +191,28 @@ public class UsersController : ControllerBase
                     Messages = new List<string> { "نام کاربری تکراری است" }
                 });
 
-            var repetitiveEmail = await _userRepository.GetByEmailOrUserName(register.Email, cancellationToken);
-            if (repetitiveEmail != null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.BadRequest,
-                    Messages = new List<string> { "ایمیل تکراری است" }
-                });
-
-            var moeinCode = await _holooSarfaslRepository.Add(register.Username, cancellationToken);
+            if (register.IsHaveEmail)
+            {
+                var repetitiveEmail = await _userRepository.GetByEmailOrUserName(register.Email, cancellationToken);
+                if (repetitiveEmail != null)
+                    return Ok(new ApiResult
+                    {
+                        Code = ResultCode.BadRequest,
+                        Messages = new List<string> { "ایمیل تکراری است" }
+                    });
+            }
+            else
+            {
+                string[] emailSplit = register.Email.Split('@');
+                emailSplit[0] += _userRepository.TableNoTracking.Count();
+                register.Email = $"{emailSplit[0]}@{emailSplit[1]}";
+            }
+            
+            string sarfaslName = 
+                !String.IsNullOrEmpty(register.FirstName) || !String.IsNullOrEmpty(register.LastName) ?
+                    $"{register.FirstName} {register.LastName} {register.Mobile}" :
+                    register.Username;
+            var moeinCode = await _holooSarfaslRepository.Add(sarfaslName, cancellationToken);
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
             string customerName = register.IsColleague ? $"{register.CompanyName}-{register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
             int cityCode = register.CompanyType ?? 45;

@@ -237,7 +237,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     {
         var cacheEntry = await _cache.GetOrCreateAsync($"GetTops-{includeProperties}", async entity =>
         {
-            entity.SlidingExpiration = TimeSpan.FromDays(1);
+            //entity.SlidingExpiration = TimeSpan.FromDays(1);
             var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
             return result;
         });

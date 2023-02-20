@@ -89,23 +89,7 @@ function ChangePassword() {
 }
 
 /////////////////****StartChekout****////////////////
-function fillAddress(id) {
-    var arrayOfArrays = @Html.Raw(Json.Serialize(Model.SendInformationList));
 
-    var sendInformation = arrayOfArrays.find(obj => {
-        return obj.id == id;
-    });
-    console.log(sendInformation);
-    $("#SendInformation_Id").val(sendInformation.id);
-    $("#SendInformation_RecipientName").val(sendInformation.recipientName);
-    $("#SendInformation_Mobile").val(sendInformation.mobile);
-    $("#SendInformation_PostalCode").val(sendInformation.postalCode);
-    $("#SendInformation_Address").val(sendInformation.address);
-    $("#state").val(sendInformation.stateId);
-    setCities();
-    $("#city").val(sendInformation.cityId);
-
-}
 function setCities() {
     var stateId = $('#state').val();
     $.ajax({

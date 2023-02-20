@@ -30,6 +30,8 @@ public class RegisterViewModel
     [EmailAddress]
     public string Email { get; set; }
 
+    public bool IsHaveEmail { get; set; }
+
     [Display(Name = "قوانین و مقررارت", Description ="قبول قوانین و مقررات سایت")]
     [Required(ErrorMessage = @"لطفا ایتدا {0} را تایید کنید")]
     public bool IsRole { get; set; } = false;
@@ -39,7 +41,7 @@ public class RegisterViewModel
 
     [Display(Name = "موبایل")]
     [Required(ErrorMessage = "{0} را وارد کنید")]
-    [StringLength(11, MinimumLength = 11, ErrorMessage = "حتما باید 11 کاراکتر باشد")]
+    [StringLength(11, MinimumLength = 11, ErrorMessage = "{0} حتما باید 11 کاراکتر باشد")]
     public string Mobile { get; set; }
 
     [Display(Name = "داشتن کد مشتری در فاکتور های قبلی")]
