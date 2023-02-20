@@ -706,8 +706,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, CancellationToken cancellationToken)
     {
+        var codeConfirmExpairDate = DateTime.Now.AddSeconds(130);
         try
         {
             var result = await _userRepository.SetConfirmCodeByUsername(username, confirmCode, codeConfirmExpairDate, cancellationToken);
