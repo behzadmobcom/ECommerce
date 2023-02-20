@@ -3342,7 +3342,7 @@ tbody tr td:last-child {
 }
 
     .header-part.active {
-        position: sticky;
+        position: fixed;
         right: 0;
         top: 0;
         transition: all linear .3s;
