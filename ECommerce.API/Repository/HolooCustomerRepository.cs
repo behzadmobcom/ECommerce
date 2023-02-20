@@ -21,11 +21,12 @@ namespace ECommerce.API.Repository
             return customer.C_Code;
         }
 
-        public async Task<string> GetNewCustomerCode()
+        public async Task<(string customerCode, string customerCodeC)> GetNewCustomerCode()
         {
             var customer =await _context.Customer.OrderByDescending(x => x.C_Code).FirstOrDefaultAsync();
             var customerCode = customer == null ? "00000" : customer.C_Code;
-            return (Convert.ToInt32(customerCode) + 1).ToString("D5");
+            var customerCodeC = customer == null ? "00000" : customer.C_Code_C;
+            return ((Convert.ToInt32(customerCode) + 1).ToString("D5"), (Convert.ToInt32(customerCodeC) + 1).ToString());
         }
         public async Task<HolooCustomer> GetCustomerByCode(string customerCode)
         {

@@ -73,7 +73,7 @@ public class UsersController : ControllerBase
                     { Code = ResultCode.DeActive, Messages = new List<string> { "کاربر غیرفعال شده است" } });
 
                 var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                var OneTimePass = (model.Password == user.ConfirmCode + "" && (user.ConfirmCodeExpirationDate! - DateTime.Now ).Value.TotalSeconds > 0 );
+                var OneTimePass = (model.Password == user.ConfirmCode + "" && (user.ConfirmCodeExpirationDate! - DateTime.Now).Value.TotalSeconds > 0);
                 if (result.Succeeded || OneTimePass)
                 {
                     var secretKey = Encoding.ASCII.GetBytes(_siteSettings.IdentitySetting.IdentitySecretKey);
@@ -207,19 +207,16 @@ public class UsersController : ControllerBase
                 emailSplit[0] += _userRepository.TableNoTracking.Count();
                 register.Email = $"{emailSplit[0]}@{emailSplit[1]}";
             }
-            
-            string sarfaslName = 
-                !String.IsNullOrEmpty(register.FirstName) || !String.IsNullOrEmpty(register.LastName) ?
-                    $"{register.FirstName} {register.LastName} {register.Mobile}" :
-                    register.Username;
-            var moeinCode = await _holooSarfaslRepository.Add(sarfaslName, cancellationToken);
+
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
-            string customerName = register.IsColleague ? $"{register.CompanyName}-{register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
+            string customerName = register.IsColleague ? $"{register.CompanyName} {register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
+            var moeinCode = await _holooSarfaslRepository.Add(customerName, cancellationToken);
+
             int cityCode = register.CompanyType ?? 45;
             var holooCustomer = new HolooCustomer
             {
-                C_Code = customerCode,
-                C_Code_C = customerCode,
+                C_Code = customerCode.customerCode,
+                C_Code_C = customerCode.customerCodeC,
                 C_Name = customerName,
                 C_Mobile = register.Mobile,
                 Col_Code_Bed = "103",
@@ -245,7 +242,7 @@ public class UsersController : ControllerBase
                 Porsant2 = 0,
                 First_BalanceSanad = 0
             };
-            customerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
+            string newCustomerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
 
             var user = new User
             {
@@ -262,7 +259,7 @@ public class UsersController : ControllerBase
                 IsFeeder = register.IsFeeder,
                 Mobile = register.Mobile,
                 UserRoleId = 4,
-                CustomerCode = customerCode,
+                CustomerCode = newCustomerCode,
                 NationalCode = register.NationalCode
             };
 
@@ -706,8 +703,9 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, DateTime codeConfirmExpairDate, CancellationToken cancellationToken)
+    public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, CancellationToken cancellationToken)
     {
+        var codeConfirmExpairDate = DateTime.Now.AddSeconds(130);
         try
         {
             var result = await _userRepository.SetConfirmCodeByUsername(username, confirmCode, codeConfirmExpairDate, cancellationToken);
@@ -759,7 +757,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    
+
 
 
 }

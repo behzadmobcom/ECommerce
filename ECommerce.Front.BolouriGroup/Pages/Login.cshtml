@@ -1,4 +1,4 @@
-﻿@page  "/Login"
+﻿@page "/Login"
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.LoginModel
 @{
@@ -7,125 +7,142 @@
 
 @if (Model.Message != null)
 {
-	switch (Model.Code)
-	{
-		case "Error":
-			<div class="alert alert-danger"> @Model.Message </div>
-			break;
-		case "Warning":
-			<div class="alert alert-warning"> @Model.Message </div>
-			break;
-		case "Info":
-			<div class="alert alert-info"> @Model.Message </div>
-			break;
-		default:
-			<div class="alert alert-success"> @Model.Message </div>
-			break;
-	}
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
 
-	Model.Message = null;
+    Model.Message = null;
 }
 <section class="user-form-part">
-	<div class="container">
-		<div class="row justify-content-center">
-			<div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
-				<div class="user-form-logo">
-					<a asp-area="" asp-page="/Index">
-						<img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
-					</a>
-				</div>
-				<div class="user-form-card">
-					<div class="user-form-title">
-						<h2>خوش آمدید!</h2>
-						<p>حساب خود را با شماره موبایل و رمز ورود وارد کنید</p>
-					</div>
-					<form method="post" class="user-form">
-						<div class="form-group">
-							<label>نام کاربری</label><input type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
-						</div>
-						<div class="form-group">
-							<label>کلمه عبور</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
-						</div>						
-						<div class="row mb-3">
-							<div class="col-6">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="remember">
-									<label class="form-check-label" for="remember">
-										مرا به خاطر بسپار
-									</label>
-								</div>
-							</div>
-							<div class="col-6 text-end">
-								<a href="#" class="forgot-pass">بازیابی رمز عبور</a>
-							</div>
-						</div>
-						<div class="form-button">
-							<button type="submit" asp-page-handler="Submit">ورود</button>
-							@*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
-                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
-							<div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
-								<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                <div class="user-form-logo">
+                    <a asp-area="" asp-page="/Index">
+                        <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
+                    </a>
+                </div>
+                <div class="user-form-card">
+                    <div class="user-form-title">
+                        <h2>خوش آمدید!</h2>
+                        <p>حساب خود را با شماره موبایل و رمز ورود وارد کنید</p>
+                    </div>
+                    <form method="post" class="user-form">
+                        <div class="form-group">
+                            <label>نام کاربری (شماره همراه)</label><input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label>کلمه عبور یا رمز یک بار مصرف</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        مرا به خاطر بسپار
+                                    </label>
+                                </div>
                             </div>
-							<div class="row tab-content" >
+                            <div class="col-6 text-end">
+                                <a href="#" class="forgot-pass">بازیابی رمز عبور</a>
+                            </div>
+                        </div>
+                        <div class="form-button">
+                            <button type="submit" asp-page-handler="Submit">ورود</button>
+                            @*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
+                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+                            <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
+                                @*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
+                                <input type="button" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                            </div>
+                            <div class="row tab-content">
                                 <div id="home" class="form-group container tab-pane">
-                                    <input type="text" class="form-control" placeholder="رمز دریافت شده را وارد کنید"/>
+                                    <input type="text" class="form-control" placeholder="رمز دریافت شده را وارد کنید" />
                                     <span id="countdown" class="countdown"></span>
                                     <a id="Send_Active">ارسال دوباره</a>
                                 </div>
                             </div>
-						</div>
-						<div>
-						 
-					</div>
-					
+                        </div>
+                        <div>
+                        </div>
+
                     </form>
                 </div>
-				<div class="user-form-footer">
-					<p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-				</div>
-			</div>
-		</div>
-		<partial name="_ValidationScriptsPartial"/>
-	</div>
+                <div class="user-form-footer">
+                    <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
+                </div>
+            </div>
+        </div>
+        <partial name="_ValidationScriptsPartial" />
+    </div>
 </section>
 @section Scripts
-{  
+    {
     <script>
-		const btnSendActive = document.getElementById('Send_Active');
+        const btnSendActive = document.getElementById('Send_Active');
 
-		function buttonClicked() {
-			btnSendActive.removeEventListener('click', buttonClicked);
-			enableButton();
-			alert('ok');
-		}
+        function buttonClicked() {
+            btnSendActive.removeEventListener('click', buttonClicked);
+            enableButton();
+            alert('ok');
+        }
 
-		function enableButton() {
+        function enableButton() {
 
-			var timer2 = "00:20";
+            var timer2 = "00:20";
 
-			var interval = setInterval(function () {
-				var timer = timer2.split(':');
-				var minutes = parseInt(timer[0], 10);
-				var seconds = parseInt(timer[1], 10);
+            var interval = setInterval(function () {
+                var timer = timer2.split(':');
+                var minutes = parseInt(timer[0], 10);
+                var seconds = parseInt(timer[1], 10);
 
-				--seconds;
-				minutes = (seconds < 0) ? --minutes : minutes;
-				if (minutes < 0) clearInterval(interval);
-				seconds = (seconds < 0) ? 59 : seconds;
+                --seconds;
+                minutes = (seconds < 0) ? --minutes : minutes;
+                if (minutes < 0) clearInterval(interval);
+                seconds = (seconds < 0) ? 59 : seconds;
 
-				$('.countdown').html(minutes + ':' + seconds);
-				timer2 = minutes + ':' + seconds;
-				if (minutes == 0 && seconds == 0) {
-					clearInterval(interval);
-					btnSendActive.addEventListener('click', buttonClicked);
-				}
-			}, 1000);
+                $('.countdown').html(minutes + ':' + seconds);
+                timer2 = minutes + ':' + seconds;
+                if (minutes == 0 && seconds == 0) {
+                    clearInterval(interval);
+                    btnSendActive.addEventListener('click', buttonClicked);
+                }
+            }, 1000);
 
-		}
+        }
 
-		enableButton();
+        function SendConfirmSms() {
+            username = document.getElementById("userName").value
+            enableButton();
+            $.ajax({
+                type: "Get",
+                url: "/login?handler=SendSms&username=" + username,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result);
+                    location.reload();
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
     </script>
-  
+
 }
 
 
