@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class PaymentMethodsController : ControllerBase
 {
@@ -25,7 +25,7 @@ public class PaymentMethodsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -56,7 +56,7 @@ public class PaymentMethodsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<PaymentMethod>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -148,7 +148,7 @@ public class PaymentMethodsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -167,7 +167,7 @@ public class PaymentMethodsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetHolooAccountNumbers")]
     public async Task<IActionResult> GetHolooAccountNumbers(CancellationToken cancellationToken)
     {
         try
@@ -185,7 +185,7 @@ public class PaymentMethodsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetHolooAccountNumberById/{key}")]
     public async Task<ActionResult<HolooAccountNumber>> GetHolooAccountNumberById(string key,
         CancellationToken cancellationToken)
     {
@@ -211,7 +211,7 @@ public class PaymentMethodsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("ConvertHolooToSunflower")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> ConvertHolooToSunflower(CancellationToken cancellationToken)
     {
