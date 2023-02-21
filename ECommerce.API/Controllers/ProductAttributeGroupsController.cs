@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ProductAttributeGroupsController : ControllerBase
 {
@@ -21,7 +21,7 @@ public class ProductAttributeGroupsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -70,7 +70,7 @@ public class ProductAttributeGroupsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByProductId/{productId}")]
     public async Task<ActionResult<ProductAttributeGroup>> GetByProductId(int productId,
         CancellationToken cancellationToken)
     {
@@ -97,7 +97,7 @@ public class ProductAttributeGroupsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<ProductAttributeGroup>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -158,10 +158,10 @@ public class ProductAttributeGroupsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("AddWithAttributeValue/{ProductId}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> AddWithAttributeValue(List<ProductAttributeGroup> productAttributeGroups,
-        [FromQuery] int ProductId, CancellationToken cancellationToken)
+         int ProductId, CancellationToken cancellationToken)
     {
         try
         {
@@ -215,7 +215,7 @@ public class ProductAttributeGroupsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
