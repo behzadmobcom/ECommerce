@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class KeywordsController : ControllerBase
 {
@@ -20,7 +20,7 @@ public class KeywordsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -69,7 +69,7 @@ public class KeywordsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetKeywordsByProductId/{id}")]
     public async Task<IActionResult> GetKeywordsByProductId(int id, CancellationToken cancellationToken)
     {
         try
@@ -88,7 +88,7 @@ public class KeywordsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<Keyword>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -174,7 +174,7 @@ public class KeywordsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
