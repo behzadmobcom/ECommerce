@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ImagesController : ControllerBase
 {
@@ -23,7 +23,7 @@ public class ImagesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -54,7 +54,7 @@ public class ImagesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByProductId/{productId}")]
     public async Task<IActionResult> GetByProductId(int productId, CancellationToken cancellationToken)
     {
         var result = await _imageRepository.GetByProductId(productId, cancellationToken);
@@ -109,7 +109,7 @@ public class ImagesController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -122,7 +122,7 @@ public class ImagesController : ControllerBase
         });
     }
 
-    [HttpGet]
+    [HttpGet("GetByBlogId/{blogId}")]
     public async Task<IActionResult> GetByBlogId(int blogId, CancellationToken cancellationToken)
     {
         var result = await _imageRepository.GetByBlogId(blogId, cancellationToken);
