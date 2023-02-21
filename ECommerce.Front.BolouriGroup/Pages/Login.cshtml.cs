@@ -57,20 +57,25 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnGetSendSms(string username)
     {
+        SendSmsOutput SendSmsOutput = new SendSmsOutput();
+        SendSmsOutput.Seconds = 0;
         try
         {
             var SecondsLeftConfirmCodeExpire = await _userService.GetSecondsLeftConfirmCodeExpire(username);
             if (SecondsLeftConfirmCodeExpire.Code == ServiceCode.Error)
             {
-                Message = "نام کاربری موجود نمی باشد";
-                Code = "Error";
-                return Page();
+                SendSmsOutput.Message = "نام کاربری موجود نمی باشد";
+                SendSmsOutput.Status = "error";
+                SendSmsOutput.Title = "خطا";
+                return new JsonResult(SendSmsOutput);
             }
             if (SecondsLeftConfirmCodeExpire.ReturnData > 0)
             {
-                Message = $"{SecondsLeftConfirmCodeExpire.ReturnData}ثانیه باقی مانده";
-                Code = "Info";
-                return Page();
+                SendSmsOutput.Message =  SecondsLeftConfirmCodeExpire.ReturnData + " ثانیه دیگر امتحان کنید ";
+                SendSmsOutput.Seconds = SecondsLeftConfirmCodeExpire.ReturnData;
+                SendSmsOutput.Status = "warning";
+                SendSmsOutput.Title = "اخطار";
+                return new JsonResult(SendSmsOutput);
             }
             Random randomCode = new Random();
             int code = randomCode.Next(100000000);
@@ -78,29 +83,32 @@ public class LoginModel : PageModel
             SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);
             if (smsResponsModel.Status != 1)
             {
-                Message = smsResponsModel.Message;
-                Code = "Error";
-                return Page();
+                SendSmsOutput.Message = smsResponsModel.Message;
+                SendSmsOutput.Status = "error";
+                SendSmsOutput.Title = "خطا";
+                return new JsonResult(SendSmsOutput);
             }
             var result = await _userService.SetConfirmCodeByUsername(username, code);
             if (!result.ReturnData)
             {
-                Message = "نام کاربری صحیح نمی باشد";
-                Code = "Error";
-                return Page();
+                SendSmsOutput.Message = "نام کاربری صحیح نمی باشد";
+                SendSmsOutput.Status = "error";
+                SendSmsOutput.Title = "خطا";
+                return new JsonResult(SendSmsOutput);
             }
 
-            Message = "130 sec";
-            Code = "Info";
-            return Page();
+            SendSmsOutput.Message = "پیامک حاوی رمز موقت به شماره شما ارسال شد";
+            SendSmsOutput.Status = "success";
+            SendSmsOutput.Title = "پیامک ارسال شد";
+            SendSmsOutput.Seconds = 130;
+            return new JsonResult(SendSmsOutput);
         }
         catch (Exception ex)
         {
-            Message = ex.Message;
-            Code = "Error";
-            return Page();
+            SendSmsOutput.Message = "خطای غیر منتظره";
+            SendSmsOutput.Status = "error";
+            SendSmsOutput.Title = "خطا";
+            return new JsonResult(SendSmsOutput);
         }
     }
-        
-
 }

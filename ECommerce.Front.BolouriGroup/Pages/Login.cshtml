@@ -61,19 +61,18 @@
                         </div>
                         <div class="form-button">
                             <button type="submit" asp-page-handler="Submit">ورود</button>
-                            @*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
+                            
                             <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
-                            <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
-                                @*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
+
+                            <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">                               
                                 <input type="button" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
-                            </div>
-                            <div class="row tab-content">
-                                <div id="home" class="form-group container tab-pane">
-                                    <input type="text" class="form-control" placeholder="رمز دریافت شده را وارد کنید" />
-                                    <span id="countdown" class="countdown"></span>
-                                    <a id="Send_Active">ارسال دوباره</a>
+                                <div class="col-6 text-end">
+                                <input type="text" id="secondCounter" disabled />
                                 </div>
-                            </div>
+                                <div class="preloader" id="loadingpreloader" style="visibility:hidden">
+                                     <div class="loader"></div>
+                                </div>
+                            </div>                            
                         </div>
                         <div>
                         </div>
@@ -88,65 +87,41 @@
         <partial name="_ValidationScriptsPartial" />
     </div>
 </section>
+
 @section Scripts
     {
     <script>
-        const btnSendActive = document.getElementById('Send_Active');
 
-        function buttonClicked() {
-            btnSendActive.removeEventListener('click', buttonClicked);
-            enableButton();
-            alert('ok');
-        }
+    const { getJSON, parseJSON } = require("jquery");    
+    function SendConfirmSms()
+    {         
+            document.getElementById("loadingpreloader").style.visibility = "visible";
+            username = document.getElementById("userName").value;    
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {                        
+                    var myresult = JSON.parse(this.responseText);  
+                    swal(myresult.title, myresult.message, myresult.status);
+                    document.getElementById("loadingpreloader").style.visibility = "hidden";
+                    if (myresult.seconds > 0) countDown(myresult.seconds , username);
+                }
+            };
+            xmlhttp.open("GET", "/login?handler=SendSms&username=" + username, true);
+            xmlhttp.send();            
+    }
 
-        function enableButton() {
-
-            var timer2 = "00:20";
-
+       function countDown(_time, username) {            
+            var _time = parseInt(_time);
+            console.log(_time);
             var interval = setInterval(function () {
-                var timer = timer2.split(':');
-                var minutes = parseInt(timer[0], 10);
-                var seconds = parseInt(timer[1], 10);
-
-                --seconds;
-                minutes = (seconds < 0) ? --minutes : minutes;
-                if (minutes < 0) clearInterval(interval);
-                seconds = (seconds < 0) ? 59 : seconds;
-
-                $('.countdown').html(minutes + ':' + seconds);
-                timer2 = minutes + ':' + seconds;
-                if (minutes == 0 && seconds == 0) {
+                _time --;
+                document.getElementById("secondCounter").value = " " + _time + " ثانیه دیگر ";
+                var aktivUserName = document.getElementById("userName").value;
+                if ( _time == 0 || aktivUserName!=username) {
                     clearInterval(interval);
-                    btnSendActive.addEventListener('click', buttonClicked);
+                     document.getElementById("secondCounter").value = "";
                 }
-            }, 1000);
-
-        }
-
-        function SendConfirmSms() {
-            username = document.getElementById("userName").value
-            enableButton();
-            $.ajax({
-                type: "Get",
-                url: "/login?handler=SendSms&username=" + username,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    swal(result);
-                    location.reload();
-                },
-                failure: function (response) {
-                    swal(response);
-                }
-            });
-        }
-
+                }, 1000); }
     </script>
 
 }
-
-
-
-
-
-

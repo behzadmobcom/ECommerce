@@ -83,3 +83,12 @@ public enum ServiceCode
     Info = 2,
     Warning = 3
 }
+
+public class SendSmsOutput
+{
+    public string? Title { get; set; }
+    public string? Message { get; set; }
+    public string? Status { get; set; }
+    public int? Seconds { get; set; }
+
+}
