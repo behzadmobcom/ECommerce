@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class StarsController : ControllerBase
 {
@@ -21,7 +21,7 @@ public class StarsController : ControllerBase
         _productRepository = productRepository;
     }
 
-    [HttpGet]
+    [HttpGet("GetByProductId/{id}")]
     public async Task<IActionResult> GetByProductId(int id, CancellationToken cancellationToken)
     {
         try
@@ -47,7 +47,7 @@ public class StarsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetBySumProductId/{id}")]
     public async Task<IActionResult> GetBySumProductId(int id, CancellationToken cancellationToken)
     {
         try
@@ -73,7 +73,7 @@ public class StarsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByUserId/{id}")]
     public async Task<IActionResult> GetByUserId(int id, CancellationToken cancellationToken)
     {
         try
@@ -142,7 +142,7 @@ public class StarsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
