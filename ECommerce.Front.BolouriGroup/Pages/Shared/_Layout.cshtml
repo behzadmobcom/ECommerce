@@ -39,107 +39,105 @@
     <div class="loader"></div>
     </div>*@
 
-    <div class="header-part">
-        <div class="container">
-            <div class="header-content-group">
-                <div class="header-widget-group left">
-                    <button class="header-widget header-user" title="حساب من">
-                        <img src="~/img/user.jpg" alt="کاربر" width="40" height="40">
-                    </button>
-                    <a class="header-logo" asp-area="" asp-page="/Index">
-                        <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.png" width="107" height="50" alt="لوگو">
-                        <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.png" width="107" height="50" alt="لوگو">
-                    </a>
-                    <button class="header-widget header-src" title="نوار جستجو">
-                        <i class="far fa-search"></i>
-                    </button>
-                    <button class="header-widget header-cate" title="لیست دسته بندی">
-                        <i class="flaticon-menu-1"></i>
-                    </button>
-                </div>
-                <form method="Get" action="~/Shop/0" class="header-form">
-                    <input type="text" name="search" placeholder="مورد خود را در اینجا جستجو کنید ...">
-                    <button type="submit">
-                        <i class="far fa-search"></i>
-                    </button>
-                </form>
-                @{
-                    var result = await CartService.Load(Context);
-                    var cartList = result.ReturnData;
-                    var resultCompare = CompareService.Load(Context);
-                    var compareList = resultCompare.ReturnData;
-                    decimal allPrice = 0;
-                }
-                <div class="header-widget-group right">
-                    @if (User.Identity.IsAuthenticated)
+<div class="header-part">
+    <div class="container">
+        <div class="header-content-group">
+            <div class="header-widget-group left">
+                <button class="header-widget header-user" title="حساب من">
+                    <img src="~/img/user.jpg" alt="کاربر" width="40" height="40">
+                </button>
+                <a class="header-logo" asp-area="" asp-page="/Index">
+                    <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.png" width="107" height="50" alt="لوگو">
+                    <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.png" width="107" height="50" alt="لوگو">
+                </a>
+                <button class="header-widget header-src" title="نوار جستجو">
+                    <i class="far fa-search"></i>
+                </button>
+                <button class="header-widget header-cate" title="لیست دسته بندی">
+                    <i class="flaticon-menu-1"></i>
+                </button>
+            </div>
+            <form method="Get" action="~/Shop/0" class="header-form">
+                <input type="text" name="search" placeholder="مورد خود را در اینجا جستجو کنید ...">
+                <button type="submit">
+                    <i class="far fa-search"></i>
+                </button>
+            </form>
+            @{
+                var result = await CartService.Load(Context);
+                var cartList = result.ReturnData;
+                var resultCompare = CompareService.Load(Context);
+                var compareList = resultCompare.ReturnData;
+                decimal allPrice = 0;
+            }
+            <div class="header-widget-group right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
-                        if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
-                        {
-                            <div class="dropdown">
-                                <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
-                                    <i class="fal fa-user"></i>
-                                </a>
-                                <div class="dropdown-content">
-                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
-                                    <a href="index?handler=Logout">خروج</a>
-                                    <a asp-area="Admin" asp-page="/Index">مدیریت</a>
-                                </div>
+                        <div class="dropdown">
+                            <a class="header-widget" asp-area="Admin" asp-page="/Index" title="حساب من">
+                                <i class="fal fa-user"></i>
+                            </a>
+                            <div class="dropdown-content">
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                <a href="index?handler=Logout">خروج</a>
+                                <a asp-area="Admin" asp-page="/Index">مدیریت</a>
                             </div>
-                        }
-                        else
-                        {
-                            <div class="dropdown">
-                                <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
-                                    <i class="fal fa-user"></i>
-                                </a>
-                                <div class="dropdown-content">
-                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
-                                    <a href="index?handler=Logout">خروج</a>
-                                </div>
-                            </div>
-                        }
-                        <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-                            <i class="far fa-heart"></i>
-                        </a>
-
-
+                        </div>
                     }
                     else
                     {
                         <div class="dropdown">
-                            <a class="header-widget dropbtn" asp-area="" asp-page="/Login" title="حساب من">
+                            <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
                                 <i class="fal fa-user"></i>
                             </a>
                             <div class="dropdown-content">
-                                <a asp-area="" asp-page="/Login">ورود</a>
-                                <a asp-area="" asp-page="/Register">ثبت نام</a>
-
+                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                <a href="index?handler=Logout">خروج</a>
                             </div>
                         </div>
                     }
-                    <a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
-                        <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
-                        <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+                    <a class="header-widget" asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+                        <i class="far fa-heart"></i>
                     </a>
-                    <button class="header-widget header-cart" title="سبد خرید">
-                        <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
-                        <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon" />
-                    </button>
-                </div>
+
+
+                }
+                else
+                {
+                    <div class="dropdown">
+                        <a class="header-widget dropbtn" asp-area="" asp-page="/Login" title="حساب من">
+                            <i class="fal fa-user"></i>
+                        </a>
+                        <div class="dropdown-content">
+                            <a asp-area="" asp-page="/Login">ورود</a>
+                            <a asp-area="" asp-page="/Register">ثبت نام</a>
+
+                        </div>
+                    </div>
+                }
+                <a class="header-widget" asp-area="" asp-page="/Compare" title="لیست مقایسه ">
+                    <i class="far fa-exchange"></i><sup id="Compare-Count">@compareList.Count</sup>
+                    <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+                </a>
+                <button class="header-widget header-cart" title="سبد خرید">
+                    <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@cartList.Count</sup>
+                    <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon" />
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-
-
-    <nav class="navbar-part">
+<nav class="navbar-part">
         <div class="container" style="background-color: white">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="navbar-content">
                         <ul class="navbar-list">
                             <li class="navbar-item dropdown">
-                                <a class="navbar-link" href="/">خانه</a>
+                                <a class="navbar-link" asp-area="" asp-page="/Index">خانه</a>
                             </li>
                             <li class="navbar-item dropdown">
                                 <a class="navbar-link dropdown-arrow" href="#">دسته بندی</a>
@@ -162,9 +160,6 @@
                                     <li>
                                         <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
                                     </li>
-                                    @*<li>
-                                    <a asp-area="" asp-page="/Offer">تخفیف</a>
-                                    </li>*@
                                     <li>
                                         <a asp-area="" asp-page="/Faq">سوالات متداول</a>
                                     </li>
@@ -212,7 +207,7 @@
         </div>
     </nav>
 
-    <aside class="category-part">
+<aside class="category-part">
         <div class="category-container">
             <div class="category-header">
                 <a href="#">
@@ -231,8 +226,7 @@
         </div>
     </aside>
 
-
-    <aside class="cart-part">
+<aside class="cart-part">
         <div class="cart-container">
             <div class="cart-header">
                 <div class="cart-total">
@@ -252,11 +246,10 @@
         </div>
     </aside>
 
-
-    <aside class="mobile-nav">
+<aside class="mobile-nav">
         <div class="nav-container">
             <div class="nav-header">
-                <a href="#">
+                <a asp-area="" asp-page="/Index">
                     <img src="~/img/logo.png" alt="لوگو" width="86" height="40">
                 </a>
                 <button class="nav-close">
@@ -265,43 +258,34 @@
             </div>
             <div class="nav-content">
                 <div class="nav-profile">
-                    <a class="nav-user" href="#">
+                    <a class="nav-user" asp-area="" asp-page="/Index">
                         <img src="~/img/user.jpg" height="85" width="85" alt="کاربر">
                     </a>
-                    <h4 class="nav-name">
-                        <a asp-area="" asp-page="/Login">جیمز گلایدول</a>
-                    </h4>
+                 @*   <h4 class="nav-name">
+                        <a asp-area="" asp-page="/Login">@Model.UserInformation?.FirstName @Model.UserInformation?.LastName</a>
+                    </h4>*@
                 </div>
                 <ul class="nav-list">
                     <li>
-                        <a class="nav-link dropdown-link" href="#">خانه</a>
-                        <ul class="dropdown-list">
-                            <li>
-                                <a asp-area="" asp-page="/Index">صفحه اصلی</a>
-                            </li>
-                            <li>
-                                <a href="#">صفحه اصلی دو</a>
-                            </li>
-                            <li>
-                                <a href="#">صفحه اصلی سه</a>
-                            </li>
-                            <li>
-                                <a href="#">صفحه اصلی چهار</a>
-                            </li>
-                        </ul>
+                        <a class="nav-link" asp-area="" asp-page="/Index">خانه</a>
                     </li>
                     <li>
-                        <a class="nav-link dropdown-link" href="#">خرید</a>
+                        <a class="nav-link dropdown-link" href="#">دسته بندی</a>
                         <ul class="dropdown-list">
                             <li>
-                                <a asp-area="" asp-page="/Shopgrid">شبکه مغازه</a>
+                                <a class="cate-link dropdown-link">1</a>
                             </li>
                             <li>
-                                <a href="shop-standard.html">استاندارد خرید</a>
+                                <a class="cate-link dropdown-link">2</a>
                             </li>
+                            <li>   
+                                <a class="cate-link dropdown-link">3</a></li>
                             <li>
-                                <a asp-area="" asp-page="/Productdetails">جزئیات محصول</a>
+                                <a class="cate-link dropdown-link">
+                                    4
+                                </a>
                             </li>
+                            <li>   <a class="cate-link dropdown-link">5</a></li>
                         </ul>
                     </li>
                     <li>
@@ -314,9 +298,6 @@
                                 <a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a>
                             </li>
                             <li>
-                                <a asp-area="" asp-page="/Offer">تخفیف</a>
-                            </li>
-                            <li>
                                 <a asp-area="" asp-page="/Faq">سوالات متداول</a>
                             </li>
                             <li>
@@ -326,25 +307,13 @@
                                 <a asp-area="" asp-page="/Privacy">حریم خصوصی</a>
                             </li>
                             <li>
-                                <a asp-area="" asp-page="/Coming_Soon">به زودی</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-page="/Error">خطای 404</a>
-                            </li>
-                            <li>
                                 <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-page="/Checkout">پرداخت</a>
                             </li>
                             <li>
                                 <a asp-area="" asp-page="/Cart">سبد خرید</a>
                             </li>
                             <li>
                                 <a asp-area="" asp-page="/Orderlist">لیست سفارش</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-page="/Orderdetail">جزئیات سفارش</a>
                             </li>
                         </ul>
                     </li>
@@ -360,46 +329,31 @@
                             <li>
                                 <a asp-area="" asp-page="/Register">ثبت نام</a>
                             </li>
-                            <li>
-                                <a asp-area="" asp-page="/Reset">رمز عبور را تنظیم کنید</a>
-                            </li>
-                            <li>
-                                <a asp-area="" asp-page="/Change">رمز عبور را تغییر دهید</a>
-                            </li>
                         </ul>
                     </li>
                     <li>
                         <a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
                         <ul class="dropdown-list">
                             <li>
-                                <a asp-area="" asp-page="/Blog">شبکه f وبلاگ</a>
-                            </li>
-                            <li>
-                                <a href="blog-standard.html">استاندارد وبلاگ</a>
-                            </li>
-                            <li>
-                                <a href="blog-details.html">جزئیات وبلاگ</a>
+                                @await Component.InvokeAsync("BlogCategoriesMenu")
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link" asp-area="" asp-page="/contact">با ما تماس بگیرید</a>
                     </li>
                 </ul>
                 <div class="nav-info-group">
                     <div class="nav-info">
                         <i class="icofont-ui-touch-phone"></i>
                         <p>
-                            <small>شماره تماس</small><span>021444676</span>
+                            <small>شماره تماس</small><span>0133395</span>
                         </p>
                     </div>
                     <div class="nav-info">
                         <i class="icofont-ui-email"></i>
                         <p>
                             <small>برای ما ایمیل بزنید </small>
-                            <span>
-                                <a href="#" class="__cf_email__" data-cfemail="9af3f4fcf5daffe2fbf7eaf6ffb4f9f5f7">info@gmail.com</a>
-                            </span>
+                            <a>
+                                <span class="__cf_email__" data-cfemail="aedddbdedec1dcdaeecbd6cfc3dec2cb80cdc1c3">boloorico@gmail.com</span>
+                            </a>
                         </p>
                     </div>
                 </div>
