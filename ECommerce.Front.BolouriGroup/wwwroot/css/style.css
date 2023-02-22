@@ -8636,10 +8636,8 @@ tbody tr td:last-child {
     border: 1px solid rgba(239, 57, 78, 0.204);
     background: rgba(239, 57, 78, 0.098);
     transform: translate(-50%, -50%);
-    top: 295px;
-    left: 227px;
-    height: 190px;
-    width: 100%;
+    top: 100px;
+    right: 200px;
 }
 .display-none {
     display: none;
