@@ -1,0 +1,30 @@
+﻿@model List<Ecommerce.Entities.ViewModel.CategoryParentViewModel>
+
+@if (Model != null)
+{
+    var path = "/Shop/";
+    @foreach (var parentCategory in Model)
+    {
+        <a class="nav-link dropdown-link" href="#" id="@parentCategory.Id">@parentCategory.Name</a>
+        <ul class="dropdown-list">
+            @foreach (var firstChild in parentCategory.Children)
+            {
+                var firstPath = path + firstChild.Path;
+                <li>
+                    <a href="@firstPath">@firstChild.Name</a>
+                </li>
+                <ul>
+                    @foreach (var secondChild in firstChild.Children)
+                    {
+                        var secondPath = path + secondChild.Path;
+                        <li>
+                            <a href="@secondPath">
+                                <p style="font-size: 12px; color: gray">@secondChild.Name</p>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </ul>
+    }
+}
