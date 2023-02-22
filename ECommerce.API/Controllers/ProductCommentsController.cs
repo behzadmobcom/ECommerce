@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ProductCommentsController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class ProductCommentsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -55,7 +55,7 @@ public class ProductCommentsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<ProductComment>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -154,7 +154,7 @@ public class ProductCommentsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -173,8 +173,8 @@ public class ProductCommentsController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllAccesptedComments([FromQuery] PaginationParameters paginationParameters,
+    [HttpGet("GetAllAccesptedComments")]
+    public async Task<IActionResult> GetAllAccesptedComments([FromBody] PaginationParameters paginationParameters,
     CancellationToken cancellationToken)
     {
         try
