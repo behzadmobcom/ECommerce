@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class ProductAttributesController : ControllerBase
 {
@@ -20,8 +20,8 @@ public class ProductAttributesController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll(int groupId, CancellationToken cancellationToken)
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         try
         {
@@ -40,7 +40,7 @@ public class ProductAttributesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetAllAttributeByGroupId/{groupId}")]
     public async Task<IActionResult> GetAllAttributeByGroupId(int groupId, int productId,
         CancellationToken cancellationToken)
     {
@@ -61,7 +61,7 @@ public class ProductAttributesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -92,7 +92,7 @@ public class ProductAttributesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<ProductAttribute>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -179,7 +179,7 @@ public class ProductAttributesController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
