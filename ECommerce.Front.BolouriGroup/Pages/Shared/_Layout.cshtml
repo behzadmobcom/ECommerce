@@ -270,26 +270,13 @@
                         <a class="nav-link" asp-area="" asp-page="/Index">خانه</a>
                     </li>
                     <li>
-                        <a class="nav-link dropdown-link" href="#">دسته بندی</a>
-                        <ul class="dropdown-list">
-                            <li>
-                                <a class="cate-link dropdown-link">1</a>
-                            </li>
-                            <li>
-                                <a class="cate-link dropdown-link">2</a>
-                            </li>
-                            <li>   
-                                <a class="cate-link dropdown-link">3</a></li>
-                            <li>
-                                <a class="cate-link dropdown-link">
-                                    4
-                                </a>
-                            </li>
-                            <li>   <a class="cate-link dropdown-link">5</a></li>
+                        <h3>دسته بندی</h3>
+                        <ul>
+                            @await Component.InvokeAsync("CategoriesMobile")
                         </ul>
                     </li>
                     <li>
-                        <a class="nav-link dropdown-link" href="#">صفحات</a>
+                        <a class="nav-link dropdown-link" href="#"><h3>صفحات</h3></a>
                         <ul class="dropdown-list">
                             <li>
                                 <a asp-area="" asp-page="/AboutUs">درباره ما</a>
@@ -317,8 +304,9 @@
                             </li>
                         </ul>
                     </li>
+                  
                     <li>
-                        <a class="nav-link dropdown-link" href="#">حساب</a>
+                        <a class="nav-link dropdown-link" href="#"><h3>حساب</h3></a>
                         <ul class="dropdown-list">
                             <li>
                                 <a asp-area="" asp-page="/Profile">پروفایل من</a>
@@ -332,7 +320,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="nav-link dropdown-link" href="#">وبلاگ ها</a>
+                        <a class="nav-link dropdown-link" href="#"><h3>وبلاگ ها</h3></a>
                         <ul class="dropdown-list">
                             <li>
                                 @await Component.InvokeAsync("BlogCategoriesMenu")

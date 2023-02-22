@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMenu\Default.cshtml" />
+		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,6 +36,10 @@
 	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
 	</ItemGroup>
 
 </Project>

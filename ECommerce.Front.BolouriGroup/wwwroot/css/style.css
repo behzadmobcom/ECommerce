@@ -8604,3 +8604,43 @@ tbody tr td:last-child {
         line-height: 50px
     }
 }
+
+* {
+    box-sizing: border-box;
+}
+
+.img-zoom-container {
+    position: relative;
+}
+
+.img-zoom-lens {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    /*set the size of the lens:*/
+    width: 200px;
+    height: 200px;
+}
+
+.img-zoom-result {
+    border: 1px solid #d4d4d4;
+    /*set the size of the result div:*/
+    width: 600px;
+    height: 600px;
+}
+
+.pos-absolute {
+    position: absolute;
+    z-index: 1;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid rgba(239, 57, 78, 0.204);
+    background: rgba(239, 57, 78, 0.098);
+    transform: translate(-50%, -50%);
+    top: 295px;
+    left: 227px;
+    height: 190px;
+    width: 100%;
+}
+.display-none {
+    display: none;
+}
