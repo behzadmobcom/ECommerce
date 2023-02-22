@@ -3,6 +3,7 @@ using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -55,52 +56,69 @@ public class LoginModel : PageModel
         return Page();
     }
 
+    public async Task<JsonResult> OnGetSecondsLeft(string username)
+    {
+        ServiceResult<int?> checkUsernameResult = await CheckUsername(username);
+        return new JsonResult(checkUsernameResult);
+    }
+
+    private async Task<ServiceResult<int?>> CheckUsername(string username)
+    {
+        ServiceResult<int?> checkUsernameResult = await _userService.GetSecondsLeftConfirmCodeExpire(username);
+
+        if (checkUsernameResult.Code == ServiceCode.Error)
+        {
+            return new ServiceResult<int?>
+            {
+                Message = "نام کاربری موجود نمی باشد",
+                Code = ServiceCode.Error
+            };
+        }
+
+        if (checkUsernameResult.ReturnData > 0)
+        {
+            return new ServiceResult<int?>
+            {
+                Message = $"{checkUsernameResult.ReturnData}ثانیه باقی مانده",
+                Code = ServiceCode.Info,
+                ReturnData = checkUsernameResult.ReturnData
+            };
+        }
+
+        return new ServiceResult<int?>
+        {
+            Code = ServiceCode.Success
+        };
+    }
+
     public async Task<IActionResult> OnGetSendSms(string username)
     {
-        try
+        ServiceResult<int?> checkUsernameResult = await CheckUsername(username);
+        if (checkUsernameResult.Code != ServiceCode.Success)
         {
-            var SecondsLeftConfirmCodeExpire = await _userService.GetSecondsLeftConfirmCodeExpire(username);
-            if (SecondsLeftConfirmCodeExpire.Code == ServiceCode.Error)
-            {
-                Message = "نام کاربری موجود نمی باشد";
-                Code = "Error";
-                return Page();
-            }
-            if (SecondsLeftConfirmCodeExpire.ReturnData > 0)
-            {
-                Message = $"{SecondsLeftConfirmCodeExpire.ReturnData}ثانیه باقی مانده";
-                Code = "Info";
-                return Page();
-            }
-            Random randomCode = new Random();
-            int code = randomCode.Next(100000000);
-            if (code < 10000000) code = code + 10000000;
-            SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);
-            if (smsResponsModel.Status != 1)
-            {
-                Message = smsResponsModel.Message;
-                Code = "Error";
-                return Page();
-            }
-            var result = await _userService.SetConfirmCodeByUsername(username, code);
-            if (!result.ReturnData)
-            {
-                Message = "نام کاربری صحیح نمی باشد";
-                Code = "Error";
-                return Page();
-            }
-
-            Message = "130 sec";
-            Code = "Info";
             return Page();
         }
-        catch (Exception ex)
+
+        Random randomCode = new Random();
+        int code = randomCode.Next(100000000);
+        if (code < 10000000) code = code + 10000000;
+        SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);
+        if (smsResponsModel.Status != 1)
         {
-            Message = ex.Message;
+            Message = smsResponsModel.Message;
             Code = "Error";
             return Page();
         }
-    }
-        
+        var result = await _userService.SetConfirmCodeByUsername(username, code);
+        if (!result.ReturnData)
+        {
+            Message = "نام کاربری صحیح نمی باشد";
+            Code = "Error";
+            return Page();
+        }
 
+        Message = "130 sec";
+        Code = "Info";
+        return Page();
+    }
 }

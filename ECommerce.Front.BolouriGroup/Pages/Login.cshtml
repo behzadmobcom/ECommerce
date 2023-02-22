@@ -55,9 +55,6 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-6 text-end">
-                                <a href="#" class="forgot-pass">بازیابی رمز عبور</a>
-                            </div>
                         </div>
                         <div class="form-button">
                             <button type="submit" asp-page-handler="Submit">ورود</button>
@@ -65,19 +62,12 @@
                             <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
                             <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
                                 @*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
-                                <input type="button" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
-                            </div>
-                            <div class="row tab-content">
-                                <div id="home" class="form-group container tab-pane">
-                                    <input type="text" class="form-control" placeholder="رمز دریافت شده را وارد کنید" />
-                                    <span id="countdown" class="countdown"></span>
-                                    <a id="Send_Active">ارسال دوباره</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                        </div>
+                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                                &nbsp;&nbsp;&nbsp;
 
+                                <span id="countdown"></span>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="user-form-footer">
@@ -92,61 +82,10 @@
     {
     <script>
         const btnSendActive = document.getElementById('Send_Active');
-
         function buttonClicked() {
             btnSendActive.removeEventListener('click', buttonClicked);
             enableButton();
             alert('ok');
         }
-
-        function enableButton() {
-
-            var timer2 = "00:20";
-
-            var interval = setInterval(function () {
-                var timer = timer2.split(':');
-                var minutes = parseInt(timer[0], 10);
-                var seconds = parseInt(timer[1], 10);
-
-                --seconds;
-                minutes = (seconds < 0) ? --minutes : minutes;
-                if (minutes < 0) clearInterval(interval);
-                seconds = (seconds < 0) ? 59 : seconds;
-
-                $('.countdown').html(minutes + ':' + seconds);
-                timer2 = minutes + ':' + seconds;
-                if (minutes == 0 && seconds == 0) {
-                    clearInterval(interval);
-                    btnSendActive.addEventListener('click', buttonClicked);
-                }
-            }, 1000);
-
-        }
-
-        function SendConfirmSms() {
-            username = document.getElementById("userName").value
-            enableButton();
-            $.ajax({
-                type: "Get",
-                url: "/login?handler=SendSms&username=" + username,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    swal(result);
-                    location.reload();
-                },
-                failure: function (response) {
-                    swal(response);
-                }
-            });
-        }
-
     </script>
-
 }
-
-
-
-
-
-
