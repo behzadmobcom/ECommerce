@@ -7083,8 +7083,15 @@ tbody tr td:last-child {
 }
 
 @media (max-width: 575px) {
-    .contact-form, .contact-map {
-        padding: 15px
+    .contact-form, .contact-map, .contact-card {
+        padding: 15px;
+        margin-right: 40px
+    }
+    .contact-map {
+        width: 75%
+    }
+    .partner-slider {
+        display: none
     }
 }
 
