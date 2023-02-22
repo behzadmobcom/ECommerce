@@ -67,7 +67,15 @@ public class ShopModel : PageModel
 
     private async Task Initial()
     {
-        NewProducts = (await _productService.TopNew(3)).ReturnData;
+        var productTops = (await _productService.GetTops("TopNew:3")).ReturnData;
+        foreach (var top in productTops)
+        {
+            switch (top.TopCategory)
+            {
+                case "TopNew": NewProducts.Add(top); break;
+                default: break;
+            }
+        }
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;
         IsColleague = false;

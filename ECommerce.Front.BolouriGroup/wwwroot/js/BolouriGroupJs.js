@@ -319,7 +319,7 @@ function DeleteCart(id, productId, priceId) {
     var elementId = "#CartDrop-" + id;
     var sumPriceId = "#SumPrice-" + id;
     var price = parseInt($(sumPriceId).val());
-    
+
     var count = parseInt($("#Cart-Count-Value-Icon").val());
     var allPrice = parseInt($("#AllPrice-Value").val());
     $.ajax({
@@ -346,20 +346,55 @@ function DeleteCart(id, productId, priceId) {
         }
     });
 }
-function SendSms(mobile) {
+
+function SendConfirmSms() {
+    username = document.getElementById("userName").value;
+    if (username == "") {
+        return;
+    }
+    var timer = "";
     $.ajax({
-        type: "Post",
-        url: "/login?handler=SendSms&mobile=" + mobile,
+        type: "Get",
+        url: "/login?handler=SecondsLeft&username=" + username,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
-            swal(result);
-            location.reload();
-        },
-        failure: function (response) {
-            swal(response);
+            if (result.code == 2) {
+                timer = result.returnData;
+            }
         }
     });
+    if (timer == "") {
+        swal("رمز یکبار مصرف برای شما ارسال شد.");
+        $.ajax({
+            type: "Get",
+            url: "/login?handler=SendSms&username=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false
+        });
+        timer = "130";
+    }
+
+    $("#sendSmsButton").disabled = true;
+    var interval = setInterval(function () {
+        var minutes = Math.trunc(parseInt(timer) / 60);
+        var seconds = parseInt(timer) - (minutes * 60);
+
+        --seconds;
+        minutes = (seconds < 0) ? --minutes : minutes;
+        if (minutes < 0) clearInterval(interval);
+        seconds = (seconds < 0) ? 59 : seconds;
+        $('#countdown').html(minutes + ':' + seconds);
+        timer = minutes * 60 + seconds;
+        if (timer == 0) {
+            clearInterval(interval);
+            $('#countdown').html('');
+            btnSendActive.addEventListener('click', buttonClicked);
+        }
+    }, 1000);
+    $("#sendSmsButton").disabled = false;
 }
 
 /////////////////****StartSaveStars****////////////////
@@ -384,7 +419,7 @@ function SaveStars(id, starNumber) {
 function CheckPassword() {
     {
         inputtxt = $("#RegisterViewModel_Password");
-        var decimal = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+        var decimal = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,30}$/;
         if (decimal.test(inputtxt.val())) {
             $("#passwordHintId").hide();
         }
