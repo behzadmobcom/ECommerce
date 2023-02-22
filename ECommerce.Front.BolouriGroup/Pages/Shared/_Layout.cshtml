@@ -361,17 +361,18 @@
             <i class="far fa-th-large"></i><span>دسته بندی</span>
         </button>
         <button class="cart-btn" title="سبد خرید">
-            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup>5</sup>
+            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count">@cartList.Count</sup>
+            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon" />
         </button>
         <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-            <i class="far fa-heart"></i><span>لیست آرزوها </span><sup>3</sup>
+            <i class="far fa-heart"></i><span>لیست آرزوها </span>
         </a>
         <a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
-            <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup>2</sup>
+            <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup id="Compare-Count">@compareList.Count</sup>
+            <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
         </a>
     </div>
-
-
+    
     @RenderBody()
 
 
