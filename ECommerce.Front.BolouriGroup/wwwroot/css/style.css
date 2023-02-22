@@ -5668,7 +5668,18 @@ tbody tr td:last-child {
         margin-bottom: 15px
     }
 }
-
+.shop-filter-mobile{display: none}
+@media (max-width: 575px) {
+    .shop-filter-desktop, .shop-widget-category, .shop-widget-rate {
+        display: none
+    }
+    .shop-filter-mobile {
+        display: block
+    }
+    .shop-widget-brand, .shop-widget-price {
+        margin-right: 60px
+    }
+}
 .shop-widget-promo {
     border-radius: 8px;
     margin-bottom: 25px;

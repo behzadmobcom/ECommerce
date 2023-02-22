@@ -25,11 +25,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 order-1 order-lg-0">
-                <div class="shop-widget">
+                <div class="shop-widget shop-widget-category">
                     <h6 class="shop-widget-title">دسته بندی</h6>
 	                @await Component.InvokeAsync("CategoriesList")
                 </div>
-                <div class="shop-widget">
+                <div class="shop-widget shop-widget-price">
                     <h6 class="shop-widget-title">حدود قیمت</h6>
                     <form asp-page-handler="OnGet" method="get">
 
@@ -56,7 +56,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="shop-widget">
+                <div class="shop-widget shop-widget-rate">
                     <h6 class="shop-widget-title">رتبه بندی</h6>
                     <ul class="shop-widget-list">
                         <li>
@@ -115,21 +115,9 @@
                             <span class="shop-widget-number">(02)</span>
                         </li>
                     </ul>
-                </div>           
+                </div>
 
-            @*    <div class="shop-widget">
-                    <h6 class="shop-widget-title">برچسب ها</h6>
-                    <ul class="blog-widget-tag">
-                        @foreach (var tag in Model.Tags.ReturnData)
-                        {
-                            var path = $"/Shop/tag={tag.TagText}";
-                            <li><a href="@path">@tag.TagText</a></li>
-                        }
-                    </ul>
-                </div>*@
-
-
-                <div class="shop-widget">
+                <div class="shop-widget shop-widget-brand">
                     <h6 class="shop-widget-title">مارک های تجاری</h6>
                     <ul class="shop-widget-list shop-widget-scroll">
                         @{var count = false;}
@@ -163,12 +151,27 @@
                                 var total = Model.Products.PaginationDetails.TotalCount;
                                 if (endNumber > total) endNumber = total;
                             }
+                            <div class="shop-filter-desktop">
                             <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
 
                             <a asp-page="/Shop" asp-route-productSort="1">مرتب سازی بر اساس جدیدترین</a>_
                             <a asp-page="/Shop" asp-route-productSort="2">پرطرفدارها</a>_
                             <a asp-page="/Shop" asp-route-productSort="3">قیمت پایین به بالا</a>_
-                            <a asp-page="/Shop" asp-route-productSort="4">قیمت بالا به پایین</a>
+                                <a asp-page="/Shop" asp-route-productSort="4">قیمت بالا به پایین</a>
+                            </div>
+                            <div class="shop-filter-mobile">
+                                <div class="dropdown">
+                                    <button class=" dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        مرتب سازی بر اساس
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                        <a class="dropdown-item" type="button" asp-page="/Shop" asp-route-productSort="1">جدیدترین</a>
+                                        <a class="dropdown-item" type="button" asp-page="/Shop" asp-route-productSort="2">پرطرفدارها</a>
+                                        <a class="dropdown-item" type="button" asp-page="/Shop" asp-route-productSort="3">قیمت پایین به بالا</a>
+                                        <a class="dropdown-item" type="button" asp-page="/Shop" asp-route-productSort="4">قیمت پایین به پایین</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
