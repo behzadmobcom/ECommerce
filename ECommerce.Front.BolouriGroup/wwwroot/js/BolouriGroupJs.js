@@ -75,7 +75,7 @@ function setCities() {
     var stateId = $('#state').val();
     $.ajax({
         type: "Get",
-        url: "Checkout?handler=CityLoad&id=" + stateId,
+        url: "Register?handler=CityLoad&id=" + stateId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
