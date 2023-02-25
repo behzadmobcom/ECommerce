@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class SlideShowsController : ControllerBase
 {
@@ -41,7 +41,7 @@ public class SlideShowsController : ControllerBase
         return product;
     }
 
-    [HttpGet]
+    [HttpGet("{pageNumber}/{pageSize}")]
     public async Task<IActionResult> Get(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
         try
@@ -86,7 +86,7 @@ public class SlideShowsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<SlideShow>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -193,7 +193,7 @@ public class SlideShowsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
