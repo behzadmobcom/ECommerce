@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class PurchaseOrdersController : ControllerBase
 {
@@ -61,7 +61,7 @@ public class PurchaseOrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
+    public async Task<IActionResult> Get([FromBody] PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
        CancellationToken cancellationToken)
     {
         try
@@ -94,7 +94,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetById(int id, CancellationToken cancellationToken)
     {
@@ -120,7 +120,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetPurchaseOrderWithIncludeById/{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<List<PurchaseOrder>>> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
     {
@@ -146,7 +146,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByUserId/{userId}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByUserId(int userId, CancellationToken cancellationToken)
     {
@@ -172,7 +172,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByOrderId/{orderId}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByOrderId(long orderId, CancellationToken cancellationToken)
     {
@@ -198,7 +198,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByOrderIdWithInclude/{orderId}")]
     //[Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByOrderIdWithInclude(long orderId, CancellationToken cancellationToken)
     {
@@ -224,7 +224,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("UserCart/{userId}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId, CancellationToken cancellationToken)
     {
@@ -394,7 +394,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPut("Decrease")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Decrease(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
@@ -422,7 +422,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpPut]
+    [HttpPut("Pay")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Pay(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
@@ -521,7 +521,7 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
