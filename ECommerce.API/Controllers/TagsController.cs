@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class TagsController : ControllerBase
 {
@@ -20,7 +20,7 @@ public class TagsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+    public async Task<IActionResult> Get([FromBody] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -52,7 +52,7 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
         try
@@ -70,7 +70,7 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetByProductId/{id}")]
     public async Task<IActionResult> GetByProductId(int id, CancellationToken cancellationToken)
     {
         try
@@ -89,7 +89,7 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<Tag>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -176,7 +176,7 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -195,7 +195,7 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetAllProductTags")]
     public async Task<IActionResult> GetAllProductTags(CancellationToken cancellationToken)
     {
         try
