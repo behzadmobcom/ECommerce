@@ -16,7 +16,7 @@ namespace ECommerce.API.Controllers;
 
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IEmailRepository _emailRepository;
@@ -47,7 +47,7 @@ public class UsersController : ControllerBase
         _configuration = configuration;
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
     [AllowAnonymous]
     public async Task<ActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
     {
@@ -155,7 +155,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("Register")]
     [AllowAnonymous]
     public async Task<ActionResult> Register([FromBody] RegisterViewModel register, CancellationToken cancellationToken)
     {
@@ -281,7 +281,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("CheckEmail/{email}")]
     public async Task<IActionResult> CheckEmail(string email)
     {
         try
@@ -299,7 +299,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("CheckUserName/{userName}")]
     public async Task<IActionResult> CheckUserName(string userName)
     {
         try
@@ -319,7 +319,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("ConfirmEmail/{userName}/{token}")]
     public async Task<IActionResult> ConfirmEmail(string userName, string token, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(token))
@@ -331,9 +331,10 @@ public class UsersController : ControllerBase
         return Content(result.Succeeded ? "Email Confirmed" : "Email Not Confirmed");
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("Get/{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> Get(int id)
+
     {
         try
         {
@@ -358,7 +359,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] UserFilterdParameters userFilterdParameters,
+    public async Task<IActionResult> Get([FromBody] UserFilterdParameters userFilterdParameters,
         CancellationToken cancellationToken)
     {
         try
@@ -391,7 +392,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("Logout")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ApiResult> Logout(CancellationToken cancellationToken)
     {
@@ -400,7 +401,7 @@ public class UsersController : ControllerBase
         return new ApiResult { Code = ResultCode.Success, Messages = new List<string> { "Logout successfully" } };
     }
 
-    [HttpPut]
+    [HttpPut("PutOld")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> PutOld(MyAccountViewModel accountViewModel, CancellationToken cancellationToken)
     {
@@ -469,7 +470,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
@@ -486,7 +487,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetCurrentUser")]
     [AllowAnonymous]
     public async Task<ActionResult<LoginViewModel>> GetCurrentUser(CancellationToken cancellationToken)
     {
@@ -500,7 +501,7 @@ public class UsersController : ControllerBase
         return Ok(new ApiResult { Code = ResultCode.NotFound });
     }
 
-    [HttpPost]
+    [HttpPost("ForgotPassword")]
     [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model, CancellationToken cancellationToken)
     {
@@ -524,7 +525,7 @@ public class UsersController : ControllerBase
         });
     }
 
-    [HttpPost]
+    [HttpPost("ResetForgotPassword")]
     [AllowAnonymous]
     public async Task<IActionResult> ResetForgotPassword([FromBody] ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
     {
@@ -563,12 +564,11 @@ public class UsersController : ControllerBase
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
-        return Ok();
+        } 
 
     }
 
-    [HttpPost]
+    [HttpPost("ResetPassword")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,
         CancellationToken cancellationToken)
@@ -658,7 +658,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> GetById(int id, CancellationToken cancellationToken)
     {
