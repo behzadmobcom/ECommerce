@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 public class StatesController : ControllerBase
 {
@@ -36,7 +36,7 @@ public class StatesController : ControllerBase
         }
     }
 
-    [HttpGet]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<State>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -120,7 +120,7 @@ public class StatesController : ControllerBase
         }
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         try
