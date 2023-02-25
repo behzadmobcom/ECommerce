@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.API.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/[controller]")]
 [ApiController]
 [Authorize(Roles = "Client,Admin,SuperAdmin")]
 public class WishListsController : ControllerBase
@@ -20,7 +20,7 @@ public class WishListsController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -74,7 +74,7 @@ public class WishListsController : ControllerBase
     }
 
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         try
