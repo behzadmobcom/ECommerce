@@ -50,6 +50,7 @@
                         <ul class="details-preview">
                             @foreach (var image in Model.Product.Images)
                             {
+                                var imageId = "myimage" + image.Id;
                                 <li>
                                     <img onmouseover="openZoom()" onmouseout="closeZoom()" id="myimage" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
                                 </li>
@@ -60,12 +61,12 @@
                             @foreach (var image in Model.Product.Images)
                             {
                                 <li>
-                                    <img src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
+                                    <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
                                 </li>
                             }
                         </ul>
 
-                        <div id="zoomModal" class="display-none">
+                        <div id="zoomModal" class="pos-absolute">
                             <div id="myresult" class="img-zoom-result"></div>
                         </div>
                     </div>
@@ -91,12 +92,12 @@
                         @for (var i = 1; i <= 5; i++)
                         {
                             <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
-                               {
-                        <text> class="rankChecked" </text>
- }>
-                                                        <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
-                                                        <i class="fas fa-star"></i>
-                                                </label>
+                            {
+                                <text> class="rankChecked" </text>
+                            }>
+                                                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
+                                                                <i class="fas fa-star"></i>
+                                                        </label>
                         }
                         <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
@@ -372,19 +373,26 @@
     <script>
         imageZoom("myimage", "myresult");
 
+        function ChangeZoomImage(imageId) {
+            ReImageZoom(imageId, "myresult");
+            $("#zoomModal").css("display", "none");
+        }
+
         var isOpenModel = false;
+        $("#zoomModal").css("display", "none");
+        $(".img-zoom-lens").css("display", "none");
 
         function closeZoom() {
             if (isOpenModel) {
-                $("#zoomModal").removeClass("pos-absolute");
-                $("#zoomModal").addClass("display-none");
+                $("#zoomModal").css("display", "none");
+                $(".img-zoom-lens").css("display", "none");
                 isOpenModel = false;
             }
         }
         function openZoom() {
             if (isOpenModel == false) {
-                $("#zoomModal").addClass("pos-absolute");
-                $("#zoomModal").removeClass("display-none");
+                $("#zoomModal").css("display", "block");
+                $(".img-zoom-lens").css("display", "block");
                 isOpenModel = true;
             }
         }

@@ -142,25 +142,30 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
         bool isExist = false, bool isWithoutBail = false, string tagText = "")
     {
-        ServiceResult<List<ProductIndexPageViewModel>> cacheEntry = await _cache.GetOrCreateAsync(
-            $"GetProducts-{pageNumber}-{isWithoutBail}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}",
-            async entry =>
-            {
-                entry.SlidingExpiration = TimeSpan.FromMinutes(5);
-                var command = "GetProducts?" +
-                              $"PaginationParameters.PageNumber={pageNumber}&" +
-                              $"IsWithoutBail={isWithoutBail}&" +
-                              $"PaginationParameters.PageSize={pageSize}&";
-                if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
-                if (!string.IsNullOrEmpty(categoryId)) command += $"PaginationParameters.CategoryId={categoryId}&";
-                if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
-                if (startPrice != null) command += $"StartPrice={startPrice}&";
-                if (endPrice != null) command += $"EndPrice={endPrice}&";
-                command += $"IsExist={isExist}&";
-                command += $"ProductSort={productSort}";
-                var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
-                return Return(result);
-            });
+        string key = $"GetProducts-{pageNumber}-{isWithoutBail}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+        bool isCached = _cache.TryGetValue(key, out ServiceResult<List<ProductIndexPageViewModel>> cacheEntry);
+
+        if (!isCached  || (isCached && cacheEntry.Code != ServiceCode.Success))
+        {
+            var command = "GetProducts?" +
+                          $"PaginationParameters.PageNumber={pageNumber}&" +
+                          $"IsWithoutBail={isWithoutBail}&" +
+                          $"PaginationParameters.PageSize={pageSize}&";
+            if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+            if (!string.IsNullOrEmpty(categoryId)) command += $"PaginationParameters.CategoryId={categoryId}&";
+            if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
+            if (startPrice != null) command += $"StartPrice={startPrice}&";
+            if (endPrice != null) command += $"EndPrice={endPrice}&";
+            command += $"IsExist={isExist}&";
+            command += $"ProductSort={productSort}";
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+            cacheEntry = Return(result);
+
+            _cache.Set(key, cacheEntry, cacheEntryOptions);
+        }
+
         return cacheEntry;
     }
 

@@ -67,7 +67,6 @@ public class ProductdetailsModel : PageModel
     public async Task OnGet(string productUrl, int pageNumber = 1, int pageSize = 10)
     {
         await Initial(productUrl, pageNumber, pageSize);
-
     }
 
     public async Task OnPost(ProductComment productComment, string productUrl)

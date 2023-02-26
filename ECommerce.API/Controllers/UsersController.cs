@@ -27,13 +27,15 @@ public class UsersController : ControllerBase
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IHolooSarfaslRepository _holooSarfaslRepository;
     private readonly IConfiguration _configuration;
+    private readonly ICityRepository _cityRepository;
+    private readonly IStateRepository _stateRepository;
 
 
 
     public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
         UserManager<User> userManager, SiteSettings siteSettings, IUserRepository userRepository,
         ILogger<UsersController> logger, IHolooCustomerRepository holooCustomerRepository, IHolooSarfaslRepository holooSarfaslRepository,
-        IConfiguration configuration)
+        IConfiguration configuration, IStateRepository stateRepository, ICityRepository cityRepository)
     {
         _emailRepository = emailRepository;
         _signInManager = signInManager;
@@ -44,6 +46,8 @@ public class UsersController : ControllerBase
         _holooCustomerRepository = holooCustomerRepository;
         _holooSarfaslRepository = holooSarfaslRepository;
         _configuration = configuration;
+        _stateRepository = stateRepository;
+        _cityRepository = cityRepository;
     }
 
     [HttpPost]
@@ -211,8 +215,10 @@ public class UsersController : ControllerBase
             var customerCode = await _holooCustomerRepository.GetNewCustomerCode();
             string customerName = register.IsColleague ? $"{register.CompanyName} {register.CompanyTypeName}-آنلاین" : $"{register.FirstName}-{register.LastName}-شخصی-آنلاین";
             var moeinCode = await _holooSarfaslRepository.Add(customerName, cancellationToken);
+            string cityName = (await _cityRepository.GetByIdAsync(cancellationToken, register.CityId)).Name;
+            string stateName = (await _stateRepository.GetByIdAsync(cancellationToken, register.StateId)).Name;
 
-            int cityCode = register.CompanyType ?? 45;
+            int cityCode = register.IsColleague ? register.CompanyType : 45;
             var holooCustomer = new HolooCustomer
             {
                 C_Code = customerCode.customerCode,
@@ -240,7 +246,10 @@ public class UsersController : ControllerBase
                 Sum_Takhfif = 0,
                 Porsant = 0,
                 Porsant2 = 0,
-                First_BalanceSanad = 0
+                First_BalanceSanad = 0,
+                Cust_City = cityName,
+                Cust_Ostan = stateName,
+                C_Address = $"{stateName}, {cityName}"
             };
             string newCustomerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
 

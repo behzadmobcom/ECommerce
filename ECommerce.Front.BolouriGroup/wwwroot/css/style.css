@@ -8634,6 +8634,7 @@ tbody tr td:last-child {
 .img-zoom-lens {
     position: absolute;
     border: 1px solid #d4d4d4;
+    background: rgba(239, 57, 78, 0.098);
     /*set the size of the lens:*/
     width: 200px;
     height: 200px;
@@ -8649,14 +8650,10 @@ tbody tr td:last-child {
 .pos-absolute {
     position: absolute;
     z-index: 1;
-    display: block;
     border-radius: 5px;
     border: 1px solid rgba(239, 57, 78, 0.204);
     background: rgba(239, 57, 78, 0.098);
     transform: translate(-50%, -50%);
-    top: 100px;
+    top: 300px;
     right: 200px;
-}
-.display-none {
-    display: none;
 }

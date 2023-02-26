@@ -46,10 +46,10 @@
                         <div class="row">
                             <ul class="nav nav-tabs" role="tablist" style="margin-right: 10%">
                                 <li class="nav-item form-check active">
-                                    <a class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a>
+                                    <a onclick="IsColleague(false)" class="nav-link" data-toggle="tab" href="#home" style="text-decoration: none">شخصی  </a>
                                 </li>
                                 <li class="nav-item form-check">
-                                    <a class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a>
+                                    <a onclick="IsColleague(true)" class="nav-link" data-toggle="tab" href="#menu1">مجموعه</a>
                                 </li>
                             </ul>
                         </div>
@@ -115,6 +115,8 @@
                                 با <a asp-area="" asp-page="/Rules" style="color: black">قوانین و مقررات</a> موافقم.
                             </label>
                         </div>
+                        
+                        <input id="IsColleagueId" asp-for="RegisterViewModel.IsColleague" hidden="hidden"/>
                         <div class="form-button">
                             <button type="submit">
                                 ایجاد حساب کاربری
@@ -131,3 +133,11 @@
         </div>
     </div>
 </section>
+@section Scripts
+    {
+    <script>
+        function IsColleague(isColleague) {
+            $("#IsColleagueId").prop("checked", isColleague);
+        }
+    </script>
+}

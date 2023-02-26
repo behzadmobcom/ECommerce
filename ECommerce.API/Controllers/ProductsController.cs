@@ -75,7 +75,7 @@ public class ProductsController : ControllerBase
                 {
                     var article = holooArticle.Where(x => x.A_Code_C == productPrices.ArticleCodeCustomer).ToList();
                     decimal articlePrice = 0;
-                    if (article != null)
+                    if (article.Count > 0)
                     {
                         try
                         {

@@ -128,35 +128,38 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                             <label class="view-list-title"> نام تحویل گیرنده:</label>
-                                                            <div> @purchaseOrder.SendInformation.RecipientName</div>
+                                                            <div> @purchaseOrder.SendInformation?.RecipientName</div>
                                                             </div>
                                                             <div class="col-md-6">
                                                             <label class="view-list-title"> شماره موبایل:</label>
-                                                            <div>@purchaseOrder.SendInformation.Mobile</div>
+                                                            <div>@purchaseOrder.SendInformation?.Mobile</div>
                                                             </div>
                                                         </div>
                                                         <br>
                                                         <div class="view-list-group">
                                                             <label class="view-list-title">  آدرس:</label>
-                                                            <div>  @purchaseOrder.SendInformation.Address</div>
+                                                            <div>  @purchaseOrder.SendInformation?.Address</div>
                                                         </div>
                                                            
                                                         <hr>
-                                                        @foreach (var purchaseOrderDetail in purchaseOrder.PurchaseOrderDetails)
-                                                        {
+                                                        @if (purchaseOrder.PurchaseOrderDetails != null)
+                                                       {
+                                                           @foreach (var purchaseOrderDetail in purchaseOrder.PurchaseOrderDetails)
+                                                           {
 
-                                                            <div class="row">
-                                                                <div class="col-md-2">
-                                                                    <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt"loding="lazy">
-                                                                </div>
-                                                                <div class="col-md-8">
-                                                                    <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
-                                                                       style="color: black">@purchaseOrderDetail.Product.Name</a>
-                                                                    <br/>
-                                                                </div>
+                                                               <div class="row">
+                                                                   <div class="col-md-2">
+                                                                       <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt"loding="lazy">
+                                                                   </div>
+                                                                   <div class="col-md-8">
+                                                                       <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
+                                                                          style="color: black">@purchaseOrderDetail.Product.Name</a>
+                                                                       <br/>
+                                                                   </div>
 
-                                                            </div>
-                                                        }
+                                                               </div>
+                                                           }
+                                                       }
 
                                                     </div>
                                                 </div>

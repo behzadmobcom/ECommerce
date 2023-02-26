@@ -64,7 +64,7 @@ public class RegisterViewModel
     public string? CompanyTypeName { get; set; }
 
     [Display(Name = "آی دی نوع شرکت")]
-    public int? CompanyType { get; set; }
+    public int CompanyType { get; set; }
 
     [Display(Name = "نام خانوادگی")]
     [StringLength(50, ErrorMessage = @"حداکثر 50 کاراکتر")]
