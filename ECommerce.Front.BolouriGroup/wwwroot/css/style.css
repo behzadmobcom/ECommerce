@@ -207,7 +207,12 @@ button:focus {
     .inner-section {
         margin-bottom: 60px
     }
-
+    .res-card{
+        margin:0 auto;
+    }
+    .titer{
+        width:100vh;
+    }
     .section-heading {
         margin-bottom: 30px
     }
