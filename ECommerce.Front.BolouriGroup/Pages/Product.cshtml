@@ -52,7 +52,7 @@
                             {
                                 var imageId = "myimage" + image.Id;
                                 <li>
-                                    <img onmouseover="openZoom()" onmouseout="closeZoom()" id="myimage" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
+                                    <img onmouseover="openZoom()" onmouseout="closeZoom()" id="@imageId" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
                                 </li>
                             }
 
@@ -95,9 +95,9 @@
                             {
                                 <text> class="rankChecked" </text>
                             }>
-                                                                <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
-                                                                <i class="fas fa-star"></i>
-                                                        </label>
+                                                                    <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
+                                                                    <i class="fas fa-star"></i>
+                                                            </label>
                         }
                         <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
@@ -369,9 +369,11 @@
 </section>
 
 @section Scripts{
-    <script src="~/js/zoom.js"></script>
+    <script src="~/js/Zoom.min.js"></script>
     <script>
-        imageZoom("myimage", "myresult");
+        var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
+        var activeImageId = arrayOfArrays[0].id;
+        imageZoom("myimage" + activeImageId, "myresult");
 
         function ChangeZoomImage(imageId) {
             ReImageZoom(imageId, "myresult");
@@ -382,20 +384,7 @@
         $("#zoomModal").css("display", "none");
         $(".img-zoom-lens").css("display", "none");
 
-        function closeZoom() {
-            if (isOpenModel) {
-                $("#zoomModal").css("display", "none");
-                $(".img-zoom-lens").css("display", "none");
-                isOpenModel = false;
-            }
-        }
-        function openZoom() {
-            if (isOpenModel == false) {
-                $("#zoomModal").css("display", "block");
-                $(".img-zoom-lens").css("display", "block");
-                isOpenModel = true;
-            }
-        }
+        
 
         var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
         function SetPriceId(id) {
@@ -411,5 +400,7 @@
         }
 
 
+
+    
     </script>
 }

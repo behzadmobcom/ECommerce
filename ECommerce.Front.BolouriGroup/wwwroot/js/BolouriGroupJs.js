@@ -1,5 +1,4 @@
-﻿/////////////////****StartWishlist****////////////////
-function RemoveWishList(id) {
+﻿function RemoveWishList(id) {
     $.ajax({
         type: "Get",
         url: "/index?handler=RemoveWishList&id=" + id,
@@ -32,8 +31,6 @@ function AddWishList(id) {
     });
 }
 
-/////////////////****EndWishlist****////////////////
-/////////////////****StartShop****////////////////
 var labels = $("label");
 
 labels.hover(
@@ -49,8 +46,7 @@ labels.hover(
 
     }
 );
-/////////////////****EndShop****////////////////
-/////////////////****StartProfile****////////////////
+
 function ChangePassword() {
     var oldPass = $("#OldPass").val();
     var newPass = $("#NewPass").val();
@@ -69,8 +65,6 @@ function ChangePassword() {
     });
 }
 
-/////////////////****StartChekout****////////////////
-
 function setCities() {
     var stateId = $('#state').val();
     $.ajax({
@@ -87,8 +81,6 @@ function setCities() {
     });
 
 }
-/////////////////****EndChekout****////////////////
-/////////////////****Start Mega Menu Mouse Hover Change Panels***////////////////
 
 $(".menu_hover").mouseover(function () {
     var section = $(this).find("a").attr("Id");
@@ -96,7 +88,6 @@ $(".menu_hover").mouseover(function () {
     $(".tab-pane").removeClass(" active in ")
     $(panelId).addClass(" active in")
 });
-/////////////////****StartOpenProductModal****////////////////
 function OpenProductModal(id) {
     alert("guig");
     $.ajax({
@@ -192,7 +183,6 @@ function OpenProductModal(id) {
     });
 }
 
-/////////////////****StartLoadCard****////////////////
 function LoadCard() {
     var count = 0;
     var allPrice = 0;
@@ -245,7 +235,6 @@ function LoadCard() {
     });
 }
 
-/////////////////****StartAddCart****////////////////
 function AddCart(id, priceId) {
     $.ajax({
         type: "Get",
@@ -264,7 +253,6 @@ function AddCart(id, priceId) {
     });
 }
 
-/////////////////****StartDeleteCompare****////////////////
 function DeleteCompare(id) {
     $.ajax({
         type: "Get",
@@ -282,7 +270,6 @@ function DeleteCompare(id) {
     });
 }
 
-/////////////////****StartAddCompareList****////////////////
 function AddCompareList(id) {
     $.ajax({
         type: "Get",
@@ -299,7 +286,6 @@ function AddCompareList(id) {
     });
 }
 
-/////////////////****StartDecreaseCart****////////////////
 function DecreaseCart(id, productId, priceId) {
     $.ajax({
         type: "Get",
@@ -397,7 +383,6 @@ function SendConfirmSms() {
     $("#sendSmsButton").disabled = false;
 }
 
-/////////////////****StartSaveStars****////////////////
 function SaveStars(id, starNumber) {
     $.ajax({
         type: "Get",
@@ -414,8 +399,6 @@ function SaveStars(id, starNumber) {
     });
 }
 
-/////////////////****Register page - Check password****////////////////
-
 function CheckPassword() {
     {
         inputtxt = $("#RegisterViewModel_Password");
@@ -426,5 +409,20 @@ function CheckPassword() {
         else {
             $("#passwordHintId").show();
         }
+    }
+}
+
+function closeZoom() {
+    if (isOpenModel) {
+        $("#zoomModal").css("display", "none");
+        $(".img-zoom-lens").css("display", "none");
+        isOpenModel = false;
+    }
+}
+function openZoom() {
+    if (isOpenModel == false) {
+        $("#zoomModal").css("display", "block");
+        $(".img-zoom-lens").css("display", "block");
+        isOpenModel = true;
     }
 }

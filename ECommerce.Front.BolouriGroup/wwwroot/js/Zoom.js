@@ -59,12 +59,12 @@
 
 function ReImageZoom(imgID, resultID) {
     var lens, result, cx, cy;
-    img = document.getElementById(imgID);
+    img = document.getElementById("myimage" + imgID);
     result = document.getElementById(resultID);
     lens = document.getElementById("img-zoom-lens-id");
     /*insert lens:*/
-    $('div[TabIndex*="-1"]').remove("img-zoom-lens-id");
     img.parentElement.insertBefore(lens, img);
+    $('div[TabIndex*="-1"]').remove("img-zoom-lens-id");
     /*calculate the ratio between result DIV and lens:*/
     cx = result.offsetWidth / lens.offsetWidth;
     cy = result.offsetHeight / lens.offsetHeight;
