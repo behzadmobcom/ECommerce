@@ -340,8 +340,8 @@
             <i class="far fa-th-large"></i><span>دسته بندی</span>
         </button>
         <button class="cart-btn" title="سبد خرید">
-            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count">@cartList.Count</sup>
-            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon" />
+            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">@cartList.Count</sup>
+            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon1" />
         </button>
         <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
             <i class="far fa-heart"></i><span>لیست آرزوها </span>
@@ -491,9 +491,99 @@
     <script src="~/js/slick.js"></script>
     <script src="~/js/BolouriGroupJs.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
-    <script>
+<script>
         window.onload = LoadCard();
     </script>
+<script>
+        function LoadCard() {
+            var count = 0;
+            var allPrice = 0;
+            $('#Cart-List').text('');
+            $.get('/index?handler=LoadCart').done(function (products) {
+                $.each(products.returnData,
+                    function (i, product) {
+                        var item =
+                            '<li class="cart-item" id="CartDrop-' + product.id + '">' +
+                            ' <div class="cart-media">' +
+                            '<a asp-page="Product" asp-route-productUrl="' + product.url + '"><img src="/' + product.imagePath + '" alt="' + product.alt + '">' + '</a>' +
+                            '<button class="cart-delete" onclick="DeleteCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')"><i class="far fa-times"></i></button>' +
+                            '</div>' +
+                            '  <div class="cart-info-group">' +
+                            '<div class="cart-info">' +
+                            '  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
+                            product.name +
+                            '</a></h5>' +
+                            '  <h6>برند' +
+                            product.brand +
+                            '</h6>' +
+                            '<p>' +
+                            product.priceAmount +
+                            '</p>' +
+                            '</div>' +
+                            '<div class="cart-action-group">' +
+                            '<div class="product-action">' +
+                            '<button class="action-minus" onclick="DecreaseCart(' + product.id + ',' + product.productId + ',' + product.priceId + ')" title="مقدار منهای"><i class="far fa-minus"></i></button><input class="action-input" title="تعداد" type="text" name="quantity" value="' +
+                            product.quantity +
+                            '">' +
+                            '<button class="action-plus" onclick="AddCart(' + product.productId + ',' + product.priceId + ')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
+                            '</div>' +
+                            '<h6>' +
+                            product.sumPrice +
+                            '</h6><h6>تومان</h6>' +
+                            ' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                        $('#Cart-List').append(item);
+                        count++;
+                        allPrice = allPrice + product.sumPrice;
+                    });
+                $('#Cart-Count').text(count);
+                $('#Cart-Count1').text(count);
+                $('#Cart-Count-Value').val(count);
+                $('#Cart-Count-Value-Icon').val(count);
+                $('#Cart-Count-Value-Icon1').val(count);
+                $('#Cart-Count2').text("کل مورد (" + count + ")");
+                $('#All-Price').text(allPrice);
+                $('#AllPrice-Value').val(allPrice);
+            });
+        }
+
+        function DeleteCart(id, productId, priceId) {
+            var elementId = "#CartDrop-" + id;
+            var sumPriceId = "#SumPrice-" + id;
+            var price = parseInt($(sumPriceId).val());
+
+            var count = parseInt($("#Cart-Count-Value-Icon").val());
+            var count = parseInt($("#Cart-Count-Value-Icon1").val());
+            var allPrice = parseInt($("#AllPrice-Value").val());
+            $.ajax({
+                type: "Get",
+                url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                    if (result.code === 0) {
+                        $(elementId).remove();
+                        count--;
+                        allPrice = allPrice - price;
+                        $('#Cart-Count').text(count);
+                        $('#Cart-Count1').text(count);
+                        $('#Cart-Count2').text("کل مورد (" + count + ")");
+                        $('#All-Price').text(allPrice + ' تومان');
+                        $("#Cart-Count-Value").val(count);
+                        $("#Cart-Count-Value-Icon").val(count);
+                        $("#Cart-Count-Value-Icon1").val(count);
+                        $("#AllPrice-Value").val(allPrice);
+                    }
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+</script>
 </body>
 
 </html>
