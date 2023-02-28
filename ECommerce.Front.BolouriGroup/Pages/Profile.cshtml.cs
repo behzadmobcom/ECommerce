@@ -65,8 +65,6 @@ public class ProfileModel : PageModel
 
     private async Task Initial()
     {
-        
-        
         var resultUser = await _userService.GetUser();
         if (resultUser.Code == ServiceCode.Success)
         {
@@ -78,8 +76,8 @@ public class ProfileModel : PageModel
             PurchaseOrders = resultPurchaseOrder.ReturnData;
         }
         StateList = await _stateService.Load();
-        var s = StateList.ReturnData.FirstOrDefault().Id;
-        CityList = await _cityService.Load(s);
+        var stateId = UserInformation.StateId ?? StateList.ReturnData.FirstOrDefault().Id;
+        CityList = await _cityService.Load(stateId);
     }
 
 }

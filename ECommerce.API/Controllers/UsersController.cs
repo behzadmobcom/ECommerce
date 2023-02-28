@@ -269,7 +269,9 @@ public class UsersController : ControllerBase
                 Mobile = register.Mobile,
                 UserRoleId = 4,
                 CustomerCode = newCustomerCode,
-                NationalCode = register.NationalCode
+                NationalCode = register.NationalCode,
+                CityId = register.CityId,
+                StateId = register.StateId
             };
 
             if (register.IsColleague)
@@ -665,8 +667,8 @@ public class UsersController : ControllerBase
                 });
             }
 
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
+            var result = await _userRepository.UpdateAsync(user,cancellationToken);
+            if (result != null)
             {
                 return Ok(new ApiResult
                 {
@@ -675,7 +677,7 @@ public class UsersController : ControllerBase
                 });
             }
 
-            return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
+            return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "ویرایش با مشکل مواجه شد" } });
         }
         catch (Exception e)
         {
@@ -765,8 +767,4 @@ public class UsersController : ControllerBase
             });
         }
     }
-
-
-
-
 }

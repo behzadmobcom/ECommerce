@@ -78,8 +78,9 @@
                                         @foreach (var purchaseOrder in Model.PurchaseOrders)
                                         {
                                             <div class="pro contact-address box-shadow" style="text-align: right">
-                                                <a >
-                                                    <h6 class="blog-section-title border-left mb-30">جزییات فاکتور:
+                                                <a>
+                                                    <h6 class="blog-section-title border-left mb-30">
+                                                        جزییات فاکتور:
 
                                                     </h6>
                                                 </a>
@@ -91,33 +92,33 @@
                                                     <label class="view-list-title">کدسفارش:</label>
                                                     <div>    @purchaseOrder.Id</div>
                                                 </div>
-                                             
-                                                    @if (purchaseOrder.IsPaied)
-                                                    {
-                                                        <div class="view-list-group">
-                                                            <label class="view-list-title">وضعیت پرداخت:</label>
-                                                            <div>  پرداخت شده</div>
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="view-list-group">
-                                                            <label class="view-list-title">وضعیت پرداخت:</label>
-                                                            <div>  پرداخت نشده</div>
-                                                        </div>
-                                                    }
+
+                                                @if (purchaseOrder.IsPaied)
+                                                {
                                                     <div class="view-list-group">
-                                                        <label class="view-list-title">مبلغ:</label>
-                                                        <div>@purchaseOrder.Amount.ToString("###,###,###,###") تومان</div>
+                                                        <label class="view-list-title">وضعیت پرداخت:</label>
+                                                        <div>  پرداخت شده</div>
                                                     </div>
+                                                }
+                                                else
+                                                {
                                                     <div class="view-list-group">
+                                                        <label class="view-list-title">وضعیت پرداخت:</label>
+                                                        <div>  پرداخت نشده</div>
+                                                    </div>
+                                                }
+                                                <div class="view-list-group">
+                                                    <label class="view-list-title">مبلغ:</label>
+                                                    <div>@purchaseOrder.Amount.ToString("###,###,###,###") تومان</div>
+                                                </div>
+                                                <div class="view-list-group">
                                                     <label class="view-list-title">تخفیف:</label>
-                                                        <div>@purchaseOrder.Discount.ToString("###,###,###,###") تومان</div>
-                                                    </div>
-<hr>
+                                                    <div>@purchaseOrder.Discount.ToString("###,###,###,###") تومان</div>
+                                                </div>
+                                                <hr>
                                                 <div style="text-align: left;">
                                                     <a href="#detailfactor-@purchaseOrder.Id" data-toggle="tab" style="color: black">
-                                                     مشاهده جزییات فاکتور
+                                                        مشاهده جزییات فاکتور
                                                     </a>
                                                 </div>
                                             </div>
@@ -127,12 +128,12 @@
                                                         <hr>
                                                         <div class="row">
                                                             <div class="col-md-6">
-                                                            <label class="view-list-title"> نام تحویل گیرنده:</label>
-                                                            <div> @purchaseOrder.SendInformation?.RecipientName</div>
+                                                                <label class="view-list-title"> نام تحویل گیرنده:</label>
+                                                                <div> @purchaseOrder.SendInformation?.RecipientName</div>
                                                             </div>
                                                             <div class="col-md-6">
-                                                            <label class="view-list-title"> شماره موبایل:</label>
-                                                            <div>@purchaseOrder.SendInformation?.Mobile</div>
+                                                                <label class="view-list-title"> شماره موبایل:</label>
+                                                                <div>@purchaseOrder.SendInformation?.Mobile</div>
                                                             </div>
                                                         </div>
                                                         <br>
@@ -140,26 +141,26 @@
                                                             <label class="view-list-title">  آدرس:</label>
                                                             <div>  @purchaseOrder.SendInformation?.Address</div>
                                                         </div>
-                                                           
+
                                                         <hr>
                                                         @if (purchaseOrder.PurchaseOrderDetails != null)
-                                                       {
-                                                           @foreach (var purchaseOrderDetail in purchaseOrder.PurchaseOrderDetails)
-                                                           {
+                                                        {
+                                                            @foreach (var purchaseOrderDetail in purchaseOrder.PurchaseOrderDetails)
+                                                            {
 
-                                                               <div class="row">
-                                                                   <div class="col-md-2">
-                                                                       <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt"loding="lazy">
-                                                                   </div>
-                                                                   <div class="col-md-8">
-                                                                       <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
-                                                                          style="color: black">@purchaseOrderDetail.Product.Name</a>
-                                                                       <br/>
-                                                                   </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-2">
+                                                                        <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt" loding="lazy">
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
+                                                                           style="color: black">@purchaseOrderDetail.Product.Name</a>
+                                                                        <br />
+                                                                    </div>
 
-                                                               </div>
-                                                           }
-                                                       }
+                                                                </div>
+                                                            }
+                                                        }
 
                                                     </div>
                                                 </div>
@@ -214,7 +215,7 @@
                                 <div class="panel-body">
                                     <form method="post" asp-page-handler="Edit">
                                         <div class="billing-details p-30">
-                                            <input asp-for="@Model.UserInformation" hidden="hidden"/>
+                                            <input asp-for="@Model.UserInformation" hidden="hidden" />
                                             <div class="form-group">
                                                 <label class="form-label">نام:</label>
                                                 <input class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
@@ -223,7 +224,7 @@
                                                 <label class="form-label">نام خانوادگی:</label>
                                                 <input class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
                                             </div>
-                                                @*<input hidden="hidden" class="form-control" type="text" placeholder="آدرس ایمیل ..." asp-for="@Model.UserInformation.Email" dir="ltr">*@
+                                            <input hidden="hidden" class="form-control" type="text" asp-for="@Model.UserInformation.Email" dir="ltr">
                                             <div class="form-group">
                                                 <label class="form-label">نام شرکت:</label>
                                                 <input class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
@@ -236,28 +237,28 @@
                                                 <label class="form-label">کد ملی:</label>
                                                 <input class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
                                             </div>
-                                            
-                                                    <select asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
-                                                    @if (Model.StateList != null)
-                                                    {
-                                                        @foreach (var state in Model.StateList?.ReturnData)
-                                                        {
-                                                            <option value="@state.Id">@state.Name</option>
-                                                        }
 
-                                                    }
-                                                </select>
-
-                                                    <select asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
-                                                    @if (Model.CityList != null)
+                                            <select asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
+                                                @if (Model.StateList != null)
+                                                {
+                                                    @foreach (var state in Model.StateList?.ReturnData)
                                                     {
-                                                        @foreach (var city in Model.CityList?.ReturnData)
-                                                        {
-                                                            <option value="@city.Id">@city.Name</option>
-                                                        }
+                                                        <option value="@state.Id">@state.Name</option>
                                                     }
-                                                </select>
-                                                <br/>
+
+                                                }
+                                            </select>
+
+                                            <select asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
+                                                @if (Model.CityList != null)
+                                                {
+                                                    @foreach (var city in Model.CityList?.ReturnData)
+                                                    {
+                                                        <option value="@city.Id">@city.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <br />
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <button class="form-btn" type="submit"><i class="fal fa-edit"></i>&nbsp;&nbsp;ویرایش</button>
@@ -269,7 +270,7 @@
                             </div>
                         </div>
 
-              
+
                     </div>
                 </div>
             </div>

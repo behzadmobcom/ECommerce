@@ -14,22 +14,22 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
     {     
     }
 
-    public async Task<PagedList<UserListViewModel>> Search(UserFilterdParameters userFilterdParameters,
+    public async Task<PagedList<UserListViewModel>> Search(UserFilterdParameters userFilteredParameters,
         CancellationToken cancellationToken)
     {
-        var query = TableNoTracking.Where(x => x.UserName.Contains(userFilterdParameters.PaginationParameters.Search)).AsNoTracking();
+        var query = TableNoTracking.Where(x => x.UserName.Contains(userFilteredParameters.PaginationParameters.Search)).AsNoTracking();
 
-        if (userFilterdParameters.IsActive != null) query = query.Where(x => x.IsActive == userFilterdParameters.IsActive);
-        if (userFilterdParameters.IsColleauge != null) query = query.Where(x => x.IsColleague == userFilterdParameters.IsColleauge);
-        if (userFilterdParameters.HasBuying != null)
+        if (userFilteredParameters.IsActive != null) query = query.Where(x => x.IsActive == userFilteredParameters.IsActive);
+        if (userFilteredParameters.IsColleauge != null) query = query.Where(x => x.IsColleague == userFilteredParameters.IsColleauge);
+        if (userFilteredParameters.HasBuying != null)
         {
 
-            query = userFilterdParameters.HasBuying == true ? query.Where(x => x.PurchaseOrders.Count > 0): query.Where(x => x.PurchaseOrders.Count == 0);
+            query = userFilteredParameters.HasBuying == true ? query.Where(x => x.PurchaseOrders.Count > 0): query.Where(x => x.PurchaseOrders.Count == 0);
         }
 
         var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
 
-        switch (userFilterdParameters.UserSort)
+        switch (userFilteredParameters.UserSort)
         {
             case UserSort.LowToHighCountBuying:
                 sortedQuery = query.OrderBy(x => x.PurchaseOrders.Count).ToList();
@@ -55,11 +55,11 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
             IsColleague=u.IsColleague,
             RegisterDate=u.RegisterDate,
             Username=u.UserName,
-            UserRole=u.UserRole.Name
+            UserRole=u.UserRole.Name,
         }).ToListAsync(cancellationToken);
         return PagedList<UserListViewModel>.ToPagedList(userList,
-            userFilterdParameters.PaginationParameters.PageNumber,
-            userFilterdParameters.PaginationParameters.PageSize);
+            userFilteredParameters.PaginationParameters.PageNumber,
+            userFilteredParameters.PaginationParameters.PageSize);
     }
 
     public async Task<User?> GetByEmailOrUserName(string input, CancellationToken cancellationToken)

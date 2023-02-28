@@ -53,7 +53,7 @@ function ChangePassword() {
     var newConPass = $("#NewConPass").val();
     $.ajax({
         type: "Get",
-        url: "userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
+        url: "/userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
@@ -425,4 +425,9 @@ function openZoom() {
         $(".img-zoom-lens").css("display", "block");
         isOpenModel = true;
     }
+}
+
+function ChangeZoomImage(imageId) {
+    ReImageZoom(imageId, "myresult");
+    $("#zoomModal").css("display", "none");
 }

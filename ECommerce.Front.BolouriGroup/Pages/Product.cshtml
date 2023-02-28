@@ -371,20 +371,14 @@
 @section Scripts{
     <script src="~/js/Zoom.min.js"></script>
     <script>
-        var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
-        var activeImageId = arrayOfArrays[0].id;
-        imageZoom("myimage" + activeImageId, "myresult");
-
-        function ChangeZoomImage(imageId) {
-            ReImageZoom(imageId, "myresult");
+        if (!window.matchMedia('(max-width: 767px)').matches) {
+            var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
+            var activeImageId = arrayOfArrays[0].id;
+            imageZoom("myimage" + activeImageId, "myresult");
+            var isOpenModel = false;
             $("#zoomModal").css("display", "none");
-        }
-
-        var isOpenModel = false;
-        $("#zoomModal").css("display", "none");
-        $(".img-zoom-lens").css("display", "none");
-
-        
+            $(".img-zoom-lens").css("display", "none");
+            }
 
         var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
         function SetPriceId(id) {
@@ -398,5 +392,6 @@
             }
             $("#price").text(price.amount + " تومان ");
         }
+    
     </script>
 }
