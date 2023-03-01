@@ -5,9 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
- 
+
   <ItemGroup>
-    <Folder Include="ProductsDto\" />
+    <Compile Remove="ProductsDto-\**" />
+    <EmbeddedResource Remove="ProductsDto-\**" />
+    <None Remove="ProductsDto-\**" />
   </ItemGroup>
 
 </Project>
