@@ -2,9 +2,7 @@
 
 namespace ECommerce.Dto.ProductAttributeGroupsDto;
 
-public class GetByIdProductAttributeGroupDto : BaseDto
-{
-    public string? Name { get; set; }
-     
+public class GetByIdProductAttributeGroupDto : ProductAttributeGroupDto
+{ 
 
 } 

@@ -1,9 +1,6 @@
-﻿using ECommerce.Dto.Base;
+﻿namespace ECommerce.Dto.ProductAttributeGroupsDto;
 
-namespace ECommerce.Dto.ProductAttributeGroupsDto;
-
-public class GetProductAttributeGroupDto : BaseDto
-{
-    public string? Name { get; set; }
+public class GetProductAttributeGroupDto : ProductAttributeGroupDto
+{ 
      
 }
