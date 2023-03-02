@@ -1,4 +1,4 @@
-﻿namespace ECommerce.Dto.ProductAttributesDto;
+﻿namespace ECommerce.Dto.ProductAttributesDto.Enums;
 
 public enum AttributeType
 {
