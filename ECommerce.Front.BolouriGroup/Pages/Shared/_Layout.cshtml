@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Website for selling kitchen appliances and equipment">
     <title>@ViewData["Title"] - Boloori</title>
-    @await RenderSectionAsync("Head", false)
+
     <link rel="icon" href="~/img/favicon.png" />
 
     <link rel="stylesheet" href="~/css/flaticon.css" edia="print" onload="this.media='all'" />
@@ -25,12 +25,12 @@
 
     <link rel="stylesheet" href="~/css/MegaMenu.css" edia="print" onload="this.media='all'" />
     <link rel="stylesheet" href="~/css/bootstrap-3.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" edia="print" onload="this.media='all'" />
+    @* <link rel="stylesheet" href="~/lib/drift-zoom/drift-basic.min.css" edia="print" onload="this.media='all'" />*@
     <link rel="stylesheet" href="~/css/slick.min.css" edia="print" onload="this.media='all'" />
     <link rel="stylesheet" href="~/css/style.css" edia="print" onload="this.media='all'" />
     <link rel="stylesheet" href="~/css/stars.css" edia="print" onload="this.media='all'" />
     <!-- CSS only -->
-
+    @await RenderSectionAsync("Head", false)
 </head>
 
 <body>
@@ -497,25 +497,24 @@
     <script src="~/js/venobox.min.js"></script>
     <script src="~/js/jquery-ui.js"></script>
     <script src="~/js/finalcountdown.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/nice-select.js"></script>
     <script src="~/js/price-range.js"></script>
-    <script src="~/js/accordion.js"></script>
-    @* <script src="~/js/venobox.js"></script>*@
-    <script src="~/js/bootstrap.min.js"></script>
+    @*<script src="~/js/bootstrap.min.js"></script>*@
     @* <script src="~/js/jquery-1.12.0.min.js"></script>*@
-    <script src="~/js/main.js"></script>
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
-    <script src="~/lib/drift-zoom/Drift.min.js"></script>
-    @* <script src="~/js/nice-select.js"></script>*@
-    <script src="~/js/nice-select.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
+    @* <script src="~/lib/drift-zoom/Drift.min.js"></script>*@
+    <script src="~/js/accordion.js"></script>
+    <script src="~/js/venobox.js"></script>
     <script src="~/js/slick.js"></script>
+    <script src="~/js/main.js"></script>
     <script src="~/js/BolouriGroupJs.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
-<script>
+    <script>
         window.onload = LoadCard();
     </script>
-<script>
+    <script>
         function LoadCard() {
             var count = 0;
             var allPrice = 0;
@@ -604,7 +603,7 @@
                 }
             });
         }
-</script>
+    </script>
 </body>
 
 </html>

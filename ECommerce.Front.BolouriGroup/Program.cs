@@ -22,6 +22,9 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AllowAnonymousToPage("/AboutUs");
     options.Conventions.AllowAnonymousToPage("/Cart");
     options.Conventions.AllowAnonymousToPage("/melisuccess");
+    options.Conventions.AllowAnonymousToPage("/Blog");
+    options.Conventions.AllowAnonymousToPage("/BlogDetails");
+    options.Conventions.AllowAnonymousToPage("/Rules");
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();

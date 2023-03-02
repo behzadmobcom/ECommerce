@@ -10,7 +10,6 @@
 }
 
 @section Head{
-    <link href="~/css/stars.css" rel="stylesheet" edia="print" onload="this.media='all'" />
     <meta name="description" content="@description" />
     <meta property="og:title" content="@Model.Product.Name" />
     <meta property="og:image" content="@imagePath" />
@@ -40,6 +39,7 @@
 <section class="inner-section">
     <div class="container">
         <div class="row">
+            <div class="col-12">
             @if (Model.Product.Images.Any())
             {
                 <div class="col-lg-5 col-sm-12">
@@ -91,13 +91,14 @@
                     <div class="pro-rating sin-pro-rating f-right">
                         @for (var i = 1; i <= 5; i++)
                         {
-                            <label id="starLable-@i" for="@i" @if (Model.Stars >= i)
-                            {
-                                <text> class="rankChecked" </text>
-                            }>
-                                                                    <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
-                                                                    <i class="fas fa-star"></i>
-                                                            </label>
+                            <label id="starLable-@i" for="@i"
+                                   @if (Model.Stars >= i)
+                                   {
+                                       <text> class="rankChecked" </text>
+                                   }>
+                                <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
+                                <i class="fas fa-star"></i>
+                            </label>
                         }
                         <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()">(@Model.Stars)نظر</a>
                     </div>
@@ -145,7 +146,7 @@
 
                     }
                     <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
-                    <br />
+                    <br/>
                     <div class="details-list-group">
                         <label class="details-list-title">برچسب ها:</label>
                         <ul class="details-tag-list">
@@ -183,7 +184,7 @@
                             if ((int)price.Grade > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
                                     <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
                                     @{
                                         string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
@@ -194,7 +195,7 @@
                             else if (price.ColorId > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
                                     <span for="price-@price.Id">@price.Color.Name - </span>
                                     @{
                                         string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
@@ -213,7 +214,7 @@
                     </div>
                     <div class="details-action-group">
                         <a class="view-wish wish" href="javascript:void(0)" onclick="AddWishList(@Model.Product.Id)" title="افزودن به لیست علاقه مندی ها ">
-                            <i class="far fa-heart"></i><span> افزودن به علاقمندی ها  </span>
+                            <i class="far fa-heart"></i><span> افزودن به علاقمندی ها </span>
                         </a>
                         <a class="view-compare" href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه این مورد">
                             <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
@@ -235,6 +236,8 @@
                     </div>
                 </div>
             </div>
+            </div>
+
         </div>
     </div>
 </section>
