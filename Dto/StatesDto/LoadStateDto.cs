@@ -1,8 +1,7 @@
-﻿namespace ECommerce.Dto.StatesDto
+﻿namespace ECommerce.Dto.StatesDto;
+
+public class LoadStateDto : StateDto
 {
-    public class LoadStateDto : StateDto
-    {
-        
-         
-    }
+    
+     
 }

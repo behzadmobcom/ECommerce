@@ -1,10 +1,10 @@
 ﻿using ECommerce.Dto.Base;
 
-namespace ECommerce.Dto.StatesDto
+namespace ECommerce.Dto.StatesDto;
+
+public class StateDto : BaseDto
 {
-    public class StateDto : BaseDto
-    {
-        public string? Name { get; set; }
-         
-    }
+    public string? Name { get; set; }
+     
 }
+
