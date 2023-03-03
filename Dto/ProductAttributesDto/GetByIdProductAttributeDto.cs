@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Dto.ProductAttributesDto;
+﻿using ECommerce.Dto.ProductAttributesDto.Enums;
+
+namespace ECommerce.Dto.ProductAttributesDto;
 
 public class GetByIdProductAttributeDto : ProductAttributeDto
 {
