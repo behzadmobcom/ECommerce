@@ -1,4 +1,5 @@
 ﻿using ECommerce.Dto.Base;
+using ECommerce.Dto.PricesDto.Enums;
 
 namespace Ecommerce.Dto.PricesDto;
 

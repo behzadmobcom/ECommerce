@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Dto.PricesDto;
+﻿namespace ECommerce.Dto.PricesDto.Enums;
 
 public enum HolooSellNumber
 {
