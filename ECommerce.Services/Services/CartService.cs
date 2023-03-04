@@ -94,7 +94,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).FirstOrDefault();
             if(price == null)
                 continue;
-            var quantity = responseProduct.ReturnData[i].MaxOrder < product.ProductNumber
+            var quantity = responseProduct.ReturnData[i].MaxOrder < product.ProductNumber && responseProduct.ReturnData[i].MaxOrder > 0
                 ? responseProduct.ReturnData[i].MaxOrder
                 : product.ProductNumber;
             var tempPurchaseOrderDetail = new PurchaseOrderViewModel
@@ -132,6 +132,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Code = ServiceCode.Error
         };
     }
+
     public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId, int count)
     {
         var productResult = await _productService.ProductsWithIdsForCart(new List<int> { productId });

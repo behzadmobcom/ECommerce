@@ -39,10 +39,12 @@ public class CheckoutModel : PageModel
         _purchaseOrderService = purchaseOrderService;
         _cartService = cartService;
     }
+
     public async Task OnGet()
     {
         await Initial();
     }
+
     private async Task Initial()
     {
         StateList = (await _stateService.Load()).ReturnData;
@@ -77,16 +79,24 @@ public class CheckoutModel : PageModel
 
     public async Task<IActionResult> OnPost(string Portal, int PostPrice)
     {
+        await Initial();
         string returnAction = "melisuccess";
         string url = $"https://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
         var resultSendInformation = ServiceCode.Success;
         if (SendInformation.Id == 0)
         {
-            var result = await _sendInformationService.Add(SendInformation);
-            resultSendInformation = result.Code;
-            Message = result.Message;
-            SendInformation = result.ReturnData;
+            if (ModelState.IsValid)
+            {
+                var result = await _sendInformationService.Add(SendInformation);
+                resultSendInformation = result.Code;
+                Message = result.Message;
+                SendInformation = result.ReturnData;
+            }
+            else
+            {
+                return Page();
+            }
         }
         else
         {
@@ -107,7 +117,6 @@ public class CheckoutModel : PageModel
         {
             Message = "مبلغ سفارش نمی تواند بیشتر از 50 میلیون تومان باشد";
             Code = "Error";
-            await Initial();
             return Page();
         }
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
@@ -168,7 +177,6 @@ public class CheckoutModel : PageModel
             }
         }
         Code = resultSendInformation.ToString();
-        await Initial();
         return Page();
     }
 

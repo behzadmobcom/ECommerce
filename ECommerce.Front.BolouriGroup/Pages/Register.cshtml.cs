@@ -59,13 +59,9 @@ public class RegisterModel : PageModel
             Code = "Error";
             return Page();
         }
-        ModelState.Remove("RegisterViewModel.NationalCode");
         ModelState.Remove("RegisterViewModel.Email");
         ModelState.Remove("RegisterViewModel.Username");
-        if (RegisterViewModel.NationalCode == null)
-        {
-            RegisterViewModel.NationalCode = "0000000000";
-        }
+       
         if (!ModelState.IsValid) return Page();
         switch (RegisterViewModel.CompanyType)
         {

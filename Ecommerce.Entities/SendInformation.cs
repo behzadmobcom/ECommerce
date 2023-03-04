@@ -18,6 +18,8 @@ public class SendInformation : BaseEntity
     public string Address { get; set; }
 
     [StringLength(10, MinimumLength = 10, ErrorMessage = "حتما باید 10 کاراکتر باشد")]
+    [Display(Name = "کد پستی")]
+    [Required(ErrorMessage = @"{0} را وارد کنید")]
     public string? PostalCode { get; set; }
 
     //ForeignKey

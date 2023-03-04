@@ -3,7 +3,7 @@
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
-    int priceId = Model.Product.Prices.FirstOrDefault().Id;
+    int priceId = Model.Product.Prices.FirstOrDefault(x => !x.IsColleague && x.Exist > 0).Id;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
@@ -181,10 +181,11 @@
                         @foreach (var price in Model.Product.Prices)
                         {
                             var select = price.Id == priceId ? "checked" : "";
+                                var disabled = price.Exist<=0? "disabled='disabled'":"";
                             if ((int)price.Grade > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                        <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
                                     @{
                                         string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
@@ -195,7 +196,7 @@
                             else if (price.ColorId > 1)
                             {
                                 <div style="background-color: @price.Color.ColorCode">
-                                    <input @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)"/>
+                                        <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                     <span for="price-@price.Id">@price.Color.Name - </span>
                                     @{
                                         string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";

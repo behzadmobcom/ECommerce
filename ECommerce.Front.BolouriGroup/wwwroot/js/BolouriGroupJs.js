@@ -88,6 +88,7 @@ $(".menu_hover").mouseover(function () {
     $(".tab-pane").removeClass(" active in ")
     $(panelId).addClass(" active in")
 });
+
 function OpenProductModal(id) {
     alert("guig");
     $.ajax({
@@ -227,8 +228,10 @@ function LoadCard() {
                 allPrice = allPrice + product.sumPrice;
             });
         $('#Cart-Count').text(count);
+        $('#Cart-Count1').text(count);
         $('#Cart-Count-Value').val(count);
         $('#Cart-Count-Value-Icon').val(count);
+        $('#Cart-Count-Value-Icon1').val(count);
         $('#Cart-Count2').text("کل مورد (" + count + ")");
         $('#All-Price').text(allPrice);
         $('#AllPrice-Value').val(allPrice);
@@ -301,12 +304,14 @@ function DecreaseCart(id, productId, priceId) {
         }
     });
 }
+
 function DeleteCart(id, productId, priceId) {
     var elementId = "#CartDrop-" + id;
     var sumPriceId = "#SumPrice-" + id;
     var price = parseInt($(sumPriceId).val());
 
     var count = parseInt($("#Cart-Count-Value-Icon").val());
+    var count = parseInt($("#Cart-Count-Value-Icon1").val());
     var allPrice = parseInt($("#AllPrice-Value").val());
     $.ajax({
         type: "Get",
@@ -320,10 +325,12 @@ function DeleteCart(id, productId, priceId) {
                 count--;
                 allPrice = allPrice - price;
                 $('#Cart-Count').text(count);
+                $('#Cart-Count1').text(count);
                 $('#Cart-Count2').text("کل مورد (" + count + ")");
                 $('#All-Price').text(allPrice + ' تومان');
                 $("#Cart-Count-Value").val(count);
                 $("#Cart-Count-Value-Icon").val(count);
+                $("#Cart-Count-Value-Icon1").val(count);
                 $("#AllPrice-Value").val(allPrice);
             }
         },
@@ -419,6 +426,7 @@ function closeZoom() {
         isOpenModel = false;
     }
 }
+
 function openZoom() {
     if (isOpenModel == false) {
         $("#zoomModal").css("display", "block");
