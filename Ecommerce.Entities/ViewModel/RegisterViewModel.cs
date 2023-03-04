@@ -83,6 +83,8 @@ public class RegisterViewModel
     [StringLength(10, MinimumLength = 10, ErrorMessage = "تعداد ارقام غلط است")]
     public string NationalCode { get; set; }
 
+    public int? ConfirmCode { get; set; }
+
     //============== UserColleague ==============
 
     [Display(Name = "تصویر مدرک")] public string? LicensePath { get; set; }

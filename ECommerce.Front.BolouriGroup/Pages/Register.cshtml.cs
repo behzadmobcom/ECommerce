@@ -86,7 +86,16 @@ public class RegisterModel : PageModel
         }
         RegisterViewModel.Username = RegisterViewModel.Mobile;
         RegisterViewModel.Email = "boloorico@gmail.com";
-        RegisterViewModel.IsHaveEmail = false;
+        RegisterViewModel.IsHaveEmail = false;     
+        
+        var codeConfirm = GenerateCode(RegisterViewModel.Username);
+        if (RegisterViewModel.ConfirmCode != codeConfirm)
+        {
+            Message = "کد تایید نامعتبر می باشد";
+            Code = "Error";
+            return Page();
+        }
+
         var result = await _userService.Register(RegisterViewModel);
         if (result.Code > 0)
         {
@@ -96,4 +105,46 @@ public class RegisterModel : PageModel
         }
         return RedirectToPage("/index");
     }
+
+    public async Task<IActionResult> OnGetSendSms(string username)
+    {       
+        int code = GenerateCode(username);
+        if (code == 0) return new JsonResult(null);
+        SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);     
+        return new JsonResult(smsResponsModel);
+    }
+
+    public int GenerateCode(string mobile)
+    {
+        int number;
+        if (mobile.Length != 11 & mobile.Length != 10) return 0;
+        if (mobile.Substring(0, 1) != "0") mobile = "0" + mobile;
+        if (mobile.Substring(0,2) != "09") return 0;        
+        if (!int.TryParse(mobile.Substring(1,9), out number)) return 0;        
+        var result = getSumResult(mobile.Substring(10, 1), mobile.Substring(4,1));
+        result = result + getSumResult(mobile.Substring(9, 1), mobile.Substring(5, 1));
+        result = result + getSumResult(mobile.Substring(8, 1), mobile.Substring(6, 1));
+        result = result + getSumResult(mobile.Substring(7, 1), mobile.Substring(3, 1));
+        int.TryParse(result, out number);
+        return number;
+    }
+
+    private string getSumResult (string num1, string num2)
+    {
+        int number1, number2;
+        int.TryParse(num1, out number1);
+        int.TryParse(num2, out number2);
+        int sum;
+        do
+        {
+            sum = number1 + number2;
+            if (sum >10)
+            {
+                number1 = sum - 10;
+                number2 = number1>4 ? 1 : 0 ;
+            }
+        } while (sum > 10);
+        return sum + "";
+    }
+ 
 }
