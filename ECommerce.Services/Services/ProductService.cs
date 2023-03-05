@@ -1,4 +1,5 @@
-﻿using Ecommerce.Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.Extensions.Caching.Memory;
@@ -144,31 +145,74 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "", string search = "",
+    //public async Task<ServiceResult<PaginationViewModel>> Search(string searchText, int page, int quantityPerPage = 9)
+    //{
+    //    var pageViewModel = new PageViewModel
+    //    {
+    //        Page = page,
+    //        QuantityPerPage = quantityPerPage,
+    //        SearchText = searchText
+    //    };
+    //    var result = await _http.PostAsync<PageViewModel, PaginationViewModel>(Url, pageViewModel, "Search");
+    //    return Return(result);
+    //}
+
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
         bool isExist = false, bool isWithoutBail = false, string tagText = "")
     {
-        string key = $"GetByCategoryId?PageNumber={pageNumber}&PageSize={pageSize}&Search={categoryId}&ProductSort={productSort}";
-        if (!_memoryCache.TryGetValue("asd", out ServiceResult<List<ProductIndexPageViewModel>> cacheEntry))
+        ServiceResult<List<ProductIndexPageViewModel>> result = new();
+
+        if (_memoryCache.TryGetValue("GetAllProducts", out List<ProductIndexPageViewModel> productIndexPageViewModel))
+        {
+            if (!String.IsNullOrEmpty(tagText))
+            {
+                ServiceResult<Tag> resultTags = await _tagService.GetByTagText(tagText);
+            }
+            result.ReturnData = productIndexPageViewModel;
+            result.Code = ServiceCode.Success;
+            result.PaginationDetails = new()
+            {
+
+            };
+
+
+        }
+        else
         {
             var command = "GetProducts?" +
-                          $"PaginationParameters.PageNumber={pageNumber}&" +
-                          $"IsWithoutBail={isWithoutBail}&" +
-                          $"PaginationParameters.PageSize={pageSize}&";
+                     $"PaginationParameters.PageNumber={pageNumber}&" +
+                     $"IsWithoutBail={isWithoutBail}&" +
+                     $"PaginationParameters.PageSize={pageSize}&";
             if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
-            if (!string.IsNullOrEmpty(categoryId)) command += $"PaginationParameters.CategoryId={categoryId}&";
+            if (!string.IsNullOrEmpty(CategoryId)) command += $"PaginationParameters.CategoryId={CategoryId}&";
             if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
             if (startPrice != null) command += $"StartPrice={startPrice}&";
             if (endPrice != null) command += $"EndPrice={endPrice}&";
             command += $"IsExist={isExist}&";
             command += $"ProductSort={productSort}";
-            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
-            return Return(result);
+            var apiResult = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+            result = Return(apiResult);
         }
 
-        return cacheEntry;
+        CacheAllProducts();
+        return result;
+
     }
 
+    private async Task CacheAllProducts()
+    {
+        var cache = _memoryCache.CreateEntry("GetAllProducts");
+        var option = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(30));
+        _memoryCache.Set("GetAllProducts", await GetAllProducts(), option);
+        cache.Dispose();
+    }
+
+    private async Task<List<ProductIndexPageViewModel>> GetAllProducts()
+    {
+        ApiResult<List<ProductIndexPageViewModel>> apiResult = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, "GetAllProducts");
+        return apiResult.ReturnData;
+    }
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1)
     {
