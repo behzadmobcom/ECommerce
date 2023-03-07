@@ -158,26 +158,14 @@ public class ProductsController : ControllerBase
     }
 
 
-    private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBil, CancellationToken cancellationToken)
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
     {
-        var aBails = await _aBailRepository.GetAll(cancellationToken);
-        foreach (var productPrices in product.Prices)
-            if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
-            {
-                var article = await _articleRepository.GetHolooPrice(productPrices.ArticleCodeCustomer,
-                    productPrices.SellNumber!.Value);
-                productPrices.Amount = article.price / 10;
-                double soldExist = 0;
-                if (!isWithoutBil)
-                {
-                    var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
-                    soldExist = sold == null ? 0 : sold.First_Article;
-                }
-
-
-                productPrices.Exist = (double)article.exist - soldExist;
-            }
-
+        var products = await AddPriceAndExistFromHolooList(
+            new List<ProductIndexPageViewModel>{product},
+            isWithoutBil,
+            isExist,
+            cancellationToken);
+        product.Prices = products.First().Prices;
         return product;
     }
 
@@ -658,7 +646,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil, CancellationToken cancellationToken)
+    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBil, bool? isExist, CancellationToken cancellationToken)
     {
         try
         {
@@ -669,7 +657,7 @@ public class ProductsController : ControllerBase
                     Code = ResultCode.NotFound
                 });
 
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBil, cancellationToken);
+            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBil,isExist, cancellationToken);
 
             return Ok(new ApiResult
             {
@@ -713,7 +701,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool isWithoutBil,
+    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool? isExist, bool isWithoutBil,
       CancellationToken cancellationToken)
     {
         try
@@ -727,7 +715,7 @@ public class ProductsController : ControllerBase
                 });
 
             if (product.Prices.Any(p => p.ArticleCode != null))
-                product = await AddPriceAndExistFromHoloo(product, isWithoutBil, cancellationToken);
+                product = await AddPriceAndExistFromHoloo(product, isWithoutBil, isExist,cancellationToken);
 
             var productModalViewModel = new ProductModalViewModel
             {

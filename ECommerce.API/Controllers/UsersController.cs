@@ -249,7 +249,9 @@ public class UsersController : ControllerBase
                 First_BalanceSanad = 0,
                 Cust_City = cityName,
                 Cust_Ostan = stateName,
-                C_Address = $"{stateName}, {cityName}"
+                C_Address = $"{stateName}, {cityName}",
+                Kharid = true,
+                Forosh = true
             };
             string newCustomerCode = await _holooCustomerRepository.Add(holooCustomer, cancellationToken);
 
