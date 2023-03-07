@@ -7,6 +7,7 @@ namespace ECommerce.Services.IServices;
 public interface ICategoryService : IEntityService<Category>
 {
     Task<ServiceResult<CategoryViewModel>> GetByUrl(string url);
+    Task<ServiceResult<List<int>>> GetChildren(int categoryId);
     Task<ServiceResult<List<Category>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult<List<TreeViewModel>>> LoadTree();
     Task<ServiceResult> Add(Category category);

@@ -2,6 +2,7 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Runtime.CompilerServices;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -168,7 +169,31 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             if (!String.IsNullOrEmpty(tagText))
             {
                 ServiceResult<Tag> resultTags = await _tagService.GetByTagText(tagText);
+                int tagId=resultTags.ReturnData.Id ;
             }
+
+            int CategoryIdInt = Convert.ToInt32(CategoryId);
+            var tempCategoryService = await _categoryService.GetChildren(CategoryIdInt);
+            List<int> categoriesId = tempCategoryService.ReturnData;
+            categoriesId.Add(CategoryIdInt);
+
+            var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
+
+            if (categoriesId.Any(x => x != 0)) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId => cat.Id == categoryId)));
+
+            if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
+
+            if (starsCount is { Count: > 0 })
+                products = products.Where(x =>
+                    starsCount.Contains(x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count));
+            if (tagsId is { Count: > 0 })
+                products = tagsId.Aggregate(products,
+                    (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
+
+            var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
+            return result;
+
+
             result.ReturnData = productIndexPageViewModel;
             result.Code = ServiceCode.Success;
             result.PaginationDetails = new()
@@ -195,6 +220,8 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             result = Return(apiResult);
         }
 
+        //Timer
+        //If just 5minutes has past from the last run
         CacheAllProducts();
         return result;
 
