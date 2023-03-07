@@ -67,7 +67,9 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             PaymentMethod = p.PaymentMethod,
             PurchaseOrderDetails = p.PurchaseOrderDetails.ToList(),
             Discount = p.DiscountAmount ?? 0,
-            SendInformation = p.SendInformation
+            SendInformation = p.SendInformation,
+            UserId = p.UserId,
+            UserName = p.User.UserName
         }).ToListAsync(cancellationToken);
 
         return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,

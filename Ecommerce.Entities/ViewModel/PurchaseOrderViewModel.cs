@@ -53,5 +53,7 @@ public class PurchaseListViewModel
     public SendInformation? SendInformation { get; set; }
     public PaymentMethod? PaymentMethod { get; set; }
     public List<PurchaseOrderDetail>? PurchaseOrderDetails  { get; set; }
+    public int? UserId { get; set; }
+    public string? UserName { get; set; }
 
 }
