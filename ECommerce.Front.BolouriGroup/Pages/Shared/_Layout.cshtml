@@ -88,11 +88,11 @@
                         else
                         {
                             <div class="dropdown">
-                                <a class="header-widget" asp-area="" asp-page="/profile" title="حساب من">
+                                <a class="header-widget" asp-area="" asp-page="/UserProfile" title="حساب من">
                                     <i class="fal fa-user"></i>
                                 </a>
                                 <div class="dropdown-content">
-                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                    <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
                                     <a href="/index?handler=Logout">خروج</a>
                                 </div>
                             </div>
@@ -287,7 +287,7 @@
                         <a class="nav-link dropdown-link" href="#"><h3>حساب</h3></a>
                         <ul class="dropdown-list">
                             <li>
-                                <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
                             </li>
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -300,7 +300,7 @@
                                 else
                                 {
                                     <li>
-                                        <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                        <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
                                     </li>
                                     <li>
                                         <a href="/index?handler=Logout">خروج</a>
@@ -369,7 +369,7 @@
         </a>
         <a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
             <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup id="Compare-Count">@compareList.Count</sup>
-            <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value" />
+            <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value-mobile" />
         </a>
     </div>
 
@@ -399,7 +399,7 @@
                         <div class="footer-links">
                             <ul>
                                 <li>
-                                    <a asp-area="" asp-page="/Profile">پروفایل من</a>
+                                    <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
                                 </li>
                                 <li>
                                     <a asp-area="" asp-page="/Orderlist">تاریخچه سفارش ها</a>
@@ -500,7 +500,7 @@
     <script src="~/js/slick.min.js"></script>
     <script src="~/js/nice-select.js"></script>
     <script src="~/js/price-range.js"></script>
-    @*<script src="~/js/bootstrap.min.js"></script>*@
+    <script src="~/js/bootstrap.min.js"></script>
     @* <script src="~/js/jquery-1.12.0.min.js"></script>*@
     <script src="~/lib/sweetalert/sweetalert.min.js"></script>
     <script src="~/lib/masonry/masonry.pkgd.min.js"></script>

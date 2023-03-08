@@ -7,7 +7,7 @@ using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
-public class ProfileModel : PageModel
+public class UserProfileModel : PageModel
 {
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
@@ -22,7 +22,7 @@ public class ProfileModel : PageModel
     public string Message { get; set; }
     public string Code { get; set; }
 
-    public ProfileModel(ICityService cityService, IStateService stateService, IUserService userService, IPurchaseOrderService purchaseOrderService)
+    public UserProfileModel(ICityService cityService, IStateService stateService, IUserService userService, IPurchaseOrderService purchaseOrderService)
     {
         _stateService = stateService;
         _userService = userService;

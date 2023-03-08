@@ -48,13 +48,9 @@ labels.hover(
 );
 
 function ChangePassword() {
-    console.log("ChangePassword");
     var oldPass = $("#OldPass").val();
-    console.log(oldPass);
     var newPass = $("#NewPass").val();
-    console.log(newPass);
     var newConPass = $("#NewConPass").val();
-    console.log(newConPass);
     $.ajax({
         type: "Get",
         url: "/userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),

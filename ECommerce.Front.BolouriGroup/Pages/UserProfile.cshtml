@@ -1,6 +1,6 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model ECommerce.Front.BolouriGroup.Pages.ProfileModel
+@model ECommerce.Front.BolouriGroup.Pages.UserProfileModel
 @{
     ViewData["Title"] = "پروفایل من";
 }
@@ -218,27 +218,27 @@
                                             <input asp-for="@Model.UserInformation" hidden="hidden" />
                                             <div class="form-group">
                                                 <label class="form-label">نام:</label>
-                                                <input class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
+                                                <input readonly ="readonly" class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">نام خانوادگی:</label>
-                                                <input class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
+                                                <input readonly="readonly" class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
                                             </div>
                                             <input hidden="hidden" class="form-control" type="text" asp-for="@Model.UserInformation.Email" dir="ltr">
                                             <div class="form-group">
                                                 <label class="form-label">نام شرکت:</label>
-                                                <input class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
+                                                <input readonly="readonly" class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">شماره موبایل:</label>
-                                                <input class="form-control" type="text" placeholder="شماره موبایل ..." asp-for="@Model.UserInformation.Mobile" dir="ltr">
+                                                <input readonly="readonly" class="form-control" type="text" placeholder="شماره موبایل ..." asp-for="@Model.UserInformation.Mobile" dir="ltr">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">کد ملی:</label>
-                                                <input class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
+                                                <input readonly="readonly" class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
                                             </div>
 
-                                            <select asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
+                                            <select readonly="readonly" asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
                                                 @if (Model.StateList != null)
                                                 {
                                                     @foreach (var state in Model.StateList?.ReturnData)
@@ -249,7 +249,7 @@
                                                 }
                                             </select>
 
-                                            <select asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
+                                            <select readonly="readonly" asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
                                                 @if (Model.CityList != null)
                                                 {
                                                     @foreach (var city in Model.CityList?.ReturnData)
