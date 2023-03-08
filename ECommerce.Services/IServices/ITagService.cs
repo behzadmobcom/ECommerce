@@ -7,6 +7,7 @@ namespace ECommerce.Services.IServices;
 public interface ITagService : IEntityService<Tag>
 {
     Task<ServiceResult<List<Tag>>> GetAll();
+    Task<ServiceResult<Tag>> GetByTagText(string tagText);
     Task<ServiceResult<List<Tag>>> Filtering(string filter);
     Task<ServiceResult<List<Tag>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult<Dictionary<int, string>>> LoadDictionary();

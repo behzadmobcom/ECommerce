@@ -53,6 +53,26 @@ public class CategoriesController : ControllerBase
         }
     }
 
+
+    [HttpGet]
+    public async Task<IActionResult> GetChildren(int categoryId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _categoryRepository.ChildrenCategory(categoryId, cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+
     [HttpGet]
     public async Task<ActionResult<Category>> GetById(int id, CancellationToken cancellationToken)
     {

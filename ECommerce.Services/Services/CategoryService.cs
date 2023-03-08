@@ -34,6 +34,21 @@ public class CategoryService : EntityService<Category>, ICategoryService
             Message = result.GetBody()
         };
     }
+    public async Task<ServiceResult<List<int>>> GetChildren(int categoryId)
+    {
+        var result = await _http.GetAsync<List<int>>(Url, $"GetChildren?categoryId={categoryId}");
+        if (result.Code == ResultCode.Success)
+            return new ServiceResult<List<int>>
+            {
+                Code = ServiceCode.Success,
+                ReturnData = result.ReturnData
+            };
+        return new ServiceResult<List<int>>
+        {
+            Code = ServiceCode.Error,
+            Message = result.GetBody()
+        };
+    }
 
     public async Task<ServiceResult<List<CategoryParentViewModel>>> GetParents(int productId = 0)
     {
