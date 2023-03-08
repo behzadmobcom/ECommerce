@@ -177,21 +177,6 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             List<int> categoriesId = tempCategoryService.ReturnData;
             categoriesId.Add(CategoryIdInt);
 
-            var products = _context.Products.Where(x => x.Prices!.Any()).AsQueryable();
-
-            if (categoriesId.Any(x => x != 0)) products = products.Where(x => x.ProductCategories.Any(cat => categoriesId.Any(categoryId => cat.Id == categoryId)));
-
-            if (brandsId is { Count: > 0 }) products = products.Where(x => brandsId.Contains((int)x.BrandId));
-
-            if (starsCount is { Count: > 0 })
-                products = products.Where(x =>
-                    starsCount.Contains(x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count));
-            if (tagsId is { Count: > 0 })
-                products = tagsId.Aggregate(products,
-                    (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
-
-            var result = products.Include(x => x.Prices).ThenInclude(y => y.Discount);
-            return result;
 
 
             result.ReturnData = productIndexPageViewModel;
