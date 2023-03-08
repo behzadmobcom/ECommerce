@@ -86,6 +86,7 @@ public class CheckoutModel : PageModel
         var resultSendInformation = ServiceCode.Success;
         if (SendInformation.Id == 0)
         {
+            ModelState.Remove("SendInformation.Id");
             if (ModelState.IsValid)
             {
                 var result = await _sendInformationService.Add(SendInformation);
