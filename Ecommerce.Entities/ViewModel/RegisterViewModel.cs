@@ -54,6 +54,7 @@ public class RegisterViewModel
 
     [Display(Name = "نام")]
     [StringLength(30, MinimumLength = 3, ErrorMessage = @"حداکثر 30 کاراکتر")]
+    [Required(ErrorMessage = "{0} را وارد کنید")]
     public string? FirstName { get; set; }
 
     [Display(Name = "نام شرکت")]
@@ -68,6 +69,7 @@ public class RegisterViewModel
 
     [Display(Name = "نام خانوادگی")]
     [StringLength(50, ErrorMessage = @"حداکثر 50 کاراکتر")]
+    [Required(ErrorMessage = "{0} را وارد کنید")]
     public string? LastName { get; set; }
 
     [Display(Name = "خبرنامه")] public bool IsFeeder { get; set; }

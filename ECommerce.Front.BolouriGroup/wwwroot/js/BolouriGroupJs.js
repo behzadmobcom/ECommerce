@@ -350,6 +350,7 @@ function SendConfirmSms() {
         return;
     }
     var timer = "";
+    var newNumber = false;
     $.ajax({
         type: "Get",
         url: "/login?handler=SecondsLeft&username=" + username,
@@ -360,8 +361,15 @@ function SendConfirmSms() {
             if (result.code == 2) {
                 timer = result.returnData;
             }
+            if (result.code == 1) {
+                newNumber = true;
+            }
         }
     });
+    if (newNumber) {
+        swal("این شماره در سایت ثبت نام نکرده است");
+        return;
+    }
     if (timer == "") {
         swal("رمز یکبار مصرف برای شما ارسال شد.");
         $.ajax({

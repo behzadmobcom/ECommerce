@@ -58,12 +58,13 @@
                         <div class="row tab-content" style="margin-right: 0;margin-left: 0">
                             <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
-                                <span asp-validation-for="RegisterViewModel.FirstName"></span>
+                                <span asp-validation-for="RegisterViewModel.FirstName" style="color: red"></span>
                                 <br />
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
-                                <span asp-validation-for="RegisterViewModel.LastName"></span>
+                                <span asp-validation-for="RegisterViewModel.LastName" style="color: red"></span>
                                 <br />
                                 <input type="text" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
+                                <span asp-validation-for="RegisterViewModel.NationalCode" style="color: red"></span>
                             </div>
 
                             <div id="menu1" class="container tab-pane form-group">
@@ -107,16 +108,14 @@
                             <input type="text" placeholder="کد تایید پیامک شده را وارد نمایید" dir="ltr" asp-for="RegisterViewModel.ConfirmCode" class="form-control">
                         </div>
                         <div class="form-group">
-                            <p style="font-size:smaller" id="smsResultMessage"></p>
-                        </div>                                     
-                        <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
                             <input type="password" onkeyup="CheckPassword()" placeholder="رمز عبور" dir="ltr" asp-for="RegisterViewModel.Password" class="form-control">
+                            <span asp-validation-for="RegisterViewModel.Password" style="color: red"></span>
+                            <span id="passwordHintId" style="color: red">لطفا فقط انگلیسی! حداقل 8 حداکثر 30 کاراکتر و حتما باید از حروف انگلیسی، عدد و حروف خاص (...#$%^&*) استفاده شده باشد</span>
                         </div>
                         <div class="form-group">
-                            <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: red"></span>
-                            <span id="passwordHintId" style="color: red">لطفا فقط انگلیسی! حداقل 8 حداکثر 30 کاراکتر و حتما باید از حروف انگلیسی، عدد و حروف خاص (...#$%^&*) استفاده شده باشد</span>
                             <input type="password" placeholder="تکرار رمز عبور" dir="ltr" asp-for="RegisterViewModel.ConfirmPassword" class="form-control">
+                            <span asp-validation-for="RegisterViewModel.ConfirmPassword" style="color: red"></span>
+
                         </div>
 
                         <div class="form-check mb-3">
@@ -160,10 +159,10 @@
             async: false,
             success: function (result) {
                 if (result.status == 1) {                    
-                    document.getElementById("smsResultMessage").innerText = "پیامک با موفقیت ارسال شد" ;                    
+                    swal("پیامک با موفقیت ارسال شد");
                 };
                  if (result.status != 1) {
-                     document.getElementById("smsResultMessage").innerText = "خطا در انجام عملیات.پیامک ارسال نشد" ;                                        
+                    swal("خطا در انجام عملیات.پیامک ارسال نشد");
                 };
                
             }

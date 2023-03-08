@@ -51,6 +51,13 @@ public class RegisterModel : PageModel
     public async Task<IActionResult> OnPostRegister()
     {
         await Load(RegisterViewModel.StateId);
+        var codeConfirm = GenerateCode(RegisterViewModel.Username);
+        if (RegisterViewModel.ConfirmCode != codeConfirm)
+        {
+            Message = "کد تایید نامعتبر می باشد";
+            Code = "Error";
+            return Page();
+        }
         if (!RegisterViewModel.IsRole)
         {
             //          !qa@ws#ed123
@@ -83,18 +90,13 @@ public class RegisterModel : PageModel
             case 15:
                 RegisterViewModel.CompanyTypeName = "فروشگاه";
                 break;
+            default:
+                RegisterViewModel.CompanyTypeName = "شخصی";
+                break;
         }
         RegisterViewModel.Username = RegisterViewModel.Mobile;
         RegisterViewModel.Email = "boloorico@gmail.com";
         RegisterViewModel.IsHaveEmail = false;     
-        
-        var codeConfirm = GenerateCode(RegisterViewModel.Username);
-        if (RegisterViewModel.ConfirmCode != codeConfirm)
-        {
-            Message = "کد تایید نامعتبر می باشد";
-            Code = "Error";
-            return Page();
-        }
 
         var result = await _userService.Register(RegisterViewModel);
         if (result.Code > 0)

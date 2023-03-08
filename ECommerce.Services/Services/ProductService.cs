@@ -47,9 +47,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         };
     }
 
-    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl)
+    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isExist = false)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}");
+        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isExist={isExist}");
         return Return(result);
     }
 
@@ -140,16 +140,16 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "", string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
-        bool isExist = false, bool isWithoutBail = false, string tagText = "")
+        bool isExist = false, bool isWithoutBill = true, string tagText = "")
     {
-        string key = $"GetProducts-{pageNumber}-{isWithoutBail}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+        string key = $"GetProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
         bool isCached = _cache.TryGetValue(key, out ServiceResult<List<ProductIndexPageViewModel>> cacheEntry);
 
         if (!isCached  || (isCached && cacheEntry.Code != ServiceCode.Success))
         {
             var command = "GetProducts?" +
                           $"PaginationParameters.PageNumber={pageNumber}&" +
-                          $"IsWithoutBail={isWithoutBail}&" +
+                          $"isWithoutBill={isWithoutBill}&" +
                           $"PaginationParameters.PageSize={pageSize}&";
             if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
             if (!string.IsNullOrEmpty(categoryId)) command += $"PaginationParameters.CategoryId={categoryId}&";
@@ -184,7 +184,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count, bool isWithoutBail = false)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count, bool isWithoutBill = true)
     {
         var cacheEntry = await _cache.GetOrCreate($"TopRelatives-{productId}-{count}", async entry =>
         {
@@ -199,11 +199,11 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetAllProducts(bool isWithoutBil = false, bool? isExist = false)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
     {
         var cacheEntry = await _cache.GetOrCreateAsync($"GetAllProducts", async entry =>
         {
-            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetAllProducts?isWithoutBil={isWithoutBil}&isExist={isExist}");
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
             return result;
         });
 
@@ -238,7 +238,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     }
 
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBail = false)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBill = true)
     {
         var cacheEntry = await _cache.GetOrCreateAsync($"GetTops-{includeProperties}", async entity =>
         {

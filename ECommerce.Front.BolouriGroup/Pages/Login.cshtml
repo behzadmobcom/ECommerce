@@ -70,22 +70,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="user-form-footer">
+              @*  <div class="user-form-footer">
                     <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-                </div>
+                </div>*@
             </div>
         </div>
-        <partial name="_ValidationScriptsPartial" />
     </div>
 </section>
-@section Scripts
-    {
-    <script>
-        const btnSendActive = document.getElementById('Send_Active');
-        function buttonClicked() {
-            btnSendActive.removeEventListener('click', buttonClicked);
-            enableButton();
-            alert('ok');
-        }
-    </script>
-}

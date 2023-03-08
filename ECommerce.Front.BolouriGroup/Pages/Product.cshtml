@@ -3,7 +3,7 @@
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
-    int priceId = Model.Product.Prices.FirstOrDefault(x => !x.IsColleague && x.Exist > 0).Id;
+    int? priceId = Model.Product.Prices.FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
