@@ -102,7 +102,7 @@ public class LoginModel : PageModel
         Random randomCode = new Random();
         int code = randomCode.Next(100000000);
         if (code < 10000000) code = code + 10000000;
-        SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code);
         if (smsResponsModel.Status != 1)
         {
             Message = smsResponsModel.Message;

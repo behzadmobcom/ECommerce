@@ -55,6 +55,7 @@ builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchrono
 builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.Configure<SmsIrSettings>(builder.Configuration.GetSection("SmsIr"));
 #region DI
 
 builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));

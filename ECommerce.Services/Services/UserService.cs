@@ -2,6 +2,8 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using static System.Net.WebRequestMethods;
 
 namespace ECommerce.Services.Services;
@@ -11,13 +13,14 @@ public class UserService : EntityService<User>, IUserService
     private const string Url = "api/Users";
     private readonly ICookieService _cookieService;
     private readonly IHttpService _http;
+    private readonly SmsIrSettings _smsSettings;
 
-    public UserService(IHttpService http, ICookieService cookieService) : base(http)
+    public UserService(IHttpService http, ICookieService cookieService, IOptions<SmsIrSettings> options) : base(http)
     {
         _http = http;
         _cookieService = cookieService;
+        _smsSettings = options.Value;
     }
-
 
     public async Task<ServiceResult> Logout()
     {
@@ -212,22 +215,38 @@ public class UserService : EntityService<User>, IUserService
         return Return(result);
     }
 
-    public async Task<SmsIr> SendAuthenticationSms(string? mobile , int code)
+    public async Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile)
     {
-        string apiKey = "a7PWGXQgKbgTLGscQbWS0PIN6ygPHuar8aazKW3lucUMhvYVW6rWelsIsf5pXNvE";
-        string apiName = "x-api-key";
-        string data = @"{" + "\n" +
-        @"  ""mobile"": """ + mobile + @"""," + "\n" +
-        @"  ""templateId"": 100000," + "\n" +
-        @"  ""parameters"": [" + "\n" +
-        @"    {" + "\n" +
-        @"      ""name"": ""CODE""," + "\n" +
-        @"      ""value"": """ + code + @"""" + "\n" +
-        @"    }" + "\n" +
-        @"  ]" + "\n" +
-        @"}";
-        string url = "https://api.sms.ir/v1/send/verify";
-        var result = await _http.PostAsyncWithApiKey<SmsIr>(apiName, apiKey, data, url);
+        string apiKey = _smsSettings.apikey;
+        string apiName = _smsSettings.apiName;
+        string url = _smsSettings.url;
+        RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();       
+        RequestVerifySmsIrParameters invoiceParameter = new RequestVerifySmsIrParameters();
+        invoiceParameter.Name = "INVOICE";
+        invoiceParameter.Value = invoice;
+        RequestVerifySmsIrParameters dateParameter = new RequestVerifySmsIrParameters();
+        dateParameter.Name = "DATE";
+        dateParameter.Value = DateTime.UtcNow + "";
+        RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { invoiceParameter, dateParameter };
+        RequestSMSIrViewModel.TemplateId = _smsSettings.invoiceTemplateId;
+        RequestSMSIrViewModel.Mobile = mobile;
+        var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
+        return result;
+    }
+
+    public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , int code)
+    {
+        string apiKey = _smsSettings.apikey;
+        string apiName = _smsSettings.apiName;
+        string url = _smsSettings.url;
+        RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
+        RequestVerifySmsIrParameters RequestVerifySmsIrParameter = new RequestVerifySmsIrParameters();
+        RequestVerifySmsIrParameter.Name = "CODE";
+        RequestVerifySmsIrParameter.Value = code + "";
+        RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { RequestVerifySmsIrParameter };
+        RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
+        RequestSMSIrViewModel.Mobile = mobile;
+        var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
         return result;
     }
 

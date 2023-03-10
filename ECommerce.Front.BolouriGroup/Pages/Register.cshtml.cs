@@ -112,7 +112,7 @@ public class RegisterModel : PageModel
     {       
         int code = GenerateCode(username);
         if (code == 0) return new JsonResult(null);
-        SmsIr smsResponsModel = await _userService.SendAuthenticationSms(username, code);     
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code);     
         return new JsonResult(smsResponsModel);
     }
 
