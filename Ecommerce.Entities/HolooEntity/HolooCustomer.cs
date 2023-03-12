@@ -63,8 +63,8 @@
         public string? Cust_City { get; set; }
         public string? Cust_Ostan { get; set; }
         public string? C_Address { get; set; }
-        public bool Kharid { get; set; }
-        public bool Forosh { get; set; }
-        public bool Vaseteh { get; set; }
+        public bool? Kharid { get; set; }
+        public bool? Forosh { get; set; }
+        public bool? Vaseteh { get; set; }
     }
 }

@@ -211,10 +211,10 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill = true)
     {
         var result = await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
-            "ProductsWithIdsForCart");
+            $"ProductsWithIdsForCart?isWithoutBill={isWithoutBill}");
         return Return(result);
     }
 

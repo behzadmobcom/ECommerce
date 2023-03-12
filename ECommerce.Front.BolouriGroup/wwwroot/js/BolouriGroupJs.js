@@ -245,8 +245,13 @@ function AddCart(id, priceId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            swal(result.message);
+            if (result.code != 2) {
+                swal(result.message);
+            }
             if (result.code === 0) {
+                LoadCard();
+            }
+            if (result.code === 2) {
                 LoadCard();
             }
         },
@@ -296,7 +301,6 @@ function DecreaseCart(id, productId, priceId) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            swal(result.message);
             LoadCard();
         },
         failure: function (response) {

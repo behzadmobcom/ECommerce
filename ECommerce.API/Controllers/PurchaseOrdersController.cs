@@ -338,6 +338,11 @@ public class PurchaseOrdersController : ControllerBase
                     repetitiveDetail.Quantity += createPurchaseCommand.Quantity;
                     repetitiveDetail.SumPrice = repetitiveDetail.Quantity * unitPrice;
                     await _purchaseOrderDetailRepository.UpdateAsync(repetitiveDetail, cancellationToken);
+                    return Ok(new ApiResult()
+                    {
+                        Code = ResultCode.Repetitive
+
+                    });
                 }
                 else
                 {

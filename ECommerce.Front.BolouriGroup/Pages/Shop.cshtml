@@ -27,11 +27,12 @@
             <div class="col-lg-3 order-1 order-lg-0">
                 <div class="shop-widget shop-widget-category">
                     <h6 class="shop-widget-title">دسته بندی</h6>
-	                @await Component.InvokeAsync("CategoriesList")
+                    @await Component.InvokeAsync("CategoriesList")
                 </div>
-                <div class="shop-widget shop-widget-price">
-                    <h6 class="shop-widget-title">حدود قیمت</h6>
-                    <form asp-page-handler="OnGet" method="get">
+                <form asp-page-handler="OnGet" method="get">
+
+                    <div class="shop-widget shop-widget-price">
+                        <h6 class="shop-widget-title">حدود قیمت</h6>
 
                         <label for="min-price" class="form-label" style="margin-top: 20px">حداقل قیمت (تومان) </label><br />
                         <span id="min-price-txt">@Model.Min</span>
@@ -42,104 +43,51 @@
                         <br />
                         <h6 class="widget-title border-left mb-20">فقط نمایش کالاهای موجود</h6>
                         <label class="switch">
-                            <input type="checkbox" name="isExist" value="true" @if(@Model.IsExist){
-                            <text>checked</text>
-}>
+                            <input type="checkbox" name="isExist" value="true" @if (@Model.IsExist)
+                            {
+                                <text>checked</text>
+                            }>
                             <span class="slider round"></span>
                         </label>
                         <input name="pageSize" value="@Model.Products.PaginationDetails.PageSize" hidden="hidden" />
                         <input name="search" value="@Model.Products.PaginationDetails.Search" hidden="hidden" />
-
+                        <br/>
                         <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
                                 style="margin-top: 20px">
                             اعمال
                         </button>
-                    </form>
-                </div>
-                <div class="shop-widget shop-widget-rate">
-                    <h6 class="shop-widget-title">رتبه بندی</h6>
-                    <ul class="shop-widget-list">
-                        <li>
-                            <div class="shop-widget-content">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="feat1">
-                                    <label class="form-check-label" for="feat1">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <span class="shop-widget-number">(50)</span>
-                        </li>
-                        <li>
-                            <div class="shop-widget-content">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="feat2">
-                                    <label class="form-check-label" for="feat2">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <span class="shop-widget-number">(25)</span>
-                        </li>
-                        <li>
-                            <div class="shop-widget-content">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="feat3">
-                                    <label class="form-check-label" for="feat3">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <span class="shop-widget-number">(13)</span>
-                        </li>
-                        <li>
-                            <div class="shop-widget-content">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="feat4">
-                                    <label class="form-check-label" for="feat4">
-                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <span class="shop-widget-number">(15)</span>
-                        </li>
-                        <li>
-                            <div class="shop-widget-content">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="feat5">
-                                    <label class="form-check-label" for="feat5">
-                                        <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
-                                    </label>
-                                </div>
-                            </div>
-                            <span class="shop-widget-number">(02)</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="shop-widget shop-widget-brand">
-                    <h6 class="shop-widget-title">مارک های تجاری</h6>
-                    <ul class="shop-widget-list shop-widget-scroll">
-                        @{var count = false;}
-                        @foreach (var brand in Model.Brands)
-                        {
-                            @if (count)
-                            {
-                                <li>
-                                    <div class="shop-widget-content">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="brand_@brand.Key">
-                                            <label class="form-check-label" for="brand_@brand.Key">@brand.Value</label>
-                                        </div>
-                                    </div>
-                                </li>
+                    </div>
+                 
+                  @*  <div class="shop-widget shop-widget-brand">
+                        <h6 class="shop-widget-title">مارک های تجاری</h6>
+                        <ul class="shop-widget-list shop-widget-scroll">
+                            @{
+                                var count = false;
                             }
-                            count = true;
-                        }
+                            @foreach (var brand in Model.Brands)
+                            {
+                                @if (count)
+                                {
+                                    <li>
+                                        <div class="shop-widget-content">
+                                            <div class="form-check">
+                                                <input class="form-check-input brandCheckBox" type="checkbox" value="brandid=@brand.Key" id="brand_@brand.Key">
+                                                <label class="form-check-label" for="brand_@brand.Key">@brand.Value</label>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                count = true;
+                            }
 
-
-                    </ul>
-                </div>
+                        </ul>
+                        <input name="search" hidden="hidden" id="searchInputId"/>
+                        <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
+                                style="margin-top: 20px">
+                            اعمال
+                        </button>
+                    </div>*@
+                </form>
             </div>
             <div class="col-lg-9 order-0 order-lg-1">
                 <div class="row">
@@ -152,11 +100,11 @@
                                 if (endNumber > total) endNumber = total;
                             }
                             <div class="shop-filter-desktop">
-                            <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
+                                <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
 
-                            <a asp-page="/Shop" asp-route-productSort="1">مرتب سازی بر اساس جدیدترین</a>_
-                            <a asp-page="/Shop" asp-route-productSort="2">پرطرفدارها</a>_
-                            <a asp-page="/Shop" asp-route-productSort="3">قیمت پایین به بالا</a>_
+                                <a asp-page="/Shop" asp-route-productSort="1">مرتب سازی بر اساس جدیدترین</a>_
+                                <a asp-page="/Shop" asp-route-productSort="2">پرطرفدارها</a>_
+                                <a asp-page="/Shop" asp-route-productSort="3">قیمت پایین به بالا</a>_
                                 <a asp-page="/Shop" asp-route-productSort="4">قیمت بالا به پایین</a>
                             </div>
                             <div class="shop-filter-mobile">
@@ -180,7 +128,7 @@
                     {
                         foreach (var product in Model.Products.ReturnData)
                         {
-                            <partial name="Components/_productCard" model="product"/>
+                            <partial name="Components/_productCard" model="product" />
                         }
                     }
 
@@ -188,7 +136,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <ul class="pagination">
-                            <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
+                            <partial name="_Pagination" model="@Model.Products.PaginationDetails" />
                         </ul>
                     </div>
                 </div>
@@ -199,26 +147,26 @@
 
 @section scripts{
     <script>
-		window.onload = function() {
-			min_price = parseInt($("#min-price").val());
-			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$("#min-price-txt").text(minPrice);
+        window.onload = function () {
+            min_price = parseInt($("#min-price").val());
+            var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $("#min-price-txt").text(minPrice);
 
-			max_price = parseInt($("#max-price").val());
-			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$("#max-price-txt").text(maxPrice);
-		};
+            max_price = parseInt($("#max-price").val());
+            var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $("#max-price-txt").text(maxPrice);
+        };
 
-		$("#min-price").on("change mousemove", function () {
-			min_price = parseInt($("#min-price").val());
-			var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$("#min-price-txt").text(minPrice);
-		});
+        $("#min-price").on("change mousemove", function () {
+            min_price = parseInt($("#min-price").val());
+            var minPrice = min_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $("#min-price-txt").text(minPrice);
+        });
 
-		$("#max-price").on("change mousemove", function () {
-			max_price = parseInt($("#max-price").val());
-			var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$("#max-price-txt").text(maxPrice);
-		});
-	</script>
+        $("#max-price").on("change mousemove", function () {
+            max_price = parseInt($("#max-price").val());
+            var maxPrice = max_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $("#max-price-txt").text(maxPrice);
+        });
+    </script>
 }

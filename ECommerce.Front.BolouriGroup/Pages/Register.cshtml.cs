@@ -51,7 +51,7 @@ public class RegisterModel : PageModel
     public async Task<IActionResult> OnPostRegister()
     {
         await Load(RegisterViewModel.StateId);
-        var codeConfirm = GenerateCode(RegisterViewModel.Username);
+        var codeConfirm = GenerateCode(RegisterViewModel.Mobile);
         if (RegisterViewModel.ConfirmCode != codeConfirm)
         {
             Message = "کد تایید نامعتبر می باشد";
@@ -89,9 +89,6 @@ public class RegisterModel : PageModel
                 break;
             case 15:
                 RegisterViewModel.CompanyTypeName = "فروشگاه";
-                break;
-            default:
-                RegisterViewModel.CompanyTypeName = "شخصی";
                 break;
         }
         RegisterViewModel.Username = RegisterViewModel.Mobile;

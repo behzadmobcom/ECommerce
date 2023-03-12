@@ -286,9 +286,6 @@
                     <li>
                         <a class="nav-link dropdown-link" href="#"><h3>حساب</h3></a>
                         <ul class="dropdown-list">
-                            <li>
-                                <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
-                            </li>
                             @if (User.Identity.IsAuthenticated)
                             {
                                 if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
@@ -302,10 +299,10 @@
                                     <li>
                                         <a asp-area="" asp-page="/UserProfile">پروفایل من</a>
                                     </li>
-                                    <li>
-                                        <a href="/index?handler=Logout">خروج</a>
-                                    </li>
                                 }
+                                <li>
+                                    <a href="/index?handler=Logout">خروج</a>
+                                </li>
                             }
                             else
                             {

@@ -27,7 +27,7 @@
             {
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
                     <div class="banner-img" style="z-index: -1;">
-                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 1920px; height: 790px; justify-content: center !important" loding="lazy">
+                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loding="lazy">
                     </div>
                 </a>
             }
@@ -37,7 +37,7 @@
                 {
                     <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
                         <div class="banner-img" style="z-index: -1;">
-                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 1920px; height: 790px; justify-content: center !important" loding="lazy">
+                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loding="lazy">
                         </div>
                     </a>
                 }

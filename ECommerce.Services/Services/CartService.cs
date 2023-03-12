@@ -66,7 +66,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var carts = new List<PurchaseOrderViewModel>();
 
         var productList = new List<CookiesProduct>();
-      
+
         var cookies = _cookieService.GetCookie(context, _key);
         foreach (var cookie in cookies.OrderBy(x => x.Key))
         {
@@ -77,9 +77,9 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             if (productCode <= 0 || productCount <= 0 || priceId <= 0) continue;
             productList.Add(new CookiesProduct
             {
-               ProductId = productCode,
-               ProductNumber = productCount,
-               ProductPrice = priceId,
+                ProductId = productCode,
+                ProductNumber = productCount,
+                ProductPrice = priceId,
             });
         }
 
@@ -92,7 +92,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             var product = productList.First(x => x.ProductId == responseProduct.ReturnData[i].Id);
             var priceId = product.ProductPrice;
             var price = responseProduct.ReturnData[i].Prices.Where(x => x.Id == priceId).FirstOrDefault();
-            if(price == null)
+            if (price == null)
                 continue;
             var quantity = responseProduct.ReturnData[i].MaxOrder < product.ProductNumber && responseProduct.ReturnData[i].MaxOrder > 0
                 ? responseProduct.ReturnData[i].MaxOrder
@@ -167,6 +167,13 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             }
 
             _cookieService.SetCookie(context, new CookieData($"{_key}-{productId}-{priceId}", newCount));
+            if (newCount > 1)
+            {
+                return new ServiceResult
+                {
+                    Code = ServiceCode.Info
+                };
+            }
             return new ServiceResult
             {
                 Code = ServiceCode.Success,
@@ -183,7 +190,13 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             PriceId = priceId
         };
         var result = await Create(Url, purchaseOrderViewModel);
-        //var result = await _http.PostAsync(Url, purchaseOrderViewModel);
+        if (result.Code == ResultCode.Repetitive)
+        {
+            return new ServiceResult
+            {
+                Code = ServiceCode.Info
+            };
+        }
         return Return(result);
     }
 
@@ -192,12 +205,11 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
         {
-            var count = 0;
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
             if (product != null)
             {
-                count = product.FirstOrDefault().Value - 1;
-                if (count == 0)
+                var count = product.FirstOrDefault().Value - 1;
+                if (count <= 0)
                 {
                     _cookieService.Remove(context, new CookieData($"{_key}-{productId}-{priceId}", productId));
                     return new ServiceResult

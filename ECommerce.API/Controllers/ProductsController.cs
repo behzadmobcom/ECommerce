@@ -157,7 +157,6 @@ public class ProductsController : ControllerBase
         return newProducts;
     }
 
-
     private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
     {
         var products = await AddPriceAndExistFromHolooList(

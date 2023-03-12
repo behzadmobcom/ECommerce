@@ -18,7 +18,7 @@ public interface IProductService : IEntityService<ProductViewModel>
       bool isExist = false, bool isWithoutBill = true, string tagText = "");
     Task<ServiceResult<List<ProductIndexPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isExist=false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3, bool isWithoutBill = true);
-    Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList);
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill = true);
     Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList);
     Task<ServiceResult<ProductViewModel>> GetById(int id);
     Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id);
