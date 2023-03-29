@@ -218,16 +218,16 @@
                                             <input asp-for="@Model.UserInformation" hidden="hidden" />
                                             <div class="form-group">
                                                 <label class="form-label">نام:</label>
-                                                <input readonly ="readonly" class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
+                                                <input class="form-control" type="text" placeholder="نام شما ..." asp-for="@Model.UserInformation.FirstName">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">نام خانوادگی:</label>
-                                                <input readonly="readonly" class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
+                                                <input class="form-control" type="text" placeholder="نام خانوادگی شما ..." asp-for="@Model.UserInformation.LastName">
                                             </div>
                                             <input hidden="hidden" class="form-control" type="text" asp-for="@Model.UserInformation.Email" dir="ltr">
                                             <div class="form-group">
                                                 <label class="form-label">نام شرکت:</label>
-                                                <input readonly="readonly" class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
+                                                <input class="form-control" type="text" placeholder="نام شرکت ..." asp-for="@Model.UserInformation.CompanyName">
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">شماره موبایل:</label>
@@ -235,7 +235,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-label">کد ملی:</label>
-                                                <input readonly="readonly" class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
+                                                <input class="form-control" type="text" placeholder="کد ملی ..." asp-for="@Model.UserInformation.NationalCode" dir="ltr">
                                             </div>
 
                                             <select readonly="readonly" asp-for="@Model.UserInformation.StateId" class="form-select" id="state" onchange="setCities();">
@@ -257,13 +257,12 @@
                                                         <option value="@city.Id">@city.Name</option>
                                                     }
                                                 }
-                                            </select>
-                                            <br />
-                                           @* <div class="row">
+                                            </select>                                            
+                                           <div class="row">
                                                 <div class="col-md-6">
                                                     <button class="form-btn" type="submit"><i class="fal fa-edit"></i>&nbsp;&nbsp;ویرایش</button>
                                                 </div>
-                                            </div>*@
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
