@@ -1,3 +1,6 @@
+using ECommerce.Services.IServices;
+using ECommerce.Services.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,6 +16,54 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+#region DI
+
+builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IBlogCommentService, BlogCommentService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IBlogCategoryService, BlogCategoryService>();
+builder.Services.AddScoped<IBlogAuthorService, BlogAuthorService>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IColorService, ColorService>();
+builder.Services.AddScoped<ICompareService, CompareService>();
+builder.Services.AddScoped<ICookieService, CookieService>();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IDiscountService, DiscountService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IHolooAccountNumberService, HolooAccountNumberService>();
+builder.Services.AddScoped<IHolooArticleService, HolooArticleService>();
+builder.Services.AddScoped<IHolooMGroupService, HolooMGroupService>();
+builder.Services.AddScoped<IHolooService, HolooService>();
+builder.Services.AddScoped<IHolooSGroupService, HolooSGroupService>();
+builder.Services.AddScoped<IHolooUnitService, HolooUnitService>();
+builder.Services.AddScoped<IHttpService, HttpService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IKeywordService, KeywordService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IPaymentMethodService, PaymentMethodService>();
+builder.Services.AddScoped<IPriceService, PriceService>();
+builder.Services.AddScoped<IProductAttributeGroupService, ProductAttributeGroupService>();
+builder.Services.AddScoped<IProductAttributeService, ProductAttributeService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+builder.Services.AddScoped<ISendInformationService, SendInformationService>();
+builder.Services.AddScoped<ISizeService, SizeService>();
+builder.Services.AddScoped<ISlideShowService, SlideShowService>();
+builder.Services.AddScoped<IStarService, StarService>();
+builder.Services.AddScoped<IStateService, StateService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IUnitService, UnitService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IProductCommentService, ProductCommentService>();
+
+#endregion
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

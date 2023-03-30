@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ecommerce.Entities\Ecommerce.Entities.csproj" />
+    <ProjectReference Include="..\ECommerce.Services\ECommerce.Services.csproj" />
+  </ItemGroup>
+
 </Project>
