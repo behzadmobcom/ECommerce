@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "ورود";
 }
-
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -44,8 +43,12 @@
                             <label>نام کاربری (شماره همراه)</label>
                             <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
                         </div>
-                        <div class="form-group">
-                            <label>کلمه عبور یا رمز یک بار مصرف</label><input type="password" asp-for="LoginViewModel.Password" class="form-control" placeholder="رمز ورود خود را وارد کنید">
+                        <label>کلمه عبور یا رمز یک بار مصرف</label>
+                        <div class="input-group" id="show_hide_password">
+                            <input class="form-control" type="password" asp-for="LoginViewModel.Password" placeholder="رمز ورود خود را وارد کنید">
+                            <div class="input-group-addon">
+                                <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
@@ -71,10 +74,8 @@
                         </div>
                     </form>
                 </div>
-              @*  <div class="user-form-footer">
-                    <p> &copy; 2021 - Bolouri - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
-                </div>*@
             </div>
         </div>
     </div>
 </section>
+

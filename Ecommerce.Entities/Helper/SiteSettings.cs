@@ -45,3 +45,12 @@ public class FrontSetting
     public string SiteName { get; set; }
     public string BaseAddress { get; set; }
 }
+
+public class SmsIrSettings
+{
+    public string apikey { get; set; }
+    public string apiName { get; set; }
+    public string url { get; set; }  
+    public int invoiceTemplateId { get; set; }
+    public int authenticationTemplateId { get; set; }
+}

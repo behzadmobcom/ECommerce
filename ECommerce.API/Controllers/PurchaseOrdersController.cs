@@ -406,6 +406,7 @@ public class PurchaseOrdersController : ControllerBase
         try
         {
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
+            purchaseOrder = await _purchaseOrderRepository.GetByIdAsync(cancellationToken, purchaseOrderDetails.PurchaseOrderId);
             purchaseOrderDetails.Quantity -= 1;
             if (purchaseOrderDetails.Quantity <= 0)
             {
@@ -414,6 +415,15 @@ public class PurchaseOrdersController : ControllerBase
             else
             {
                 await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
+            }
+            purchaseOrder.Amount = purchaseOrder.Amount - purchaseOrderDetails.UnitPrice;
+            if (purchaseOrder.Amount <= 0)
+            {
+                await _purchaseOrderRepository.DeleteAsync(purchaseOrder.Id, cancellationToken);
+            }
+            else
+            {
+                await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             }
             return Ok(new ApiResult
             {
