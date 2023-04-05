@@ -50,12 +50,12 @@
         <div class="row">
             <div class="col-lg-12 titer">
                 <div class="section-heading">
-                    <h2>موارد پرطرفدار</h2>
+                    <h2>کالای جدید</h2>
                 </div>
             </div>
         </div>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-            @foreach (var starProduct in Model.StarProducts)
+            @foreach (var starProduct in Model.NewProducts)
             {
                 <partial name="Components/_productCard" model="starProduct" />
             }

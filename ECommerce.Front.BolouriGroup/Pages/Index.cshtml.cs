@@ -37,7 +37,7 @@ public class IndexModel : PageModel
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
     //public List<ProductIndexPageViewModel> NewProducts { get; set; } = new List<ProductIndexPageViewModel>();
     public List<ProductIndexPageViewModel> ExpensiveProducts { get; set; } = new List<ProductIndexPageViewModel>();
-    public List<ProductIndexPageViewModel> StarProducts { get; set; } = new List<ProductIndexPageViewModel>();
+    public List<ProductIndexPageViewModel> NewProducts { get; set; } = new List<ProductIndexPageViewModel>();
     public ServiceResult<List<BlogViewModel>> Blogs { get; set; }
     //public List<ProductIndexPageViewModel> SellProducts { get; set; }
     public List<Brand> Brands { get; set; }
@@ -46,15 +46,14 @@ public class IndexModel : PageModel
     public async Task OnGetAsync()
     {
         //var productTops = (await _productService.GetTops("TopNew:8,TopPrices:4,TopStars:10")).ReturnData;
-        var productTops = (await _productService.GetTops("TopPrices:4,TopStars:10")).ReturnData;
+        var productTops = (await _productService.GetTops("TopPrices:4,TopNew:10")).ReturnData;
         foreach(var top in productTops)
         {
             switch (top.TopCategory)
             {
                 //case "TopNew": NewProducts.Add(top); break;
                 case "TopPrices": ExpensiveProducts.Add(top); break;
-                case "TopStars": StarProducts.Add(top); break;
-                default: break;
+                case "TopNew": NewProducts.Add(top); break;
             }
         }
         SlideShowViewModels = (await _slideShowService.TopSlideShow(5)).ReturnData;
