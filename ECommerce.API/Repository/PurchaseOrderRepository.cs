@@ -69,7 +69,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             Discount = p.DiscountAmount ?? 0,
             SendInformation = p.SendInformation,
             UserId = p.UserId,
-            UserName = p.User.UserName
+            UserName = p.User.UserName,
+            FBailCode = p.FBailCode
         }).ToListAsync(cancellationToken);
 
         return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,
@@ -125,10 +126,11 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
     public async Task<PurchaseOrder> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
     {
         var query = _context.PurchaseOrders.Where(x => x.Id == id)
-            .Include(d => d.PurchaseOrderDetails)
+            .Include(d => d.PurchaseOrderDetails).ThenInclude(p=>p.Price)
             .Include(d => d.PaymentMethod)
             .AsNoTracking();
 
-        return await query.FirstOrDefaultAsync(cancellationToken);
+        var result = await query.FirstOrDefaultAsync(cancellationToken);
+        return result;
     }
 }
