@@ -1,4 +1,5 @@
-﻿@using ECommerce.Services.IServices
+﻿@using System.Security.Claims
+@using ECommerce.Services.IServices
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject ICartService CartService
 @inject ICompareService CompareService
@@ -70,7 +71,7 @@
                     var compareList = resultCompare.ReturnData;
                     decimal allPrice = 0;
                 }
-                <label style="color: white">علیرضا</label>
+                <label style="color: white">@User.Identity?.Name</label>
                 <div class="header-widget-group right">
                     @if (User.Identity.IsAuthenticated)
                     {
