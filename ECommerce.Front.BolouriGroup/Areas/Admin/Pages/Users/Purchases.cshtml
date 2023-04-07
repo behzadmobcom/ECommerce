@@ -98,6 +98,7 @@
 	<th class="w-25px">
 		#
 	</th>
+    <th class="min-w-150px">شماره فاکتور</th>
 	<th class="min-w-150px">تاریخ خرید</th>
 	<th class="min-w-140px">وضعیت سفارش</th>
 	<th class="min-w-120px">وضعیت پرداخت</th>
@@ -116,6 +117,9 @@
  {							
 	<tr>
 	<td>@item.Id</td>
+    <td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
+	</td>
 	<td>
 		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate</a>
 	</td>
