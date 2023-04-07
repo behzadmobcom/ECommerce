@@ -24,4 +24,5 @@ public interface IUserService
     Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode);
     Task<ServiceResult<int?>> GetSecondsLeftConfirmCodeExpire(string username);
     Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile);
+    Task<bool> GetVerificationByNationalId(string nationalId);
 }

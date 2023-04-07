@@ -262,5 +262,27 @@ public class UserService : EntityService<User>, IUserService
         var result = await _http.GetAsync<int?>(Url, $"GetSecondsLeftConfirmCodeExpire?username={username}");
         return Return(result);
     }
+
+    public async Task<bool> GetVerificationByNationalId(string nationalId)
+    {
+        if (nationalId ==null || nationalId.Length!=10) return false;
+        int[] nationalIdArray = new int[10];
+        int sum = 0;
+        for (int i = 0; i < nationalId.Length; i++)
+        {
+            nationalIdArray[i]= int.Parse(nationalId[i].ToString());
+            if (i<9)
+            {
+                sum += nationalIdArray[i] * (10-i);
+            }
+        }
+        int remainder = sum % 11;
+        if (remainder <2 && nationalIdArray[9] == remainder || remainder >=2 && nationalIdArray[9] == 11 - remainder)
+        {
+            return true;
+        }
+
+        return false;
+    }
     
 }
