@@ -225,7 +225,11 @@
                         <label class="details-list-title">اشتراک گذاری:</label>
                         <ul class="details-share-list">
                             <li>
-                                <a class="fab fa-copy" href="https://pin.it/4PLGQh2" title="کپی کردن لینک"></a>
+                                <div class="copyright">
+                                        <button type="button" class="copyright">
+                                            <a class="fa fa-share-alt" title="کپی کردن لینک">  </a>
+                                        </button>
+                                    </div>
                             </li>
                             <li>
                                 <a class="fab fa-pinterest" href="https://pin.it/4PLGQh2" title="پینترست"></a>
@@ -404,4 +408,18 @@
 
      
     </script>
+    
+    <!-- Go to the copy to clidboard -->
+    <script>
+    let copyText = document.querySelector(".copyright");
+    copyText.querySelector("button").addEventListener("click", function () {
+        
+        var sURL = window.location.href;
+        sTemp="<input id=\"copyright\" value=\""+ sURL+ "\"/>"
+        $("body").append(sTemp);
+        $("#copyright").select();
+        document.execCommand("copy");
+    }
+    );
+</script>
 }
