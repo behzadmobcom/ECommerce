@@ -50,6 +50,12 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
+        if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
+        {
+            Message = "کد ملی نامعتبر می باشد";
+            Code = "Error";
+            return Page();
+        }
         await Load(RegisterViewModel.StateId);
         var codeConfirm = GenerateCode(RegisterViewModel.Mobile);
         if (RegisterViewModel.ConfirmCode != codeConfirm)
@@ -115,6 +121,7 @@ public class RegisterModel : PageModel
 
     public int GenerateCode(string mobile)
     {
+        if (mobile == null) return 0;
         int number;
         if (mobile.Length != 11 & mobile.Length != 10) return 0;
         if (mobile.Substring(0, 1) != "0") mobile = "0" + mobile;
