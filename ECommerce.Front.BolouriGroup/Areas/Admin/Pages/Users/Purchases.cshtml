@@ -1,5 +1,4 @@
 ﻿@page "/Admin/Users/Purchases/{handler?}"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.PurchaseModel
 @{
     ViewData["Title"] = "سفارشات";
@@ -121,7 +120,7 @@
 		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
 	</td>
 	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate</a>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa("f")</a>
 	</td>
 	<td>
 		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>

@@ -1,7 +1,6 @@
 ﻿@page "{handler?}"
 @using Ecommerce.Entities.Helper
 @using Ecommerce.Entities
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Products.PriceModel
 @{
     var i = 1 + (Model.Prices.PaginationDetails.CurrentPage - 1) * Model.Prices.PaginationDetails.PageSize;

@@ -2,9 +2,7 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using static System.Net.WebRequestMethods;
 
 namespace ECommerce.Services.Services;
 

@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Ecommerce.Entities.ViewModel.ProductIndexPageViewModel
+﻿@model Ecommerce.Entities.ViewModel.ProductIndexPageViewModel
 
 @{
     var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);

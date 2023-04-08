@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.UserProfileModel
 @{
     ViewData["Title"] = "پروفایل من";
@@ -86,7 +85,7 @@
                                                 </a>
                                                 <div class="view-list-group">
                                                     <label class="view-list-title">تاریخ:</label>
-                                                    <div>    @purchaseOrder.CreationDate</div>
+                                                    <div>    @purchaseOrder.CreationDate.ToFa()</div>
                                                 </div>
                                                 <div class="view-list-group">
                                                     <label class="view-list-title">کدسفارش:</label>
