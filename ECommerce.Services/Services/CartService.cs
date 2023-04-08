@@ -171,7 +171,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             {
                 return new ServiceResult
                 {
-                    Code = ServiceCode.Info
+                    Code = ServiceCode.Info,
+                    Message = "کالا با موفقیت به سبد خرید اضافه شد"
                 };
             }
             return new ServiceResult
@@ -194,7 +195,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         {
             return new ServiceResult
             {
-                Code = ServiceCode.Info
+                Code = ServiceCode.Info,
+               Message = result.Messages?.FirstOrDefault()
             };
         }
         return Return(result);
@@ -206,9 +208,9 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         if (currentUser.Id == 0)
         {
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
-            if (product != null)
+            if (product.Any())
             {
-                var count = product.FirstOrDefault().Value - 1;
+                var count = product.FirstOrDefault()!.Value - 1;
                 if (count <= 0)
                 {
                     _cookieService.Remove(context, new CookieData($"{_key}-{productId}-{priceId}", productId));
@@ -238,7 +240,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         if (currentUser.Id == 0 || deleteFromCookie)
         {
             var product = _cookieService.GetCookie(context, $"{_key}-{productId}-{priceId}", false);
-            if (product != null)
+            if (product.Any())
             {
                 _cookieService.Remove(context, new CookieData($"{_key}-{productId}-{priceId}", productId));
                 return new ServiceResult

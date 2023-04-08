@@ -256,8 +256,8 @@
                                                         <option value="@city.Id">@city.Name</option>
                                                     }
                                                 }
-                                            </select>                                            
-                                           <div class="row">
+                                            </select>
+                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <button class="form-btn" type="submit"><i class="fal fa-edit"></i>&nbsp;&nbsp;ویرایش</button>
                                                 </div>
@@ -276,3 +276,26 @@
     </div>
     <!-- LOGIN SECTION END -->
 </div>
+
+@section Scripts
+    {
+    <script>
+        function ChangePassword() {
+            var oldPass = $("#OldPass").val();
+            var newPass = $("#NewPass").val();
+            var newConPass = $("#NewConPass").val();
+            $.ajax({
+                type: "Get",
+                url: "/userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.message);
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+        }
+    </script>
+                                                    }

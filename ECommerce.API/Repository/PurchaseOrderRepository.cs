@@ -109,14 +109,14 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 Discount = p.Product.Prices!.First(x => x.Id == p.PriceId).Discount,
                 PriceId = p.PriceId,
                 ImagePath = $"{p.Product.Images!.FirstOrDefault()!.Path}/{p.Product.Images!.FirstOrDefault()!.Name}",
-                Brand = p.Product.Brand!.Name,
+                Brand = p.Product.Brand == null ? "بدون برند" : p.Product.Brand.Name,
                 Alt = p.Product.Images!.FirstOrDefault()!.Alt,
                 //Exist = p.Product.Exist,
                 IsColleague = p.PurchaseOrder!.User!.IsColleague,
                 UserId = p.PurchaseOrder.UserId,
                 Quantity = p.Quantity,
                 SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
-                ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color.Name,
+                ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color!.Name,
                 DiscountAmount = 0
             })
             .ToListAsync(cancellationToken);

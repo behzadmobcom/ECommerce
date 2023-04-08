@@ -1,4 +1,6 @@
-﻿function RemoveWishList(id) {
+﻿const formatter = new Intl.NumberFormat();
+
+function RemoveWishList(id) {
     $.ajax({
         type: "Get",
         url: "/index?handler=RemoveWishList&id=" + id,
@@ -47,24 +49,6 @@ labels.hover(
     }
 );
 
-function ChangePassword() {
-    var oldPass = $("#OldPass").val();
-    var newPass = $("#NewPass").val();
-    var newConPass = $("#NewConPass").val();
-    $.ajax({
-        type: "Get",
-        url: "/userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            swal(result.message);
-        },
-        failure: function (response) {
-            alert(response);
-        }
-    });
-}
-
 function setCities() {
     var stateId = $('#state').val();
     $.ajax({
@@ -90,7 +74,6 @@ $(".menu_hover").mouseover(function () {
 });
 
 function OpenProductModal(id) {
-    alert("guig");
     $.ajax({
         type: "Get",
         url: "/index?handler=QuickView&id=" + id,
@@ -137,7 +120,7 @@ function OpenProductModal(id) {
                     '</div>' +
                     '<h3 class="view-price">' +
                     '<span>' +
-                    result.returnData.price +
+                    formatter.format(result.returnData.price) +
                     '</span>' +
                     '</h3>' +
                     '<div class="view-list-group">' +
@@ -153,15 +136,6 @@ function OpenProductModal(id) {
                     '<div class="view-list-group">' +
                     '<label class="view-list-title">برچسب ها:</label>' +
                     '<ul class="view-tag-list">' +
-                    //if (Model.Product.Tags != null)
-                    //{
-                    //    foreach (var tag in Model.Product.Tags)
-                    //    {
-                    //        '<li>' +
-                    //          '  <a href="#">tag.TagText</a>'+
-                    //                                      '</li>' +
-                    //    }
-                    //}
                     '</ul>' +
                     '</div>' +
                     '</div>' +
@@ -202,11 +176,14 @@ function LoadCard() {
                     '  <h5><a asp-page="Product" asp-route-productUrl="' + product.url + '">' +
                     product.name +
                     '</a></h5>' +
-                    '  <h6>برند' +
+                    '  <h6>برند : ' +
                     product.brand +
                     '</h6>' +
+                    '  <h6>رنگ : ' +
+                    product.colorName +
+                    '</h6>' +
                     '<p>' +
-                    product.priceAmount +
+                    formatter.format(product.priceAmount) +
                     '</p>' +
                     '</div>' +
                     '<div class="cart-action-group">' +
@@ -217,7 +194,7 @@ function LoadCard() {
                     '<button class="action-plus" onclick="AddCart(' + product.productId + ',' + product.priceId + ')" title="مقدار به علاوه"><i class="far fa-plus"></i></button>' +
                     '</div>' +
                     '<h6>' +
-                    product.sumPrice +
+                    formatter.format(product.sumPrice) +
                     '</h6><h6>تومان</h6>' +
                     ' <input hidden="hidden" value="' + product.sumPrice + '" id="SumPrice-' + product.id + '"/>' +
                     '</div>' +
@@ -233,27 +210,22 @@ function LoadCard() {
         $('#Cart-Count-Value-Icon').val(count);
         $('#Cart-Count-Value-Icon1').val(count);
         $('#Cart-Count2').text("کل مورد (" + count + ")");
-        $('#All-Price').text(allPrice);
+        $('#All-Price').text(formatter.format(allPrice));
         $('#AllPrice-Value').val(allPrice);
     });
 }
 
-function AddCart(id, priceId) {
+function AddCart(id, priceId, count = 1, showMessage = false) {
     $.ajax({
         type: "Get",
         url: "/index?handler=AddCart&id=" + id + "&priceId=" + priceId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
-            if (result.code != 2) {
+            if (showMessage) {
                 swal(result.message);
             }
-            if (result.code === 0) {
-                LoadCard();
-            }
-            if (result.code === 2) {
-                LoadCard();
-            }
+            LoadCard();
         },
         failure: function (response) {
             swal(response);
@@ -331,7 +303,7 @@ function DeleteCart(id, productId, priceId) {
                 $('#Cart-Count').text(count);
                 $('#Cart-Count1').text(count);
                 $('#Cart-Count2').text("کل مورد (" + count + ")");
-                $('#All-Price').text(allPrice + ' تومان');
+                $('#All-Price').text(formatter.format(allPrice));
                 $("#Cart-Count-Value").val(count);
                 $("#Cart-Count-Value-Icon").val(count);
                 $("#Cart-Count-Value-Icon1").val(count);

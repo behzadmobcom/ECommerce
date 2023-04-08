@@ -8,7 +8,7 @@ public class PurchaseOrderViewModel
     public int ProductId { get; set; }
     public string? Url { get; set; }
     public string? Name { get; set; }
-    public string? Brand { get; set; }
+    public string Brand { get; set; } = string.Empty;
     public string? ImagePath { get; set; }
     public string? Alt { get; set; }
     public int PriceId { get; set; }
@@ -17,7 +17,7 @@ public class PurchaseOrderViewModel
     public decimal SumPrice { get; set; }
     public ushort Quantity { get; set; }
     public double Exist { get; set; }
-    public string ColorName { get; set; }
+    public string ColorName { get; set; } = string.Empty;
     public bool IsColleague { get; set; }
     public Discount? Discount { get; set; }
     public decimal DiscountAmount { get; set; }
