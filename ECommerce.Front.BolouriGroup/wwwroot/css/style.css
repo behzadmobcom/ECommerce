@@ -250,11 +250,11 @@ button:focus {
     text-align: center;
 }
 
-.alert-info p {
-    color: var(--blue-dark);
-    font-weight: 500;
-    text-shadow: var(--primary-shadow)
-}
+    .alert-info p {
+        color: var(--blue-dark);
+        font-weight: 500;
+        text-shadow: var(--primary-shadow)
+    }
 
 .alert-info p a {
     margin-right: 5px;
@@ -1545,7 +1545,7 @@ tbody tr td:last-child {
     }
 
     .suggest-card h5 span {
-        font: 14px
+        font-size: 14px
     }
 }
 
@@ -1611,7 +1611,7 @@ tbody tr td:last-child {
     }
 
 .label-text.sale {
-.    background: var(--orange)
+    background: var(--orange)
 }
 
 .label-text.feat {
@@ -3270,7 +3270,7 @@ tbody tr td:last-child {
 .header-select .nice-select .list {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: rgb(0 0 0/16%) 0 6px 12px;
+    box-shadow: rgba(0 0 0 0.16) 0 6px 12px;
     padding-bottom: .5rem;
     padding-top: .5rem;
     position: absolute;
@@ -4966,7 +4966,7 @@ tbody tr td:last-child {
         }
 
             .news-form button span:hover {
-                background: 0077CC;
+                background: #0077CC;
                 color: var(--white);
             }
 
@@ -5647,7 +5647,7 @@ tbody tr td:last-child {
                 align-items: flex-start;
                 background-color: #fff;
                 border-radius: 8px;
-                box-shadow: rgb(0 0 0/16%) 0 6px 12px;
+                box-shadow: rgba(0 0 0 0.16) 0 6px 12px;
                 flex-direction: column;
                 padding: 0;
                 padding-bottom: .5rem;
@@ -6013,7 +6013,7 @@ tbody tr td:last-child {
 
     .promo-img {
         border-radius: 8px;
-        box-shadow: 0 0 20px 5px rgb(0 0 0/10%);
+        box-shadow: 0 0 20px 5px rgba(0 0 0 0.1);
         overflow: hidden;
         width: 100%;
     }

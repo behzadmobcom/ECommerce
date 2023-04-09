@@ -12,21 +12,7 @@
 
     <link rel="icon" href="~/img/favicon.png" />
 
-    <link rel="stylesheet" href="~/css/flaticon.css" edia="print" onload="this.media='all'" />
-
-    <link rel="stylesheet" href="~/css/fontawesome.min.css" edia="print" onload="this.media='all'" />
-
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/nice-select.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/jquery-ui.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/venobox.min.css" edia="print" onload="this.media='all'" />
-
-
-    <link rel="stylesheet" href="~/css/MegaMenu.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/bootstrap-3.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/slick.min.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/style.css" edia="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="~/css/stars.css" edia="print" onload="this.media='all'" />
+    <link href="~/css/site.min.css" rel="stylesheet" onload="this.media='all'" />
     <!-- CSS only -->
     @await RenderSectionAsync("Head", false)
 </head>
@@ -528,26 +514,8 @@
         <i class="far fa-long-arrow-up"></i>
     </a>
 
-    @* <script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
-    <script src="~/js/jquery-3.6.0.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/nice-select.min.js"></script>
-    <script src="~/js/venobox.min.js"></script>
-    <script src="~/js/jquery-ui.js"></script>
-    <script src="~/js/finalcountdown.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
-    <script src="~/js/nice-select.js"></script>
-    <script src="~/js/price-range.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    @* <script src="~/js/jquery-1.12.0.min.js"></script>*@
-    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
-    <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
-    @* <script src="~/lib/drift-zoom/Drift.min.js"></script>*@
-    <script src="~/js/accordion.js"></script>
-    <script src="~/js/venobox.js"></script>
-    <script src="~/js/slick.js"></script>
-    <script src="~/js/main.js"></script>
-    <script src="~/js/BolouriGroupJs.js"></script>
+    <script src="~/js/site.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
     <script>
         window.onload = LoadCard();
