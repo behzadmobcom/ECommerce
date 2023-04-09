@@ -12,7 +12,6 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 public class InvoiceModel : PageModel
 {
     private readonly IPurchaseOrderService _purchaseOrderService;
-    private readonly ICartService _cartService;
 
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
@@ -21,15 +20,22 @@ public class InvoiceModel : PageModel
     [TempData] public string Code { get; set; }
     public PurchaseOrder PurchaseOrder { get; set; }
 
-    public InvoiceModel(IPurchaseOrderService purchaseOrderService, ICartService cartService)
+    public InvoiceModel(IPurchaseOrderService purchaseOrderService)
     {
         _purchaseOrderService = purchaseOrderService;
-        _cartService = cartService;
     }
 
     public async Task<ActionResult> OnGet(PurchaseResult result)
     {
         return await pay(result);
+    }
+
+    public async Task<IActionResult> Print()
+    {
+        return RedirectToPage("InvoiceReportPrint", new
+        {
+            systemTraceNo = SystemTraceNo,
+        });
     }
 
     private async Task<ActionResult> pay(PurchaseResult result)
