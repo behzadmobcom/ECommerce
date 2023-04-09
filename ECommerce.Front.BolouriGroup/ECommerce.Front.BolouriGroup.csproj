@@ -24,11 +24,13 @@
 	<ItemGroup>
 		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMenu\Default.cshtml" />
 		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
+		<_ContentIncludedByDefault Remove="Pages\Components\Username\Default.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="wwwroot\Images\Banner\" />
 	  <Folder Include="wwwroot\Images\Blogs\" />
+	  <Folder Include="wwwroot\Reports\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -40,6 +42,10 @@
 
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\Components\Username\Default.cshtml" />
 	</ItemGroup>
 
 </Project>

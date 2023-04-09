@@ -3745,17 +3745,15 @@ tbody tr td:last-child {
         display: none
     }
 }
-@media (min-width: 992px) and (max-width: 1599px) {
+@media (min-width: 992px){
     .dropdown-mobile {
+        display: none
+    }
+    .user-name-mobile {
         display: none
     }
 }
     @media (min-width: 992px) and (max-width: 1199px) {
-        .user-name-mobile {
-            display: none
-        }
-
-      
 
         .navbar-part .container-fluid {
             padding: 0 30px

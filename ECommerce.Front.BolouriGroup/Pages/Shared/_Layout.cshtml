@@ -33,14 +33,17 @@
 
 <body>
 
-<div class="header-part">
+    <div class="header-part">
         <div class="container">
             <div class="header-content-group">
                 <div class="header-widget-group left">
                     <button class="header-widget header-user" title="حساب من">
                         <img src="~/img/user.jpg" alt="کاربر" width="40" height="40">
                     </button>
-                    <span class="user-name-mobile">@User.Identity?.Name</span>
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <span class="user-name-mobile">@await Component.InvokeAsync("Username")</span>
+                    }
                     <a class="header-logo" asp-area="" asp-page="/Index">
                         <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.png" width="107" height="50" alt="لوگو">
                         <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.png" width="107" height="50" alt="لوگو">
@@ -104,7 +107,10 @@
                     var compareList = resultCompare.ReturnData;
                     decimal allPrice = 0;
                 }
-                <span class="user-name">@User.Identity?.Name</span>
+                @if (User.Identity!.IsAuthenticated)
+                {
+                    <span class="user-name">@await Component.InvokeAsync("Username")</span>
+                }
                 <div class="header-widget-group right">
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -385,25 +391,25 @@
     </aside>
 
 
-<div class="mobile-menu">
-    <button class="cart-btn" title="سبد خرید">
-        <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">@cartList.Count</sup>
-        <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon1" />
-    </button>
-    <button class="cate-btn" title="لیست دسته بندی">
-        <i class="far fa-th-large"></i><span>دسته بندی</span>
-    </button>
-    <a asp-area="" asp-page="/Index" title="صفحه نخست">
-        <i class="far fa-home"></i><span>خانه</span>
-    </a>
-    <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
-        <i class="far fa-heart"></i><span>لیست علاقه مندیها </span>
-    </a>
-    <a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
-        <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup id="Compare-Count">@compareList.Count</sup>
-        <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value-mobile"/>
-    </a>
-</div>
+    <div class="mobile-menu">
+        <button class="cart-btn" title="سبد خرید">
+            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">@cartList.Count</sup>
+            <input hidden="hidden" value="@cartList.Count" id="Cart-Count-Value-Icon1" />
+        </button>
+        <button class="cate-btn" title="لیست دسته بندی">
+            <i class="far fa-th-large"></i><span>دسته بندی</span>
+        </button>
+        <a asp-area="" asp-page="/Index" title="صفحه نخست">
+            <i class="far fa-home"></i><span>خانه</span>
+        </a>
+        <a asp-area="" asp-page="/Wishlist" title="لیست علاقه مندیها">
+            <i class="far fa-heart"></i><span>لیست علاقه مندیها </span>
+        </a>
+        <a asp-area="" asp-page="/Compare" title="لیست مقایسه ">
+            <i class="far fa-exchange"></i><span>مقایسه کنید </span><sup id="Compare-Count">@compareList.Count</sup>
+            <input hidden="hidden" value="@compareList.Count" id="Compare-Count-Value-mobile" />
+        </a>
+    </div>
 
     @RenderBody()
 
