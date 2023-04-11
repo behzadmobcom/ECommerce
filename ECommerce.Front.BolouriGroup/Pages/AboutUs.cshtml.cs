@@ -1,19 +1,13 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Xml.Linq;
-using Ecommerce.Entities;
+﻿using Ecommerce.Entities;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis;
-using PersianDate.Standard;
-using RazorEngineCore;
-using WkHtmlToPdfDotNet;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class AboutUsModel : PageModel
 {
+    
     private readonly IBrandService _brandService;
 
     public AboutUsModel(IBrandService brandService)
@@ -54,7 +48,7 @@ public class AboutUsModel : PageModel
             },
             Description = "sad"
         };
-
+    
         return RedirectToPage("InvoiceReportPrint", new
         {
             purchaseOrder = purchaseOrder,

@@ -49,13 +49,13 @@ public class RegisterModel : PageModel
 
     public async Task<IActionResult> OnPostRegister()
     {
+        await Load(RegisterViewModel.StateId);
         if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
         {
             Message = "کد ملی نامعتبر می باشد";
             Code = "Error";
             return Page();
         }
-        await Load(RegisterViewModel.StateId);
         var codeConfirm = GenerateCode(RegisterViewModel.Mobile);
         if (RegisterViewModel.ConfirmCode != codeConfirm)
         {
@@ -114,7 +114,7 @@ public class RegisterModel : PageModel
     {       
         int code = GenerateCode(username);
         if (code == 0) return new JsonResult(null);
-        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code);     
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());     
         return new JsonResult(smsResponsModel);
     }
 

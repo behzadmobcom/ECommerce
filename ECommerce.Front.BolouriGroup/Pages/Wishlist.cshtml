@@ -42,7 +42,7 @@
                                 </td>
                                 <td class="table-name">
                                     <h6>
-                                            <a asp-page="Product" asp-route-productId="@wish.Url" style="color: black">@wish.Name</a>
+                                        <a asp-area="" asp-page="Product" asp-route-productUrl="@wish.Url.Trim()" style="color: black">@wish.Name</a>
                                     </h6>
                                 </td>
                                 <td class="table-price">

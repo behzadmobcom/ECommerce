@@ -232,7 +232,7 @@ public class UserService : EntityService<User>, IUserService
         return result;
     }
 
-    public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , int code)
+    public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , string code)
     {
         string apiKey = _smsSettings.apikey;
         string apiName = _smsSettings.apiName;
@@ -240,7 +240,7 @@ public class UserService : EntityService<User>, IUserService
         RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
         RequestVerifySmsIrParameters RequestVerifySmsIrParameter = new RequestVerifySmsIrParameters();
         RequestVerifySmsIrParameter.Name = "CODE";
-        RequestVerifySmsIrParameter.Value = code + "";
+        RequestVerifySmsIrParameter.Value = code;
         RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { RequestVerifySmsIrParameter };
         RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
         RequestSMSIrViewModel.Mobile = mobile;
@@ -248,7 +248,7 @@ public class UserService : EntityService<User>, IUserService
         return result;
     }
 
-    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode)
+    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, string confirmCode)
     {
         var result = await _http.GetAsync<bool>(Url, $"SetConfirmCodeByUsername?username={username}" +
                                                      $"&confirmCode={confirmCode}");

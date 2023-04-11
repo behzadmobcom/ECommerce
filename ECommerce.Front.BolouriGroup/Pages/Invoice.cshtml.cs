@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
+using PersianDate.Standard;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
 
 public class InvoiceModel : PageModel
 {
+    private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
 
     public string Refid { get; set; }
@@ -20,9 +22,10 @@ public class InvoiceModel : PageModel
     [TempData] public string Code { get; set; }
     public PurchaseOrder PurchaseOrder { get; set; }
 
-    public InvoiceModel(IPurchaseOrderService purchaseOrderService)
+    public InvoiceModel(IPurchaseOrderService purchaseOrderService, IUserService userService)
     {
         _purchaseOrderService = purchaseOrderService;
+        _userService = userService;
     }
 
     public async Task<ActionResult> OnGet(PurchaseResult result)
@@ -94,6 +97,12 @@ public class InvoiceModel : PageModel
                 var resulPay = await _purchaseOrderService.Pay(PurchaseOrder);
                 Message = resulPay.Message;
                 Code = resulPay.Code.ToString();
+
+                string message =
+                    $"پیش فاکتور به شماره {PurchaseOrder.OrderId} به شماره پیگیری {res.Result.RetrivalRefNo} به مبلغ {PurchaseOrder.Amount} در تاریخ {PurchaseOrder.CreationDate.ToFa("f")} صادر شد";
+                await _userService.SendAuthenticationSms("09118876347", message);
+                await _userService.SendAuthenticationSms("09909052454", message);
+                await _userService.SendAuthenticationSms("09119384108", message);
 
                 return Page();
             }
