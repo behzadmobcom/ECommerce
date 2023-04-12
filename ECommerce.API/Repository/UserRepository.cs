@@ -97,8 +97,8 @@ public class UserRepository : AsyncRepository<User>, IUserRepository
         {
             CreationDate = DateTime.Now,
             ExpirationDate = expirationDate,
-            IpAddress = ipAddress,
-            Token = token,
+            IpAddress = ipAddress.Trim(),
+            Token = token.Trim(),
             UserId = userId
         });
         await DbContext.SaveChangesAsync();

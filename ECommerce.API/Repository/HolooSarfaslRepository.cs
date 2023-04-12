@@ -25,7 +25,7 @@ namespace ECommerce.API.Repository
                 Moien_Code = newMoeinCode,
                 Tafzili_Code = "",
                 Sarfasl_Code = $"103{newMoeinCode}",
-                Sarfasl_Name = username,
+                Sarfasl_Name = username.Trim(),
                 Mandeh = 0,
                 Group = 1,
                 Mahiat = 1,

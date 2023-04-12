@@ -68,13 +68,13 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
     {
         var blog = await _context.Blogs.Where(x => x.Id == blogViewModel.Id).Include(nameof(Blog.Tags))
             .Include(nameof(Blog.Keywords)).FirstAsync(cancellationToken);
-        blog.Title = blogViewModel.Title;
-        blog.Summary = blogViewModel.Summary;
-        blog.Text = blogViewModel.Text;
+        blog.Title = blogViewModel.Title.Trim();
+        blog.Summary = blogViewModel.Summary.Trim();
+        blog.Text = blogViewModel.Text.Trim();
         blog.CreateDateTime = blogViewModel.CreateDateTime;
         blog.EditDateTime = blogViewModel.EditDateTime;
         blog.PublishDateTime = blogViewModel.PublishDateTime;
-        blog.Url = blogViewModel.Url;
+        blog.Url = blogViewModel.Url.Trim();
         blog.BlogAuthorId = blogViewModel.BlogAuthorId;
         blog.BlogCategoryId = blogViewModel.BlogCategoryId;
 
