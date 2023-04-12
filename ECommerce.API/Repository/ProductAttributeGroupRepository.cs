@@ -75,7 +75,7 @@ public class ProductAttributeGroupRepository : AsyncRepository<ProductAttributeG
             {
                 var entity =
                     _context.ProductAttributeValues.First(x => x.Id == productAttribute.AttributeValue[0].Id);
-                entity.Value = productAttribute.AttributeValue[0].Value;
+                entity.Value = productAttribute.AttributeValue[0].Value.Trim();
                 _context.ProductAttributeValues.Update(entity);
             }
             else
@@ -84,7 +84,7 @@ public class ProductAttributeGroupRepository : AsyncRepository<ProductAttributeG
                     _context.ProductAttributeValues.Add(new ProductAttributeValue
                     {
                         ProductId = productId,
-                        Value = productAttribute.AttributeValue[0].Value,
+                        Value = productAttribute.AttributeValue[0].Value.Trim(),
                         ProductAttributeId = productAttribute.Id
                     });
             }
