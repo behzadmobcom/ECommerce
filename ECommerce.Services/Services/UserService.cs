@@ -3,6 +3,8 @@ using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Mail;
 
 namespace ECommerce.Services.Services;
 
@@ -12,12 +14,15 @@ public class UserService : EntityService<User>, IUserService
     private readonly ICookieService _cookieService;
     private readonly IHttpService _http;
     private readonly SmsIrSettings _smsSettings;
+    private readonly AdminInfoSetting _adminInfo;
+    
 
-    public UserService(IHttpService http, ICookieService cookieService, IOptions<SmsIrSettings> options) : base(http)
+    public UserService(IHttpService http, ICookieService cookieService, IOptions<SmsIrSettings> SmsIroptions, IOptions<AdminInfoSetting> CustomerInfoOption) : base(http)
     {
         _http = http;
         _cookieService = cookieService;
-        _smsSettings = options.Value;
+        _smsSettings = SmsIroptions.Value;
+        _adminInfo = CustomerInfoOption.Value;
     }
 
     public async Task<ServiceResult> Logout()
@@ -213,23 +218,61 @@ public class UserService : EntityService<User>, IUserService
         return Return(result);
     }
 
-    public async Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile)
+    public async Task SendInvocieEmailToAdminEmailAddresses(string invoice)
     {
-        string apiKey = _smsSettings.apikey;
-        string apiName = _smsSettings.apiName;
-        string url = _smsSettings.url;
-        RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();       
-        RequestVerifySmsIrParameters invoiceParameter = new RequestVerifySmsIrParameters();
-        invoiceParameter.Name = "INVOICE";
-        invoiceParameter.Value = invoice;
-        RequestVerifySmsIrParameters dateParameter = new RequestVerifySmsIrParameters();
-        dateParameter.Name = "DATE";
-        dateParameter.Value = DateTime.UtcNow + "";
-        RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { invoiceParameter, dateParameter };
-        RequestSMSIrViewModel.TemplateId = _smsSettings.invoiceTemplateId;
-        RequestSMSIrViewModel.Mobile = mobile;
-        var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
-        return result;
+        try
+        {
+            SmtpClient client = new SmtpClient(_adminInfo.SmtpServer, _adminInfo.Port);            
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(_adminInfo.MasterEmail, _adminInfo.MasterEmailPassword);
+            client.EnableSsl = true;
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(_adminInfo.MasterEmail);
+            foreach (var emailTo in _adminInfo.Emails)
+            {
+                message.To.Add(emailTo);
+            }
+            message.Subject = "فاکتور جدید";
+            message.Body = $"فاکتور جدید به شماره {invoice} صادر شد";
+            client.Send(message);         
+        }
+        catch (Exception ex)
+        {
+           
+        }     
+    }
+
+    public async Task<List<ResponseVerifySmsIrViewModel>> SendInvocieSmsToAdminNumbers(string invoice)
+    {
+        List<ResponseVerifySmsIrViewModel> result = new List<ResponseVerifySmsIrViewModel>();
+        try
+        {
+            foreach (var mobile in _adminInfo.MobileNumbers)
+            {
+                string apiKey = _smsSettings.apikey;
+                string apiName = _smsSettings.apiName;
+                string url = _smsSettings.url;
+                RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
+                RequestVerifySmsIrParameters invoiceParameter = new RequestVerifySmsIrParameters();
+                invoiceParameter.Name = "INVOICE";
+                invoiceParameter.Value = invoice;
+                RequestVerifySmsIrParameters dateParameter = new RequestVerifySmsIrParameters();
+                dateParameter.Name = "DATE";
+                dateParameter.Value = DateTime.UtcNow + "";
+                RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { invoiceParameter, dateParameter };
+                RequestSMSIrViewModel.TemplateId = _smsSettings.invoiceTemplateId;
+                RequestSMSIrViewModel.Mobile = mobile;
+                var smsResponse = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
+                result.Add(smsResponse);
+                //Task.Delay(1000).Wait();
+            }              
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 
     public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , string code)
@@ -245,6 +288,7 @@ public class UserService : EntityService<User>, IUserService
         RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
         RequestSMSIrViewModel.Mobile = mobile;
         var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
+        
         return result;
     }
 

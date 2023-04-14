@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
 using PersianDate.Standard;
+using Ecommerce.Entities.Helper;
+using Microsoft.Extensions.Options;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -13,7 +15,7 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 public class InvoiceModel : PageModel
 {
     private readonly IUserService _userService;
-    private readonly IPurchaseOrderService _purchaseOrderService;
+    private readonly IPurchaseOrderService _purchaseOrderService;    
 
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
@@ -98,11 +100,12 @@ public class InvoiceModel : PageModel
                 Message = resulPay.Message;
                 Code = resulPay.Code.ToString();
 
-                string message =
-                    $"پیش فاکتور به شماره {PurchaseOrder.OrderId} به شماره پیگیری {res.Result.RetrivalRefNo} به مبلغ {PurchaseOrder.Amount} در تاریخ {PurchaseOrder.CreationDate.ToFa("f")} صادر شد";
-                await _userService.SendAuthenticationSms("09118876347", message);
-                await _userService.SendAuthenticationSms("09909052454", message);
-                await _userService.SendAuthenticationSms("09119384108", message);
+                //string message =
+                //    $"پیش فاکتور به شماره {PurchaseOrder.OrderId} به شماره پیگیری {res.Result.RetrivalRefNo} به مبلغ {PurchaseOrder.Amount} در تاریخ {PurchaseOrder.CreationDate.ToFa("f")} صادر شد";
+
+                await _userService.SendInvocieSmsToAdminNumbers($"{PurchaseOrder.OrderId}");
+                await _userService.SendInvocieEmailToAdminEmailAddresses($"{PurchaseOrder.OrderId}");
+               
 
                 return Page();
             }

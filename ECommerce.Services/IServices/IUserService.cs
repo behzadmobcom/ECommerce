@@ -23,6 +23,7 @@ public interface IUserService
     Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile, string code);
     Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, string confirmCode);
     Task<ServiceResult<int?>> GetSecondsLeftConfirmCodeExpire(string username);
-    Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile);
+    Task<List<ResponseVerifySmsIrViewModel>> SendInvocieSmsToAdminNumbers(string invoice);
     Task<bool> GetVerificationByNationalId(string nationalId);
+    Task SendInvocieEmailToAdminEmailAddresses(string invoice);
 }

@@ -54,3 +54,13 @@ public class SmsIrSettings
     public int invoiceTemplateId { get; set; }
     public int authenticationTemplateId { get; set; }
 }
+
+public class AdminInfoSetting
+{
+    public string[] MobileNumbers { get; set; }
+    public string[] Emails { get; set; }
+    public string MasterEmail { get; set; }
+    public string MasterEmailPassword { get; set; }
+    public string SmtpServer { get; set; }
+    public int Port { get; set; }
+}

@@ -56,6 +56,7 @@ builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontS
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<SmsIrSettings>(builder.Configuration.GetSection("SmsIr"));
+builder.Services.Configure<AdminInfoSetting>(builder.Configuration.GetSection("AdminInfo"));
 #region DI
 
 builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
