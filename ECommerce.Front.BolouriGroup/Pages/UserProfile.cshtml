@@ -157,8 +157,7 @@
                                                                         <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt" loding="lazy">
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
-                                                           style="color: black">@purchaseOrderDetail.Product.Name</a>
+                                                                        <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url" style="color: black">@purchaseOrderDetail.Product.Name</a>
                                                                         <br />
                                                                     </div>
 
@@ -302,17 +301,12 @@
             }
         });
     }
-</script>
-<script language="javascript">
     function printDiv(divName) {
         var printContents = document.getElementById(divName).innerHTML;
         var originalContents = document.body.innerHTML;
-
         document.body.innerHTML = printContents;
-
         window.print();
-
         document.body.innerHTML = originalContents;
     }
 </script>
-                                                    }
+    }
