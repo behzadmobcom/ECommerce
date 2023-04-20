@@ -3352,7 +3352,7 @@ tbody tr td:last-child {
         top: 0;
         transition: all linear .3s;
         width: 100%;
-        z-index: 3;
+        z-index: 4;
         -moz-transition: all linear .3s;
         -ms-transition: all linear .3s;
         -o-transition: all linear .3s;
