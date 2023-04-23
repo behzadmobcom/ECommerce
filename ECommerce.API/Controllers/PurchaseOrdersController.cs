@@ -340,25 +340,23 @@ public class PurchaseOrdersController : ControllerBase
                     await _purchaseOrderDetailRepository.UpdateAsync(repetitiveDetail, cancellationToken);
                     return Ok(new ApiResult()
                     {
-                        Code = ResultCode.Repetitive
-
+                        Code = ResultCode.Repetitive,
+                        Messages = new[] { "کالا با موفقیت به سبد خرید اضافه شد" }
                     });
                 }
-                else
+
+                await _purchaseOrderDetailRepository.AddAsync(new PurchaseOrderDetail
                 {
-                    await _purchaseOrderDetailRepository.AddAsync(new PurchaseOrderDetail
-                    {
-                        PurchaseOrderId = repetitivePurchaseOrder.Id,
-                        Name = product.Name,
-                        UnitPrice = unitPrice,
-                        ProductId = product.Id,
-                        PriceId = price!.Id,
-                        Quantity = createPurchaseCommand.Quantity,
-                        SumPrice = sumPrice
-                    }, cancellationToken);
-                    repetitivePurchaseOrder.Amount += sumPrice;
-                    await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
-                }
+                    PurchaseOrderId = repetitivePurchaseOrder.Id,
+                    Name = product.Name,
+                    UnitPrice = unitPrice,
+                    ProductId = product.Id,
+                    PriceId = price!.Id,
+                    Quantity = createPurchaseCommand.Quantity,
+                    SumPrice = sumPrice
+                }, cancellationToken);
+                repetitivePurchaseOrder.Amount += sumPrice;
+                await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
 
                 return Ok(new ApiResult()
                 {

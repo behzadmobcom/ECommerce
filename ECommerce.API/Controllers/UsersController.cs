@@ -208,7 +208,7 @@ public class UsersController : ControllerBase
             else
             {
                 string[] emailSplit = register.Email.Split('@');
-                emailSplit[0] += _userRepository.TableNoTracking.Count();
+                emailSplit[0] += _userRepository.TableNoTracking.OrderByDescending(x => x.Id).First().Id;
                 register.Email = $"{emailSplit[0]}@{emailSplit[1]}";
             }
 
@@ -291,7 +291,7 @@ public class UsersController : ControllerBase
             var result = await _userManager.CreateAsync(user, register.Password);
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, SystemRoles.Client.ToString());
+              var s =  await _userManager.AddToRoleAsync(user, SystemRoles.Client.ToString());
 
                 return Ok(new ApiResult
                 {

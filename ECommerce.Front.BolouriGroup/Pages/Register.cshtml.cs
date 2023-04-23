@@ -3,7 +3,6 @@ using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -51,6 +50,12 @@ public class RegisterModel : PageModel
     public async Task<IActionResult> OnPostRegister()
     {
         await Load(RegisterViewModel.StateId);
+        if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
+        {
+            Message = "کد ملی نامعتبر می باشد";
+            Code = "Error";
+            return Page();
+        }
         var codeConfirm = GenerateCode(RegisterViewModel.Mobile);
         if (RegisterViewModel.ConfirmCode != codeConfirm)
         {
@@ -109,12 +114,13 @@ public class RegisterModel : PageModel
     {       
         int code = GenerateCode(username);
         if (code == 0) return new JsonResult(null);
-        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code);     
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());     
         return new JsonResult(smsResponsModel);
     }
 
     public int GenerateCode(string mobile)
     {
+        if (mobile == null) return 0;
         int number;
         if (mobile.Length != 11 & mobile.Length != 10) return 0;
         if (mobile.Substring(0, 1) != "0") mobile = "0" + mobile;

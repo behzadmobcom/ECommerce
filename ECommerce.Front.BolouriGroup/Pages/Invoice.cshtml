@@ -1,6 +1,4 @@
 ﻿@page "/invoice"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using PersianDate.Standard
 @model ECommerce.Front.BolouriGroup.Pages.InvoiceModel
 @{
     ViewData["Title"] = "فاکتور سفارش";
@@ -72,7 +70,7 @@
                             </li>
                             <li>
                                 <h6>زمان سفارش</h6>
-                                <p>@Model.PurchaseOrder.CreationDate.ToShortTimeString()</p>
+                                <p>@Model.PurchaseOrder.CreationDate.ToString("HH:m")</p>
                             </li>
                             <li>
                                 <h6>نشانی تحویل</h6>
@@ -107,7 +105,7 @@
                             </li>
                             <li>
                                 <h6>جمع</h6>
-                                <p>@Model.PurchaseOrder.Amount تومان</p>
+                                <p>@Model.PurchaseOrder.Amount.ToString("N0") تومان</p>
                             </li>
                         </ul>
                     </div>
@@ -142,7 +140,7 @@
                                         <h6>@product.Quantity</h6>
                                     </td>
                                     <td class="table-price">
-                                        <h6>@product.SumPrice</h6>
+                                        <h6>@product.SumPrice.ToString("N0")</h6>
                                     </td>
                                 </tr>
                             }

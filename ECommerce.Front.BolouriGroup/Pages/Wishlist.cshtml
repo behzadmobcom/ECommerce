@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.WishlistModel
 @{
     ViewData["Title"] = "لیست علاقه مندیها";
@@ -43,7 +42,7 @@
                                 </td>
                                 <td class="table-name">
                                     <h6>
-                                            <a asp-area="" asp-page="Product" asp-route-productId="@wish.Url" style="color: black">@wish.Name</a>
+                                        <a asp-area="" asp-page="Product" asp-route-productUrl="@wish.Url.Trim()" style="color: black">@wish.Name</a>
                                     </h6>
                                 </td>
                                 <td class="table-price">
@@ -55,7 +54,7 @@
                                         <h6>@wish.Brand</h6>
                                 </td>
                                 <td class="table-action">
-                                    <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.PriceId,1)" style="color: black" title="اضافه کردن به سبد خرید">
+                                    <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.PriceId,1,true)" style="color: black" title="اضافه کردن به سبد خرید">
                                             <i class="far fa-shopping-cart"></i>
                                     </a>
                                         <a href="javascript:void(0)" onclick="RemoveWish(@wish.Id,1)" style="color: black" title="حذف">

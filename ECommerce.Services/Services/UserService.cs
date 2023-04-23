@@ -2,9 +2,7 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using static System.Net.WebRequestMethods;
 
 namespace ECommerce.Services.Services;
 
@@ -234,7 +232,7 @@ public class UserService : EntityService<User>, IUserService
         return result;
     }
 
-    public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , int code)
+    public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , string code)
     {
         string apiKey = _smsSettings.apikey;
         string apiName = _smsSettings.apiName;
@@ -242,7 +240,7 @@ public class UserService : EntityService<User>, IUserService
         RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
         RequestVerifySmsIrParameters RequestVerifySmsIrParameter = new RequestVerifySmsIrParameters();
         RequestVerifySmsIrParameter.Name = "CODE";
-        RequestVerifySmsIrParameter.Value = code + "";
+        RequestVerifySmsIrParameter.Value = code;
         RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { RequestVerifySmsIrParameter };
         RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
         RequestSMSIrViewModel.Mobile = mobile;
@@ -250,7 +248,7 @@ public class UserService : EntityService<User>, IUserService
         return result;
     }
 
-    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode)
+    public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, string confirmCode)
     {
         var result = await _http.GetAsync<bool>(Url, $"SetConfirmCodeByUsername?username={username}" +
                                                      $"&confirmCode={confirmCode}");
@@ -261,6 +259,28 @@ public class UserService : EntityService<User>, IUserService
     {
         var result = await _http.GetAsync<int?>(Url, $"GetSecondsLeftConfirmCodeExpire?username={username}");
         return Return(result);
+    }
+
+    public async Task<bool> GetVerificationByNationalId(string nationalId)
+    {
+        if (nationalId ==null || nationalId.Length!=10) return false;
+        int[] nationalIdArray = new int[10];
+        int sum = 0;
+        for (int i = 0; i < nationalId.Length; i++)
+        {
+            nationalIdArray[i]= int.Parse(nationalId[i].ToString());
+            if (i<9)
+            {
+                sum += nationalIdArray[i] * (10-i);
+            }
+        }
+        int remainder = sum % 11;
+        if (remainder <2 && nationalIdArray[9] == remainder || remainder >=2 && nationalIdArray[9] == 11 - remainder)
+        {
+            return true;
+        }
+
+        return false;
     }
     
 }

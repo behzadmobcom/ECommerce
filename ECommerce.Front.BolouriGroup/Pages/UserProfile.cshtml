@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.UserProfileModel
 @{
     ViewData["Title"] = "پروفایل من";
@@ -59,6 +58,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel-heading">
+                            <h4 class="form-btn">
+                                <input type="button" onclick="printDiv('My_order_info')" value="چاپ جزئیات فاکتور" />
+                            </h4>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -86,7 +90,7 @@
                                                 </a>
                                                 <div class="view-list-group">
                                                     <label class="view-list-title">تاریخ:</label>
-                                                    <div>    @purchaseOrder.CreationDate</div>
+                                                    <div>    @purchaseOrder.CreationDate.ToFa()</div>
                                                 </div>
                                                 <div class="view-list-group">
                                                     <label class="view-list-title">کدسفارش:</label>
@@ -153,8 +157,7 @@
                                                                         <img style="width: 80px" src="@purchaseOrderDetail.Product.Images!.First().Path/@purchaseOrderDetail.Product.Images!.First().Name" alt="@purchaseOrderDetail.Product.Images!.First().Alt" loding="lazy">
                                                                     </div>
                                                                     <div class="col-md-8">
-                                                                        <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url"
-                                                                           style="color: black">@purchaseOrderDetail.Product.Name</a>
+                                                                        <a asp-page="Product" asp-route-productUrl="@purchaseOrderDetail.Product.Url" style="color: black">@purchaseOrderDetail.Product.Name</a>
                                                                         <br />
                                                                     </div>
 
@@ -257,8 +260,8 @@
                                                         <option value="@city.Id">@city.Name</option>
                                                     }
                                                 }
-                                            </select>                                            
-                                           <div class="row">
+                                            </select>
+                                            <div class="row">
                                                 <div class="col-md-6">
                                                     <button class="form-btn" type="submit"><i class="fal fa-edit"></i>&nbsp;&nbsp;ویرایش</button>
                                                 </div>
@@ -277,3 +280,33 @@
     </div>
     <!-- LOGIN SECTION END -->
 </div>
+
+@section Scripts
+    {
+<script>
+    function ChangePassword() {
+        var oldPass = $("#OldPass").val();
+        var newPass = $("#NewPass").val();
+        var newConPass = $("#NewConPass").val();
+        $.ajax({
+            type: "Get",
+            url: "/userProfile?handler=ChangePassword&newPass=" + encodeURIComponent(newPass) + "&newConPass=" + encodeURIComponent(newConPass) + "&oldPass=" + encodeURIComponent(oldPass),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                swal(result.message);
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        });
+    }
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+    }

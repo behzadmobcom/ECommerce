@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.AboutUsModel
 @{
     ViewData["Title"] = "درباره ما";
@@ -18,6 +17,7 @@
     </div>
 </section>
 
+<a class="btn btn-block btn-info" asp-page-handler="Print">چاپ فاکتور</a>
 
 <section class="inner-section about-company">
     <div class="container">

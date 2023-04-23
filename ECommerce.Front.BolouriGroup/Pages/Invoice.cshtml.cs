@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
+using PersianDate.Standard;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
 
 public class InvoiceModel : PageModel
 {
+    private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
-    private readonly ICartService _cartService;
 
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
@@ -21,15 +22,23 @@ public class InvoiceModel : PageModel
     [TempData] public string Code { get; set; }
     public PurchaseOrder PurchaseOrder { get; set; }
 
-    public InvoiceModel(IPurchaseOrderService purchaseOrderService, ICartService cartService)
+    public InvoiceModel(IPurchaseOrderService purchaseOrderService, IUserService userService)
     {
         _purchaseOrderService = purchaseOrderService;
-        _cartService = cartService;
+        _userService = userService;
     }
 
     public async Task<ActionResult> OnGet(PurchaseResult result)
     {
         return await pay(result);
+    }
+
+    public async Task<IActionResult> Print()
+    {
+        return RedirectToPage("InvoiceReportPrint", new
+        {
+            systemTraceNo = SystemTraceNo,
+        });
     }
 
     private async Task<ActionResult> pay(PurchaseResult result)
@@ -88,6 +97,12 @@ public class InvoiceModel : PageModel
                 var resulPay = await _purchaseOrderService.Pay(PurchaseOrder);
                 Message = resulPay.Message;
                 Code = resulPay.Code.ToString();
+
+                string message =
+                    $"پیش فاکتور به شماره {PurchaseOrder.OrderId} به شماره پیگیری {res.Result.RetrivalRefNo} به مبلغ {PurchaseOrder.Amount} در تاریخ {PurchaseOrder.CreationDate.ToFa("f")} صادر شد";
+                await _userService.SendAuthenticationSms("09118876347", message);
+                await _userService.SendAuthenticationSms("09909052454", message);
+                await _userService.SendAuthenticationSms("09119384108", message);
 
                 return Page();
             }

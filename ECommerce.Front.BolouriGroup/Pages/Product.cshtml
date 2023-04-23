@@ -1,5 +1,4 @@
 ﻿@page "/product/{productUrl}"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
@@ -92,13 +91,13 @@
                             @for (var i = 1; i <= 5; i++)
                             {
                                 <label id="starLable-@i" for="@i"
-                                   @if (Model.Stars >= i)
-                                   {
-                                       <text> class="rankChecked" </text>
-                                   }>
-                                    <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
-                                    <i class="fas fa-star"></i>
-                                </label>
+                                @if (Model.Stars >= i)
+                                {
+                                    <text> class="rankChecked" </text>
+                                }>
+                                                    <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@i" class="CheckboxStar"/>
+                                                    <i class="fas fa-star"></i>
+                                                </label>
                             }
                             <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars)نظر</a>
                         </div>
@@ -162,54 +161,71 @@
                                 }
                             </ul>
                         </div>
-                        <div class="details-list-group">
-                            <span class="details-list-title">در انبار:</span>
-                            <div id="exist">
-                                @if (Model.Product.Prices.First().Exist > 0)
-                                {
-                                    <span>در دسترس</span>
-                                }
-                                else
-                                {
-                                    <span>عدم موجودی</span>
-                                }
+                        @if (Model.Product.Prices.Count == 1)
+                        {
+                            <div class="details-list-group">
+                                <span class="details-list-title">در انبار:</span>
+                                <div id="exist">
+                                    @if (Model.Product.Prices.First().Exist > 0)
+                                    {
+                                        <span>در دسترس</span>
+                                    }
+                                    else
+                                    {
+                                        <span>عدم موجودی</span>
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
 
-                        @if (Model.Product.Tags != null)
+                        @if (Model.Product.Prices != null)
                         {
                             @foreach (var price in Model.Product.Prices)
                             {
-                                var select = price.Id == priceId ? "checked" : "";
-                                var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
-                                if ((int)price.Grade > 1)
-                                {
-                                    <div style="background-color: @price.Color.ColorCode">
-                                        <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                        <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
-                                        @{
-                                            string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
+                                <div class="row">
+                                    @{
+                                        var select = price.Id == priceId ? "checked" : "";
+                                        var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
+                                    }
+                                    @if ((int)price.Grade > 1)
+                                    {
+                                        <div class="col-8" style="background-color: @price.Color.ColorCode">
+                                            <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                            <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
+                                            @{
+                                                string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
+                                            }
+                                            <span for="price-@price.Id">قیمت : @_priceAmount </span>
+                                        </div>
+                                    }
+                                    else if (price.ColorId > 1)
+                                    {
+                                        <div class="col-8" style="background-color: @price.Color.ColorCode">
+                                            <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                            <span for="price-@price.Id">@price.Color.Name - </span>
+                                            @{
+                                                string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
+                                            }
+                                            <span for="price-@price.Id">قیمت : @_priceAmount </span>
+                                        </div>
+                                    }
+                                    <div class="col-4">
+                                        @switch (price.Exist)
+                                        {
+                                            case <= 0:
+                                                <span style="color: red">نا موجود</span>
+                                                break;
+                                            case <= 3:
+                                                <span style="color: red">باقیمانده @price.Exist عدد</span>
+                                                break;
                                         }
-                                        <span for="price-@price.Id">قیمت : @_priceAmount </span>
                                     </div>
-                                }
-                                else if (price.ColorId > 1)
-                                {
-                                    <div style="background-color: @price.Color.ColorCode">
-                                        <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                        <span for="price-@price.Id">@price.Color.Name - </span>
-                                        @{
-                                            string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
-                                        }
-                                        <span for="price-@price.Id">قیمت : @_priceAmount </span>
-                                    </div>
-                                }
-                                <br>
+                                </div>
                             }
                         }
 
                         <div class="details-add-group">
-                            <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddCart(@Model.Product.Id,@priceId)">
+                            <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddSelectedPriceToCart(@Model.Product.Id)">
                                 <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
                             </button>
                         </div>
@@ -324,7 +340,7 @@
                                             <img src="~/img/avatar/com.jpg" alt="مرور" loding="lazy">
                                         </a>
                                         <h5 class="review-meta">
-                                            <a href="#">@item.Name</a><span>@item.DateTime</span>
+                                            <a href="#">@item.Name</a><span>@item.DateTime.ToFa("f")</span>
                                         </h5>
                                     </div>
                                     <div class="review-desc">
@@ -387,6 +403,9 @@
 @section Scripts{
     <script src="~/js/Zoom.min.js"></script>
     <script>
+        var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
+        var priceId = prices[0].id;
+
         if (!window.matchMedia('(max-width: 767px)').matches) {
             var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
             var activeImageId = arrayOfArrays[0].id;
@@ -395,11 +414,10 @@
             $("#zoomModal").css("display", "none");
             $(".img-zoom-lens").css("display", "none");
         }
-
-        var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
+        
         function SetPriceId(id) {
             var price = prices.find(x => x.id == id);
-
+            priceId = id;
             if (price.exist > 0) {
                 $("#exist").text("در دسترس");
 
@@ -409,13 +427,6 @@
             $("#price").text(price.amount + " تومان ");
         }
 
-
-
-
-    </script>
-
-    <!-- Go to the copy to clicboard -->
-    <script>
         let copyText = document.querySelector(".copyright");
         copyText.querySelector("button").addEventListener("click", function () {
 
@@ -426,6 +437,9 @@
             document.execCommand("copy");
         }
         );
-        
+
+        function AddSelectedPriceToCart(productId) {
+            AddCart(productId, priceId, 1, true)
+        }
     </script>
 }

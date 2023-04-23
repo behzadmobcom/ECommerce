@@ -3,7 +3,6 @@ using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -102,14 +101,14 @@ public class LoginModel : PageModel
         Random randomCode = new Random();
         int code = randomCode.Next(100000000);
         if (code < 10000000) code = code + 10000000;
-        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code);
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
         if (smsResponsModel.Status != 1)
         {
             Message = smsResponsModel.Message;
             Code = "Error";
             return Page();
         }
-        var result = await _userService.SetConfirmCodeByUsername(username, code);
+        var result = await _userService.SetConfirmCodeByUsername(username, code.ToString());
         if (!result.ReturnData)
         {
             Message = "نام کاربری صحیح نمی باشد";

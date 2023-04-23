@@ -6,7 +6,6 @@ using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.API.Controllers;

@@ -1,0 +1,117 @@
+﻿<section class="inner-section invoice-part">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="account-card">
+                    <div class="account-title">
+                        <h4>خلاصه سفارش (@Model.PurchaseOrder.OrderGuid)</h4>
+                    </div>
+                    <div class="account-content">
+                        <div class="invoice-recieved">
+                            <h6>شناسه سفارش <span>@Model.PurchaseOrder.OrderGuid</span></h6>
+                            <h6>شماره پیگیری <span>@Model.Description</span></h6>
+                            <h6>تاریخ سفارش <span>@Model.PurchaseOrder.CreationDate.ToFa("f") </span></h6>
+                            <h6>مبلغ کل <span>@Model.PurchaseOrder.Amount تومان</span></h6>
+                            <h6><span> روش پرداخت</span><span>درگاه بانکی</span></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="account-card">
+                    <div class="account-title">
+                        <h4>جزئیات سفارش</h4>
+                    </div>
+                    <div class="account-content">
+                        <ul class="invoice-details">
+                            <li>
+                                <h6>کل مورد</h6>
+                                <p>@Model.PurchaseOrder.PurchaseOrderDetails.Count() مورد</p>
+                            </li>
+                            <li>
+                                <h6>زمان سفارش</h6>
+                                <p>@Model.PurchaseOrder.CreationDate.ToString("HH:m")</p>
+                            </li>
+                            <li>
+                                <h6>نشانی تحویل</h6>
+                                <p>@Model.PurchaseOrder.SendInformation!.Address</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="account-card">
+                    <div class="account-title">
+                        <h4>جزئیات مقدار</h4>
+                    </div>
+                    <div class="account-content">
+                        <ul class="invoice-details">
+                            <li>
+                                <h6>زیر کل</h6>
+                                <p>@Model.PurchaseOrder.Amount تومان</p>
+                            </li>
+                            <li>
+                                <h6>تخفیف</h6>
+                                <p>0 تومان</p>
+                            </li>
+                            <li>
+                                <h6>مالیات</h6>
+                                <p>0 تومان</p>
+                            </li>
+                            <li>
+                                <h6>روش پرداخت</h6>
+                                <p>درگاه بانکی</p>
+                            </li>
+                            <li>
+                                <h6>جمع</h6>
+                                <p>@Model.PurchaseOrder.Amount تومان</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="table-scroll">
+                    <table class="table-list">
+                        <thead>
+                            <tr>
+                                <th scope="col">ردیف</th>
+                                <th scope="col">نام</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">تعداد</th>
+                                <th scope="col">جمع</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @{
+                            var index = 0;
+                        }
+                        @foreach (var product in Model.PurchaseOrder.PurchaseOrderDetails)
+                        {
+                            <tr>
+                                <td class="table-price">
+                                    @index++
+                                </td>
+                                <td class="table-name">
+                                    <h6>@product.Name</h6>
+                                </td>
+                                <td class="table-price">
+                                    <h6>@product.Price?.Amount.ToString("###,###,###") تومان </h6>
+                                </td>
+                                <td class="table-price">
+                                    <h6>@product.Quantity</h6>
+                                </td>
+                                <td class="table-price">
+                                    <h6>@product.SumPrice</h6>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

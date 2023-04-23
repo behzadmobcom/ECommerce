@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.CheckoutModel
 @{
     ViewData["Title"] = "پرداخت";
@@ -121,7 +120,7 @@
 				            </div>
 				            <ul>
 					            <li>
-						            <span>کل </span><span>@Model.SumPrice تومان</span>
+						            <span>کل </span><span>@Model.SumPrice.ToString("N0") تومان</span>
 					            </li>
 				            </ul>
 			            </div>

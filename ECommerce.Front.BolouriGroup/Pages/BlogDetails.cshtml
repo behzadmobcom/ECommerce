@@ -1,5 +1,4 @@
 ﻿@page "/blog/{blogUrl}"
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Pages.BlogDetailsModel
 @{
     ViewData["Title"] = "جزئیات وبلاگ";
@@ -26,7 +25,7 @@
                     <a class="blog-details-thumb" href="#"><img src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image.Alt"loding="lazy"></a>
                     <div class="blog-details-content">
                         <ul class="blog-details-meta">
-                            <li><i class="far fa-calendar"></i><span> @Model.Blog.EditDateTime  </span></li>
+                            <li><i class="far fa-calendar"></i><span> @Model.Blog.EditDateTime.ToFa()  </span></li>
                             <li><i class="far fa-user"></i><span> @($"توسط {Model.Blog.BlogAuthor.Name}")  </span></li>
                             <li><i class="far fa-comments"></i><span>10 نظر</span></li>
                             <li><i class="far fa-share-alt"></i><span>20 سهم</span></li>
@@ -84,7 +83,7 @@
      <li class="comment-item">
        <div class="comment-media">
         <a class="comment-avatar" href="#"><img src="~/Images/BlogAuthors/29271c6e-60ec-4dd5-bc42-ae94c91624c5.jpg" alt="مرور"loding="lazy"></a>
-        <h6 class="comment-meta"><a href="#"> @blogComment.Name </a><span> @blogComment.DateTime </span></h6>
+                                    <h6 class="comment-meta"><a href="#"> @blogComment.Name </a><span> @blogComment.DateTime.ToFa("f") </span></h6>
        </div>
        <p class="comment-desc">
            @blogComment.Text

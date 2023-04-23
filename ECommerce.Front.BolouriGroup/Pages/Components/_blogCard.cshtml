@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Ecommerce.Entities.ViewModel.BlogViewModel
+﻿@model Ecommerce.Entities.ViewModel.BlogViewModel
 
 <div class="blog-card">
     <div class="blog-media">
@@ -7,7 +6,7 @@
     </div>
     <div class="blog-content">
         <ul class="blog-meta">
-            <li><i class="far fa-calendar"></i><span> <a asp-area="" asp-page="Blog">@Model.EditDateTime</a> </span></li>
+            <li><i class="far fa-calendar"></i><span> <a asp-area="" asp-page="Blog">@Model.EditDateTime.ToFa("f")</a> </span></li>
             <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor?.Name}")</a> </span></li>
             <li><i class="far fa-comments"></i><span>@Model.CommentCount نظر</span></li>
         </ul>

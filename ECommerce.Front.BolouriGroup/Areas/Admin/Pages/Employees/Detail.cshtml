@@ -1,5 +1,4 @@
 ﻿@page
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Employees.DetailModel
 @{
 }
@@ -29,7 +28,7 @@
 	                    </div>
 	                    <div class="form-group">
 		                    <label>تاریخ استخدام:</label>
-		                    <label class="form-control form-control-solid" style="height: auto">@Model.Employee.HireDateTime</label>
+                            <label class="form-control form-control-solid" style="height: auto">@Model.Employee.HireDateTime.ToFa()</label>
 	                    </div>
 	                    <div class="form-group">
 		                    <label>شاغل:</label>

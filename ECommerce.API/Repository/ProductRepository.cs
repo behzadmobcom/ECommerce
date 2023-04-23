@@ -78,10 +78,10 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(nameof(Product.ProductCategories)).Include(nameof(Product.Tags)).Include(nameof(Product.Keywords))
             .Include(nameof(Product.Images)).Include(nameof(Product.AttributeValues))
             .Include(nameof(Product.AttributeGroupProducts)).FirstAsync(cancellationToken);
-        product.Name = productViewModel.Name;
+        product.Name = productViewModel.Name.Trim();
         //product.ArticleCode = productViewModel.ArticleCode;
         //product.ArticleCodeCustomer = productViewModel.ArticleCodeCustomer;
-        product.Description = productViewModel.Description;
+        product.Description = productViewModel.Description.Trim();
         //product.Exist = productViewModel.Exist;
         product.MinOrder = productViewModel.MinOrder;
         product.MaxOrder = productViewModel.MaxOrder;
@@ -89,13 +89,13 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.ReorderingLevel = productViewModel.ReorderingLevel;
         product.IsDiscontinued = productViewModel.IsDiscontinued;
         product.IsActive = productViewModel.IsActive;
-        product.Url = productViewModel.Url;
+        product.Url = productViewModel.Url.Trim();
         //product.DiscountId = productViewModel.DiscountId;
         product.HolooCompanyId = productViewModel.HolooCompanyId;
         product.BrandId = productViewModel.BrandId != 0 ? productViewModel.BrandId : null;
         product.SupplierId = productViewModel.SupplierId;
         product.StoreId = productViewModel.StoreId;
-        product.Review = productViewModel.Review;
+        product.Review = productViewModel.Review.Trim();
 
         foreach (var productKeyword in product.Keywords) product.Keywords.Remove(productKeyword);
         foreach (var id in productViewModel.KeywordsId)
