@@ -256,3 +256,53 @@ public class ProductListFilteredViewModel
     public List<int>? StarsCount { get; set; }
     public List<int>? TagsId { get; set; }
 }
+
+public class ShopPageViewModel
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List<Price> Prices { get; set; } = new();
+    public double Stars { get; set; }
+    public string ImagePath { get; set; }
+    public string Alt { get; set; }
+    public string? Description { get; set; }
+    public string? Review { get; set; }
+    public string Url { get; set; }
+    public string Brand { get; set; }
+    public ushort MaxOrder { get; set; }
+    public string? TopCategory { get; set; }
+    public decimal? MaxPrice { get; set; }
+    public int? BrandId { get; set; }
+    public List<int>? CategoriesId { get; set; }
+    public List<int>? TagsId { get; set; }
+
+    public static implicit operator ShopPageViewModel(Product x)
+    {
+        var imagePath = "img/product";
+        var imageName = "NoImage.png";
+        var imageAlt = "NoImage";
+        var brandName = x.Brand == null ? "برند متفرقه" : x.Brand.Name;
+        //var stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(x => x.Stars) / x.ProductUserRanks.Count : 0;
+        if (x.Images.Count > 0)
+        {
+            imagePath = x.Images.FirstOrDefault().Path;
+            imageName = x.Images.FirstOrDefault().Name;
+            imageAlt = x.Images.FirstOrDefault().Alt;
+        }
+
+        return new ShopPageViewModel
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Description = x.Description,
+            Review = x.Review,
+            Prices = x.Prices,
+            ImagePath = $"{imagePath}/{imageName}",
+            Url = x.Url,
+            Brand = brandName,
+            Alt = imageAlt,
+            Stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count : 0,
+            MaxOrder = Convert.ToUInt16(x.MaxOrder),
+        };
+    }
+}

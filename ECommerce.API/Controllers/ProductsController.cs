@@ -437,9 +437,9 @@ public class ProductsController : ControllerBase
         try
         {
             var productQuery = _productRepository.GetAllProducts();
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            var productIndexPageViewModel = new List<ShopPageViewModel>();
             productIndexPageViewModel.AddRange(await productQuery
-                           .Select(p => new ProductIndexPageViewModel
+                           .Select(p => new ShopPageViewModel
                            {
                                Prices = p.Prices!,
                                Alt = p.Images!.First().Alt,
@@ -449,7 +449,11 @@ public class ProductsController : ControllerBase
                                Id = p.Id,
                                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                                Stars = p.Star,
-                               Url = p.Url
+                               Url = p.Url,
+                               TagsId = p.Tags.Select(x => x.Id).ToList(),
+                               CategoriesId = p.ProductCategories.Select(x => x.Id).ToList(),
+                               BrandId = p.BrandId
+
                            })
                            .ToListAsync(cancellationToken));
 
