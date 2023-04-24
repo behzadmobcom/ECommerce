@@ -1,8 +1,10 @@
-﻿using Ecommerce.Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ECommerce.Services.Services;
 
@@ -206,6 +208,13 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                     date = date.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
             }
+
+            if (!String.IsNullOrEmpty(tagText))
+            {
+                ServiceResult<Tag> resultTags = await _tagService.GetByTagText(tagText);
+                int tagId = resultTags.ReturnData.Id;
+            }
+
         }
 
         GetAllProducts();
