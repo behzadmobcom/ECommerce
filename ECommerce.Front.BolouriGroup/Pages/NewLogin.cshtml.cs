@@ -3,7 +3,6 @@ using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
