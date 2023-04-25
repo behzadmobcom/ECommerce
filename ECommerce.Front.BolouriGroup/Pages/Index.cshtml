@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "خانه";
 }
+@section Head
+    {
+    <link href="~/Banner.css" rel="stylesheet" type="text/css" />
+}
 
 <section class="home-classic-slider slider-arrow">
 
@@ -23,7 +27,7 @@
                 <div class="banner-part banner-1">
                     <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
                         <div class="banner-img" style="z-index: -1;">
-                            <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loading="lazy">
+                            <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loding="lazy">
                         </div>
                     </a>
                 </div>
@@ -32,13 +36,11 @@
             {
                 if (slide.Category != null)
                 {
-                    <div class="banner-part banner-1">
-                        <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
-                            <div class="banner-img" style="z-index: -1;">
-                                <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loading="lazy">
-                            </div>
-                        </a>
-                    </div>
+                    <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
+                        <div class="banner-img" style="z-index: -1;">
+                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loding="lazy">
+                        </div>
+                    </a>
                 }
             }
         }

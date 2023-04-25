@@ -36,8 +36,7 @@ public class InvoiceModel : PageModel
 
     public async Task<ActionResult> OnGetPayZarinpal(string factor, string status, string authority)
     {
-        if (string.IsNullOrEmpty(status) == false && string.IsNullOrEmpty(authority) == false &&
-            string.IsNullOrEmpty(factor) == false && status.ToLower() == "ok")
+        return RedirectToPage("InvoiceReportPrint", new
         {
             var resultOrder = await _purchaseOrderService.GetByUserId();
             PurchaseOrder = resultOrder.ReturnData;
@@ -77,6 +76,7 @@ public class InvoiceModel : PageModel
                         await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToFa());
                     }
                     OrderId = PurchaseOrder.OrderId;
+                    Message = "سفارش شما با موفقیت ثبت شد";
                     return Page();
             }
         }
@@ -151,6 +151,7 @@ public class InvoiceModel : PageModel
                 }
 
                 OrderId = PurchaseOrder.OrderId;
+                Message = "سفارش شما با موفقیت ثبت شد";
                 return Page();
             }
         }
