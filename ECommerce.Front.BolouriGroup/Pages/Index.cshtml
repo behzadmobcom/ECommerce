@@ -4,7 +4,7 @@
     ViewData["Title"] = "خانه";
 }
 @section Head
-{
+    {
     <link href="~/Banner.css" rel="stylesheet" type="text/css" />
 }
 
@@ -24,21 +24,25 @@
 
             if (slide.Product != null)
             {
-                <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
-                    <div class="banner-img" style="z-index: -1;">
-                        <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loding="lazy">
-                    </div>
-                </a>
+                <div class="banner-part banner-1">
+                    <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
+                        <div class="banner-img" style="z-index: -1;">
+                            <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loding="lazy">
+                        </div>
+                    </a>
+                </div>
             }
             else
             {
                 if (slide.Category != null)
                 {
-                    <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
-                        <div class="banner-img" style="z-index: -1;">
-                            <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loding="lazy">
-                        </div>
-                    </a>
+                    <div class="banner-part banner-1">
+                        <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
+                            <div class="banner-img" style="z-index: -1;">
+                                <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loding="lazy">
+                            </div>
+                        </a>
+                    </div>
                 }
             }
         }
