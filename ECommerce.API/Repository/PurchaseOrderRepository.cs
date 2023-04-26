@@ -88,7 +88,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<PurchaseOrder> GetByUserAndOrderId(int userId, long orderId, CancellationToken cancellationToken)
+    public async Task<PurchaseOrder?> GetByUserAndOrderId(int userId, long orderId, CancellationToken cancellationToken)
     {
         var query = _context.PurchaseOrders.Where(x => x.UserId==userId && x.OrderId == orderId ).AsNoTracking();
         return await query.FirstOrDefaultAsync(cancellationToken);

@@ -99,7 +99,7 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-            var result = await _purchaseOrderRepository.GetByUser(userId, cancellationToken);
+            var result = await _purchaseOrderRepository.GetByUserAndOrderId(userId,orderId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
