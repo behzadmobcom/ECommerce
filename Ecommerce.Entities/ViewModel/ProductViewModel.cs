@@ -138,7 +138,7 @@ public class ProductViewModel
     }
 }
 
-public class ProductIndexPageViewModel : BaseProductPageViewModel<ProductIndexPageViewModel>
+public class ProductIndexPageViewModel : BaseProductPageViewModel
 {  
     public ICollection<ProductUserRank> ProductUserRank { get; set; } 
 
@@ -244,7 +244,7 @@ public class ProductListFilteredViewModel
     public List<int>? TagsId { get; set; }
 }
 
-public class ShopPageViewModel : BaseProductPageViewModel<ShopPageViewModel>
+public class ShopPageViewModel : BaseProductPageViewModel
 {
 
     public int? BrandId { get; set; }
@@ -283,7 +283,7 @@ public class ShopPageViewModel : BaseProductPageViewModel<ShopPageViewModel>
 }
 
 
-public class BaseProductPageViewModel<T>
+public interface IBaseProductPageViewModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -298,34 +298,20 @@ public class BaseProductPageViewModel<T>
     public ushort MaxOrder { get; set; }
     public string? TopCategory { get; set; }
     public decimal? MaxPrice { get; set; }
-
-    public static implicit operator BaseProductPageViewModel<T>(Product x)
-    {
-        var imagePath = "img/product";
-        var imageName = "NoImage.png";
-        var imageAlt = "NoImage";
-        var brandName = x.Brand == null ? "برند متفرقه" : x.Brand.Name;
-        //var stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(x => x.Stars) / x.ProductUserRanks.Count : 0;
-        if (x.Images.Count > 0)
-        {
-            imagePath = x.Images.FirstOrDefault().Path;
-            imageName = x.Images.FirstOrDefault().Name;
-            imageAlt = x.Images.FirstOrDefault().Alt;
-        }
-
-        return new BaseProductPageViewModel<T>
-        {
-            Id = x.Id,
-            Name = x.Name,
-            Description = x.Description,
-            Review = x.Review,
-            Prices = x.Prices,
-            ImagePath = $"{imagePath}/{imageName}",
-            Url = x.Url,
-            Brand = brandName,
-            Alt = imageAlt,
-            Stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count : 0,
-            MaxOrder = Convert.ToUInt16(x.MaxOrder),
-        };
-    }
+}
+public class BaseProductPageViewModel
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List<Price> Prices { get; set; }
+    public double Stars { get; set; }
+    public string ImagePath { get; set; }
+    public string Alt { get; set; }
+    public string? Description { get; set; }
+    public string? Review { get; set; }
+    public string Url { get; set; }
+    public string Brand { get; set; }
+    public ushort MaxOrder { get; set; }
+    public string? TopCategory { get; set; }
+    public decimal? MaxPrice { get; set; }
 }
