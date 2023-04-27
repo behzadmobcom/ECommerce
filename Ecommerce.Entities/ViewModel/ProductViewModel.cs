@@ -281,24 +281,6 @@ public class ShopPageViewModel : BaseProductPageViewModel
         };
     }
 }
-
-
-public interface IBaseProductPageViewModel
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Price> Prices { get; set; } 
-    public double Stars { get; set; }
-    public string ImagePath { get; set; }
-    public string Alt { get; set; }
-    public string? Description { get; set; }
-    public string? Review { get; set; }
-    public string Url { get; set; }
-    public string Brand { get; set; }
-    public ushort MaxOrder { get; set; }
-    public string? TopCategory { get; set; }
-    public decimal? MaxPrice { get; set; }
-}
 public class BaseProductPageViewModel
 {
     public int Id { get; set; }
