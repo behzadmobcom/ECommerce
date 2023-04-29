@@ -138,22 +138,9 @@ public class ProductViewModel
     }
 }
 
-public class ProductIndexPageViewModel
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Price> Prices { get; set; } = new();
-    public double Stars { get; set; }
-    public string ImagePath { get; set; }
-    public string Alt { get; set; }
-    public string? Description { get; set; }
-    public string? Review { get; set; }
-    public string Url { get; set; }
-    public string Brand { get; set; }
-    public ushort MaxOrder { get; set; }
-    public string? TopCategory { get; set; }
-    public ICollection<ProductUserRank> ProductUserRank { get; set; }
-    public decimal? MaxPrice { get; set; }
+public class ProductIndexPageViewModel : BaseProductPageViewModel
+{  
+    public ICollection<ProductUserRank> ProductUserRank { get; set; } 
 
     public static implicit operator ProductIndexPageViewModel(Product x)
     {
@@ -257,21 +244,9 @@ public class ProductListFilteredViewModel
     public List<int>? TagsId { get; set; }
 }
 
-public class ShopPageViewModel
+public class ShopPageViewModel : BaseProductPageViewModel
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Price> Prices { get; set; } = new();
-    public double Stars { get; set; }
-    public string ImagePath { get; set; }
-    public string Alt { get; set; }
-    public string? Description { get; set; }
-    public string? Review { get; set; }
-    public string Url { get; set; }
-    public string Brand { get; set; }
-    public ushort MaxOrder { get; set; }
-    public string? TopCategory { get; set; }
-    public decimal? MaxPrice { get; set; }
+
     public int? BrandId { get; set; }
     public List<int>? CategoriesId { get; set; }
     public List<int>? TagsId { get; set; }
@@ -305,4 +280,20 @@ public class ShopPageViewModel
             MaxOrder = Convert.ToUInt16(x.MaxOrder),
         };
     }
+}
+public class BaseProductPageViewModel
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public List<Price> Prices { get; set; }
+    public double Stars { get; set; }
+    public string ImagePath { get; set; }
+    public string Alt { get; set; }
+    public string? Description { get; set; }
+    public string? Review { get; set; }
+    public string Url { get; set; }
+    public string Brand { get; set; }
+    public ushort MaxOrder { get; set; }
+    public string? TopCategory { get; set; }
+    public decimal? MaxPrice { get; set; }
 }
