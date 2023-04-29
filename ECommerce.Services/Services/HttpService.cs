@@ -1,8 +1,10 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ECommerce.Services.Services;
 
@@ -18,7 +20,7 @@ public class HttpService : IHttpService
         _cookieService = cookieService;
     }
 
-    private JsonSerializerOptions DefaultJsonSerializerOptions => new() {PropertyNameCaseInsensitive = true};
+    private JsonSerializerOptions DefaultJsonSerializerOptions => new() { PropertyNameCaseInsensitive = true };
 
     public async Task<ApiResult<object>> PostAsync<T>(string url, T data, string apiName = "Post")
     {
@@ -50,7 +52,7 @@ public class HttpService : IHttpService
         }
 
         if (responseData.Response == null)
-            return new ApiResult<TResponse> {Code = ResultCode.BadRequest};
+            return new ApiResult<TResponse> { Code = ResultCode.BadRequest };
         return responseData.Response;
     }
 
@@ -69,7 +71,7 @@ public class HttpService : IHttpService
             return responseDeserialized;
         }
 
-        return new ApiResult {Code = ResultCode.BadRequest};
+        return new ApiResult { Code = ResultCode.BadRequest };
     }
 
     public async Task<ApiResult> DeleteAsync(string url, int id, string apiName = "Delete")
@@ -86,7 +88,7 @@ public class HttpService : IHttpService
             return responseDeserialized;
         }
 
-        return new ApiResult {Code = ResultCode.BadRequest};
+        return new ApiResult { Code = ResultCode.BadRequest };
     }
 
     public async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url, string apiName = "Get")
@@ -110,13 +112,41 @@ public class HttpService : IHttpService
         return responseDeserialized;
     }
 
+    public async Task<ApiResult<TResponse>> GetAsync<T, TResponse>(string url, T data, string apiName = "Get")
+    {
+        var loginResult = _cookieService.GetToken();
+        _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult);
+
+        var dataSerialize = JsonSerializer.Serialize(data);
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Get,
+            RequestUri = new Uri(url),
+            Content = new StringContent(dataSerialize, Encoding.UTF8, "application/json")
+        };
+        var response = await _http.SendAsync(request);
+
+        //HttpHeaders headers = response.Headers;
+        //IEnumerable<string> values;
+        //if (headers.TryGetValues("X-Pagination", out values))
+        //{
+        //    string session = values.First();
+        //}
+
+        var responseData = new ResponseData<ApiResult<TResponse>>(default, false, response);
+        if (!response.IsSuccessStatusCode) return responseData.Response;
+
+        var responseDeserialized = await Deserialize<ApiResult<TResponse>>(response, DefaultJsonSerializerOptions);
+        return responseDeserialized;
+    }
+
     private async Task<T> Deserialize<T>(HttpResponseMessage httpResponse, JsonSerializerOptions options)
     {
         var responseString = await httpResponse.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<T>(responseString, options);
     }
 
-    public async Task<TResponse> PostAsyncWithApiKeyByRequestModel<TRequest,TResponse>(string apiName, string apiKey, TRequest data, string url)
+    public async Task<TResponse> PostAsyncWithApiKeyByRequestModel<TRequest, TResponse>(string apiName, string apiKey, TRequest data, string url)
     {
         _http.DefaultRequestHeaders.Add(apiName, apiKey);
         var dataSerialize = JsonSerializer.Serialize(data);
