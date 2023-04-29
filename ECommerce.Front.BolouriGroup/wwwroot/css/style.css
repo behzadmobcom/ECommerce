@@ -8608,7 +8608,7 @@ tbody tr td:last-child {
         }
 
             .home-classic-slider .banner-1::before {
-                background: linear-gradient(to left, #08032354, #ffffff00)
+                background: url(../img/banner-shape.png);
             }
 
         .home-classic-slider .banner-2 {
