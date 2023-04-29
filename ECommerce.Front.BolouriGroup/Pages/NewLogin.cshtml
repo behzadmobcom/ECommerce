@@ -213,9 +213,18 @@
         var mobileNumber = "";
 
         function sectionOne() {
+            $("#section1").css("display", "none");
+            $("#section2").css("display", "block");
+            $("#section3").css("display", "none");
+            mobileNumber = $("#userName").val();
+            $("#MobileList").text(mobileNumber);
+        }
+
+        function sectionTwo() {
             alert("asd");
-            $("#section1").style.display = "none";
-            $("#section2").style.display = "block";
+            $("#section1").css("display", "block");
+            $("#section2").css("display", "none");
+            $("#section3").css("display", "none");
         }
 
     </script>
