@@ -209,6 +209,11 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                 var resultTags = await _tagService.GetByTagText(tagText);
                 var tagId = resultTags.ReturnData.Id;
             }
+
+            if (isExist != null)
+            {
+                var s = date.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
+            }
         }
 
         GetAllProducts();
