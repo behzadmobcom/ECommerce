@@ -42,8 +42,8 @@ public class ProductsController : ControllerBase
         _tagRepository = tagRepository;
     }
 
-    private async Task<List<ProductIndexPageViewModel>> AddPriceAndExistFromHolooList(
-        List<ProductIndexPageViewModel> products, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
+    private async Task<List<T>> AddPriceAndExistFromHolooList<T>(
+        IList<T> products, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken) where T : BaseProductPageViewModel
     {
         var aBails = await _aBailRepository.GetAll(cancellationToken);
         var prices = products
@@ -62,7 +62,7 @@ public class ProductsController : ControllerBase
         var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
 
         products = products.Where(x => x.Prices.Any(p => p.ArticleCode != null)).ToList();
-        List<ProductIndexPageViewModel> newProducts = new();
+        List<T> newProducts = new();
         Parallel.ForEach(products, product =>
         //foreach (var product in products)
         {
@@ -437,9 +437,9 @@ public class ProductsController : ControllerBase
         try
         {
             var productQuery = _productRepository.GetAllProducts();
-            var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
+            var productIndexPageViewModel = new List<ShopPageViewModel>();
             productIndexPageViewModel.AddRange(await productQuery
-                           .Select(p => new ProductIndexPageViewModel
+                           .Select(p => new ShopPageViewModel
                            {
                                Prices = p.Prices!,
                                Alt = p.Images!.First().Alt,
@@ -449,7 +449,11 @@ public class ProductsController : ControllerBase
                                Id = p.Id,
                                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                                Stars = p.Star,
-                               Url = p.Url
+                               Url = p.Url,
+                               TagsId = p.Tags.Select(x => x.Id).ToList(),
+                               CategoriesId = p.ProductCategories.Select(x => x.Id).ToList(),
+                               BrandId = p.BrandId
+
                            })
                            .ToListAsync(cancellationToken));
 
