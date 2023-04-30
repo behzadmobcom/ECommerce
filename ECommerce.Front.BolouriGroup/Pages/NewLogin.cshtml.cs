@@ -31,10 +31,4 @@ public class NewLoginModel : PageModel
         ReturnUrl = returnUrl;
     }
 
- 
-
-    
- 
-
-  
 }
