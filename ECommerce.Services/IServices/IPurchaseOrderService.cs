@@ -11,6 +11,7 @@ namespace ECommerce.Services.IServices
         Task<ServiceResult> Edit(PurchaseOrder purchaseOrder);
         Task<ServiceResult<PurchaseOrder>> GetByUserId();
         Task<ServiceResult<PurchaseOrder>> GetByOrderId(long orderId);
+        Task<ServiceResult<PurchaseOrder>> GetByUserAndOrderId(long orderId);
         Task<ServiceResult<PurchaseOrder>> GetPurchaseOrderWithIncludeById(int id);
         Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId = 0, string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,

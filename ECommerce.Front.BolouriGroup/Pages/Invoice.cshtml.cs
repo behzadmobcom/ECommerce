@@ -12,6 +12,7 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class InvoiceModel : PageModel
 {
+    public long orderId=0;
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
 
@@ -103,13 +104,40 @@ public class InvoiceModel : PageModel
                 await _userService.SendAuthenticationSms("09118876347", message);
                 await _userService.SendAuthenticationSms("09909052454", message);
                 await _userService.SendAuthenticationSms("09119384108", message);
-
+                
+                orderId = PurchaseOrder.OrderId;
                 return Page();
             }
         }
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت " + res.Result.Description });
     }
 
+    public async Task<IActionResult> OnGetPrint()
+    {
+        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(orderId);
+        if (purchase_Order != null)
+        {
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            purchaseOrder.OrderGuid = Guid.NewGuid();
+            purchaseOrder.CreationDate = purchase_Order.ReturnData.CreationDate;
+            purchaseOrder.Amount = purchase_Order.ReturnData.Amount;
+            foreach (var item in purchase_Order.ReturnData.PurchaseOrderDetails)
+            {
+                purchaseOrder.PurchaseOrderDetails.Add(item);
+            }
+            purchaseOrder.SendInformation = purchase_Order.ReturnData.SendInformation;
+            purchaseOrder.Description = purchase_Order.ReturnData.Description;
+
+            return RedirectToPage("InvoiceReportPrint", new
+            {
+                purchaseOrder = purchaseOrder,
+                systemTraceNo = "systemTraceNo",
+                refid = "refid"
+            });
+        }
+        else
+            return RedirectToPage("Error", new { message = "فاکتور موجود نمی باشد" });
+    }
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
         using var client = new HttpClient();
