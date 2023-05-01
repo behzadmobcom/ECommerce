@@ -136,7 +136,7 @@
                     <div class="user-form-card">
                         <div class="user-form-logo row">
                             <div class="col-md-1">
-                                <a onclick="showSectionOne()">
+                                <a onclick="showHomeSection()">
                                     <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
                                 </a>
                             </div>
@@ -158,11 +158,11 @@
                         <form method="post" class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="Mobile" type="text" asp-for="LoginViewModel.Username" class="form-control">
+                                <input id="ConfirmCode" type="text" class="form-control">
                             </div>
 
                             <div class="form-button">
-                                <button type="submit" asp-page-handler="Submit" onclick="sectionTwo()">ادامه</button>
+                                <button type="button" asp-page-handler="Submit" onclick="SubmitRegisterCode()">ادامه</button>
                             </div>
                         </form>
                     </div>
@@ -177,7 +177,7 @@
                     <div class="user-form-card">
                         <div class="user-form-logo row">
                             <div class="col-md-1">
-                                <a onclick="showSectionOne()">
+                                <a onclick="showHomeSection()">
                                     <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
                                 </a>
                             </div>
@@ -200,11 +200,7 @@
                                 <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
                                 &nbsp;&nbsp;&nbsp;
                                 <span id="countdown"></span>
-                                </div>
-                                     <p class="lign-right">
-                                     حساب کاربری با شماره موبایل                                      
-                                     <span id="existUserName"/>                                     
-                                     </p>
+                                </div>                                 
                                 <div class="form-button">                                   
                                     <button type="button" onclick="LoginUser()" >ورود</button>
                                 </div>
@@ -220,7 +216,7 @@
     {
     <script>
         var mobileNumber = "";
-        function showSectionOne() {
+        function showHomeSection() {
             $("#section1").css("display", "block");
             $("#section2").css("display", "none");
             $("#section3").css("display", "none");
@@ -232,29 +228,53 @@
             mobileNumber = $("#userName").val();
             $("#MobileList").text(mobileNumber);
         }
-        function showSectionExistUser() {
+        function showSectionExistUser(seconds) {
             $("#section1").css("display", "none");
             $("#section2").css("display", "none");
-            $("#section3").css("display", "block");
-            existUserName = $("#userName").val();
-            $("#existUserName").text(existUserName);
+            $("#section3").css("display", "block");           
         }
 
     function CheckExistUserByMobile() {
     var mobile = document.getElementById("userName").value;
     $.ajax({
         type: "Get",
-        url: "/Login?handler=SecondsLeft&username=" + mobile,
+        url: "/NewLogin?handler=SecondsLeft&username=" + mobile,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
            
             // code = success 0  -> نام کاربری وجود دارد
             // code = error 1 -> نام کاربری وجود ندارد
-            // code = info 2  -> درخواست رمز یکبار مصرف ارسال شده
-
+            // code = info 2  -> درخواست رمز یکبار مصرف ارسال شده             
+                
             if (result.code==0) showSectionExistUser()
-            if (result.code==1) showSectionNewUser()
+            
+            if (result.code==1){
+                showSectionNewUser();
+                SendRegisterConfirmSms(mobile); }
+
+            if (result.code==2) {
+                showSectionExistUser();
+                timer = result.returnData;                
+                $("#sendSmsButton").disabled = true;
+
+                var interval = setInterval(function () {
+                var minutes = Math.trunc(parseInt(timer) / 60);
+                var seconds = parseInt(timer) - (minutes * 60);
+                --seconds;
+                minutes = (seconds < 0) ? --minutes : minutes;
+                if (minutes < 0) clearInterval(interval);
+                seconds = (seconds < 0) ? 59 : seconds;
+                $('#countdown').html(minutes + ':' + seconds);
+                timer = minutes * 60 + seconds;
+                if (timer == 0) {
+                    clearInterval(interval);
+                    $('#countdown').html('');
+                    btnSendActive.addEventListener('click', buttonClicked);
+                }
+                }, 1000);
+                $("#sendSmsButton").disabled = false;
+                }
              
         },
         failure: function (response) {
@@ -268,7 +288,7 @@
     var pass = document.getElementById("userPassword").value;
     $.ajax({
         type: "Get",
-        url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
+        url: "/NewLogin?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {         
@@ -284,6 +304,36 @@
         }
     });
     }
+
+    function SendRegisterConfirmSms(mobile) { 
+    $.ajax({
+        type: "Get",
+        url: "/NewLogin?handler=SendRegisterSms&username=" + mobile,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            swal(result.message);
+            if (result.status != 1) showSection1();
+        }            
+        });
+     }
+
+     function SubmitRegisterCode() {         
+         var confirmCode =  document.getElementById("ConfirmCode").value;
+         var username =  document.getElementById("userName").value;
+            $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=GenerateCode&mobile=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {               
+                if (result==confirmCode){
+                    window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
+                }
+            }            
+         });
+     }
 
     </script>
 }

@@ -234,18 +234,26 @@ public class UserService : EntityService<User>, IUserService
 
     public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , string code)
     {
-        string apiKey = _smsSettings.apikey;
-        string apiName = _smsSettings.apiName;
-        string url = _smsSettings.url;
-        RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
-        RequestVerifySmsIrParameters RequestVerifySmsIrParameter = new RequestVerifySmsIrParameters();
-        RequestVerifySmsIrParameter.Name = "CODE";
-        RequestVerifySmsIrParameter.Value = code;
-        RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { RequestVerifySmsIrParameter };
-        RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
-        RequestSMSIrViewModel.Mobile = mobile;
-        var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
-        return result;
+        try
+        {
+            string apiKey = _smsSettings.apikey;
+            string apiName = _smsSettings.apiName;
+            string url = _smsSettings.url;
+            RequestVerifySmsIrViewModel RequestSMSIrViewModel = new RequestVerifySmsIrViewModel();
+            RequestVerifySmsIrParameters RequestVerifySmsIrParameter = new RequestVerifySmsIrParameters();
+            RequestVerifySmsIrParameter.Name = "CODE";
+            RequestVerifySmsIrParameter.Value = code;
+            RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { RequestVerifySmsIrParameter };
+            RequestSMSIrViewModel.TemplateId = _smsSettings.authenticationTemplateId;
+            RequestSMSIrViewModel.Mobile = mobile;
+            var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+       
     }
 
     public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, string confirmCode)

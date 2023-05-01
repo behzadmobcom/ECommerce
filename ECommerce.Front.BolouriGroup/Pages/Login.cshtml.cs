@@ -127,12 +127,8 @@ public class LoginModel : PageModel
         LoginViewModel _loginViewModel = new LoginViewModel();
         _loginViewModel.Username = username;
         _loginViewModel.Password = password;
-        ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);
-        if (result.Code == 0)
-            RedirectToPage("/Index");
-       
+        ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);       
         return new JsonResult(result);
-
     }
 
 }

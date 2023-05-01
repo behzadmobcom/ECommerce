@@ -325,7 +325,7 @@ function SendConfirmSms() {
     var newNumber = false;
     $.ajax({
         type: "Get",
-        url: "/login?handler=SecondsLeft&username=" + username,
+        url: "/Newlogin?handler=SecondsLeft&username=" + username,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
@@ -346,7 +346,7 @@ function SendConfirmSms() {
         swal("رمز یکبار مصرف برای شما ارسال شد.");
         $.ajax({
             type: "Get",
-            url: "/login?handler=SendSms&username=" + username,
+            url: "/Newlogin?handler=SendRegisterSms&username=" + username,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false
