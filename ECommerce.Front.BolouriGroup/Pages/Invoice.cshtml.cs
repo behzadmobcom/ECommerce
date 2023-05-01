@@ -157,6 +157,22 @@ public class InvoiceModel : PageModel
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت " + res.Result.Description });
     }
 
+    public async Task<IActionResult> OnGetPrint()
+    {
+        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(orderId);
+        if (purchase_Order != null)
+        {
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            purchaseOrder.OrderGuid = Guid.NewGuid();
+            purchaseOrder.CreationDate = purchase_Order.ReturnData.CreationDate;
+            purchaseOrder.Amount = purchase_Order.ReturnData.Amount;
+            foreach (var item in purchase_Order.ReturnData.PurchaseOrderDetails)
+            {
+                purchaseOrder.PurchaseOrderDetails.Add(item);
+            }
+            purchaseOrder.SendInformation = purchase_Order.ReturnData.SendInformation;
+            purchaseOrder.Description = purchase_Order.ReturnData.Description;
+
     public async Task<IActionResult> OnGetFactorPrint()
     {      
         var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(OrderId);
