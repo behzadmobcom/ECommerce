@@ -30,6 +30,7 @@ public class NewLoginModel : PageModel
         if (string.IsNullOrEmpty(returnUrl)) returnUrl = "/";
         ReturnUrl = returnUrl;
     }
+
     public async Task<JsonResult> OnGetSecondsLeft(string username)
     {
         ServiceResult<int?> checkUsernameResult = await CheckUsername(username);
@@ -39,7 +40,6 @@ public class NewLoginModel : PageModel
     private async Task<ServiceResult<int?>> CheckUsername(string username)
     {
         ServiceResult<int?> checkUsernameResult = await _userService.GetSecondsLeftConfirmCodeExpire(username);
-
         if (checkUsernameResult.Code == ServiceCode.Error)
         {
             return new ServiceResult<int?>
@@ -63,6 +63,7 @@ public class NewLoginModel : PageModel
             Code = ServiceCode.Success
         };
     }
+
     public async Task<IActionResult> OnGetSendRegisterSms(string username)
     {
         ResponseVerifySmsIrViewModel smsResponsModel = new ResponseVerifySmsIrViewModel();
@@ -73,13 +74,13 @@ public class NewLoginModel : PageModel
             smsResponsModel.Message = "فرمت شماره موبایل صحیح نمی باشد";
             return new JsonResult(smsResponsModel);
         }
-
         smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
         smsResponsModel.Message = "خطای غیر منتظره. امکان ارسال پیامک وجود ندارد";
         if (smsResponsModel.Status == 1) smsResponsModel.Message = "پیامک با موفقیت ارسال شد";
         if (smsResponsModel.Status == 104) smsResponsModel.Message = "شماره موبایل وارد شده صحیح نمی باشد";
         return new JsonResult(smsResponsModel);
     }
+
     public async Task<IActionResult> OnGetGenerateCode(string mobile)
     { 
         if (mobile == null) return new JsonResult(0);
@@ -112,11 +113,10 @@ public class NewLoginModel : PageModel
         } while (sum > 10);
         return sum + "";
     }
+
     public async Task<JsonResult> OnGetUserLoginSubmit(string username, string password)
     {
-        LoginViewModel _loginViewModel = new LoginViewModel();
-        _loginViewModel.Username = username;
-        _loginViewModel.Password = password;
+        LoginViewModel _loginViewModel = new() {Username = username, Password = password};        
         ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);
         return new JsonResult(result);
     }

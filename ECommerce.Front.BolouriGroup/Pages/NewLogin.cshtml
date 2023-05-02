@@ -213,127 +213,112 @@
     </section>
 </div><!----maini close--->
 @section Scripts
-    {
-    <script>
-        var mobileNumber = "";
-        function showHomeSection() {
-            $("#section1").css("display", "block");
-            $("#section2").css("display", "none");
-            $("#section3").css("display", "none");
-        }
-        function showSectionNewUser() {
-            $("#section1").css("display", "none");
-            $("#section2").css("display", "block");
-            $("#section3").css("display", "none");
-            mobileNumber = $("#userName").val();
-            $("#MobileList").text(mobileNumber);
-        }
-        function showSectionExistUser(seconds) {
-            $("#section1").css("display", "none");
-            $("#section2").css("display", "none");
-            $("#section3").css("display", "block");           
-        }
-
-    function CheckExistUserByMobile() {
-    var mobile = document.getElementById("userName").value;
-    $.ajax({
-        type: "Get",
-        url: "/NewLogin?handler=SecondsLeft&username=" + mobile,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-           
-            // code = success 0  -> نام کاربری وجود دارد
-            // code = error 1 -> نام کاربری وجود ندارد
-            // code = info 2  -> درخواست رمز یکبار مصرف ارسال شده             
-                
-            if (result.code==0) showSectionExistUser()
-            
-            if (result.code==1){
-                showSectionNewUser();
-                SendRegisterConfirmSms(mobile); }
-
-            if (result.code==2) {
-                showSectionExistUser();
-                timer = result.returnData;                
-                $("#sendSmsButton").disabled = true;
-
-                var interval = setInterval(function () {
-                var minutes = Math.trunc(parseInt(timer) / 60);
-                var seconds = parseInt(timer) - (minutes * 60);
-                --seconds;
-                minutes = (seconds < 0) ? --minutes : minutes;
-                if (minutes < 0) clearInterval(interval);
-                seconds = (seconds < 0) ? 59 : seconds;
-                $('#countdown').html(minutes + ':' + seconds);
-                timer = minutes * 60 + seconds;
-                if (timer == 0) {
-                    clearInterval(interval);
-                    $('#countdown').html('');
-                    btnSendActive.addEventListener('click', buttonClicked);
-                }
-                }, 1000);
-                $("#sendSmsButton").disabled = false;
-                }
-             
-        },
-        failure: function (response) {
-           
-        }
-    });
+{
+ <script>
+    function showHomeSection() {
+        $("#section1").css("display", "block");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "none");
     }
-    
-    function LoginUser() {
-    var mobile = document.getElementById("userName").value;
-    var pass = document.getElementById("userPassword").value;
-    $.ajax({
-        type: "Get",
-        url: "/NewLogin?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {         
-            if (result.code==0){
-                location.href = "Index";
-            }else
-            {             
-                document.getElementById("errorMessage").innerHTML = result.message;               
+    function showSectionNewUser() {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "block");
+        $("#section3").css("display", "none");
+        mobileNumber = $("#userName").val();
+        $("#MobileList").text(mobileNumber);
+    }
+    function showSectionExistUser(seconds) {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "block");           
+    }
+    function CheckExistUserByMobile() {    
+    var mobile = $("#userName").val();
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=SecondsLeft&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.code===0) showSectionExistUser()            
+                if (result.code===1){
+                    showSectionNewUser();
+                    SendRegisterConfirmSms(mobile); }
+                if (result.code===2) {
+                    showSectionExistUser();
+                    timer = result.returnData;                
+                    $("#sendSmsButton").disabled = true;
+                    var interval = setInterval(function () {
+                    var minutes = Math.trunc(parseInt(timer) / 60);
+                    var seconds = parseInt(timer) - (minutes * 60);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    if (minutes < 0) clearInterval(interval);
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    $('#countdown').html(minutes + ':' + seconds);
+                    timer = minutes * 60 + seconds;
+                    if (timer == 0) {
+                        clearInterval(interval);
+                        $('#countdown').html('');
+                        btnSendActive.addEventListener('click', buttonClicked);
+                    }
+                    }, 1000);
+                    $("#sendSmsButton").disabled = false;
+                    }             
+            },
+            failure: function (response) {           
             }
-        },
-        failure: function (response) {
-            
-        }
-    });
-    }
-
-    function SendRegisterConfirmSms(mobile) { 
-    $.ajax({
-        type: "Get",
-        url: "/NewLogin?handler=SendRegisterSms&username=" + mobile,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            swal(result.message);
-            if (result.status != 1) showSection1();
-        }            
         });
-     }
-
-     function SubmitRegisterCode() {         
-         var confirmCode =  document.getElementById("ConfirmCode").value;
-         var username =  document.getElementById("userName").value;
-            $.ajax({
+    }    
+    function LoginUser() {
+    var mobile = $("#userName").val();
+    var pass = $("#userPassword").val();
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {         
+                if (result.code===0){
+                    location.href = "Index";
+                }else
+                {             
+                    document.getElementById("errorMessage").innerHTML = result.message;               
+                }
+            },
+            failure: function (response) {            
+            }
+        });
+    }
+    function SendRegisterConfirmSms(mobile) 
+    { 
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=SendRegisterSms&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                swal(result.message);
+                if (result.status != 1) showSection1();
+            }
+        });
+     }  
+     function SubmitRegisterCode() 
+     {
+       var confirmCode = $("#ConfirmCode").val();
+       var username = $("#userName").val();
+         $.ajax({
             type: "Get",
             url: "/NewLogin?handler=GenerateCode&mobile=" + username,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {               
                 if (result==confirmCode){
-                    window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
+                   window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
                 }
             }            
          });
      }
-
-    </script>
+ </script>
 }
