@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace ECommerce.Services.Services;
@@ -171,36 +172,36 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         }
         else
         {
-            var date = cacheEntry.ReturnData;
+            var data = cacheEntry.ReturnData;
             if (!string.IsNullOrEmpty(categoryId))
             {
                 var categoryIdInt = Convert.ToInt32(categoryId);
-                date = date.Where(x =>
+                data = data.Where(x =>
                     x.CategoriesId.Contains(categoryIdInt)).ToList();
             }
 
             if (!string.IsNullOrEmpty(search))
-                date = date.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
+                data = data.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
             if (startPrice != null && endPrice != null)
-                date = date.Where(x =>
+                data = data.Where(x =>
                     x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
 
             switch (productSort)
             {
                 case 1:
-                    date = date.OrderByDescending(x => x.Id).ToList();
+                    data = data.OrderByDescending(x => x.Id).ToList();
                     break;
                 case 2:
-                    date = date.OrderByDescending(x => x.Stars).ToList();
+                    data = data.OrderByDescending(x => x.Stars).ToList();
                     break;
                 case 4:
-                    date = date.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
+                    data = data.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
                 case 3:
-                    date = date.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
+                    data = data.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
                     break;
                 case 5:
-                    date = date.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
+                    data = data.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
             }
 
@@ -212,12 +213,25 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
             if (isExist != null)
             {
-                var s = date.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
+                var s = data.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
             }
+
+            data =data.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+            var entity = PagedList<ShopPageViewModel>.ToPagedList(data, pageNumber, pageSize);
+
+            result2.PaginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = search
+            };
         }
 
         GetAllProducts();
-
         return result2;
     }
 
