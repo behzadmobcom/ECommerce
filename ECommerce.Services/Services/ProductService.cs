@@ -148,7 +148,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     {
         var result = new ServiceResult<List<ProductIndexPageViewModel>>();
         var key =
-            $"GetProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+            $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
         var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
 
         if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
@@ -239,14 +239,14 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     public async Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true,
         bool? isExist = false)
     {
-        var cacheEntry = await _cache.GetOrCreateAsync("GetAllProducts", async entry =>
+        var cacheEntry = await _cache.GetOrCreateAsync($"GetAllProducts-{isWithoutBill}-{isExist}", async entry =>
         {
             var result = await _http.GetAsync<List<ShopPageViewModel>>(Url,
                 $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
-            return result;
+            return Return(result);
         });
 
-        return Return(cacheEntry);
+        return cacheEntry;
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
@@ -262,6 +262,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             });
 
         return Return(cacheEntry);
+
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count,
