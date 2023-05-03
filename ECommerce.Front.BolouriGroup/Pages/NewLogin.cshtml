@@ -96,6 +96,7 @@
 
     Model.Message = null;
 }
+<div id="errorMessage" class="alert alert-danger"></div>
 <div class="maini">
     <section class="user-form-part section section1" id="section1">
         <div class="container">
@@ -112,17 +113,17 @@
                             <p>سلام!</p>
                             <p class="lign-right">لطفا شماره موبایل خود را وارد کنید</p>
                         </div>
-                        <form method="post" class="user-form">
+                        <div class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
                                 <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل  خود را وارد کنید">
                             </div>
 
                             <div class="form-button">
-                                <button type="button" onclick="sectionOne()">ورود</button>
+                                <button type="button" onclick="CheckExistUserByMobile()">ادامه</button>
                                 <p>ورود شما به معنای پذیرش<a asp-area="" asp-page="/Rules">قوانین بلوری </a>است</p>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,7 +136,7 @@
                     <div class="user-form-card">
                         <div class="user-form-logo row">
                             <div class="col-md-1">
-                                <a onclick="history.back()">
+                                <a onclick="showHomeSection()">
                                     <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
                                 </a>
                             </div>
@@ -157,11 +158,11 @@
                         <form method="post" class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="Mobile" type="text" asp-for="LoginViewModel.Username" class="form-control">
+                                <input id="ConfirmCode" type="text" class="form-control">
                             </div>
 
                             <div class="form-button">
-                                <button type="submit" asp-page-handler="Submit" onclick="sectionTwo()">ادامه</button>
+                                <button type="button" asp-page-handler="Submit" onclick="SubmitRegisterCode()">ادامه</button>
                             </div>
                         </form>
                     </div>
@@ -176,7 +177,7 @@
                     <div class="user-form-card">
                         <div class="user-form-logo row">
                             <div class="col-md-1">
-                                <a onclick="history.back()">
+                                <a onclick="showHomeSection()">
                                     <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
                                 </a>
                             </div>
@@ -188,16 +189,20 @@
                         </div>
                         <div class="user-form-title">
                             <h2>رمز عبور را وارد کنید</h2>
-                            <form method="post" class="user-form">
+                            <form method="post" class="user-form">                                
                                 <div class="input-group" id="show_hide_password">
-                                    <input class="form-control" type="password" asp-for="LoginViewModel.Password">
+                                    <input class="form-control" id="userPassword" type="password">
                                     <div class="input-group-addon">
                                         <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
-                                <button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>
-                                <div class="form-button">
-                                    <button type="submit" asp-page-handler="Submit" onclick="sectionThree()">ادامه</button>
+                                <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">                     
+                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                                &nbsp;&nbsp;&nbsp;
+                                <span id="countdown"></span>
+                                </div>                                 
+                                <div class="form-button">                                   
+                                    <button type="button" onclick="LoginUser()" >ورود</button>
                                 </div>
                             </form>
                         </div>
@@ -208,24 +213,112 @@
     </section>
 </div><!----maini close--->
 @section Scripts
-    {
-    <script>
-        var mobileNumber = "";
-
-        function sectionOne() {
-            $("#section1").css("display", "none");
-            $("#section2").css("display", "block");
-            $("#section3").css("display", "none");
-            mobileNumber = $("#userName").val();
-            $("#MobileList").text(mobileNumber);
-        }
-
-        function sectionTwo() {
-            alert("asd");
-            $("#section1").css("display", "block");
-            $("#section2").css("display", "none");
-            $("#section3").css("display", "none");
-        }
-
-    </script>
+{
+ <script>
+    function showHomeSection() {
+        $("#section1").css("display", "block");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "none");
+    }
+    function showSectionNewUser() {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "block");
+        $("#section3").css("display", "none");
+        mobileNumber = $("#userName").val();
+        $("#MobileList").text(mobileNumber);
+    }
+    function showSectionExistUser(seconds) {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "block");           
+    }
+    function CheckExistUserByMobile() {    
+    var mobile = $("#userName").val();
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=SecondsLeft&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.code===0) showSectionExistUser()            
+                if (result.code===1){
+                    showSectionNewUser();
+                    SendRegisterConfirmSms(mobile); }
+                if (result.code===2) {
+                    showSectionExistUser();
+                    timer = result.returnData;                
+                    $("#sendSmsButton").disabled = true;
+                    var interval = setInterval(function () {
+                    var minutes = Math.trunc(parseInt(timer) / 60);
+                    var seconds = parseInt(timer) - (minutes * 60);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    if (minutes < 0) clearInterval(interval);
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    $('#countdown').html(minutes + ':' + seconds);
+                    timer = minutes * 60 + seconds;
+                    if (timer == 0) {
+                        clearInterval(interval);
+                        $('#countdown').html('');
+                        btnSendActive.addEventListener('click', buttonClicked);
+                    }
+                    }, 1000);
+                    $("#sendSmsButton").disabled = false;
+                    }             
+            },
+            failure: function (response) {           
+            }
+        });
+    }    
+    function LoginUser() {
+    var mobile = $("#userName").val();
+    var pass = $("#userPassword").val();
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {         
+                if (result.code===0){
+                    location.href = "Index";
+                }else
+                {             
+                    document.getElementById("errorMessage").innerHTML = result.message;               
+                }
+            },
+            failure: function (response) {            
+            }
+        });
+    }
+    function SendRegisterConfirmSms(mobile) 
+    { 
+        $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=SendRegisterSms&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                swal(result.message);
+                if (result.status != 1) showSection1();
+            }
+        });
+     }  
+     function SubmitRegisterCode() 
+     {
+       var confirmCode = $("#ConfirmCode").val();
+       var username = $("#userName").val();
+         $.ajax({
+            type: "Get",
+            url: "/NewLogin?handler=GenerateCode&mobile=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {               
+                if (result==confirmCode){
+                   window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
+                }
+            }            
+         });
+     }
+ </script>
 }

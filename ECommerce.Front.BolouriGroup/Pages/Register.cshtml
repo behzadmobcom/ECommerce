@@ -97,14 +97,14 @@
                         <br />
                         <div class="form-group">
                             <span  asp-validation-for="RegisterViewModel.Mobile" style="color: red"></span>
-                            <input type="text" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
+                            <input type="text" readonly="readonly" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
                         </div>
-                        <div class="form-group">                          
+                       @* <div class="form-group">                          
                               <input type="button" style="background-color:ButtonFace" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendRegisterConfirmSms()" />
-                        </div>
+                        </div>*@
                          <div class="form-group">
                             <span asp-validation-for="RegisterViewModel.ConfirmCode" style="color: red"></span>
-                            <input type="text" placeholder="کد تایید پیامک شده را وارد نمایید" dir="ltr" asp-for="RegisterViewModel.ConfirmCode" class="form-control">
+                            <input type="text" readonly="readonly" placeholder="کد تایید پیامک شده را وارد نمایید" dir="ltr" asp-for="RegisterViewModel.ConfirmCode" class="form-control">
                         </div>
                         
                         <div class="input-group" id="show_hide_password1">

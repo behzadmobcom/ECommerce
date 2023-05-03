@@ -12,7 +12,7 @@ public class RegisterModel : PageModel
     private readonly ICityService _cityService;
     private readonly IStateService _stateService;
 
-    [BindProperty] public RegisterViewModel RegisterViewModel { get; set; }
+    [BindProperty] public RegisterViewModel RegisterViewModel { get; set; } = new RegisterViewModel();
 
     [TempData] public string Message { get; set; }
 
@@ -27,9 +27,17 @@ public class RegisterModel : PageModel
         _stateService = stateService;
     }
 
-    public async Task OnGet()
+    public async Task OnGet(string mobile, int confirmCode)
     {
-        await Load();
+        try {
+            RegisterViewModel.Username = mobile;
+            RegisterViewModel.Mobile = mobile;
+            RegisterViewModel.ConfirmCode = confirmCode;
+            await Load();
+        }
+        catch(Exception) {
+        }
+        
     }
 
     private async Task Load(int stateId = 0)

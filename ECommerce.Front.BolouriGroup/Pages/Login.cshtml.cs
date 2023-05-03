@@ -86,6 +86,7 @@ public class LoginModel : PageModel
 
         return new ServiceResult<int?>
         {
+            Message = $"کاربر موجود و امکان ارسال پیامک وجود دارد",
             Code = ServiceCode.Success
         };
     }
@@ -120,4 +121,14 @@ public class LoginModel : PageModel
         Code = "Info";
         return Page();
     }
+
+    public async Task<JsonResult> OnGetUserLoginSubmit(string username, string password)
+    {
+        LoginViewModel _loginViewModel = new LoginViewModel();
+        _loginViewModel.Username = username;
+        _loginViewModel.Password = password;
+        ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);       
+        return new JsonResult(result);
+    }
+
 }
