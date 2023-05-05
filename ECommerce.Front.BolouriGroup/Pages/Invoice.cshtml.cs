@@ -12,7 +12,7 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 
 public class InvoiceModel : PageModel
 {
-    public long orderId=0;
+    public long orderId = 0;
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
 
@@ -34,7 +34,7 @@ public class InvoiceModel : PageModel
         return await pay(result);
     }
 
-    public async Task<IActionResult> Print()
+    public IActionResult FactorPrint()
     {
         return RedirectToPage("InvoiceReportPrint", new
         {
@@ -128,15 +128,18 @@ public class InvoiceModel : PageModel
             purchaseOrder.SendInformation = purchase_Order.ReturnData.SendInformation;
             purchaseOrder.Description = purchase_Order.ReturnData.Description;
 
-            return RedirectToPage("InvoiceReportPrint", new
-            {
-                purchaseOrder = purchaseOrder,
-                systemTraceNo = "systemTraceNo",
-                refid = "refid"
-            });
+            return RedirectToPage("InvoiceReportPrint",
+                new
+                {
+                    purchaseOrder = purchaseOrder,
+                    systemTraceNo = "systemTraceNo",
+                    refid = "refid"
+                });
         }
         else
+        {
             return RedirectToPage("Error", new { message = "فاکتور موجود نمی باشد" });
+        }
     }
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {

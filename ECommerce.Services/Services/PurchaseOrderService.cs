@@ -26,37 +26,31 @@ namespace ECommerce.Services.Services
                     Code = ServiceCode.Error
                 };
             var result = await Read(Url, $"GetByUserId?userId={currentUser.Id}");
-
             return Return(result);
-
         }
         public async Task<ServiceResult<PurchaseOrder>> GetByOrderId(long orderId)
         {
             var result = await Read(Url, $"GetByOrderId?orderId={orderId}");
-
             return Return(result);
-
         }
         public async Task<ServiceResult<PurchaseOrder>> GetByUserAndOrderId(long orderId)
         {
             var currentUser = _cookieService.GetCurrentUser();
             if (currentUser.Id == 0)
+            {
                 return new ServiceResult<PurchaseOrder>
                 {
                     Code = ServiceCode.Error
                 };
+            }
             var result = await Read(Url, $"GetByUserAndOrderId?userId={currentUser.Id}&orderId={orderId}");
-
             return Return(result);
-
         }
 
         public async Task<ServiceResult<PurchaseOrder>> GetPurchaseOrderWithIncludeById(int id)
         {
-
             var result = await _http.GetAsync<PurchaseOrder>(Url, $"GetPurchaseOrderWithIncludeById?id={id}");
             return Return(result);
-
         }
 
 
