@@ -144,7 +144,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "",
         string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
-        bool isExist = false, bool isWithoutBill = true, string tagText = "")
+        bool isExist = false, bool isWithoutBill = true, string tagText ="")
     {
         var result = new ServiceResult<List<ProductIndexPageViewModel>>();
         var key =
@@ -208,7 +208,12 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             if (!string.IsNullOrEmpty(tagText))
             {
                 var resultTags = await _tagService.GetByTagText(tagText);
-                var tagId = resultTags.ReturnData.Id;
+                List<string> tagsNames = new List<string>();
+                var tagIds=await _tagService.GetByTagNames(tagsNames) ; 
+                List<int> tagIdsList = tagIds.ReturnData;
+                if (tagIdsList is { Count: > 0 })
+                    data = tagIdsList.Aggregate(data,
+                        (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
             }
 
             if (isExist)

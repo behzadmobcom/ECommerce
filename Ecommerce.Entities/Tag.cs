@@ -10,6 +10,10 @@ public class Tag : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public string TagText { get; set; }
 
+    public int TagId { get; set; }
+
+    public List<string> TagsNames { get; set; }
+
     //ForeignKey
     [JsonIgnore] public ICollection<Blog>? Blogs { get; set; }
 
