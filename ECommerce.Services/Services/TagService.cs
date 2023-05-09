@@ -104,6 +104,12 @@ public class TagService : EntityService<Tag>, ITagService
         return Return(result);
     }
 
+    public async Task<ServiceResult<List<int>>> GetByTagNames(List<string> tagNames)
+    {
+        var result = await _http.GetAsync<List<int>>(Url, $"GetByTagNames={tagNames}");
+        return Return(result);
+    }
+
     public async Task<ServiceResult<List<Tag>>> GetAllProductTags()
     {
         var result = await ReadList(Url, "GetAllProductTags");
