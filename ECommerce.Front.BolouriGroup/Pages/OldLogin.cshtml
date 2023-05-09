@@ -1,0 +1,80 @@
+﻿@page "/OldLogin"
+@model ECommerce.Front.BolouriGroup.Pages.OldLoginModel
+@{
+    ViewData["Title"] = "ورود";
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<section class="user-form-part">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                <div class="user-form-logo">
+                    <a asp-area="" asp-page="/Index">
+                        <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
+                    </a>
+                </div>
+                <div class="user-form-card">
+                    <div class="user-form-title">
+                        <h2>خوش آمدید!</h2>
+                        <p>حساب خود را با شماره موبایل و رمز ورود وارد کنید</p>
+                    </div>
+                    <form method="post" class="user-form">
+                        <div class="form-group">
+                            <label>نام کاربری (شماره همراه)</label>
+                            <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
+                        </div>
+                        <label>کلمه عبور یا رمز یک بار مصرف</label>
+                        <div class="input-group" id="show_hide_password">
+                            <input class="form-control" type="password" asp-for="LoginViewModel.Password" placeholder="رمز ورود خود را وارد کنید">
+                            <div class="input-group-addon">
+                                <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="remember">
+                                    <label class="form-check-label" for="remember">
+                                        مرا به خاطر بسپار
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-button">
+                            <button type="submit" asp-page-handler="Submit">ورود</button>
+                            @*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
+                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
+                            <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
+                                @*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
+                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                                &nbsp;&nbsp;&nbsp;
+
+                                <span id="countdown"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

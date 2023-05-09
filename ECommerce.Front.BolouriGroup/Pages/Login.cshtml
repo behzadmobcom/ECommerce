@@ -3,6 +3,78 @@
 @{
     ViewData["Title"] = "ورود";
 }
+@section Head
+    {
+    <style>
+        .section1 {
+            z-index: 3;
+            text-align: center;
+        }
+
+            .section1 > h1,
+            .section2 > h2 {
+                text-transform: uppercase;
+                margin-top: 30px;
+                color: #0d47a1;
+            }
+
+        .section2 {
+            z-index: 2;
+        }
+
+        .section3 {
+            z-index: 2;
+        }
+
+        .maini {
+            width: 300px;
+            height: 350px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 300px
+        }
+
+            .maini .section {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+
+        .user-form-title > h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 2.12;
+            text-align: right;
+        }
+
+        .user-form-title > h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 2.12;
+            text-align: right;
+        }
+
+        .user-form-title > p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 2.17;
+            text-align: right;
+        }
+
+        .form-button > p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            line-height: 2.17;
+            text-align: center;
+        }
+
+        .form-button > a {
+            color: #008eb2;
+            display: inline-block
+        }
+    </style>
+
+}
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -23,58 +95,229 @@
 
     Model.Message = null;
 }
-<section class="user-form-part">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
-                <div class="user-form-logo">
-                    <a asp-area="" asp-page="/Index">
-                        <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
-                    </a>
-                </div>
-                <div class="user-form-card">
-                    <div class="user-form-title">
-                        <h2>خوش آمدید!</h2>
-                        <p>حساب خود را با شماره موبایل و رمز ورود وارد کنید</p>
-                    </div>
-                    <form method="post" class="user-form">
-                        <div class="form-group">
-                            <label>نام کاربری (شماره همراه)</label>
-                            <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل خود را وارد کنید">
+<div id="errorMessage" class="alert alert-danger"></div>
+<div class="maini">
+    <section class="user-form-part section section1" id="section1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                    <div class="user-form-card">
+                        <div class="user-form-logo">
+                            <a asp-area="" asp-page="/Index">
+                                <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
+                            </a>
                         </div>
-                        <label>کلمه عبور یا رمز یک بار مصرف</label>
-                        <div class="input-group" id="show_hide_password">
-                            <input class="form-control" type="password" asp-for="LoginViewModel.Password" placeholder="رمز ورود خود را وارد کنید">
-                            <div class="input-group-addon">
-                                <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                        <div class="user-form-title">
+                            <h1>ورود | ثبت‌نام</h1>
+                            <p>سلام!</p>
+                            <p class="lign-right">لطفا شماره موبایل خود را وارد کنید</p>
+                        </div>
+                        <div class="user-form">
+                            <div class="form-group">
+                                <p class="alert"></p>
+                                <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل  خود را وارد کنید">
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="remember">
-                                    <label class="form-check-label" for="remember">
-                                        مرا به خاطر بسپار
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-button">
-                            <button type="submit" asp-page-handler="Submit">ورود</button>
-                            @*<button type="submit" asp-page-handler="Submit" style="margin-top:20px ">ارسال کد یک بار مصرف</button>*@
-                            <p>حساب ندارید؟ <a asp-area="" asp-page="/Register">ثبت نام.</a></p>
-                            <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">
-                                @*<button data-toggle="tab" href="#home" type="submit" asp-page-handler="SendSms">دریافت رمز یکبار مصرف</button>*@
-                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
-                                &nbsp;&nbsp;&nbsp;
 
-                                <span id="countdown"></span>
+                            <div class="form-button">
+                                <button type="button" onclick="CheckExistUserByMobile()">ادامه</button>
+                                <p>ورود شما به معنای پذیرش<a asp-area="" asp-page="/Rules">قوانین بلوری </a>است</p>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <section class="user-form-part section section2" id="section2">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                    <div class="user-form-card">
+                        <div class="user-form-logo row">
+                            <div class="col-md-1">
+                                <a onclick="showHomeSection()">
+                                    <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
+                                </a>
+                            </div>
+                            <div class="col-md-10">
+                                <a asp-area="" asp-page="/Index">
+                                    <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="user-form-title">
+                            <h2>کد تایید را وارد کنید</h2>
+                            <p>سلام!</p>
+                            <p class="lign-right">
+                                حساب کاربری با شماره موبایل
+                                <span id="MobileList"></span>
+                                وجود ندارد. برای ساخت حساب جدید،کد تایید برای این شماره ارسال گردید.
+                            </p>
+                        </div>
+                        <form method="post" class="user-form">
+                            <div class="form-group">
+                                <p class="alert"></p>
+                                <input id="ConfirmCode" type="text" class="form-control">
+                            </div>
 
+                            <div class="form-button">
+                                <button type="button" asp-page-handler="Submit" onclick="SubmitRegisterCode()">ادامه</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="user-form-part section section3" id="section3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-5">
+                    <div class="user-form-card">
+                        <div class="user-form-logo row">
+                            <div class="col-md-1">
+                                <a onclick="showHomeSection()">
+                                    <img src="~/img/arrow-icon.png" width="25" height="25" loding="lazy" style="width: 25px">
+                                </a>
+                            </div>
+                            <div class="col-md-10">
+                                <a asp-area="" asp-page="/Index">
+                                    <img src="~/img/logo.png" alt="لوگو" width="250" height="117" loding="lazy">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="user-form-title">
+                            <h2>رمز عبور را وارد کنید</h2>
+                            <form method="post" class="user-form">                                
+                                <div class="input-group" id="show_hide_password">
+                                    <input class="form-control" id="userPassword" type="password">
+                                    <div class="input-group-addon">
+                                        <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                                <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">                     
+                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                                &nbsp;&nbsp;&nbsp;
+                                <span id="countdown"></span>
+                                </div>                                 
+                                <div class="form-button">                                   
+                                    <button type="button" onclick="LoginUser()" >ورود</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div><!----maini close--->
+@section Scripts
+{
+ <script>
+    function showHomeSection() {
+        $("#section1").css("display", "block");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "none");
+    }
+    function showSectionNewUser() {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "block");
+        $("#section3").css("display", "none");
+        mobileNumber = $("#userName").val();
+        $("#MobileList").text(mobileNumber);
+    }
+    function showSectionExistUser(seconds) {
+        $("#section1").css("display", "none");
+        $("#section2").css("display", "none");
+        $("#section3").css("display", "block");           
+    }
+    function CheckExistUserByMobile() {    
+    var mobile = $("#userName").val();
+        $.ajax({
+            type: "Get",
+            url: "/Login?handler=SecondsLeft&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.code===0) showSectionExistUser()            
+                if (result.code===1){
+                    showSectionNewUser();
+                    SendRegisterConfirmSms(mobile); }
+                if (result.code===2) {
+                    showSectionExistUser();
+                    timer = result.returnData;                
+                    $("#sendSmsButton").disabled = true;
+                    var interval = setInterval(function () {
+                    var minutes = Math.trunc(parseInt(timer) / 60);
+                    var seconds = parseInt(timer) - (minutes * 60);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    if (minutes < 0) clearInterval(interval);
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    $('#countdown').html(minutes + ':' + seconds);
+                    timer = minutes * 60 + seconds;
+                    if (timer == 0) {
+                        clearInterval(interval);
+                        $('#countdown').html('');
+                        btnSendActive.addEventListener('click', buttonClicked);
+                    }
+                    }, 1000);
+                    $("#sendSmsButton").disabled = false;
+                    }             
+            },
+            failure: function (response) {           
+            }
+        });
+    }    
+    function LoginUser() {
+    var mobile = $("#userName").val();
+    var pass = $("#userPassword").val();
+        $.ajax({
+            type: "Get",
+            url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {         
+                if (result.code===0){
+                    location.href = "Index";
+                }else
+                {             
+                    document.getElementById("errorMessage").innerHTML = result.message;               
+                }
+            },
+            failure: function (response) {            
+            }
+        });
+    }
+    function SendRegisterConfirmSms(mobile) 
+    { 
+        $.ajax({
+            type: "Get",
+            url: "/Login?handler=SendRegisterSms&username=" + mobile,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                swal(result.message);
+                if (result.status != 1) showSection1();
+            }
+        });
+     }  
+     function SubmitRegisterCode() 
+     {
+       var confirmCode = $("#ConfirmCode").val();
+       var username = $("#userName").val();
+         $.ajax({
+            type: "Get",
+            url: "/Login?handler=GenerateCode&mobile=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {               
+                if (result==confirmCode){
+                   window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
+                }
+            }            
+         });
+     }
+ </script>
+}

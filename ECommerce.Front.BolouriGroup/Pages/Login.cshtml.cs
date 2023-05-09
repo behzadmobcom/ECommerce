@@ -31,30 +31,6 @@ public class LoginModel : PageModel
         ReturnUrl = returnUrl;
     }
 
-    public async Task<IActionResult> OnPostSubmit()
-    {
-        var s = TempData["ReturnUrl"];
-        //ReturnUrl = "/Shop/Coffee/shop/equipment/Hot.bar/Coffee.makers";
-        var result = await _userService.Login(LoginViewModel);
-        if (result.Code == 0)
-            return RedirectToPage("/Index");
-
-        Message = result.Message;
-        Code = result.Code.ToString();
-
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostRegister()
-    {
-        if (!ModelState.IsValid) return Page();
-        var result = await _userService.Register(RegisterViewModel);
-        Message = result.Message;
-        Code = result.Code.ToString();
-        if (result.Code == 0) return RedirectToPage("/Index");
-        return Page();
-    }
-
     public async Task<JsonResult> OnGetSecondsLeft(string username)
     {
         ServiceResult<int?> checkUsernameResult = await CheckUsername(username);
@@ -64,7 +40,6 @@ public class LoginModel : PageModel
     private async Task<ServiceResult<int?>> CheckUsername(string username)
     {
         ServiceResult<int?> checkUsernameResult = await _userService.GetSecondsLeftConfirmCodeExpire(username);
-
         if (checkUsernameResult.Code == ServiceCode.Error)
         {
             return new ServiceResult<int?>
@@ -73,7 +48,6 @@ public class LoginModel : PageModel
                 Code = ServiceCode.Error
             };
         }
-
         if (checkUsernameResult.ReturnData > 0)
         {
             return new ServiceResult<int?>
@@ -83,7 +57,6 @@ public class LoginModel : PageModel
                 ReturnData = checkUsernameResult.ReturnData
             };
         }
-
         return new ServiceResult<int?>
         {
             Message = $"کاربر موجود و امکان ارسال پیامک وجود دارد",
@@ -91,44 +64,60 @@ public class LoginModel : PageModel
         };
     }
 
-    public async Task<IActionResult> OnGetSendSms(string username)
+    public async Task<IActionResult> OnGetSendRegisterSms(string username)
     {
-        ServiceResult<int?> checkUsernameResult = await CheckUsername(username);
-        if (checkUsernameResult.Code != ServiceCode.Success)
+        ResponseVerifySmsIrViewModel smsResponsModel = new ResponseVerifySmsIrViewModel();
+        IActionResult codeResult = await OnGetGenerateCode(username);
+        int code = (int)(codeResult as JsonResult).Value;
+        if (code == 0)
         {
-            return Page();
+            smsResponsModel.Message = "فرمت شماره موبایل صحیح نمی باشد";
+            return new JsonResult(smsResponsModel);
         }
+        smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
+        smsResponsModel.Message = "خطای غیر منتظره. امکان ارسال پیامک وجود ندارد";
+        if (smsResponsModel.Status == 1) smsResponsModel.Message = "پیامک با موفقیت ارسال شد";
+        if (smsResponsModel.Status == 104) smsResponsModel.Message = "شماره موبایل وارد شده صحیح نمی باشد";
+        return new JsonResult(smsResponsModel);
+    }
 
-        Random randomCode = new Random();
-        int code = randomCode.Next(100000000);
-        if (code < 10000000) code = code + 10000000;
-        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
-        if (smsResponsModel.Status != 1)
+    public async Task<IActionResult> OnGetGenerateCode(string mobile)
+    { 
+        if (mobile == null) return new JsonResult(0);
+        int number;
+        if (mobile.Length != 11 & mobile.Length != 10) return new JsonResult(0);
+        if (mobile.Substring(0, 1) != "0") mobile = "0" + mobile;
+        if (mobile.Substring(0, 2) != "09") return new JsonResult(0);
+        if (!int.TryParse(mobile.Substring(1, 9), out number)) return new JsonResult(0);
+        var result = getSumResult(mobile.Substring(10, 1), mobile.Substring(4, 1));
+        result = result + getSumResult(mobile.Substring(9, 1), mobile.Substring(5, 1));
+        result = result + getSumResult(mobile.Substring(8, 1), mobile.Substring(6, 1));
+        result = result + getSumResult(mobile.Substring(7, 1), mobile.Substring(3, 1));
+        int.TryParse(result, out number);
+        return new JsonResult(number);
+    }
+    private string getSumResult(string num1, string num2)
+    {
+        int number1, number2;
+        int.TryParse(num1, out number1);
+        int.TryParse(num2, out number2);
+        int sum;
+        do
         {
-            Message = smsResponsModel.Message;
-            Code = "Error";
-            return Page();
-        }
-        var result = await _userService.SetConfirmCodeByUsername(username, code.ToString());
-        if (!result.ReturnData)
-        {
-            Message = "نام کاربری صحیح نمی باشد";
-            Code = "Error";
-            return Page();
-        }
-
-        Message = "130 sec";
-        Code = "Info";
-        return Page();
+            sum = number1 + number2;
+            if (sum > 10)
+            {
+                number1 = sum - 10;
+                number2 = number1 > 4 ? 1 : 0;
+            }
+        } while (sum > 10);
+        return sum + "";
     }
 
     public async Task<JsonResult> OnGetUserLoginSubmit(string username, string password)
     {
-        LoginViewModel _loginViewModel = new LoginViewModel();
-        _loginViewModel.Username = username;
-        _loginViewModel.Password = password;
-        ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);       
+        LoginViewModel _loginViewModel = new() {Username = username, Password = password};        
+        ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);
         return new JsonResult(result);
     }
-
 }
