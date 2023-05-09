@@ -120,4 +120,26 @@ public class LoginModel : PageModel
         ServiceResult<LoginViewModel?> result = await _userService.Login(_loginViewModel);
         return new JsonResult(result);
     }
+
+    public async Task<IActionResult> OnGetSendConfirmSmsToExistUser(string username)
+    {
+        ResponseVerifySmsIrViewModel smsResponsModel = new ResponseVerifySmsIrViewModel();
+        try {            
+            Random random = new Random();
+            int code = random.Next(10000000, 99999999);
+            var result = await _userService.SetConfirmCodeByUsername(username, code + "");
+            if (result == null) return new JsonResult(smsResponsModel);
+            if (result.ReturnData == false) return new JsonResult(smsResponsModel);
+            smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
+            smsResponsModel.Message = "خطای غیر منتظره. امکان ارسال پیامک وجود ندارد";
+            if (smsResponsModel.Status == 1) smsResponsModel.Message = "پیامک با موفقیت ارسال شد";
+            if (smsResponsModel.Status == 104) smsResponsModel.Message = "شماره موبایل وارد شده صحیح نمی باشد";
+            return new JsonResult(smsResponsModel);
+        }
+        catch (Exception ex)
+        {
+            return new JsonResult(smsResponsModel);
+        }
+        
+    }
 }

@@ -196,7 +196,7 @@
                                     </div>
                                 </div>
                                 <div class="nav nav-tabs" role="tablist" style="margin-right: -20px;margin-left: -20px">                     
-                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSms()" />
+                                <input type="button" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendConfirmSmsToExistUser()" />
                                 &nbsp;&nbsp;&nbsp;
                                 <span id="countdown"></span>
                                 </div>                                 
@@ -319,5 +319,57 @@
             }            
          });
      }
+    function SendConfirmSmsToExistUser() {
+    username = document.getElementById("userName").value;
+    if (username == "") {
+        return;
+    }
+    var timer = "";
+    $.ajax({
+        type: "Get",
+        url: "/login?handler=SecondsLeft&username=" + username,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            if (result.code == 2) {
+                timer = result.returnData;
+            }
+            if (result.code == 1) {
+                newNumber = true;
+            }
+        }
+    });
+    if (timer == "") {
+        swal("رمز یکبار مصرف برای شما ارسال شد.");
+        $.ajax({
+            type: "Get",
+            url: "/login?handler=SendConfirmSmsToExistUser&username=" + username,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false
+        });
+        timer = "130";
+    }
+
+    $("#sendSmsButton").disabled = true;
+    var interval = setInterval(function () {
+        var minutes = Math.trunc(parseInt(timer) / 60);
+        var seconds = parseInt(timer) - (minutes * 60);
+
+        --seconds;
+        minutes = (seconds < 0) ? --minutes : minutes;
+        if (minutes < 0) clearInterval(interval);
+        seconds = (seconds < 0) ? 59 : seconds;
+        $('#countdown').html(minutes + ':' + seconds);
+        timer = minutes * 60 + seconds;
+        if (timer == 0) {
+            clearInterval(interval);
+            $('#countdown').html('');
+            btnSendActive.addEventListener('click', buttonClicked);
+        }
+    }, 1000);
+    $("#sendSmsButton").disabled = false;
+}
  </script>
 }
