@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
 using PersianDate.Standard;
+using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
 
 public class InvoiceModel : PageModel
-{
-    public long orderId = 0;
+{ 
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
-
+    [BindProperty(SupportsGet = true)] public long OrderId { get; set; }
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
     [TempData] public string Message { get; set; }
@@ -34,12 +34,57 @@ public class InvoiceModel : PageModel
         return await pay(result);
     }
 
-    public IActionResult FactorPrint()
+    //public IActionResult FactorPrint()
+    //{
+    //    return RedirectToPage("InvoiceReportPrint", new
+    //    {
+    //        systemTraceNo = SystemTraceNo,
+    //    });
+    //}
+    public async Task<ActionResult> OnGetPayZarinpal(string factor, string status, string authority)
     {
-        return RedirectToPage("InvoiceReportPrint", new
+        if (string.IsNullOrEmpty(status) == false && string.IsNullOrEmpty(authority) == false &&
+            string.IsNullOrEmpty(factor) == false && status.ToLower() == "ok")
         {
-            systemTraceNo = SystemTraceNo,
-        });
+            var resultOrder = await _purchaseOrderService.GetByUserId();
+            PurchaseOrder = resultOrder.ReturnData;
+            var amount = Convert.ToInt32(PurchaseOrder.Amount);
+            var statusInt = await new Payment(amount).Verification(authority);
+            switch (statusInt.Status)
+            {
+                case -1:
+                    Message = "اطلاعات ارسال شده ناقص است.";
+                    break;
+                case -2:
+                    Message = "مشکل نامشخص در درگاه پرداخت با کد " + statusInt.Status.ToString();
+                    break;
+                case -11:
+                    Message = "درخواست مورد نظر یافت نشد.";
+                    break;
+                case -22:
+                    Message = "تراکنش ناموفق می باشد.";
+                    break;
+                case -33:
+                    Message = "مبلغ تراکنش با مبلغ پرداخت شده مطابقت ندارد.";
+                    break;
+                case 100:
+                case 101:
+                    //Success
+
+                    Refid = statusInt.RefId.ToString();
+                    PurchaseOrder.Transaction = new();
+                    PurchaseOrder.Transaction.RefId = Refid;
+                    PurchaseOrder.Transaction.Amount = amount;
+                    var result = await _purchaseOrderService.Pay(PurchaseOrder);
+                    Message = result.Message;
+                    Code = result.Code.ToString();
+                    //CartList = (await _cartService.CartListFromServer()).ReturnData;
+
+                    OrderId = PurchaseOrder.OrderId;
+                    return Page();
+            }
+        }
+        return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
     }
 
     private async Task<ActionResult> pay(PurchaseResult result)
@@ -105,29 +150,30 @@ public class InvoiceModel : PageModel
                 await _userService.SendAuthenticationSms("09909052454", message);
                 await _userService.SendAuthenticationSms("09119384108", message);
                 
-                orderId = PurchaseOrder.OrderId;
+                OrderId = PurchaseOrder.OrderId;
                 return Page();
             }
         }
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت " + res.Result.Description });
     }
 
-    public async Task<IActionResult> OnGetPrint()
-    {
-        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(orderId);
+    public async Task<IActionResult> OnGetFactorPrint()
+    {      
+        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(OrderId);
         if (purchase_Order != null)
         {
-            PurchaseOrder purchaseOrder = new PurchaseOrder();
-            purchaseOrder.OrderGuid = Guid.NewGuid();
-            purchaseOrder.CreationDate = purchase_Order.ReturnData.CreationDate;
-            purchaseOrder.Amount = purchase_Order.ReturnData.Amount;
+            PurchaseOrder purchaseOrder = new()
+            {
+                OrderGuid = Guid.NewGuid(),
+                CreationDate = purchase_Order.ReturnData.CreationDate,
+                Amount = purchase_Order.ReturnData.Amount,
+                SendInformation = purchase_Order.ReturnData.SendInformation,
+                Description = purchase_Order.ReturnData.Description
+            };
             foreach (var item in purchase_Order.ReturnData.PurchaseOrderDetails)
             {
                 purchaseOrder.PurchaseOrderDetails.Add(item);
             }
-            purchaseOrder.SendInformation = purchase_Order.ReturnData.SendInformation;
-            purchaseOrder.Description = purchase_Order.ReturnData.Description;
-
             return RedirectToPage("InvoiceReportPrint",
                 new
                 {
@@ -153,4 +199,4 @@ public class InvoiceModel : PageModel
         }
         return default(T);
     }
-}
+}}
