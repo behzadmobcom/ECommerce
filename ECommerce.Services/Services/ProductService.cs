@@ -2,6 +2,7 @@
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data;
 
@@ -208,12 +209,13 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             if (!string.IsNullOrEmpty(tagText))
             {
                 var resultTags = await _tagService.GetByTagText(tagText);
-                List<string> tagsNames = new List<string>();
-                var tagIds=await _tagService.GetByTagNames(tagsNames) ; 
+                var tagsNames = new List<string> { tagText };
+                var tagIds = await _tagService.GetByTagNames(tagsNames);
                 List<int> tagIdsList = tagIds.ReturnData;
+                var products = data.Where(x => x.Prices!.Any()).ToList();
                 if (tagIdsList is { Count: > 0 })
-                    data = tagIdsList.Aggregate(data,
-                        (current, tagId) => current.Where(x => x.Tags.Any(t => t.Id == tagId)));
+                    data = tagIdsList.Aggregate(products,
+                        (current, tagId) => (List<ShopPageViewModel>)current.Where(x => x.Tags.Any(t => t.Id == tagId)));
             }
 
             if (isExist)

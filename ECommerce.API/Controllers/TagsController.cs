@@ -144,7 +144,7 @@ public class TagsController : ControllerBase
     {
         try
         {
-            var result = await _tagRepository.GetByTagNames( tagText, cancellationToken);
+            var result = await _tagRepository.GetByTagNames(tagText, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
