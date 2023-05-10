@@ -12,7 +12,6 @@ public class Tag : BaseEntity
 
     public int TagId { get; set; }
 
-    public List<string> TagsNames { get; set; }
 
     //ForeignKey
     [JsonIgnore] public ICollection<Blog>? Blogs { get; set; }

@@ -250,6 +250,7 @@ public class ShopPageViewModel : BaseProductPageViewModel
     public int? BrandId { get; set; }
     public List<int>? CategoriesId { get; set; }
     public List<int>? TagsId { get; set; }
+    public List<Tag>? Tags { get; set; }
 
     public static implicit operator ShopPageViewModel(Product x)
     {

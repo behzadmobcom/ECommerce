@@ -33,12 +33,6 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
         return await _context.Tags.Where(x => x.TagText == tagText).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<List<int>> GetTagNamesReturnTagId(string tagsText, CancellationToken cancellationToken)
-    {
-        return await _context.Tags.Where(x => x.TagsNames.Contains(tagsText))
-            .Select(x=> x.TagId)
-            .ToListAsync(cancellationToken);
-    }
 
     public async Task<List<int>> GetByTagNames(List<string> tagNames, CancellationToken cancellationToken)
     {
@@ -46,6 +40,7 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
             .Select(x => x.TagId)
             .ToListAsync(cancellationToken);
     }
+
 
     public async Task<List<TagProductId>> GetByProductId(int productId, CancellationToken cancellationToken)
     {
