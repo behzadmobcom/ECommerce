@@ -201,9 +201,10 @@
     function LoginUser() {
     var mobile = $("#userName").val();
     var pass = $("#userPassword").val();
+    var encodedPass = encodeURIComponent(pass);
         $.ajax({
             type: "Get",
-            url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + pass,
+            url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + encodedPass,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {         
