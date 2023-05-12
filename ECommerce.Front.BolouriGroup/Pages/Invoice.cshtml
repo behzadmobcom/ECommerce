@@ -17,8 +17,7 @@
     <a class="btn btn-block btn-info" asp-page-handler="FactorPrint">چاپ فاکتور</a>
 </section>
 
-<a class="btn btn-block btn-info" asp-page-handler="FactorPrint">چاپ فاکتور</a>
-<input name="myHiddenInput" id="myHiddenInput" value="@Model.OrderId" />
+<a class="btn btn-block btn-info" asp-page-handler="FactorPrint" asp-route-orderId="@Model.OrderId">چاپ فاکتور</a>
 <h2 style="color: rebeccapurple;text-align: center" >@Model.Refid</h2>
 @if (Model.Message != null)
 {

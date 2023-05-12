@@ -15,7 +15,7 @@ public class InvoiceModel : PageModel
 { 
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
-    [BindProperty(SupportsGet = true)] public long OrderId { get; set; }
+    public long OrderId { get; set; }
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
     [TempData] public string Message { get; set; }
@@ -34,13 +34,6 @@ public class InvoiceModel : PageModel
         return await pay(result);
     }
 
-    //public IActionResult FactorPrint()
-    //{
-    //    return RedirectToPage("InvoiceReportPrint", new
-    //    {
-    //        systemTraceNo = SystemTraceNo,
-    //    });
-    //}
     public async Task<ActionResult> OnGetPayZarinpal(string factor, string status, string authority)
     {
         if (string.IsNullOrEmpty(status) == false && string.IsNullOrEmpty(authority) == false &&
@@ -175,7 +168,7 @@ public class InvoiceModel : PageModel
 
     public async Task<IActionResult> OnGetFactorPrint()
     {      
-        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(OrderId);
+        var purchase_Order = await _purchaseOrderService.GetByUserAndOrderId(orderId);
         if (purchase_Order != null)
         {
             PurchaseOrder purchaseOrder = new()
