@@ -1,6 +1,7 @@
 using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +59,10 @@ builder.Services.AddScoped<IProductCommentService, ProductCommentService>();
 #endregion
 // Add services to the container.
 builder.Services.AddRazorPages();
-  
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options => { options.LoginPath = "/Login"; });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
