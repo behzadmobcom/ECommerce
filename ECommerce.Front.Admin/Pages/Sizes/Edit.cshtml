@@ -1,0 +1,58 @@
+﻿@page "/Admin/EditSize/{handler?}"
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Sizes.EditModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ویرایش سایز
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input hidden="hidden" asp-for="@Model.Size.Id"/>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="@Model.Size.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Size.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>توضیحات</label>
+                            <textarea asp-for="@Model.Size.Description" class="form-control form-control-solid" rows="6"></textarea>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
+                        <a class="btn btn-secondary" asp-Page="/sizes/index" asp-area="Admin">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
