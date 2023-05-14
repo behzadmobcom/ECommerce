@@ -1,0 +1,96 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.Brands.IndexModel
+@{
+    var i = 1 + (Model.Brands.PaginationDetails.CurrentPage - 1) * Model.Brands.PaginationDetails.PageSize;
+}
+
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست برند ها</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::نمونه-->
+        @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
+        <div class="example mb-10">
+            <p>
+                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد برند جدید</a>
+            </p>
+            <form asp-page="/Brands/Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        جستجو بر اساس نام:
+                        <input type="text" name="search" value="@Model.Brands.PaginationDetails.Search"/>
+                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+                        <input type="submit" value="بجو" class="btn btn-primary"/> |
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Brands/Index" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Brands/Index" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Brands/Index" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Brands/Index" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Brands/Index" asp-route-pageSize="50">50</a>
+                    </p>
+                </div>
+            </form>
+            <div class="example-preview">
+                <table class="table table-bordered mb-6">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">آدرس اینترنتی</th>
+                        <th scope="col">توضیحات</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var brand in Model.Brands.ReturnData)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@brand.Name</td>
+                            <td>@brand.Url</td>
+                            <td >
+                                <div class="shortened">
+                                        <h2>@Html.Raw(@brand.Description)</h2>
+                                </div>
+                            </td>
+                            <td>
+                                <a asp-page="Edit" asp-route-id="@brand.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                <a asp-page="Delete" asp-route-id="@brand.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                <a asp-page="Detail" asp-route-id="@brand.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+                <partial name="_Pagination" model="@Model.Brands.PaginationDetails"/>
+
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>
