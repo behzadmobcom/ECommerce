@@ -1,4 +1,5 @@
-﻿using Ecommerce.Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
@@ -148,8 +149,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         bool isExist = false, bool isWithoutBill = true, string tagText ="")
     {
         var result = new ServiceResult<List<ProductIndexPageViewModel>>();
-        var key =
-            $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+        //var key =
+        //    $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+        var key = $"GetAllProducts-{isWithoutBill}-{isExist}";
         var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
 
         if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
@@ -243,17 +245,15 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return result;
     }
 
-    public async Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true,
-        bool? isExist = false)
+    public async Task GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
     {
-        var cacheEntry = await _cache.GetOrCreateAsync($"GetAllProducts-{isWithoutBill}-{isExist}", async entry =>
-        {
-            var result = await _http.GetAsync<List<ShopPageViewModel>>(Url,
-                $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
-            return Return(result);
-        });
-
-        return cacheEntry;
+        var key = $"GetAllProducts-{isWithoutBill}-{isExist}";
+        _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
+        var result = await _http.GetAsync<List<ShopPageViewModel>>(Url,
+            $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
+        cacheEntry = Return(result);
+        var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromDays(1));
+        _cache.Set(key, cacheEntry, cacheEntryOptions);
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
