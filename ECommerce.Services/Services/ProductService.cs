@@ -143,12 +143,12 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(cacheEntry);
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "",
+    public async Task<ServiceResult<List<ShopPageViewModel>>> TopProducts(string categoryId = "",
         string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
         bool isExist = false, bool isWithoutBill = true, string tagText ="")
     {
-        var result = new ServiceResult<List<ProductIndexPageViewModel>>();
+        var result = new ServiceResult<List<ShopPageViewModel>>();
         //var key =
         //    $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
         var key = $"GetAllProducts-{isWithoutBill}-{isExist}";
@@ -158,7 +158,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
         if (!isCached || (isCached && cacheEntry.Code != ServiceCode.Success))
         {
-            var command = "GetProducts?" +
+            var command = "GetAllProducts?" +
                           $"PaginationParameters.PageNumber={pageNumber}&" +
                           $"isWithoutBill={isWithoutBill}&" +
                           $"PaginationParameters.PageSize={pageSize}&";
@@ -169,7 +169,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             if (endPrice != null) command += $"EndPrice={endPrice}&";
             command += $"IsExist={isExist}&";
             command += $"ProductSort={productSort}";
-            var getProductsResult = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+            var getProductsResult = await _http.GetAsync<List<ShopPageViewModel>>(Url, command);
 
             result = Return(getProductsResult);
         }
@@ -185,9 +185,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
             if (!string.IsNullOrEmpty(search))
                 data = data.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
-            if (startPrice != null && endPrice != null)
-                data = data.Where(x =>
-                    x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
+            //if (startPrice != null && endPrice != null)
+            //    data = data.Where(x =>
+            //        x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
 
             switch (productSort)
             {
@@ -238,7 +238,10 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                 HasPrevious = entity.HasPrevious,
                 Search = search
             };
+
+            result =cacheEntry;
         }
+        
 
         await GetAllProducts();
 
