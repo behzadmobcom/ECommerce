@@ -13,7 +13,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<ProductViewModel>> FillProductEdit(ProductViewModel productViewModel);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string searchText, int page, int quantityPerPage = 9);
 
-    Task<ServiceResult<List<ShopPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
+    Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
       int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
       bool isExist = false, bool isWithoutBill = true, string tagText = "");
     Task GetAllProducts(bool isWithoutBill = true, bool? isExist=false);
