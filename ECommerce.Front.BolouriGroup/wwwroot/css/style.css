@@ -253,7 +253,6 @@ button:focus {
     .alert-info p {
         color: var(--blue-dark);
         font-weight: 500;
-        text-shadow: var(--primary-shadow)
     }
 
 .alert-info p a {
@@ -676,7 +675,7 @@ button:focus {
     outline: 0
 }
 
-.form-control[type=file]::-webkit-file-upload-button, .form-control[type=file]::file-selector-button {
+.form-control[type=file]::-webkit-file-upload-button, .form-control[type=file]{
     background: 100% 0;
     border: none;
     color: var(--gray);
@@ -685,11 +684,11 @@ button:focus {
     padding: 5px 15px 0;
 }
 
-.form-control[type=file]::-webkit-file-upload-button:hover, .form-control[type=file]::file-selector-button:hover {
+.form-control[type=file]::-webkit-file-upload-button:hover, .form-control[type=file]:hover {
     background-color: transparent
 }
 
-.form-control[type=file]::-webkit-file-upload-button:focus, .form-control[type=file]::file-selector-button:focus {
+.form-control[type=file]::-webkit-file-upload-button:focus, .form-control[type=file]:focus {
     border: none;
     outline: none
 }
@@ -4651,14 +4650,12 @@ tbody tr td:last-child {
     }
 
         .view-meta p {
-            color: var(--placeholder);
             font-size: 13px;
             margin-left: 20px;
             text-transform: uppercase;
         }
 
         .view-meta span, .view-meta a {
-            color: var(--placeholder);
             margin-right: 5px;
         }
 
@@ -5927,7 +5924,7 @@ tbody tr td:last-child {
     }
 
         .banner-part::before {
-            background: url(../img/banner-shape.png);
+            background: url(../img/banner-shape.webp);
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -5974,10 +5971,6 @@ tbody tr td:last-child {
         .banner-content h1 {
             font-size: 38px;
             line-height: 48px
-        }
-
-        .banner-img {
-            display: none
         }
 
         .banner-btn .btn {
@@ -6405,7 +6398,6 @@ tbody tr td:last-child {
     }
 
         .details-meta p {
-            color: var(--placeholder);
             font-size: 13px;
             margin-left: 20px;
             text-transform: uppercase;
@@ -6413,7 +6405,6 @@ tbody tr td:last-child {
         }
 
         .details-meta span, .details-meta a {
-            color: var(--placeholder);
             margin-right: 5px;
         }
 
@@ -8607,9 +8598,7 @@ tbody tr td:last-child {
             background-size: cover
         }
 
-            .home-classic-slider .banner-1::before {
-                background: linear-gradient(to left, #08032354, #ffffff00)
-            }
+           
 
         .home-classic-slider .banner-2 {
             background: url(../img/slider/slider-6.jpg);
@@ -8618,9 +8607,7 @@ tbody tr td:last-child {
             background-size: cover
         }
 
-            .home-classic-slider .banner-2::before {
-                background: linear-gradient(to left, #00000030, #00000059)
-            }
+            
 
         .home-classic-slider .banner-3 {
             background: url(../img/slider/slider-7.jpg);
@@ -8629,9 +8616,7 @@ tbody tr td:last-child {
             background-size: cover
         }
 
-            .home-classic-slider .banner-3::before {
-                background: linear-gradient(to left, #08032366, #ffffff00)
-            }
+          
 
         .home-classic-slider .slick-left {
             right: 20px
@@ -8646,9 +8631,7 @@ tbody tr td:last-child {
         }
 
     @media (max-width: 767px) {
-        .home-classic-slider .banner-part {
-            padding: 50px 0 60px
-        }
+      
 
         .home-classic-slider .banner-content h1 {
             font-size: 38px;
@@ -8661,9 +8644,7 @@ tbody tr td:last-child {
     }
 
     @media (min-width: 768px) and (max-width: 991px) {
-        .home-classic-slider .banner-part {
-            padding: 70px 0 80px
-        }
+     
 
         .home-classic-slider .banner-content h1 {
             font-size: 42px;
@@ -8705,3 +8686,71 @@ tbody tr td:last-child {
         top: 300px;
         right: 200px;
     }
+    /************login************/
+
+.section1 {
+    z-index: 3;
+    text-align: center;
+}
+
+.section1 > h1,
+.section2 > h2 {
+    text-transform: uppercase;
+    margin-top: 30px;
+    color: #0d47a1;
+}
+
+.section2 {
+    z-index: 2;
+}
+
+.section3 {
+    z-index: 2;
+}
+
+.maini {
+    width: 300px;
+    height: 350px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 300px
+}
+
+.maini .section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.user-form-title > h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 2.12;
+    text-align: right;
+}
+
+.user-form-title > h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 2.12;
+    text-align: right;
+}
+
+.user-form-title > p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 2.17;
+    text-align: right;
+}
+
+.form-button > p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 2.17;
+    text-align: center;
+}
+
+.form-button > a {
+    color: #008eb2;
+    display: inline-block
+}

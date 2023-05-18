@@ -6,7 +6,7 @@ public static class FileUtility
     private const string BaseFullUploadPath = "wwwroot\\upload";
 
     public static readonly string[] AllowedExtentions =
-        {"txt", "pdf", "doc", "docx", "xls", "xlsx", "png", "jpg", "jpeg", "gif", "csv", "mp3", "mp4"};
+        {"txt", "pdf", "doc", "docx", "xls", "xlsx", "png", "jpg", "jpeg", "gif", "csv", "mp3", "mp4", "webp"};
 
     public static bool? FileExists(IFormFile file, double timeDifference, out string fileName)
     {

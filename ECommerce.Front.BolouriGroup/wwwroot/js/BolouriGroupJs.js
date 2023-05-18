@@ -159,6 +159,29 @@ function OpenProductModal(id) {
 }
 
 function LoadCard() {
+    $('#Cart-List').text('');
+    $.ajax({
+        type: "Get",
+        url: "/Index?handler=LoadCart",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $('#Cart-List').append(result.cartList);
+            $('#Cart-Count').text(result.cartCount);
+            $('#Cart-Count1').text(result.cartCount);
+            $('#Cart-Count-Value').val(result.cartCount);
+            $('#Cart-Count-Value-Icon').val(result.cartCount);
+            $('#Cart-Count-Value-Icon1').val(result.cartCount);
+            $('#Cart-Count2').text("کل مورد (" + result.cartCount + ")");
+            $('#All-Price').text(formatter.format(result.allPrice));
+            $('#AllPrice-Value').val(result.allPrice);
+        },
+        failure: function (response) {
+        }
+    });
+}
+
+function OldLoadCard() {
     var count = 0;
     var allPrice = 0;
     $('#Cart-List').text('');
@@ -325,7 +348,7 @@ function SendConfirmSms() {
     var newNumber = false;
     $.ajax({
         type: "Get",
-        url: "/login?handler=SecondsLeft&username=" + username,
+        url: "/Newlogin?handler=SecondsLeft&username=" + username,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         async: false,
@@ -346,7 +369,7 @@ function SendConfirmSms() {
         swal("رمز یکبار مصرف برای شما ارسال شد.");
         $.ajax({
             type: "Get",
-            url: "/login?handler=SendSms&username=" + username,
+            url: "/Newlogin?handler=SendRegisterSms&username=" + username,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false

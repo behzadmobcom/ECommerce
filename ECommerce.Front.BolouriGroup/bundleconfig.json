@@ -1,0 +1,44 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/flaticon.css",
+      "wwwroot/css/fontawesome.min.css",
+      "wwwroot/css/bootstrap.min.css",
+      "wwwroot/css/nice-select.min.css",
+      "wwwroot/css/jquery-ui.min.css",
+      "wwwroot/css/venobox.min.css",
+      "wwwroot/css/MegaMenu.css",
+      "wwwroot/css/bootstrap-3.min.css",
+      "wwwroot/css/slick.min.css",
+      "wwwroot/css/style.css",
+      "wwwroot/css/stars.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery-3.6.0.min.js",
+      "wwwroot/js/nice-select.min.js",
+      "wwwroot/js/venobox.min.js",
+      "wwwroot/js/jquery-ui.js",
+      "wwwroot/js/finalcountdown.min.js",
+      "wwwroot/js/slick.min.js",
+      "wwwroot/js/nice-select.js",
+      "wwwroot/js/price-range.js",
+      "wwwroot/js/bootstrap.min.js",
+      "wwwroot/lib/sweetalert/sweetalert.min.js",
+      "wwwroot/lib/masonry/masonry.pkgd.min.js",
+      "wwwroot/js/accordion.js",
+      "wwwroot/js/venobox.js",
+      "wwwroot/js/slick.js",
+      "wwwroot/js/main.js",
+      "wwwroot/js/BolouriGroupJs.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
