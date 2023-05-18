@@ -145,13 +145,13 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "",
         string search = "",
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
-        bool isExist = false, bool isWithoutBill = true, string tagText ="")
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int endPrice = 0, int startPrice = 0,
+        bool isExist = false, bool isWithoutBill = true, string tagText = "")
     {
         var result = new ServiceResult<List<ProductIndexPageViewModel>>();
         //var key =
         //    $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
-        var key = $"GetAllProducts-{isWithoutBill}-{isExist}";
+        var key = $"GetAllProducts-{isWithoutBill}";
         var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
 
         if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
@@ -185,9 +185,10 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
             if (!string.IsNullOrEmpty(search))
                 data = data.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
-            //if (startPrice != null && endPrice != null)
-            //    data = data.Where(x =>
-            //        x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
+            if (startPrice <= endPrice && endPrice > 0)
+            {
+                data = data.Where(x => x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
+            }
 
             switch (productSort)
             {
@@ -220,7 +221,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                         (current, tagId) => (List<ShopPageViewModel>)current.Where(x => x.Tags.Any(t => t.Id == tagId)));
             }
 
-            if (isExist)
+            if (isExist || (startPrice <= endPrice && endPrice > 0))
             {
                 data = data.Where(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             }
@@ -239,24 +240,21 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                 Search = search
             };
 
-            cacheEntry = await data.Select(p => new ProductIndexPageViewModel
-                {
-                    Prices = p.Prices!,
-                    Alt = p.Images!.First().Alt,
-                    Brand = p.Brand!.Name,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Id = p.Id,
-                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                    Stars = p.Star,
-                    Url = p.Url,
-
-                })
-                .ToListAsync();
-
-            result =cacheEntry;
+            result.ReturnData = data.Select(p => new ProductIndexPageViewModel
+            {
+                Prices = p.Prices!,
+                Alt = p.Alt,
+                Brand = p.Brand,
+                Name = p.Name,
+                Description = p.Description,
+                Id = p.Id,
+                ImagePath = p.ImagePath,
+                Stars = p.Stars,
+                Url = p.Url,
+            }).ToList();
+            result.Code = ServiceCode.Success;
         }
-        
+
 
         await GetAllProducts();
 
@@ -265,7 +263,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
     {
-        var key = $"GetAllProducts-{isWithoutBill}-{isExist}";
+        var key = $"GetAllProducts-{isWithoutBill}";
         _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
         var result = await _http.GetAsync<List<ShopPageViewModel>>(Url,
             $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
@@ -305,7 +303,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         return Return(cacheEntry);
     }
 
-  
+
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList,
         bool isWithoutBill = true)
@@ -338,15 +336,10 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties,
         bool isWithoutBill = true)
     {
-        var cacheEntry = await _cache.GetOrCreateAsync($"GetTops-{includeProperties}", async entity =>
-        {
-            //entity.SlidingExpiration = TimeSpan.FromDays(1);
             var result =
                 await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
                     $"GetTops?includeProperties={includeProperties}");
-            return result;
-        });
 
-        return Return(cacheEntry);
+        return Return(result);
     }
 }
