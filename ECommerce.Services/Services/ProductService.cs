@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ECommerce.Services.Services;
 
@@ -149,8 +150,6 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         bool isExist = false, bool isWithoutBill = true, string tagText = "")
     {
         var result = new ServiceResult<List<ProductIndexPageViewModel>>();
-        //var key =
-        //    $"GetAllProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
         var key = $"GetAllProducts-{isWithoutBill}";
         var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
 
@@ -256,7 +255,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         }
 
 
-        await GetAllProducts();
+        GetAllProducts();
 
         return result;
     }
@@ -336,10 +335,127 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties,
         bool isWithoutBill = true)
     {
-            var result =
+        var result = new ServiceResult<List<ProductIndexPageViewModel>>();
+        var key = $"GetAllProducts-{isWithoutBill}";
+        var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
+
+        if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
+
+        if (!isCached || (isCached && cacheEntry.Code != ServiceCode.Success))
+        {
+            var resultGetTops =
                 await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
                     $"GetTops?includeProperties={includeProperties}");
+            result=Return(resultGetTops);
+        }
+        else
+        {
+            var data = cacheEntry.ReturnData;
+            List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
+            var allProducts = data
+                .Select(p => new ProductIndexPageViewModel
+                {
+                    Prices = p.Prices,
+                    Alt = p.Alt,
+                    Brand = p.Brand,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Id = p.Id,
+                    ImagePath = p.ImagePath,
+                    //Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
+                    Url = p.Url,
+                }).ToList();
 
-        return Return(result);
+            allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+
+            string[] parameters = includeProperties.Split(",");
+            foreach (var param in parameters)
+            {
+                List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
+                var resultCount = param.Split(":");
+                int _count = System.Convert.ToInt32(resultCount[1]);
+                switch (resultCount[0])
+                {
+                    case "TopNew":
+                        products = allProducts.OrderByDescending(x => x.Id).Take(_count)
+                       .Select(p => new ProductIndexPageViewModel
+                       {
+                           Prices = p.Prices,
+                           Alt = p.Alt,
+                           Brand = p.Brand,
+                           Name = p.Name,
+                           Description = p.Description,
+                           Id = p.Id,
+                           ImagePath = p.ImagePath,
+                           Stars = p.Stars,
+                           Url = p.Url,
+                           TopCategory = resultCount[0]
+                       }).ToList();
+                        break;
+
+                    case "TopPrices":
+                        products = allProducts
+                        .Select(p => new ProductIndexPageViewModel
+                        {
+                            Prices = p.Prices,
+                            Alt = p.Alt,
+                            Brand = p.Brand,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Id = p.Id,
+                            ImagePath = p.ImagePath,
+                            Stars = p.Stars,
+                            Url = p.Url,
+                            MaxPrice = p.Prices.Sum(x => x.Exist) > 0 ? p.Prices.Select(x => x.Amount).Max() : 0,
+                            TopCategory = resultCount[0]
+                        })
+                        .OrderByDescending(o => o.MaxPrice)
+                        .Take(_count)
+                        .ToList();
+                        break;
+
+                    case "TopChip":
+
+                        break;
+                    case "TopDiscount":
+
+                        break;
+                    case "TopRelative":
+
+                        break;
+                    case "TopSells":
+
+                        break;
+
+                    case "TopStars":
+                        products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
+                        .Select(p => new ProductIndexPageViewModel
+                        {
+                            Prices = p.Prices,
+                            Alt = p.Alt,
+                            Brand = p.Brand,
+                            Name = p.Name,
+                            Description = p.Description,
+                            Id = p.Id,
+                            ImagePath = p.ImagePath,
+                            Stars = p.Stars,
+                            Url = p.Url,
+                            TopCategory = resultCount[0]
+                        }).ToList();
+                        break;
+
+                    default: break;
+                }
+                foreach (var product in products) selectedProducts.Add(product);
+            }
+
+            result.ReturnData = selectedProducts;
+            result.Code = ServiceCode.Success;
+            //what is result.ReturnData?
+
+        }
+
+        GetAllProducts();
+        return result;
     }
 }
