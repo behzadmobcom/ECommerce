@@ -254,8 +254,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             result.Code = ServiceCode.Success;
         }
 
-
-        await GetAllProducts();
+        GetAllProducts();
 
         return result;
     }
@@ -455,7 +454,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
         }
 
-        await GetAllProducts();
+        GetAllProducts();
         return result;
     }
 }
