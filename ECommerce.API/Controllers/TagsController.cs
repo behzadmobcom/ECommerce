@@ -114,56 +114,6 @@ public class TagsController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public async Task<ActionResult<Tag>> GetByTagText(string tagText, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var result = await _tagRepository.GetByTagText(tagText, cancellationToken);
-            if (result == null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.NotFound
-                });
-
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = result
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<Tag>> GetByTagNames(List<string> tagText, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var result = await _tagRepository.GetByTagNames(tagText, cancellationToken);
-            if (result == null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.NotFound
-                });
-
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.Success,
-                ReturnData = result
-            });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
-    }
-
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Tag tag, CancellationToken cancellationToken)

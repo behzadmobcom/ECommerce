@@ -11,5 +11,4 @@ public interface ITagRepository : IAsyncRepository<Tag>
     Task<Tag> GetByTagText(string tagText, CancellationToken cancellationToken);
     Task<List<TagProductId>> GetByProductId(int productId, CancellationToken cancellationToken);
     Task<List<Tag>> GetAllProductTags(CancellationToken cancellationToken);
-    Task<List<int>> GetByTagNames(List<string> tagNamesList, CancellationToken cancellationToken);
 }

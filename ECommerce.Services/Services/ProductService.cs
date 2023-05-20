@@ -2,23 +2,21 @@
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace ECommerce.Services.Services;
 
 public class ProductService : EntityService<ProductViewModel>, IProductService
 {
     private const string Url = "api/Products";
-    private readonly IMemoryCache _cache;
     private readonly ICategoryService _categoryService;
     private readonly IHttpService _http;
     private readonly IImageService _imageService;
     private readonly IKeywordService _keywordService;
     private readonly ITagService _tagService;
+    private readonly IMemoryCache _cache;
 
     public ProductService(IHttpService http, ITagService tagService, IImageService imageService,
         IKeywordService keywordService, ICategoryService categoryService, IMemoryCache cache) : base(http)
@@ -52,11 +50,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         };
     }
 
-    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true,
-        bool isExist = false)
+    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isExist = false)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url,
-            $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isExist={isExist}");
+        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isExist={isExist}");
         return Return(result);
     }
 
@@ -120,6 +116,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await UpdateWithReturnId(Url, productViewModel);
 
         return Return(result);
+
     }
 
     public async Task<ServiceResult> Delete(int id)
@@ -127,35 +124,37 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await Delete(Url, id);
 
         return Return(result);
+
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string search = "", int pageNumber = 0,
-        int pageSize = 9)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> Search(string search = "", int pageNumber = 0, int pageSize = 9)
     {
-        var cacheEntry = await _cache.GetOrCreateAsync($"GetAllWithPagination-{pageNumber}-{search}-{pageSize}",
-            async entry =>
-            {
-                entry.SlidingExpiration = TimeSpan.FromMinutes(10);
-                var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-                    $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
-                return result;
-            });
+        var cacheEntry = await _cache.GetOrCreateAsync($"GetAllWithPagination-{pageNumber}-{search}-{pageSize}", async entry =>
+        {
+            entry.SlidingExpiration = TimeSpan.FromMinutes(10);
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+             $"GetAllWithPagination?PageNumber={pageNumber}&Search={search}&PageSize={pageSize}");
+            return result;
+        });
 
         return Return(cacheEntry);
+
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "",
-        string search = "",
-        int pageNumber = 0, int pageSize = 10, int productSort = 1, int endPrice = 0, int startPrice = 0,
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "", string search = "",
+        int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
         bool isExist = false, bool isWithoutBill = true, string tagText = "")
     {
-        var result = new ServiceResult<List<ProductIndexPageViewModel>>();
-        var key = $"GetAllProducts-{isWithoutBill}";
-        var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
+        ServiceResult<List<ProductIndexPageViewModel>> result2 = new ServiceResult<List<ProductIndexPageViewModel>>();
+        string key = $"GetProducts-{pageNumber}-{isWithoutBill}-{pageSize}-{search}-{categoryId}-{tagText}-{startPrice}-{endPrice}-{isExist}-{productSort}";
+        bool isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
+        
+        if (isCached)
+        {
+            isCached = cacheEntry.Code == ServiceCode.Success;
+        }
 
-        if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
-
-        if (!isCached || (isCached && cacheEntry.Code != ServiceCode.Success))
+        if (!isCached  || (isCached && cacheEntry.Code != ServiceCode.Success))
         {
             var command = "GetProducts?" +
                           $"PaginationParameters.PageNumber={pageNumber}&" +
@@ -168,127 +167,77 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             if (endPrice != null) command += $"EndPrice={endPrice}&";
             command += $"IsExist={isExist}&";
             command += $"ProductSort={productSort}";
-            var getProductsResult = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
-
-            result = Return(getProductsResult);
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                .SetSlidingExpiration(TimeSpan.FromMinutes(5));
+            result2 = Return(result);
         }
         else
         {
-            var data = cacheEntry.ReturnData;
+            var date = cacheEntry.ReturnData;
             if (!string.IsNullOrEmpty(categoryId))
             {
-                var categoryIdInt = Convert.ToInt32(categoryId);
-                data = data.Where(x =>
+                int categoryIdInt = Convert.ToInt32(categoryId);
+                date= date.Where(x =>
                     x.CategoriesId.Contains(categoryIdInt)).ToList();
             }
-
             if (!string.IsNullOrEmpty(search))
-                data = data.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
-            if (startPrice <= endPrice && endPrice > 0)
             {
-                data = data.Where(x => x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
+                date = date.Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1])).ToList();
+            }
+            if (startPrice != null && endPrice != null)
+            {
+                date = date.Where(x => x.Prices.Max(p => p.Amount) >= startPrice && x.Prices.Max(p => p.Amount) <= endPrice).ToList();
             }
 
             switch (productSort)
             {
                 case 1:
-                    data = data.OrderByDescending(x => x.Id).ToList();
+                    date = date.OrderByDescending(x => x.Id).ToList();
                     break;
                 case 2:
-                    data = data.OrderByDescending(x => x.Stars).ToList();
+                    date = date.OrderByDescending(x => x.Stars).ToList();
                     break;
                 case 4:
-                    data = data.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
+                    date = date.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
                 case 3:
-                    data = data.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
+                    date = date.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
                     break;
                 case 5:
-                    data = data.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
+                    date = date.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
                     break;
             }
 
-            if (!string.IsNullOrEmpty(tagText))
+            if (!String.IsNullOrEmpty(tagText))
             {
-                var resultTags = await _tagService.GetByTagText(tagText);
-                var tagsNames = new List<string> { tagText };
-                var tagIds = await _tagService.GetByTagNames(tagsNames);
-                List<int> tagIdsList = tagIds.ReturnData;
-                var products = data.Where(x => x.Prices!.Any()).ToList();
-                if (tagIdsList is { Count: > 0 })
-                    data = tagIdsList.Aggregate(products,
-                        (current, tagId) => (List<ShopPageViewModel>)current.Where(x => x.Tags.Any(t => t.Id == tagId)));
+                ServiceResult<Tag> resultTags = await _tagService.GetByTagText(tagText);
+                int tagId = resultTags.ReturnData.Id;
             }
 
-            if (isExist || (startPrice <= endPrice && endPrice > 0))
-            {
-                data = data.Where(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            }
-
-            data = data.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-            var entity = PagedList<ShopPageViewModel>.ToPagedList(data, pageNumber, pageSize);
-
-            result.PaginationDetails = new PaginationDetails
-            {
-                TotalCount = entity.TotalCount,
-                PageSize = entity.PageSize,
-                CurrentPage = entity.CurrentPage,
-                TotalPages = entity.TotalPages,
-                HasNext = entity.HasNext,
-                HasPrevious = entity.HasPrevious,
-                Search = search
-            };
-
-            result.ReturnData = data.Select(p => new ProductIndexPageViewModel
-            {
-                Prices = p.Prices!,
-                Alt = p.Alt,
-                Brand = p.Brand,
-                Name = p.Name,
-                Description = p.Description,
-                Id = p.Id,
-                ImagePath = p.ImagePath,
-                Stars = p.Stars,
-                Url = p.Url,
-            }).ToList();
-            result.Code = ServiceCode.Success;
         }
 
+        GetAllProducts();
 
-        await GetAllProducts();
-
-        return result;
-    }
-
-    public async Task GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
-    {
-        var key = $"GetAllProducts-{isWithoutBill}";
-        _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
-        var result = await _http.GetAsync<List<ShopPageViewModel>>(Url,
-            $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
-        cacheEntry = Return(result);
-        var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromDays(1));
-        _cache.Set(key, cacheEntry, cacheEntryOptions);
+        return result2;
     }
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
         int starCount, int tagId, int pageNumber = 0, int pageSize = 12, int productSort = 1)
     {
-        var cacheEntry = await _cache.GetOrCreateAsync(
-            $"GetProductList-{pageNumber}-{pageSize}-{categoryId}-{productSort}", async entry =>
-            {
-                entry.SlidingExpiration = TimeSpan.FromDays(1);
-                var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-                    $"GetByCategoryId?PageNumber={pageNumber}&PageSize={pageSize}&Search={categoryId}&ProductSort={productSort}");
-                return result;
-            });
+        var cacheEntry = await _cache.GetOrCreateAsync($"GetProductList-{pageNumber}-{pageSize}-{categoryId}-{productSort}", async entry =>
+        {
+            entry.SlidingExpiration = TimeSpan.FromDays(1);
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
+            $"GetByCategoryId?PageNumber={pageNumber}&PageSize={pageSize}&Search={categoryId}&ProductSort={productSort}");
+            return result;
+        });
 
         return Return(cacheEntry);
 
     }
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count,
-        bool isWithoutBill = true)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count, bool isWithoutBill = true)
     {
         var cacheEntry = await _cache.GetOrCreate($"TopRelatives-{productId}-{count}", async entry =>
         {
@@ -300,12 +249,22 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         });
 
         return Return(cacheEntry);
+
     }
 
+    public async Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
+    {
+        var cacheEntry = await _cache.GetOrCreateAsync($"GetAllProducts", async entry =>
+        {
+            var result = await _http.GetAsync<List<ShopPageViewModel>>(Url, $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
+            return result;
+        });
 
+        return Return(cacheEntry);
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList,
-        bool isWithoutBill = true)
+    }
+
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill = true)
     {
         var result = await _http.PostAsync<List<int>, List<ProductIndexPageViewModel>>("api/Products", productIdList,
             $"ProductsWithIdsForCart?isWithoutBill={isWithoutBill}");
@@ -315,7 +274,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     public async Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList)
     {
         var result = await _http.PostAsync<List<int>, List<ProductCompareViewModel>>("api/Products", productIdList,
-            "ProductsWithIdsForCompare");
+             "ProductsWithIdsForCompare");
         return Return(result);
     }
 
@@ -332,130 +291,15 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     }
 
 
-    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties,
-        bool isWithoutBill = true)
+    public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBill = true)
     {
-        var result = new ServiceResult<List<ProductIndexPageViewModel>>();
-        var key = $"GetAllProducts-{isWithoutBill}";
-        var isCached = _cache.TryGetValue(key, out ServiceResult<List<ShopPageViewModel>> cacheEntry);
-
-        if (isCached) isCached = cacheEntry.Code == ServiceCode.Success;
-
-        if (!isCached || (isCached && cacheEntry.Code != ServiceCode.Success))
+        var cacheEntry = await _cache.GetOrCreateAsync($"GetTops-{includeProperties}", async entity =>
         {
-            var resultGetTops =
-                await _http.GetAsync<List<ProductIndexPageViewModel>>(Url,
-                    $"GetTops?includeProperties={includeProperties}");
-            result=Return(resultGetTops);
-        }
-        else
-        {
-            var data = cacheEntry.ReturnData;
-            List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
-            var allProducts = data
-                .Select(p => new ProductIndexPageViewModel
-                {
-                    Prices = p.Prices,
-                    Alt = p.Alt,
-                    Brand = p.Brand,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Id = p.Id,
-                    ImagePath = p.ImagePath,
-                    //Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
-                    Url = p.Url,
-                }).ToList();
+            //entity.SlidingExpiration = TimeSpan.FromDays(1);
+            var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
+            return result;
+        });
 
-            allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
-
-            string[] parameters = includeProperties.Split(",");
-            foreach (var param in parameters)
-            {
-                List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
-                var resultCount = param.Split(":");
-                int _count = System.Convert.ToInt32(resultCount[1]);
-                switch (resultCount[0])
-                {
-                    case "TopNew":
-                        products = allProducts.OrderByDescending(x => x.Id).Take(_count)
-                       .Select(p => new ProductIndexPageViewModel
-                       {
-                           Prices = p.Prices,
-                           Alt = p.Alt,
-                           Brand = p.Brand,
-                           Name = p.Name,
-                           Description = p.Description,
-                           Id = p.Id,
-                           ImagePath = p.ImagePath,
-                           Stars = p.Stars,
-                           Url = p.Url,
-                           TopCategory = resultCount[0]
-                       }).ToList();
-                        break;
-
-                    case "TopPrices":
-                        products = allProducts
-                        .Select(p => new ProductIndexPageViewModel
-                        {
-                            Prices = p.Prices,
-                            Alt = p.Alt,
-                            Brand = p.Brand,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Id = p.Id,
-                            ImagePath = p.ImagePath,
-                            Stars = p.Stars,
-                            Url = p.Url,
-                            MaxPrice = p.Prices.Sum(x => x.Exist) > 0 ? p.Prices.Select(x => x.Amount).Max() : 0,
-                            TopCategory = resultCount[0]
-                        })
-                        .OrderByDescending(o => o.MaxPrice)
-                        .Take(_count)
-                        .ToList();
-                        break;
-
-                    case "TopChip":
-
-                        break;
-                    case "TopDiscount":
-
-                        break;
-                    case "TopRelative":
-
-                        break;
-                    case "TopSells":
-
-                        break;
-
-                    case "TopStars":
-                        products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
-                        .Select(p => new ProductIndexPageViewModel
-                        {
-                            Prices = p.Prices,
-                            Alt = p.Alt,
-                            Brand = p.Brand,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Id = p.Id,
-                            ImagePath = p.ImagePath,
-                            Stars = p.Stars,
-                            Url = p.Url,
-                            TopCategory = resultCount[0]
-                        }).ToList();
-                        break;
-
-                    default: break;
-                }
-                foreach (var product in products) selectedProducts.Add(product);
-            }
-
-            result.ReturnData = selectedProducts;
-            result.Code = ServiceCode.Success;
-            //what is result.ReturnData?
-
-        }
-
-        await GetAllProducts();
-        return result;
+        return Return(cacheEntry);
     }
 }
