@@ -46,20 +46,6 @@ namespace ECommerce.Services.Services
             var result = await Read(Url, $"GetByUserAndOrderId?userId={currentUser.Id}&orderId={orderId}");
             return Return(result);
         }
-        public async Task<ServiceResult<PurchaseOrder>> GetByUserAndOrderId(long orderId)
-        {
-            var currentUser = _cookieService.GetCurrentUser();
-            if (currentUser.Id == 0)
-            {
-                return new ServiceResult<PurchaseOrder>
-                {
-                    Code = ServiceCode.Error
-                };
-            }
-            var result = await Read(Url, $"GetByUserAndOrderId?userId={currentUser.Id}&orderId={orderId}");
-            return Return(result);
-        }
-
         public async Task<ServiceResult<PurchaseOrder>> GetPurchaseOrderWithIncludeById(int id)
         {
             var result = await _http.GetAsync<PurchaseOrder>(Url, $"GetPurchaseOrderWithIncludeById?id={id}");
@@ -88,7 +74,7 @@ namespace ECommerce.Services.Services
         public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId = 0, string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,
           DateTime? toCreationDate = null, int? statusId = null, decimal? minimumAmount = null, decimal? maximumAmount = null,
-          PaymentMethodStatus? paymentMethodStatus = null)
+          PaymentMethodStatus? paymentMethodStatus = null, long orderId = 0)
         {
             //var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"NewProducts?count={count}");
             //return Return<List<ProductIndexPageViewModel>>(result);

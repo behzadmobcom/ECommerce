@@ -16,6 +16,6 @@ namespace ECommerce.Services.IServices
         Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId = 0, string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,
          DateTime? toCreationDate = null, int? statusId = null, decimal? minimumAmount = null, decimal? maximumAmount = null,
-         PaymentMethodStatus? paymentMethodStatus = null);
+         PaymentMethodStatus? paymentMethodStatus = null,long orderId=0);
     }
 }

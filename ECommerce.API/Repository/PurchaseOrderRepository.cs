@@ -70,7 +70,8 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             SendInformation = p.SendInformation,
             UserId = p.UserId,
             UserName = p.User.UserName,
-            FBailCode = p.FBailCode
+            FBailCode = p.FBailCode,
+            OrderId = p.OrderId
         }).ToListAsync(cancellationToken);
 
         return PagedList<PurchaseListViewModel>.ToPagedList(purchaseList,
@@ -90,7 +91,12 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
 
     public async Task<PurchaseOrder?> GetByUserAndOrderId(int userId, long orderId, CancellationToken cancellationToken)
     {
-        var query = _context.PurchaseOrders.Where(x => x.UserId==userId && x.OrderId == orderId ).AsNoTracking();
+        var query = _context.PurchaseOrders.Where(x => x.UserId == userId && x.OrderId == orderId)
+            .Include(d => d.SendInformation).ThenInclude(c => c.City)
+            .Include(d => d.SendInformation).ThenInclude(c => c.State)
+            .Include(d => d.PurchaseOrderDetails)
+            .Include(d => d.PaymentMethod)
+            .AsNoTracking();
         return await query.FirstOrDefaultAsync(cancellationToken);
     }
     public async Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken) => await _context.PurchaseOrders.Where(x => x.UserId == id && !x.IsPaid).Include(x => x.PurchaseOrderDetails).Include(a => a.SendInformation).ThenInclude(x => x.State).Include(x => x.SendInformation).ThenInclude(x => x.City)
@@ -131,7 +137,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
     public async Task<PurchaseOrder> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
     {
         var query = _context.PurchaseOrders.Where(x => x.Id == id)
-            .Include(d => d.PurchaseOrderDetails).ThenInclude(p=>p.Price)
+            .Include(d => d.PurchaseOrderDetails).ThenInclude(p => p.Price)
             .Include(d => d.PaymentMethod)
             .AsNoTracking();
 
