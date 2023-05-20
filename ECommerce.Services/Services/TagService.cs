@@ -97,9 +97,16 @@ public class TagService : EntityService<Tag>, ITagService
         var result = await _http.GetAsync<Tag>(Url, $"GetById?id={id}");
         return Return(result);
     }
-    public async Task<ServiceResult<Tag>> GetByTagText(string TagText)
+
+    public async Task<ServiceResult<Tag>> GetByTagText(string tagText)
     {
-        var result = await _http.GetAsync<Tag>(Url, $"GetByTagText={TagText}");
+        var result = await _http.GetAsync<Tag>(Url, $"GetByTagText={tagText}");
+        return Return(result);
+    }
+
+    public async Task<ServiceResult<List<int>>> GetByTagNames(List<string> tagNames)
+    {
+        var result = await _http.GetAsync<List<int>>(Url, $"GetByTagNames={tagNames}");
         return Return(result);
     }
 

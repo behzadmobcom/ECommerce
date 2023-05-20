@@ -9,6 +9,7 @@ public interface ITagService : IEntityService<Tag>
     Task<ServiceResult<List<Tag>>> GetAll();
     Task<ServiceResult<List<Tag>>> Filtering(string filter);
     Task<ServiceResult<Tag>> GetByTagText(string TagText);
+    Task<ServiceResult<List<int>>> GetByTagNames(List<string> tagNames);
     Task<ServiceResult<List<Tag>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult<Dictionary<int, string>>> LoadDictionary();
     Task<ServiceResult> Add(Tag tag);

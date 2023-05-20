@@ -1,4 +1,5 @@
-﻿using ECommerce.API.DataContext;
+﻿using System.Runtime.CompilerServices;
+using ECommerce.API.DataContext;
 using ECommerce.API.Interface;
 using ECommerce.API.Utilities;
 using Ecommerce.Entities;
@@ -31,6 +32,15 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
     {
         return await _context.Tags.Where(x => x.TagText == tagText).FirstOrDefaultAsync(cancellationToken);
     }
+
+
+    public async Task<List<int>> GetByTagNames(List<string> tagNames, CancellationToken cancellationToken)
+    {
+        return await _context.Tags.Where(x => tagNames.Contains(x.TagText))
+            .Select(x => x.TagId)
+            .ToListAsync(cancellationToken);
+    }
+
 
     public async Task<List<TagProductId>> GetByProductId(int productId, CancellationToken cancellationToken)
     {
