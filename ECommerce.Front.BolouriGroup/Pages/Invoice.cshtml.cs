@@ -112,17 +112,14 @@ public class InvoiceModel : PageModel
 
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
-        using (var client = new HttpClient())
+        using var client = new HttpClient();
+        client.BaseAddress = new Uri(apiUrl);
+        client.DefaultRequestHeaders.Accept.Clear();
+        HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, value);
+        if (response.IsSuccessStatusCode)
         {
-
-            client.BaseAddress = new Uri(apiUrl);
-            client.DefaultRequestHeaders.Accept.Clear();
-            HttpResponseMessage response = await client.PostAsJsonAsync(apiUrl, value);
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<T>();
-            }
-            return default(T);
+            return await response.Content.ReadFromJsonAsync<T>();
         }
+        return default(T);
     }
 }
