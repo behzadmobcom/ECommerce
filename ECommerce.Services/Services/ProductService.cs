@@ -254,6 +254,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             result.Code = ServiceCode.Success;
         }
 
+
         GetAllProducts();
 
         return result;
