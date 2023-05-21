@@ -65,7 +65,7 @@
                                 <input type="tel" maxlength="10" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                                
                                 <span asp-validation-for="RegisterViewModel.NationalCode" style="color: red"></span>
                             </div>
-
+                              
                             <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
                                 <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.CompanyName" class="form-control">
