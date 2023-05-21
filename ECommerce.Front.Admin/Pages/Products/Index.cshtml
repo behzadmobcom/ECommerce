@@ -1,0 +1,102 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.Products.IndexModel
+@{
+    var i = 1 + (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize;
+}
+
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست محصولات ها</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::نمونه-->
+        @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
+        <div class="example mb-10">
+            <p>
+                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد محصولات جدید</a>
+            </p>
+            <form asp-page="/Products/Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        جستجو بر اساس نام:
+                        <input type="text" name="search" value="@Model.Products.PaginationDetails.Search"/>
+                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+                        <input type="submit" value="بجو" class="btn btn-primary"/> |
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="5">5</a> -
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="10">10</a> -
+                        <a asp-page="/Products/Index" asp-route-quantityPerPage="15">15</a>
+                    </p>
+                </div>
+            </form>
+            <div class="example-preview">
+                @*<input type="text" id="searchId" name="search" placeholder="جستجو کالا . . ." title="نام مورد نظر را وارد کنید" class="form-control form-control-solid" onkeyup="filter()">*@
+                <table id="productTableId" class="table table-bordered mb-6">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام کالا</th>
+                        @*<th scope="col">موجودی</th>*@
+                        <th scope="col">عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.Products.ReturnData != null)
+                    {
+                        foreach (var product in Model.Products.ReturnData)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@product.Name</td>
+                                @* <td>@product.Exist</td>*@
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@product.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@product.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                    <a asp-page="Price" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">قیمت</a>
+                                    <a asp-page="AttributeValue" asp-route-id="@product.Id" class="label label-inline label-light-warning font-weight-bold">مشخصات</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+      
+                <partial name="_Pagination" model="@Model.Products.PaginationDetails"/>
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>
+
+@section Scripts   
+{
+
+    <script>
+    
+    </script>
+
+}

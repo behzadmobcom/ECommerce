@@ -1,0 +1,80 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.SlideShows.IndexModel
+@{
+    var i = 1;
+}
+
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست اسلاید شو ها</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::نمونه-->
+        @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
+        <div class="example mb-10">
+            <p>
+                <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد اسلاید شو جدید</a>
+            </p>
+            <div class="example-preview">
+                <table class="table table-bordered mb-6">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام</th>
+                        <th scope="col">توضیحات</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if (Model.SlideShows != null)
+                    {
+                        @foreach (var slideShow in Model.SlideShows)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@slideShow.Title</td>
+                                <td>
+                                    <div class="shortened">
+                                        <h2>@Html.Raw(slideShow.Description)</h2>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@slideShow.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@slideShow.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@slideShow.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+
+
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>

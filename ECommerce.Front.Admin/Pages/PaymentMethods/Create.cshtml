@@ -1,0 +1,67 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.PaymentMethods.CreateModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        ایجاد روش پرداخت جدید
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>شماره حساب</label>
+                            <input asp-for="@Model.PaymentMethod.AccountNumber" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.PaymentMethod.AccountNumber" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>نام بانک</label>
+                            <input asp-for="@Model.PaymentMethod.BankName" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.PaymentMethod.BankName" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>نام شعبه</label>
+                            <input asp-for="@Model.PaymentMethod.BrunchName" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.PaymentMethod.BrunchName" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>کد بانک</label>
+                            <input asp-for="@Model.PaymentMethod.BankCode" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.PaymentMethod.BankCode" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                        <a class="btn btn-secondary" asp-Page="/PaymentMethods/index">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

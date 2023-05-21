@@ -1,0 +1,32 @@
+﻿@model List<Ecommerce.Entities.ViewModel.CategoryParentViewModel>
+<div>
+    @if (Model != null)
+    {
+        @foreach (var category in Model)
+        {
+            @if (category.Depth > 0)
+            {
+                for (var i = 0; i <= category.Depth; i++)
+                {
+                    <text> &nbsp; &nbsp; </text>
+                }
+            }
+            <input
+                @if (category.Checked)
+                {
+                    <text>checked="checked"</text>
+                }
+                type="checkbox" name="Product.CategoriesId" id="cat-@category.Id" value="@category.Id"
+                @if (category.Children != null && category.Children.Count > 0)
+                {
+                    <text> disabled="disabled" </text>
+                }>
+            <label for="cat-@category.Id"> @category.Name</label>
+
+            if (category.Children != null)
+            {
+                <partial name="_categoriesTree" model="category.Children"/>
+            }
+        }
+    }
+</div>

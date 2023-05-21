@@ -1,0 +1,122 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.Products.DeleteModel
+@{
+}
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        حذف محصولات
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input hidden="hidden" name="id" asp-for="@Model.Product.Id"/>
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <label>نام کالا</label>
+                            <label class="form-control form-control-solid">@Model.Product.Name</label>
+                        </div>
+	                    <div class="form-group">
+                            <label>توضیحات</label>
+	                        <label class="form-control form-control-solid" style="overflow-y: scroll; height: 100px;">
+		                        @Html.Raw(Model.Product.Description)
+	                        </label>
+                        </div>
+                        <div class="form-group">
+	                        <label>نقد و بررسی</label>
+	                        <label class="form-control form-control-solid" style="overflow-y: scroll; height: 100px;">
+		                        @Html.Raw(Model.Product.Review)
+	                        </label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر سفارش</label>
+                            <label class="form-control form-control-solid">@Model.Product.MaxOrder</label>
+                        </div>
+                        <div class="form-group">
+                            <label>حداقل در انبار</label>
+                            <label class="form-control form-control-solid">@Model.Product.MinInStore</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد سفارش مجدد</label>
+                            <label class="form-control form-control-solid">@Model.Product.ReorderingLevel</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsDiscontinued"/>
+                                <span></span>
+                                توقف تولید
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <input type="checkbox" asp-for="@Model.Product.IsActive"/>
+                                <span></span>
+                                فعال بودن
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>آدرس محصول در سایت</label>
+                            <label class="form-control form-control-solid">@Model.Product.Url</label>
+                        </div>
+                        <div class="form-group">
+                            <label>برند</label>
+                            <label class="form-control form-control-solid">@Model.Product.Brand?.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>انبار</label>
+                            <label class="form-control form-control-solid">@Model.Product.Store.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تامین کننده</label>
+                            <label class="form-control form-control-solid">@Model.Product.Supplier.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر کالا</label>
+                            <ul class="details-preview">
+                                @foreach (var image in Model.Product.Images)
+                                {
+                                    <li>
+                                        <img style="width: 50%" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">حذف</button>
+                        <a class="btn btn-secondary" asp-Page="/Products/index">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>

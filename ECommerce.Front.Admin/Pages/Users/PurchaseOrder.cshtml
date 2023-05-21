@@ -1,0 +1,78 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.PurchaseOrderModel
+@{
+    ViewData["Title"] = "درخواست سفارش";
+    int i = 1;
+    decimal sumAmount = 0;
+
+}
+<!--begin::Title-->
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست ریز فاکتور</h1>
+<!--end::Title-->
+
+<div class="card mb-5 mb-xl-8">
+    <!--begin::Body-->
+    <div class="card-body py-3">
+        <!--begin::Table container-->
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">وضعیت سفارش:@Model.PurchaseOrder?.Status</th>
+                        <th scope="col">تاریخ:@Model.PurchaseOrder?.CreationDate.ToFa("f")</th>
+                        <th scope="col">تخفیف : @Model.PurchaseOrder?.DiscountAmount </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <br />
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">نام کالا</th>
+                        <th scope="col">کد هلو</th>
+                        <th scope="col">تعداد</th>
+                        <th scope="col">قیمت واحد</th>
+                        <th scope="col">تخفیف</th>
+                        <th scope="col">جمع</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PurchaseOrder.PurchaseOrderDetails)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@item.Name</td>
+                            <td>@item.Price.ArticleCodeCustomer</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice</td>
+                            <td>@item.DiscountAmount</td>
+                            <td>@item.SumPrice</td>
+                            @{
+                                sumAmount += item.SumPrice;
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"> جمع کل:@sumAmount</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="card-footer">
+                <a class="btn btn-secondary" asp-Page="/Users/Purchases" asp-route-id="@Model.PurchaseOrder.UserId">فاکتورهای کاربر</a>
+                <a class="btn btn-secondary" asp-Page="/Users/Purchases">کل فاکتورها</a>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,362 @@
+﻿@page 
+@using Ecommerce.Entities.Helper
+@using Ecommerce.Entities
+@model ECommerce.Front.Admin.Pages.Products.PriceModel
+@{
+    var i = 1 + (Model.Prices.PaginationDetails.CurrentPage - 1) * Model.Prices.PaginationDetails.PageSize;
+}
+
+<!--begin::نمونه-->
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+    Model.Code = null;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        قیمت محصول
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <input asp-for="@Model.Price.Id" hidden="hidden"/>
+                    <input asp-for="@Model.Price.ProductId" hidden="hidden"/>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalSelectArticle">انتخاب کالا از هلو</button>
+                        </div>
+                        <div class="form-group">
+                            <label>کد دیتابیس کالا در هلو</label>
+                            <input asp-for="@Model.Price.ArticleCode" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Price.ArticleCode" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>کد کالا در هلو</label>
+                            <input asp-for="@Model.Price.ArticleCodeCustomer" class="form-control form-control-solid"/>
+                            <span asp-validation-for="@Model.Price.ArticleCodeCustomer" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>موجودی</label>
+                            <input asp-for="@Model.Price.Exist" id="kt_touchspin_4" class="form-control form-control-solid bootstrap-touchspin-vertical-btn"/>
+                            <span asp-validation-for="@Model.Price.Exist" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        <label class="form-control-label">واحد</label>
+                        <select asp-for="@Model.Price.UnitId" asp-items="@Model.Units" class="col-md-12 js-example-basic-single  form-control"></select>
+
+                        <label class="form-control-label">رنگ</label>
+                        <select asp-for="@Model.Price.ColorId" asp-items="@Model.Colors" class="col-md-12 js-example-basic-single  form-control"></select>
+
+                        <label class="form-control-label">درجه</label>
+                        <select asp-for="@Model.Price.Grade" asp-items="Html.GetEnumSelectList<Grade>()" class="col-md-12 js-example-basic-single  form-control"></select>
+
+                        <label class="form-control-label">اندازه</label>
+                        <select asp-for="@Model.Price.SizeId" asp-items="@Model.Sizes" class="col-md-12 js-example-basic-single  form-control"></select>
+
+                        <label class="form-control-label">واحد پول</label>
+                        <select asp-for="@Model.Price.CurrencyId" asp-items="@Model.Currencies" class="col-md-12 js-example-basic-single  form-control"></select>
+
+                        <label class="form-control-label">مبلغ</label>
+                        <input asp-for="@Model.Price.Amount" class="form-control form-control-solid"/>
+
+                        <label class="form-control-label">حداقل سفارش</label>
+                        <input asp-for="@Model.Price.MinQuantity" class="form-control form-control-solid"/>
+
+                        <label class="form-control-label">حدکثر سفارش</label>
+                        <input asp-for="@Model.Price.MaxQuantity" class="form-control form-control-solid"/>
+
+                        <label class="form-control-label">اگر کالا در هلو موجود هست، شماره قیمت را انتخاب کنید</label>
+                        <select name="Price.SellNumber" class="col-md-12 js-example-basic-single  form-control">
+                            @foreach (var status in Enum.GetValues(typeof(Price.HolooSellNumber)))
+                            {
+                                <option value="@status">@status</option>
+                            }
+                        </select>
+
+                        <div class="checkbox-list">
+                            <label class="checkbox">
+                                <input id="colleaguePriceId" type="checkbox"/>
+                                <span></span>
+                                این قیمت فقط برای همکار است
+                            </label>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                        <a class="btn btn-secondary" asp-Page="/Products/index">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+<br/>
+<br/>
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست برند ها</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="example mb-10">
+            <div class="form-actions no-color">
+                <p>
+                    تعداد رکورد ها در صفحه :
+                    <a asp-page="/Product/Price" asp-route-pageSize="10">10</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize="20">20</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize="30">30</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize="40">40</a> -
+                    <a asp-page="/Product/Price" asp-route-pageSize="50">50</a>
+                </p>
+            </div>
+            <div class="example-preview">
+
+                <table class="table table-bordered mb-6">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">قیمت</th>
+                        <th scope="col">رنگ</th>
+                        <th scope="col">حداقل سفارش</th>
+                        <th scope="col">حداکثر سفارش</th>
+                        <th scope="col">عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (var price in Model.Prices.ReturnData)
+                    {
+                        <tr>
+                            <th scope="row">@(i++)</th>
+                            <td>@price.Amount</td>
+                            <td>@price.Color.Name</td>
+                            <td>@price.MinQuantity</td>
+                            <td>@price.MaxQuantity</td>
+
+                            <td>
+                                <form method="post">
+                                    <button asp-page-handler="Edit" class="label label-inline label-light-success font-weight-bold">ویرایش</button>
+                                    <button asp-page-handler="Delete" class="label label-inline label-light-danger font-weight-bold">حذف</button>
+                                    <input type="hidden" name="id" value="@price.Id"/>
+                                    <input type="hidden" name="productId" value="@price.ProductId"/>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+
+                @{
+                    var prevDisabled = Model.Prices.PaginationDetails.CurrentPage == 1 ? "disabled" : "";
+                    var nextDisabled = Model.Prices.PaginationDetails.TotalPages <= Model.Prices.PaginationDetails.CurrentPage ? "disabled" : "";
+                }
+
+                <a asp-page="/Product/Price"
+                   asp-route-pageNumber="@(Model.Prices.PaginationDetails.CurrentPage - 1)"
+                   asp-route-search="@(Model.Prices.PaginationDetails.Search)"
+                   asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                   class="btn btn-primary @prevDisabled">
+                    قبلی
+                </a>
+                @for (var pageIndex = 1; pageIndex <= Model.Prices.PaginationDetails.TotalPages; pageIndex++)
+                {
+                    var activePage = Model.Prices.PaginationDetails.CurrentPage == pageIndex ? "btn-danger disabled" : "btn-primary ";
+                    <a asp-page="/Product/Price"
+                       asp-route-pageNumber="@pageIndex"
+                       asp-route-search="@Model.Prices.PaginationDetails.Search"
+                       asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                       class="btn @activePage">
+                        @pageIndex
+                    </a>
+                }
+                <a asp-page="/Product/Price"
+                   asp-route-pageNumber="@(Model.Prices.PaginationDetails.CurrentPage + 1)"
+                   asp-route-search="@(Model.Prices.PaginationDetails.Search)"
+                   asp-route-pageSize="@Model.Prices.PaginationDetails.PageSize"
+                   class="btn btn-primary @nextDisabled">
+                    بعدی
+                </a>
+
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>
+
+<!-- Modal Select Article-->
+<div class="modal fade" id="ModalSelectArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="ModalSelectArticleBodyId">
+                <select id="mGroupId" class="col-md-12 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooMGroups)
+                    {
+                        <option value="@mGroup.M_groupcode">@mGroup.M_groupname</option>
+                    }
+                </select>
+                <select id="sGroupId" class="col-md-12 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooSGroups)
+                    {
+                        <option value="@mGroup.S_groupcode">@mGroup.S_groupname</option>
+                    }
+                </select>
+                <input type="text" id="searchNameId" name="search" placeholder="جستجو کالا براساس نام . . ." title="نام مورد نظر را وارد کنید" class="form-control form-control-solid" onkeyup="filterOnName()">
+               
+                <select id="articleId" class="col-md-12 js-example-basic-single  form-control">
+                    @foreach (var mGroup in Model.HolooArticle)
+                    {
+                        <option value="@mGroup.Id">@mGroup.Name</option>
+                    }
+                </select>
+                <br/>
+                <input type="text" id="searchCodeId" name="search" placeholder="جستجوری کالا براساس کد . . ." title="کد مورد نظر را وارد کنید" class="form-control form-control-solid">
+                <button type="button"  class="btn btn-secondary col-md-12"  onclick="filterOnCode()">جستجو براساس کد</button>
+                <div id="articleDescriptionId"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="selectArticleId" class="btn btn-primary">انتخاب کالا</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+        var holooArticles = new Array();
+        var article = new Object();
+
+        function filterOnName() {
+            var keyword = $("#searchNameId").val();
+            var select = document.getElementById("articleId");
+            for (var i = 0; i < select.length; i++) {
+                var txt = select.options[i].text;
+                if (!txt.match(keyword)) {
+                    $(select.options[i]).attr('disabled', 'disabled').hide();
+                } else {
+                    $(select.options[i]).removeAttr('disabled').show();
+                }
+
+            }
+        }
+
+          function filterOnCode() {
+           
+            var keyword = $("#searchCodeId").val();
+            article = holooArticles.find(obj => {
+                return obj.a_Code_C == keyword;
+            });
+                  $("#articleDescriptionId").html(
+                  "<p>" +
+                  "کد کالا : " +
+                  article.a_Code_C +
+                  "</p>" +
+                  "<p>" +
+                  "نام : " +
+                  article.a_Name +
+                  "</p>" +
+                  "<p>" +
+                  "موجودی : " +
+                  article.exist +
+                  "</p>"
+              );
+        }
+
+        $('#mGroupId').on("change",
+            function() {
+                $("#searchId").val("");
+                var mCode = $('#mGroupId').val();
+                $("#sGroupId").empty();
+                $("#sGroupId").append("<option value=''>انتخاب گروه فرعی</option>");
+                $.getJSON(`?handler=ReturnSGroup&mCode=${mCode}`,
+                    (data) => {
+                        $.each(data,
+                            function(i, item) {
+                                $("#sGroupId").append(`<option value="${item.m_groupcode}${item.s_groupcode}">${item.s_groupname}</option>`);
+                            });
+                    });
+            });
+        $('#sGroupId').on("change",
+            function() {
+                $("#searchId").val("");
+                var code = $('#sGroupId').val();
+                $("#articleId").empty();
+                $("#articleId").append("<option value=''>انتخاب کالا</option>");
+                $.getJSON(`?handler=ReturnArticle&code=${code}`,
+                    (data) => {
+                        holooArticles = data;
+                        $.each(data,
+                            function(i, holooArticles) {
+                                $("#articleId").append(`<option value="${holooArticles.a_Code}">${holooArticles.a_Name}</option>`);
+                            });
+                    });
+            });
+        $('#articleId').on('change',
+            function(e) {
+                var valueSelected = this.value;
+                //var holooArticles = @*@Html.Raw(Json.Serialize(Model.HolooArticle));*@
+                article = holooArticles.find(obj => {
+                    return obj.a_Code === valueSelected;
+                });
+                $("#articleDescriptionId").html(
+                    "<p>" +
+                    "کد کالا : " +
+                    article.a_Code_C +
+                    "</p>" +
+                    "<p>" +
+                    "نام : " +
+                    article.a_Name +
+                    "</p>" +
+                    "<p>" +
+                    "موجودی : " +
+                    article.exist +
+                    "</p>"
+                );
+            });
+        $("#selectArticleId").on("click",
+            function() {
+                $("#Price_ArticleCode").val(article.a_Code);
+                $("#Price_ArticleCodeCustomer").val(article.a_Code_C);
+                //CKEDITOR.instances['Description_Add'].setData(article.other1);
+                $("#kt_touchspin_4").val(article.exist);
+                //console.log(article);
+                $('#ModalSelectArticle').modal('toggle');
+            }
+        );
+
+    </script>
+}

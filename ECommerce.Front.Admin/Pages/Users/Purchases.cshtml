@@ -1,0 +1,155 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.PurchaseModel
+@{
+    ViewData["Title"] = "سفارشات";
+    var i = 1 + (Model.PurchaseOrders.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrders.PaginationDetails.PageSize;
+}
+<!--begin::Title-->
+<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست سفارشات</h1>
+<!--end::Title-->
+
+<!--begin :: search options-->
+ <form class="form" method="post" asp-page-handler="OnPost">
+    <div class="row align-items-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="row align-items-center">
+
+                     <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">از مبلغ:</label>
+                            <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.MinimumAmount" class="form-control" />                                
+                        </div>
+                    </div> 
+                     <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">تا مبلغ:</label>
+                            <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.MaximumAmount" class="form-control" />                                
+                        </div>
+                    </div> 
+                    <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">وضعیت فاکتور:</label>
+                            <select asp-for="@Model.IsPaid" class="form-control">                               
+                                <option value="0">همه</option>
+                                <option value="1">پرداخت شده</option>
+                                <option value="2">پرداخت نشده</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">کاربر:</label>
+                             <select asp-for="@Model.UserId?" class="form-control">
+                                <option value="">همه</option>
+                            @{
+                                foreach (var item in Model.Users.ReturnData)
+                                {
+                                    <option value="@item.Id">@item.Username</option>
+                                }
+                            }
+                                 
+                            </select>
+                        </div>
+                    </div>
+                     <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">وضعیت سفارش:</label>
+                            <select asp-for="@Model.Status" class="form-control">                               
+                                <option value="0">فاکتورهای جدید</option>
+                                <option value="1">ارسال شده</option>
+                                <option value="2">تایید شده</option>
+                                <option value="3">بسته شده</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>              
+     </div>  
+     <input type="submit" value="بجو" class="btn btn-primary"/>
+</form>
+
+<!--begin :: search options-->
+
+<div class="card mb-5 mb-xl-8">
+<!--begin::Body-->
+<div class="card-body py-3">
+<!--begin::Table container-->
+<div class="table-responsive">
+<!--begin::Table-->
+<table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+<!--begin::Table head-->
+       <form asp-page="/Users/Purchases" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Users/Purchases" asp-route-pageSize="50">50</a>
+                    </p>
+                </div>
+         </form>
+<thead>
+<tr class="fw-bolder text-muted">
+	<th class="w-25px">
+		#
+	</th>
+    <th class="min-w-150px">شماره فاکتور</th>
+	<th class="min-w-150px">تاریخ خرید</th>
+	<th class="min-w-140px">وضعیت سفارش</th>
+	<th class="min-w-120px">وضعیت پرداخت</th>
+	<th class="min-w-120px">قابل پرداخت</th>
+    <th class="min-w-120px">تخفیف</th>
+	<th class="min-w-120px">کاربر</th>
+	<th class="min-w-100px text-end">عملیات</th>
+</tr>
+</thead>
+
+<!--end::Table head-->
+<!--begin::Table body-->
+
+<tbody>
+ @foreach (var item in Model.PurchaseOrders.ReturnData)
+ {							
+	<tr>
+	<td>@item.Id</td>
+    <td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
+	</td>
+	<td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa("f")</a>
+	</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
+	</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@(item.IsPaied==true?"√":"پرداخت نشده") </a>
+	</td>
+	<td> 
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount.ToString("N0")</a>
+	</td>
+	<td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
+	<td>
+		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.UserName</a>
+	</td>
+	<td class="text-end">
+		 <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-success font-weight-bold">جزئیات</a>
+	</td>
+	</tr>
+ }
+
+</tbody>
+<!--end::Table body-->
+</table>
+<!--end::Table-->
+</div>
+<!--end::Table container-->
+</div>
+		 <div class="card-footer">
+              <a class="btn btn-secondary" asp-Page="/Users/Index">لغو</a>
+         </div>
+<!--begin::Body-->
+</div>

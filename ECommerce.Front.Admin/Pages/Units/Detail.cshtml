@@ -1,0 +1,43 @@
+﻿@page
+@model ECommerce.Front.Admin.Pages.Units.DetailModel
+@{
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        جزئیات واحد
+                    </h3>
+                </div>
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>نام:</label>
+                            <label class="form-control form-control-solid">@Model.Unit.Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label>تعداد در واحد:</label>
+                            <label class="form-control form-control-solid">@Model.Unit.Few</label>
+                        </div>
+                        <div class="form-group">
+                            <label>عیار:</label>
+                            <label class="form-control form-control-solid">@Model.Unit.assay</label>
+                        </div>
+                        <div class="form-group">
+                            <label>وزن واحد:</label>
+                            <label class="form-control form-control-solid">@Model.Unit.UnitWeight</label>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary mr-2" asp-Page="/Units/edit" asp-route-id="@Model.Unit.Id">ویرایش</a>
+                        <a class="btn btn-secondary" asp-Page="/Units/index">لغو</a>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
