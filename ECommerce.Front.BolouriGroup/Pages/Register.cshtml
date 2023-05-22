@@ -62,10 +62,10 @@
                                 <input type="text" placeholder="نام خانوادگی" asp-for="RegisterViewModel.LastName" class="form-control">
                                 <span asp-validation-for="RegisterViewModel.LastName" style="color: red"></span>
                                 <br />
-                                <input type="number" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control">
+                                <input type="tel" maxlength="10" placeholder="کد ملی" dir="ltr" asp-for="RegisterViewModel.NationalCode" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                                
                                 <span asp-validation-for="RegisterViewModel.NationalCode" style="color: red"></span>
                             </div>
-
+                              
                             <div id="menu1" class="container tab-pane form-group">
                                 <span asp-validation-for="RegisterViewModel.Name"></span>
                                 <input type="text" placeholder="نام شرکت" asp-for="RegisterViewModel.CompanyName" class="form-control">
@@ -95,8 +95,8 @@
                             }
                         </select>
                         <br />
-                            <input type="text" readonly="readonly" hidden="hidden" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control">
-                       @* <div class="form-group">                          
+	                       <input type="tel" maxlength="11" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                           
+                           @* <div class="form-group">                          
                               <input type="button" style="background-color:ButtonFace" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendRegisterConfirmSms()" />
                         </div>*@
                          <div class="form-group">
