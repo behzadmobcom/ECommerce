@@ -159,7 +159,7 @@ public class ProductsController : ControllerBase
     private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
     {
         var products = await AddPriceAndExistFromHolooList(
-            new List<ProductIndexPageViewModel>{product},
+            new List<ProductIndexPageViewModel> { product },
             isWithoutBill,
             isExist,
             cancellationToken);
@@ -479,7 +479,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopNew(count, cancellationToken);
+            var products = await _productRepository.TopNew(count,0, null, cancellationToken);
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true, cancellationToken);
 
@@ -504,7 +504,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopPrices(count, cancellationToken);
+            var products = await _productRepository.TopPrices(count,0, null, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
@@ -609,7 +609,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var productIndexPageViewModel = await _productRepository.TopStars(count, cancellationToken);
+            var productIndexPageViewModel = await _productRepository.TopStars(count,0, null, cancellationToken);
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
@@ -659,7 +659,7 @@ public class ProductsController : ControllerBase
                     Code = ResultCode.NotFound
                 });
 
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBill,isExist, cancellationToken);
+            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBill, isExist, cancellationToken);
 
             return Ok(new ApiResult
             {
@@ -717,7 +717,7 @@ public class ProductsController : ControllerBase
                 });
 
             if (product.Prices.Any(p => p.ArticleCode != null))
-                product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isExist,cancellationToken);
+                product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isExist, cancellationToken);
 
             var productModalViewModel = new ProductModalViewModel
             {
@@ -1131,69 +1131,75 @@ public class ProductsController : ControllerBase
         try
         {
             List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
-            var allProducts = await _productRepository.GetAllWithInclude(cancellationToken)
-                                 .Select(p => new ProductIndexPageViewModel
-                                 {
-                                     Prices = p.Prices,
-                                     Alt = p.Images!.First().Alt,
-                                     Brand = p.Brand!.Name,
-                                     Name = p.Name,
-                                     Description = p.Description,
-                                     Id = p.Id,
-                                     ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                                     Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
-                                     Url = p.Url,
-                                 }).ToListAsync(cancellationToken);
+            //var allProducts = await _productRepository.GetAllWithInclude(cancellationToken)
+            //                     .Select(p => new ProductIndexPageViewModel
+            //                     {
+            //                         Prices = p.Prices,
+            //                         Alt = p.Images!.First().Alt,
+            //                         Brand = p.Brand!.Name,
+            //                         Name = p.Name,
+            //                         Description = p.Description,
+            //                         Id = p.Id,
+            //                         ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+            //                         Stars = p.ProductUserRanks.Count > 0 ? p.ProductUserRanks.Sum(x => x.Stars) / p.ProductUserRanks.Count : 0,
+            //                         Url = p.Url,
+            //                     }).ToListAsync(cancellationToken);
 
-            if (allProducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                allProducts = await AddPriceAndExistFromHolooList(allProducts, isWithoutBill, true, cancellationToken);
-            allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+            //if (allProducts.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+            //    allProducts = await AddPriceAndExistFromHolooList(allProducts, isWithoutBill, true, cancellationToken);
+            //allProducts = allProducts.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
             string[] parameters = includeProperties.Split(",");
             foreach (var param in parameters)
             {
                 List<ProductIndexPageViewModel> products = new List<ProductIndexPageViewModel>();
                 var resultCount = param.Split(":");
-                int _count = System.Convert.ToInt32(resultCount[1]);
+                int count = System.Convert.ToInt32(resultCount[1]);
+                int start = 0;
+                int countFilled = 0;
                 switch (resultCount[0])
                 {
                     case "TopNew":
-                        products = allProducts.OrderByDescending(x => x.Id).Take(_count)
-                       .Select(p => new ProductIndexPageViewModel
-                       {
-                           Prices = p.Prices,
-                           Alt = p.Alt,
-                           Brand = p.Brand,
-                           Name = p.Name,
-                           Description = p.Description,
-                           Id = p.Id,
-                           ImagePath = p.ImagePath,
-                           Stars = p.Stars,
-                           Url = p.Url,
-                           TopCategory = resultCount[0]
-                       }).ToList();
+                        start = 0;
+                        countFilled = 0;
+                        while (countFilled < count)
+                        {
+                            products = await _productRepository.TopNew(count*2, start, resultCount[0],
+                                cancellationToken);
+                            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                            {
+                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken);
+                            }
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            selectedProducts.AddRange(products.Take(count- countFilled));
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            start += count*2;
+                        }
                         break;
 
                     case "TopPrices":
-                        products = allProducts
-                        .Select(p => new ProductIndexPageViewModel
+                        start = 0;
+                        countFilled = 0;
+                        while (countFilled < count)
                         {
-                            Prices = p.Prices,
-                            Alt = p.Alt,
-                            Brand = p.Brand,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Id = p.Id,
-                            ImagePath = p.ImagePath,
-                            Stars = p.Stars,
-                            Url = p.Url,
-                            MaxPrice = p.Prices.Sum(x => x.Exist) > 0 ? p.Prices.Select(x => x.Amount).Max() : 0,
-                            TopCategory = resultCount[0]
-                        })
-                        .OrderByDescending(o => o.MaxPrice)
-                        .Take(_count)
-                        .ToList();
-                        break;
+                            products = await _productRepository.TopPrices(count * 2, start, resultCount[0],
+                            cancellationToken);
+                        if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                        {
+                            products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                cancellationToken);
+                        }
+                        countFilled = selectedProducts.Count(x =>
+                            x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                        selectedProducts.AddRange(products.Take(count - countFilled));
+                        countFilled = selectedProducts.Count(x =>
+                            x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                        start += count * 2;
+                }
+                break;
 
                     case "TopChip":
 
@@ -1209,25 +1215,28 @@ public class ProductsController : ControllerBase
                         break;
 
                     case "TopStars":
-                        products = allProducts.OrderByDescending(x => x.Stars).Take(_count)
-                        .Select(p => new ProductIndexPageViewModel
+                        start = 0;
+                        countFilled = 0;
+                        while (countFilled < count)
                         {
-                            Prices = p.Prices,
-                            Alt = p.Alt,
-                            Brand = p.Brand,
-                            Name = p.Name,
-                            Description = p.Description,
-                            Id = p.Id,
-                            ImagePath = p.ImagePath,
-                            Stars = p.Stars,
-                            Url = p.Url,
-                            TopCategory = resultCount[0]
-                        }).ToList();
-                        break;
+                            products = await _productRepository.TopStars(count * 2, start, resultCount[0],
+                                cancellationToken);
+                            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                            {
+                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken);
+                            }
 
-                    default: break;
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            selectedProducts.AddRange(products.Take(count - countFilled));
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            start += count * 2;
+                        }
+
+                        break;
                 }
-                foreach (var product in products) selectedProducts.Add(product);
             }
 
             return Ok(new ApiResult

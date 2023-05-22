@@ -41,15 +41,15 @@ public interface IProductRepository : IAsyncRepository<Product>
 
     #region Tops
 
-    Task<List<ProductIndexPageViewModel>> TopNew(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopNew(int count, int start, string? topCategory, CancellationToken cancellationToken);
 
-    Task<List<ProductIndexPageViewModel>> TopPrices(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopPrices(int count, int start, string? topCategory, CancellationToken cancellationToken);
 
     Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken);
 
     //Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
 
-    Task<List<ProductIndexPageViewModel>> TopStars(int count, CancellationToken cancellationToken);
+    Task<List<ProductIndexPageViewModel>> TopStars(int count, int start, string? topCategory, CancellationToken cancellationToken);
 
     Task<List<ProductIndexPageViewModel>> TopSells(int count, CancellationToken cancellationToken);
 
