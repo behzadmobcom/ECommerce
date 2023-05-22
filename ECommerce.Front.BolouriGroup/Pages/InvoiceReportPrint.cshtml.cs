@@ -16,10 +16,10 @@ namespace ECommerce.Front.BolouriGroup.Pages
             _purchaseOrderService = purchaseOrderService;
         }
 
-        public async Task OnGet(string systemTraceNo)
+        public async Task OnGet(long orderId)
         {
-            SystemTraceNo = systemTraceNo;
-            var result = await _purchaseOrderService.GetByUserId();
+            //SystemTraceNo = systemTraceNo;
+            var result = await _purchaseOrderService.GetByUserAndOrderId(orderId);
             PurchaseOrder = result.ReturnData;
         }
     }

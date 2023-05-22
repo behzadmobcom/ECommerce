@@ -58,11 +58,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-heading">
-                            <h4 class="form-btn">
-                                <input type="button" onclick="printDiv('My_order_info')" value="چاپ جزئیات فاکتور" />
-                            </h4>
-                        </div>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -121,6 +116,10 @@
                                                 </div>
                                                 <hr>
                                                 <div style="text-align: left;">
+                                                    <a style="color: black" asp-page-handler="FactorPrint" asp-route-orderId=@purchaseOrder.OrderId>
+                                                        چاپ فاکتور
+                                                    </a>
+                                                    <br>
                                                     <a href="#detailfactor-@purchaseOrder.Id" data-toggle="tab" style="color: black">
                                                         مشاهده جزییات فاکتور
                                                     </a>
@@ -300,13 +299,6 @@
                 alert(response);
             }
         });
-    }
-    function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = originalContents;
     }
 </script>
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
 using PersianDate.Standard;
+using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -14,7 +15,7 @@ public class InvoiceModel : PageModel
 {
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
-
+    [BindProperty]public long OrderId { get; set; }
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
     [TempData] public string Message { get; set; }
@@ -33,12 +34,50 @@ public class InvoiceModel : PageModel
         return await pay(result);
     }
 
-    public async Task<IActionResult> Print()
+    public async Task<ActionResult> OnGetPayZarinpal(string factor, string status, string authority)
     {
-        return RedirectToPage("InvoiceReportPrint", new
+        if (string.IsNullOrEmpty(status) == false && string.IsNullOrEmpty(authority) == false &&
+            string.IsNullOrEmpty(factor) == false && status.ToLower() == "ok")
         {
-            systemTraceNo = SystemTraceNo,
-        });
+            var resultOrder = await _purchaseOrderService.GetByUserId();
+            PurchaseOrder = resultOrder.ReturnData;
+            var amount = Convert.ToInt32(PurchaseOrder.Amount);
+            var statusInt = await new Payment(amount).Verification(authority);
+            switch (statusInt.Status)
+            {
+                case -1:
+                    Message = "اطلاعات ارسال شده ناقص است.";
+                    break;
+                case -2:
+                    Message = "مشکل نامشخص در درگاه پرداخت با کد " + statusInt.Status.ToString();
+                    break;
+                case -11:
+                    Message = "درخواست مورد نظر یافت نشد.";
+                    break;
+                case -22:
+                    Message = "تراکنش ناموفق می باشد.";
+                    break;
+                case -33:
+                    Message = "مبلغ تراکنش با مبلغ پرداخت شده مطابقت ندارد.";
+                    break;
+                case 100:
+                case 101:
+                    //Success
+
+                    Refid = statusInt.RefId.ToString();
+                    PurchaseOrder.Transaction = new();
+                    PurchaseOrder.Transaction.RefId = Refid;
+                    PurchaseOrder.Transaction.Amount = amount;
+                    var result = await _purchaseOrderService.Pay(PurchaseOrder);
+                    Message = result.Message;
+                    Code = result.Code.ToString();
+                    //CartList = (await _cartService.CartListFromServer()).ReturnData;
+
+                    OrderId = PurchaseOrder.OrderId;
+                    return Page();
+            }
+        }
+        return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت" });
     }
 
     private async Task<ActionResult> pay(PurchaseResult result)
@@ -104,12 +143,16 @@ public class InvoiceModel : PageModel
                 await _userService.SendAuthenticationSms("09909052454", message);
                 await _userService.SendAuthenticationSms("09119384108", message);
 
+                OrderId = PurchaseOrder.OrderId;
                 return Page();
             }
         }
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت " + res.Result.Description });
     }
-
+    public IActionResult OnGetFactorPrint(long orderId)
+    {
+        return RedirectToPage("InvoiceReportPrint",new { orderId = orderId });
+    }
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
         using var client = new HttpClient();

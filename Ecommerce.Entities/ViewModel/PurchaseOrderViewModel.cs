@@ -39,6 +39,7 @@ public class PurchaseFiltreOrderViewModel
     public decimal? MinimumAmount { get; set; }
     public decimal? MaximumAmount { get; set; }
     public PaymentMethodStatus? PaymentMethodStatus { get; set; }
+    public long? OrderId { get; set; }
 }
 
 public class PurchaseListViewModel
@@ -56,5 +57,5 @@ public class PurchaseListViewModel
     public int? UserId { get; set; }
     public string? UserName { get; set; }
     public string? FBailCode { get; set; }
-
+    public long? OrderId { get; set; }
 }

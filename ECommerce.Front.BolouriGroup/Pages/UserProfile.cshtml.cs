@@ -79,5 +79,9 @@ public class UserProfileModel : PageModel
         var stateId = UserInformation.StateId ?? StateList.ReturnData.FirstOrDefault().Id;
         CityList = await _cityService.Load(stateId);
     }
+    public IActionResult OnGetFactorPrint(long orderId)
+    {
+        return RedirectToPage("InvoiceReportPrint", new { orderId = orderId });
+    }
 
 }
