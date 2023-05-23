@@ -28,7 +28,7 @@ public class ImageService : EntityService<Image>, IImageService
 
         var extension = Path.GetExtension(file.FileName).ToLower();
 
-        string[] allowExtensions = { ".gif", ".jpg", ".jpeg", ".png" };
+        string[] allowExtensions = { ".webp"};
 
         if (!allowExtensions.Contains(extension.ToLower()))
             return new ServiceResult<List<string>>
