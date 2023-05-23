@@ -83,7 +83,7 @@
                         <i class="far fa-search"></i>
                     </button>
                 </form>
-            
+
                 @if (User.Identity!.IsAuthenticated)
                 {
                     <span class="user-name">@await Component.InvokeAsync("Username")</span>
@@ -206,6 +206,11 @@
                                     </span>
                                 </p>
                             </div>
+                            <div>
+                                <span class="nav-link text-dark font-weight-bold">
+                                    حاضرین در سایت: <span>@OnlineUsersMiddleware.GetOnlineUsersCount()</span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -268,8 +273,8 @@
                         <img src="~/img/user.webp" height="85" width="85" alt="کاربر">
                     </a>
                     @*   <h4 class="nav-name">
-                    <a asp-area="" asp-page="/Login">@Model.UserInformation?.FirstName @Model.UserInformation?.LastName</a>
-                    </h4>*@
+                        <a asp-area="" asp-page="/Login">@Model.UserInformation?.FirstName @Model.UserInformation?.LastName</a>
+                        </h4>*@
                 </div>
                 <ul class="nav-list">
                     <li>
@@ -417,11 +422,11 @@
                                 <li>
                                     <a asp-area="" asp-page="/Login">ورود به سیستم</a>
                                 </li>
-                               @* <li>
+                                @* <li>
                                     <a referrerpolicy="origin" rel="noopener" target="_blank" href="https://trustseal.enamad.ir/?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa">
-                                        <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
+                                    <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
                                     </a>
-                                </li>*@
+                                    </li>*@
                             </ul>
                             <ul>
                                 <li>
