@@ -479,7 +479,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopNew(count,0, null, cancellationToken);
+            var products = await _productRepository.TopNew(count, 0, null, cancellationToken);
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true, cancellationToken);
 
@@ -504,7 +504,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopPrices(count,0, null, cancellationToken);
+            var products = await _productRepository.TopPrices(count, 0, null, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
@@ -609,7 +609,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var productIndexPageViewModel = await _productRepository.TopStars(count,0, null, cancellationToken);
+            var productIndexPageViewModel = await _productRepository.TopStars(count, 0, null, cancellationToken);
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
@@ -1164,7 +1164,7 @@ public class ProductsController : ControllerBase
                         countFilled = 0;
                         while (countFilled < count)
                         {
-                            products = await _productRepository.TopNew(count*2, start, resultCount[0],
+                            products = await _productRepository.TopNew(count * 2, start, resultCount[0],
                                 cancellationToken);
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
@@ -1173,10 +1173,10 @@ public class ProductsController : ControllerBase
                             }
                             countFilled = selectedProducts.Count(x =>
                                 x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
-                            selectedProducts.AddRange(products.Take(count- countFilled));
+                            selectedProducts.AddRange(products.Take(count - countFilled));
                             countFilled = selectedProducts.Count(x =>
                                 x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
-                            start += count*2;
+                            start += count * 2;
                         }
                         break;
 
@@ -1187,19 +1187,19 @@ public class ProductsController : ControllerBase
                         {
                             products = await _productRepository.TopPrices(count * 2, start, resultCount[0],
                             cancellationToken);
-                        if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                        {
-                            products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
-                                cancellationToken);
+                            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                            {
+                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken);
+                            }
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            selectedProducts.AddRange(products.Take(count - countFilled));
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            start += count * 2;
                         }
-                        countFilled = selectedProducts.Count(x =>
-                            x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
-                        selectedProducts.AddRange(products.Take(count - countFilled));
-                        countFilled = selectedProducts.Count(x =>
-                            x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
-                        start += count * 2;
-                }
-                break;
+                        break;
 
                     case "TopChip":
 
