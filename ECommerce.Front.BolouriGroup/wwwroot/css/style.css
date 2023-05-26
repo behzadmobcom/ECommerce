@@ -5847,7 +5847,7 @@ tbody tr td:last-child {
     }
 
     .single-banner {
-        background: url(../img/single-banner.jpg);
+        background: url(../img/single-banner.webp);
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;

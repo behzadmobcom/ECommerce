@@ -31,8 +31,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Application", "ECommerce.Application\ECommerce.Application.csproj", "{463952AC-93B4-4BF6-8FB1-595AFBD22485}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{9720AA02-ED8E-426C-9206-3A9BB1283290}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerce.Front.Admin", "ECommerce.Front.Admin\ECommerce.Front.Admin.csproj", "{94C7EB21-FF1F-42C5-8053-1FAF611307D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{390E9CFC-6B2A-436D-AEAB-5043DB2DC323}"
@@ -77,12 +75,6 @@ Global
 		{463952AC-93B4-4BF6-8FB1-595AFBD22485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{463952AC-93B4-4BF6-8FB1-595AFBD22485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{463952AC-93B4-4BF6-8FB1-595AFBD22485}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9720AA02-ED8E-426C-9206-3A9BB1283290}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{94C7EB21-FF1F-42C5-8053-1FAF611307D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{94C7EB21-FF1F-42C5-8053-1FAF611307D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94C7EB21-FF1F-42C5-8053-1FAF611307D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
