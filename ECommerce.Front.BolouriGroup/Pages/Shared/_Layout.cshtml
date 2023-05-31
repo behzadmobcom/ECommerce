@@ -16,15 +16,15 @@
             <div class="header-content-group">
                 <div class="header-widget-group left">
                     <button class="header-widget header-user" title="حساب من">
-                        <img src="~/img/user.webp" alt="کاربر" width="40" height="40" loding="lazy">
+                        <img src="~/img/user.webp" alt="کاربر" width="40" height="40" loading="lazy">
                     </button>
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <span class="user-name-mobile">@await Component.InvokeAsync("Username")</span>
                     }
                     <a class="header-logo" asp-area="" asp-page="/Index">
-                        <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.webp" width="107" height="50" alt="لوگو" loding="lazy">
-                        <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.webp" width="107" height="50" alt="لوگو" loding="lazy">
+                        <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.webp" width="107" height="50" alt="لوگو" loading="lazy">
+                        <img id="WhiteLogoImage" style="display: inline;" src="~/img/WhiteLogo.webp" width="107" height="50" alt="لوگو" loading="lazy">
                     </a>
                     @if (User.Identity!.IsAuthenticated)
                     {
@@ -209,7 +209,7 @@
         <div class="category-container">
             <div class="category-header">
                 <a href="#">
-                    <img src="~/img/logo.webp" alt="لوگو" width="86" height="40" loding="lazy">
+                    <img src="~/img/logo.webp" alt="لوگو" width="86" height="40" loading="lazy">
                 </a>
                 <button class="category-close" role="button">
                     <i class="far fa-times"></i>
@@ -248,7 +248,7 @@
         <div class="nav-container">
             <div class="nav-header">
                 <a asp-area="" asp-page="/Index">
-                    <img src="~/img/logo.webp" alt="لوگو" width="86" height="40" loding="lazy">
+                    <img src="~/img/logo.webp" alt="لوگو" width="86" height="40" loading="lazy">
                 </a>
                 <button class="nav-close">
                     <i class="fal fa-times"></i>
@@ -257,7 +257,7 @@
             <div class="nav-content">
                 <div class="nav-profile">
                     <a class="nav-user" asp-area="" asp-page="/Index">
-                        <img src="~/img/user.webp" height="85" width="85" alt="کاربر" loding="lazy">
+                        <img src="~/img/user.webp" height="85" width="85" alt="کاربر" loading="lazy">
                     </a>
                     @*   <h4 class="nav-name">
                     <a asp-area="" asp-page="/Login">@Model.UserInformation?.FirstName @Model.UserInformation?.LastName</a>
@@ -379,7 +379,7 @@
                 <div class="col-sm-6 col-md-4 col-xl-4">
                     <div class="footer-widget">
                         <a class="footer-logo" href="#">
-                            <img src="~/img/Logo.webp" alt="لوگو" width="240" height="112" loding="lazy">
+                            <img src="~/img/Logo.webp" alt="لوگو" width="240" height="112" loading="lazy">
                         </a>
                         <p class="footer-desc">
                             برای یک خرید خوب و مطمئن باید خوب ببینید، مقایسه کنید و اطلاعات کافی کسب کنید.
@@ -403,6 +403,11 @@
                                 </li>
                                 <li>
                                     <a asp-area="" asp-page="/Login">ورود به سیستم</a>
+                                </li>
+                                 <li>
+                                    <a referrerpolicy="origin" rel="noopener" target="_blank" href="https://trustseal.enamad.ir/?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa">
+                                        <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
+                                    </a>
                                 </li>
                             </ul>
                             <ul>
