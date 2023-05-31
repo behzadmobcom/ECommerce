@@ -5924,7 +5924,6 @@ tbody tr td:last-child {
     }
 
         .banner-part::before {
-            background: url(../img/banner-shape.webp);
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
