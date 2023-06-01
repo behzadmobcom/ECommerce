@@ -33,7 +33,7 @@
                     <div class="user-form-card">
                         <div class="user-form-logo">
                             <a asp-area="" asp-page="/Index">
-                                <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loding="lazy">
+                                <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loading="lazy">
                             </a>
                         </div>
                         <div class="user-form-title">
@@ -44,7 +44,7 @@
                         <div class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="userName" type="text" asp-for="LoginViewModel.Username" class="form-control" placeholder="شماره موبایل  خود را وارد کنید">
+                                <input id="userName" type="text" onkeypress="if (event.keyCode==13) CheckExistUserByMobile();" class="form-control" placeholder="شماره موبایل  خود را وارد کنید" autofocus>
                             </div>
 
                             <div class="form-button">
@@ -65,12 +65,12 @@
                         <div class="user-form-logo row">
                             <div class="col-md-1">
                                 <a onclick="showHomeSection()">
-                                    <img src="~/img/arrow-icon.webp" width="25" height="25" loding="lazy" style="width: 25px">
+                                    <img src="~/img/arrow-icon.webp" width="25" height="25" loading="lazy" style="width: 25px">
                                 </a>
                             </div>
                             <div class="col-md-10">
                                 <a asp-area="" asp-page="/Index">
-                                    <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loding="lazy">
+                                    <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loading="lazy">
                                 </a>
                             </div>
                         </div>
@@ -83,16 +83,16 @@
                                 وجود ندارد. برای ساخت حساب جدید،کد تایید برای این شماره ارسال گردید.
                             </p>
                         </div>
-                        <form method="post" class="user-form">
+                        <div class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="ConfirmCode" type="text" class="form-control">
+                                <input id="ConfirmCode" onkeypress="if (event.keyCode==13) SubmitRegisterCode();" type="text" class="form-control">
                             </div>
 
                             <div class="form-button">
-                                <button type="button" asp-page-handler="Submit" onclick="SubmitRegisterCode()">ادامه</button>
+                                <button type="button" class="Submit" onclick="SubmitRegisterCode()">ادامه</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,20 +106,20 @@
                         <div class="user-form-logo row">
                             <div class="col-md-1">
                                 <a onclick="showHomeSection()">
-                                    <img src="~/img/arrow-icon.webp" width="25" height="25" loding="lazy" style="width: 25px">
+                                    <img src="~/img/arrow-icon.webp" width="25" height="25" loading="lazy" style="width: 25px">
                                 </a>
                             </div>
                             <div class="col-md-10">
                                 <a asp-area="" asp-page="/Index">
-                                    <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loding="lazy">
+                                    <img src="~/img/logo.webp" alt="لوگو" width="250" height="117" loading="lazy">
                                 </a>
                             </div>
                         </div>
                         <div class="user-form-title">
                             <h2>رمز عبور را وارد کنید</h2>
-                            <form method="post" class="user-form">                                
+                            <div class="user-form">                                
                                 <div class="input-group" id="show_hide_password">
-                                    <input class="form-control" id="userPassword" type="password">
+                                    <input class="form-control" id="userPassword" type="password" onkeypress="if (event.keyCode==13) LoginUser();">
                                     <div class="input-group-addon">
                                         <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>
@@ -132,7 +132,7 @@
                                 <div class="form-button">                                   
                                     <button type="button" onclick="LoginUser()" >ورود</button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,6 +147,7 @@
         $("#section1").css("display", "block");
         $("#section2").css("display", "none");
         $("#section3").css("display", "none");
+        $("#userName").focus();
     }
     function showSectionNewUser() {
         $("#section1").css("display", "none");
@@ -154,11 +155,13 @@
         $("#section3").css("display", "none");
         mobileNumber = $("#userName").val();
         $("#MobileList").text(mobileNumber);
+        $("#ConfirmCode").focus();
     }
-    function showSectionExistUser(seconds) {
+    function showSectionExistUser() {
         $("#section1").css("display", "none");
         $("#section2").css("display", "none");
-        $("#section3").css("display", "block");           
+        $("#section3").css("display", "block");       
+        $("#userPassword").focus();
     }
     function CheckExistUserByMobile() {    
     var mobile = $("#userName").val();
@@ -245,6 +248,8 @@
             success: function (result) {               
                 if (result==confirmCode){
                    window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
+                }else{
+                    swal("کد تایید صحیح نمی باشد.");
                 }
             }            
          });

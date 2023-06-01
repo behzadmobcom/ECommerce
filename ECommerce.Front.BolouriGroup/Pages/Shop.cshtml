@@ -5,7 +5,6 @@
 }
 
 @section Head{
-    <link href="~/css/stars.css" rel="stylesheet" />
     <link href="~/css/shop.css" rel="stylesheet" />
 }
 <section class="inner-section single-banner">
@@ -57,36 +56,6 @@
                             اعمال
                         </button>
                     </div>
-                 
-                  @*  <div class="shop-widget shop-widget-brand">
-                        <h6 class="shop-widget-title">مارک های تجاری</h6>
-                        <ul class="shop-widget-list shop-widget-scroll">
-                            @{
-                                var count = false;
-                            }
-                            @foreach (var brand in Model.Brands)
-                            {
-                                @if (count)
-                                {
-                                    <li>
-                                        <div class="shop-widget-content">
-                                            <div class="form-check">
-                                                <input class="form-check-input brandCheckBox" type="checkbox" value="brandid=@brand.Key" id="brand_@brand.Key">
-                                                <label class="form-check-label" for="brand_@brand.Key">@brand.Value</label>
-                                            </div>
-                                        </div>
-                                    </li>
-                                }
-                                count = true;
-                            }
-
-                        </ul>
-                        <input name="search" hidden="hidden" id="searchInputId"/>
-                        <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
-                                style="margin-top: 20px">
-                            اعمال
-                        </button>
-                    </div>*@
                 </form>
             </div>
             <div class="col-lg-9 order-0 order-lg-1">
