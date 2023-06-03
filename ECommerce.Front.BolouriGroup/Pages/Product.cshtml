@@ -51,7 +51,7 @@
                                 {
                                     var imageId = "myimage" + image.Id;
                                     <li>
-                                        <img onmouseover="openZoom()" onmouseout="closeZoom()" id="@imageId" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
+                                        <img onmouseover="openZoom()" onmouseout="closeZoom()" id="@imageId" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
                                     </li>
                                 }
 
@@ -60,7 +60,7 @@
                                 @foreach (var image in Model.Product.Images)
                                 {
                                     <li>
-                                        <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loding="lazy">
+                                        <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
                                     </li>
                                 }
                             </ul>
@@ -322,7 +322,7 @@
                                 <li class="review-item">
                                     <div class="review-media">
                                         <a class="review-avatar" href="#">
-                                            <img src="~/img/avatar/com.webp" alt="مرور" loding="lazy">
+                                            <img src="~/img/avatar/com.webp" alt="مرور" loading="lazy">
                                         </a>
                                         <h5 class="review-meta">
                                             <a href="#">@item.Name</a><span>@item.DateTime.ToFa("f")</span>

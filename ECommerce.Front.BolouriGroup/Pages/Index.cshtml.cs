@@ -96,29 +96,28 @@ public class IndexModel : PageModel
 
     public async Task<JsonResult> OnGetLoadCart()
     {               
-        string dQ = "\"";
         CardResultViewModel cardResult = new CardResultViewModel();
         var result = await _cartService.Load(HttpContext);
         foreach (var product in result.ReturnData)
         {
-            var item = $"<li class={dQ}cart-item{dQ} id={dQ}CartDrop-{product.Id}{dQ}> " +
-                    $"<div class={dQ}cart-media{dQ}> " +
-                    $"<a asp-page={dQ}Product{dQ} asp-route-productUrl={dQ}{product.Url}{dQ}><img src={dQ}/{product.ImagePath}{dQ} alt={dQ}{product.Alt}{dQ}></a>" +
-                    $"<button class={dQ}cart-delete{dQ} onclick={dQ}DeleteCart({product.Id},{product.ProductId},{product.PriceId}){dQ}><i class={dQ}far fa-times{dQ}></i></button>" +
+            var item = $"<li class='cart-item' id='CartDrop-{product.Id}'> " +
+                    $"<div class='cart-media'> " +
+                    $"<a asp-page='Product' asp-route-productUrl='{product.Url}'><img src='/{product.ImagePath}' alt='{product.Alt}'></a>" +
+                    $"<button class='cart-delete' onclick='DeleteCart({product.Id},{product.ProductId},{product.PriceId})'><i class='far fa-times'></i></button>" +
                     $"</div>" +
-                    $"  <div class={dQ}cart-info-group{dQ}>" +
-                    $"<div class={dQ}cart-info{dQ}>" +
-                    $"  <h5><a asp-page={dQ}Product{dQ} asp-route-productUrl={product.Url}{dQ}>{product.Name}</a></h5>" +
-                    $"  <h6>برند : {product.Brand} </h6> " +
+                    $"  <div class='cart-info-group'>" +
+                    $"<div class='cart-info'>" +
+                    $"  <h5><a asp-page='Product' asp-route-productUrl={product.Url}'>{product.Name}</a></h5>" +
+                    $"  <h6> برند : {product.Brand} </h6> " +
                     $"  <h6> رنگ : {product.ColorName}</h6>" +
                     $"<p>{product.PriceAmount.ToString("N0")}</p> </div>" +
-                    $"<div class={dQ}cart-action-group{dQ}>" +
-                    $"<div class={dQ}product-action{dQ}>" +
-                    $"<button class={dQ}action-minus{dQ} onclick={dQ}DecreaseCart({product.Id},{product.ProductId},{product.PriceId}){dQ} title={dQ}مقدار منهای{dQ}><i class={dQ}far fa-minus{dQ}></i></button>" +
-                    $"<input class={dQ}action-input{dQ} title={dQ}تعداد{dQ} type={dQ}text{dQ} name={dQ}quantity{dQ} value={dQ}{product.Quantity}{dQ}> " +
-                    $"<button class={dQ}action-plus{dQ} onclick={dQ}AddCart({product.ProductId},{product.PriceId}){dQ} title={dQ}مقدار به علاوه{dQ}><i class={dQ}far fa-plus{dQ}></i></button> </div>" +
+                    $"<div class='cart-action-group'>" +
+                    $"<div class='product-action'>" +
+                    $"<button class='action-minus' onclick='DecreaseCart({product.Id},{product.ProductId},{product.PriceId})' title='مقدار منهای'><i class='far fa-minus'></i></button>" +
+                    $"<input class='action-input' title='تعداد' type='text' name='quantity' value='{product.Quantity}'> " +
+                    $"<button class='action-plus' onclick='AddCart({product.ProductId},{product.PriceId})' title='مقدار به علاوه'><i class='far fa-plus'></i></button> </div>" +
                     $"<h6>{product.SumPrice.ToString("N0")}</h6><h6>تومان</h6>" +
-                    $" <input hidden={dQ}hidden{dQ} value={dQ}{product.SumPrice.ToString("N0")}{dQ} id={dQ}SumPrice-{product.Id}{dQ}/>" +
+                    $" <input hidden='hidden' value='{product.SumPrice}' id='SumPrice-{product.Id}'/>" +
                     $"</div> </div> </li>";
             cardResult.CartList = cardResult.CartList + item;
             cardResult.AllPrice = cardResult.AllPrice + product.SumPrice;
