@@ -33,21 +33,6 @@ function AddWishList(id) {
     });
 }
 
-var labels = $("label");
-
-labels.hover(
-    function () { $(this).css("color", "blue").prevUntil().css("color", "blue"); }
-    , function () {
-        $(this).css("color", "inherit").prevUntil().css("color", "inherit");
-        var checkedNum = $("[name='Commissions'] .checked").length;
-        if (checkedNum === 1) {
-            $(this + " .rateTitle").html($("[name='Commissions'] .checked").attr("data-rate"));
-        } else {
-            $(this + " .rateTitle").html("");
-        }
-
-    }
-);
 
 function setCities() {
     var stateId = $('#state').val();
