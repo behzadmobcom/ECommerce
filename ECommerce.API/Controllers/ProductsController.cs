@@ -45,6 +45,7 @@ public class ProductsController : ControllerBase
     private async Task<List<T>> AddPriceAndExistFromHolooList<T>(
         IList<T> products, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken) where T : BaseProductPageViewModel
     {
+        isWithoutBill = true;
         var prices = products
             .Where(x => x.Prices.Any(p => p.ArticleCode != null))
             .Select(p => p.Prices)
@@ -328,8 +329,9 @@ public class ProductsController : ControllerBase
                             .ToListAsync(cancellationToken));
                         break;
                     case "name":
+                        var ketword = $" {search[1]} ";
                         productIndexPageViewModel.AddRange(await productQuery
-                            .Where(x => x.Name.Contains(search[1]) || x.Description.Contains(search[1]))
+                            .Where(x => x.Name.Contains(ketword) || x.Description.Contains(ketword))
                             .Select(p => new ProductIndexPageViewModel
                             {
                                 Prices = p.Prices!,
@@ -1184,7 +1186,7 @@ public class ProductsController : ControllerBase
                         countFilled = 0;
                         while (countFilled < count)
                         {
-                            products = await _productRepository.TopPrices(count * 2, start, resultCount[0],
+                            products = await _productRepository.TopPrices(count, start, resultCount[0],
                             cancellationToken);
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
@@ -1196,7 +1198,7 @@ public class ProductsController : ControllerBase
                             selectedProducts.AddRange(products.Take(count - countFilled));
                             countFilled = selectedProducts.Count(x =>
                                 x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
-                            start += count * 2;
+                            start += count;
                         }
                         break;
 

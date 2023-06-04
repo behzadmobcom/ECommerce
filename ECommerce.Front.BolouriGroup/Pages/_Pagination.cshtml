@@ -32,30 +32,86 @@
 }
 else
 {
-    for (var pageIndex = 1; pageIndex <= 3; pageIndex++)
+    if (Model.CurrentPage < 3 || Model.CurrentPage > Model.TotalPages - 3)
     {
-        var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
-        <li class="page-item @activePage">
+        for (var pageIndex = 1; pageIndex <= 3; pageIndex++)
+        {
+            var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
+            <li class="page-item @activePage">
+                <a asp-page=@Model.Address
+                   asp-route-pageNumber="@pageIndex"
+                   asp-route-search="@Model.Search"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="page-link @activePage">
+                    @pageIndex
+                </a>
+            </li>
+        }
+        <label>...</label>
+        for (var pageIndex = Model.TotalPages - 2; pageIndex <= Model.TotalPages; pageIndex++)
+        {
+            var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
+            <li class="page-item @activePage">
+                <a asp-page=@Model.Address
+                   asp-route-pageNumber="@pageIndex"
+                   asp-route-search="@Model.Search"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="page-link @activePage">
+                    @pageIndex
+                </a>
+            </li>
+        }
+    }
+    else
+    {
+            var previousPage = @Model.CurrentPage - 1;
+            var nextPage = @Model.CurrentPage + 1;
+        <li class="page-item">
             <a asp-page=@Model.Address
-               asp-route-pageNumber="@pageIndex"
+               asp-route-pageNumber="1"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
-               class="page-link @activePage">
-                @pageIndex
+               class="page-link">
+                1
             </a>
         </li>
-    }
-    <label>...</label>
-    for (var pageIndex = Model.TotalPages - 2; pageIndex <= Model.TotalPages; pageIndex++)
-    {
-        var activePage = Model.CurrentPage == pageIndex ? "active disabled" : "";
-        <li class="page-item @activePage">
+        <label>...</label>
+        
+        <li class="page-item ">
             <a asp-page=@Model.Address
-               asp-route-pageNumber="@pageIndex"
+               asp-route-pageNumber="@previousPage"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
-               class="page-link @activePage">
-                @pageIndex
+               class="page-link">
+                @previousPage
+            </a>
+        </li>
+        <li class="page-item active disabled">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="Model.CurrentPage"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link active disabled">
+                @Model.CurrentPage
+            </a>
+        </li>
+        <li class="page-item ">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="@nextPage"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link">
+                @nextPage
+            </a>
+        </li>
+        <label>...</label>
+        <li class="page-item">
+            <a asp-page=@Model.Address
+               asp-route-pageNumber="@Model.TotalPages"
+               asp-route-search="@Model.Search"
+               asp-route-pageSize="@Model.PageSize"
+               class="page-link">
+                @Model.TotalPages
             </a>
         </li>
     }

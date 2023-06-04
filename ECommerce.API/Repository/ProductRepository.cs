@@ -5,16 +5,19 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using Ecommerce.Entities.HolooEntity;
 
 namespace ECommerce.API.Repository;
 
 public class ProductRepository : AsyncRepository<Product>, IProductRepository
 {
     private readonly SunflowerECommerceDbContext _context;
+    private readonly HolooDbContext _holooDbContext;
 
-    public ProductRepository(SunflowerECommerceDbContext context) : base(context)
+    public ProductRepository(SunflowerECommerceDbContext context, HolooDbContext holooDbContext) : base(context)
     {
         _context = context;
+        _holooDbContext = holooDbContext;
     }
 
     public async Task<Product> GetByName(string name, CancellationToken cancellationToken)
@@ -341,24 +344,63 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, int start, string? topCategory, CancellationToken cancellationToken)
     {
-        var products = await _context.Prices.OrderByDescending(x => x.Amount)
-            .Where(x => x.Product.Images.Count > 0).Include(x => x.Discount)
-            .Skip(start).Take(count)
-            .Select(p => new ProductIndexPageViewModel
+        var price = _context.Prices.AsEnumerable();
+        var product = _context.Products.AsEnumerable();
+        var images = _context.Images.AsEnumerable();
+        var article = _holooDbContext.ARTICLE.AsEnumerable();
+        var products = from s in price
+            join p in product on s.ProductId equals p.Id
+            join i in images on p.Id equals i.ProductId
+            join a in article on s.ArticleCode equals a.A_Code
+            select new ProductIndexPageViewModel
             {
-                Prices = p.Product!.Prices!,
-                Alt = p.Product.Images!.First().Alt,
-                Brand = p.Product.Brand!.Name,
-                Name = p.Product.Name,
-                Description = p.Product.Description,
-                Id = p.Product.Id,
-                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
-                Stars = p.Product.Star,
-                Url = p.Product.Url,
+                Prices = new List<Price>
+                {
+                    new()
+                    {
+                        Exist = s.Exist,
+                        Amount = selectPrice(s,a)/ 10
+                    }
+                },
+                Alt = i.Alt,
+                Name = p.Name,
+                Description = p.Description,
+                Id = p.Id,
+                ImagePath = $"{i.Path}/{i.Name}",
+                Stars = p.Star,
+                Url = p.Url,
                 TopCategory = topCategory
-            })
-            .ToListAsync(cancellationToken);
-        return products;
+            };
+        return products.OrderByDescending(x => x.Prices.Max(p => p.Amount)).Take(count).ToList();
+    }
+
+    private decimal selectPrice(Price productPrices, HolooArticle article)
+    {
+        switch (productPrices.SellNumber)
+        {
+            case Price.HolooSellNumber.Sel_Price:
+               return Convert.ToDecimal(article.Sel_Price);
+            case Price.HolooSellNumber.Sel_Price2:
+                return Convert.ToDecimal(article.Sel_Price2);    
+            case Price.HolooSellNumber.Sel_Price3:
+                return Convert.ToDecimal(article.Sel_Price3);
+            case Price.HolooSellNumber.Sel_Price4:
+                return Convert.ToDecimal(article.Sel_Price4);
+            case Price.HolooSellNumber.Sel_Price5:
+                return Convert.ToDecimal(article.Sel_Price5);
+            case Price.HolooSellNumber.Sel_Price6:
+                return Convert.ToDecimal(article.Sel_Price6);
+            case Price.HolooSellNumber.Sel_Price7:
+                return Convert.ToDecimal(article.Sel_Price7);
+            case Price.HolooSellNumber.Sel_Price8:
+                return Convert.ToDecimal(article.Sel_Price8);
+            case Price.HolooSellNumber.Sel_Price9:
+                return Convert.ToDecimal(article.Sel_Price9);
+            case Price.HolooSellNumber.Sel_Price10:
+                return Convert.ToDecimal(article.Sel_Price10);
+        }
+
+        return 0;
     }
 
     public async Task<List<ProductIndexPageViewModel>> TopChip(int count, CancellationToken cancellationToken)
