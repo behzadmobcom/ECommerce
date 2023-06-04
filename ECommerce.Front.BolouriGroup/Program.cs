@@ -1,4 +1,5 @@
 using Ecommerce.Entities.Helper;
+using ECommerce.Front.BolouriGroup;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -51,7 +52,7 @@ builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchrono
 //    options.LowercaseQueryStrings = true;
 //    //options.AppendTrailingSlash = true;
 //});
-
+builder.Services.AddMemoryCache();  
 builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
 builder.Services.AddHttpContextAccessor();
 
@@ -118,10 +119,9 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseOnlineUsers();
 app.UseRouting();
 
 app.UseAuthentication();

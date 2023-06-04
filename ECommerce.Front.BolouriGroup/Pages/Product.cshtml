@@ -83,10 +83,6 @@
                                 <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
                             }
                         </div>
-                        @*  <div class="details-rating">
-                        <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
-                        <a asp-area="" asp-page="/Productdetails">(10 نظر)</a>
-                        </div>*@
                         <div class="pro-rating sin-pro-rating f-right">
                             @for (var i = 1; i <= 5; i++)
                             {
@@ -101,7 +97,6 @@
                             }
                             <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars)نظر</a>
                         </div>
-
                         @{
                             decimal? discount = 0;
                             decimal? amount = 0;
@@ -110,8 +105,6 @@
                             if (singlePrice != null)
                             {
                                 amount = singlePrice.Amount;
-
-
                                 if (singlePrice.Discount != null)
                                     if (singlePrice.Discount.Amount > 0)
                                     {
@@ -123,7 +116,6 @@
                                     }
                                 discountAmount = amount - discount;
                             }
-
                         }
                         @if (singlePrice == null)
                         {
@@ -223,7 +215,6 @@
                                 </div>
                             }
                         }
-
                         <div class="details-add-group">
                             <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddSelectedPriceToCart(@Model.Product.Id)">
                                 <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
@@ -293,12 +284,6 @@
                 <div class="col-lg-12">
                     <div class="product-details-frame">
                         <table class="table table-bordered">
-                            @*  <thead>
-                            <tr>
-                            <th>@Model.AttributeGroups[g].Name</th>
-                            </tr>
-                            </thead>*@
-
                             <tbody>
                                 @for (var g = 0; g < Model.AttributeGroups.Count; g++)
                                 {
@@ -389,23 +374,18 @@
             </div>
         </div>
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-
             @foreach (var relatedProduct in Model.RelatedProducts)
             {
                 <partial name="Components/_productCard" model="relatedProduct" />
             }
-
-
         </div>
     </div>
 </section>
-
 @section Scripts{
     <script src="~/js/Zoom.min.js"></script>
     <script>
         var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
         var priceId = prices[0].id;
-
         if (!window.matchMedia('(max-width: 767px)').matches) {
             var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
             var activeImageId = arrayOfArrays[0].id;
@@ -414,7 +394,6 @@
             $("#zoomModal").css("display", "none");
             $(".img-zoom-lens").css("display", "none");
         }
-        
         function SetPriceId(id) {
             var price = prices.find(x => x.id == id);
             priceId = id;
@@ -426,7 +405,6 @@
             }
             $("#price").text(price.amount + " تومان ");
         }
-
         let copyText = document.querySelector(".copyright");
         copyText.querySelector("button").addEventListener("click", function () {
 
@@ -437,7 +415,6 @@
             document.execCommand("copy");
         }
         );
-
         function AddSelectedPriceToCart(productId) {
             AddCart(productId, priceId, 1, true)
         }
