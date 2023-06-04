@@ -44,7 +44,7 @@
                         <div class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="userName" type="text" onkeypress="if (event.keyCode==13) CheckExistUserByMobile();" class="form-control" placeholder="شماره موبایل  خود را وارد کنید" autofocus>
+                                <input id="userName" type="text" onkeypress="actionOnEnterPress(this.id)" class="form-control" placeholder="شماره موبایل  خود را وارد کنید" autofocus>
                             </div>
 
                             <div class="form-button">
@@ -86,7 +86,7 @@
                         <div class="user-form">
                             <div class="form-group">
                                 <p class="alert"></p>
-                                <input id="ConfirmCode" onkeypress="if (event.keyCode==13) SubmitRegisterCode();" type="text" class="form-control">
+                                <input id="ConfirmCode" onkeypress="actionOnEnterPress(this.id)" type="text" class="form-control">
                             </div>
 
                             <div class="form-button">
@@ -119,7 +119,7 @@
                             <h2>رمز عبور را وارد کنید</h2>
                             <div class="user-form">                                
                                 <div class="input-group" id="show_hide_password">
-                                    <input class="form-control" id="userPassword" type="password" onkeypress="if (event.keyCode==13) LoginUser();">
+                                    <input class="form-control" id="userPassword" type="password" onkeypress="actionOnEnterPress(this.id)">
                                     <div class="input-group-addon">
                                         <a href="" style="color: #0d6efd"><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>
@@ -143,43 +143,56 @@
 @section Scripts
 {
  <script>
-    function showHomeSection() {
-        $("#section1").css("display", "block");
-        $("#section2").css("display", "none");
-        $("#section3").css("display", "none");
-        $("#userName").focus();
+function actionOnEnterPress(id) {
+    if (event.keyCode == 13) {
+        switch (id) {
+            case 'userPassword': LoginUser();
+                break;
+            case 'ConfirmCode': SubmitRegisterCode();
+                break;
+            case 'userName': CheckExistUserByMobile();
+                break;
+        }
     }
-    function showSectionNewUser() {
-        $("#section1").css("display", "none");
-        $("#section2").css("display", "block");
-        $("#section3").css("display", "none");
-        mobileNumber = $("#userName").val();
-        $("#MobileList").text(mobileNumber);
-        $("#ConfirmCode").focus();
-    }
-    function showSectionExistUser() {
-        $("#section1").css("display", "none");
-        $("#section2").css("display", "none");
-        $("#section3").css("display", "block");       
-        $("#userPassword").focus();
-    }
-    function CheckExistUserByMobile() {    
+}
+function showHomeSection() {
+    $("#section1").css("display", "block");
+    $("#section2").css("display", "none");
+    $("#section3").css("display", "none");
+    $("#userName").focus();
+}
+function showSectionNewUser() {
+    $("#section1").css("display", "none");
+    $("#section2").css("display", "block");
+    $("#section3").css("display", "none");
+    mobileNumber = $("#userName").val();
+    $("#MobileList").text(mobileNumber);
+    $("#ConfirmCode").focus();
+}
+function showSectionExistUser() {
+    $("#section1").css("display", "none");
+    $("#section2").css("display", "none");
+    $("#section3").css("display", "block");
+    $("#userPassword").focus();
+}
+function CheckExistUserByMobile() {
     var mobile = $("#userName").val();
-        $.ajax({
-            type: "Get",
-            url: "/Login?handler=SecondsLeft&username=" + mobile,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                if (result.code===0) showSectionExistUser()            
-                if (result.code===1){
-                    showSectionNewUser();
-                    SendRegisterConfirmSms(mobile); }
-                if (result.code===2) {
-                    showSectionExistUser();
-                    timer = result.returnData;                
-                    $("#sendSmsButton").disabled = true;
-                    var interval = setInterval(function () {
+    $.ajax({
+        type: "Get",
+        url: "/Login?handler=SecondsLeft&username=" + mobile,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result.code === 0) showSectionExistUser()
+            if (result.code === 1) {
+                showSectionNewUser();
+                SendRegisterConfirmSms(mobile);
+            }
+            if (result.code === 2) {
+                showSectionExistUser();
+                timer = result.returnData;
+                $("#sendSmsButton").disabled = true;
+                var interval = setInterval(function () {
                     var minutes = Math.trunc(parseInt(timer) / 60);
                     var seconds = parseInt(timer) - (minutes * 60);
                     --seconds;
@@ -193,68 +206,65 @@
                         $('#countdown').html('');
                         btnSendActive.addEventListener('click', buttonClicked);
                     }
-                    }, 1000);
-                    $("#sendSmsButton").disabled = false;
-                    }             
-            },
-            failure: function (response) {           
+                }, 1000);
+                $("#sendSmsButton").disabled = false;
             }
-        });
-    }    
-    function LoginUser() {
+        },
+        failure: function (response) {
+        }
+    });
+}
+function LoginUser() {
     var mobile = $("#userName").val();
     var pass = $("#userPassword").val();
     var encodedPass = encodeURIComponent(pass);
-        $.ajax({
-            type: "Get",
-            url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + encodedPass,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {         
-                if (result.code===0){
-                    location.href = "Index";
-                }else
-                {             
-                    document.getElementById("errorMessage").innerHTML = result.message;               
-                }
-            },
-            failure: function (response) {            
+    $.ajax({
+        type: "Get",
+        url: "/Login?handler=UserLoginSubmit&username=" + mobile + "&password=" + encodedPass,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result.code === 0) {
+                location.href = "Index";
+            } else {
+                document.getElementById("errorMessage").innerHTML = result.message;
             }
-        });
-    }
-    function SendRegisterConfirmSms(mobile) 
-    { 
-        $.ajax({
-            type: "Get",
-            url: "/Login?handler=SendRegisterSms&username=" + mobile,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (result) {
-                swal(result.message);
-                if (result.status != 1) showSection1();
+        },
+        failure: function (response) {
+        }
+    });
+}
+function SendRegisterConfirmSms(mobile) {
+    $.ajax({
+        type: "Get",
+        url: "/Login?handler=SendRegisterSms&username=" + mobile,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            swal(result.message);
+            if (result.status != 1) showSection1();
+        }
+    });
+}
+function SubmitRegisterCode() {
+    var confirmCode = $("#ConfirmCode").val();
+    var username = $("#userName").val();
+    $.ajax({
+        type: "Get",
+        url: "/Login?handler=GenerateCode&mobile=" + username,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (result == confirmCode) {
+                window.location.replace("/Register?mobile=" + username + "&confirmCode=" + confirmCode);
+            } else {
+                swal("کد تایید صحیح نمی باشد.");
             }
-        });
-     }  
-     function SubmitRegisterCode() 
-     {
-       var confirmCode = $("#ConfirmCode").val();
-       var username = $("#userName").val();
-         $.ajax({
-            type: "Get",
-            url: "/Login?handler=GenerateCode&mobile=" + username,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {               
-                if (result==confirmCode){
-                   window.location.replace("/Register?mobile=" + username + "&confirmCode=" +  confirmCode);
-                }else{
-                    swal("کد تایید صحیح نمی باشد.");
-                }
-            }            
-         });
-     }
-    function SendConfirmSmsToExistUser() {
+        }
+    });
+}
+function SendConfirmSmsToExistUser() {
     username = document.getElementById("userName").value;
     if (username == "") {
         return;
