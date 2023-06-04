@@ -45,7 +45,6 @@ public class ProductsController : ControllerBase
     private async Task<List<T>> AddPriceAndExistFromHolooList<T>(
         IList<T> products, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken) where T : BaseProductPageViewModel
     {
-        var aBails = await _aBailRepository.GetAll(cancellationToken);
         var prices = products
             .Where(x => x.Prices.Any(p => p.ArticleCode != null))
             .Select(p => p.Prices)
@@ -128,10 +127,10 @@ public class ProductsController : ControllerBase
                         {
                             productPrices.Amount = articlePrice / 10;
                             double soldExist = 0;
-                            if (!isWithoutBill)
+                            if (!isWithoutBill && productPrices.ArticleCode != null)
                             {
-                                var sold = aBails.FirstOrDefault(x => x.A_Code == productPrices.ArticleCode);
-                                soldExist = sold == null ? 0 : sold.First_Article;
+                                var aBails = _aBailRepository.GetWithACode(productPrices.ArticleCode, cancellationToken).Result;
+                                soldExist = aBails.Sum(x => x.First_Article);
                             }
 
                             productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
@@ -1169,7 +1168,7 @@ public class ProductsController : ControllerBase
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
                                 products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
-                                    cancellationToken);
+                                    cancellationToken).ConfigureAwait(false);
                             }
                             countFilled = selectedProducts.Count(x =>
                                 x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));

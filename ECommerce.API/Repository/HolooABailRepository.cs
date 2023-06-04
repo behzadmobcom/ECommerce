@@ -25,4 +25,9 @@ public class HolooABailRepository : HolooRepository<HolooABail>, IHolooABailRepo
     {
         return await _context.ABAILPRE.ToListAsync(cancellationToken);
     }
+
+    public async Task<List<HolooABail>> GetWithACode(string aCode, CancellationToken cancellationToken)
+    {
+        return await _context.ABAILPRE.Where(x => x.A_Code == aCode).ToListAsync(cancellationToken);
+    }
 }

@@ -2,7 +2,7 @@
 
 <div class="blog-card">
     <div class="blog-media">
-        <a class="blog-img" href="#"><img src="~/@($"{Model.Image?.Path}/{Model.Image?.Name}")" alt="@Model.Image?.Alt" width="330" height="198"></a>
+        <a class="blog-img" asp-area="" asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url"><img src="~/@($"{Model.Image?.Path}/{Model.Image?.Name}")" alt="@Model.Image?.Alt" width="330" height="198"></a>
     </div>
     <div class="blog-content">
         <ul class="blog-meta">
