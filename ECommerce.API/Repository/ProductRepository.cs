@@ -174,7 +174,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public IEnumerable<ProductCompareViewModel> GetProductListWithAttribute(List<int?> productIdList)
     {
-        var group =  _context.ProductAttributeGroups.AsNoTracking()
+        var group = _context.ProductAttributeGroups.AsNoTracking()
             .Include(a => a.Attribute)
             .ToList();
 
@@ -187,10 +187,10 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         //        .ToListAsync(cancellationToken);
         //}
 
-        var productValues =  _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
+        var productValues = _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
             .ToList();
 
-        var products =  _context.Products.AsNoTracking()
+        var products = _context.Products.AsNoTracking()
             .Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
             .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
             .Select(x => new ProductCompareViewModel
@@ -322,55 +322,56 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<List<ProductIndexPageViewModel>> TopNew(int count, int start, string? topCategory, CancellationToken cancellationToken)
     {
-        var products = await _context.Products.Where(x => x.Images!.Count > 0 && x.Prices!.Any()).OrderByDescending(x => x.Id).Skip(start).Take(count)
-            .Include(x => x.Prices).ThenInclude(c => c.Discount)
-            .Select(p => new ProductIndexPageViewModel
-            {
-                Prices = p.Prices!,
-                Alt = p.Images!.First().Alt,
-                Brand = p.Brand!.Name,
-                Name = p.Name,
-                Description = p.Description,
-                Id = p.Id,
-                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                Stars = p.Star,
-                Url = p.Url,
-                TopCategory = topCategory
-            })
-            .ToListAsync(cancellationToken);
+        //var products = await _context.Products.Where(x => x.Images!.Count > 0 && x.Prices!.Any()).OrderByDescending(x => x.Id).Skip(start).Take(count)
+        //    .Include(x => x.Prices).ThenInclude(c => c.Discount)
 
-        return products;
+
+        var price = _context.Prices.AsEnumerable();
+        var product = _context.Products.AsEnumerable();
+        var images = _context.Images.AsEnumerable();
+        var article = _holooDbContext.ARTICLE.AsEnumerable();
+        var products = from s in price
+                       join p in product on s.ProductId equals p.Id
+                       join i in images on p.Id equals i.ProductId
+                       join a in article on s.ArticleCode equals a.A_Code
+                       where s.Product.Images.Any()
+                       select new ProductIndexPageViewModel
+                       {
+                           Prices = new List<Price> { new() { Exist = s.Exist, Amount = selectPrice(s, a) / 10, Id = s.Id } },
+                           Alt = i.Alt,
+                           Name = p.Name,
+                           Description = p.Description,
+                           Id = p.Id,
+                           ImagePath = $"{i.Path}/{i.Name}",
+                           Stars = p.Star,
+                           Url = p.Url,
+                           TopCategory = topCategory
+                       };
+        return products.DistinctBy(x => x.Id).OrderByDescending(x => x.Id).Take(count).ToList();
     }
 
-    public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, int start, string? topCategory, CancellationToken cancellationToken)
+    public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, string? topCategory, CancellationToken cancellationToken)
     {
         var price = _context.Prices.AsEnumerable();
         var product = _context.Products.AsEnumerable();
         var images = _context.Images.AsEnumerable();
         var article = _holooDbContext.ARTICLE.AsEnumerable();
         var products = from s in price
-            join p in product on s.ProductId equals p.Id
-            join i in images on p.Id equals i.ProductId
-            join a in article on s.ArticleCode equals a.A_Code
-            select new ProductIndexPageViewModel
-            {
-                Prices = new List<Price>
-                {
-                    new()
-                    {
-                        Exist = s.Exist,
-                        Amount = selectPrice(s,a)/ 10
-                    }
-                },
-                Alt = i.Alt,
-                Name = p.Name,
-                Description = p.Description,
-                Id = p.Id,
-                ImagePath = $"{i.Path}/{i.Name}",
-                Stars = p.Star,
-                Url = p.Url,
-                TopCategory = topCategory
-            };
+                       join p in product on s.ProductId equals p.Id
+                       join i in images on p.Id equals i.ProductId
+                       join a in article on s.ArticleCode equals a.A_Code
+                       select new ProductIndexPageViewModel
+                       {
+                           Prices = new List<Price> { new() { Exist = s.Exist, Amount = selectPrice(s, a) / 10, Id = s.Id } },
+                           Alt = i.Alt,
+                           Name = p.Name,
+                           Description = p.Description,
+                           Id = p.Id,
+                           ImagePath = $"{i.Path}/{i.Name}",
+                           Stars = p.Star,
+                           Url = p.Url,
+                           TopCategory = topCategory
+                       };
         return products.OrderByDescending(x => x.Prices.Max(p => p.Amount)).Take(count).ToList();
     }
 
@@ -379,9 +380,9 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         switch (productPrices.SellNumber)
         {
             case Price.HolooSellNumber.Sel_Price:
-               return Convert.ToDecimal(article.Sel_Price);
+                return Convert.ToDecimal(article.Sel_Price);
             case Price.HolooSellNumber.Sel_Price2:
-                return Convert.ToDecimal(article.Sel_Price2);    
+                return Convert.ToDecimal(article.Sel_Price2);
             case Price.HolooSellNumber.Sel_Price3:
                 return Convert.ToDecimal(article.Sel_Price3);
             case Price.HolooSellNumber.Sel_Price4:
@@ -597,7 +598,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
     public IQueryable<Product> GetAllWithInclude(CancellationToken cancellationToken)
     {
         var products = _context.Products.Include(x => x.Prices).Include(x => x.Brand)
-                                        .Include(x => x.Images).Include(x=>x.ProductUserRanks);
+                                        .Include(x => x.Images).Include(x => x.ProductUserRanks);
         return products;
     }
 

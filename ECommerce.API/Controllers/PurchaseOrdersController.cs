@@ -530,7 +530,8 @@ public class PurchaseOrdersController : ControllerBase
             await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             return Ok(new ApiResult
             {
-                Code = ResultCode.Success
+                Code = ResultCode.Success,
+                Messages = new List<string> { fBail }
             });
         }
         catch (Exception e)

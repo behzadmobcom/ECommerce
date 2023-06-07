@@ -213,7 +213,7 @@ public class UserService : EntityService<User>, IUserService
         return Return(result);
     }
 
-    public async Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile)
+    public async Task<ResponseVerifySmsIrViewModel> SendInvocieSms(string invoice, string mobile, string persianDate)
     {
         string apiKey = _smsSettings.apikey;
         string apiName = _smsSettings.apiName;
@@ -224,7 +224,7 @@ public class UserService : EntityService<User>, IUserService
         invoiceParameter.Value = invoice;
         RequestVerifySmsIrParameters dateParameter = new RequestVerifySmsIrParameters();
         dateParameter.Name = "DATE";
-        dateParameter.Value = DateTime.UtcNow + "";
+        dateParameter.Value = persianDate;
         RequestSMSIrViewModel.Parameters = new RequestVerifySmsIrParameters[] { invoiceParameter, dateParameter };
         RequestSMSIrViewModel.TemplateId = _smsSettings.invoiceTemplateId;
         RequestSMSIrViewModel.Mobile = mobile;
@@ -234,8 +234,6 @@ public class UserService : EntityService<User>, IUserService
 
     public async Task<ResponseVerifySmsIrViewModel> SendAuthenticationSms(string? mobile , string code)
     {
-        try
-        {
             string apiKey = _smsSettings.apikey;
             string apiName = _smsSettings.apiName;
             string url = _smsSettings.url;
@@ -248,12 +246,6 @@ public class UserService : EntityService<User>, IUserService
             RequestSMSIrViewModel.Mobile = mobile;
             var result = await _http.PostAsyncWithApiKeyByRequestModel<RequestVerifySmsIrViewModel, ResponseVerifySmsIrViewModel>(apiName, apiKey, RequestSMSIrViewModel, url);
             return result;
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-       
     }
 
     public async Task<ServiceResult<bool>> SetConfirmCodeByUsername(string username, string confirmCode)

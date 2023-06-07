@@ -58,20 +58,6 @@
                         </div>
                     </div>
                 </article>
-                @*   <div class="blog-details-profile">
-                <a href="#"><img src="~/Images/BlogAuthors/784d5095-85f7-4033-86c6-9a7222b4f49f.webp" alt="آواتار"loading="lazy"></a>
-                <h3>نرگس</h3>
-                <ul>
-                <li><a href="#" class="fab fa-facebook-f"></a></li>
-                <li><a href="#" class="fab fa-twitter"></a></li>
-                <li><a href="#" class="fab fa-linkedin-in"></a></li>
-                <li><a href="#" class="fab fa-pinterest"></a></li>
-                <li><a href="#" class="fab fa-instagram"></a></li>
-                </ul>
-                <p>
-                این یک واقعیت ثابت شده طولانی است که خواننده هنگام مشاهده صفحه آن از محتوای خواندنی آن منحرف می شود. نکته ای که در استفاده از متن ساختگی وجود دارد این است که توزیع حروف کم و بیش طبیعی دارد.
-                </p>
-                </div>*@
 
     <div class="blog-details-comment">
      
@@ -82,7 +68,9 @@
       {                          
      <li class="comment-item">
        <div class="comment-media">
-        <a class="comment-avatar" href="#"><img src="~/Images/BlogAuthors/29271c6e-60ec-4dd5-bc42-ae94c91624c5.webp" alt="مرور"loading="lazy"></a>
+                                    <a class="comment-avatar" href="#">
+                                        <img src="~/images/users/user-profile.png" alt="user-profile" loading="lazy">
+                                    </a>
                                     <h6 class="comment-meta"><a href="#"> @blogComment.Name </a><span> @blogComment.DateTime.ToFa("f") </span></h6>
        </div>
        <p class="comment-desc">
@@ -98,8 +86,13 @@
     
      </ul>
     </div>
-
-     <partial name="_Pagination" model="@Model.BlogComments.PaginationDetails"/>  
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+                            <partial name="_Pagination" model="@Model.BlogComments.PaginationDetails" />
+                        </ul>
+                    </div>
+                </div>
      <label>@Model.Message</label>
 
    <form class="blog-details-form" method="post" asp-page-handler="OnPost">

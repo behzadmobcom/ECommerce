@@ -15,7 +15,7 @@ public class InvoiceModel : PageModel
 {
     private readonly IUserService _userService;
     private readonly IPurchaseOrderService _purchaseOrderService;
-    [BindProperty]public long OrderId { get; set; }
+    [BindProperty] public long OrderId { get; set; }
     public string Refid { get; set; }
     public string SystemTraceNo { get; set; }
     [TempData] public string Message { get; set; }
@@ -72,7 +72,10 @@ public class InvoiceModel : PageModel
                     Message = result.Message;
                     Code = result.Code.ToString();
                     //CartList = (await _cartService.CartListFromServer()).ReturnData;
-
+                    if (result.Code == 0 && result.Message != null)
+                    {
+                        await _userService.SendInvocieSms(result.Message, "09111307006", PurchaseOrder.CreationDate.ToFa());
+                    }
                     OrderId = PurchaseOrder.OrderId;
                     return Page();
             }
@@ -137,11 +140,13 @@ public class InvoiceModel : PageModel
                 Message = resulPay.Message;
                 Code = resulPay.Code.ToString();
 
-                string message =
-                    $"پیش فاکتور به شماره {PurchaseOrder.OrderId} به شماره پیگیری {res.Result.RetrivalRefNo} به مبلغ {PurchaseOrder.Amount} در تاریخ {PurchaseOrder.CreationDate.ToFa("f")} صادر شد";
-                await _userService.SendAuthenticationSms("09118876347", message);
-                await _userService.SendAuthenticationSms("09909052454", message);
-                await _userService.SendAuthenticationSms("09119384108", message);
+                if (resulPay.Code == 0 && resulPay.Message != null)
+                {
+                    await _userService.SendInvocieSms(resulPay.Message, "09118876347", PurchaseOrder.CreationDate.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09909052454", PurchaseOrder.CreationDate.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09119384108", PurchaseOrder.CreationDate.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09111307006", PurchaseOrder.CreationDate.ToFa());
+                }
 
                 OrderId = PurchaseOrder.OrderId;
                 return Page();
@@ -151,7 +156,7 @@ public class InvoiceModel : PageModel
     }
     public IActionResult OnGetFactorPrint(long orderId)
     {
-        return RedirectToPage("InvoiceReportPrint",new { orderId = orderId });
+        return RedirectToPage("InvoiceReportPrint", new { orderId = orderId });
     }
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {

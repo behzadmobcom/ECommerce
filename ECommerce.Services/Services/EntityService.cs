@@ -39,11 +39,11 @@ public class EntityService<T> : IEntityService<T>
             return new ApiResult<object>
             {
                 Code = ResultCode.ServerDontResponse,
-                Messages = new List<string> {"سرور سایت در دسترس نیست. لطفا با پشتیبان سایت تماس بگیرید"}
+                Messages = new List<string> { "سرور سایت در دسترس نیست. لطفا با پشتیبان سایت تماس بگیرید" }
             };
         response.Messages = response.Code > 0
-            ? new List<string> {response.GetBody()}
-            : new List<string> {"با موفقیت ذخیره شد"};
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ذخیره شد" };
         return response;
     }
 
@@ -51,8 +51,8 @@ public class EntityService<T> : IEntityService<T>
     {
         var response = await _http.PostAsync<T, TResponse>(url, entity);
         response.Messages = response.Code > 0
-            ? new List<string> {response.GetBody()}
-            : new List<string> {"با موفقیت ذخیره شد"};
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ذخیره شد" };
         return response;
     }
 
@@ -60,8 +60,8 @@ public class EntityService<T> : IEntityService<T>
     {
         var response = await _http.PutAsync(url, entity);
         var messages = response.Code > 0
-            ? new List<string> {response.GetBody()}
-            : new List<string> {"با موفقیت ویرایش شد"};
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ویرایش شد" };
         return new ApiResult
         {
             Code = ResultCode.Success,
@@ -73,30 +73,39 @@ public class EntityService<T> : IEntityService<T>
     {
         var response = await _http.PutAsync(url, entity);
         response.Messages = response.Code > 0
-            ? new List<string> {response.GetBody()}
-            : new List<string> {"با موفقیت ویرایش شد"};
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ویرایش شد" };
         return response;
     }
     public async Task<ApiResult> Update(string url, T entity, string apiName)
     {
         var response = await _http.PutAsync(url, entity, apiName);
-        response.Messages = response.Code > 0
-            ? new List<string> { response.GetBody() }
-            : new List<string> { "با موفقیت ویرایش شد" };
+        if (response.Code > 0)
+        {
+            response.Messages = new List<string> { response.GetBody() };
+        }
+        else
+        {
+            if (response.Messages?.Count() == 0)
+            {
+                response.Messages = new List<string> { "با موفقیت ویرایش شد" };
+            }
+        }
+
         return response;
     }
     public async Task<ApiResult> Delete(string url, int entityId)
     {
         var response = await _http.DeleteAsync(url, entityId);
         response.Messages = response.Code > 0
-            ? new List<string> {response.GetBody()}
-            : new List<string> {"با موفقیت حذف شد"};
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت حذف شد" };
         return response;
     }
 
     public ServiceResult<TResult> Return<TResult>(ApiResult<TResult> result)
     {
-        if (result is {Code: ResultCode.Success})
+        if (result is { Code: ResultCode.Success })
             return new ServiceResult<TResult>
             {
                 PaginationDetails = result.PaginationDetails,
@@ -109,7 +118,7 @@ public class EntityService<T> : IEntityService<T>
         {
             Code = ServiceCode.Error,
             Message = result?.GetBody(),
-            ReturnData = (TResult) typeOfTResult
+            ReturnData = (TResult)typeOfTResult
         };
     }
 

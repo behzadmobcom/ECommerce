@@ -129,23 +129,23 @@ public class CheckoutModel : PageModel
             string description = "";
             switch (Portal)
             {
-                //case "zarinpal":
-                //    //Zarinpal
-                //    returnAction = "ZarinPalSuccess";
-                //    description = "خرید تستی ";
-                //    purchaseOrder.OrderGuid = Guid.NewGuid();
-                //    byte[] gb1 = purchaseOrder.OrderGuid.ToByteArray();
-                //    purchaseOrder.OrderId = BitConverter.ToInt64(gb1, 0);
-                //    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
-                //    if (paymentZarinpal.Status == 100)
-                //    {
-                //        await _purchaseOrderService.Edit(purchaseOrder);
-                //        return Redirect(paymentZarinpal.Link);
-                //    }
-                //    else
-                //    {  //return errorPage;
-                //        return RedirectToPage("Error");
-                //    }
+                case "zarinpal":
+                    //Zarinpal
+                    returnAction = "ZarinPalSuccess";
+                    description = "خرید تستی ";
+                    purchaseOrder.OrderGuid = Guid.NewGuid();
+                    byte[] gb1 = purchaseOrder.OrderGuid.ToByteArray();
+                    purchaseOrder.OrderId = BitConverter.ToInt64(gb1, 0);
+                    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                    if (paymentZarinpal.Status == 100)
+                    {
+                        await _purchaseOrderService.Edit(purchaseOrder);
+                        return Redirect(paymentZarinpal.Link);
+                    }
+                    else
+                    {  //return errorPage;
+                        return RedirectToPage("Error");
+                    }
                 case "sadad":
                     SumPrice *= 10;
                     purchaseOrder.OrderGuid = Guid.NewGuid();
