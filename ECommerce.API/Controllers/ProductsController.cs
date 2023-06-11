@@ -958,29 +958,6 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            //var products = (await _articleRepository.GetAllArticleMCodeSCode(code, cancellationToken))!.
-            //    Select(x => new Product()
-            //    {
-            //        Name = x.A_Name,
-            //        Description = x.Other1,
-            //        MinInStore = x.A_Min,
-            //        IsActive = x.IsActive,
-            //        Prices = new List<Price>()
-            //        {
-            //            new Price()
-            //            {
-            //                Amount = Convert.ToInt32(x.Sel_Price),
-            //                CurrencyId = 1,
-            //                MinQuantity = 1,
-            //                MaxQuantity = 0,
-            //                UnitId =_unitRepository.GetId(x.VahedCode,cancellationToken),
-            //                SellNumber=0,
-            //                ArticleCode = x.A_Code,
-            //                ArticleCodeCustomer = x.A_Code_C,
-            //                Exist = x.Exist ?? 0
-            //            }
-            //        }
-            //    });
             var products = await _articleRepository.GetAllArticleMCodeSCode(code, cancellationToken);
             return Ok(new ApiResult
             {

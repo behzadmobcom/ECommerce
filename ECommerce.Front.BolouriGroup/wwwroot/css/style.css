@@ -201,7 +201,8 @@ button:focus {
 
 @media (max-width: 767px) {
     .section {
-        margin-bottom: 55px
+        margin-bottom: 55px;
+        width:92%;
     }
 
     .inner-section {
@@ -421,7 +422,7 @@ button:focus {
 }
 
 .dropdown-list li a:hover {
-    color: var(--blue-dark)
+    color: var(--blue-dark);
 }
 
 .dropdown:hover .dropdown-position-list {
@@ -8716,7 +8717,6 @@ tbody tr td:last-child {
 }
 
 .maini .section {
-    width: 100%;
     height: 100%;
     position: absolute;
 }
