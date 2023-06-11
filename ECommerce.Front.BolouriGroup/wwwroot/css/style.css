@@ -2727,7 +2727,7 @@ tbody tr td:last-child {
 .account-title {
     align-items: center;
     border-bottom: 1px solid var(--border);
-    display: flex;
+   /* display: flex;*/
     justify-content: center;
     justify-content: space-between;
     margin-bottom: 25px;

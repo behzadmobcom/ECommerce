@@ -505,7 +505,7 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopPrices(count, null, cancellationToken);
+            var products = await _productRepository.TopPrices(count,0, null, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
@@ -1144,11 +1144,45 @@ public class ProductsController : ControllerBase
                 switch (resultCount[0])
                 {
                     case "TopNew":
-                        selectedProducts.AddRange(await _productRepository.TopNew(count, start, resultCount[0], cancellationToken));
+                        start = 0;
+                        countFilled = 0;
+                        while (countFilled < count)
+                        {
+                            products = await _productRepository.TopNew(count * 2, start, resultCount[0],
+                                cancellationToken);
+                            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                            {
+                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken).ConfigureAwait(false);
+                            }
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            selectedProducts.AddRange(products.Take(count - countFilled));
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            start += count * 2;
+                        }
                         break;
 
                     case "TopPrices":
-                        selectedProducts.AddRange(await _productRepository.TopPrices(count, resultCount[0], cancellationToken));
+                        start = 0;
+                        countFilled = 0;
+                        while (countFilled < count)
+                        {
+                            products = await _productRepository.TopPrices(count * 2, start, resultCount[0],
+                            cancellationToken);
+                            if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
+                            {
+                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken);
+                            }
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            selectedProducts.AddRange(products.Take(count - countFilled));
+                            countFilled = selectedProducts.Count(x =>
+                                x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
+                            start += count * 2;
+                        }
                         break;
 
                     case "TopChip":

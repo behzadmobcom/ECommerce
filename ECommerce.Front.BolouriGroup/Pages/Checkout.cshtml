@@ -47,8 +47,8 @@
                     <div class="account-card">
                         <div class="account-title">
                             <h4>نشانی تحویل</h4>
+                            <p style="font-size:14px">لطفا آدرس خود را انتخاب کنید</p>
                         </div>
-
                         @if (Model.SendInformationList.Any())
                         {
                             <div class="form-group">
@@ -68,6 +68,7 @@
                             </div>
                         }
                         <input type="number" hidden="hidden"  class="form-control" asp-for="SendInformation.Id">
+                        <p style="font-size:14px">اگر آدرس شما در لیست بالا وجود ندارد، لطفا آدرس جدید را وارد کنید</p>
                         <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
                         <span asp-validation-for="SendInformation.RecipientName" class="mt-5" style="color: red; margin-top: 10px"></span>
                         <br />
