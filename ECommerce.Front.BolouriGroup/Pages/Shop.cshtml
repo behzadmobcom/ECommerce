@@ -40,7 +40,7 @@
                         <span id="max-price-txt">@Model.Max</span>
                         <input type="range" class="form-range" min="1000000" max="200000000" id="max-price" name="maxprice" step="100000" value="@Model.Max">
                         <br />
-                        <h6 class="widget-title border-left mb-20">فقط نمایش کالاهای موجود</h6>
+                        <h8 class="widget-title border-left mb-20">نمایش کالاهای موجود</h8>
                         <label class="switch">
                             <input type="checkbox" name="isExist" value="true" @if (@Model.IsExist)
                             {
@@ -50,11 +50,13 @@
                         </label>
                         <input name="pageSize" value="@Model.Products.PaginationDetails.PageSize" hidden="hidden" />
                         <input name="search" value="@Model.Products.PaginationDetails.Search" hidden="hidden" />
-                        <br/>
+
+                        <div class="form-button">
                         <button type="submit" class="submit-btn-1 black-bg btn-hover-2"
                                 style="margin-top: 20px">
                             اعمال
                         </button>
+                        </div>
                     </div>
                 </form>
             </div>

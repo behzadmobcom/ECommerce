@@ -6,6 +6,7 @@ using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ECommerce.API.Repository;
 
 namespace ECommerce.API.Controllers;
 
@@ -25,9 +26,10 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IHolooSanadListRepository _holooSanadListRepository;
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IUserRepository _userRepository;
+    private readonly ITransactionRepository _transactionRepository;
 
 
-    public PurchaseOrdersController(IPurchaseOrderRepository discountRepository,
+    public PurchaseOrdersController(IPurchaseOrderRepository discountRepository, TransactionRepository transactionRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository, IProductRepository productRepository,
         ILogger<PurchaseOrdersController> logger, IHolooArticleRepository articleRepository, IPriceRepository priceRepository, IHolooFBailRepository holooFBailRepository, IHolooABailRepository holooABailRepository, IHolooSanadRepository holooSanadRepository, IHolooSanadListRepository holooSanadListRepository, IUserRepository userRepository, IHolooCustomerRepository holooCustomerRepository)
     {
