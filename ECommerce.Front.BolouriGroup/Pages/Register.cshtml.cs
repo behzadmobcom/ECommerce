@@ -19,7 +19,6 @@ public class RegisterModel : PageModel
     [TempData] public string Code { get; set; }
     [BindProperty] public List<State> StateList { get; set; }
     [BindProperty] public List<City> CityList { get; set; }
-    [BindProperty] public List<City> AllCities { get; set; }
     public RegisterModel(IUserService userService, ICityService cityService, IStateService stateService)
     {
         _userService = userService;
@@ -40,27 +39,16 @@ public class RegisterModel : PageModel
         
     }
 
-    private async Task Load(int stateId = 0)
+    private async Task Load()
     {
         StateList = (await _stateService.Load()).ReturnData;
-        stateId = stateId == 0 ? StateList.First().Id : stateId;
-        AllCities = (await _cityService.LoadAllCity()).ReturnData;
-        var City = AllCities.Where(c => c.StateId == stateId);
-        CityList = City.ToList();
-    }
-
-    public async Task<JsonResult> OnGetCityLoad(int id)
-    {
-        //var result = await _cityService.Load(id);
-        var ret = "";
-        //foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        foreach (var city in AllCities.Where(c => c.StateId == id)) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        return new JsonResult(ret);
+        var cityServiceResponse = await _cityService.LoadAllCity();
+        CityList = cityServiceResponse.ReturnData;
     }
 
     public async Task<IActionResult> OnPostRegister()
     {
-        await Load(RegisterViewModel.StateId);
+        await Load();
         if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
         {
             Message = "کد ملی نامعتبر می باشد";

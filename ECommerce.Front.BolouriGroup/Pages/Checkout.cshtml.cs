@@ -21,7 +21,6 @@ public class CheckoutModel : PageModel
 
     [BindProperty] public List<State> StateList { get; set; }
     [BindProperty] public List<City> CityList { get; set; }
-    [BindProperty] public List<City> AllCities { get; set; }
     [BindProperty] public SendInformation SendInformation { get; set; }
 
     [BindProperty] public List<SendInformation> SendInformationList { get; set; }
@@ -49,10 +48,8 @@ public class CheckoutModel : PageModel
     private async Task Initial()
     {
         StateList = (await _stateService.Load()).ReturnData;
-        //CityList = (await _cityService.Load(StateList.First().Id)).ReturnData;
-        AllCities = (await _cityService.LoadAllCity()).ReturnData;
-        var City = AllCities.Where(c => c.StateId == StateList.First().Id);
-        CityList = City.ToList();
+        var cityServiceResponse = await _cityService.LoadAllCity();
+        CityList = cityServiceResponse.ReturnData;
         SendInformationList = (await _sendInformationService.Load()).ReturnData;
         var resultCart = await _cartService.CartListFromServer();
         if (resultCart.Code > 0)
@@ -63,15 +60,6 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
         SumPrice = Convert.ToInt32(tempSumPrice);
-    }
-
-    public async Task<JsonResult> OnGetCityLoad(int id)
-    {
-        //var result = await _cityService.Load(id);
-        var ret = "";
-        //foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        foreach (var city in AllCities.Where(c=>c.StateId==id)) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        return new JsonResult(ret);
     }
 
     public async Task<JsonResult> OnGetSendInformationLoad(int id)
