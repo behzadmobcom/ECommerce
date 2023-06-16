@@ -520,9 +520,19 @@ public class PurchaseOrdersController : ControllerBase
 
 
             var customer = await _holooCustomerRepository.GetCustomerByCode(cCode);
-            var sanad = new HolooSanad(purchaseOrder.Description);
+            var sanad = new HolooSanad($"کدرهگیری:{purchaseOrder.Transaction.RefId}-{purchaseOrder.Description}");
             var sanadCode = Convert.ToInt32(await _holooSanadRepository.Add(sanad, cancellationToken));
-            purchaseOrder.Transaction.SanadCode = sanadCode;
+            await _transactionRepository.AddAsync(new Transaction
+            {
+                Amount = purchaseOrder.Transaction.Amount,
+                PaymentId = purchaseOrder.Transaction.PaymentId,
+                HolooCompanyId = purchaseOrder.Transaction.HolooCompanyId,
+                PaymentMethodId = purchaseOrder.Transaction.PaymentMethodId,
+                RefId = purchaseOrder.Transaction.RefId,
+                UserId = purchaseOrder.Transaction.UserId,
+                TransactionDate = purchaseOrder.Transaction.TransactionDate,
+                SanadCode = sanadCode
+            },cancellationToken);
 
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0009", "", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
