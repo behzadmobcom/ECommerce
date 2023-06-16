@@ -19,7 +19,7 @@ public class RegisterModel : PageModel
     [TempData] public string Code { get; set; }
     [BindProperty] public List<State> StateList { get; set; }
     [BindProperty] public List<City> CityList { get; set; }
-
+    [BindProperty] public List<City> AllCities { get; set; }
     public RegisterModel(IUserService userService, ICityService cityService, IStateService stateService)
     {
         _userService = userService;
@@ -44,14 +44,17 @@ public class RegisterModel : PageModel
     {
         StateList = (await _stateService.Load()).ReturnData;
         stateId = stateId == 0 ? StateList.First().Id : stateId;
-        CityList = (await _cityService.Load(stateId)).ReturnData;
+        AllCities = (await _cityService.LoadAllCity()).ReturnData;
+        var City = AllCities.Where(c => c.StateId == stateId);
+        CityList = City.ToList();
     }
 
     public async Task<JsonResult> OnGetCityLoad(int id)
     {
-        var result = await _cityService.Load(id);
+        //var result = await _cityService.Load(id);
         var ret = "";
-        foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
+        //foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
+        foreach (var city in AllCities.Where(c => c.StateId == id)) ret += $"<option value='{city.Id}'>{city.Name}</option>";
         return new JsonResult(ret);
     }
 
