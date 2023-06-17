@@ -52,8 +52,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
                         <div class="row tab-content" style="margin-right: 0;margin-left: 0">
                             <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
@@ -91,7 +89,7 @@
                         <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city" style="color: gray">
                             @foreach (var city in Model.CityList)
                             {
-                                <option value="@city.Id">@city.Name</option>
+                                <option stateId="@city.StateId" value="@city.Id">@city.Name</option>
                             }
                         </select>
                         <br />
@@ -148,6 +146,10 @@
             $("#IsColleagueId").prop("checked", isColleague);
         }
 
+        $(document).ready(function () {
+            setCities();
+        });
+
         function SendRegisterConfirmSms() {
         username = document.getElementById("userName").value;;
         $.ajax({
@@ -168,8 +170,12 @@
             
          });
         }
-
-
+        //$(document).ready(function () {
+        //    $('input').change(function () {
+        //        var filter = $(this).val();
+                
+        //    })
+        //})
      
     </script>
 }

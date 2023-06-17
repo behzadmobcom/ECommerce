@@ -12,7 +12,11 @@ public class CityService : EntityService<City>, ICityService
     public CityService(IHttpService http) : base(http)
     {
     }
-
+    public async Task<ServiceResult<List<City>>> LoadAllCity()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
+    }
     public async Task<ServiceResult<List<City>>> Load(int id)
     {
         var result = await ReadList(Url, $"GetById?id={id}");

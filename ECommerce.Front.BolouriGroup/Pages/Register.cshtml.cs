@@ -19,7 +19,6 @@ public class RegisterModel : PageModel
     [TempData] public string Code { get; set; }
     [BindProperty] public List<State> StateList { get; set; }
     [BindProperty] public List<City> CityList { get; set; }
-
     public RegisterModel(IUserService userService, ICityService cityService, IStateService stateService)
     {
         _userService = userService;
@@ -40,25 +39,18 @@ public class RegisterModel : PageModel
         return Page();
     }
 
-    private async Task Load(int stateId = 0)
+    private async Task Load()
     {
         StateList = (await _stateService.Load()).ReturnData;
-        stateId = stateId == 0 ? StateList.First().Id : stateId;
-        CityList = (await _cityService.Load(stateId)).ReturnData;
-    }
-
-    public async Task<JsonResult> OnGetCityLoad(int id)
-    {
-        var result = await _cityService.Load(id);
-        var ret = "";
-        foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        return new JsonResult(ret);
+        var cityServiceResponse = await _cityService.LoadAllCity();
+        CityList = cityServiceResponse.ReturnData;
     }
 
     public async Task<IActionResult> OnPostRegister()
     {
-        await Load(RegisterViewModel.StateId);
-        if (!await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
+        await Load();
+        if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
+
         {
             Message = "کد ملی نامعتبر می باشد";
             Code = "Error";
