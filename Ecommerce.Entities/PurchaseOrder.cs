@@ -85,7 +85,6 @@ public class PurchaseOrder : BaseEntity
     public int? DiscountId { get; set; }
     public Discount? Discount { get; set; }
 
-    public int? TransactionId { get; set; }
     public Transaction? Transaction { get; set; }
 }
 

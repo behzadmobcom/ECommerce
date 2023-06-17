@@ -450,6 +450,7 @@ public class PurchaseOrdersController : ControllerBase
             }
             else
             {
+                purchaseOrderDetails.SumPrice = purchaseOrderDetails.Quantity * purchaseOrderDetails.UnitPrice;
                 await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
             }
             purchaseOrder.Amount = purchaseOrder.Amount - purchaseOrderDetails.UnitPrice;
@@ -543,7 +544,7 @@ public class PurchaseOrdersController : ControllerBase
                 TransactionDate = DateTime.Now,
                 SanadCode = sanadCode,
                 SanadCodeCustomer = sanadCodeCustomer,
-                PurchaseOrder = purchaseOrder
+                PurchaseOrderId = purchaseOrder.Id
             },cancellationToken);
 
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0009", "", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
