@@ -2,18 +2,21 @@
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.PurchaseModel
 @{
     ViewData["Title"] = "سفارشات";
-    var i = 1 + (Model.PurchaseOrders.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrders.PaginationDetails.PageSize;
+    var i = 1 + (Model.PurchaseOrders.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrders.PaginationDetails.PageSize; 
 }
 <!--begin::Title-->
 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست سفارشات</h1>
 <!--end::Title-->
 
+<div class="card mb-5 mb-xl-8">
+<!--begin::Body-->
+<div class="card-body py-3">
+<!--begin::Table container-->
 <!--begin :: search options-->
  <form class="form" method="post" asp-page-handler="OnPost">
     <div class="row align-items-center">
             <div class="col-lg-10 col-xl-8">
                 <div class="row align-items-center">
-
                      <div class="col-md-3 my-2 my-md-0">
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">از مبلغ:</label>
@@ -30,24 +33,21 @@
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">وضعیت فاکتور:</label>
                             <select asp-for="@Model.IsPaid" class="form-control">                               
-                                <option value="0">همه</option>
-                                <option value="1">پرداخت شده</option>
-                                <option value="2">پرداخت نشده</option>
+                                <option value="null">همه</option>
+                                <option value="true">پرداخت شده</option>
+                                <option value="false">پرداخت نشده</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-3 my-2 my-md-0">
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">کاربر:</label>
-                             <select asp-for="@Model.UserId?" class="form-control">
-                                <option value="">همه</option>
-                            @{
-                                foreach (var item in Model.Users.ReturnData)
-                                {
-                                    <option value="@item.Id">@item.Username</option>
-                                }
-                            }
-                                 
+                             <select asp-for="@Model.UserId" class="form-control">
+                                <option value="0">همه</option>                           
+                                @foreach (var item in Model.Users.ReturnData)
+                                {                                  
+                                 <option value="@item.Id">@item.Username</option>  
+                                }                                                            
                             </select>
                         </div>
                     </div>
@@ -59,23 +59,24 @@
                                 <option value="1">ارسال شده</option>
                                 <option value="2">تایید شده</option>
                                 <option value="3">بسته شده</option>
-
                             </select>
                         </div>
                     </div>
-
+                    <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block"> مرتب سازی بر اساس:</label>
+                            <select asp-for="@Model.PurchaseSort" class="form-control">
+                                <option value="7">جدید ترین</option>
+                                <option value="6">قدیمی ترین</option>                                
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>              
-     </div>  
+            </div>     
+     </div>
      <input type="submit" value="بجو" class="btn btn-primary"/>
 </form>
-
 <!--begin :: search options-->
-
-<div class="card mb-5 mb-xl-8">
-<!--begin::Body-->
-<div class="card-body py-3">
-<!--begin::Table container-->
 <div class="table-responsive">
 <!--begin::Table-->
 <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
@@ -84,11 +85,11 @@
                 <div class="form-actions no-color">
                     <p>
                         تعداد رکورد ها در صفحه :
-                        <a asp-page="/Users/Purchases" asp-route-pageSize="10">10</a> -
-                        <a asp-page="/Users/Purchases" asp-route-pageSize="20">20</a> -
-                        <a asp-page="/Users/Purchases" asp-route-pageSize="30">30</a> -
-                        <a asp-page="/Users/Purchases" asp-route-pageSize="40">40</a> -
-                        <a asp-page="/Users/Purchases" asp-route-pageSize="50">50</a>
+                        <a asp-page="/Users/Purchases" asp-route-userid="@Model.UserId" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Users/Purchases" asp-route-userid="@Model.UserId" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Users/Purchases" asp-route-userid="@Model.UserId" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Users/Purchases" asp-route-userid="@Model.UserId" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Users/Purchases" asp-route-userid="@Model.UserId" asp-route-pageSize="50">50</a>
                     </p>
                 </div>
          </form>
@@ -113,43 +114,66 @@
 
 <tbody>
  @foreach (var item in Model.PurchaseOrders.ReturnData)
- {							
-	<tr>
-	<td>@item.Id</td>
-    <td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
-	</td>
-	<td>
-                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa()</a>
-	</td>
-	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
-	</td>
-	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@(item.IsPaied==true?"√":"پرداخت نشده") </a>
-	</td>
-	<td> 
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount.ToString("N0")</a>
-	</td>
-	<td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
-	<td>
-		<a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.UserName</a>
-	</td>
-	<td class="text-end">
-		 <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-success font-weight-bold">جزئیات</a>
-	</td>
-	</tr>
+ {        
+        <tr>
+	    <td>@i</td>
+        <td>
+		    <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
+	    </td>
+	    <td>
+            <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa()</a>
+	    </td>
+	    <td>
+		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
+	    </td>
+	    <td>
+		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@(item.IsPaied==true?"√":"ˣ") </a>
+	    </td>
+	    <td> 
+		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount.ToString("N0")</a>
+	    </td>
+	    <td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
+	    <td>
+		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.UserName</a>
+	    </td>
+	    <td class="text-end">            
+		        <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-info  font-weight-bold">جزئیات</a>           
+                @if(@item.Status!=Ecommerce.Entities.Status.New){ <input value="جدید" onclick="EditPurchaseStatusById(@item.Id, 0)" type="button" class="label label-inline label-light-primary font-weight-bold"/> } &nbsp;
+                @if(@item.Status!=Ecommerce.Entities.Status.Sent){ <input value="ارسال" onclick="EditPurchaseStatusById(@item.Id, 1)" type="button" class="label label-inline label-light-warning font-weight-bold"/> } &nbsp;
+                @if(@item.Status!=Ecommerce.Entities.Status.Accepted){ <input value="تایید" onclick="EditPurchaseStatusById(@item.Id, 2)" type="button" class="label label-inline label-light-success font-weight-bold"/> } &nbsp;
+                @if(@item.Status!=Ecommerce.Entities.Status.Closed){ <input value="بسته شده" onclick="EditPurchaseStatusById(@item.Id, 3)" type="button" class="label label-inline label-light-danger font-weight-bold"/> } &nbsp;
+	    </td>
+	    </tr>
+    i++;
  }
-
 </tbody>
 <!--end::Table body-->
 </table>
 <!--end::Table-->
+    <partial name="_Pagination" model="@Model.PurchaseOrders.PaginationDetails"/>
 </div>
 <!--end::Table container-->
 </div>
 		 <div class="card-footer">
-              <a class="btn btn-secondary" asp-Page="/Users/Index">لغو</a>
+              <a class="btn btn-secondary" asp-Page="/Users/Index">لیست کاربران</a>
          </div>
 <!--begin::Body-->
 </div>
+
+
+<script>
+function EditPurchaseStatusById(id, status) {
+    $.ajax({
+        type: "Get",
+        url: "/Admin/Users/Purchases?handler=EditPurchaseStatus&id=" + id + "&status=" + status,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            alert(result.message);
+            if (result.code === 0) {
+                location.reload();
+                }
+            }
+    });
+  }
+</script>

@@ -75,6 +75,33 @@ public class PurchaseOrdersController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public async Task<IActionResult> SetStatusById(int id, Status status, CancellationToken cancellationToken)
+    {
+        var purchaseOrder = await _purchaseOrderRepository.GetByIdAsync(cancellationToken, id);
+        if (purchaseOrder == null)
+        {
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, ReturnData = false, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+        purchaseOrder.Status = status;
+        var result = await _purchaseOrderRepository.UpdateAsync(purchaseOrder,cancellationToken);
+        if (result == null)
+        {
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, ReturnData = false, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+
+        return Ok(new ApiResult
+        {
+            Code = ResultCode.Success,
+            ReturnData = true,
+            Messages = new List<string> { "با موفقیت انجام شد" }         
+        });
+    }
+
+
+    [HttpGet]
     public async Task<IActionResult> Get([FromQuery] PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
        CancellationToken cancellationToken)
     {

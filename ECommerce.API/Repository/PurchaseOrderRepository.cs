@@ -38,25 +38,32 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
         if (purchaseFiltreOrderViewModel.PaymentMethodStatus != null) query = query.Where(x => x.PaymentMethod.PaymentMethodStatus == purchaseFiltreOrderViewModel.PaymentMethodStatus);
 
 
-        var sortedQuery = query.OrderByDescending(x => x.Id).ToList();
+        var sortedQuery = query.OrderByDescending(x => x.Id);
 
         switch (purchaseFiltreOrderViewModel.PurchaseSort)
         {
             case PurchaseSort.LowToHighCountBuying:
-                sortedQuery = query.OrderBy(x => x.PurchaseOrderDetails.Count).ToList();
+                sortedQuery = query.OrderBy(x => x.PurchaseOrderDetails.Count);
                 break;
             case PurchaseSort.HighToLowCountBuying:
-                sortedQuery = query.OrderByDescending(x => x.PurchaseOrderDetails.Count).ToList();
+                sortedQuery = query.OrderByDescending(x => x.PurchaseOrderDetails.Count);
                 break;
             case PurchaseSort.LowToHighPiceBuying:
-                sortedQuery = query.OrderBy(x => x.Amount).ToList();
+                sortedQuery = query.OrderBy(x => x.Amount);
                 break;
             case PurchaseSort.HighToLowPriceBuying:
-                sortedQuery = query.OrderByDescending(x => x.Amount).ToList();
+                sortedQuery = query.OrderByDescending(x => x.Amount);
                 break;
+            case PurchaseSort.LowToHighDateBuying:
+                sortedQuery = query.OrderBy(x => x.CreationDate);
+                break;
+            case PurchaseSort.HighToLowDateBuying:
+                sortedQuery = query.OrderByDescending(x => x.CreationDate);
+                break;
+
         }
 
-        var purchaseList = await query.Select(p => new PurchaseListViewModel
+        var purchaseList = await sortedQuery.Select(p => new PurchaseListViewModel
         {
             Id = p.Id,
             Amount = p.Amount,

@@ -70,6 +70,11 @@ namespace ECommerce.Services.Services
             return Return(result);
         }
 
+        public async Task<ServiceResult<bool>> SetStatusById(int id, Status status)
+        {
+            var result = await _http.GetAsync<bool> (Url, $"SetStatusById?id={id}&status={status}");
+            return Return(result);
+        }
 
         public async Task<ServiceResult<List<PurchaseListViewModel>>> PurchaseList(int userId = 0, string search = "",
          int pageNumber = 0, int pageSize = 10, int purchaseSort = 1, bool? isPaied = null, DateTime? fromCreationDate = null,
