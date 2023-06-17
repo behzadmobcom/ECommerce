@@ -17,13 +17,17 @@ public class IndexModel : PageModel
     public ServiceResult<List<UserListViewModel>> Users { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
+    [BindProperty] public bool? IsCollegue { get; set; } = null;
+    [BindProperty] public bool? IsActive { get; set; } = null;
 
     public async Task<IActionResult> OnGet(string search = "", int pageNumber = 1, int pageSize = 10,
-    string message = null, string code = null)
+    string message = null, string code = null, bool? iscollegue=null, bool? isactive=null)
     {
         Message = message;
         Code = code;
-        var result = await _userService.UserList(search, pageNumber, pageSize);
+        IsCollegue = iscollegue;
+        IsActive = isactive;
+        var result = await _userService.UserList(search, pageNumber, pageSize, isActive:isactive, isColleague:iscollegue);
         if (result.Code == ServiceCode.Success)
         {
             result.PaginationDetails.Address = "/Users/Index";

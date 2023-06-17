@@ -161,7 +161,7 @@ public class UserService : EntityService<User>, IUserService
         var command = "Get?" +
                       $"PaginationParameters.PageNumber={pageNumber}&" +
                       $"PaginationParameters.PageSize={pageSize}&";
-        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search='{search}'&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
         if (isActive != null) command += $"IsActive={isActive}&";
         if (isColleague != null) command += $"IsColleauge={isColleague}&";
         if (HasBuying != null) command += $"HasBuying={HasBuying}&";

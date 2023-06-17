@@ -21,23 +21,25 @@ public class PurchaseModel : PageModel
     [BindProperty] public decimal? MaximumAmount { get; set; } = null;
     [BindProperty] public decimal? MinimumAmount { get; set; } = null;
     [BindProperty] public int? IsPaid { get; set; } = null;
-    [BindProperty] public int? UserId { get; set; } = null;
+    [BindProperty] public int UserId { get; set; } = 0;
     [BindProperty] public Status? Status { get; set; } = null;
+    [BindProperty] public PurchaseSort PurchaseSort { get; set; } = PurchaseSort.HighToLowDateBuying;
 
     [BindProperty] public ServiceResult<List<UserListViewModel>>? Users{ get; set; }
 
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
 
-
-    public async Task<IActionResult> OnGet(int id, string search = "", int pageNumber = 1, int pageSize = 10,
-    string message = null, string code = null, bool? isPaid=null, decimal? minimumAmount=null, decimal? maximumAmount=null, Status status=Ecommerce.Entities.Status.New)
+    public async Task<IActionResult> OnGet(int userid=0, string search = "", int pageNumber = 1, int pageSize = 10,
+    string message = null, string code = null, bool? isPaid=null, decimal? minimumAmount=null, decimal? maximumAmount=null, 
+    Status status=Ecommerce.Entities.Status.New, PurchaseSort purchaseSort= PurchaseSort.HighToLowDateBuying)
     {
         Message=message;
         Code=code;
-        Users = await _userService.UserList();      
-        var result = await _purchaseOrderService.PurchaseList(userId:id, search, pageNumber, pageSize, 
-                                                isPaied: isPaid, maximumAmount:maximumAmount, minimumAmount:minimumAmount, statusId:(int)status);
+        UserId=userid;
+        Users = await _userService.UserList(pageSize: 200);  // It should be corrected in the next task 
+        var result = await _purchaseOrderService.PurchaseList(userid, search, pageNumber, pageSize, 
+                                                isPaied: isPaid, maximumAmount:maximumAmount, minimumAmount:minimumAmount, statusId:(int)status, purchaseSort:(int)purchaseSort );
         if (result.Code == ServiceCode.Success)
         {
             Message = result.Message;
@@ -48,20 +50,33 @@ public class PurchaseModel : PageModel
 
         return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
-    public async Task<IActionResult> OnPost(int? UserId, int? IsPaid, decimal? MinimumAmount, decimal? MaximumAmount, Status Status)
+    public async Task<IActionResult> OnPost(int userid, bool? IsPaid, decimal? MinimumAmount, decimal? MaximumAmount, PurchaseSort PurchaseSort, Status Status)
     {
-        bool? _isPaid = null;
-         switch (IsPaid)
+        try
         {
-            case 0: _isPaid = null; break;
-            case 1: _isPaid = true; break;
-            case 2: _isPaid = false; break;
-        }         
-       
-        return RedirectToPage("/Users/Purchases",
-                   new { area = "Admin", id = UserId!,
-                       IsPaid = _isPaid, MinimumAmount=MinimumAmount, MaximumAmount=MaximumAmount, Status=Status,
-                       PageSize = 50
-                   });
+            return RedirectToPage("/Users/Purchases",
+                       new
+                       {
+                           area = "Admin",
+                           UserId = UserId,
+                           IsPaid = IsPaid,
+                           MinimumAmount = MinimumAmount,
+                           MaximumAmount = MaximumAmount,
+                           Status = Status,
+                           PurchaseSort = PurchaseSort,
+                           PageSize = 10
+                       });
+        }
+        catch (Exception ex)
+        {
+            return Page();
+        }
     }
+
+    public async Task<JsonResult> OnGetEditPurchaseStatus(int id, Status status)
+    {
+        var result = await _purchaseOrderService.SetStatusById(id, status);
+        return new JsonResult(result);
+    }
+
 }
