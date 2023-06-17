@@ -74,7 +74,7 @@ public class InvoiceModel : PageModel
                     //CartList = (await _cartService.CartListFromServer()).ReturnData;
                     if (result.Code == 0 && result.Message != null)
                     {
-                        await _userService.SendInvocieSms(result.Message, "09111307006", PurchaseOrder.CreationDate.ToFa());
+                        await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToFa());
                     }
                     OrderId = PurchaseOrder.OrderId;
                     return Page();
@@ -131,6 +131,7 @@ public class InvoiceModel : PageModel
                 result.VerifyResultData = res.Result;
                 res.Result.Succeed = true;
                 SystemTraceNo = res.Result.SystemTraceNo;
+                PurchaseOrder.PaymentDate = DateTime.Now;
                 PurchaseOrder.Transaction = new()
                 {
                     RefId = res.Result.RetrivalRefNo,
@@ -143,10 +144,10 @@ public class InvoiceModel : PageModel
 
                 if (resulPay.Code == 0 && resulPay.Message != null)
                 {
-                    await _userService.SendInvocieSms(resulPay.Message, "09118876347", PurchaseOrder.CreationDate.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09909052454", PurchaseOrder.CreationDate.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09119384108", PurchaseOrder.CreationDate.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09111307006", PurchaseOrder.CreationDate.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09118876347", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09909052454", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09119384108", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message, "09111307006", DateTime.Now.ToFa());
                 }
 
                 OrderId = PurchaseOrder.OrderId;
