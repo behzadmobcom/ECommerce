@@ -16,9 +16,9 @@ public class CurrencyService : EntityService<Currency>, ICurrencyService
         _http = http;
     }
 
-    public async Task<ServiceResult<List<Currency>>> Load(int pageNumber = 0, int pageSize = 10)
+    public async Task<ServiceResult<List<Currency>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
     {
-        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}");
+        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
         return Return(result);
     }
 

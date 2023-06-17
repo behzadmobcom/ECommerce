@@ -19,7 +19,6 @@ public class RegisterModel : PageModel
     [TempData] public string Code { get; set; }
     [BindProperty] public List<State> StateList { get; set; }
     [BindProperty] public List<City> CityList { get; set; }
-
     public RegisterModel(IUserService userService, ICityService cityService, IStateService stateService)
     {
         _userService = userService;
@@ -27,38 +26,31 @@ public class RegisterModel : PageModel
         _stateService = stateService;
     }
 
-    public async Task OnGet(string mobile, int confirmCode)
+    public async Task<IActionResult> OnGet(string mobile, int confirmCode)
     {
-        try {
-            RegisterViewModel.Username = mobile;
-            RegisterViewModel.Mobile = mobile;
-            RegisterViewModel.ConfirmCode = confirmCode;
-            await Load();
+        if (string.IsNullOrEmpty(mobile))
+        {
+            return RedirectToPage("index");
         }
-        catch(Exception) {
-        }
-        
+        RegisterViewModel.Username = mobile;
+        RegisterViewModel.Mobile = mobile;
+        RegisterViewModel.ConfirmCode = confirmCode;
+        await Load();
+        return Page();
     }
 
-    private async Task Load(int stateId = 0)
+    private async Task Load()
     {
         StateList = (await _stateService.Load()).ReturnData;
-        stateId = stateId == 0 ? StateList.First().Id : stateId;
-        CityList = (await _cityService.Load(stateId)).ReturnData;
-    }
-
-    public async Task<JsonResult> OnGetCityLoad(int id)
-    {
-        var result = await _cityService.Load(id);
-        var ret = "";
-        foreach (var city in result.ReturnData) ret += $"<option value='{city.Id}'>{city.Name}</option>";
-        return new JsonResult(ret);
+        var cityServiceResponse = await _cityService.LoadAllCity();
+        CityList = cityServiceResponse.ReturnData;
     }
 
     public async Task<IActionResult> OnPostRegister()
     {
-        await Load(RegisterViewModel.StateId);
+        await Load();
         if ( !await _userService.GetVerificationByNationalId(RegisterViewModel.NationalCode))
+
         {
             Message = "کد ملی نامعتبر می باشد";
             Code = "Error";
@@ -81,7 +73,7 @@ public class RegisterModel : PageModel
         }
         ModelState.Remove("RegisterViewModel.Email");
         ModelState.Remove("RegisterViewModel.Username");
-       
+
         if (!ModelState.IsValid) return Page();
         switch (RegisterViewModel.CompanyType)
         {
@@ -106,7 +98,7 @@ public class RegisterModel : PageModel
         }
         RegisterViewModel.Username = RegisterViewModel.Mobile;
         RegisterViewModel.Email = "boloorico@gmail.com";
-        RegisterViewModel.IsHaveEmail = false;     
+        RegisterViewModel.IsHaveEmail = false;
 
         var result = await _userService.Register(RegisterViewModel);
         if (result.Code > 0)
@@ -119,10 +111,10 @@ public class RegisterModel : PageModel
     }
 
     public async Task<IActionResult> OnGetSendSms(string username)
-    {       
+    {
         int code = GenerateCode(username);
         if (code == 0) return new JsonResult(null);
-        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());     
+        ResponseVerifySmsIrViewModel smsResponsModel = await _userService.SendAuthenticationSms(username, code.ToString());
         return new JsonResult(smsResponsModel);
     }
 
@@ -132,9 +124,9 @@ public class RegisterModel : PageModel
         int number;
         if (mobile.Length != 11 & mobile.Length != 10) return 0;
         if (mobile.Substring(0, 1) != "0") mobile = "0" + mobile;
-        if (mobile.Substring(0,2) != "09") return 0;        
-        if (!int.TryParse(mobile.Substring(1,9), out number)) return 0;        
-        var result = getSumResult(mobile.Substring(10, 1), mobile.Substring(4,1));
+        if (mobile.Substring(0, 2) != "09") return 0;
+        if (!int.TryParse(mobile.Substring(1, 9), out number)) return 0;
+        var result = getSumResult(mobile.Substring(10, 1), mobile.Substring(4, 1));
         result = result + getSumResult(mobile.Substring(9, 1), mobile.Substring(5, 1));
         result = result + getSumResult(mobile.Substring(8, 1), mobile.Substring(6, 1));
         result = result + getSumResult(mobile.Substring(7, 1), mobile.Substring(3, 1));
@@ -142,7 +134,7 @@ public class RegisterModel : PageModel
         return number;
     }
 
-    private string getSumResult (string num1, string num2)
+    private string getSumResult(string num1, string num2)
     {
         int number1, number2;
         int.TryParse(num1, out number1);
@@ -151,13 +143,13 @@ public class RegisterModel : PageModel
         do
         {
             sum = number1 + number2;
-            if (sum >10)
+            if (sum > 10)
             {
                 number1 = sum - 10;
-                number2 = number1>4 ? 1 : 0 ;
+                number2 = number1 > 4 ? 1 : 0;
             }
         } while (sum > 10);
         return sum + "";
     }
- 
+
 }

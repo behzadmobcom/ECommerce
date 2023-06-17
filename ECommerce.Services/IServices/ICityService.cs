@@ -10,4 +10,5 @@ public interface ICityService : IEntityService<City>
     Task<ServiceResult> Add(City city);
     Task<ServiceResult> Edit(City city);
     Task<ServiceResult> Delete(int id);
+    Task<ServiceResult<List<City>>> LoadAllCity();
 }

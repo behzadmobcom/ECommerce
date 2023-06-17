@@ -20,6 +20,24 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _cityRepository.GetAll(cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
+
+    [HttpGet]
     public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
     {
         try

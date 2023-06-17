@@ -52,8 +52,6 @@
                                 </li>
                             </ul>
                         </div>
-
-
                         <div class="row tab-content" style="margin-right: 0;margin-left: 0">
                             <div id="home" class="container tab-pane form-group active">
                                 <input type="text" placeholder="نام" asp-for="RegisterViewModel.FirstName" class="form-control">
@@ -91,15 +89,12 @@
                         <select asp-for="RegisterViewModel.CityId" class="custom-select form-control" id="city" style="color: gray">
                             @foreach (var city in Model.CityList)
                             {
-                                <option value="@city.Id">@city.Name</option>
+                                <option stateId="@city.StateId" value="@city.Id">@city.Name</option>
                             }
                         </select>
                         <br />
-	                       <input type="tel" maxlength="11" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                           
-                           @* <div class="form-group">                          
-                              <input type="button" style="background-color:ButtonFace" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendRegisterConfirmSms()" />
-                        </div>*@
-                         <div class="form-group">
+	                       <input type="tel" hidden="hidden" maxlength="11" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div hidden="hidden" class="form-group">
                             <span asp-validation-for="RegisterViewModel.ConfirmCode" style="color: red"></span>
                             <input type="text" readonly="readonly" placeholder="کد تایید پیامک شده را وارد نمایید" dir="ltr" asp-for="RegisterViewModel.ConfirmCode" class="form-control">
                         </div>
@@ -151,6 +146,10 @@
             $("#IsColleagueId").prop("checked", isColleague);
         }
 
+        $(document).ready(function () {
+            setCities();
+        });
+
         function SendRegisterConfirmSms() {
         username = document.getElementById("userName").value;;
         $.ajax({
@@ -171,8 +170,12 @@
             
          });
         }
-
-
+        //$(document).ready(function () {
+        //    $('input').change(function () {
+        //        var filter = $(this).val();
+                
+        //    })
+        //})
      
     </script>
 }

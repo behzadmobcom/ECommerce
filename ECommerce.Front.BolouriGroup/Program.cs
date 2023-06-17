@@ -57,6 +57,7 @@ builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontS
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<SmsIrSettings>(builder.Configuration.GetSection("SmsIr"));
+
 #region DI
 
 builder.Services.AddScoped(typeof(IEntityService<>), typeof(EntityService<>));
@@ -99,6 +100,7 @@ builder.Services.AddScoped<IStateService, StateService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWishListService, WishListService>();

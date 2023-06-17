@@ -21,17 +21,19 @@
                     <div class="alert alert-success"> @Model.Message </div>
                     break;
             }
-
             Model.Message = null;
             Model.Code = null;
         }
-
         <p>
            <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد کاربر جدید</a>
         </p>
            <form asp-page="/Users/Index" method="get">
                 <div class="form-actions no-color">
                     <p>
+            جستجو بر اساس نام:
+            <input type="text" name="search" value="@Model.Users.PaginationDetails.Search" />
+            <input type="text" hidden="hidden" name="pageIndex" value="1" />
+            <input type="submit" value="بجو" class="btn btn-primary" /> |
                         تعداد رکورد ها در صفحه :
                         <a asp-page="/Users/Index" asp-route-pageSize="10">10</a> -
                         <a asp-page="/Users/Index" asp-route-pageSize="20">20</a> -
@@ -41,17 +43,16 @@
                     </p>
                 </div>
             </form>
-
 <div class="post d-flex flex-column-fluid" id="kt_post">
     <div id="kt_content_container" class="container">
         <div class="card card-custom">
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-lg-10 col-xl-8">
+                    <div class="col-lg-12 col-xl-12">
                         <div class="row align-items-center">
                             <div class="col-md-3 my-2 my-md-0">
                                 <div class="input-icon">
-                                           <input type="text" name="search" value="@Model.Users.PaginationDetails.Search"/>
+                                           <input type="text" name="search" value="@Model.Users.PaginationDetails.Search" style="text-align:left"/>
                                            <input type="text" hidden="hidden" name="pageIndex" value="1"/>                                          
                                      <span>
                                         <i class="flaticon2-search-1 text-muted"></i>
@@ -91,7 +92,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="table-responsive mt-5">
                     <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
@@ -125,15 +125,12 @@
                                }
                         </tbody>
                     </table>
+                    <partial name="_Pagination" model="@Model.Users.PaginationDetails" />
                 </div>
-                <!--begin: جدول داده ها-->
-                @*  <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>*@
-                <!--end: جدول داده ها-->
             </div>
         </div>
     </div>
 </div> 
-
  @section Scripts
  {
   <script src="~/Admin/js/data-local.js"></script>

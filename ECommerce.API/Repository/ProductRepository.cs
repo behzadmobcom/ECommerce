@@ -345,26 +345,23 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
     public async Task<List<ProductIndexPageViewModel>> TopPrices(int count, int start, string? topCategory, CancellationToken cancellationToken)
     {
-        var price = _context.Prices.AsEnumerable();
-        var product = _context.Products.AsEnumerable();
-        var images = _context.Images.AsEnumerable();
-        var article = _holooDbContext.ARTICLE.OrderByDescending(x => x.Sel_Price).Take(20).AsEnumerable();
-        var products = (from s in price
-            join p in product on s.ProductId equals p.Id
-            join i in images on p.Id equals i.ProductId
-            join a in article on s.ArticleCode equals a.A_Code
-            select new ProductIndexPageViewModel
+        var products = await _context.Prices.OrderByDescending(x => x.Amount)
+            .Where(x => x.Product.Images.Count > 0).Include(x => x.Discount)
+            .Skip(start).Take(count)
+            .Select(p => new ProductIndexPageViewModel
             {
-                Prices = new List<Price> { selectPrice(s, a)  },
-                Alt = i.Alt,
-                Name = p.Name,
-                Description = p.Description,
-                Id = p.Id,
-                ImagePath = $"{i.Path}/{i.Name}",
-                Stars = p.Star,
-                Url = p.Url,
+                Prices = p.Product!.Prices!,
+                Alt = p.Product.Images!.First().Alt,
+                Brand = p.Product.Brand!.Name,
+                Name = p.Product.Name,
+                Description = p.Product.Description,
+                Id = p.Product.Id,
+                ImagePath = $"{p.Product.Images!.First().Path}/{p.Product.Images!.First().Name}",
+                Stars = p.Product.Star,
+                Url = p.Product.Url,
                 TopCategory = topCategory
-            }).DistinctBy(x => x.Id).OrderByDescending(x => x.Prices.Max(p => p.Amount)).Take(count).ToList();
+            })
+            .ToListAsync(cancellationToken);
         return products;
     }
 

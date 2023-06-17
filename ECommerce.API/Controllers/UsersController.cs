@@ -32,10 +32,18 @@ public class UsersController : ControllerBase
 
 
 
-    public UsersController(IEmailRepository emailRepository, SignInManager<User> signInManager,
-        UserManager<User> userManager, SiteSettings siteSettings, IUserRepository userRepository,
-        ILogger<UsersController> logger, IHolooCustomerRepository holooCustomerRepository, IHolooSarfaslRepository holooSarfaslRepository,
-        IConfiguration configuration, IStateRepository stateRepository, ICityRepository cityRepository)
+    public UsersController(
+        IEmailRepository emailRepository,
+        SignInManager<User> signInManager,
+        UserManager<User> userManager,
+        SiteSettings siteSettings,
+        IUserRepository userRepository,
+        ILogger<UsersController> logger,
+        IHolooCustomerRepository holooCustomerRepository,
+        IHolooSarfaslRepository holooSarfaslRepository,
+        IConfiguration configuration,
+        IStateRepository stateRepository,
+        ICityRepository cityRepository)
     {
         _emailRepository = emailRepository;
         _signInManager = signInManager;

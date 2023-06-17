@@ -26,6 +26,7 @@ public class IndexModel : PageModel
         var result = await _userService.UserList(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
+            result.PaginationDetails.Address = "/Users/Index";
             Message = result.Message;
             Code = result.Code.ToString();
             Users = result;

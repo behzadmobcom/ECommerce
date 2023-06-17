@@ -65,7 +65,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
                 Code = ServiceCode.Warning,
                 Message = "لطفا ابتدا کلمات کلیدی را وارد کنید"
             };
-        if (product.Prices.Count == 0)
+        if (product.Prices?.Count == 0)
             return new ServiceResult
             {
                 Code = ServiceCode.Warning,

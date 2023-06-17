@@ -18,7 +18,7 @@ public class UserProfileModel : PageModel
     [BindProperty] public User UserInformation { get; set; }
     public List<PurchaseListViewModel> PurchaseOrders { get; set; }
     public ServiceResult<List<State>> StateList { get; set; }
-    public ServiceResult<List<City>> CityList { get; set; }
+    [BindProperty] public List<City> CityList { get; set; }
     public string Message { get; set; }
     public string Code { get; set; }
 
@@ -76,8 +76,8 @@ public class UserProfileModel : PageModel
             PurchaseOrders = resultPurchaseOrder.ReturnData;
         }
         StateList = await _stateService.Load();
-        var stateId = UserInformation.StateId ?? StateList.ReturnData.FirstOrDefault().Id;
-        CityList = await _cityService.Load(stateId);
+        var cityServiceResponse = await _cityService.LoadAllCity();
+        CityList = cityServiceResponse.ReturnData;
     }
     public IActionResult OnGetFactorPrint(long orderId)
     {

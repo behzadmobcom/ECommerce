@@ -254,9 +254,9 @@
                                             <select readonly="readonly" asp-for="@Model.UserInformation.CityId" class="form-select mt-2" id="city">
                                                 @if (Model.CityList != null)
                                                 {
-                                                    @foreach (var city in Model.CityList?.ReturnData)
+                                                    @foreach (var city in Model.CityList)
                                                     {
-                                                        <option value="@city.Id">@city.Name</option>
+                                                        <option stateId="@city.StateId" value="@city.Id">@city.Name</option>
                                                     }
                                                 }
                                             </select>
@@ -300,5 +300,9 @@
             }
         });
     }
+
+    $(document).ready(function () {
+            setCities();
+        });
 </script>
     }

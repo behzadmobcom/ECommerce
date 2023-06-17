@@ -19,9 +19,11 @@ public class Transaction : BaseEntity
     public double? PaymentId { get; set; }
 
     [Display(Name = "کد سند هلو")] public int? SanadCode { get; set; }
+    [Display(Name = "کد سند کاربر")] public int? SanadCodeCustomer { get; set; }
 
     //ForeignKey
-    public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
+    public PurchaseOrder? PurchaseOrder { get; set; }
+    public int? PurchaseOrderId { get; set; }
 
     public int? UserId { get; set; }
     public User? User { get; set; }

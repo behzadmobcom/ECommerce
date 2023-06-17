@@ -36,19 +36,18 @@ function AddWishList(id) {
 
 function setCities() {
     var stateId = $('#state').val();
-    $.ajax({
-        type: "Get",
-        url: "Register?handler=CityLoad&id=" + stateId,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            $("#city").html(result);
-        },
-        failure: function (response) {
-            alert(response);
+    var flag = true;
+    $('#city option').each(function () {
+        if ($(this).attr("stateId") == stateId) {
+            $(this).show();
+            if (flag) {
+                $("#city").val($(this).val());
+                flag = false;
+            }
+        } else {
+            $(this).hide();
         }
-    });
-
+    })
 }
 
 $(".menu_hover").mouseover(function () {

@@ -36,7 +36,7 @@
 
 <section class="inner-section checkout-part">
     <div class="container">
-          @if (Model.Message != null)
+        @if (Model.Message != null)
         {
             switch (Model.Code)
             {
@@ -76,18 +76,18 @@
                                             <div class="profile-card address active">
                                                 <h6>@sendInformation.RecipientName</h6>
                                                 <p>@sendInformation.Address</p>
-                                         
+
                                             </div>
                                         </div>
                                     }
 
                                 </div>
                             </div>
-                        }
-                      
+                        }         
                         <a class="account-link"  onclick="myFunction()">اگر آدرس شما در لیست بالا وجود ندارد، لطفا برای وارد کردن آدرس جدید اینجا کلیک کنید</a>
                       <div id="myDIV" > 
                         <input type="number" hidden="hidden"  class="form-control" asp-for="SendInformation.Id">
+
                         <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
                         <span asp-validation-for="SendInformation.RecipientName" class="mt-5" style="color: red; margin-top: 10px"></span>
                         <br />
@@ -105,7 +105,7 @@
                         <select asp-for="SendInformation.CityId" class="custom-select form-control" id="city">
                             @foreach (var city in Model.CityList)
                             {
-                                <option value="@city.Id">@city.Name</option>
+                                <option stateId="@city.StateId" value="@city.Id">@city.Name</option>
                             }
                         </select>
                         <br />
@@ -116,52 +116,52 @@
 
 
                 </div>
-	            <div class="col-lg-4">
-                    
-		            <div class="account-card mb-0">
-			            <div class="account-title">
-				            <h4>گزینه پرداخت</h4>
+                <div class="col-lg-4">
 
-			            </div>
-			            <div class="account-content">
-				            <div class="row">
-                                <input type="radio" id="sadad" checked="checked" name="Portal" width="100" value="sadad">
-						            <div class="payment active">
-							            <img src="/img/payment/sadad.webp" alt="سداد"loading="lazy">
-						            </div>                                  
-					        </div>
+                    <div class="account-card mb-0">
+                        <div class="account-title">
+                            <h4>گزینه پرداخت</h4>
+
+                        </div>
+                        <div class="account-content">
                             <div class="row">
-                                <input type="radio" id="zarinpal" checked="checked" name="Portal" width="100" value="zarinpal">              
-						            <div class="payment active">
-							            <h3>زرین پال</h3>
-						            </div>                                  
-					        </div>
-			            </div>
-		            </div>
-		            <div class="account-card">
-			            <div class="checkout-charge">
-				            <div class="account-title">
-					            <h4>خلاصه سفارش</h4>
-				            </div>
-				            <ul>
-					            <li>
-						            <span>کل </span><span>@Model.SumPrice.ToString("N0") تومان</span>
-					            </li>
-				            </ul>
-			            </div>
-			            <div class="checkout-proced">
-				            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
-			            </div>
-			            <div class="chekout-coupon">
-			            </div>
-		            </div>
-	            </div>
+                                <input type="radio" id="sadad" checked="checked" name="Portal" width="100" value="sadad">
+                                <div class="payment active">
+                                    <img src="/img/payment/sadad.webp" alt="سداد" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <input type="radio" id="zarinpal" checked="checked" name="Portal" width="100" value="zarinpal">
+                                <div class="payment active">
+                                    <h3>زرین پال</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="account-card">
+                        <div class="checkout-charge">
+                            <div class="account-title">
+                                <h4>خلاصه سفارش</h4>
+                            </div>
+                            <ul>
+                                <li>
+                                    <span>کل </span><span>@Model.SumPrice.ToString("N0") تومان</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="checkout-proced">
+                            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+                        </div>
+                        <div class="chekout-coupon">
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </section>
 @section Scripts
-{
+    {
     <script>
         function fillAddress(id) {
             var arrayOfArrays = @Html.Raw(Json.Serialize(Model.SendInformationList));
