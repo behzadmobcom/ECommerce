@@ -21,78 +21,62 @@
                     <div class="alert alert-success"> @Model.Message </div>
                     break;
             }
+
             Model.Message = null;
             Model.Code = null;
         }
+
         <p>
            <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد کاربر جدید</a>
         </p>
-           <form asp-page="/Users/Index" method="get">
-                <div class="form-actions no-color">
-                    <p>
-            جستجو بر اساس نام:
-            <input type="text" name="search" value="@Model.Users.PaginationDetails.Search" />
-            <input type="text" hidden="hidden" name="pageIndex" value="1" />
-            <input type="submit" value="بجو" class="btn btn-primary" /> |
-                        تعداد رکورد ها در صفحه :
-                        <a asp-page="/Users/Index" asp-route-pageSize="10">10</a> -
-                        <a asp-page="/Users/Index" asp-route-pageSize="20">20</a> -
-                        <a asp-page="/Users/Index" asp-route-pageSize="30">30</a> -
-                        <a asp-page="/Users/Index" asp-route-pageSize="40">40</a> -
-                        <a asp-page="/Users/Index" asp-route-pageSize="50">50</a>
-                    </p>
-                </div>
-            </form>
+
 <div class="post d-flex flex-column-fluid" id="kt_post">
     <div id="kt_content_container" class="container">
         <div class="card card-custom">
             <div class="card-body">
+                <form asp-page="/Users/Index" method="get">
                 <div class="row align-items-center">
-                    <div class="col-lg-12 col-xl-12">
+                    <div class="col-lg-10 col-xl-8">
                         <div class="row align-items-center">
-                            <div class="col-md-3 my-2 my-md-0">
-                                <div class="input-icon">
-                                           <input type="text" name="search" value="@Model.Users.PaginationDetails.Search" style="text-align:left"/>
-                                           <input type="text" hidden="hidden" name="pageIndex" value="1"/>                                          
-                                     <span>
-                                        <i class="flaticon2-search-1 text-muted"></i>
-                                    </span>
-                                </div>
-                            </div>
                             <div class="col-md-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
                                     <label class="mr-3 mb-0 d-none d-md-block">نوع:</label>
-                                    <select class="form-control" id="kt_datatable_search_status">
+                                    <select asp-for="@Model.IsCollegue" class="form-control">
                                         <option value="">همه</option>
-                                        <option value="1">همکار</option>
-                                        <option value="2">کاربر عادی</option>
-                                        <option value="3">پرسنل</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3 my-2 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <label class="mr-3 mb-0 d-none d-md-block">خرید:</label>
-                                    <select class="form-control" id="kt_datatable_search_type">
-                                        <option value="">همه</option>
-                                        <option value="1">خرید کرده</option>
-                                        <option value="2">بدون خرید</option>
+                                        <option value="true">همکار</option>
+                                        <option value="false">کاربر عادی</option>                                   
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
                                     <label class="mr-3 mb-0 d-none d-md-block">وضعیت:</label>
-                                    <select class="form-control" id="kt_datatable_search_type">
+                                    <select asp-for="@Model.IsActive" class="form-control">
                                         <option value="">همه</option>
-                                        <option value="1">فعال</option>
-                                        <option value="2">غیر فعال</option>
+                                        <option value="true">فعال</option>
+                                        <option value="false">غیر فعال</option>
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-actions no-color">
+                                <p>
+                                    جستجو بر اساس نام:
+                                    <input type="text" name="search" value="@Model.Users.PaginationDetails.Search"/>
+                                    <input type="text" hidden="hidden" name="pageIndex" value="1"/>
+                                    <input type="submit" value="بجو" class="btn btn-primary"/> |
+                                    تعداد رکورد ها در صفحه :
+                                    <a asp-page="/Users/Index" asp-route-pageSize="10">10</a> -
+                                    <a asp-page="/Users/Index" asp-route-pageSize="20">20</a> -
+                                    <a asp-page="/Users/Index" asp-route-pageSize="30">30</a> -
+                                    <a asp-page="/Users/Index" asp-route-pageSize="40">40</a> -
+                                    <a asp-page="/Users/Index" asp-route-pageSize="50">50</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
+
                 </div>
+                </form>
                 <div class="table-responsive mt-5">
                     <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
                         <thead>
@@ -119,18 +103,22 @@
                           <td>
                                 <a asp-page="Edit" asp-route-id="@user.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
                                 <a asp-page="Delete" asp-route-id="@user.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Purchases" asp-route-id="@user.Id"  class="label label-inline label-light-warning font-weight-bold">فاکتور</a>
+                                <a asp-page="Purchases" asp-route-userid="@user.Id"  class="label label-inline label-light-warning font-weight-bold">فاکتور</a>
                           </td>
                         </tr>
                                }
                         </tbody>
                     </table>
-                    <partial name="_Pagination" model="@Model.Users.PaginationDetails" />
+                      <partial name="_Pagination" model="@Model.Users.PaginationDetails"/>
                 </div>
-            </div>
-        </div>
-    </div>
+                <!--begin: جدول داده ها-->
+                @*  <div class="datatable datatable-bordered datatable-head-custom" id="kt_datatable"></div>*@
+                <!--end: جدول داده ها-->
+            </div>            
+        </div>       
+    </div>   
 </div> 
+
  @section Scripts
  {
   <script src="~/Admin/js/data-local.js"></script>
