@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "پرداخت";
 }
+<style>
+.account-link{
+    font-size:14px;
+    color: blue;
+    font-weight: 600;
+    cursor: pointer; 
+    padding:10px 0 15px 0;
+    display:block;
+}
 
+.account-link:hover{
+    color:black;
+}
+#myDIV{
+    display:none;
+    transition:all 0.4s;
+}
+</style>
 <section class="inner-section single-banner">
     <div class="container">
         <h2>پرداخت</h2>
@@ -66,9 +83,11 @@
 
                                 </div>
                             </div>
-                        }
-                        <input type="number" hidden="hidden" class="form-control" asp-for="SendInformation.Id">
-                        <p style="font-size:14px">اگر آدرس شما در لیست بالا وجود ندارد، لطفا آدرس جدید را وارد کنید</p>
+                        }         
+                        <a class="account-link"  onclick="myFunction()">اگر آدرس شما در لیست بالا وجود ندارد، لطفا برای وارد کردن آدرس جدید اینجا کلیک کنید</a>
+                      <div id="myDIV" > 
+                        <input type="number" hidden="hidden"  class="form-control" asp-for="SendInformation.Id">
+
                         <input type="text" class="form-control" asp-for="SendInformation.RecipientName" placeholder="نام تحویل گیرنده ...">
                         <span asp-validation-for="SendInformation.RecipientName" class="mt-5" style="color: red; margin-top: 10px"></span>
                         <br />
@@ -92,6 +111,7 @@
                         <br />
                         <textarea asp-for="SendInformation.Address" class="custom-textarea form-control" placeholder="آدرس شما ..."></textarea>
                         <span asp-validation-for="SendInformation.Address" class="mt-5" style="color: red; margin-top: 10px"></span>
+                       </div>
                     </div>
 
 
@@ -163,5 +183,15 @@
         $(document).ready(function () {
             setCities();
         });
+    </script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myDIV");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
     </script>
 }
