@@ -3,7 +3,6 @@
 @{
     var i = 1 + (Model.Units.PaginationDetails.CurrentPage - 1) * Model.Units.PaginationDetails.PageSize;
 }
-
 <div class="card card-custom gutter-b">
     <div class="card-header">
         <div class="card-title">
@@ -11,7 +10,6 @@
         </div>
     </div>
     <div class="card-body">
-        <!--begin::نمونه-->
         @if (Model.Message != null)
         {
             switch (Model.Code)
@@ -29,7 +27,6 @@
                     <div class="alert alert-success"> @Model.Message </div>
                     break;
             }
-
             Model.Message = null;
             Model.Code = null;
         }
@@ -83,12 +80,8 @@
                     }
                     </tbody>
                 </table>
-
                 <partial name="_Pagination" model="@Model.Units.PaginationDetails"/>
-
             </div>
-
         </div>
-        <!--end::نمونه-->
     </div>
 </div>

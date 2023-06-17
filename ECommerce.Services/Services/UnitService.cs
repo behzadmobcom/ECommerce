@@ -18,17 +18,6 @@ public class UnitService : EntityService<Unit>, IUnitService
     public async Task<ServiceResult<List<Unit>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
     {
         var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
-        //if (result.Code == ResultCode.Success)
-        //    return new ServiceResult<List<Unit>>
-        //    {
-        //        Code = ServiceCode.Success,
-        //        ReturnData = result.ReturnData
-        //    };
-        //return new ServiceResult<List<Unit>>
-        //{
-        //    Code = ServiceCode.Error,
-        //    Message = result.GetBody()
-        //};
         return Return(result);
     }
 

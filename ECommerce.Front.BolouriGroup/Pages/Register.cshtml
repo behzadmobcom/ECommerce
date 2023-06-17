@@ -93,11 +93,8 @@
                             }
                         </select>
                         <br />
-	                       <input type="tel" maxlength="11" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">                           
-                           @* <div class="form-group">                          
-                              <input type="button" style="background-color:ButtonFace" id="sendSmsButton" value="دریافت رمز یکبار مصرف" onclick="SendRegisterConfirmSms()" />
-                        </div>*@
-                         <div class="form-group">
+	                       <input type="tel" hidden="hidden" maxlength="11" id="userName" placeholder="شماره همراه 09xxxxxxxxx" dir="ltr" asp-for="RegisterViewModel.Mobile" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div hidden="hidden" class="form-group">
                             <span asp-validation-for="RegisterViewModel.ConfirmCode" style="color: red"></span>
                             <input type="text" readonly="readonly" placeholder="کد تایید پیامک شده را وارد نمایید" dir="ltr" asp-for="RegisterViewModel.ConfirmCode" class="form-control">
                         </div>

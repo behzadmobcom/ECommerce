@@ -86,7 +86,7 @@ public class PurchaseOrder : BaseEntity
     public Discount? Discount { get; set; }
 
     public int? TransactionId { get; set; }
-    public Transaction? Transaction { get; set; } = new Transaction();
+    public Transaction? Transaction { get; set; }
 }
 
 // وضعیت سفارش

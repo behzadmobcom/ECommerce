@@ -37,6 +37,22 @@
             <p>
                 <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد ارز جدید</a>
             </p>
+            <form asp-page="/Currencies/Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        جستجو بر اساس نام:
+                        <input type="text" name="search" value="@Model.Currencies.PaginationDetails.Search" />
+                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
+                        <input type="submit" value="بجو" class="btn btn-primary" /> |
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Currencies/Index" asp-route-pageSize="10">10</a> -
+                        <a asp-page="/Currencies/Index" asp-route-pageSize="20">20</a> -
+                        <a asp-page="/Currencies/Index" asp-route-pageSize="30">30</a> -
+                        <a asp-page="/Currencies/Index" asp-route-pageSize="40">40</a> -
+                        <a asp-page="/Currencies/Index" asp-route-pageSize="50">50</a>
+                    </p>
+                </div>
+            </form>
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
@@ -48,7 +64,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (var currency in Model.Currencies)
+                        @foreach (var currency in Model.Currencies.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
@@ -63,7 +79,7 @@
                     }
                     </tbody>
                 </table>
-
+                <partial name="_Pagination" model="@Model.Currencies.PaginationDetails" />
 
             </div>
 

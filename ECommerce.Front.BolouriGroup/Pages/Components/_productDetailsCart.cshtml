@@ -22,8 +22,18 @@
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
             </h6>
             <div class="feature-rating">
-                <i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="active fas fa-star"></i><i class="far fa-star"></i>
-                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(4 نظر)</a>
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <label id="starLable-@i" for="@i"
+                           @if (Model.Stars >= i)
+                           {
+                               <text> class="rankChecked" </text>
+                           }>
+                        <input type="checkbox" id="@i" class="CheckboxStar"/>
+                        <i class="fas fa-star"></i>
+                    </label>
+                }
+                <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars امتیاز)</a>
             </div>
 
             @{

@@ -77,8 +77,7 @@
                             <a href="#">@Model.Product.Name</a>
                         </h3>
                         <div class="details-meta">
-                            <p>کد محصول: <span>@Model.Product.ArticleCodeCustomer</span></p>
-                            @if (Model.Product.Brand != null)
+                            @if (Model.Product.Brand != null && string.IsNullOrEmpty(Model.Product.Brand.Name))
                             {
                                 <p><a href="#">مارک</a> تجاری: <a href="#">@Model.Product.Brand!.Name</a></p>
                             }
@@ -95,7 +94,7 @@
                                                     <i class="fas fa-star"></i>
                                                 </label>
                             }
-                            <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars)نظر</a>
+                            <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars)امتیاز</a>
                         </div>
                         @{
                             decimal? discount = 0;

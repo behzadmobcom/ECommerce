@@ -17,15 +17,42 @@ public class BlogRepository : AsyncRepository<Blog>, IBlogRepository
         _context = context;
     }
 
-    public async Task<PagedList<Blog>> Search(PaginationParameters paginationParameters,
+    public async Task<PagedList<BlogViewModel>> Search(PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        return PagedList<Blog>.ToPagedList(
+        return PagedList<BlogViewModel>.ToPagedList(
             await _context.Blogs.Where(x => x.Title.Contains(paginationParameters.Search) 
                                             && (x.BlogCategoryId==paginationParameters.CategoryId || paginationParameters.CategoryId ==0))
                 .Include(x => x.Image)
-                .Include(x=>x.Keywords).Include(x=>x.Tags).Include(x=>x.BlogAuthor).AsNoTracking()
-                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
+                .Include(x=>x.Keywords)
+                .Include(x=>x.Tags)
+                .Include(x=>x.BlogComments)
+                .Include(x=>x.BlogAuthor).AsNoTracking()
+                .OrderBy(on => on.Id)
+                .Select(x => new BlogViewModel
+                {
+                    BlogAuthor = x.BlogAuthor,
+                    BlogAuthorId = x.BlogAuthorId,
+                    BlogCategoryId = x.BlogCategoryId,
+                    CommentCount = x.BlogComments == null ? 0 : x.BlogComments.Count(),
+                    CreateDateTime = x.CreateDateTime,
+                    Dislike = x.Dislike,
+                    EditDateTime = x.EditDateTime,
+                    Id = x.Id,
+                    Url = x.Url,
+                    TagsId = x.Tags.Select(x => x.Id).ToList(),
+                    Tags = x.Tags.ToList(),
+                    Image = x.Image,
+                    Keywords =  x.Keywords.ToList(),
+                    KeywordsId = x.Keywords.Select(x => x.Id).ToList(),
+                    Like = x.Like,
+                    PublishDateTime = x.PublishDateTime,
+                    Summary = x.Summary,
+                    Text = x.Text,
+                    Title = x.Title,
+                    Visit = x.Visit
+                })
+                .ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
     }
