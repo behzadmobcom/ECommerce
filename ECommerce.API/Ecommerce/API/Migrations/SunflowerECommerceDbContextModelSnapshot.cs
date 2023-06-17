@@ -34,7 +34,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("KeywordsId");
 
-                    b.ToTable("BlogKeyword");
+                    b.ToTable("BlogKeyword", (string)null);
                 });
 
             modelBuilder.Entity("BlogTag", b =>
@@ -49,7 +49,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("BlogTag");
+                    b.ToTable("BlogTag", (string)null);
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>
@@ -64,7 +64,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Blog", b =>
@@ -123,7 +123,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("BlogCategoryId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.BlogAuthor", b =>
@@ -152,7 +152,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogAuthors");
+                    b.ToTable("BlogAuthors", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.BlogCategory", b =>
@@ -181,7 +181,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("BlogCategories");
+                    b.ToTable("BlogCategories", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.BlogComment", b =>
@@ -238,7 +238,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BlogComments");
+                    b.ToTable("BlogComments", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Brand", b =>
@@ -265,7 +265,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Category", b =>
@@ -307,7 +307,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.City", b =>
@@ -331,7 +331,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
 
                     b.HasData(
                         new
@@ -2942,7 +2942,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
 
                     b.HasData(
                         new
@@ -2970,7 +2970,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
 
                     b.HasData(
                         new
@@ -3006,7 +3006,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Discount", b =>
@@ -3052,7 +3052,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discounts");
+                    b.ToTable("Discounts", (string)null);
 
                     b.HasData(
                         new
@@ -3116,7 +3116,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserRoleId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.HolooCompany", b =>
@@ -3138,7 +3138,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HolooCompanies");
+                    b.ToTable("HolooCompanies", (string)null);
 
                     b.HasData(
                         new
@@ -3185,7 +3185,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Keyword", b =>
@@ -3203,7 +3203,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Keywords");
+                    b.ToTable("Keywords", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.LoginHistory", b =>
@@ -3233,7 +3233,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LoginHistories");
+                    b.ToTable("LoginHistories", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Message", b =>
@@ -3268,7 +3268,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.PaymentMethod", b =>
@@ -3302,7 +3302,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods");
+                    b.ToTable("PaymentMethods", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Price", b =>
@@ -3377,7 +3377,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Prices");
+                    b.ToTable("Prices", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Product", b =>
@@ -3449,7 +3449,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductAttribute", b =>
@@ -3475,7 +3475,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("AttributeGroupId");
 
-                    b.ToTable("ProductAttributes");
+                    b.ToTable("ProductAttributes", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductAttributeGroup", b =>
@@ -3493,7 +3493,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductAttributeGroups");
+                    b.ToTable("ProductAttributeGroups", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductAttributeValue", b =>
@@ -3519,7 +3519,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductAttributeValues");
+                    b.ToTable("ProductAttributeValues", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductComment", b =>
@@ -3576,7 +3576,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProductComments");
+                    b.ToTable("ProductComments", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductSellCount", b =>
@@ -3597,7 +3597,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSellCounts");
+                    b.ToTable("ProductSellCounts", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.ProductUserRank", b =>
@@ -3623,7 +3623,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProductUserRanks");
+                    b.ToTable("ProductUserRanks", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.PurchaseOrder", b =>
@@ -3733,7 +3733,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("PurchaseOrders");
+                    b.ToTable("PurchaseOrders", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.PurchaseOrderDetail", b =>
@@ -3782,7 +3782,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("PurchaseOrderId");
 
-                    b.ToTable("PurchaseOrderDetails");
+                    b.ToTable("PurchaseOrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.SendInformation", b =>
@@ -3826,7 +3826,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SendInformation");
+                    b.ToTable("SendInformation", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Setting", b =>
@@ -3848,7 +3848,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
 
                     b.HasData(
                         new
@@ -3874,7 +3874,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Shipping");
+                    b.ToTable("Shipping", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Size", b =>
@@ -3895,7 +3895,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
 
                     b.HasData(
                         new
@@ -3941,7 +3941,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("SlideShows");
+                    b.ToTable("SlideShows", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.State", b =>
@@ -3959,7 +3959,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
 
                     b.HasData(
                         new
@@ -4138,7 +4138,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stores");
+                    b.ToTable("Stores", (string)null);
 
                     b.HasData(
                         new
@@ -4189,7 +4189,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Suppliers");
+                    b.ToTable("Suppliers", (string)null);
 
                     b.HasData(
                         new
@@ -4214,7 +4214,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Transaction", b =>
@@ -4258,7 +4258,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Unit", b =>
@@ -4293,7 +4293,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("HolooCompanyId");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.User", b =>
@@ -4554,7 +4554,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("WishLists");
+                    b.ToTable("WishLists", (string)null);
                 });
 
             modelBuilder.Entity("KeywordProduct", b =>
@@ -4569,7 +4569,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("KeywordProduct");
+                    b.ToTable("KeywordProduct", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -4694,7 +4694,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("ProductProductAttributeGroup");
+                    b.ToTable("ProductProductAttributeGroup", (string)null);
                 });
 
             modelBuilder.Entity("ProductTag", b =>
@@ -4709,7 +4709,7 @@ namespace Ecommerce.API.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("ProductTag");
+                    b.ToTable("ProductTag", (string)null);
                 });
 
             modelBuilder.Entity("BlogKeyword", b =>

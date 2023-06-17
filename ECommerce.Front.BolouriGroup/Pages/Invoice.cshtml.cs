@@ -134,7 +134,8 @@ public class InvoiceModel : PageModel
                 PurchaseOrder.Transaction = new()
                 {
                     RefId = res.Result.RetrivalRefNo,
-                    Amount = amount
+                    Amount = amount,
+                    UserId = resultOrder.ReturnData.UserId
                 };
                 var resulPay = await _purchaseOrderService.Pay(PurchaseOrder);
                 Message = resulPay.Message;
