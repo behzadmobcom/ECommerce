@@ -4,13 +4,13 @@
     ViewData["Title"] = "واریزی ها";
     var i = 1 + (Model.Transactions.PaginationDetails.CurrentPage - 1) * Model.Transactions.PaginationDetails.PageSize;
 }
-div class="card card-custom gutter-b">
+<div class="card card-custom gutter-b">
 <div class="card-header">
     <div class="card-title">
         <h3 class="card-label">لیست واریزی  ها</h3>
     </div>
 </div>
-<div class="card-body">
+</div>
     @if (Model.Message != null)
     {
         switch (Model.Code)
@@ -32,11 +32,11 @@ div class="card card-custom gutter-b">
         Model.Message = null;
         Model.Code = null;
     }
-    <div class="example mb-10">
-        <p>
-            <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد تامین کننده جدید</a>
-        </p>
-        <form asp-page="/Suppliers/Index" method="get">
+<div class="post d-flex flex-column-fluid" id="kt_post">
+<div id="kt_content_container" class="container">
+<div class="card card-custom">
+    <div class="card-body">
+        <form asp-page="/Transactions/Index" method="get">
             <div class="form-actions no-color">
                 <p>
                     جستجو بر اساس نام:
@@ -44,20 +44,20 @@ div class="card card-custom gutter-b">
                     <input type="text" hidden="hidden" name="pageIndex" value="1" />
                     <input type="submit" value="بجو" class="btn btn-primary" /> |
                     تعداد رکورد ها در صفحه :
-                    <a asp-page="/Suppliers/Index" asp-route-pageSize="10">10</a> -
-                    <a asp-page="/Suppliers/Index" asp-route-pageSize="20">20</a> -
-                    <a asp-page="/Suppliers/Index" asp-route-pageSize="30">30</a> -
-                    <a asp-page="/Suppliers/Index" asp-route-pageSize="40">40</a> -
-                    <a asp-page="/Suppliers/Index" asp-route-pageSize="50">50</a>
+                    <a asp-page="/Transactions/Index" asp-route-pageSize="10">10</a> -
+                    <a asp-page="/Transactions/Index" asp-route-pageSize="20">20</a> -
+                            <a asp-page="/Transactions/Index" asp-route-pageSize="30">30</a> -
+                    <a asp-page="/Transactions/Index" asp-route-pageSize="40">40</a> -
+                            <a asp-page="/Transactions/Index" asp-route-pageSize="50">50</a>
                 </p>
             </div>
         </form>
-        <div class="example-preview">
-            <table class="table table-bordered mb-6">
+        <div class="table-responsive mt-5">
+            <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
                 <thead>
-                    <tr class="fw-bolder text-muted">
-                        <th class="w-25px">
-                            #
+                <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                        <th>
+                            ردیف
                         </th>
                         <th class="min-w-150px">تاریخ تراکنش</th>
                         <th class="min-w-140px">نام کاربری</th>
@@ -69,20 +69,20 @@ div class="card card-custom gutter-b">
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var supplier in Model.Transactions.ReturnData)
+                            @foreach (var transaction in Model.Transactions.ReturnData)
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
-                            <td>@supplier.TransactionDate</td>
-                            <td>@supplier.User?.UserName</td>
-                            <td>@supplier.Amount</td>
-                            <td>@supplier.RefId</td>
-                            <td>@supplier.PaymentId</td>
-                            <td>@supplier.SanadCodeCustomer</td>
+                                    <td>@transaction.TransactionDate</td>
+                                    <td>@transaction.User?.UserName</td>
+                                    <td>@transaction.Amount</td>
+                                    <td>@transaction.RefId</td>
+                            <td>@transaction.PaymentId</td>
+                                    <td>@transaction.SanadCodeCustomer</td>
                             <td>
-                                <a asp-page="Edit" asp-route-id="@supplier.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@supplier.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@supplier.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                        <a asp-page="Edit" asp-route-id="@transaction.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                        <a asp-page="Delete" asp-route-id="@transaction.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                        <a asp-page="Detail" asp-route-id="@transaction.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
                             </td>
                         </tr>
                     }
@@ -95,4 +95,6 @@ div class="card card-custom gutter-b">
 
     </div>
     <!--end::نمونه-->
+</div>
+</div>
 </div>
