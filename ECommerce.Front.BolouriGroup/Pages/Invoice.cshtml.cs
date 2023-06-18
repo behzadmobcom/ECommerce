@@ -65,9 +65,12 @@ public class InvoiceModel : PageModel
                     //Success
 
                     Refid = statusInt.RefId.ToString();
-                    PurchaseOrder.Transaction = new();
-                    PurchaseOrder.Transaction.RefId = Refid;
-                    PurchaseOrder.Transaction.Amount = amount;
+                    PurchaseOrder.Transaction = new()
+                    {
+                        RefId = Refid,
+                        Amount = amount,
+                        UserId = resultOrder.ReturnData.UserId
+                    };
                     var result = await _purchaseOrderService.Pay(PurchaseOrder);
                     Message = result.Message;
                     Code = result.Code.ToString();
