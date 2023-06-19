@@ -82,10 +82,10 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(nameof(Product.ProductCategories)).Include(nameof(Product.Tags)).Include(nameof(Product.Keywords))
             .Include(nameof(Product.Images)).Include(nameof(Product.AttributeValues))
             .Include(nameof(Product.AttributeGroupProducts)).FirstAsync(cancellationToken);
-        product.Name = productViewModel.Name.Trim();
+        product.Name =  productViewModel.Name.Trim();
         //product.ArticleCode = productViewModel.ArticleCode;
         //product.ArticleCodeCustomer = productViewModel.ArticleCodeCustomer;
-        product.Description = productViewModel.Description.Trim();
+        product.Description = productViewModel.Description?.Trim();
         //product.Exist = productViewModel.Exist;
         product.MinOrder = productViewModel.MinOrder;
         product.MaxOrder = productViewModel.MaxOrder;
@@ -99,7 +99,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         product.BrandId = productViewModel.BrandId != 0 ? productViewModel.BrandId : null;
         product.SupplierId = productViewModel.SupplierId;
         product.StoreId = productViewModel.StoreId;
-        product.Review = productViewModel.Review.Trim();
+        product.Review = productViewModel.Review?.Trim();
 
         foreach (var productKeyword in product.Keywords) product.Keywords.Remove(productKeyword);
         foreach (var id in productViewModel.KeywordsId)
