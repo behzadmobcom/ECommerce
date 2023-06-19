@@ -6,16 +6,16 @@ public class Blog : BaseEntity
 {
     [Display(Name = "متن مقاله")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     [Display(Name = "عنوان")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = @"حداقل 3 و حداکثر 50 کاراکتر")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     [Display(Name = "خلاصه")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public string Summary { get; set; }
+    public string? Summary { get; set; }
 
     [Display(Name = "تاریخ ایجاد")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
@@ -28,7 +28,7 @@ public class Blog : BaseEntity
     [Display(Name = "آدرس")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = @"حداقل 3 و حداکثر 50 کاراکتر")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     [Display(Name = "پسند")] public int Like { get; set; }
 
@@ -38,10 +38,10 @@ public class Blog : BaseEntity
 
     //ForeignKey
     public int BlogAuthorId { get; set; }
-    public BlogAuthor BlogAuthor { get; set; }
+    public BlogAuthor? BlogAuthor { get; set; }
 
     public int BlogCategoryId { get; set; }
-    public BlogCategory BlogCategory { get; set; }
+    public BlogCategory? BlogCategory { get; set; }
 
     public ICollection<BlogComment>? BlogComments { get; set; }
 
