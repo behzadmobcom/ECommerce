@@ -4,23 +4,34 @@
     ViewData["Title"] = "پرداخت";
 }
 <style>
-.account-link{
-    font-size:14px;
-    color: blue;
-    font-weight: 600;
-    cursor: pointer; 
-    padding:10px 0 15px 0;
-    display:block;
-}
-
-.account-link:hover{
-    color:black;
-}
+    
 #myDIV{
     display:none;
     transition:all 0.4s;
 }
+
+    .account-link {
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        padding: 14px 5px;
+        text-transform: uppercase;
+        margin: 1rem 0 2rem 0;
+        cursor: pointer;
+    }
+.btn-inline {
+    background: #0c4ca3;
+    color: white;
+}
+.btn-inline:hover {
+    background: #8493ca;
+    color: #fff;
+}
+
 </style>
+
+
 <section class="inner-section single-banner">
     <div class="container">
         <h2>پرداخت</h2>
@@ -59,7 +70,7 @@
         }
         <form method="post" asp-page-handler="OnPost">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8 col-sm-12">
 
                     <div class="account-card">
                         <div class="account-title">
@@ -84,7 +95,8 @@
                                 </div>
                             </div>
                         }         
-                        <a class="account-link"  onclick="myFunction()">اگر آدرس شما در لیست بالا وجود ندارد، لطفا برای وارد کردن آدرس جدید اینجا کلیک کنید</a>
+
+                        <a class=" btn-inline account-link"  onclick="myFunction()">اگر آدرس شما در لیست بالا وجود ندارد، لطفا برای وارد کردن آدرس جدید اینجا کلیک کنید</a>
                       <div id="myDIV" > 
                         <input type="number" hidden="hidden"  class="form-control" asp-for="SendInformation.Id">
 
