@@ -80,6 +80,7 @@ public class InvoiceModel : PageModel
                         await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToFa());
                     }
                     OrderId = PurchaseOrder.OrderId;
+                    Message = "سفارش شما با موفقیت ثبت شد";
                     return Page();
             }
         }
@@ -154,6 +155,7 @@ public class InvoiceModel : PageModel
                 }
 
                 OrderId = PurchaseOrder.OrderId;
+                Message = "سفارش شما با موفقیت ثبت شد";
                 return Page();
             }
         }

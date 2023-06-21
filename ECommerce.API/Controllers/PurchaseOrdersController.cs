@@ -85,7 +85,7 @@ public class PurchaseOrdersController : ControllerBase
             { Code = ResultCode.DatabaseError, ReturnData = false, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
         purchaseOrder.Status = status;
-        var result = await _purchaseOrderRepository.UpdateAsync(purchaseOrder,cancellationToken);
+        var result = await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
         if (result == null)
         {
             return Ok(new ApiResult
@@ -96,7 +96,7 @@ public class PurchaseOrdersController : ControllerBase
         {
             Code = ResultCode.Success,
             ReturnData = true,
-            Messages = new List<string> { "با موفقیت انجام شد" }         
+            Messages = new List<string> { "با موفقیت انجام شد" }
         });
     }
 
@@ -139,7 +139,7 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-            var result = await _purchaseOrderRepository.GetByUserAndOrderId(userId,orderId, cancellationToken);
+            var result = await _purchaseOrderRepository.GetByUserAndOrderId(userId, orderId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -217,7 +217,7 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
-            var result = await _purchaseOrderRepository.GetByUser(userId, cancellationToken);
+            var result = await _purchaseOrderRepository.GetByUser(userId, Status.New, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -348,7 +348,7 @@ public class PurchaseOrdersController : ControllerBase
             //var price = maxPrice ?? product.Prices.FirstOrDefault();
             decimal unitPrice = 0;
             var repetitivePurchaseOrder =
-                await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, cancellationToken);
+                await _purchaseOrderRepository.GetByUser(createPurchaseCommand.UserId, Status.New, cancellationToken);
 
             var repetitivePurchaseOrderDetails =
                 repetitivePurchaseOrder?.PurchaseOrderDetails?.FirstOrDefault(x =>
@@ -398,11 +398,14 @@ public class PurchaseOrdersController : ControllerBase
                 var repetitiveDetail =
                     repetitivePurchaseOrder.PurchaseOrderDetails.FirstOrDefault(x =>
                         x.ProductId == createPurchaseCommand.ProductId && x.PriceId == createPurchaseCommand.PriceId);
+                repetitivePurchaseOrder.Amount += sumPrice;
+
                 if (repetitiveDetail != null)
                 {
                     repetitiveDetail.Quantity += createPurchaseCommand.Quantity;
                     repetitiveDetail.SumPrice = repetitiveDetail.Quantity * unitPrice;
                     await _purchaseOrderDetailRepository.UpdateAsync(repetitiveDetail, cancellationToken);
+                    await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
                     return Ok(new ApiResult()
                     {
                         Code = ResultCode.Repetitive,
@@ -420,7 +423,6 @@ public class PurchaseOrdersController : ControllerBase
                     Quantity = createPurchaseCommand.Quantity,
                     SumPrice = sumPrice
                 }, cancellationToken);
-                repetitivePurchaseOrder.Amount += sumPrice;
                 await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
 
                 return Ok(new ApiResult()
@@ -469,7 +471,7 @@ public class PurchaseOrdersController : ControllerBase
         try
         {
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
-            purchaseOrder = await _purchaseOrderRepository.GetByIdAsync(cancellationToken, purchaseOrderDetails.PurchaseOrderId);
+            purchaseOrder = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById((int)purchaseOrderDetails.PurchaseOrderId, cancellationToken);
             purchaseOrderDetails.Quantity -= 1;
             if (purchaseOrderDetails.Quantity <= 0)
             {
@@ -480,13 +482,15 @@ public class PurchaseOrdersController : ControllerBase
                 purchaseOrderDetails.SumPrice = purchaseOrderDetails.Quantity * purchaseOrderDetails.UnitPrice;
                 await _purchaseOrderDetailRepository.UpdateAsync(purchaseOrderDetails, cancellationToken);
             }
-            purchaseOrder.Amount = purchaseOrder.Amount - purchaseOrderDetails.UnitPrice;
-            if (purchaseOrder.Amount <= 0)
+            purchaseOrder.Amount -= purchaseOrderDetails.UnitPrice;
+            if (purchaseOrder.Amount <= 0 || purchaseOrder.PurchaseOrderDetails == null)
             {
                 await _purchaseOrderRepository.DeleteAsync(purchaseOrder.Id, cancellationToken);
             }
             else
             {
+                purchaseOrder = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById((int)purchaseOrderDetails.PurchaseOrderId, cancellationToken);
+                purchaseOrder.Amount = purchaseOrder.PurchaseOrderDetails.Sum(x => x.SumPrice);
                 await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             }
             return Ok(new ApiResult
@@ -572,7 +576,7 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCode = sanadCode,
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
-            },cancellationToken);
+            }, cancellationToken);
 
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0009", "", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
@@ -618,7 +622,11 @@ public class PurchaseOrdersController : ControllerBase
     {
         try
         {
+            var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, id);
             await _purchaseOrderDetailRepository.DeleteAsync(id, cancellationToken);
+            var purchaseOrder = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById((int)purchaseOrderDetails.PurchaseOrderId, cancellationToken);
+            purchaseOrder.Amount = purchaseOrder.PurchaseOrderDetails.Sum(x => x.SumPrice);
+            await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success

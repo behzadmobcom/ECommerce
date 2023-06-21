@@ -161,6 +161,7 @@ function LoadCard() {
             $('#AllPrice-Value').val(result.allPrice);
         },
         failure: function (response) {
+            alert(response);
         }
     });
 }

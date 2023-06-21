@@ -9,7 +9,7 @@ public interface IPurchaseOrderRepository : IAsyncRepository<PurchaseOrder>
     Task<PagedList<PurchaseListViewModel>> Search(PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
         CancellationToken cancellationToken);
 
-    Task<PurchaseOrder?> GetByUser(int id, CancellationToken cancellationToken);
+    Task<PurchaseOrder?> GetByUser(int id, Status status, CancellationToken cancellationToken);
 
     Task<PurchaseOrder?> GetByOrderId(long id, CancellationToken cancellationToken);
 

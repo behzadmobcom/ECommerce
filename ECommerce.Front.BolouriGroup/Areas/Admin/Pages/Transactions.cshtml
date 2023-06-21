@@ -65,7 +65,7 @@
                         <th class="min-w-120px">کد رهگیری</th>
                         <th class="min-w-120px">شناسه پرداخت</th>
                         <th class="min-w-120px">شماره سند</th>
-                        <th class="min-w-100px text-end">عملیات</th>
+                      @*  <th class="min-w-100px text-end">عملیات</th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -73,17 +73,17 @@
                     {
                         <tr>
                             <th scope="row">@(i++)</th>
-                                    <td>@transaction.TransactionDate</td>
+                                    <td>@transaction.TransactionDate.ToFa()</td>
                                     <td>@transaction.User?.UserName</td>
-                                    <td>@transaction.Amount</td>
+                                    <td>@transaction.Amount.ToString("N0")</td>
                                     <td>@transaction.RefId</td>
                             <td>@transaction.PaymentId</td>
                                     <td>@transaction.SanadCodeCustomer</td>
-                            <td>
-                                        <a asp-page="Edit" asp-route-id="@transaction.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                          @*  <td>
+                                        <a asp-page="Edit" asp-route-id="@transaction.Id" class="label label-inline label-light-success font-weight-bold" style="padding:1px">ویرایش</a>
                                         <a asp-page="Delete" asp-route-id="@transaction.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
                                         <a asp-page="Detail" asp-route-id="@transaction.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                            </td>
+                            </td>*@
                         </tr>
                     }
                 </tbody>

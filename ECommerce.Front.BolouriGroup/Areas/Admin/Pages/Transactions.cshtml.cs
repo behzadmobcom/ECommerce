@@ -20,8 +20,9 @@ public class TransactionsModel : PageModel
 
     public ServiceResult<List<Transaction>> Transactions { get; set; }
 
-    public async Task OnGet()
+    public async Task OnGet(string search = "", int pageNumber = 1, int pageSize = 10,
+        string message = null, string code = null)
     {
-        Transactions = await TransactionService.Load();
+        Transactions = await TransactionService.Load(search, pageNumber, pageSize);
     }
 }
