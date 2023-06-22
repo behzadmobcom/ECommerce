@@ -10,6 +10,10 @@
        asp-route-pageNumber="@(Model.CurrentPage - 1)"
        asp-route-search="@(Model.Search)"
        asp-route-pageSize="@Model.PageSize"
+       asp-route-minprice="@Model.MinPrice"
+       asp-route-maxprice="@Model.MaxPrice"
+       asp-route-isExist="@Model.isExist"
+       asp-route-ProductSort="@Model.ProductSort"
        class="page-link p-2">
         قبلی
     </a>
@@ -24,6 +28,10 @@
                asp-route-pageNumber="@pageIndex"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link @activePage">
                 @pageIndex
             </a>
@@ -42,6 +50,10 @@ else
                    asp-route-pageNumber="@pageIndex"
                    asp-route-search="@Model.Search"
                    asp-route-pageSize="@Model.PageSize"
+                   asp-route-minprice="@Model.MinPrice"
+                   asp-route-maxprice="@Model.MaxPrice"
+                   asp-route-isExist="@Model.isExist"
+                   asp-route-ProductSort="@Model.ProductSort"
                    class="page-link @activePage">
                     @pageIndex
                 </a>
@@ -56,6 +68,10 @@ else
                    asp-route-pageNumber="@pageIndex"
                    asp-route-search="@Model.Search"
                    asp-route-pageSize="@Model.PageSize"
+                   asp-route-minprice="@Model.MinPrice"
+                   asp-route-maxprice="@Model.MaxPrice"
+                   asp-route-isExist="@Model.isExist"
+                   asp-route-ProductSort="@Model.ProductSort"
                    class="page-link @activePage">
                     @pageIndex
                 </a>
@@ -71,6 +87,10 @@ else
                asp-route-pageNumber="1"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 1
             </a>
@@ -82,6 +102,10 @@ else
                asp-route-pageNumber="@previousPage"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @previousPage
             </a>
@@ -91,6 +115,10 @@ else
                asp-route-pageNumber="Model.CurrentPage"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link active disabled">
                 @Model.CurrentPage
             </a>
@@ -100,6 +128,10 @@ else
                asp-route-pageNumber="@nextPage"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @nextPage
             </a>
@@ -110,6 +142,10 @@ else
                asp-route-pageNumber="@Model.TotalPages"
                asp-route-search="@Model.Search"
                asp-route-pageSize="@Model.PageSize"
+               asp-route-minprice="@Model.MinPrice"
+               asp-route-maxprice="@Model.MaxPrice"
+               asp-route-isExist="@Model.isExist"
+               asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @Model.TotalPages
             </a>
@@ -121,6 +157,10 @@ else
        asp-route-pageNumber="@(Model.CurrentPage + 1)"
        asp-route-search="@(Model.Search)"
        asp-route-pageSize="@Model.PageSize"
+       asp-route-minprice="@Model.MinPrice"
+       asp-route-maxprice="@Model.MaxPrice"
+       asp-route-isExist="@Model.isExist"
+       asp-route-ProductSort="@Model.ProductSort"
        class="page-link p-2">
         بعدی
     </a>
