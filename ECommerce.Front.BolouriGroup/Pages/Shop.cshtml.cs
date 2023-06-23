@@ -32,11 +32,12 @@ public class ShopModel : PageModel
     [BindProperty] public int Max { get; set; }
     [BindProperty] public bool IsExist { get; set; }
     [BindProperty] public int ProductSort { get; set; }
+    [BindProperty] public string? Search { get; set; }
 
     public async Task OnGet(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
         string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isExist = false)
     {
-        string tempSearch = search;
+        Search = search;
         ProductSort = productSort;
         string[]? resultPath = path?.Split('=');
         IsExist = isExist;
@@ -61,8 +62,8 @@ public class ShopModel : PageModel
         {
             search = $"Name={search}";
         }
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsExist, isWithoutBill: true, tagText: tagText );
-        
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsExist, isWithoutBill: true, tagText: tagText);
+
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
 
@@ -70,10 +71,6 @@ public class ShopModel : PageModel
         Products.PaginationDetails.MinPrice = minprice;
         Products.PaginationDetails.MaxPrice = maxprice;
         Products.PaginationDetails.ProductSort = productSort;
-        Products.PaginationDetails.Search = tempSearch;
-
+        Products.PaginationDetails.Search = search;
     }
-
-
-
 }
