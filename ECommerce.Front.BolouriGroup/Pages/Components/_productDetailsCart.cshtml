@@ -90,7 +90,7 @@
                 description += "...";
             }
             <p class="feature-desc">@Html.Raw(description)</p>
-            <a class="product-add" asp-area="" asp-page="/Productdetails" title="افزودن به سبد خرید">
+            <a href="javascript:void(0)" onclick="AddCart(@Model.Id,@singlePrice?.Id)" class="product-add" title="افزودن به سبد خرید">
                 <i class="far fa-shopping-cart"></i>
             </a>
         </div>
