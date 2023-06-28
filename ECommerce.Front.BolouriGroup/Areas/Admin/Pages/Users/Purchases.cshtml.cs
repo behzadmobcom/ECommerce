@@ -16,12 +16,13 @@ public class PurchaseModel : PageModel
     {
         _purchaseOrderService = purchaseOrderService;
         _userService = userService;
-    }
-    [BindProperty] public ServiceResult<List<PurchaseListViewModel>> PurchaseOrders { get; set; }
+    }    
+    [BindProperty] public ServiceResult<List<PurchaseListViewModel>> PurchaseOrders { get; set; } = new ServiceResult<List<PurchaseListViewModel>>();
     [BindProperty] public decimal? MaximumAmount { get; set; } = null;
     [BindProperty] public decimal? MinimumAmount { get; set; } = null;
     [BindProperty] public int? IsPaid { get; set; } = null;
     [BindProperty] public string Username { get; set; } = "";
+    [BindProperty] public int UserId { get; set; }
     [BindProperty] public Status? Status { get; set; } = null;
     [BindProperty] public PurchaseSort PurchaseSort { get; set; } = PurchaseSort.HighToLowDateBuying;
 
@@ -36,8 +37,7 @@ public class PurchaseModel : PageModel
     {
         Message = message;
         Code = code;
-        Username = userName;
-      /*  Users = await _userService.UserList(pageSize: 200); */ // It should be corrected in the next task 
+        /*  Users = await _userService.UserList(pageSize: 200); */ // It should be corrected in the next task 
         var result = await _purchaseOrderService.PurchaseList(userId: userId, search:userName, pageNumber, pageSize, 
                                                 isPaied: isPaid, maximumAmount:maximumAmount, minimumAmount:minimumAmount, statusId:(int)status, purchaseSort:(int)purchaseSort );
         if (result.Code == ServiceCode.Success)
@@ -45,12 +45,21 @@ public class PurchaseModel : PageModel
             Message = result.Message;
             Code = result.Code.ToString();
             PurchaseOrders = result;
+            PurchaseOrders.PaginationDetails.UserId = userId;
+            PurchaseOrders.PaginationDetails.Username = userName;
+            PurchaseOrders.PaginationDetails.Search = search;
+            PurchaseOrders.PaginationDetails.IsPaid = isPaid;
+            PurchaseOrders.PaginationDetails.MinPrice = minimumAmount;
+            PurchaseOrders.PaginationDetails.MaxPrice = maximumAmount;
+            PurchaseOrders.PaginationDetails.Status = status;
+            PurchaseOrders.PaginationDetails.PurchaseSort = purchaseSort;
+            PurchaseOrders.PaginationDetails.PageSize = pageSize;
             return Page();
         }
 
         return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
-    public async Task<IActionResult> OnPost(string Username, bool? IsPaid, decimal? MinimumAmount, decimal? MaximumAmount, PurchaseSort PurchaseSort, Status Status)
+    public async Task<IActionResult> OnPost(ServiceResult<List<PurchaseListViewModel>> PurchaseOrders)
     {
         try
         {
@@ -58,13 +67,14 @@ public class PurchaseModel : PageModel
                     new
                     {
                         area = "Admin",
-                        isPaid = IsPaid,
-                        minimumAmount = MinimumAmount,
-                        maximumAmount = MaximumAmount,
-                        status = Status,
-                        purchaseSort = PurchaseSort,
-                        userName = Username,
-                        pageSize = 10
+                        isPaid = PurchaseOrders.PaginationDetails.IsPaid,
+                        minimumAmount = PurchaseOrders.PaginationDetails.MinPrice,
+                        maximumAmount = PurchaseOrders.PaginationDetails.MaxPrice,
+                        status = PurchaseOrders.PaginationDetails.Status,
+                        purchaseSort = PurchaseOrders.PaginationDetails.PurchaseSort,
+                        userName = PurchaseOrders.PaginationDetails.Username,
+                        userId = PurchaseOrders.PaginationDetails.UserId,
+                        pageSize = PurchaseOrders.PaginationDetails.PageSize
                     }) ;
         }
         catch (Exception ex)

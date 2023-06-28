@@ -25,8 +25,13 @@ public class PaginationDetails
     public bool HasPrevious { get; set; }
     public bool HasNext { get; set; }
     public string? Address { get; set; }
-    public int MinPrice { get; set; }
-    public int MaxPrice { get; set; }
+    public decimal? MinPrice { get; set; }
+    public decimal? MaxPrice { get; set; }
     public bool isExist { get; set; }
     public int ProductSort { get; set; }
+    public bool? IsPaid { get; set; }
+    public string Username { get; set; }
+    public int UserId { get; set; }
+    public Status Status { get; set; }
+    public PurchaseSort PurchaseSort { get; set; }
 }

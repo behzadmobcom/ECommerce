@@ -9,6 +9,13 @@
    asp-route-pageNumber="@(Model.CurrentPage - 1)"
    asp-route-search="@(Model.Search)"
    asp-route-pageSize="@Model.PageSize"
+   asp-route-userId="@Model.UserId"
+   asp-route-userName="@Model.Username"
+   asp-route-isPaid="@Model.IsPaid"
+   asp-route-minimumAmount="@Model.MinPrice"
+   asp-route-maximumAmount="@Model.MaxPrice"
+   asp-route-status="@Model.Status"
+   asp-route-purchaseSort="@Model.ProductSort"
    class="btn btn-primary @prevDisabled">
     قبلی
 </a>
@@ -21,6 +28,13 @@
            asp-route-pageNumber="@pageIndex"
            asp-route-search="@Model.Search"
            asp-route-pageSize="@Model.PageSize"
+           asp-route-userId="@Model.UserId"
+           asp-route-userName="@Model.Username"
+           asp-route-isPaid="@Model.IsPaid"
+           asp-route-minimumAmount="@Model.MinPrice"
+           asp-route-maximumAmount="@Model.MaxPrice"
+           asp-route-status="@Model.Status"
+           asp-route-purchaseSort="@Model.ProductSort"
            class="btn @activePage">
             @pageIndex
         </a>
@@ -35,6 +49,13 @@ else
            asp-route-pageNumber="@pageIndex"
            asp-route-search="@Model.Search"
            asp-route-pageSize="@Model.PageSize"
+           asp-route-userId="@Model.UserId"
+           asp-route-userName="@Model.Username"
+           asp-route-isPaid="@Model.IsPaid"
+           asp-route-minimumAmount="@Model.MinPrice"
+           asp-route-maximumAmount="@Model.MaxPrice"
+           asp-route-status="@Model.Status"
+           asp-route-purchaseSort="@Model.ProductSort"
            class="btn @activePage">
             @pageIndex
         </a>
@@ -47,15 +68,29 @@ else
            asp-route-pageNumber="@pageIndex"
            asp-route-search="@Model.Search"
            asp-route-pageSize="@Model.PageSize"
+           asp-route-userId="@Model.UserId"
+           asp-route-userName="@Model.Username"
+           asp-route-isPaid="@Model.IsPaid"
+           asp-route-minimumAmount="@Model.MinPrice"
+           asp-route-maximumAmount="@Model.MaxPrice"
+           asp-route-status="@Model.Status"
+           asp-route-purchaseSort="@Model.ProductSort"
            class="btn @activePage">
             @pageIndex
         </a>
     }
 }
-<a asp-page="@Model.Address"
-   asp-route-pageNumber="@(Model.CurrentPage + 1)"
-   asp-route-search="@(Model.Search)"
-   asp-route-pageSize="@Model.PageSize"
+    <a asp-page="@Model.Address"
+        asp-route-pageNumber="@(Model.CurrentPage + 1)"
+        asp-route-search="@(Model.Search)"
+        asp-route-pageSize="@Model.PageSize"
+        asp-route-userId="@Model.UserId"
+        asp-route-userName="@Model.Username"
+        asp-route-isPaid="@Model.IsPaid"
+        asp-route-minimumAmount="@Model.MinPrice"
+        asp-route-maximumAmount="@Model.MaxPrice"
+        asp-route-status="@Model.Status"
+        asp-route-purchaseSort="@Model.ProductSort"
    class="btn btn-primary @nextDisabled">
     بعدی
-</a>
+    </a>
