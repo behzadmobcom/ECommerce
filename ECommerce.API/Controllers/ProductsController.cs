@@ -52,22 +52,22 @@ public class ProductsController : ControllerBase
         var aCodeCs = new List<string>();
         foreach (var price in prices)
         {
-            Parallel.ForEach(price, aCode =>
-            //foreach (var aCode in price)
+            //Parallel.ForEach(price, aCode =>
+            foreach (var aCode in price)
             {
                 aCodeCs.Add(aCode.ArticleCodeCustomer);
-            });
+            };
         }
         var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
 
         products = products.Where(x => x.Prices.Any(p => p.ArticleCode != null)).ToList();
         List<T> newProducts = new();
-        Parallel.ForEach(products, product =>
-        //foreach (var product in products)
+        //Parallel.ForEach(products, product =>
+        foreach (var product in products)
         {
             List<Price> tempPriceList = new();
-            //foreach (var productPrices in product.Prices)
-            Parallel.ForEach(product.Prices, productPrices =>
+            foreach (var productPrices in product.Prices)
+                //Parallel.ForEach(product.Prices, productPrices =>
             {
                 if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
                 {
@@ -144,13 +144,12 @@ public class ProductsController : ControllerBase
                     }
                 }
 
-            });
+            };
 
             product.Prices.RemoveAll(x => tempPriceList.Contains(x));
             if (product.Prices.Count != 0) newProducts.Add(product);
 
-
-        });
+        };
 
         return newProducts;
     }
