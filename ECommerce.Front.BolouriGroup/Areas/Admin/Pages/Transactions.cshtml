@@ -5,96 +5,194 @@
     var i = 1 + (Model.Transactions.PaginationDetails.CurrentPage - 1) * Model.Transactions.PaginationDetails.PageSize;
 }
 <div class="card card-custom gutter-b">
-<div class="card-header">
-    <div class="card-title">
-        <h3 class="card-label">لیست واریزی  ها</h3>
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست واریزی  ها</h3>
+        </div>
     </div>
 </div>
-</div>
-    @if (Model.Message != null)
+@if (Model.Message != null)
+{
+    switch (Model.Code)
     {
-        switch (Model.Code)
-        {
-            case "Error":
-                <div class="alert alert-danger"> @Model.Message </div>
-                break;
-            case "Warning":
-                <div class="alert alert-warning"> @Model.Message </div>
-                break;
-            case "Info":
-                <div class="alert alert-info"> @Model.Message </div>
-                break;
-            default:
-                <div class="alert alert-success"> @Model.Message </div>
-                break;
-        }
-
-        Model.Message = null;
-        Model.Code = null;
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
     }
+
+    Model.Message = null;
+    Model.Code = null;
+}
 <div class="post d-flex flex-column-fluid" id="kt_post">
-<div id="kt_content_container" class="container">
-<div class="card card-custom">
-    <div class="card-body">
-        <form asp-page="/Transactions/Index" method="get">
-            <div class="form-actions no-color">
-                <p>
-                    جستجو بر اساس نام:
-                    <input type="text" name="search" value="@Model.Transactions.PaginationDetails.Search" />
-                    <input type="text" hidden="hidden" name="pageIndex" value="1" />
-                    <input type="submit" value="بجو" class="btn btn-primary" /> |
-                    تعداد رکورد ها در صفحه :
-                    <a asp-page="/Transactions/Index" asp-route-pageSize="10">10</a> -
-                    <a asp-page="/Transactions/Index" asp-route-pageSize="20">20</a> -
+    <div id="kt_content_container" class="container">
+        <div class="card card-custom">
+            <div class="card-body">
+                <form class="form" method="post" asp-page-handler="OnPost" >
+                    <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">از مبلغ:</label>
+                            <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.Transactions.PaginationDetails.MinPrice" class="form-control" />                                
+                        </div>
+                    </div> 
+                     <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-3 mb-0 d-none d-md-block">تا مبلغ:</label>
+                            <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.Transactions.PaginationDetails.MaxPrice" class="form-control" />                                
+                        </div>
+                    </div> 
+                    <div class="col-md-3 my-2 my-md-0">
+                        <div class="d-flex align-items-center">                            
+                          <div class="dropdown">
+                             <label class="mr-3 mb-0 d-none d-md-block">کاربر:</label>
+                              <input autocomplete="off" asp-for="@Model.Transactions.PaginationDetails.Username" id="Username" class="form-control" type="text" placeholder="جستجو کاربران..." onkeyup="filterFunction()" />
+                              <div id="userDropdown" class="dropdown-content">                                  
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                     <div class="col-md-4 my-2">
+                        <div class="d-flex align-items-center">
+                        <label class="mr-3 d-none d-md-block" style="width: 25%"> مرتب سازی بر اساس:</label>
+                            <select asp-for="@Model.Transactions.PaginationDetails.PurchaseSort" class="form-control">
+                                <option value="7">جدید ترین</option>
+                                <option value="6">قدیمی ترین</option>                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions no-color">
+                        <p>
+                            @*جستجو بر اساس نام:
+                            <input type="text" name="search" value="@Model.Transactions.PaginationDetails.Search" />*@
+                            <input type="text" hidden="hidden" name="pageIndex" value="1" />
+                            <input type="submit" value="بجو" class="btn btn-primary" /> |
+                            تعداد رکورد ها در صفحه :
+                            <a asp-page="/Transactions/Index" asp-route-pageSize="10">10</a> -
+                            <a asp-page="/Transactions/Index" asp-route-pageSize="20">20</a> -
                             <a asp-page="/Transactions/Index" asp-route-pageSize="30">30</a> -
-                    <a asp-page="/Transactions/Index" asp-route-pageSize="40">40</a> -
+                            <a asp-page="/Transactions/Index" asp-route-pageSize="40">40</a> -
                             <a asp-page="/Transactions/Index" asp-route-pageSize="50">50</a>
-                </p>
-            </div>
-        </form>
-        <div class="table-responsive mt-5">
-            <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
-                <thead>
-                <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
-                        <th>
-                            ردیف
-                        </th>
-                        <th class="min-w-150px">تاریخ تراکنش</th>
-                        <th class="min-w-140px">نام کاربری</th>
-                        <th class="min-w-120px">پرداخت شده</th>
-                        <th class="min-w-120px">کد رهگیری</th>
-                        <th class="min-w-120px">شناسه پرداخت</th>
-                        <th class="min-w-120px">شماره سند</th>
-                      @*  <th class="min-w-100px text-end">عملیات</th>*@
-                    </tr>
-                </thead>
-                <tbody>
+                        </p>
+                    </div>
+                </form>
+                <div class="table-responsive mt-5">
+                    <table class="table table-hover table-rounded table-striped border gy-7 gs-7">
+                        <thead>
+                            <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                                <th>
+                                    ردیف
+                                </th>
+                                <th class="min-w-150px">تاریخ تراکنش</th>
+                                <th class="min-w-140px">نام کاربری</th>
+                                <th class="min-w-120px">مبلغ</th>
+                                <th class="min-w-120px">کد رهگیری</th>
+                                <th class="min-w-120px">شناسه پرداخت</th>
+                                <th class="min-w-120px">شماره سند</th>
+                                @*  <th class="min-w-100px text-end">عملیات</th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var transaction in Model.Transactions.ReturnData)
-                    {
-                        <tr>
-                            <th scope="row">@(i++)</th>
+                            {
+                                <tr>
+                                    <th scope="row">@(i++)</th>
                                     <td>@transaction.TransactionDate.ToFa()</td>
                                     <td>@transaction.User?.UserName</td>
                                     <td>@transaction.Amount.ToString("N0")</td>
                                     <td>@transaction.RefId</td>
-                            <td>@transaction.PaymentId</td>
+                                    <td>@transaction.PaymentId</td>
                                     <td>@transaction.SanadCodeCustomer</td>
-                          @*  <td>
+                                    @*  <td>
                                         <a asp-page="Edit" asp-route-id="@transaction.Id" class="label label-inline label-light-success font-weight-bold" style="padding:1px">ویرایش</a>
                                         <a asp-page="Delete" asp-route-id="@transaction.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
                                         <a asp-page="Detail" asp-route-id="@transaction.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                            </td>*@
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <partial name="_Pagination" model="@Model.Transactions.PaginationDetails" />
+                                        </td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <partial name="_Pagination" model="@Model.Transactions.PaginationDetails" />
 
 
+                </div>
+
+            </div>
+            <!--end::نمونه-->
         </div>
-
     </div>
-    <!--end::نمونه-->
 </div>
-</div>
-</div>
+
+
+<script>
+function selectElement(element) {
+    document.getElementById("Username").value = element.innerHTML;
+    userDropdownDisply("none");
+}
+function userDropdownDisply(para) {
+    document.getElementById("userDropdown").style.display = para
+}
+function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("Username");
+    if (input.value.length < 3) { userDropdownDisply("none"); }
+    if (input.value.length >= 3) {
+        $.ajax({
+            type: "Get",
+            url: "/Admin/Users/Purchases?handler=UserListBySearch&search=" + input.value,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var userDropdownHtml = "";
+                result.forEach(function (currentElement, index, array) {
+                    userDropdownHtml = userDropdownHtml + " <a onclick='selectElement(this)'>" + currentElement + "</a> "
+                });
+                document.getElementById("userDropdown").innerHTML = userDropdownHtml;
+                userDropdownDisply("block")
+            }
+        });
+    }
+    filter = input.value.toUpperCase();
+    div = document.getElementById("userDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+<style>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+</style>

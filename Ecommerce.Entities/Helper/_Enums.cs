@@ -38,6 +38,16 @@ public enum PurchaseSort : byte
     HighToLowDateBuying = 7,
 }
 
+public enum TransactionSort : byte
+{
+    New = 1,
+    LowToHighPiceBuying = 2,
+    HighToLowPriceBuying = 3,
+    LowToHighCountBuying = 4,
+    HighToLowCountBuying = 5,
+    LowToHighDateBuying = 6,
+    HighToLowDateBuying = 7,
+}
 public enum Grade : byte
 {
     ندارد = 1,
