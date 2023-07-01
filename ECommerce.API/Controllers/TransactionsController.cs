@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,13 +50,13 @@ namespace ECommerce.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Client,Admin,SuperAdmin")]
-       public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
+       public async Task<IActionResult> Get([FromQuery] TransactionFiltreViewModel transactionFiltreViewModel,
            CancellationToken cancellationToken)
        {
            try
            {
-               if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
-               var entity = await _transactionRepository.Search(paginationParameters, cancellationToken);
+               if (string.IsNullOrEmpty(transactionFiltreViewModel.PaginationParameters.Search)) transactionFiltreViewModel.PaginationParameters.Search = "";
+               var entity = await _transactionRepository.Search(transactionFiltreViewModel, cancellationToken);
                var paginationDetails = new PaginationDetails
                {
                    TotalCount = entity.TotalCount,
@@ -64,7 +65,7 @@ namespace ECommerce.API.Controllers
                    TotalPages = entity.TotalPages,
                    HasNext = entity.HasNext,
                    HasPrevious = entity.HasPrevious,
-                   Search = paginationParameters.Search
+                   Search = transactionFiltreViewModel.PaginationParameters.Search
                };
 
                return Ok(new ApiResult

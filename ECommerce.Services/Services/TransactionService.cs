@@ -14,9 +14,19 @@ public class TransactionService : EntityService<Transaction>, ITransactionServic
         _http = http;
     }
 
-    public async Task<ServiceResult<List<Transaction>>> Load(string search = "", int pageNumber = 0, int pageSize = 10)
+    public async Task<ServiceResult<List<Transaction>>> Load(int userId = 0, string userName = "", string search = "", int pageNumber = 1, int pageSize = 10,
+    string message = null, string code = null , decimal? minimumAmount = null, decimal? maximumAmount = null,
+    Status status = Ecommerce.Entities.Status.New, PurchaseSort purchaseSort = PurchaseSort.HighToLowDateBuying)
     {
-        var result = await ReadList(Url, $"Get?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        var command = "Get?" +
+                         $"PaginationParameters.PageNumber={pageNumber}&" +
+                         $"PaginationParameters.PageSize={pageSize}&";
+        if (!string.IsNullOrEmpty(search)) command += $"PaginationParameters.Search={search}&";
+        if (userId > 0) command += $"UserId={userId}&";
+        if (minimumAmount != null) command += $"MinimumAmount={minimumAmount}&";
+        if (maximumAmount != null) command += $"MaximumAmount={maximumAmount}&";
+        command += $"PurchaseSort={purchaseSort}";
+        var result = await ReadList(Url, command);
         return Return(result);
     }
 
