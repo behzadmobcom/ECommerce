@@ -30,17 +30,17 @@ public class ShopModel : PageModel
     public Dictionary<int, string> Brands { get; set; }
     [BindProperty] public int Min { get; set; }
     [BindProperty] public int Max { get; set; }
-    [BindProperty] public bool IsExist { get; set; }
+    [BindProperty] public bool IsCheckExist { get; set; }
     [BindProperty] public int ProductSort { get; set; }
     [BindProperty] public string? Search { get; set; }
 
     public async Task OnGet(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
-        string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isExist = false)
+        string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isCheckExist = false)
     {
         Search = search;
         ProductSort = productSort;
         string[]? resultPath = path?.Split('=');
-        IsExist = isExist;
+        IsCheckExist = isCheckExist;
         Min = minprice == 0 ? 100000 : minprice;
         Max = maxprice == 0 ? 200000000 : maxprice;
         if (resultPath != null && resultPath.Length > 0)
@@ -62,12 +62,12 @@ public class ShopModel : PageModel
         {
             search = $"Name={search}";
         }
-        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsExist, isWithoutBill: true, tagText: tagText);
+        Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
 
         var brandResult = await _brandService.LoadDictionary();
         if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
 
-        Products.PaginationDetails.isExist = isExist;
+        Products.PaginationDetails.isCheckExist = isCheckExist;
         Products.PaginationDetails.MinPrice = minprice;
         Products.PaginationDetails.MaxPrice = maxprice;
         Products.PaginationDetails.ProductSort = productSort;

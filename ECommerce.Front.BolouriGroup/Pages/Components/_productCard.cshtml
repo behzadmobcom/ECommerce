@@ -12,7 +12,7 @@
            @* <button class="product-wish wish">
                 <i class="far fa-heart"></i>
             </button>*@
-            <a class="product-wish wish" href="javascript:void(0)" onclick="AddWishList(@Model.Id)" title="افزودن به لیست علاقه مندی ها ">
+            <a class="product-wish wish" href="javascript:void(0)" onclick="AddWishList(@singlePrice?.Id)" title="افزودن به لیست علاقه مندی ها ">
                 <i class="far fa-heart"></i>
             </a>
             <a class="product-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">

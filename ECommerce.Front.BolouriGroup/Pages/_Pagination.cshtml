@@ -12,7 +12,7 @@
        asp-route-pageSize="@Model.PageSize"
        asp-route-minprice="@Model.MinPrice"
        asp-route-maxprice="@Model.MaxPrice"
-       asp-route-isExist="@Model.isExist"
+       asp-route-isCheckExist="@Model.isCheckExist"
        asp-route-ProductSort="@Model.ProductSort"
        class="page-link p-2">
         قبلی
@@ -30,7 +30,7 @@
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link @activePage">
                 @pageIndex
@@ -52,7 +52,7 @@ else
                    asp-route-pageSize="@Model.PageSize"
                    asp-route-minprice="@Model.MinPrice"
                    asp-route-maxprice="@Model.MaxPrice"
-                   asp-route-isExist="@Model.isExist"
+                   asp-route-isCheckExist="@Model.isCheckExist"
                    asp-route-ProductSort="@Model.ProductSort"
                    class="page-link @activePage">
                     @pageIndex
@@ -70,7 +70,7 @@ else
                    asp-route-pageSize="@Model.PageSize"
                    asp-route-minprice="@Model.MinPrice"
                    asp-route-maxprice="@Model.MaxPrice"
-                   asp-route-isExist="@Model.isExist"
+                   asp-route-isCheckExist="@Model.isCheckExist"
                    asp-route-ProductSort="@Model.ProductSort"
                    class="page-link @activePage">
                     @pageIndex
@@ -89,7 +89,7 @@ else
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 1
@@ -104,7 +104,7 @@ else
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @previousPage
@@ -117,7 +117,7 @@ else
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link active disabled">
                 @Model.CurrentPage
@@ -130,7 +130,7 @@ else
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @nextPage
@@ -144,7 +144,7 @@ else
                asp-route-pageSize="@Model.PageSize"
                asp-route-minprice="@Model.MinPrice"
                asp-route-maxprice="@Model.MaxPrice"
-               asp-route-isExist="@Model.isExist"
+               asp-route-isCheckExist="@Model.isCheckExist"
                asp-route-ProductSort="@Model.ProductSort"
                class="page-link">
                 @Model.TotalPages
@@ -159,7 +159,7 @@ else
        asp-route-pageSize="@Model.PageSize"
        asp-route-minprice="@Model.MinPrice"
        asp-route-maxprice="@Model.MaxPrice"
-       asp-route-isExist="@Model.isExist"
+       asp-route-isCheckExist="@Model.isCheckExist"
        asp-route-ProductSort="@Model.ProductSort"
        class="page-link p-2">
         بعدی

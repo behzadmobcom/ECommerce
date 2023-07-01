@@ -13,11 +13,16 @@ public class WishListsController : ControllerBase
 {
     private readonly ILogger<WishListsController> _logger;
     private readonly IWishListRepository _wishListRepository;
+    private readonly IHolooArticleRepository _articleRepository;
 
-    public WishListsController(IWishListRepository wishListRepository, ILogger<WishListsController> logger)
+    public WishListsController(
+        IWishListRepository wishListRepository,
+        ILogger<WishListsController> logger,
+        IHolooArticleRepository articleRepository)
     {
         _wishListRepository = wishListRepository;
         _logger = logger;
+        _articleRepository = articleRepository;
     }
 
     [HttpGet]
@@ -26,7 +31,20 @@ public class WishListsController : ControllerBase
         try
         {
             var result = await _wishListRepository.GetByIdWithInclude(id, cancellationToken);
-
+            var prices = result.Select(x => x.Price).ToList();
+            var aCodeCs = prices.Select(x => x.ArticleCodeCustomer).ToList();
+            var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
+            foreach (var wishListViewModel in result)
+            {
+                
+                var holooPrices = await _articleRepository.AddPrice(
+                    new List<Price>{ wishListViewModel.Price },
+                    holooArticle,
+                    true,
+                    false,
+                    cancellationToken);
+            }
+          
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
@@ -52,7 +70,7 @@ public class WishListsController : ControllerBase
                 });
 
             var repetitiveWishList =
-                await _wishListRepository.GetByProductUser(wishList.ProductId, wishList.UserId, cancellationToken);
+                await _wishListRepository.GetByProductUser(wishList.PriceId, wishList.UserId, cancellationToken);
             if (repetitiveWishList != null)
                 return Ok(new ApiResult
                 {

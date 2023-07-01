@@ -319,6 +319,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .FirstOrDefaultAsync(cancellationToken);
 
     }
+
     #region Tops
 
     public async Task<List<ProductIndexPageViewModel>> TopNew(int count, int start, string? topCategory, CancellationToken cancellationToken)

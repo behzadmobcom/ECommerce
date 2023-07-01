@@ -236,7 +236,7 @@ public class ProductListFilteredViewModel
     public PaginationParameters PaginationParameters { get; set; }
     public long StartPrice { get; set; }
     public long EndPrice { get; set; }
-    public bool? IsExist { get; set; }
+    public bool? isCheckExist { get; set; }
     public bool isWithoutBill { get; set; }
     public ProductSort ProductSort { get; set; }
     public List<int>? BrandsId { get; set; }

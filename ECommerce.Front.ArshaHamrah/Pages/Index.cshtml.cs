@@ -58,7 +58,7 @@ public class IndexModel : PageModel
             }
         }
         NewTop8Products = NewProducts.Take(8).ToList();
-        ExpensiveProducts = (await _productService.TopProducts("","",0,3,4, isExist: true)).ReturnData;
+        //ExpensiveProducts = (await _productService.TopProducts("","",0,3,4, isExist: true)).ReturnData;
         //ExpensiveProducts = (await _productService.TopPrice(4)).ReturnData;
         var result = _cookieService.GetCurrentUser();
         if (result.Id > 0) IsColleague = result.IsColleague;

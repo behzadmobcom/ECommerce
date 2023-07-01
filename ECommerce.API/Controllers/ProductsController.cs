@@ -21,14 +21,13 @@ public class ProductsController : ControllerBase
     private readonly IPriceRepository _priceRepository;
     private readonly IProductRepository _productRepository;
     private readonly IHolooSGroupRepository _sGroupRepository;
-    private readonly IHolooABailRepository _aBailRepository;
     private readonly IUnitRepository _unitRepository;
     private readonly ITagRepository _tagRepository;
 
     public ProductsController(IProductRepository productRepository, IHolooArticleRepository articleRepository,
         IHolooMGroupRepository mGroupRepository, IHolooSGroupRepository sGroupRepository,
         ICategoryRepository categoryRepository, IPriceRepository priceRepository, IUnitRepository unitRepository,
-        ILogger<ProductsController> logger, IHolooABailRepository aBailRepository, ITagRepository tagRepository)
+        ILogger<ProductsController> logger, ITagRepository tagRepository)
     {
         _productRepository = productRepository;
         _articleRepository = articleRepository;
@@ -38,128 +37,15 @@ public class ProductsController : ControllerBase
         _priceRepository = priceRepository;
         _unitRepository = unitRepository;
         _logger = logger;
-        _aBailRepository = aBailRepository;
         _tagRepository = tagRepository;
     }
 
-    private async Task<List<T>> AddPriceAndExistFromHolooList<T>(
-        IList<T> products, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken) where T : BaseProductPageViewModel {
-        isWithoutBill = true;
-        var prices = products
-            .Where(x => x.Prices.Any(p => p.ArticleCode != null))
-            .Select(p => p.Prices)
-            .ToList();
-        var aCodeCs = new List<string>();
-        foreach (var price in prices)
-        {
-            //Parallel.ForEach(price, aCode =>
-            foreach (var aCode in price)
-            {
-                aCodeCs.Add(aCode.ArticleCodeCustomer);
-            };
-        }
-        var holooArticle = await _articleRepository.GetHolooArticles(aCodeCs, cancellationToken);
-
-        products = products.Where(x => x.Prices.Any(p => p.ArticleCode != null)).ToList();
-        List<T> newProducts = new();
-        //Parallel.ForEach(products, product =>
-        foreach (var product in products)
-        {
-            List<Price> tempPriceList = new();
-            foreach (var productPrices in product.Prices)
-                //Parallel.ForEach(product.Prices, productPrices =>
-            {
-                if (productPrices.SellNumber != null && productPrices.SellNumber != Price.HolooSellNumber.خالی)
-                {
-                    var article = holooArticle.Where(x => x.A_Code_C == productPrices.ArticleCodeCustomer).ToList();
-                    decimal articlePrice = 0;
-                    if (article.Count > 0)
-                    {
-                        try
-                        {
-                            switch (productPrices.SellNumber)
-                            {
-                                case Price.HolooSellNumber.Sel_Price:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price2:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price2);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price3:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price3);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price4:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price4);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price5:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price5);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price6:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price6);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price7:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price7);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price8:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price8);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price9:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price9);
-                                    break;
-                                case Price.HolooSellNumber.Sel_Price10:
-                                    articlePrice = Convert.ToDecimal(article.FirstOrDefault().Sel_Price10);
-                                    break;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            _logger.LogCritical(e,
-                                $"Product Prices ID : {productPrices.Id}, Article Code : {productPrices.ArticleCode}, Article Code Customer : {productPrices.ArticleCodeCustomer}");
-                        }
-
-                        if (articlePrice < 10)
-                        {
-                            //product.Prices.Remove(productPrices);
-                            tempPriceList.Add(productPrices);
-                            //continue;
-                        }
-                        else
-                        {
-                            productPrices.Amount = articlePrice / 10;
-                            double soldExist = 0;
-                            if (!isWithoutBill && productPrices.ArticleCode != null)
-                            {
-                                var aBails = _aBailRepository.GetWithACode(productPrices.ArticleCode, cancellationToken).Result;
-                                soldExist = aBails.Sum(x => x.First_Article);
-                            }
-
-                            productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
-
-                            if (isExist == true && productPrices.Exist == 0)
-                            {
-                                //product.Prices.Remove(productPrices);
-                                tempPriceList.Add(productPrices);
-                            }
-                        }
-                    }
-                }
-
-            };
-
-            product.Prices.RemoveAll(x => tempPriceList.Contains(x));
-            if (product.Prices.Count != 0) newProducts.Add(product);
-
-        };
-
-        return newProducts;
-    }
-
-    private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
+    private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
-        var products = await AddPriceAndExistFromHolooList(
+        var products = await _articleRepository.AddPriceAndExistFromHolooList(
             new List<ProductIndexPageViewModel> { product },
             isWithoutBill,
-            isExist,
+            isCheckExist,
             cancellationToken);
         product.Prices = products.First().Prices;
         return product;
@@ -366,7 +252,7 @@ public class ProductsController : ControllerBase
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, productListFilteredViewModel.isWithoutBill, productListFilteredViewModel.IsExist, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, productListFilteredViewModel.isWithoutBill, productListFilteredViewModel.isCheckExist, cancellationToken);
             }
 
             if (productListFilteredViewModel.EndPrice > 0)
@@ -374,7 +260,7 @@ public class ProductsController : ControllerBase
                 productIndexPageViewModel = productIndexPageViewModel.Where(x => x.Prices.Max(p => p.Amount) >= productListFilteredViewModel.StartPrice && x.Prices.Max(p => p.Amount) <= productListFilteredViewModel.EndPrice).ToList();
             }
 
-            if (productListFilteredViewModel.IsExist != null)
+            if (productListFilteredViewModel.isCheckExist != null)
             {
                 var s = productIndexPageViewModel.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
             }
@@ -430,7 +316,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProducts(bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllProducts(bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
         try
         {
@@ -457,7 +343,7 @@ public class ProductsController : ControllerBase
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, isExist, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, isCheckExist, cancellationToken);
             }
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
@@ -479,7 +365,7 @@ public class ProductsController : ControllerBase
         {
             var products = await _productRepository.TopNew(count, 0, null, cancellationToken);
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true, cancellationToken);
+                products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true, cancellationToken);
 
             products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
 
@@ -502,13 +388,13 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            var products = await _productRepository.TopPrices(count,0, null, cancellationToken);
+            var products = await _productRepository.TopPrices(count, 0, null, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
 
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
             products = products.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
             {
@@ -534,7 +420,7 @@ public class ProductsController : ControllerBase
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
             {
@@ -560,7 +446,7 @@ public class ProductsController : ControllerBase
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
             {
@@ -586,7 +472,7 @@ public class ProductsController : ControllerBase
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
             productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
             {
@@ -610,7 +496,7 @@ public class ProductsController : ControllerBase
             var productIndexPageViewModel = await _productRepository.TopStars(count, 0, null, cancellationToken);
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
-                productIndexPageViewModel = await AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
+                productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, isWithoutBill, true, cancellationToken);
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
             return Ok(new ApiResult
             {
@@ -646,7 +532,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBill, bool? isExist, CancellationToken cancellationToken)
+    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
         try
         {
@@ -657,7 +543,7 @@ public class ProductsController : ControllerBase
                     Code = ResultCode.NotFound
                 });
 
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBill, isExist, cancellationToken);
+            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBill, isCheckExist, cancellationToken);
 
             return Ok(new ApiResult
             {
@@ -701,7 +587,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool? isExist, bool isWithoutBill,
+    public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool? isCheckExist, bool isWithoutBill,
       CancellationToken cancellationToken)
     {
         try
@@ -715,14 +601,14 @@ public class ProductsController : ControllerBase
                 });
 
             if (product.Prices.Any(p => p.ArticleCode != null))
-                product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isExist, cancellationToken);
+                product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isCheckExist, cancellationToken);
 
             var productModalViewModel = new ProductModalViewModel
             {
                 Alt = product.Images.FirstOrDefault().Alt,
                 ImagePath = $"{product.Images!.First().Path}/{product.Images!.First().Name}",
-                Brand = product.Brand.Name,
-                Description = product.Description,
+                Brand = product.Brand != null ? product.Brand.Name : "",
+                Description = product.Description ?? "",
                 Name = product.Name,
                 Price = product.Prices.FirstOrDefault().Amount.ToString("###,###,###,###"),
                 Url = product.Url,
@@ -777,7 +663,7 @@ public class ProductsController : ControllerBase
         try
         {
             var result = await _productRepository.GetProductList(productIdList, cancellationToken);
-            result = await AddPriceAndExistFromHolooList(result, isWithoutBill, true, cancellationToken);
+            result = await _articleRepository.AddPriceAndExistFromHolooList(result, isWithoutBill, true, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -1149,8 +1035,8 @@ public class ProductsController : ControllerBase
                                 cancellationToken);
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
-                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
-                                    cancellationToken).ConfigureAwait(false);
+                                products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                    cancellationToken);
                             }
                             countFilled = selectedProducts.Count(x =>
                                 x.TopCategory != null && x.TopCategory.Equals(resultCount[0]));
@@ -1170,7 +1056,7 @@ public class ProductsController : ControllerBase
                             cancellationToken);
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
-                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,
                                     cancellationToken);
                             }
                             countFilled = selectedProducts.Count(x =>
@@ -1204,7 +1090,7 @@ public class ProductsController : ControllerBase
                                 cancellationToken);
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
-                                products = await AddPriceAndExistFromHolooList(products, isWithoutBill, true,
+                                products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,
                                     cancellationToken);
                             }
 

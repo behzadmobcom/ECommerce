@@ -2,7 +2,7 @@
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.PurchaseModel
 @{
     ViewData["Title"] = "سفارشات";
-    var i = 1 + (Model.PurchaseOrders.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrders.PaginationDetails.PageSize; 
+    var i = 1 + (Model.PurchaseOrders.PaginationDetails.CurrentPage - 1) * Model.PurchaseOrders.PaginationDetails.PageSize;
 }
 <!--begin::Title-->
 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1 ml-3">لیست سفارشات</h1>
@@ -108,138 +108,147 @@
 </tr>
 </thead>
 
-<!--end::Table head-->
-<!--begin::Table body-->
+                <!--end::Table head-->
+                <!--begin::Table body-->
 
-<tbody>
- @foreach (var item in Model.PurchaseOrders.ReturnData)
- {        
-        <tr>
-	    <td>@i</td>
-        <td>
-		    <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
-	    </td>
-	    <td>
-            <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa()</a>
-	    </td>
-	    <td>
-		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
-	    </td>
-	    <td>
-		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@(item.IsPaied==true?"√":"ˣ") </a>
-	    </td>
-	    <td> 
-		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount.ToString("N0")</a>
-	    </td>
-	    <td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
-	    <td>
-		    <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.UserName</a>
-	    </td>
-	    <td class="text-end">            
-		        <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-info  font-weight-bold">جزئیات</a>           
-                @if(@item.Status!=Ecommerce.Entities.Status.New){ <input value="جدید" onclick="EditPurchaseStatusById(@item.Id, 0)" type="button" class="label label-inline label-light-primary font-weight-bold" style="border: none"/> } &nbsp;
-                @if(@item.Status!=Ecommerce.Entities.Status.Sent){ <input value="ارسال" onclick="EditPurchaseStatusById(@item.Id, 1)" type="button" class="label label-inline label-light-warning font-weight-bold" style="border: none"/> } &nbsp;
-                @if(@item.Status!=Ecommerce.Entities.Status.Accepted){ <input value="تایید" onclick="EditPurchaseStatusById(@item.Id, 2)" type="button" class="label label-inline label-light-success font-weight-bold" style="border: none"/> } &nbsp;
+                <tbody>
+                    @foreach (var item in Model.PurchaseOrders.ReturnData)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.FBailCode</a>
+                            </td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">@item.CreationDate.ToFa()</a>
+                            </td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Status</a>
+                            </td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@(item.IsPaied == true ? "√" : "ˣ") </a>
+                            </td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.Amount.ToString("N0")</a>
+                            </td>
+                            <td class="text-dark fw-bolder text-hover-primary fs-6">@item.Discount</td>
+                            <td>
+                                <a href="#" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">@item.UserName</a>
+                            </td>
+                            <td class="text-end">
+                                <a asp-page="PurchaseOrder" asp-route-id="@item.Id" class="label label-inline label-light-info  font-weight-bold">جزئیات</a>
+                                @if (@item.Status != Ecommerce.Entities.Status.New)
+                                {
+                                    <input value="جدید" onclick="EditPurchaseStatusById(@item.Id, 0)" type="button" class="label label-inline label-light-primary font-weight-bold" style="border: none" />
+                                } &nbsp;
+                                @if (@item.Status != Ecommerce.Entities.Status.Sent)
+                                {
+                                    <input value="ارسال" onclick="EditPurchaseStatusById(@item.Id, 1)" type="button" class="label label-inline label-light-warning font-weight-bold" style="border: none" />
+                                } &nbsp;
+                                @if (@item.Status != Ecommerce.Entities.Status.Accepted)
+                                {
+                                    <input value="تایید" onclick="EditPurchaseStatusById(@item.Id, 2)" type="button" class="label label-inline label-light-success font-weight-bold" style="border: none" />
+                                } &nbsp;
                                 @if (@item.Status != Ecommerce.Entities.Status.Closed)
                                 {
                                     <input value="بسته شده" onclick="EditPurchaseStatusById(@item.Id, 3)" type="button" class="label label-inline label-light-danger font-weight-bold" style="border: none" />
                                 } &nbsp;
-	    </td>
-	    </tr>
-    i++;
- }
-</tbody>
-<!--end::Table body-->
-</table>
-<!--end::Table-->
-    <partial name="_Pagination" model="@Model.PurchaseOrders.PaginationDetails"/>
-</div>
-<!--end::Table container-->
-</div>
-		 <div class="card-footer">
-              <a class="btn btn-secondary" asp-Page="/Users/Index">لیست کاربران</a>
-         </div>
-<!--begin::Body-->
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+                <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+            <partial name="_Pagination" model="@Model.PurchaseOrders.PaginationDetails" />
+        </div>
+        <!--end::Table container-->
+    </div>
+    <div class="card-footer">
+        <a class="btn btn-secondary" asp-Page="/Users/Index">لیست کاربران</a>
+    </div>
+    <!--begin::Body-->
 </div>
 
 
 <script>
-function EditPurchaseStatusById(id, status) {
-    $.ajax({
-        type: "Get",
-        url: "/Admin/Users/Purchases?handler=EditPurchaseStatus&id=" + id + "&status=" + status,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            alert(result.message);
-            if (result.code === 0) {
-                location.reload();
-            }
-        }
-    });
-}
-
-function selectElement(element) {
-    document.getElementById("Username").value = element.innerHTML;
-    userDropdownDisply("none");
-}
-function userDropdownDisply(para) {
-    document.getElementById("userDropdown").style.display = para
-}
-function filterFunction() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("Username");
-    if (input.value.length < 3) { userDropdownDisply("none"); }
-    if (input.value.length >= 3) {
+    function EditPurchaseStatusById(id, status) {
         $.ajax({
             type: "Get",
-            url: "/Admin/Users/Purchases?handler=UserListBySearch&search=" + input.value,
+            url: "/Admin/Users/Purchases?handler=EditPurchaseStatus&id=" + id + "&status=" + status,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                var userDropdownHtml = "";
-                result.forEach(function (currentElement, index, array) {
-                    userDropdownHtml = userDropdownHtml + " <a onclick='selectElement(this)'>" + currentElement + "</a> "
-                });
-                document.getElementById("userDropdown").innerHTML = userDropdownHtml;
-                userDropdownDisply("block")
+                alert(result.message);
+                if (result.code === 0) {
+                    location.reload();
+                }
             }
         });
     }
-    filter = input.value.toUpperCase();
-    div = document.getElementById("userDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
+
+    function selectElement(element) {
+        document.getElementById("Username").value = element.innerHTML;
+        userDropdownDisply("none");
+    }
+    function userDropdownDisply(para) {
+        document.getElementById("userDropdown").style.display = para
+    }
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("Username");
+        if (input.value.length < 3) { userDropdownDisply("none"); }
+        if (input.value.length >= 3) {
+            $.ajax({
+                type: "Get",
+                url: "/Admin/Users/Purchases?handler=UserListBySearch&search=" + input.value,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var userDropdownHtml = "";
+                    result.forEach(function (currentElement, index, array) {
+                        userDropdownHtml = userDropdownHtml + " <a onclick='selectElement(this)'>" + currentElement + "</a> "
+                    });
+                    document.getElementById("userDropdown").innerHTML = userDropdownHtml;
+                    userDropdownDisply("block")
+                }
+            });
+        }
+        filter = input.value.toUpperCase();
+        div = document.getElementById("userDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
         }
     }
-}
 </script>
 
 <style>
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f6f6f6;
-  min-width: 230px;
-  overflow: auto;
-  border: 1px solid #ddd;
-  z-index: 1;
-}
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f6f6f6;
+        min-width: 230px;
+        overflow: auto;
+        border: 1px solid #ddd;
+        z-index: 1;
+    }
 
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
 </style>

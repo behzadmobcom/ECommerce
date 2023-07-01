@@ -33,7 +33,6 @@ function AddWishList(id) {
     });
 }
 
-
 function setCities() {
     var stateId = $('#state').val();
     var flag = true;
@@ -65,6 +64,7 @@ function OpenProductModal(id) {
         dataType: "json",
         success: function (result) {
             if (result.code == 0) {
+                console.log(result.returnData);
                 var item =
                     '<div class="row">' +
                     '<div class="col-md-6 col-lg-6">' +
@@ -104,13 +104,13 @@ function OpenProductModal(id) {
                     '</div>' +
                     '<h3 class="view-price">' +
                     '<span>' +
-                    formatter.format(result.returnData.price) +
+                    result.returnData.price +
                     '</span>' +
                     '</h3>' +
                     '<div class="view-list-group">' +
                     '<label class="view-list-title">در انبار:</label>' +
                     ' <div id="exist">';
-                if (result.returnData.Exist > 0) {
+                if (result.returnData.exist > 0) {
                     item = item + '<div>در دسترس</div>';
                 } else {
                     item = item + '<div>عدم موجودی</div>';

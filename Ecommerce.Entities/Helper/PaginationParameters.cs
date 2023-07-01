@@ -27,7 +27,7 @@ public class PaginationDetails
     public string? Address { get; set; }
     public decimal? MinPrice { get; set; }
     public decimal? MaxPrice { get; set; }
-    public bool isExist { get; set; }
+    public bool isCheckExist { get; set; }
     public int ProductSort { get; set; }
     public bool? IsPaid { get; set; }
     public string Username { get; set; }

@@ -9,7 +9,7 @@ public class WishList : BaseEntity
 
     [JsonIgnore] public User? User { get; set; }
 
-    public int ProductId { get; set; }
+    public int PriceId { get; set; }
 
-    [JsonIgnore] public Product? Product { get; set; }
+    [JsonIgnore] public Price? Price { get; set; }
 }

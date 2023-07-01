@@ -45,9 +45,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         };
     }
 
-    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isExist = false)
+    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isCheckExist = false)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isExist={isExist}");
+        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isCheckExist={isCheckExist}");
         return Return(result);
     }
 
@@ -133,7 +133,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string categoryId = "", string search = "",
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
-        bool isExist = false, bool isWithoutBill = true, string tagText = "")
+        bool isCheckExist = false, bool isWithoutBill = true, string tagText = "")
     {
         var command = "GetProducts?" +
                       $"PaginationParameters.PageNumber={pageNumber}&" +
@@ -144,7 +144,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         if (!string.IsNullOrEmpty(tagText)) command += $"PaginationParameters.TagText={tagText}&";
         if (startPrice != null) command += $"StartPrice={startPrice}&";
         if (endPrice != null) command += $"EndPrice={endPrice}&";
-        command += $"IsExist={isExist}&";
+        command += $"isCheckExist={isCheckExist}&";
         command += $"ProductSort={productSort}";
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
         var cacheEntryOptions = new MemoryCacheEntryOptions()
@@ -170,9 +170,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     }
 
-    public async Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isExist = false)
+    public async Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isCheckExist = false)
     {
-        var result = await _http.GetAsync<List<ShopPageViewModel>>(Url, $"GetAllProducts?isWithoutBill={isWithoutBill}&isExist={isExist}");
+        var result = await _http.GetAsync<List<ShopPageViewModel>>(Url, $"GetAllProducts?isWithoutBill={isWithoutBill}&isCheckExist={isCheckExist}");
 
         return Return(result);
 

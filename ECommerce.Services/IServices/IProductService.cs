@@ -5,7 +5,7 @@ namespace ECommerce.Services.IServices;
 
 public interface IProductService : IEntityService<ProductViewModel>
 {
-    Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isExist = false);
+    Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isCheckExist = false);
     ServiceResult CheckBeforeSend(ProductViewModel product);
     Task<ServiceResult<ProductViewModel>> Add(ProductViewModel productViewModel);
     Task<ServiceResult> Edit(ProductViewModel productViewModel);
@@ -15,8 +15,8 @@ public interface IProductService : IEntityService<ProductViewModel>
 
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopProducts(string CategoryId = "", string search = "",
       int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
-      bool isExist = false, bool isWithoutBill = true, string tagText = "");
-    Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isExist=false);
+      bool isCheckExist = false, bool isWithoutBill = true, string tagText = "");
+    Task<ServiceResult<List<ShopPageViewModel>>> GetAllProducts(bool isWithoutBill = true, bool? isCheckExist = false);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3, bool isWithoutBill = true);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill = true);
     Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList);

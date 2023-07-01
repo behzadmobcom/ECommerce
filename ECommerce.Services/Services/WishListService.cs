@@ -40,7 +40,7 @@ public class WishListService : EntityService<WishList>, IWishListService
         };
     }
 
-    public async Task<ServiceResult> Add(int productId)
+    public async Task<ServiceResult> Add(int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id == 0)
@@ -52,7 +52,7 @@ public class WishListService : EntityService<WishList>, IWishListService
             };
         var wishList = new WishList
         {
-            ProductId = productId,
+            PriceId = priceId,
             UserId = currentUser.Id
         };
         var result = await Create(Url, wishList);
