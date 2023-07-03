@@ -61307,11 +61307,37 @@ code {
     display: flex;
 }
 
-.symbol-list .symbol { margin-left: 0.5rem; }
+
+.symbol-list .symbol {
+    margin-left: 0.5rem;
+}
 
 .symbol-list .symbol:last-child { margin-left: 0; }
 
-.pulse { position: relative; }
+.home-links i{
+    background-color: #C9F7F5;
+    color: #1BC5BD;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 0.42rem;
+    font-size: 1.1rem;
+}
+
+.home-links i :hover {
+    background-color: rgba(77, 89, 149, 0.06);
+    transition: .1s;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: .1s linear;
+}
+
+
+
+.pulse {
+    position: relative;
+}
 
 .pulse .pulse-ring {
     -webkit-animation: animation-pulse 3.5s ease-out;
