@@ -53706,9 +53706,7 @@ code {
 }
 
 .label.label-inline {
-    border-radius: 0.42rem;
-    padding: 0.15rem 0.75rem;
-    width: auto;
+   display:none;
 }
 
 .label.label-inline.label-md { padding: 0.8rem 0.6rem; }
@@ -61332,8 +61330,6 @@ code {
     cursor: pointer;
     transition: .1s linear;
 }
-
-
 
 .pulse {
     position: relative;
