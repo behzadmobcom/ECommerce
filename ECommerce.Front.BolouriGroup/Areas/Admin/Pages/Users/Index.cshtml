@@ -4,31 +4,31 @@
     ViewData["Title"] = "کاربران سایت";
     var i = 1 + (Model.Users.PaginationDetails.CurrentPage - 1) * Model.Users.PaginationDetails.PageSize;
 }
-@if (Model.Message != null)
-{
-    switch (Model.Code)
-    {
-        case "Error":
-            <div class="alert alert-danger"> @Model.Message </div>
-            break;
-        case "Warning":
-            <div class="alert alert-warning"> @Model.Message </div>
-            break;
-        case "Info":
-            <div class="alert alert-info"> @Model.Message </div>
-            break;
-        default:
-            <div class="alert alert-success"> @Model.Message </div>
-            break;
-    }
+   @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
 
-    Model.Message = null;
-    Model.Code = null;
-}
+            Model.Message = null;
+            Model.Code = null;
+        }
 
-<p>
-    <a asp-page="Create" hidden="hidden" class="label label-inline label-light-primary font-weight-bold">ایجاد کاربر جدید</a>
-</p>
+        <p>
+         <!---  <a asp-page="Create" class="label label-inline label-light-primary font-weight-bold">ایجاد کاربر جدید</a>-->
+        </p>
 
 <div class="post d-flex flex-column-fluid" id="kt_post">
     <div id="kt_content_container" class="container">
