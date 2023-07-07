@@ -29,7 +29,7 @@
                     @await Component.InvokeAsync("CategoriesList")
                     <h6 class="shop-widget-title">فیلتر</h6>
                         <form asp-page-handler="OnGet" method="get">
-                        <label for="min-price" class="form-label">حداقل قیمت (تومان) </label><br/>
+                        <label for="min-price" class="form-label  mt-3">حداقل قیمت (تومان) </label><br />
                         <span id="min-price-txt">@Model.Min</span>
 					    <input type="range" class="form-range" min="100000" max="200000000" id="min-price" name="minprice" step="100000" value="@Model.Min">
                         <label for="max-price" class="form-label">حداکثر قیمت (تومان) </label><br/>
@@ -61,13 +61,14 @@
 								    محبوب ترین ها
 							    </option>							
 							    <option value="3" selected=@sel3>   
-								    قیمت صعودی
+								    ارزان ترین ها
 							    </option>
 							    <option value="4" selected=@sel4>
-								    قیمت نزولی
+								    گران ترین ها
 							    </option>
 						    </select>									
                         <br/>
+
 					    <input name="pageSize" value="@Model.Products.PaginationDetails.PageSize" hidden="hidden" />
 					    <input name="search" value="@Model.Products.PaginationDetails.Search" hidden="hidden" />
                         <div class="form-button">
