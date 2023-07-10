@@ -1,14 +1,16 @@
 ﻿@model Ecommerce.Entities.ViewModel.ProductIndexPageViewModel
-
+@{
+    var singlePriceId = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+}
 <div class="col">
     <div class="feature-card" style="height: 299px">
         <div class="feature-media">
             <div class="feature-label">
                 <label class="label-text feat">ویژگی</label>
             </div>
-            <button class="feature-wish wish">
+            <a class="product-wish wish" href="javascript:void(0)" onclick="AddWishList(@singlePriceId?.Id)" title="افزودن به لیست علاقه مندی ها ">
                 <i class="far fa-heart"></i>
-            </button>
+            </a>
             <a class="feature-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
                 <img src="~/@Model.ImagePath" alt="@Model.Alt" width="170" height="170">
             </a>

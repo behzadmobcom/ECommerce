@@ -9,20 +9,15 @@
             <div class="product-label">
                 <label class="label-text new">جدید</label>
             </div>
-           @* <button class="product-wish wish">
-                <i class="far fa-heart"></i>
-            </button>*@
             <a class="product-wish wish" href="javascript:void(0)" onclick="AddWishList(@singlePrice?.Id)" title="افزودن به لیست علاقه مندی ها ">
                 <i class="far fa-heart"></i>
             </a>
-            <a class="product-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
-                <img src="~/@Model.ImagePath" alt="@Model.Alt" width="177" height="177">
+            <a class="feature-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
+                <img src="~/@Model.ImagePath" alt="@Model.Alt" width="170" height="170">
             </a>
-            <div class="product-widget">
+            <div class="feature-widget">
                 <a title="نمای محصول" href="javascript:void(0)" onclick="OpenProductModal(@Model.Id)" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
-                <a href="javascript:void(0)" onclick="AddCompareList(@Model.Id)" title="مقایسه محصول">
-                    <i class="far fa-exchange"></i>
-                </a>
+                <a title="مقایسه محصول" href="javascript:void(0)" onclick="AddCompareList(@Model.Id)" class="far fa-exchange"></a>
             </div>
         </div>
         <div class="product-content">
