@@ -447,7 +447,7 @@ button:focus {
     transition: all linear .3s;
     visibility: hidden;
     width: 200px;
-    z-index: 2;
+    z-index: 4;
 }
 
 .dropdown-position-list li a {
