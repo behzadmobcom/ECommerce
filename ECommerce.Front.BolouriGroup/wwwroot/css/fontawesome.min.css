@@ -14,7 +14,7 @@
     font-variant: normal;
     text-rendering: auto;
     line-height: 1;
-    font-display: swap;
+    font-display: block;
 }
 
 .fa-lg {
@@ -6163,7 +6163,7 @@ readers do not read off random characters that represent icons */
     font-family: 'Font Awesome 5 Brands';
     font-style: normal;
     font-weight: normal;
-    font-display: swap;
+    font-display: block;
     src: url("../fonts/fa-brands-400.eot");
     src: url("../fonts/fa-brands-400d41dd41d.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-brands-400.woff2") format("woff2"), url("../fonts/fa-brands-400.woff") format("woff"), url("../fonts/fa-brands-400.ttf") format("truetype"), url("../fonts/fa-brands-400.svg#fontawesome") format("svg");
 }
@@ -6174,7 +6174,7 @@ readers do not read off random characters that represent icons */
     font-family: 'Font Awesome 5 Pro';
     font-style: normal;
     font-weight: 300;
-    font-display: swap;
+    font-display: block;
     src: url("../fonts/fa-light-300.eot");
     src: url("../fonts/fa-light-300d41dd41d.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-light-300.woff2") format("woff2"), url("../fonts/fa-light-300.woff") format("woff"), url("../fonts/fa-light-300.ttf") format("truetype"), url("../fonts/fa-light-300.svg#fontawesome") format("svg");
 }
@@ -6186,7 +6186,7 @@ readers do not read off random characters that represent icons */
     font-family: 'Font Awesome 5 Pro';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
+    font-display: block;
     src: url("../fonts/fa-regular-400.eot");
     src: url("../fonts/fa-regular-400d41dd41d.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-regular-400.woff2") format("woff2"), url("../fonts/fa-regular-400.woff") format("woff"), url("../fonts/fa-regular-400.ttf") format("truetype"), url("../fonts/fa-regular-400.svg#fontawesome") format("svg");
 }
@@ -6198,7 +6198,7 @@ readers do not read off random characters that represent icons */
     font-family: 'Font Awesome 5 Pro';
     font-style: normal;
     font-weight: 900;
-    font-display: swap;
+    font-display: block;
     src: url("../fonts/fa-solid-900.eot");
     src: url("../fonts/fa-solid-900d41dd41d.eot?#iefix") format("embedded-opentype"), url("../fonts/fa-solid-900.woff2") format("woff2"), url("../fonts/fa-solid-900.woff") format("woff"), url("../fonts/fa-solid-900.ttf") format("truetype"), url("../fonts/fa-solid-900.svg#fontawesome") format("svg");
 }

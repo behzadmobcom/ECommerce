@@ -23838,7 +23838,7 @@ readers do not read off random characters that represent icons */
 .fab { font-family: "Font Awesome 5 Brands"; }
 
 @font-face {
-    font-display: swap;
+    font-display: block;
     font-family: "Font Awesome 5 Free";
     font-style: normal;
     font-weight: 400;

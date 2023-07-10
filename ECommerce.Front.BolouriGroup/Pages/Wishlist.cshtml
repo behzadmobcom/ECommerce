@@ -25,44 +25,57 @@
                 <div class="table-scroll">
                     <table class="table-list">
                         <thead>
-                        <tr>
-                            <th scope="col">تصویر محصول</th>
-                            <th scope="col">نام</th>
-                            <th scope="col">قیمت</th>
-                            <th scope="col">نام تجاری</th>
-                            <th scope="col">عملیات</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">تصویر محصول</th>
+                                <th scope="col">نام</th>
+                                <th scope="col">قیمت</th>
+                                <th scope="col">نام تجاری</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        @foreach (var wish in Model.WishList.ReturnData)
-                        {
-                            <tr>
-                                <td class="table-image">
-                                    <img src="~/@wish.ImagePath" alt="@wish.Alt"loading="lazy">
-                                </td>
-                                <td class="table-name">
-                                    <h6>
-                                        <a asp-area="" asp-page="Product" asp-route-productUrl="@wish.Url.Trim()" style="color: black">@wish.Name</a>
-                                    </h6>
-                                </td>
-                                <td class="table-price">
-                                    <h6>
-                                            @wish.Price.Amount.ToString("N0") تومان
-                                    </h6>
-                                </td>
-                                <td class="table-vendor">
+                            @foreach (var wish in Model.WishList.ReturnData)
+                            {
+                                <tr>
+                                    <td class="table-image">
+                                        <img src="~/@wish.ImagePath" alt="@wish.Alt" loading="lazy">
+                                    </td>
+                                    <td class="table-name">
+                                        <h6>
+                                            <a asp-area="" asp-page="Product" asp-route-productUrl="@wish.Url.Trim()" style="color: black">@wish.Name</a>
+                                        </h6>
+                                    </td>
+                                    <td class="table-price">
+                                        <h6>
+                                            @if (wish.Price.Exist == 0)
+                                            {
+                                                <span>ناموجود</span>
+                                            }
+                                            else
+                                            {
+                                                @wish.Price.Amount.ToString("N0")
+                                                <text>تومان</text>
+                                            }
+                                                                    
+                                        </h6>
+                                    </td>
+                                    <td class="table-vendor">
                                         <h6>@wish.Brand</h6>
-                                </td>
-                                <td class="table-action">
-                                    <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.Price.Id)" style="color: black" title="اضافه کردن به سبد خرید">
-                                            <i class="far fa-shopping-cart"></i>
-                                    </a>
+                                    </td>
+                                    <td class="table-action">
+                                        @if (wish.Price.Exist > 0)
+                                        {
+                                            <a href="javascript:void(0)" onclick="AddCart(@wish.ProductId,@wish.Price.Id)" style="color: black" title="اضافه کردن به سبد خرید">
+                                                <i class="far fa-shopping-cart"></i>
+                                            </a>
+                                        }
                                         <a href="javascript:void(0)" onclick="RemoveWishList(@wish.Id,1)" style="color: black" title="حذف">
                                             <i class="far fa-window-close"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }  </tbody>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>
