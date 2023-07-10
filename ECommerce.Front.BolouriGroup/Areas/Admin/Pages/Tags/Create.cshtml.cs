@@ -26,6 +26,13 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        if (Tag.TagText.Contains("@") || Tag.TagText.Contains("&") || Tag.TagText.Contains("*") ||
+            Tag.TagText.Contains("/") || Tag.TagText.Contains("\\"))
+        {
+            Message = "از علامت های @ & * / \\ استفاده نکنید";
+            Code = "Error";
+            return Page();
+        }
         if (ModelState.IsValid)
         {
             var result = await _tagService.Add(Tag);
