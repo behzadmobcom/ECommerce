@@ -18,6 +18,23 @@ function RemoveWishList(id) {
     });
 }
 
+function InvertWishList(id) {
+    console.log(id)
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=InvertWishList&id=" + id,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            swal(response);
+            location.reload();
+        },
+        failure: function (response) {
+            swal(response);
+        }
+    });
+}
+
 function AddWishList(id) {
     $.ajax({
         type: "Get",
@@ -26,6 +43,7 @@ function AddWishList(id) {
         dataType: "json",
         success: function (response) {
             swal(response);
+            location.reload();
         },
         failure: function (response) {
             swal(response);

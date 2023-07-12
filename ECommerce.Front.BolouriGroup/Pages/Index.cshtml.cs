@@ -138,6 +138,12 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
+    public async Task<IActionResult> OnGetInvertWishList(int id)
+    {
+        var result = await _wishListService.Invert(id);
+        return new JsonResult(result.Message);
+    }
+
     public async Task<IActionResult> OnGetAddWishList(int id)
     {
         var result = await _wishListService.Add(id);

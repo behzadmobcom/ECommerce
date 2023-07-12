@@ -23,11 +23,12 @@ public class ProductsController : ControllerBase
     private readonly IHolooSGroupRepository _sGroupRepository;
     private readonly IUnitRepository _unitRepository;
     private readonly ITagRepository _tagRepository;
+    private readonly IWishListRepository _wishListRepository;
 
     public ProductsController(IProductRepository productRepository, IHolooArticleRepository articleRepository,
         IHolooMGroupRepository mGroupRepository, IHolooSGroupRepository sGroupRepository,
         ICategoryRepository categoryRepository, IPriceRepository priceRepository, IUnitRepository unitRepository,
-        ILogger<ProductsController> logger, ITagRepository tagRepository)
+        ILogger<ProductsController> logger, ITagRepository tagRepository, IWishListRepository wishListRepository)
     {
         _productRepository = productRepository;
         _articleRepository = articleRepository;
@@ -38,6 +39,7 @@ public class ProductsController : ControllerBase
         _unitRepository = unitRepository;
         _logger = logger;
         _tagRepository = tagRepository;
+        _wishListRepository = wishListRepository;
     }
 
     private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
@@ -301,6 +303,16 @@ public class ProductsController : ControllerBase
                 Search = productListFilteredViewModel.PaginationParameters.Search
             };
 
+            if (productListFilteredViewModel.UserId!=null && productListFilteredViewModel.UserId != 0)
+            {
+                foreach (var item in entity)
+                {
+                    var price = item.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague);
+                    var wishlists = await _wishListRepository.Where(x => x.UserId == productListFilteredViewModel.UserId && x.PriceId == price.Id, cancellationToken);
+                    item.FirstPriceWichlist = wishlists.Any();
+                }
+            }
+            
 
             return Ok(new ApiResult
             {
@@ -1010,7 +1022,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBill, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBill, int? userid, CancellationToken cancellationToken)
     {
         try
         {
@@ -1105,7 +1117,16 @@ public class ProductsController : ControllerBase
                         break;
                 }
             }
-
+            if (userid != 0)
+            {
+                foreach (var item in selectedProducts)
+                {
+                    var price = item.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague );
+                    var wishlists = await _wishListRepository.Where(x => x.UserId == userid && x.PriceId == price.Id, cancellationToken);
+                    item.FirstPriceWichlist = wishlists.Any();
+                }
+            }
+          
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,

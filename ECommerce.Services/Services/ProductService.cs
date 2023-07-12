@@ -13,15 +13,17 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
     private readonly IImageService _imageService;
     private readonly IKeywordService _keywordService;
     private readonly ITagService _tagService;
+    private readonly ICookieService _cookieService;
 
     public ProductService(IHttpService http, ITagService tagService, IImageService imageService,
-        IKeywordService keywordService, ICategoryService categoryService) : base(http)
+        IKeywordService keywordService, ICategoryService categoryService, ICookieService cookieService) : base(http)
     {
         _http = http;
         _tagService = tagService;
         _imageService = imageService;
         _keywordService = keywordService;
         _categoryService = categoryService;
+        _cookieService = cookieService;
     }
 
     public async Task<ServiceResult<ProductViewModel>> FillProductEdit(ProductViewModel productViewModel)
@@ -135,6 +137,7 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         int pageNumber = 0, int pageSize = 10, int productSort = 1, int? endPrice = null, int? startPrice = null,
         bool isCheckExist = false, bool isWithoutBill = true, string tagText = "")
     {
+        var currentUser = _cookieService.GetCurrentUser();
         var command = "GetProducts?" +
                       $"PaginationParameters.PageNumber={pageNumber}&" +
                       $"isWithoutBill={isWithoutBill}&" +
@@ -145,7 +148,9 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         if (startPrice != null) command += $"StartPrice={startPrice}&";
         if (endPrice != null) command += $"EndPrice={endPrice}&";
         command += $"isCheckExist={isCheckExist}&";
-        command += $"ProductSort={productSort}";
+        command += $"ProductSort={productSort}&";
+        command += $"UserId={currentUser.Id}";
+
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, command);
         var cacheEntryOptions = new MemoryCacheEntryOptions()
             .SetSlidingExpiration(TimeSpan.FromMinutes(5));
@@ -207,7 +212,8 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductIndexPageViewModel>>> GetTops(string includeProperties, bool isWithoutBill = true)
     {
-        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}");
+        var currentUser = _cookieService.GetCurrentUser();
+        var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}&userid={currentUser.Id}");
         return Return(result);
     }
 }
