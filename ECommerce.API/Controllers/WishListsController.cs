@@ -109,4 +109,34 @@ public class WishListsController : ControllerBase
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
+
+    [HttpPut]
+    public async Task<IActionResult> Invert(WishList wishList , CancellationToken cancellationToken)
+    {
+        
+        try
+        {
+            var result = await _wishListRepository.Where(x => x.UserId == wishList.UserId && x.PriceId == wishList.PriceId, cancellationToken);
+            if (result != null && result.ToList().Count == 0)
+            {
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Success,
+                    ReturnData = await _wishListRepository.AddAsync(wishList, cancellationToken),
+                    Messages = new List<string> { "به لیست علاقه مندی ها اضافه شد"}
+                });
+            }
+            await _wishListRepository.DeleteAsync(result.FirstOrDefault().Id, cancellationToken);
+            return Ok(new ApiResult
+                {
+                    Code = ResultCode.Success,
+                    Messages = new List<string> { "از لیست علاقه مندی ها حذف شد"}
+                });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
 }

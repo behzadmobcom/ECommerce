@@ -242,6 +242,7 @@ public class ProductListFilteredViewModel
     public List<int>? BrandsId { get; set; }
     public List<int>? StarsCount { get; set; }
     public List<int>? TagsId { get; set; }
+    public int? UserId { get; set; }
 }
 
 public class ShopPageViewModel : BaseProductPageViewModel
@@ -296,4 +297,5 @@ public class BaseProductPageViewModel
     public ushort MaxOrder { get; set; }
     public string? TopCategory { get; set; }
     public decimal? MaxPrice { get; set; }
+    public bool? FirstPriceWichlist { get; set; }
 }

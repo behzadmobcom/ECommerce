@@ -6,9 +6,14 @@
             <div class="feature-label">
                 <label class="label-text feat">ویژگی</label>
             </div>
-            <button class="feature-wish wish">
-                <i class="far fa-heart"></i>
-            </button>
+            <div class="product-wish wish" >
+                @{
+                    <label @{if(Model.FirstPriceWichlist==true) {<text> class="heartChecked" </text>} }>
+                        <input onclick="InvertWishList(@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
+                        <i class="far fa-heart"></i>
+                    </label>
+                }
+            </div>
             <a class="feature-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
                 <img src="~/@Model.ImagePath" alt="@Model.Alt" width="170" height="170">
             </a>

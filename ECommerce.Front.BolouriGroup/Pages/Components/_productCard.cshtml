@@ -12,9 +12,14 @@
            @* <button class="product-wish wish">
                 <i class="far fa-heart"></i>
             </button>*@
-            <a class="product-wish wish" href="javascript:void(0)" onclick="AddWishList(@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها ">
-                <i class="far fa-heart"></i>
-            </a>
+            <div class="product-wish wish" >
+                @{
+                    <label @{if(Model.FirstPriceWichlist==true) {<text> class="heartChecked" </text>} }>
+                        <input onclick="InvertWishList(@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
+                        <i class="far fa-heart"></i>
+                    </label>
+                }
+            </div>
             <a class="product-image" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">
                 <img src="~/@Model.ImagePath" alt="@Model.Alt" width="177" height="177">
             </a>

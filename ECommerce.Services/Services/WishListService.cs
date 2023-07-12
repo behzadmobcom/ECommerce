@@ -39,7 +39,28 @@ public class WishListService : EntityService<WishList>, IWishListService
             Message = "لطفا ابتدا وارد شوید"
         };
     }
-
+    public async Task<ServiceResult> Invert(int priceId)
+    {
+        var currentUser = _cookieService.GetCurrentUser();
+        if (currentUser.Id == 0)
+            return new ServiceResult
+            {
+                Code = ServiceCode.Info,
+                Message = "لطفا ابتدا وارد شوید"
+            };
+        var wishList = new WishList
+        {
+            PriceId = priceId,
+            UserId = currentUser.Id
+        };
+        var response = await _http.PutAsync(Url, wishList,"Invert");
+        
+        return new ServiceResult
+        {
+            Code = response!=null ? ServiceCode.Success: ServiceCode.Error,
+            Message = response.Messages.FirstOrDefault().ToString()
+        };
+    }
     public async Task<ServiceResult> Add(int priceId)
     {
         var currentUser = _cookieService.GetCurrentUser();

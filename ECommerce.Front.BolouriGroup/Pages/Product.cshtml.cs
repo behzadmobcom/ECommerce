@@ -18,10 +18,11 @@ public class ProductdetailsModel : PageModel
     private readonly IUserService _userService;
     private readonly IProductCommentService _productCommandService;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWishListService _wishListService;
 
     public ProductdetailsModel(IProductService productService, IStarService starService, ICartService cartService,
         ITagService tagService, IProductAttributeGroupService attributeGroupService, IUserService userService
-        , IProductCommentService productCommandService, IHttpContextAccessor httpContextAccessor)
+        , IProductCommentService productCommandService, IHttpContextAccessor httpContextAccessor, IWishListService wishListService)
     {
         _productService = productService;
         _starService = starService;
@@ -31,6 +32,7 @@ public class ProductdetailsModel : PageModel
         _userService = userService;
         _productCommandService = productCommandService;
         _httpContextAccessor = httpContextAccessor;
+        _wishListService = wishListService;
     }
     public string siteUrl { get; set; }
     public ProductViewModel Product { get; set; }

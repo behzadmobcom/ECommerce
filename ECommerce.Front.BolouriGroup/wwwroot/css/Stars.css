@@ -25,6 +25,9 @@ label.rankChecked {
     color: blue !important;
 }
 
+label.heartChecked {
+        color: red !important;
+}
 .rateTitle {
     font-size: 0.85em;
     color: gray;
