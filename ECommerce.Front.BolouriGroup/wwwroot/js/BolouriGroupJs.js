@@ -143,6 +143,8 @@ function OpenProductModal(id) {
 }
 
 function LoadCard() {
+    const scrollPosition = document.getElementById('Cart-List').scrollTop;
+
     $('#Cart-List').text('');
     $.ajax({
         type: "Get",
@@ -159,6 +161,8 @@ function LoadCard() {
             $('#Cart-Count2').text("کل مورد (" + result.cartCount + ")");
             $('#All-Price').text(formatter.format(result.allPrice));
             $('#AllPrice-Value').val(result.allPrice);
+
+            document.getElementById('Cart-List').scrollTo(0, scrollPosition);
         },
         failure: function (response) {
             alert(response);
