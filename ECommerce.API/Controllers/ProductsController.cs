@@ -213,21 +213,25 @@ public class ProductsController : ControllerBase
                             .ToListAsync(cancellationToken));
                         break;
                     case "name":
-                        productIndexPageViewModel.AddRange(await productQuery
-                            .Where(x => x.Name.Contains(search[1].Trim()))
-                            .Select(p => new ProductIndexPageViewModel
-                            {
-                                Prices = p.Prices!,
-                                Alt = p.Images!.First().Alt,
-                                Brand = p.Brand!.Name,
-                                Name = p.Name,
-                                Description = p.Description,
-                                Id = p.Id,
-                                ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
-                                Stars = p.Star,
-                                Url = p.Url
-                            })
-                            .ToListAsync(cancellationToken));
+                        var searchWorlds = search[1].Trim().Split(' ');
+                        foreach (var searchWorld in searchWorlds)
+                        {
+                            productIndexPageViewModel.AddRange(await productQuery
+                                .Where(x => x.Name.Contains(searchWorld))
+                                .Select(p => new ProductIndexPageViewModel
+                                {
+                                    Prices = p.Prices!,
+                                    Alt = p.Images!.First().Alt,
+                                    Brand = p.Brand!.Name,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Id = p.Id,
+                                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                                    Stars = p.Star,
+                                    Url = p.Url
+                                })
+                                .ToListAsync(cancellationToken));
+                        }
                         break;
                 }
 
