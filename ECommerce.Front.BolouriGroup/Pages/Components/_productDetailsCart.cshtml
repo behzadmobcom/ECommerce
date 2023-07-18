@@ -6,11 +6,20 @@
             <div class="feature-label">
                 <label class="label-text feat">ویژگی</label>
             </div>
-            <div class="product-wish wish" >
+            <div id="productDetailsCart-@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id" @{
+                if (Model.FirstPriceWichlist == true)
+                {
+                    <text> class="product-wish wish active" </text>
+                }
+                else
+                {
+                    <text> class="product-wish wish" </text>
+                }
+            }>
                 @{
-                    <label @{if(Model.FirstPriceWichlist==true) {<text> class="heartChecked" </text>} }>
-                        <input onclick="InvertWishList(@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
-                        <i class="far fa-heart"></i>
+                    <label>
+                            <input onclick="InvertWishList('productDetailsCart',@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
+                        <i class="fa fa-heart"></i>
                     </label>
                 }
             </div>

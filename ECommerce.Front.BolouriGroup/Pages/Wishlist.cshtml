@@ -30,13 +30,15 @@
                                 <th scope="col">نام</th>
                                 <th scope="col">قیمت</th>
                                 <th scope="col">نام تجاری</th>
+                                <th scope="col">رنگ محصول</th>
+                                <th scope="col">درجه کیفیت</th>
                                 <th scope="col">عملیات</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var wish in Model.WishList.ReturnData)
                             {
-                                <tr>
+                                <tr id="@wish.Id">
                                     <td class="table-image">
                                         <img src="~/@wish.ImagePath" alt="@wish.Alt" loading="lazy">
                                     </td>
@@ -61,6 +63,12 @@
                                     </td>
                                     <td class="table-vendor">
                                         <h6>@wish.Brand</h6>
+                                    </td>
+                                    <td class="table-vendor">
+                                        <h6>@wish.Price.Color</h6>
+                                    </td>
+                                    <td class="table-vendor">
+                                        <h6>@wish.Price.Grade </h6>
                                     </td>
                                     <td class="table-action">
                                         @if (wish.Price.Exist > 0)

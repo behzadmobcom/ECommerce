@@ -1296,7 +1296,7 @@ tbody tr td:last-child {
 }
 
 .table-action .wish.active i {
-    background: var(--blue-customer);
+    background: var(--red);
     color: var(--white);
 }
 
@@ -1635,11 +1635,11 @@ tbody tr td:last-child {
 }
 
 .product-wish:hover {
-    color: var(--blue-dark)
+    color: var(--red)
 }
 
 .product-wish.active {
-    color: var(--blue-dark)
+    color: var(--red)
 }
 
 .product-image {

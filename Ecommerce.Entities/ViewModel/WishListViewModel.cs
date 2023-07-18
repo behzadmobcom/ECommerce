@@ -11,6 +11,8 @@ public class WishListViewModel
     public string? Brand { get; set; }
     public string? ImagePath { get; set; }
     public string? Alt { get; set; }
+    public string? Color { get; set; }
+    public string? Grade { get; set; }
     public double Exist { get; set; }
     public string? StoreStatus { get; set; }
 }

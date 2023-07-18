@@ -9,7 +9,7 @@ function RemoveWishList(id) {
         success: function (result) {
             swal(result.message);
             if (result.code === 0) {
-                location.reload();
+                $("#" + id).remove();
             }
         },
         failure: function (response) {
@@ -18,22 +18,25 @@ function RemoveWishList(id) {
     });
 }
 
-function InvertWishList(id) {
-    console.log(id)
+function InvertWishList(caller, id) {
+
     $.ajax({
         type: "Get",
         url: "/index?handler=InvertWishList&id=" + id,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+
         success: function (response) {
+            $("#" + caller + '-' + id).toggleClass('active');
             swal(response);
-            location.reload();
         },
         failure: function (response) {
             swal(response);
         }
+
     });
 }
+
 
 function AddWishList(id) {
     $.ajax({
@@ -42,8 +45,6 @@ function AddWishList(id) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-            swal(response);
-            location.reload();
         },
         failure: function (response) {
             swal(response);
