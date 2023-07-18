@@ -45,4 +45,9 @@ public class TagRepository : AsyncRepository<Tag>, ITagRepository
         return result;
     }
 
+    public async Task<List<Tag>> GetAllBlogTags(CancellationToken cancellationToken)
+    {
+        var result = await _context.Tags.Where(x => x.Blogs.Any()).ToListAsync(cancellationToken);
+        return result;
+    }
 }

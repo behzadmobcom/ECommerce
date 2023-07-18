@@ -5,7 +5,7 @@
 }
 
 <section class="inner-section single-banner">
-    <div class="container">
+colorss="container">
         <h2>جزئیات وبلاگ</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -136,26 +136,22 @@
                 <div class="blog-widget">
                     <h3 class="blog-widget-title">دسته های برتر</h3>
                     <ul class="blog-widget-category">
-
                         @foreach (var cat in Model.Categories.ReturnData)
                         {
                             <li>
                                 <a href="/Blogs/@cat.Id">@cat.Name <span></span></a>
                             </li>
-
                         }
-
                     </ul>
                 </div>
                 <div class="blog-widget">
                     <h3 class="blog-widget-title">برچسب های محبوب</h3>
                     <ul class="blog-widget-tag">
-                        <li><a href="#">ارگانیک</a></li>
-                        <li><a href="#">غذا</a></li>
-                        <li><a href="#">تازه</a></li>
-                        <li><a href="#">سالم</a></li>
-                        <li><a href="#">غذای دریایی</a></li>
-                        <li><a href="#">غذای خشک</a></li>
+                        @foreach (var tag in Model.Tags.ReturnData)
+                        {
+                            var path = $"/Blogs/{tag.TagText}";
+                            <li><a href="@path">@tag.TagText</a></li>
+                        }
                     </ul>
                 </div>
                 <div class="blog-widget">
