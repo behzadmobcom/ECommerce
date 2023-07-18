@@ -212,4 +212,22 @@ public class TagsController : ControllerBase
             return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllBlogTags(CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _tagRepository.GetAllBlogTags(cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+        }
+    }
 }

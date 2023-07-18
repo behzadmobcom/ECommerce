@@ -13,13 +13,15 @@ public class BlogDetailsModel : PageModel
     private readonly IBlogCategoryService _blogCategoryService;
     private readonly IBlogCommentService _blogCommentService;
     private readonly IUserService _userService;
+    private readonly ITagService _tagService;
     public BlogDetailsModel(IBlogService blogService , IBlogCategoryService blogCategoryService , 
-        IBlogCommentService blogCommentService, IUserService userService)
+        IBlogCommentService blogCommentService, IUserService userService, ITagService tagService)
     {
         _blogService = blogService;
         _blogCategoryService = blogCategoryService;
         _blogCommentService = blogCommentService;
         _userService = userService;
+        _tagService = tagService;
     }
 
     public BlogDetailsViewModel Blog {get; set;}
@@ -29,6 +31,7 @@ public class BlogDetailsModel : PageModel
     public ServiceResult<List<BlogComment>> BlogComments { get; set; }
     public BlogComment? BlogComment { get; set; }
     [BindProperty] public string? Message { get; set; }
+    [BindProperty] public ServiceResult<List<Tag>> Tags { get; set; }
 
     private async Task Initial(string blogUrl, int pageNumber = 1, int pageSize = 10)
     {
@@ -42,6 +45,8 @@ public class BlogDetailsModel : PageModel
 
         Blogs = await _blogService.TopBlogs(null, null, 1, 3, 1);
         Categories = await _blogCategoryService.GetAll();
+
+        Tags = await _tagService.GetAllBlogTags();
     }
 
         public async Task OnGet(string blogUrl, int pageNumber = 1, int pageSize = 10)

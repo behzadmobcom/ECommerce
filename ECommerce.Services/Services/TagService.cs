@@ -108,4 +108,10 @@ public class TagService : EntityService<Tag>, ITagService
         var result = await ReadList(Url, "GetAllProductTags");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<Tag>>> GetAllBlogTags()
+    {
+        var result = await ReadList(Url, "GetAllBlogTags");
+        return Return(result);
+    }
 }
