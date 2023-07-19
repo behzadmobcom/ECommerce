@@ -2,7 +2,7 @@
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
-    int? priceId = Model.Product.Prices.FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id;
+    int? priceId = Model.Product.Prices.OrderBy(x =>x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
@@ -100,7 +100,7 @@
                             decimal? discount = 0;
                             decimal? amount = 0;
                             decimal? discountAmount = 0;
-                            var singlePrice = Model.Product.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+                            var singlePrice = Model.Product.Prices.OrderBy(x => x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
                             if (singlePrice != null)
                             {
                                 amount = singlePrice.Amount;
@@ -131,7 +131,7 @@
                                 </div>
                             }
                             <h6 class="details-price">
-                                <span>@discountAmount?.ToString("###,###,###,###") تومان</span>
+                                <span id="price">@discountAmount?.ToString("###,###,###,###") تومان</span>
                             </h6>
 
                         }
