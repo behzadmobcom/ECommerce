@@ -215,7 +215,8 @@ public class ProductsController : ControllerBase
                             .ToListAsync(cancellationToken));
                         break;
                     case "name":
-                        var searchWorlds = search[1].Trim().Split(' ');
+                        var searchWorlds = new List<string>() { search[1].Trim() };
+                        searchWorlds.AddRange(search[1].Trim().Split(' '));
                         foreach (var searchWorld in searchWorlds)
                         {
                             productIndexPageViewModel.AddRange(await productQuery
@@ -271,23 +272,29 @@ public class ProductsController : ControllerBase
                 var s = productIndexPageViewModel.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
             }
 
-            switch (productListFilteredViewModel.ProductSort)
+            if (!search[0].ToLower().Equals("name"))
             {
-                case ProductSort.New:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Id).ToList();
-                    break;
-                case ProductSort.Star:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Stars).ToList();
-                    break;
-                case ProductSort.HighToLowPrice:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
-                    break;
-                case ProductSort.LowToHighPrice:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Min(p => p.Amount)).ToList();
-                    break;
-                case ProductSort.Bestsellers:
-                    productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount)).ToList();
-                    break;
+                switch (productListFilteredViewModel.ProductSort)
+                {
+                    case ProductSort.New:
+                        productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Id).ToList();
+                        break;
+                    case ProductSort.Star:
+                        productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Stars).ToList();
+                        break;
+                    case ProductSort.HighToLowPrice:
+                        productIndexPageViewModel = productIndexPageViewModel
+                            .OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
+                        break;
+                    case ProductSort.LowToHighPrice:
+                        productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Min(p => p.Amount))
+                            .ToList();
+                        break;
+                    case ProductSort.Bestsellers:
+                        productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Max(p => p.Amount))
+                            .ToList();
+                        break;
+                }
             }
 
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
@@ -307,7 +314,7 @@ public class ProductsController : ControllerBase
                 Search = productListFilteredViewModel.PaginationParameters.Search
             };
 
-            if (productListFilteredViewModel.UserId!=null && productListFilteredViewModel.UserId != 0)
+            if (productListFilteredViewModel.UserId != null && productListFilteredViewModel.UserId != 0)
             {
                 foreach (var item in entity)
                 {
@@ -316,7 +323,7 @@ public class ProductsController : ControllerBase
                     item.FirstPriceWichlist = wishlists.Any();
                 }
             }
-            
+
 
             return Ok(new ApiResult
             {
@@ -1125,12 +1132,12 @@ public class ProductsController : ControllerBase
             {
                 foreach (var item in selectedProducts)
                 {
-                    var price = item.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague );
+                    var price = item.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague);
                     var wishlists = await _wishListRepository.Where(x => x.UserId == userid && x.PriceId == price.Id, cancellationToken);
                     item.FirstPriceWichlist = wishlists.Any();
                 }
             }
-          
+
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
