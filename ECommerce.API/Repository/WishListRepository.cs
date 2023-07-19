@@ -33,7 +33,7 @@ public class WishListRepository : AsyncRepository<WishList>, IWishListRepository
                 ProductId = p.Price.ProductId,
                 Url = p.Price.Product.Url,
                 Name = p.Price.Product.Name,
-                Price = p.Price.Product.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1),
+                Price = p.Price,
                 ImagePath = $"{p.Price.Product.Images.FirstOrDefault().Path}/{p.Price.Product.Images.FirstOrDefault().Name}",
                 Brand = p.Price.Product.Brand.Name,
                 Alt = p.Price.Product.Images.FirstOrDefault().Alt
