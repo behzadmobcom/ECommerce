@@ -34,7 +34,7 @@
             </a>
             <div class="product-widget">
                 <a title="نمای محصول" href="javascript:void(0)" onclick="OpenProductModal(@Model.Id)" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
-                <a href="javascript:void(0)" onclick="AddCompareList(@Model.Id)" title="مقایسه محصول">
+                <a asp-area="" asp-page="Index" asp-page-handler="AddCompareList" asp-route-Id = "@Model.Id" title="مقایسه محصول">
                     <i class="far fa-exchange"></i>
                 </a>
             </div>

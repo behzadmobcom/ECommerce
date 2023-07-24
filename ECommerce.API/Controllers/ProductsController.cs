@@ -678,6 +678,32 @@ public class ProductsController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
+    [HttpPost]
+    public async Task<IActionResult> ProductsWithCategoriesForCompare(List<int?> categoryIdList,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = _productRepository.GetProductsWithCategories(categoryIdList);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
 
     [HttpPost]
     public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill,

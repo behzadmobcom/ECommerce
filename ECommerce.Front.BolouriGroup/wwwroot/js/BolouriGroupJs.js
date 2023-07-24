@@ -277,22 +277,6 @@ function DeleteCompare(id) {
     });
 }
 
-function AddCompareList(id) {
-    $.ajax({
-        type: "Get",
-        url: "/index?handler=AddCompareList&id=" + id,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (response) {
-            $("#Compare-Count").html(response.returnData)
-            swal(response.message);
-        },
-        failure: function (response) {
-            swal(response);
-        }
-    });
-}
-
 function DecreaseCart(id, productId, priceId) {
     $.ajax({
         type: "Get",

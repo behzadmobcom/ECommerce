@@ -18,14 +18,14 @@ public class CompareModel : PageModel
 
     public async Task OnGetAsync()
     {
-        Message = "";
-        var result = await _compareService.CompareList(HttpContext);
-        if (result.Code > 0 || result.ReturnData.Count == 0)
-        {
-            Message = "ابتدا کالایی برای مقایسه انتخاب کنید";
-            return;
-        }
+        //Message = "";
+        //var result = await _compareService.CompareList(HttpContext);
+        //if (result.Code > 0 || result.ReturnData.Count == 0)
+        //{
+        //    Message = "ابتدا کالایی برای مقایسه انتخاب کنید";
+        //    return;
+        //}
 
-        CompareProducts = result.ReturnData;
+        //CompareProducts = result.ReturnData;
     }
 }

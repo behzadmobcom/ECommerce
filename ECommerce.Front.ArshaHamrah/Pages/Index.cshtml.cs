@@ -156,11 +156,11 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
-    public IActionResult OnGetAddCompareList(int id)
-    {
-        var result = _compareService.Add(HttpContext, id);
-        return new JsonResult(result);
-    }
+    //public IActionResult OnGetAddCompareList(int id)
+    //{
+    //    var result = _compareService.Add(HttpContext, id);
+    //    return new JsonResult(result);
+    //}
 
     public IActionResult OnGetDeleteCompare(int id)
     {
