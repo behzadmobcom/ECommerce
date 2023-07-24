@@ -645,8 +645,6 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             product.AttributeGroupProducts = group;
             yield return product;
         }
-
-        //productCompareViewModel.AddRange(products.Select(product => product));
     }
 
     #endregion
