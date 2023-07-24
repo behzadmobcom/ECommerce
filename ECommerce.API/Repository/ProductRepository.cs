@@ -192,7 +192,9 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .ToList();
 
         var products = _context.Products.AsNoTracking()
-            .Where(x => productIdList.Contains(x.Id)).Include(x => x.Prices)
+            .Where(x => productIdList.Contains(x.Id))
+            .Include(x=>x.ProductCategories)
+            .Include(x => x.Prices)
             .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
             .Select(x => new ProductCompareViewModel
             {
@@ -203,7 +205,8 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 ImagePath = $"{x.Images.FirstOrDefault().Path}/{x.Images.FirstOrDefault().Name}",
                 Url = x.Url,
                 Brand = x.Brand.Name,
-                Alt = x.Images.FirstOrDefault().Alt
+                Alt = x.Images.FirstOrDefault().Alt,
+                ProductCategories = x.ProductCategories.Select(x=>x.Id)
             })
             .ToList();
 
@@ -587,6 +590,63 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         var products = _context.Products.Include(x => x.Prices).Include(x => x.Brand)
                                         .Include(x => x.Images).Include(x => x.ProductUserRanks);
         return products;
+    }
+    public IEnumerable<ProductCompareViewModel> GetProductsWithCategories(List<int?> categoryIdList)
+    {
+        var group = _context.ProductAttributeGroups.AsNoTracking()
+            .Include(a => a.Attribute)
+            .ToList();
+
+        var productCompareViewModel = new List<ProductCompareViewModel>();
+        List<int> ProductsIds = _context.Products.Where(x => x.ProductCategories.Any(c => categoryIdList.Contains(c.Id))).Select(c=>c.Id)
+            .ToList();
+        var productValues = _context.ProductAttributeValues.Where(x => ProductsIds.Contains(x.Id))
+           .ToList();
+
+        var products = _context.Products.AsNoTracking()
+            .Where(x => x.ProductCategories.Any(c => categoryIdList.Contains(c.Id)))
+            .Include(x => x.ProductCategories)
+            .Include(x => x.Prices)
+            .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
+            .Select(x => new ProductCompareViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Price = x.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
+                ImagePath = $"{x.Images.FirstOrDefault().Path}/{x.Images.FirstOrDefault().Name}",
+                Url = x.Url,
+                Brand = x.Brand.Name,
+                Alt = x.Images.FirstOrDefault().Alt,
+                ProductCategories = x.ProductCategories.Select(x => x.Id)
+            })
+            .ToList();
+
+        foreach (var product in products)
+        {
+            foreach (var productAttributeGroup in group)
+            {
+                foreach (var attribute in productAttributeGroup.Attribute)
+                {
+
+                    var value = productValues.FirstOrDefault(x =>
+                        x.ProductAttributeId == attribute.Id && x.ProductId == product.Id);
+                    if (value != null)
+                    {
+                        attribute.AttributeValue = new List<ProductAttributeValue> { value };
+                    }
+                    else
+                    {
+                        attribute.AttributeValue = new List<ProductAttributeValue>();
+                    }
+                }
+            }
+
+            product.AttributeGroupProducts = group;
+            yield return product;
+        }
+
+        //productCompareViewModel.AddRange(products.Select(product => product));
     }
 
     #endregion

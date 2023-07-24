@@ -26,6 +26,7 @@ public interface IProductRepository : IAsyncRepository<Product>
     Task<List<ProductIndexPageViewModel>> GetProductList(List<int> productIdList, CancellationToken cancellationToken);
 
     IEnumerable<ProductCompareViewModel> GetProductListWithAttribute(List<int?> productIdList);
+    IEnumerable<ProductCompareViewModel> GetProductsWithCategories(List<int?> categoryIdList);
 
     IQueryable<Product> GetProductByIdWithInclude(int productId);
 

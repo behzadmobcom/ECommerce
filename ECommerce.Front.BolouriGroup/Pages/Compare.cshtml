@@ -19,48 +19,201 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="table-scroll">
-                    <table class="table-list">
-                        <thead>
-                            <tr>
-                                <th scope="col">تصویر محصول</th>
-                                <th scope="col">نام</th>
-                                <th scope="col">نام تجاری</th>
-                                <th scope="col">توضیحات</th>
-                                <th scope="col">عملیات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.CompareProducts != null)
-                            {
-                                @foreach (var compare in Model.CompareProducts)
+                <div>
+                    <button onclick="ShowModal();" style="display:'block'" class="btn btn-inline">
+                        انتخاب محصولات مشابه
+                    </button>
+                </div>
+                <br />
+                <div>
+                    <div>
+                        <table class="table-list" id="tblCompair">
+                            <thead>
+                                <tr>
+                                    <th scope="col" hidden="hidden">Id</th>
+                                    <th scope="col">تصویر محصول</th>
+                                    <th scope="col">نام</th>
+                                    <th scope="col">نام تجاری</th>
+                                    <th scope="col">توضیحات</th>
+                                    <th scope="col">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id=compareTable>
+                                @if (Model.CompareProduct != null)
                                 {
                                     <tr>
+                                        <td hidden="hidden">@Model.CompareProduct.Id</td>
                                         <td class="table-image">
-                                            <a asp-area="" asp-page="Product" asp-route-productUrl="@compare.Url" style="color: black">
-                                            <img src="~/@compare.ImagePath" alt="@compare.Alt" loading="lazy">
+                                            <a style="color: black">
+                                                <img src="~/@Model.CompareProduct.ImagePath" alt="@Model.CompareProduct.Alt" loading="lazy">
                                             </a>
                                         </td>
-                                        <td class="table-name"><h6><a asp-area="" asp-page="Product" asp-route-productUrl="@compare.Url" style="color: black">@compare.Name</a></h6></td>
-                                        <td class="table-vendor"><a href="#">@compare.Brand</a></td>
-                                        <td class="table-status">@Html.Raw(@compare.Description)</td>
+                                        <td class="table-name"><h6><a style="color: black">@Model.CompareProduct.Name</a></h6></td>
+                                        <td class="table-vendor"><a href="#">@Model.CompareProduct.Brand</a></td>
+                                        <td class="table-status">@Html.Raw(@Model.CompareProduct.Description)</td>
                                         <td class="table-action">
-                                            <a class="wish" href="javascript:void(0)" onclick="AddWishList(@compare.PriceId)" title="افزودن به لیست علاقه مندی ها">
-                                                <i class="fa fa-heart"></i>
+                                            <a class="wish" href="javascript:void(0)" onclick="AddWishList(@Model.CompareProduct.Id)" title="افزودن به لیست علاقه مندی ها">
+                                                <i class="far fa-heart"></i>
                                             </a>
-                                            <a class="wish" href="javascript:void(0)" onclick="DeleteCompare(@compare.Id)" title="حذف">
+                                            @* <a class="wish" href="javascript:void(0)" onclick="RemoveFromTable(@Model.CompareProduct.Id)" title="حذف">
                                                 <i class="far fa-window-close"></i>
-                                            </a>
+                                                </a>*@
                                         </td>
                                     </tr>
                                 }
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!-- The Modal -->
+<div class="modal" id="compairModal">
+    <div class="modal-dialog modal-dialog-scrollable" style="background-color:white">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h3 class="modal-title">لیست محصولات</h3>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <table id="modalTable" class="table-list" style="table-layout:inherit">
+                    <thead>
+                        <tr>
+                            <th scope="col" hidden="hidden">Id</th>
+                            <th scope="col">تصویر محصول</th>
+                            <th scope="col">نام</th>
+                            @*<th scope="col">نام تجاری</th>*@
+                            @*<th scope="col">توضیحات</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.ProductsList)
+                        {
+                            <tr>
+                                <td hidden="hidden">@product.Id</td>
+                                <td class="table-image">
+                                    <a onclick="AddModalProduct(@product.Id)" style="color: black">
+                                        <img src="~/@product.ImagePath" alt="@product.Alt" loading="lazy">
+                                    </a>
+                                </td>
+                                <td class="table-name"><h6><a onclick="AddModalProduct(@product.Id)" style="color: black">@product.Name</a></h6></td>
+                                @*<td class="table-vendor"><a href="#">@product.Brand</a></td>*@
+                                @*<td class="table-status">@Html.Raw(@product.Description)</td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" id="closemodal" class="btn btn-danger" data-dismiss="modal" onclick="document.getElementById('compairModal').style.display='none'">خروج</button>
+            </div>
 
+        </div>
+    </div>
+</div>
 
+@section Scripts{
+<script>
+    var myList = new Array();
+    function ShowModal(){
+        const modal = new bootstrap.Modal('#compairModal');       
+        modal.show();
+    }
+    $('#closemodal').click(function() {
+        $('#compairModal').modal('hide');
+    });
+    function AddModalProduct(id){
+        var products = @Html.Raw(Json.Serialize(Model.ProductsList));
+        var product = products.find(x => x.id == id);
+        var tableBody = document.getElementById('compareTable');
+        var tr = document.createElement('tr');
+        tableBody.appendChild(tr);
+        for (var j = 0; j <= 5; j++) {
+            var td = document.createElement('td');
+            switch(j) {
+              case 0:{
+                td.className = "table-name";
+                td.hidden = "hidden";
+                var h = document.createElement('h6');
+                h.style = "color: black" ;
+                td.appendChild(h);
+                if(product.name != null){
+                    h.appendChild(document.createTextNode(product.id));
+                }
+              }  
+                break;
+              case 1:{
+                td.className = "table-image";
+                var a = document.createElement('a');
+                a.style = "color: black";
+                var img = document.createElement('img');
+                img.src = product.imagePath ;
+                a.appendChild(img);
+                td.appendChild(a);
+              }
+                break;
+              case 2:{
+                td.className = "table-name";
+                var h = document.createElement('h6');
+                h.style = "color: black" ;
+                td.appendChild(h);
+                if(product.name != null){
+                    h.innerHTML = product.name;
+                }
+              }
+                break;
+              case 3:{
+                td.className = "table-vendor";
+                if(product.brand != null){
+                     td.innerHTML = product.brand ;
+                }
+              }
+                break;
+              case 4:{
+                td.className = "table-status";
+                if(product.description != null){
+                    td.innerHTML = product.description ;
+                }
+              }
+                break;     
+              case 5:{
+                td.className = "table-action";
+                var awish = document.createElement('a');
+                awish.className = "wish" ;
+                awish.title = "افزودن به لیست علاقه مندی ها" ;
+                awish.onclick = function() {AddWishList(product.id);}
+                var wish = document.createElement('i');
+                wish.className = "far fa-heart";
+                var adell = document.createElement('a');
+                adell.className = "wish" ;
+                adell.title = "حذف" ;
+                adell.onclick = function() {RemoveFromTable(product.id);}
+                var dell = document.createElement('i');
+                dell.className = "far fa-window-close";
+                td.appendChild(awish);
+                awish.appendChild(wish);
+                td.appendChild(adell);
+                adell.appendChild(dell);
+                }
+                break;     
+            }  
+            tr.appendChild(td);
+        }
+        myList.push(product.id);
+        $("#compairModal").find("td:contains('"+product.id+"')").closest('tr').hide();
+        document.getElementById('closemodal').click();
+    }
+    function RemoveFromTable(value){
+       $("#tblCompair").find("td:contains('"+value+"')").closest('tr').remove();
+        var index = myList.indexOf(value);
+        if (index > -1) {
+            myList.splice(index, 1);
+             $("#compairModal").find("td:contains('"+value+"')").closest('tr').show();
+        }
+    }
+</script>
+}

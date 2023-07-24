@@ -145,7 +145,7 @@ public class IndexModel : PageModel
     }
 
     public async Task<IActionResult> OnGetAddWishList(int id)
-    {
+        {
         var result = await _wishListService.Add(id);
         return new JsonResult(result.Message);
     }
@@ -156,10 +156,17 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
-    public IActionResult OnGetAddCompareList(int id)
+    public IActionResult OnGetAddCompareList(int Id)
     {
-        var result = _compareService.Add(HttpContext, id);
-        return new JsonResult(result);
+        List<int> productListId =new List<int>();
+        productListId.Add(Id);
+        return RedirectToPage("/Compare",new { productListId = productListId });
+    }
+    public IActionResult OnGetLoadCompareList(int CategoryId)
+    {
+        List<int> products = new List<int>();
+        products.Add(CategoryId);
+        return RedirectToPage("/Compare", "ResultProduct", new { products = products });
     }
 
     public IActionResult OnGetDeleteCompare(int id)
