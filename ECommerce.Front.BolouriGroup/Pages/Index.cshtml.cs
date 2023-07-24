@@ -36,11 +36,9 @@ public class IndexModel : PageModel
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
-    //public List<ProductIndexPageViewModel> NewProducts { get; set; } = new List<ProductIndexPageViewModel>();
     public List<ProductIndexPageViewModel> ExpensiveProducts { get; set; } = new List<ProductIndexPageViewModel>();
     public List<ProductIndexPageViewModel> NewProducts { get; set; } = new List<ProductIndexPageViewModel>();
     public ServiceResult<List<BlogViewModel>> Blogs { get; set; }
-    //public List<ProductIndexPageViewModel> SellProducts { get; set; }
     public List<Brand> Brands { get; set; }
     public bool IsColleague { get; set; }
 
@@ -77,7 +75,6 @@ public class IndexModel : PageModel
             var requestBody = reader.ReadToEnd();
             if (requestBody.Length > 0)
                 ret = requestBody;
-            // do something
         }
 
         return new JsonResult(ret);
@@ -145,7 +142,7 @@ public class IndexModel : PageModel
     }
 
     public async Task<IActionResult> OnGetAddWishList(int id)
-        {
+    {
         var result = await _wishListService.Add(id);
         return new JsonResult(result.Message);
     }
@@ -156,11 +153,11 @@ public class IndexModel : PageModel
         return new JsonResult(result);
     }
 
-    public IActionResult OnGetAddCompareList(int Id)
+    public IActionResult OnGetAddCompareList(int id)
     {
-        List<int> productListId =new List<int>();
-        productListId.Add(Id);
-        return RedirectToPage("/Compare",new { productListId = productListId });
+        List<int> productListId = new List<int>();
+        productListId.Add(id);
+        return RedirectToPage("/Compare", new { productListId = productListId });
     }
     public IActionResult OnGetLoadCompareList(int CategoryId)
     {

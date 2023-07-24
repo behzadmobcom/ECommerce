@@ -22,17 +22,6 @@ public class CompareService : ICompareService
         _cookieService.Remove(context, new CookieData($"{_key}-{productId}", productId));
         return new ServiceResult {Code = ServiceCode.Success, Message = "کالا از لیست مقایسه حذف شد"};
     }
-
-    //public ServiceResult<List<int>> Load(HttpContext context)
-    //{
-    //    //var cookies = _cookieService.GetCookie(context, _key);
-    //    //return new ServiceResult<List<int>>
-    //    //{
-    //    //    Code = ServiceCode.Success,
-    //    //    ReturnData = cookies.Select(x => x.Value).ToList()
-    //    //};
-    //}
-
     public async Task<ServiceResult<List<ProductCompareViewModel>>> CompareList(List<int> productListId)
     {
         var result =await _productService.ProductsWithIdsForCompare(productListId);

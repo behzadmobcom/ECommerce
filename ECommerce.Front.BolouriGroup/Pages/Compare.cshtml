@@ -54,10 +54,7 @@
                                         <td class="table-action">
                                             <a class="wish" href="javascript:void(0)" onclick="AddWishList(@Model.CompareProduct.Id)" title="افزودن به لیست علاقه مندی ها">
                                                 <i class="far fa-heart"></i>
-                                            </a>
-                                            @* <a class="wish" href="javascript:void(0)" onclick="RemoveFromTable(@Model.CompareProduct.Id)" title="حذف">
-                                                <i class="far fa-window-close"></i>
-                                                </a>*@
+                                            </a>                                         
                                         </td>
                                     </tr>
                                 }
@@ -85,8 +82,6 @@
                             <th scope="col" hidden="hidden">Id</th>
                             <th scope="col">تصویر محصول</th>
                             <th scope="col">نام</th>
-                            @*<th scope="col">نام تجاری</th>*@
-                            @*<th scope="col">توضیحات</th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -100,8 +95,6 @@
                                     </a>
                                 </td>
                                 <td class="table-name"><h6><a onclick="AddModalProduct(@product.Id)" style="color: black">@product.Name</a></h6></td>
-                                @*<td class="table-vendor"><a href="#">@product.Brand</a></td>*@
-                                @*<td class="table-status">@Html.Raw(@product.Description)</td>*@
                             </tr>
                         }
                     </tbody>
@@ -127,15 +120,15 @@
         $('#compairModal').modal('hide');
     });
     function AddModalProduct(id){
-        var products = @Html.Raw(Json.Serialize(Model.ProductsList));
-        var product = products.find(x => x.id == id);
+        const products = @Html.Raw(Json.Serialize(Model.ProductsList));
+        const product = products.find(x => x.id == id);
         var tableBody = document.getElementById('compareTable');
         var tr = document.createElement('tr');
         tableBody.appendChild(tr);
-        for (var j = 0; j <= 5; j++) {
+        for (let rowCounter = 0; rowCounter <= 5; rowCounter++) {
             var td = document.createElement('td');
-            switch(j) {
-              case 0:{
+            switch(rowCounter) {
+              case 0:
                 td.className = "table-name";
                 td.hidden = "hidden";
                 var h = document.createElement('h6');
@@ -143,10 +136,9 @@
                 td.appendChild(h);
                 if(product.name != null){
                     h.appendChild(document.createTextNode(product.id));
-                }
-              }  
+                }  
                 break;
-              case 1:{
+              case 1:
                 td.className = "table-image";
                 var a = document.createElement('a');
                 a.style = "color: black";
@@ -154,9 +146,8 @@
                 img.src = product.imagePath ;
                 a.appendChild(img);
                 td.appendChild(a);
-              }
                 break;
-              case 2:{
+              case 2:
                 td.className = "table-name";
                 var h = document.createElement('h6');
                 h.style = "color: black" ;
@@ -164,23 +155,20 @@
                 if(product.name != null){
                     h.innerHTML = product.name;
                 }
-              }
                 break;
-              case 3:{
+              case 3:
                 td.className = "table-vendor";
                 if(product.brand != null){
                      td.innerHTML = product.brand ;
                 }
-              }
                 break;
-              case 4:{
+              case 4:
                 td.className = "table-status";
                 if(product.description != null){
                     td.innerHTML = product.description ;
                 }
-              }
                 break;     
-              case 5:{
+              case 5:
                 td.className = "table-action";
                 var awish = document.createElement('a');
                 awish.className = "wish" ;
@@ -198,7 +186,6 @@
                 awish.appendChild(wish);
                 td.appendChild(adell);
                 adell.appendChild(dell);
-                }
                 break;     
             }  
             tr.appendChild(td);

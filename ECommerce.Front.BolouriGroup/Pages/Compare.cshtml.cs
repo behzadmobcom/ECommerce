@@ -9,7 +9,6 @@ public class CompareModel : PageModel
 {
     private readonly ICompareService _compareService;
     public List<int> CategoryId = new List<int>(); 
-    //[BindProperty] public int[] SelectedProduct { get; set; }
     public CompareModel(ICompareService compareService)
     {
         _compareService = compareService;
