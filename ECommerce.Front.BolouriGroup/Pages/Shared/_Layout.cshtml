@@ -19,6 +19,7 @@
     <link href="~/css/slick.min.css" rel="stylesheet" onload="this.media='all'" />
     <link href="~/css/stars.css" rel="stylesheet" onload="this.media='all'" />
     <link href="~/css/style.css" rel="stylesheet" onload="this.media='all'" />
+
     <!-- CSS only -->
     @await RenderSectionAsync("Head", false)
 </head>
@@ -251,7 +252,7 @@
             <ul id="Cart-List" class="cart-list">
             </ul>
             <div class="cart-footer">
-                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span>تومان</a>
+                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span><span class="checkout-text">تومان</span></a>
                 <input hidden="hidden" id="AllPrice-Value" value="0" />
             </div>
         </div>

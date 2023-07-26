@@ -4124,13 +4124,13 @@ tbody tr td:last-child {
         padding: 20px 15px 0;
         text-align: center;
     }
-
-    .coupon-btn {
-        color: var(--blue-dark);
-        font-weight: 500;
-        margin-bottom: 20px;
-        text-shadow: var(--primary-tshadow)
-    }
+        
+.coupon-btn {
+    color: var(--blue-dark);
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-shadow: var(--primary-tshadow)
+}
 
         .coupon-btn:hover {
             text-decoration: underline
@@ -4188,10 +4188,11 @@ tbody tr td:last-child {
         justify-content: center;
         padding: 10px 0;
         transition: all linear .3s;
+        margin-top:15%;
     }
 
         .cart-checkout-btn:hover {
-            background: var(--heading)
+            background: var(--blue-dark)
         }
 
     .checkout-label {
@@ -4202,7 +4203,7 @@ tbody tr td:last-child {
         line-height: 30px;
         text-align: center;
         text-transform: capitalize;
-        width: 100%;
+        width: 50%;
     }
 
     .checkout-price {
@@ -4211,6 +4212,10 @@ tbody tr td:last-child {
         letter-spacing: .3px;
         padding: 0 25px;
     }
+.checkout-text {
+    color: var(--white);
+    letter-spacing: .3px;
+}
 
     @media (max-width: 450px) {
         .cart-part {
