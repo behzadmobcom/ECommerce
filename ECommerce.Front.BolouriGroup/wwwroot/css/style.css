@@ -436,7 +436,6 @@ button:focus {
     -o-transition: all linear .3s;
     -webkit-transition: all linear .3s;
     background: var(--white);
-    border-radius: 10px;
    /* box-shadow: 0 15px 35px 0 rgba(0, 0, 0, .1);*/
     height: auto;
     opacity: 0;
@@ -446,7 +445,6 @@ button:focus {
     top: 100px;
     transition: all linear .3s;
     visibility: hidden;
-    width: 200px;
     z-index: 4;
 }
 
@@ -3380,6 +3378,7 @@ tbody tr td:last-child {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 3;
+    margin-top:3px;
 }
 
 .dropdown-content a {
@@ -3389,9 +3388,10 @@ tbody tr td:last-child {
     display: block;
 }
 
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
+    .dropdown-content a:hover {
+        background-color: #ddd;
+        border-radius: 10px;
+    }
 
 .dropdown:hover .dropdown-content {
     display: block;
