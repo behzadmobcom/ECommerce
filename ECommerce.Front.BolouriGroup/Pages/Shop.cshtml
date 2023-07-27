@@ -24,6 +24,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 order-1 order-lg-0">
+
                 <div class="shop-widget shop-widget-category">
                     <h6 class="shop-widget-title">دسته بندی</h6>
                     @await Component.InvokeAsync("CategoriesList")
@@ -43,7 +44,7 @@
                             <span class="slider round"></span>
                         </label><br />
                         <label class="widget-title border-left" style="font-size:14px">مرتب سازی :</label>
-						    <select name="ProductSort" id="ProductSort" value="@Model.ProductSort">
+						    <select name="ProductSort" id="ProductSort" value="@Model.ProductSort" class="select">
 							    @{
 								    bool sel1 = false;
 								    bool sel2 = false;
@@ -82,7 +83,7 @@
             </div>
             <div class="col-lg-9 order-0 order-lg-1">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="shop-filter">
                             @{
                                 var startNumber = (Model.Products.PaginationDetails.CurrentPage - 1) * Model.Products.PaginationDetails.PageSize + 1;
@@ -96,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row row-cols-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
                     @if (Model.Products != null)
                     {
                         foreach (var product in Model.Products.ReturnData)
@@ -106,7 +107,7 @@
                     }
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <ul class="pagination">
                             <partial name="_Pagination" model="@Model.Products.PaginationDetails" />
                         </ul>
