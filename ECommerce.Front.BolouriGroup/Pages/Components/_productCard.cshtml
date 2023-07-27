@@ -9,9 +9,6 @@
             <div class="product-label">
                 <label class="label-text new">جدید</label>
             </div>
-           @* <button class="product-wish wish">
-                <i class="fa fa-heart"></i>
-            </button>*@
             <div id="productCard-@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id" @{
                 if (Model.FirstPriceWichlist == true)
                 {

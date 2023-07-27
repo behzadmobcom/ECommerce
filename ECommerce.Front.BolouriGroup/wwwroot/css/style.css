@@ -172,7 +172,7 @@ button:focus {
 
 @media (max-width: 575px) {
     .col {
-        padding: 0 4px
+        padding: 10px 100px
     }
 }
 
@@ -855,7 +855,7 @@ button:focus {
     border-radius: 8px;
     justify-content: center;
     padding: 20px 25px;
-    width: 100%;
+    
 }
 
 .page-item {
@@ -4980,6 +4980,10 @@ tbody tr td:last-child {
         .news-form {
             flex-direction: column
         }
+        .pagination {
+            margin-right: 90px;
+            margin-left: 90px;
+        }
     }
 
     @media (max-width: 767px) {
@@ -5242,11 +5246,13 @@ tbody tr td:last-child {
         }
 
         .shop-filter {
-            margin-right: 60px
+            margin-right: 50px;
+            margin-left: 50px;
         }
 
         .pagination {
-            margin-right: 20px
+            margin-right: 50px;
+            margin-left: 50px;
         }
     }
 
@@ -5621,10 +5627,11 @@ tbody tr td:last-child {
         align-items: center;
         background: var(--white);
         border-radius: 8px;
-        display: flex;
+        /*display: flex;*/
         justify-content: space-between;
         margin-bottom: 25px;
         padding: 20px 30px;
+       
     }
 
         .shop-filter .nice-select {
@@ -5691,7 +5698,8 @@ tbody tr td:last-child {
 
         .shop-filter p {
             font-size: 15px;
-            text-transform: capitalize
+            text-transform: capitalize;
+            text-align:center;
         }
 
     @media (max-width: 767px) {
@@ -5712,8 +5720,7 @@ tbody tr td:last-child {
         display: none
     }
 
-    @media (max-width: 575px) {
-        .shop-filter-desktop, .shop-widget-category, .shop-widget-rate {
+    @media (max-width: 575px) { .shop-widget-category, .shop-widget-rate {
             display: none
         }
 
