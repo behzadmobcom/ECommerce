@@ -4980,10 +4980,9 @@ tbody tr td:last-child {
         .news-form {
             flex-direction: column
         }
-        .pagination {
-            margin-right: 90px;
-            margin-left: 90px;
-        }
+       
+    
+      
     }
 
     @media (max-width: 767px) {
@@ -5059,6 +5058,17 @@ tbody tr td:last-child {
 
         .visual-wrap {
             margin-bottom: 30px
+        }
+        .footer-logo {
+            text-align: center
+        }
+
+        .footer-widget {
+            text-align: center;
+        }
+
+        .footer-social {
+            text-align: center
         }
     }
 
@@ -5250,10 +5260,7 @@ tbody tr td:last-child {
             margin-left: 50px;
         }
 
-        .pagination {
-            margin-right: 50px;
-            margin-left: 50px;
-        }
+     
     }
 
     @media (max-width: 1199px) {
@@ -5617,6 +5624,7 @@ tbody tr td:last-child {
         .blog-widget {
             margin-right: 0
         }
+        .shop-widget-category{display:none}
     }
 
     .shop-filter a {
