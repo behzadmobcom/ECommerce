@@ -18,7 +18,7 @@
             }>
                 @{
                     <label>
-                            <input onclick="InvertWishList('productDetailsCart',@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id)" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
+                            <input onclick="InvertWishList('productDetailsCart',[@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault()?.Id,@Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x=>x.Exist>0)?.Id])" title="افزودن به لیست علاقه مندی ها "  class="CheckboxStar"/>
                         <i class="fa fa-heart"></i>
                     </label>
                 }
