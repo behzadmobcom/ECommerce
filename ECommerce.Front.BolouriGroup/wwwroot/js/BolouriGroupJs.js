@@ -18,8 +18,9 @@ function RemoveWishList(id) {
     });
 }
 
-function InvertWishList(caller, id) {
-
+function InvertWishList(caller, ids) {
+    var id = ids[0];
+    if (ids[1] != null) { id = ids[1];}
     $.ajax({
         type: "Get",
         url: "/index?handler=InvertWishList&id=" + id,
