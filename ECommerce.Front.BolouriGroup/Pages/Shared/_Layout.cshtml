@@ -274,10 +274,9 @@
                 </div>
                 <ul class="nav-list">
                     <li>
-                        <a class="nav-link" asp-area="" asp-page="/Index">خانه</a>
+                        <a class="nav-link" asp-area="" asp-page="/Index">   <h3>خانه</h3></a>
                     </li>
                     <li>
-                        <h3>دسته بندی</h3>
                         <ul>
                             @await Component.InvokeAsync("CategoriesMobile")
                         </ul>
@@ -300,6 +299,14 @@
                         </ul>
                     </li>
 
+                    <li>
+                        <a class="nav-link dropdown-link" href="#"><h3>وبلاگ ها</h3></a>
+                        <ul class="dropdown-list">
+                            <li>
+                                @await Component.InvokeAsync("BlogCategoriesMenu")
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a class="nav-link dropdown-link" href="#"><h3>حساب</h3></a>
                         <ul class="dropdown-list">
@@ -328,14 +335,6 @@
                                 </li>
                             }
 
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-link dropdown-link" href="#"><h3>وبلاگ ها</h3></a>
-                        <ul class="dropdown-list">
-                            <li>
-                                @await Component.InvokeAsync("BlogCategoriesMenu")
-                            </li>
                         </ul>
                     </li>
                 </ul>
