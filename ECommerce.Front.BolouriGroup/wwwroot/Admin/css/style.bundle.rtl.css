@@ -72784,4 +72784,5 @@ body { background: #EEF0F8; }
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    height:150px;
 }
