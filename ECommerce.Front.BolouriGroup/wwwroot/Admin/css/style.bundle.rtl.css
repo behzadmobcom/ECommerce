@@ -69911,7 +69911,7 @@ body { background: #EEF0F8; }
 
     .header-menu .menu-nav > .menu-item .menu-submenu.menu-submenu-left {
         left: auto;
-        right: 0;
+        right: auto;
     }
 
     .header-menu .menu-nav > .menu-item .menu-submenu.menu-submenu-left.menu-submenu-pull { margin-right: -40px; }
