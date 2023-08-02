@@ -365,3 +365,16 @@ FodyWeavers.xsd
 
 # App Settings
 ECommerce.API/appsettings.json
+
+# bundles
+**/site.min.css
+**/site.min.js
+
+# VS Code settings
+.vscode/*
+
+# prettier config file
+.prettierrc
+
+# Environment Variables
+.env
