@@ -5871,7 +5871,10 @@ tbody tr td:last-child {
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        padding: 100px 0;
+        display:flex;
+        align-items:center;
+        max-width:100%;
+        height:330px;
         position: relative;
         text-align: center;
         z-index: 1
@@ -5897,13 +5900,22 @@ tbody tr td:last-child {
 
     @media (max-width: 767px) {
         .single-banner {
-            padding: 60px 0
+            padding: 10px 0;
+            max-width:100%;
+            height:auto;
         }
 
             .single-banner h2 {
                 font-size: 32px;
                 margin-bottom: 12px
             }
+    }
+    @media (max-width:998px){
+        .single-banner {
+            padding: 10px 0;
+            max-width: 100%;
+            height: auto;
+        }
     }
 
     .home-index-slider .slick-right {
