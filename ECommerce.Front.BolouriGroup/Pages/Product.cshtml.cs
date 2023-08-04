@@ -88,7 +88,7 @@ public class ProductdetailsModel : PageModel
         if (ModelState.IsValid)
         {
             var result = await _productCommandService.Add(productComment);
-            Message = result.Message;
+            Message = "نظر شما ثبت شد،پس از تایید توسط ادمین سایت ،نمایش داده می شود";
         }
         else
         {
