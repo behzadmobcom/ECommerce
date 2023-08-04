@@ -115,7 +115,7 @@
 <!--begin::Menu Nav-->
 <ul class="menu-nav">
 <li class="menu-item  menu-item-active" aria-haspopup="true">
-    <a asp-page="index" class="menu-link ">
+    <a asp-page="/index" asp-area="Admin" class="menu-link ">
         <span class="svg-icon menu-icon">
             <!--begin::Svg Icon | path:assets/media/svg/icons/desgin/Layers.svg-->
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -940,6 +940,7 @@
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="~/Admin/js/widgets.js?v=7.0.6"></script>
+<script src="~/Admin/js/loadScript.js"></script>
 <!--end::Page Scripts-->
 @await RenderSectionAsync("Scripts", false)
 
