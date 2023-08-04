@@ -37,21 +37,24 @@
         <div class="card card-custom">
             <div class="card-body">
                 <form class="form" method="post" asp-page-handler="OnPost" >
+                  <div class="row">
                     <div class="col-md-3 my-2 my-md-0">
                         <div class="d-flex align-items-center">
-                            <label class="mr-3 mb-0 d-none d-md-block">از مبلغ:</label>
+                            <label class="mr-3 mb-0 d-none d-md-block w-25">از مبلغ:</label>
                             <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.Transactions.PaginationDetails.MinPrice" class="form-control" />                                
                         </div>
                     </div> 
                      <div class="col-md-3 my-2 my-md-0">
                         <div class="d-flex align-items-center">
-                            <label class="mr-3 mb-0 d-none d-md-block">تا مبلغ:</label>
+                                <label class="mr-3 mb-0 d-none d-md-block w-25">تا مبلغ:</label>
                             <input placeholder="مبلغ را وارد نمایید" asp-for="@Model.Transactions.PaginationDetails.MaxPrice" class="form-control" />                                
                         </div>
                     </div> 
+                </div>
+                <div class="row mt-5 align-items-center">
                     <div class="col-md-3 my-2 my-md-0">
-                        <div class="d-flex align-items-center">                            
-                          <div class="dropdown">
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown d-flex align-items-center">
                              <label class="mr-3 mb-0 d-none d-md-block">کاربر:</label>
                               <input autocomplete="off" asp-for="@Model.Transactions.PaginationDetails.Username" id="Username" class="form-control" type="text" placeholder="جستجو کاربران..." onkeyup="filterFunction()" />
                               <div id="userDropdown" class="dropdown-content">                                  
@@ -61,15 +64,16 @@
                     </div>
                      <div class="col-md-4 my-2">
                         <div class="d-flex align-items-center">
-                        <label class="mr-3 d-none d-md-block" style="width: 25%"> مرتب سازی بر اساس:</label>
+                        <label class="mr-3 mb-0 d-none d-md-block w-75" > مرتب سازی بر اساس:</label>
                             <select asp-for="@Model.Transactions.PaginationDetails.PurchaseSort" class="form-control">
                                 <option value="7">جدید ترین</option>
                                 <option value="6">قدیمی ترین</option>                                
                             </select>
                         </div>
                     </div>
+                    
                     <div class="form-actions no-color">
-                        <p>
+                        <p class="mb-0">
                             @*جستجو بر اساس نام:
                             <input type="text" name="search" value="@Model.Transactions.PaginationDetails.Search" />*@
                             <input type="text" hidden="hidden" name="pageIndex" value="1" />
@@ -81,6 +85,7 @@
                             <a asp-page="/Transactions/Index" asp-route-pageSize="40">40</a> -
                             <a asp-page="/Transactions/Index" asp-route-pageSize="50">50</a>
                         </p>
+                    </div>
                     </div>
                 </form>
                 <div class="table-responsive mt-5">
