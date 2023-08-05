@@ -31,8 +31,8 @@ public class IndexModel : PageModel
         if (result.Code == ServiceCode.Success)
         {
             result.PaginationDetails.Address = "/Users/Index";
-            Message = result.Message;
-            Code = result.Code.ToString();
+            //Message = result.Message;
+            //Code = result.Code.ToString();
             Users = result;
             return Page();
         }
