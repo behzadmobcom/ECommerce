@@ -42,6 +42,7 @@ public class BlogModel : PageModel
     public async Task OnPost(string blogCategoryId,string search)
     {
         Blogs = await _blogService.TopBlogs(blogCategoryId, search, 1, 3);
-    
+        Tags = await _tagService.GetAllBlogTags();
+
     }
 }
