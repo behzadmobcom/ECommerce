@@ -5,7 +5,7 @@ namespace ECommerce.Services.IServices;
 
 public interface IProductService : IEntityService<ProductViewModel>
 {
-    Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isCheckExist = false);
+    Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl,int? userId ,bool isWithoutBill = true, bool isCheckExist = false);
     ServiceResult CheckBeforeSend(ProductViewModel product);
     Task<ServiceResult<ProductViewModel>> Add(ProductViewModel productViewModel);
     Task<ServiceResult> Edit(ProductViewModel productViewModel);

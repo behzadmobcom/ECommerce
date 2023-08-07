@@ -2,7 +2,7 @@
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
     ViewData["Title"] = "جزئیات محصول";
-    int? priceId = Model.Product.Prices.OrderBy(x =>x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id;
+    int? priceId = Model.WishListPriceId==null ? Model.Product.Prices.OrderBy(x =>x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id : Model.WishListPriceId;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
@@ -218,14 +218,20 @@
                             <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddSelectedPriceToCart(@Model.Product.Id)">
                                 <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
                             </button>
-                        </div>
-                        <div class="details-action-group heartChecked">                           
-                            <a class="view-wish wish" href="javascript:void(0)" onclick="InvertWishList(@priceId)" title="افزودن به لیست علاقه مندی ها ">
-                                <i class="fa fa-heart"></i><span> افزودن به علاقمندی ها </span>
-                            </a>                            
+                        </div>                        
+                        <div class="details-action-group heartChecked">                                                
+                            <a href="javascript:void(0)"  onclick="InvertWishList('Product',[@priceId])" @{ 
+                                if (Model.WishListPriceId==null){
+                                    <text> class="view-wish wish" > </text>
+                                }else{
+                                    <text> class="view-wish wish active" > </text>
+                                }                                
+                            }
+                            <i class="fa fa-heart"></i><span>لیست علاقه مندی ها</span>
+                            </a>
                             <a class="view-compare" href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه این مورد">
                                 <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
-                            </a>
+                            </a>                         
                         </div>
                         <div class="details-list-group mt-4">
                             <label class="details-list-title">اشتراک گذاری:</label>

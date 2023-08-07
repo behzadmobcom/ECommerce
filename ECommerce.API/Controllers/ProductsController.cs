@@ -555,18 +555,37 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<Product>> GetByProductUrl(string productUrl, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductViewModel>> GetByProductUrl(string productUrl, int userId, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _productRepository.GetByUrl(productUrl, cancellationToken);
-            if (result == null)
-                return Ok(new ApiResult
-                {
-                    Code = ResultCode.NotFound
-                });
+            var product = await _productRepository.GetByUrl(productUrl, cancellationToken);
+            if (product == null) return Ok(new ApiResult
+            {
+                Code = ResultCode.NotFound
+            });
+            if (product.Prices.Any(p => p.ArticleCode != null)) product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isCheckExist, cancellationToken);
 
-            if (result.Prices.Any(p => p.ArticleCode != null)) result = await AddPriceAndExistFromHoloo(result, isWithoutBill, isCheckExist, cancellationToken);
+            var wish = await _wishListRepository.GetByProductUser(product.Id, userId, cancellationToken);
+            var result = new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                IsDiscontinued = product.IsDiscontinued,
+                IsActive = product.IsActive,
+                Url = product.Url,
+                HolooCompanyId = product.HolooCompanyId,
+                StoreId = product.StoreId,
+                Images = product.Images.ToList(),
+                TagsId = product.Tags.Select(x => x.Id).ToList(),
+                KeywordsId = product.Keywords.Select(x => x.Id).ToList(),
+                Prices = product.Prices,
+                Supplier = product.Supplier,
+                Tags = product.Tags.ToList(),
+                Keywords = product.Keywords.ToList(),
+                WishListPriceId = wish == null ? null : wish.PriceId
+        };
 
             return Ok(new ApiResult
             {
@@ -581,6 +600,7 @@ public class ProductsController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
+           
 
     [HttpGet]
     public async Task<ActionResult<ProductViewModel>> GetById(int id, bool isColleague,

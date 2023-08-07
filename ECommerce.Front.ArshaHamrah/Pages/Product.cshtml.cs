@@ -11,14 +11,16 @@ public class ProductModel : PageModel
    private readonly IProductAttributeGroupService _productAttributeGroupService;
     private readonly IProductService _productService;
     private readonly IStarService _starService;
+    private readonly IUserService _userService;
 
 
     public ProductModel(IProductService productService, IStarService starService, ICartService cartService,
-       IProductAttributeGroupService productAttributeGroupService)
+       IProductAttributeGroupService productAttributeGroupService, IUserService userService)
     {
         _productService = productService;
         _starService = starService;
         _productAttributeGroupService = productAttributeGroupService;
+        _userService = userService;
     }
 
     public ProductViewModel Product { get; set; }
@@ -28,7 +30,8 @@ public class ProductModel : PageModel
 
     public async Task OnGet(string productUrl)
     {
-        var resultProduct = await _productService.GetProduct(productUrl);
+        var user = await _userService.GetUser();
+        var resultProduct = await _productService.GetProduct(productUrl, user.ReturnData.Id);
         if (resultProduct.Code > 0) return;
         Product = resultProduct.ReturnData;
         var result = await _productAttributeGroupService.GetByProductId(Product.Id);

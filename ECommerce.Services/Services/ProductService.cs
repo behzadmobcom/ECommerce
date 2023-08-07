@@ -46,10 +46,11 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
             ReturnData = productViewModel
         };
     }
+ 
 
-    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, bool isWithoutBill = true, bool isCheckExist = false)
+    public async Task<ServiceResult<ProductViewModel>> GetProduct(string productUrl, int? userId=null, bool isWithoutBill = true, bool isCheckExist = false)
     {
-        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&isWithoutBill={isWithoutBill}&isCheckExist={isCheckExist}");
+        var result = await _http.GetAsync<ProductViewModel>(Url, $"GetByProductUrl?productUrl={productUrl}&userId={userId}&isWithoutBill={isWithoutBill}&isCheckExist={isCheckExist}");
         return Return(result);
     }
 
