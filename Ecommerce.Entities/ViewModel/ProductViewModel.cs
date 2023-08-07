@@ -59,6 +59,7 @@ public class ProductViewModel
     public Supplier? Supplier { get; set; }
     public Store? Store { get; set; }
     public List<Category>? ProductCategories { get; set; }
+    public int? WishListPriceId { get; set; }
 
     public static implicit operator ProductViewModel(Product p)
     {
@@ -93,7 +94,7 @@ public class ProductViewModel
             Store = p.Store,
             Tags = p.Tags.ToList(),
             Keywords = p.Keywords.ToList(),
-            ProductCategories = p.ProductCategories.ToList()
+            ProductCategories = p.ProductCategories.ToList(),            
         };
     }
 
@@ -127,7 +128,8 @@ public class ProductViewModel
                 Store = p.Store,
                 Tags = p.Tags?.ToList(),
                 Keywords = p.Keywords?.ToList(),
-                ProductCategories = p.ProductCategories?.ToList()
+                ProductCategories = p.ProductCategories?.ToList()          
+                
             };
         }
         catch (Exception e)

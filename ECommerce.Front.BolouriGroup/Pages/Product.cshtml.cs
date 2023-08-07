@@ -36,6 +36,7 @@ public class ProductdetailsModel : PageModel
     }
     public string siteUrl { get; set; }
     public ProductViewModel Product { get; set; }
+    public int? WishListPriceId { get; set; }
     public List<Tag> tags { get; set; }
     public List<ProductIndexPageViewModel> RelatedProducts { get; set; }
     public double Stars { get; set; }
@@ -46,9 +47,11 @@ public class ProductdetailsModel : PageModel
 
     private async Task Initial(string productUrl, int pageNumber = 1, int pageSize = 10)
     {
-        var resultProduct = await _productService.GetProduct(productUrl);
+        var user = await _userService.GetUser();
+        var resultProduct = await _productService.GetProduct(productUrl, user.ReturnData.Id);
         if (resultProduct.Code > 0) return;
         Product = resultProduct.ReturnData;
+        WishListPriceId = resultProduct.ReturnData.WishListPriceId;
         var result = await _attributeGroupService.GetByProductId(Product.Id);
         if (result.Code == ServiceCode.Success)
             AttributeGroups = result.ReturnData.Where(x =>
@@ -80,7 +83,7 @@ public class ProductdetailsModel : PageModel
             productComment.Name = user.ReturnData.UserName;
         }
 
-        var resultProduct = await _productService.GetProduct(productUrl);
+        var resultProduct = await _productService.GetProduct(productUrl,user.ReturnData.Id);
         if (resultProduct.Code > 0) return;
         Product = resultProduct.ReturnData;
         productComment.ProductId = Product.Id;
