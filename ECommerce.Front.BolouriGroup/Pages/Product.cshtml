@@ -56,14 +56,7 @@
                                 }
 
                             </ul>
-                            <ul class="details-thumb">
-                                @foreach (var image in Model.Product.Images)
-                                {
-                                    <li>
-                                        <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
-                                    </li>
-                                }
-                            </ul>
+                          
 
                             <div id="zoomModal" class="pos-absolute">
                                 <div id="myresult" class="img-zoom-result"></div>
@@ -71,8 +64,16 @@
                         </div>
                     </div>
                 }
-                <div class="col-lg-7">
+                <div class="col-lg-7 m-content">
                     <div class="details-content">
+                        <ul class="details-thumb">
+                            @foreach (var image in Model.Product.Images)
+                            {
+                                <li>
+                                    <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
+                                </li>
+                            }
+                        </ul>
                         <h3 class="details-name">
                             <a href="#">@Model.Product.Name</a>
                         </h3>

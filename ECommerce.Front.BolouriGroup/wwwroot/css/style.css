@@ -6387,6 +6387,7 @@ tbody tr td:last-child {
         background: var(--white);
         border-radius: 8px;
         padding: 35px;
+       
     }
 
     .details-name {
@@ -6847,11 +6848,36 @@ tbody tr td:last-child {
     .review-form .star-rating {
         text-align: right
     }
+    @media (max-width:1200px){
+        .details-content {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 35px;
+            display:flex;
+            flex-direction:column;
+        }
+        .m-content{
+            margin: 0 auto;
+        }
+        .details-preview li img {
+            background: #fff;
+            border-radius: 8px;
+            width: 55%;
+            margin: 0 auto;
+        }
+    }
 
     @media (max-width: 991px) {
         .product-navigation {
             margin: 25px 0
         }
+        .details-preview li img {
+            background: #fff;
+            border-radius: 8px;
+            width: 100%;
+            
+        }
+       
     }
 
     @media (max-width: 575px) {
