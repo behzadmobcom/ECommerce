@@ -51,15 +51,9 @@ public class StarService : EntityService<ProductUserRank>, IStarService
         };
     }
 
-    public async Task<int> SumStarsByProductId(int productId)
+    public async Task<double> SumStarsByProductId(int productId)
     {
-        FillStars = 0;
-        EmptyStars = 5;
-        StarCount = 0;
-        var sum = 5;
-        var result = await _http.GetAsync<int>(Url, $"GetBySumProductId?id={productId}");
-        if (result.Code == 0) sum = result.ReturnData;
-
-        return sum;
+        var result = await _http.GetAsync<double>(Url, $"GetBySumProductId?id={productId}");
+        return result.Code == 0 ? result.ReturnData : 0;
     }
 }

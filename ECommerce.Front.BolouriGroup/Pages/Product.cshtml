@@ -83,14 +83,25 @@
                             }
                         </div>
                         <div class="pro-rating sin-pro-rating f-right">
+                            <div>
+                            @{string[] starFillClasses = {"star-quarter", "star-half", "star-3-quarter", "star-full"};}
                             @for (var i = 1; i <= 5; i++)
                             {
-                                <label id="starLable-@i" for="@Model.Product.Id-@i" @if (Model.Stars >= i) {<text> class="rankChecked" </text> }>
-                                    <input  onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@Model.Product.Id-@i" class="CheckboxStar"/>
+                                string cls = "";
+                                if (Math.Ceiling(Model.Stars) == i) {
+                                    var starD = (double)(Model.Stars % 1);
+                                    cls += starFillClasses[(int)Math.Floor(starD / 0.33)];
+                                }
+                                if (i <= Model.Stars) {
+                                    cls += " rankChecked";
+                                }
+                                <label id="starLable-@i" for="@Model.Product.Id-@i" class="@cls">
+                                    <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@Model.Product.Id-@i" class="CheckboxStar"/>
                                     <i class="fas fa-star"></i>
                                 </label>
                             }
-                            <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars)امتیاز</a>
+                            </div>
+                            <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars.ToString("0.##"))امتیاز</a>
                         </div>
                         @{
                             decimal? discount = 0;

@@ -12,7 +12,87 @@
     height: 0;
 }
 
+.pro-rating,
+.feature-rating {
+  display: flex;
+  gap: 10px;
+}
 
+.pro-rating div,
+.feature-rating div {
+  display: flex;
+}
+
+.pro-rating div label:hover ~ label,
+.feature-rating div label:hover ~ label {
+  color: var(--text) !important;
+  transition: color 200ms;
+  transition-delay: 0ms;
+}
+
+.pro-rating div:hover label,
+.feature-rating div:hover label {
+  color: var(--blue-customer) !important;
+}
+
+.pro-rating div:hover label::after,
+.feature-rating div:hover label::after {
+  content: '';
+}
+
+div label:hover label:nth-child(2) {
+  transition-delay: 30ms;
+}
+
+div label:hover label:nth-child(3) {
+  transition-delay: 60ms;
+}
+
+div label:hover label:nth-child(4) {
+  transition-delay: 90ms;
+}
+
+div label:hover label:nth-child(5) {
+  transition-delay: 120ms;
+}
+
+.pro-rating div label,
+.feature-rating div label {
+  position: relative;
+}
+
+.star-quarter::after {
+  font-family: 'Font Awesome 5 Pro';
+  content: '\f005';
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 25%;
+  overflow: hidden;
+  color: var(--blue-dark);
+}
+
+.star-half::after {
+  font-family: 'Font Awesome 5 Pro';
+  content: '\f005';
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 50%;
+  overflow: hidden;
+  color: var(--blue-dark);
+}
+
+.star-3-quarter::after {
+  font-family: 'Font Awesome 5 Pro';
+  content: '\f005';
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 75%;
+  overflow: hidden;
+  color: var(--blue-dark);
+}
 
 label {
     display: inline-block;
@@ -22,11 +102,11 @@ label {
 }
 
 label.rankChecked {
-    color: blue !important;
+  color: var(--blue-dark) !important;
 }
 
 label.heartChecked {
-        color: red !important;
+  color: red !important;
 }
 .rateTitle {
     font-size: 0.85em;
@@ -34,7 +114,6 @@ label.heartChecked {
     display: inline-block;
     padding: 0 0 0 0.7em;
 }
-
 
 /***********magnifier***********/
 * {
