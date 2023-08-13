@@ -27,10 +27,14 @@ public class StarService : EntityService<ProductUserRank>, IStarService
         return temp;
     }
 
-    public async Task<string> SaveStars(int productId, int starNumber)
+    public async Task<ServiceResult> SaveStars(int productId, int starNumber)
     {
         var currentUser = _cookieService.GetCurrentUser();
-        if (currentUser.Id == 0) return "برای امتیاز دادن ابتدا لاگین کنید";
+        if (currentUser.Id == 0) return new ServiceResult
+        {
+            Message = "برای امتیاز دادن ابتدا لاگین کنید",
+            Code = ServiceCode.Error
+        };
         var productUserRank = new ProductUserRank
         {
             ProductId = productId,
@@ -38,9 +42,13 @@ public class StarService : EntityService<ProductUserRank>, IStarService
             Stars = starNumber
         };
         var result = await Create(Url, productUserRank);
-        return result.Code == 0
+        return new ServiceResult
+        {
+            Message = result.Code == 0
             ? "امتیاز شما با موفقیت ذخیره شد"
-            : "متاسفانه امتیاز شما ذخیره نشده. به پشتیبانی سایت اطلاع دهید";
+            : "متاسفانه امتیاز شما ذخیره نشده. به پشتیبانی سایت اطلاع دهید",
+            Code = result.Code == 0 ? ServiceCode.Success : ServiceCode.Error
+        };
     }
 
     public async Task<int> SumStarsByProductId(int productId)

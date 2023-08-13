@@ -9,6 +9,6 @@ public interface IStarService
     public int EmptyStars { get; set; }
     public int StarCount { get; set; }
     Task<ApiResult<List<ProductUserRank>>> Load();
-    Task<string> SaveStars(int productId, int starNumber);
+    Task<ServiceResult> SaveStars(int productId, int starNumber);
     Task<int> SumStarsByProductId(int productId);
 }

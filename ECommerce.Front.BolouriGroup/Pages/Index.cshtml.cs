@@ -183,4 +183,9 @@ public class IndexModel : PageModel
         var result = await _productService.GetByIdViewModel(id);
         return new JsonResult(result);
     }
+
+    public async Task<IActionResult> OnGetStars(int id)
+    {
+        return new JsonResult(await _starService.SumStarsByProductId(id));
+    }
 }

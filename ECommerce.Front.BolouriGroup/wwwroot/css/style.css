@@ -1976,7 +1976,7 @@ tbody tr td:last-child {
     margin-bottom: 3px
 }
 
-.feature-rating i, .feature-rating a {
+.feature-rating a {
     color: var(--gray);
     font-size: 14px;
     margin: 0 2px;
