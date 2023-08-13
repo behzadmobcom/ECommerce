@@ -59,10 +59,11 @@ public class StarsController : ControllerBase
                     Code = ResultCode.NotFound
                 });
 
+            var average = await _productUserRankRepository.GetBySumProduct(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = result.Sum(x => x.Stars)
+                ReturnData = average
             });
         }
         catch (Exception e)
@@ -124,7 +125,7 @@ public class StarsController : ControllerBase
                 await _productUserRankRepository.AddAsync(productUserRank, cancellationToken);
             }
 
-            var productUserRanks =await _productUserRankRepository.GetBySumProduct(productUserRank.ProductId, cancellationToken);
+            var productUserRanks = await _productUserRankRepository.GetBySumProduct(productUserRank.ProductId, cancellationToken);
             var product = await _productRepository.GetByIdAsync(cancellationToken, productUserRank.ProductId);
             product.Star = productUserRanks;
             await _productRepository.UpdateAsync(product, cancellationToken);

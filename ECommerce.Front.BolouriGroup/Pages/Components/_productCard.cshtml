@@ -41,15 +41,25 @@
                 <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url">@Model.Name</a>
             </h6>
             <div class="pro-rating sin-pro-rating f-right">
-                @for (var i = 1; i <= 5; i++)
-                {
-                    <label id="starLable-@i" for="@Model.Id-@i" @if (Model.Stars >= i)
-                                                      {<text> class="rankChecked" </text> }>
-                        <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@Model.Id-@i" class="CheckboxStar"/>
-                        <i class="fas fa-star"></i>
-                    </label>
-                }
-                <a style="color:#337ab7" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars)امتیاز</a>
+                <div>
+                    @{string[] starFillClasses = {"star-quarter", "star-half", "star-3-quarter", "star-full"};}
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        string cls = "";
+                        if (Math.Ceiling(Model.Stars) == i) {
+                            var starD = (double)(Model.Stars % 1);
+                            cls += starFillClasses[(int)Math.Floor(starD / 0.33)];
+                        }
+                        if (i <= Model.Stars) {
+                            cls += " rankChecked";
+                        }
+                        <label id="starLable-@i" for="@Model.Id-@i" class="@cls">
+                            <input  onclick="SaveStars(@Model.Id,@i)" type="checkbox" id="@Model.Id-@i" class="CheckboxStar"/>
+                            <i class="fas fa-star"></i>
+                        </label>
+                    }
+                </div>
+                <a style="color:#337ab7" asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.Trim()">(@Model.Stars.ToString("0.##"))امتیاز</a>
             </div>
             <div class="product-price">
 	            @{

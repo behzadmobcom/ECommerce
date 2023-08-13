@@ -20,14 +20,14 @@ public class ProductUserRankRepository : AsyncRepository<ProductUserRank>, IProd
             .Where(x => x.ProductId == productId && x.UserId == userId).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<int> GetBySumProduct(int productId, CancellationToken cancellationToken)
+    public async Task<double> GetBySumProduct(int productId, CancellationToken cancellationToken)
     {
         var sum = await _context.ProductUserRanks
-            .Where(x => x.ProductId == productId).SumAsync(s => s.Stars,cancellationToken);
+            .Where(x => x.ProductId == productId).SumAsync(s => s.Stars, cancellationToken);
 
         var count = await _context.ProductUserRanks
             .Where(x => x.ProductId == productId).CountAsync(cancellationToken);
 
-        return sum/ count;
+        return count == 0 ? 0 : (double)sum / count;
     }
 }
