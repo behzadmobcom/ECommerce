@@ -387,19 +387,29 @@ function SendConfirmSms() {
 }
 
 function SaveStars(id, starNumber) {
-    $.ajax({
-        type: "Get",
-        url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            swal(result);
-            location.reload();
-        },
-        failure: function (response) {
-            swal(response);
+  $.ajax({
+    type: "Get",
+    url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    success: async function (result) {
+      if (result.code === 0) {
+        swal(result.message);
+        for (let i = 1; i <= 5; i++) {
+          const label = $(`#starLable-${i}[for='${id}-${i}']`);
+          if (i <= starNumber && !label.hasClass("rankChecked")) label.addClass("rankChecked");
+          else if (i > starNumber) label.removeClass("rankChecked");
         }
-    });
+        const d = await (await fetch(`/index?handler=stars&id=${id}`)).json()
+        $(`#starLable-1[for='${id}-1']`).parent().find("a").text((_, v) => v.replace(/\d+/, d));
+      } else {
+        swal(result.message);
+      }
+    },
+    failure: function (response) {
+      swal(response);
+    },
+  });
 }
 
 function CheckPassword() {
