@@ -5897,7 +5897,7 @@ tbody tr td:last-child {
 
     @media (max-width: 767px) {
         .single-banner {
-            padding: 60px 0
+            padding: 40px 0
         }
 
             .single-banner h2 {
@@ -6020,6 +6020,9 @@ tbody tr td:last-child {
 
         .suggest-card img {
             width: 100%
+        }
+        .single-banner{
+            padding:0;
         }
     }
 
