@@ -5897,18 +5897,23 @@ tbody tr td:last-child {
 
     @media (max-width: 767px) {
         .single-banner {
-            padding: 40px 0
+            padding: 40px 0;
         }
 
             .single-banner h2 {
                 font-size: 32px;
                 margin-bottom: 12px
             }
+        }
+    @media (max-width: 575px){
+        .single-banner {
+            padding: 0;
+        }
+    
     }
-
-    .home-index-slider .slick-right {
-        left: 30px
-    }
+.home-index-slider .slick-right {
+    left: 30px
+}
 
     .home-index-slider .slick-left {
         right: 30px
@@ -6021,9 +6026,7 @@ tbody tr td:last-child {
         .suggest-card img {
             width: 100%
         }
-        .single-banner{
-            padding:0;
-        }
+        
     }
 
     .promo-img {
