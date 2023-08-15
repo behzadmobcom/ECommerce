@@ -94,34 +94,8 @@ public class IndexModel : PageModel
 
     public async Task<JsonResult> OnGetLoadCart()
     {
-        CardResultViewModel cardResult = new CardResultViewModel();
         var result = await _cartService.Load(HttpContext);
-        foreach (var product in result.ReturnData)
-        {
-            var item = $"<li class='cart-item' id='CartDrop-{product.Id}'> " +
-                       $"<div class='cart-media'> " +
-                       $"<a asp-page='Product' asp-route-productUrl='{product.Url}'><img src='/{product.ImagePath}' alt='{product.Alt}'></a>" +
-                       $"<button class='cart-delete' onclick='DeleteCart({product.Id},{product.ProductId},{product.PriceId})'><i class='far fa-times'></i></button>" +
-                       $"</div>" +
-                       $"  <div class='cart-info-group'>" +
-                       $"<div class='cart-info'>" +
-                       $"  <h5><a asp-page='Product' asp-route-productUrl={product.Url}'>{product.Name}</a></h5>" +
-                       $"  <h6> برند : {product.Brand} </h6> " +
-                       $"  <h6> رنگ : {product.ColorName}</h6>" +
-                       $"<p>{product.PriceAmount.ToString("N0")}</p> </div>" +
-                       $"<div class='cart-action-group'>" +
-                       $"<div class='product-action'>" +
-                       $"<button class='action-minus' onclick='DecreaseCart({product.Id},{product.ProductId},{product.PriceId})' title='مقدار منهای'><i class='far fa-minus'></i></button>" +
-                       $"<input class='action-input' title='تعداد' type='text' name='quantity' value='{product.Quantity}'> " +
-                       $"<button class='action-plus' onclick='AddCart({product.ProductId},{product.PriceId})' title='مقدار به علاوه'><i class='far fa-plus'></i></button> </div>" +
-                       $"<h6>{product.SumPrice.ToString("N0")}</h6><h6>تومان</h6>" +
-                       $" <input hidden='hidden' value='{product.SumPrice}' id='SumPrice-{product.Id}'/>" +
-                       $"</div> </div> </li>";
-            cardResult.CartList += item;
-            cardResult.AllPrice += product.SumPrice;
-        }
-        cardResult.CartCount = result.ReturnData.Count;
-        return new JsonResult(cardResult);
+        return new JsonResult(result);
     }
 
     public async Task<JsonResult> OnGetDeleteCart(int id, int productId, int priceId)
