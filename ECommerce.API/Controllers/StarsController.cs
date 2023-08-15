@@ -112,6 +112,11 @@ public class StarsController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
 
+            if (productUserRank.Stars < 0) return Ok(new ApiResult
+            {
+                Code = ResultCode.BadRequest,
+                Messages = new List<string> { "مقدار وارد شده نادرست می‌باشد." }
+            });
 
             var repetitiveProductUserRank = await _productUserRankRepository.GetByProductUser(productUserRank.ProductId,
                 productUserRank.UserId, cancellationToken);
