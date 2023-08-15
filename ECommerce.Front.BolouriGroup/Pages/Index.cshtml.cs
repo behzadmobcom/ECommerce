@@ -174,6 +174,7 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetSaveStars(int id, int starNumber)
     {
+        if (starNumber > 5) return new JsonResult("مقدار وارد شده نادرست می‌باشد.");
         var result = await _starService.SaveStars(id, starNumber);
         return new JsonResult(result);
     }

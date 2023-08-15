@@ -46,6 +46,8 @@ public class StarService : EntityService<ProductUserRank>, IStarService
         {
             Message = result.Code == 0
             ? "امتیاز شما با موفقیت ذخیره شد"
+            : (result.Messages != null && result.Messages.Any())
+            ? result.Messages.First()
             : "متاسفانه امتیاز شما ذخیره نشده. به پشتیبانی سایت اطلاع دهید",
             Code = result.Code == 0 ? ServiceCode.Success : ServiceCode.Error
         };
