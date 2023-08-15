@@ -395,13 +395,25 @@ function SaveStars(id, starNumber) {
     success: async function (result) {
       if (result.code === 0) {
         swal(result.message);
+        const stars = await (await fetch(`/index?handler=stars&id=${id}`)).json();
+        const styles = ["star-quarter", "star-half", "star-3-quarter", "star-full"];
         for (let i = 1; i <= 5; i++) {
+          let cls = "";
+          if (Math.ceil(stars) === i) {
+            cls += styles[Math.floor((stars % 1) / 0.33)];
+          }
+          if (i <= stars) {
+            cls += " rankChecked";
+          }
           const label = $(`#starLable-${i}[for='${id}-${i}']`);
-          if (i <= starNumber && !label.hasClass("rankChecked")) label.addClass("rankChecked");
-          else if (i > starNumber) label.removeClass("rankChecked");
+          label.removeClass();
+          label.addClass(cls);
         }
-        const d = await (await fetch(`/index?handler=stars&id=${id}`)).json()
-        $(`#starLable-1[for='${id}-1']`).parent().find("a").text((_, v) => v.replace(/\d+/, d));
+        $(`#starLable-1[for='${id}-1']`)
+          .parent()
+          .parent()
+          .find("a")
+          .text((_, v) => v.replace(/(\d+(?:[\/\.]\d+)?)/, (+stars.toFixed(2)).toString().replace(".", "/")));
       } else {
         swal(result.message);
       }
