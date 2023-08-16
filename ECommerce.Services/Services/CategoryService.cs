@@ -115,4 +115,10 @@ public class CategoryService : EntityService<Category>, ICategoryService
         var result = await _http.GetAsync<Category>(Url, $"GetById?id={id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<Category>>> GetAll()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
+    }
 }

@@ -42,6 +42,27 @@ public class ProductsController : ControllerBase
         _wishListRepository = wishListRepository;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _productRepository.GetAll(cancellationToken);
+            var products = result.ToList();           
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = products
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
     private async Task<Product> AddPriceAndExistFromHoloo(Product product, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
         var products = await _articleRepository.AddPriceAndExistFromHolooList(

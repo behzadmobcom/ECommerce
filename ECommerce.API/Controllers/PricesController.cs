@@ -3,6 +3,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.API.Controllers;
 
@@ -235,5 +236,41 @@ public class PricesController : ControllerBase
             messages.Add("حداکثر تعداد در بازه تعداد های قبلی این کالا است");
 
         return messages;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllByViewModel(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var prices = await _priceRepository.GetAllWithInclude(cancellationToken);
+            foreach (var price in prices)
+            {
+                var HolooPrice = await _holooArticleRepository.GetHolooPrice(price.ArticleCodeCustomer, price.SellNumber.Value);
+                price.Amount = HolooPrice.price;
+
+            }
+            var priceViewModels = prices.Select
+                (p => new PriceViewModel
+                {
+                    Id = p.Id,
+                    ProductId = p.ProductId,
+                    ProductName = p.Product.Name,
+                    ColorId = p.ColorId,
+                    ColorName = p.Color.Name,
+                    Amount = p.Amount,
+                }).ToList();
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = priceViewModels
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
     }
 }

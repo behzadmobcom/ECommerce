@@ -1,4 +1,5 @@
-﻿using Ecommerce.Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.Extensions.Caching.Memory;
@@ -24,6 +25,12 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         _keywordService = keywordService;
         _categoryService = categoryService;
         _cookieService = cookieService;
+    }
+
+    public async Task<ServiceResult<List<ProductViewModel>>> GetAll()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
     }
 
     public async Task<ServiceResult<ProductViewModel>> FillProductEdit(ProductViewModel productViewModel)

@@ -32,8 +32,8 @@
                 </div>
                 @Html.ValidationSummary()
                 <!--begin::Form-->
-                <form class="form" method="post" asp-page-handler="OnPost">
-                    <div class="card-body">
+                <form class="form" method="post" asp-page-handler="OnPost" nctype="multipart/form-data">
+					<div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
                             <input asp-for="Discount.Name" class="form-control form-control-solid"/>
@@ -57,6 +57,19 @@
                             <input asp-for="Discount.Amount" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
                         </div>
                         <div class="form-group">
+							<label>دسته کالا</label>
+							<select asp-for="@Model.Discount.CategoriesId" asp-items="@Model.Categories" class="form-control js-example-basic-multiple col-md-12"></select>
+						</div>
+                        <div class="form-group">
+							<label>عنوان کالا</label>
+							<select asp-for="@Model.Discount.ProductsId" asp-items="@Model.Products" class="form-control js-example-basic-multiple col-md-12"></select>
+						</div>
+                        <div class="form-group">
+							<label>کالا</label>
+							<select asp-for="@Model.Discount.PricesId" asp-items="@Model.Prices" class="form-control js-example-basic-multiple col-md-12"></select>
+						</div>
+                       
+                        <div class="form-group">
                             <label>تاریخ شروع</label>
                             <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
                             <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع"/>
@@ -72,7 +85,7 @@
                                 <span></span>
                                 فعال
                             </label>
-                        </div>
+                        </div>                      
                         <div class="form-group mt-4">
                             <label>کد تخفیف</label>
                             <input asp-for="Discount.Code" class="form-control form-control-solid"/>
@@ -161,5 +174,7 @@
                 $(`div#choose-${n}`).show();
             })
         });
+      
+    
     </script>
 }

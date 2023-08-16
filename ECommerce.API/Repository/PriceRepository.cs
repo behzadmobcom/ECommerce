@@ -85,4 +85,10 @@ public class PriceRepository : AsyncRepository<Price>, IPriceRepository
         //}
         return products;
     }
+
+    public async Task<IEnumerable<Price>> GetAllWithInclude(CancellationToken cancellationToken)
+    {
+        return await _context.Prices.AsNoTracking().Include(x => x.Product).Include(c => c.Color)
+        .ToListAsync(cancellationToken);
+    }
 }

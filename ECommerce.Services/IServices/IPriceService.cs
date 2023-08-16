@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
+using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.Services.IServices;
 
@@ -10,4 +11,5 @@ public interface IPriceService : IEntityService<Price>
     Task<ServiceResult> Edit(Price price);
     Task<ServiceResult> Delete(int id);
     Task<ServiceResult<List<Price>>> PriceOfProduct(int productId);
+    Task<ServiceResult<List<PriceViewModel>>> GetAllByViewModel();
 }

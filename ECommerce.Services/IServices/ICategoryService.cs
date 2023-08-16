@@ -15,4 +15,5 @@ public interface ICategoryService : IEntityService<Category>
     Task<ServiceResult<Category>> GetById(int id);
     Task<ServiceResult<List<CategoryViewModel>>> GetCategoriesByProductId(int productId);
     Task<ServiceResult<List<CategoryParentViewModel>>> GetParents(int productId = 0);
+    Task<ServiceResult<List<Category>>> GetAll();
 }

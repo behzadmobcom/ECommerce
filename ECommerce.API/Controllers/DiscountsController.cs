@@ -3,6 +3,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Entities.ViewModel;
 
 namespace ECommerce.API.Controllers;
 
@@ -147,7 +148,7 @@ public class DiscountsController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
-    public async Task<IActionResult> Post(Discount discount, CancellationToken cancellationToken)
+    public async Task<IActionResult> Post(DiscountViewModel discount, CancellationToken cancellationToken)
     {
         try
         {
@@ -177,7 +178,7 @@ public class DiscountsController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _discountRepository.AddAsync(discount, cancellationToken)
+                ReturnData = await _discountRepository.AddWithRelations(discount, cancellationToken)
             });
         }
         catch (Exception e)

@@ -226,4 +226,25 @@ public class CategoriesController : ControllerBase
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _categoryRepository.GetAll(cancellationToken);
+            var categories = result.ToList();          
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = categories
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
 }

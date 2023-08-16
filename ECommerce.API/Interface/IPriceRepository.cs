@@ -15,4 +15,6 @@ public interface IPriceRepository : IAsyncRepository<Price>
     Task<IEnumerable<Price>> PriceOfProduct(int id, CancellationToken cancellationToken);
 
     Task<List<ProductIndexPageViewModel?>> TopDiscounts(int count, CancellationToken cancellationToken);
+    Task<IEnumerable<Price>> GetAllWithInclude(CancellationToken cancellationToken);
+
 }
