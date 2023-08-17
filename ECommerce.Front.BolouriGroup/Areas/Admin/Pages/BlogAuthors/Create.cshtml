@@ -53,8 +53,9 @@
                         <div class="form-group">
                             <label>تصویر نویسنده</label>
                             <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customFile" accept="*.webp" />
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="customFile" accept=".webp" />
                                 <label class="custom-file-label" for="customFile">انتخاب فایل</label>
+                                @Html.ValidationMessage("IvalidFileExtention")
                             </div>
                         </div>
                     </div>

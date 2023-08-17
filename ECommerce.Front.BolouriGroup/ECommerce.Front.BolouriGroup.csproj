@@ -32,6 +32,7 @@
 		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMenu\Default.cshtml" />
 		<_ContentIncludedByDefault Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
 		<_ContentIncludedByDefault Remove="Pages\Components\Username\Default.cshtml" />
+		<_ContentIncludedByDefault Remove="wwwroot\Admin\css\styles.css" />
 		<_ContentIncludedByDefault Remove="wwwroot\Admin\js\loadScript.js" />
 		<_ContentIncludedByDefault Remove="wwwroot\Reports\Report.html" />
 	</ItemGroup>

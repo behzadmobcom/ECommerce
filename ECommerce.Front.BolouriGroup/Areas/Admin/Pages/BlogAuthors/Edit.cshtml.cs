@@ -36,6 +36,11 @@ public class EditModel : PageModel
         {
             var fileName = (await _imageService.Upload(Upload, "Images/BlogAuthors", _environment.ContentRootPath))
                 .ReturnData;
+            if (fileName == null)
+            {
+                ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+                return Page();
+            }
             BlogAuthor.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
         }
 
@@ -53,7 +58,7 @@ public class EditModel : PageModel
             Code = result.Code.ToString();
             if (result.Code == 0)
                 return RedirectToPage("/BlogAuthors/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             Message = result.Message;
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
