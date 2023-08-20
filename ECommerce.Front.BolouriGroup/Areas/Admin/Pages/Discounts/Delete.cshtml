@@ -37,40 +37,30 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid" disabled/>
                             <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Discount.Percent" class="form-control form-control-solid" disabled/>
                         </div>
                         <div class="form-group">
                             <label>مبلغ</label>
-                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid" disabled/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
-                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Discount.StartDate" class="form-control form-control-solid" id="start-date-g" hidden disabled/>
+                            <input class="form-control form-control-solid" id="start-date-p" disabled placeholder="تاریخ شروع"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid"/>
-                        </div>
-                        <div class="form-group">
-                            <label>>مبلغ حداکثر تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid"/>
-                        </div>
-                        <div class="form-group">
-                            <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" class="form-control form-control-solid"/>
-                        </div>
-                        <div class="form-group">
-                            <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" type="text" class="form-control form-control-solid"/>
+                            <input asp-for="@Model.Discount.EndDate" class="form-control form-control-solid" id="end-date-g" hidden disabled />
+                            <input class="form-control form-control-solid" id="end-date-p" disabled placeholder="تاریخ پایان‌"/>
                         </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked"/>
+                                <input asp-for="@Model.Discount.IsActive" type="checkbox" disabled/>
                                 <span></span>
                                 فعال
                             </label>
@@ -91,3 +81,20 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#start-date-p').val(new Date($('#start-date-g').val()).toLocaleDateString('fa-IR', {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            }));
+            $('#end-date-p').val(new Date($('#end-date-g').val()).toLocaleDateString('fa-IR', {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            }));
+        });
+    </script>
+}

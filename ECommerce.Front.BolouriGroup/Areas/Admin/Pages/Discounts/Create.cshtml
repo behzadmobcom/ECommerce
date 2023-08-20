@@ -1,7 +1,5 @@
 ﻿@page "/Admin/CreateDiscount"
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Discounts.CreateModel
-@{
-}
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -32,21 +30,31 @@
                         ایجاد تخفیف جدید
                     </h3>
                 </div>
+                @Html.ValidationSummary()
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Discount.Name" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="Discount.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
-                        <div class="form-group">
+                        @Model.WithPrice
+                        <div id="choose-either-container">
+                            <div id="choose-either">
+                                @Html.RadioButtonFor(m => m.WithPrice, "false", new { id = "percent" })
+                                <label for="percent">درصد</label>
+                                @Html.RadioButtonFor(m => m.WithPrice, "true", new { id = "price" })
+                                <label for="price">مبلغ</label>
+                            </div>
+                        </div>
+                        <div id="choose-false" style="@(Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
                             <label>درصد</label>
-                            <input asp-for="@Model.Discount.Percent" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
+                            <input asp-for="Discount.Percent" id="kt_touchspin_4" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
                         </div>
-                        <div class="form-group">
+                        <div id="choose-true" style="@(!Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
                             <label>مبلغ</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
+                            <input asp-for="Discount.Amount" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
@@ -58,29 +66,17 @@
                             <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
                             <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
                         </div>
-                        <div class="form-group">
-                            <label>مبلغ حداکثر تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
-                        </div>
-                        <div class="form-group">
-                            <label>حداقل تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
-                        </div>
-                        <div class="form-group">
-                            <label>حداکثر تعداد سفارش برای بهرمندی از تخفیف</label>
-                            <input asp-for="@Model.Discount.Amount" id="kt_touchspin_4" type="text" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" value="" name="demo0" placeholder="0"/>
-                        </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input asp-for="@Model.Discount.IsActive" type="checkbox" checked="checked"/>
+                                <input asp-for="Discount.IsActive" type="checkbox" checked="checked"/>
                                 <span></span>
                                 فعال
                             </label>
                         </div>
                         <div class="form-group mt-4">
                             <label>کد تخفیف</label>
-                            <input asp-for="@Model.Discount.Code" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="Discount.Code" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -100,13 +96,52 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            @{
+                string sd;
+                string ed;
+                try {
+                    sd = Model.Discount.StartDate.Value.GetDateTimeFormats()[1];
+                } catch (Exception) {
+                    sd = "";
+                }
+                try {
+                    ed = Model.Discount.EndDate.Value.GetDateTimeFormats()[1];
+                } catch (Exception) {
+                    ed = "";
+                }
+            }
+            const startDate = "@sd" === "" ? undefined : new Date("@sd");
+            const endDate = "@ed" === "" ? undefined : new Date("@ed");
+            const options = {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+            }
+
+            if (startDate) {
+                $("#startDatepicker").val(startDate.toLocaleDateString('fa-IR', options));
+                $("#startDatepicker").attr("data-gdate", "@sd")
+                $("#startDatepicker").attr("data-jdate", startDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}))
+                $("#startDate").val("@sd")
+            }
+
+            if (endDate) {
+                $("#endDatepicker").val(endDate.toLocaleDateString('fa-IR', options));
+                $("#endDatepicker").attr("data-gdate", "@ed")
+                $("#endDatepicker").attr("data-jdate", endDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}))
+                $("#endDate").val("@ed")
+            }
+
             $('#startDatepicker').persianDatepicker({
                 theme: 'latoja',
                 fontSize: 15,
                 formatDate: "YYYY/MM/DD",
                 onSelect: function() {
                     $("#startDate").val($("#startDatepicker").attr("data-gdate"));
-                }
+                },
+                selectedDate: !startDate ? undefined : startDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}),
+                startDate: "today",
+                endDate: "1500/1/1"
             });
             $('#endDatepicker').persianDatepicker({
                 theme: 'latoja',
@@ -114,8 +149,17 @@
                 formatDate: "YYYY/MM/DD",
                 onSelect: function() {
                     $("#endDate").val($("#endDatepicker").attr("data-gdate"));
-                }
+                },
+                selectedDate: !endDate ? undefined : endDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}),
+                startDate: "today",
+                endDate: "1500/1/1"
             });
+
+            $("#choose-either input[name$='WithPrice']").on("click", function() {
+                let n = $(this).val();
+                $("div.ch-ei").hide();
+                $(`div#choose-${n}`).show();
+            })
         });
     </script>
 }
