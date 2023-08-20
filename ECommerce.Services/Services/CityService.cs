@@ -7,10 +7,12 @@ namespace ECommerce.Services.Services;
 public class CityService : EntityService<City>, ICityService
 {
     private const string Url = "api/Cities";
+    private readonly IHttpService _http;
     private List<City> _cities;
 
     public CityService(IHttpService http) : base(http)
     {
+        _http = http;
     }
     public async Task<ServiceResult<List<City>>> LoadAllCity()
     {
@@ -22,6 +24,13 @@ public class CityService : EntityService<City>, ICityService
         var result = await ReadList(Url, $"GetById?id={id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<City>>> GetWithPagination(string search = "", int pageNumber = 0, int pageSize = 10)
+    {
+        var result = await ReadList(Url, $"GetAllWithPagination?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        return Return(result);
+    }
+
 
     public async Task<ServiceResult<List<City>>> Filtering(string filter, int id)
     {
@@ -59,6 +68,16 @@ public class CityService : EntityService<City>, ICityService
     {
         var result = await Delete(Url, id);
         _cities = null;
+        return Return(result);
+    }
+    public async Task<ServiceResult<City>> GetByStateId(int id)
+    {
+        var result = await _http.GetAsync<City>(Url, $"GetByStateId?id={id}");
+        return Return(result);
+    }
+    public async Task<ServiceResult<City>> GetById(int id)
+    {
+        var result = await _http.GetAsync<City>(Url, $"GetById?id={id}");
         return Return(result);
     }
 }

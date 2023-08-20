@@ -38,7 +38,43 @@ public class CitiesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _cityRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
+
+
+
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetByStateId(int id, CancellationToken cancellationToken)
     {
         try
         {
@@ -52,6 +88,24 @@ public class CitiesController : ControllerBase
         {
             _logger.LogCritical(e, e.Message);
             return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _cityRepository.GetByIdAsync(cancellationToken, id)
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
