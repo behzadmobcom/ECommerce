@@ -7,20 +7,29 @@ namespace ECommerce.Services.Services;
 public class StateService : EntityService<State>, IStateService
 {
     private const string Url = "api/States";
-
+    private readonly IHttpService _http;
     private List<State> _states;
 
     public StateService(IHttpService http) : base(http)
     {
+        _http = http;
     }
-
+    public async Task<ServiceResult<List<State>>> GetAll()
+    {
+        var result = await ReadList(Url, "GetAll");
+        return Return(result);
+    }
     public async Task<ServiceResult<List<State>>> Load()
     {
         var result = await ReadList(Url);
         return Return(result);
     }
-
-    public async Task<ServiceResult<List<State>>> Filtering(string filter)
+    public async Task<ServiceResult<List<State>>> GetWithPagination(string search = "", int pageNumber = 0, int pageSize = 10)
+    {
+        var result = await ReadList(Url, $"GetAllWithPagination?PageNumber={pageNumber}&PageSize={pageSize}&Search={search}");
+        return Return(result);
+    }
+    public async Task<ServiceResult<List<State>>> Filtering(string filter, int id)
     {
         if (_states == null)
         {
@@ -57,6 +66,11 @@ public class StateService : EntityService<State>, IStateService
     {
         var result = await Delete(Url, id);
         _states = null;
+        return Return(result);
+    }
+    public async Task<ServiceResult<State>> GetById(int id)
+    {
+        var result = await _http.GetAsync<State>(Url, $"GetById?id={id}");
         return Return(result);
     }
 }

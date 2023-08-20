@@ -3,6 +3,8 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ECommerce.API.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ECommerce.API.Controllers;
 
@@ -37,6 +39,58 @@ public class StatesController : ControllerBase
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
+    {
+        try
+        {
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = await _stateRepository.GetAll(cancellationToken)
+            });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Database Error " + e.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
+       CancellationToken cancellationToken)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
+            var entity = await _stateRepository.Search(paginationParameters, cancellationToken);
+            var paginationDetails = new PaginationDetails
+            {
+                TotalCount = entity.TotalCount,
+                PageSize = entity.PageSize,
+                CurrentPage = entity.CurrentPage,
+                TotalPages = entity.TotalPages,
+                HasNext = entity.HasNext,
+                HasPrevious = entity.HasPrevious,
+                Search = paginationParameters.Search
+            };
+
+
+
+            return Ok(new ApiResult
+            {
+                PaginationDetails = paginationDetails,
+                Code = ResultCode.Success,
+                ReturnData = entity
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+    [HttpGet]
     public async Task<ActionResult<State>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -62,6 +116,7 @@ public class StatesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(State state, CancellationToken cancellationToken)
     {
         try
@@ -69,7 +124,8 @@ public class StatesController : ControllerBase
             if (state == null)
                 return Ok(new ApiResult
                 {
-                    Code = ResultCode.BadRequest
+                    Code = ResultCode.BadRequest,
+                      ReturnData = await _stateRepository.GetAll(cancellationToken)
                 });
             state.Name = state.Name.Trim();
 
@@ -95,6 +151,7 @@ public class StatesController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(State state, CancellationToken cancellationToken)
     {
         try
@@ -121,6 +178,7 @@ public class StatesController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         try
