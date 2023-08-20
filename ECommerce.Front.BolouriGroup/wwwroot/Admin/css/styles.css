@@ -1,3 +1,5 @@
+/* validation styles */
+
 .field-validation-error {
   color: #ff0000;
 }
@@ -18,4 +20,42 @@
 
 .validation-summary-valid {
   display: none;
+}
+
+/* selector (choose either) */
+#choose-either-container {
+  display: flex;
+}
+
+#choose-either {
+  display: flex;
+}
+
+#choose-either input[type='radio'] {
+  display: none;
+}
+
+#choose-either label {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+#choose-either input[type='radio']:checked + label {
+  background-color: var(--gray);
+}
+
+#choose-either label[for='percent'] {
+  border: var(--gray) solid 1px;
+  border-left-width: 0.5px;
+  border-radius: 0px 10px 10px 0px;
+  padding: 0.5rem;
+}
+
+#choose-either label[for='price'] {
+  border: var(--gray) solid 1px;
+  border-right-width: 0.5px;
+  border-radius: 10px 0px 0px 10px;
+  padding: 0.5rem;
 }
