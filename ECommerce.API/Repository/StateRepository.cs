@@ -25,7 +25,7 @@ public class StateRepository : AsyncRepository<State>, IStateRepository
     {
         return PagedList<State>.ToPagedList(
             await _context.States.Where(x => x.Name.Contains(paginationParameters.Search)).AsNoTracking()
-                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
+                .OrderBy(on => on.Name).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
     }

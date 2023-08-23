@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using ECommerce.Services.IServices;
+using static System.Net.WebRequestMethods;
 
 namespace ECommerce.Services.Services;
 
@@ -21,7 +22,7 @@ public class StateService : EntityService<State>, IStateService
     }
     public async Task<ServiceResult<List<State>>> Load()
     {
-        var result = await ReadList(Url);
+        var result = await ReadList(Url, $"GetAll");
         return Return(result);
     }
     public async Task<ServiceResult<List<State>>> GetWithPagination(string search = "", int pageNumber = 0, int pageSize = 10)
