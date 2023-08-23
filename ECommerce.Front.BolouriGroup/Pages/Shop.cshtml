@@ -92,7 +92,17 @@
                                 if (endNumber > total) endNumber = total;
                             }
                             <div class="shop-filter-desktop">
-                                <p>نمایش @startNumber - @endNumber از @total نتیجه</p>                               
+                                <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
+                                <form asp-page="/Shop/Index" method="get">
+                                <p>
+                                    تعداد رکورد ها در صفحه :
+                                        <a asp-page="/Shop" asp-route-pageSize="10">10</a> -
+                                        <a asp-page="/Shop" asp-route-pageSize="20">20</a> -
+                                        <a asp-page="/Shop" asp-route-pageSize="30">30</a> -
+                                    <a asp-page="/Shop" asp-route-pageSize="40">40</a> -
+                                    <a asp-page="/Shop" asp-route-pageSize="50">50</a>
+                                </p>
+                                </form>
                             </div>                           
                         </div>
                     </div>
