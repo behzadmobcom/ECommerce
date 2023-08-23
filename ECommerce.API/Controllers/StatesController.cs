@@ -29,7 +29,7 @@ public class StatesController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _stateRepository.GetAll("Cities").ToListAsync(cancellationToken)
+                ReturnData = await _stateRepository.GetAll("Cities").OrderBy(x => x.Name).ToListAsync(cancellationToken)
             });
         }
         catch (Exception e)
@@ -46,7 +46,7 @@ public class StatesController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _stateRepository.GetAll(cancellationToken)
+                ReturnData = (await _stateRepository.GetAll(cancellationToken)).OrderBy(x => x.Name)
             });
         }
         catch (Exception e)

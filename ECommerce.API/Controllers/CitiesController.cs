@@ -27,7 +27,7 @@ public class CitiesController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _cityRepository.GetAll(cancellationToken)
+                ReturnData = (await _cityRepository.GetAll(cancellationToken)).OrderBy(x => x.Name)
             });
         }
         catch (Exception e)
@@ -81,7 +81,7 @@ public class CitiesController : ControllerBase
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
-                ReturnData = await _cityRepository.Where(x => x.StateId == id, cancellationToken)
+                ReturnData = (await _cityRepository.Where(x => x.StateId == id, cancellationToken)).OrderBy(x => x.Name)
             });
         }
         catch (Exception e)

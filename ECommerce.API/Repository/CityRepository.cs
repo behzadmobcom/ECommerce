@@ -26,7 +26,7 @@ public class CityRepository : AsyncRepository<City>, ICityRepository
     {
         return PagedList<City>.ToPagedList(
             await _context.Cities.Where(x => x.Name.Contains(paginationParameters.Search)).AsNoTracking()
-                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
+                .OrderBy(on => on.Name).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
     }
