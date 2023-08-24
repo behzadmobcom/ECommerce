@@ -200,6 +200,12 @@ function createCartItem(product) {
           </li>`;
 }
 
+const toggleCheckout = () => {
+  const checkoutBtn = $(".cart-checkout-btn");
+  if (cartList.length === 0) checkoutBtn.addClass("disable-a");
+  else checkoutBtn.removeClass("disable-a");
+}
+
 async function loadCart() {
   $("#Cart-List").text("");
 
@@ -223,6 +229,8 @@ async function loadCart() {
   $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
   $("#All-Price").text(formatter.format(allPrice));
   $("#AllPrice-Value").val(allPrice);
+
+  toggleCheckout();
 }
 
 /**
@@ -282,6 +290,8 @@ async function updateCartItem(id, action, productId) {
   $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
   $("#All-Price").text(formatter.format(allPrice));
   $("#AllPrice-Value").val(allPrice);
+
+  toggleCheckout();
 }
 
 function AddCart(productId, priceId, id, showMessage = false) {

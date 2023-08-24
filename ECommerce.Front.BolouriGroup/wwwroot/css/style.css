@@ -4,6 +4,12 @@
   font-display: block;
 }
 
+.disable-a {
+  pointer-events: none;
+  cursor: default;
+  background-color: #555 !important;
+}
+
 :root {
   --h1size: 50px;
   --h2size: 40px;
@@ -5946,21 +5952,21 @@ tbody tr td:last-child {
   text-transform: uppercase;
 }
 
-    @media (max-width: 767px) {
-        .single-banner {
-            padding: 40px 0
-        }
+@media (max-width: 767px) {
+  .single-banner {
+    padding: 40px 0;
+  }
 
-            .single-banner h2 {
-                font-size: 32px;
-                margin-bottom: 12px
-            }
-    }
-    @media (max-width: 575px) {
-        .single-banner {
-            padding: 0;
-        }
-    }
+  .single-banner h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+}
+@media (max-width: 575px) {
+  .single-banner {
+    padding: 0;
+  }
+}
 
 .home-index-slider .slick-right {
   left: 30px;
