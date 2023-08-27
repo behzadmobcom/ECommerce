@@ -1,0 +1,159 @@
+﻿@page "/Admin/CreateCouponDiscount"
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Discounts.CreateCouponModel
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
+<link href="~/Admin/css/persian-datepicker.css" rel="stylesheet"/>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-xxl-12 order-1 order-xxl-2 ">
+            <div class="card card-custom">
+                <div class="card-header">
+                    <h3 class="card-title">
+                         ایجاد تخفیف جدید بر اساس کوپن
+                    </h3>
+                </div>
+                @Html.ValidationSummary()
+                <!--begin::Form-->
+                <form class="form" method="post" asp-page-handler="OnPost" nctype="multipart/form-data">
+					<div class="card-body">
+                        <div class="form-group">
+                            <label>نام</label>
+                            <input asp-for="Discount.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>
+                        @Model.WithPrice
+                        <div id="choose-either-container">
+                            <div id="choose-either">
+                                @Html.RadioButtonFor(m => m.WithPrice, "false", new { id = "percent" })
+                                <label for="percent">درصد</label>
+                                @Html.RadioButtonFor(m => m.WithPrice, "true", new { id = "price" })
+                                <label for="price">مبلغ</label>
+                            </div>
+                        </div>
+                        <div id="choose-false" style="@(Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
+                            <label>درصد</label>
+                            <input asp-for="Discount.Percent" id="kt_touchspin_4" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
+                        </div>
+                        <div id="choose-true" style="@(!Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
+                            <label>مبلغ</label>
+                            <input asp-for="Discount.Amount" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
+                        </div>                                                     
+                        <div class="form-group">
+                            <label>تاریخ شروع</label>
+                            <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع"/>
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ پایان</label>
+                            <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
+                        </div>
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-outline checkbox-success">
+                                <input asp-for="Discount.IsActive" type="checkbox" checked="checked"/>
+                                <span></span>
+                                فعال
+                            </label>
+                        </div>                      
+                        <div class="form-group mt-4">
+                            <label>کد تخفیف</label>
+                            <input asp-for="Discount.Code" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
+                        </div>                   
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary mr-2">ثبت</button>
+                            <a class="btn btn-secondary" asp-Page="/Discounts/index" asp-area="Admin">لغو</a>
+                        </div>
+                </form>
+                <!--end::Form-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Admin/js/bootstrap-touchspin.js"></script>
+    <script src="~/Admin/js/persianDatepicker.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            @{
+                string sd="";
+                string ed="";
+                //sd = Model.Discount.StartDate == null ? "" : Model.Discount.StartDate.Value.GetDateTimeFormats()[1];                    
+                //ed = Model.Discount.EndDate   == null ? "" : Model.Discount.EndDate.Value.GetDateTimeFormats()[1];                
+            }
+            const startDate = "@sd" === "" ? undefined : new Date("@sd");
+            const endDate = "@ed" === "" ? undefined : new Date("@ed");
+            const options = {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+            }
+
+            if (startDate) {
+                $("#startDatepicker").val(startDate.toLocaleDateString('fa-IR', options));
+                $("#startDatepicker").attr("data-gdate", "@sd")
+                $("#startDatepicker").attr("data-jdate", startDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}))
+                $("#startDate").val("@sd")
+            }
+
+            if (endDate) {
+                $("#endDatepicker").val(endDate.toLocaleDateString('fa-IR', options));
+                $("#endDatepicker").attr("data-gdate", "@ed")
+                $("#endDatepicker").attr("data-jdate", endDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}))
+                $("#endDate").val("@ed")
+            }
+
+            $('#startDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#startDate").val($("#startDatepicker").attr("data-gdate"));
+                },
+                selectedDate: !startDate ? undefined : startDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}),
+                startDate: "today",
+                endDate: "1500/1/1"
+            });
+            $('#endDatepicker').persianDatepicker({
+                theme: 'latoja',
+                fontSize: 15,
+                formatDate: "YYYY/MM/DD",
+                onSelect: function() {
+                    $("#endDate").val($("#endDatepicker").attr("data-gdate"));
+                },
+                selectedDate: !endDate ? undefined : endDate.toLocaleDateString('fa-IR', {...options, numberingSystem: "latn"}),
+                startDate: "today",
+                endDate: "1500/1/1"
+            });
+
+            $("#choose-either input[name$='WithPrice']").on("click", function() {
+                let n = $(this).val();
+                $("div.ch-ei").hide();
+                $(`div#choose-${n}`).show();
+            })
+        });
+      
+    
+    </script>
+}

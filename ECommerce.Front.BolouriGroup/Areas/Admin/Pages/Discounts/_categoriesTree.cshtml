@@ -1,0 +1,49 @@
+﻿@model List<Ecommerce.Entities.ViewModel.CategoryParentViewModel>
+@{
+    string discountname = "";
+    DateTime nowDateTime = DateTime.Now;
+}
+<div>
+    @if (Model != null)
+    {
+        @foreach (var category in Model)
+        {
+            @if (category.Depth > 0)
+            {
+                for (var i = 0; i <= category.Depth; i++)
+                {
+                    <text> &nbsp; &nbsp; </text>
+                }
+            }
+           
+            <input
+                @if (category.Checked)
+                {
+                    <text>checked="checked"</text>
+                }
+                type="checkbox" name="Discount.CategoriesId" id="cat-@category.Id" value="@category.Id"
+
+                @if (category.Discount!=null)
+                {
+                    category.Discount.IsActive = category.Discount.IsActive ? category.Discount.EndDate > nowDateTime : false;
+                    if (category.Discount.IsActive)
+                    {
+                    discountname = $" - ({category.Discount.Name})";
+                    <text> disabled="disabled" </text>
+                    }                    
+                }
+
+                @if (category.Children != null && category.Children.Count > 0)
+                {
+                    <text> disabled="disabled" </text>
+                } />
+            <label for="cat-@category.Id"> @category.Name  @discountname </label>
+            discountname = "";
+
+            if (category.Children != null)
+            {
+                <partial name="_categoriesTree" model="category.Children"/>
+            }
+        }
+    }
+</div>
