@@ -2,13 +2,27 @@
 @model ECommerce.Front.BolouriGroup.Pages.ShopModel
 @{
     ViewData["Title"] = "فروشگاه";
+    @if (string.IsNullOrEmpty(Model.CategoryBannerImagePath))
+    {
+        Model.CategoryBannerImagePath = "/img/single-banner.webp";
+    }
+    else
+    {
+        Model.CategoryBannerImagePath =  Model.CategoryBannerImagePath;
+    }
 }
 
 @section Head{
     <link href="~/css/shop.css" rel="stylesheet" />
+    <style>
+        .single-banner {
+            background: url(@Model.CategoryBannerImagePath);
+        }
+    </style>
 }
 
 <section class="inner-section single-banner">
+   
     <div class="container">
         <h2>لیست کالا</h2>
         <ol class="breadcrumb">

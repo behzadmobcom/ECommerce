@@ -41,6 +41,7 @@
 	  <Folder Include="Areas\Admin\Pages\Cities\" />
 	  <Folder Include="wwwroot\Images\Banner\" />
 	  <Folder Include="wwwroot\Images\Blogs\" />
+	  <Folder Include="wwwroot\Images\Categories\" />
 	</ItemGroup>
 
 	<ItemGroup>

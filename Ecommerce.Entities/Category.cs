@@ -24,6 +24,10 @@ public class Category : BaseEntity
 
     [Display(Name = "ترتیب نمایش")] public int DisplayOrder { get; set; } = 0;
 
+    [Display(Name = "عکس")]
+    [Required(ErrorMessage = @"{0} را وارد کنید")]
+    public string ImagePath { get; set; } = string.Empty;
+
     //ForeignKey
     public int? ParentId { get; set; }
     public Category? Parent { get; set; }

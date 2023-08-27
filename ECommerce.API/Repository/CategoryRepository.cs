@@ -58,7 +58,8 @@ public class CategoryRepository : AsyncRepository<Category>, ICategoryRepository
                 Categories = x.Categories.Select(c => c.Id).ToList(),
                 Parent = x.Parent,
                 ParentId = x.ParentId,
-                ProductsId = x.Products.Select(p => p.Id).ToList()
+                ProductsId = x.Products.Select(p => p.Id).ToList(),
+                ImagePath = x.ImagePath
             }).FirstOrDefaultAsync(cancellationToken);
     }
 

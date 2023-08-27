@@ -33,6 +33,7 @@ public class ShopModel : PageModel
     [BindProperty] public bool IsCheckExist { get; set; }
     [BindProperty] public int ProductSort { get; set; }
     [BindProperty] public string? Search { get; set; }
+     public string CategoryBannerImagePath { get; set; }
 
     public async Task OnGet(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
         string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isCheckExist = false)
@@ -56,7 +57,11 @@ public class ShopModel : PageModel
         if (!string.IsNullOrEmpty(path))
         {
             var resultCategory = await _categoryService.GetByUrl(path);
-            if (resultCategory.Code == ServiceCode.Success) categoryId = resultCategory.ReturnData.Id.ToString();
+            if (resultCategory.Code == ServiceCode.Success)
+            {
+                categoryId = resultCategory.ReturnData.Id.ToString();
+                CategoryBannerImagePath = resultCategory.ReturnData.ImagePath;
+            }
         }
         if (!string.IsNullOrEmpty(search) && !search.Contains('='))
         {
