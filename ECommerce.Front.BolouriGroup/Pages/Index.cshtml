@@ -21,11 +21,23 @@
             if (slide.Product != null)
             {
                 <div class="banner-part banner-1">
-                    <a asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url">
-                        <div class="banner-img" style="z-index: -1;">
-                            <img src=@slide.ImagePath alt="@slide.Product.Name" style="width: 100%; justify-content: center !important" loading="lazy">
+                    <div class="banner-img" style="position: relative;text-align: center;color: white;">
+                        <img src=@slide.ImagePath alt="@slide.Product.Name" loading="lazy">
+                    <div class="container">
+                        <div class="row rtl">
+                                <div class="col-md-8 col-lg-6" >
+                                    <div class="banner-content" style="position: absolute;bottom: 300px;right: 16px;">
+                                    <h1>@slide.Title</h1>
+                                    <p>@Html.Raw(slide.Description)</p>
+                                    <div class="banner-btn">
+                                        <a class="btn btn-inline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url"><i class="far fa-shopping-cart"></i><span>الان خرید کن</span></a>
+                                        <a class="btn btn-outline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url"><i class="far fa-badge-percent"></i><span>بهترین معامله</span></a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
+                    </div>
+                    </div>
                 </div>
             }
             else
@@ -33,11 +45,23 @@
                 if (slide.Category != null)
                 {
                     <div class="banner-part banner-1">
-                        <a asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path">
-                            <div class="banner-img" style="z-index: -1;">
-                                <img src=@slide.ImagePath alt="@slide.Category.Name" style="width: 100%; justify-content: center !important" loading="lazy">
+                        <div class="banner-img" style="position: relative;text-align: center;color: white;">
+                                    <img src=@slide.ImagePath alt="@slide.Category.Name" loading="lazy">
+                            <div class="container">
+                                <div class="row rtl">
+                                <div class="col-md-8 col-lg-6">
+                                        <div class="banner-content" style="position: absolute;bottom: 300px;right: 16px;">
+                                        <h1>@slide.Title</h1>
+                                        <p>@Html.Raw(slide.Description) </p>
+                                        <div class="banner-btn">
+                                            <a class="btn btn-inline" asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path"><i class="far fa-shopping-cart"></i><span>الان خرید کن</span></a>
+                                            <a class="btn btn-outline" asp-area="" asp-page="Shop" asp-route-path="@slide.Category.Path"><i class="far fa-badge-percent"></i><span>بهترین معامله</span></a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 }
             }
