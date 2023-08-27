@@ -89,24 +89,7 @@ public class InvoiceModel : PageModel
 
     private async Task<ActionResult> pay(PurchaseResult result)
     {
-        if (!result.ResCode.Equals("0"))
-        {
-            switch (result.ResCode)
-            {
-                case "100":
-                    Message = "درخواست تکراری است. قبلا در سیستم ثبت شده است";
-                    break;
-                case "-1":
-                    Message = "پارامترهای ارسالی صحیح نمی باشد یا تراکنش در سیستم وجود ندارد";
-                    break;
-                case "101":
-                    Message = "مهلت ارسال تراکنش به پایان رسیده است";
-                    break;
-            }
-            Code = "Error";
-            return Page();
-        }
-        var dataBytes = Encoding.UTF8.GetBytes(result.Token);
+      var dataBytes = Encoding.UTF8.GetBytes(result.Token);
         var symmetric = SymmetricAlgorithm.Create("TripleDes");
         symmetric.Mode = CipherMode.ECB;
         symmetric.Padding = PaddingMode.PKCS7;
