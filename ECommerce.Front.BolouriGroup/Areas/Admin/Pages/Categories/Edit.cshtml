@@ -32,7 +32,7 @@
                     </h3>
                 </div>
                 <!--begin::Form-->
-                <form class="form" method="post" asp-page-handler="OnPost">
+                <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
                     <input hidden="hidden" asp-for="@Model.Category.Id"/>
                     <input hidden="hidden" asp-for="@Model.Category.ParentId"/>
                     <input hidden="hidden" asp-for="@Model.Category.Depth"/>
@@ -53,6 +53,13 @@
                                 <span></span>
                                 فعال بودن
                             </label>
+                        </div>
+                        <div class="form-group">
+                            <label>تصویر بنر</label> <img style="width: 50%" src="@Model.Category.ImagePath">
+                            <div class="custom-file">
+                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل" accept=".webp" />
+                                <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
+                            </div>
                         </div>
                         <div class="form-group mt-5">
                             <label>ترتیب نمایش در منو برای سردسته ها </label>

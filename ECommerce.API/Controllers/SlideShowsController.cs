@@ -12,17 +12,12 @@ namespace ECommerce.API.Controllers;
 public class SlideShowsController : ControllerBase
 {
     private readonly ILogger<SlideShowsController> _logger;
-    private readonly IPriceRepository _priceRepository;
-    private readonly ISettingRepository _settingRepository;
     private readonly IHolooArticleRepository _articleRepository;
     private readonly ISlideShowRepository _slideShowRepository;
 
-    public SlideShowsController(ISlideShowRepository slideShowRepository, IPriceRepository priceRepository,
-        ISettingRepository settingRepository, IHolooArticleRepository articleRepository, ILogger<SlideShowsController> logger)
+    public SlideShowsController(ISlideShowRepository slideShowRepository, IHolooArticleRepository articleRepository, ILogger<SlideShowsController> logger)
     {
         _slideShowRepository = slideShowRepository;
-        _priceRepository = priceRepository;
-        _settingRepository = settingRepository;
         _articleRepository = articleRepository;
         _logger = logger;
     }
