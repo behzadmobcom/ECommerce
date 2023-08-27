@@ -315,13 +315,15 @@
     float: left;
     height: 263px;
     padding-top: 10%;
-    width: 263px;
+    width: 100%;
+    justify-content: center !important
 }
 
 .banner-img {
     background-color: #EDEBEC;
     height: 272px;
     width: 360px;
+    z-index: -1;
 }
 
 .banner-info {
