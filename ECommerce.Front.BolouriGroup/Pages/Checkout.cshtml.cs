@@ -40,9 +40,11 @@ public class CheckoutModel : PageModel
         _cartService = cartService;
     }
 
-    public async Task OnGet()
+    public async Task OnGet(string message, string code)
     {
         await Initial();
+        Message = message;
+        Code = code;
     }
 
     private async Task Initial()
