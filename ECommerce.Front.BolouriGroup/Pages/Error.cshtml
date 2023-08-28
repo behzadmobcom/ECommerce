@@ -4,26 +4,17 @@
     ViewData["Title"] = "ارور";
 }
 
-<section class="inner-section single-banner">
-    <div class="container">
-        <h2>خطای 404</h2>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a asp-area="" asp-page="/Index">خانه</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">خطای 404</li>
-        </ol>
-    </div>
+<section class="inner-section single-banner-404">
+        <div class="container">
+            <div class="row rtl">
+            <div class="col-sm-12 col-xs-10 col-md-6 col-lg-6">
+                    <div class="banner-content">
+                    <a class="btn btn-inline btn-inline-401" onclick="history.back()"><span>بازگشت به قبل</span></a>
+                        <a class="btn btn-inline btn-inline-402" asp-area="" asp-page="/Index"><span>رفتن به صفحه اصلی</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
 </section>
 
-<section class="error-part">
-    <div class="container">
-        <div class="col-lg-6 mx-auto">
-            <img class="img-fluid" src="~/img/error.webp" alt="خطا" loading="lazy">
-        </div>
-        <h3>اوه این صفحه یافت نمی شود</h3>
-        <p>این صفحه پیدا نشده است شما به دنبال آن ممکن است وجود نداشته باشد و یا حذف شده است.</p>
-        <p>@Model.Message</p>
-        <a asp-area="" asp-page="/Index">به خانه برو</a>
-    </div>
-</section>
