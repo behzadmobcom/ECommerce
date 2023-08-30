@@ -8,7 +8,7 @@ namespace ECommerce.Front.BolouriGroup.Pages;
 public class CompareModel : PageModel
 {
     private readonly ICompareService _compareService;
-    public List<int> CategoryId = new List<int>(); 
+    public int CategoryId;
     public CompareModel(ICompareService compareService)
     {
         _compareService = compareService;
@@ -21,23 +21,18 @@ public class CompareModel : PageModel
     {
         Message = "";
         var result = await _compareService.CompareList(productListId);
-        if (result.Code > 0 || result.ReturnData.Count == 0)
+        if (result.ReturnData.First().ProductCategories.Count() > 0)
         {
-            Message = "ابتدا کالایی برای مقایسه انتخاب کنید";
-            return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
-        }
-        foreach (var compare in result.ReturnData)
-        {
-            foreach (int category in compare.ProductCategories)
-            {
-                CategoryId.Add(category);
-            }
-        }
-        var CategoriesResult = await _compareService.GetProductsByCategories(CategoryId);
-        ProductsList = CategoriesResult.ReturnData;
+            CategoryId = result.ReturnData.First().ProductCategories.First();
+            var CategoriesResult = await _compareService.GetProductsByCategories(CategoryId);
+            ProductsList = CategoriesResult.ReturnData;
+        }        
         CompareProduct = result.ReturnData.First();
-        int Index = ProductsList.FindIndex(a => a.Id == productListId.First());
-        ProductsList.RemoveAt(Index);
+        if (ProductsList != null)
+        {
+            int Index = ProductsList.FindIndex(a => a.Id == productListId.First());
+            ProductsList.RemoveAt(Index);
+        }
         return Page();
     }
 }

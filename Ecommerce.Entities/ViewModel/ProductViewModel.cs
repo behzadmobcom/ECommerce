@@ -187,20 +187,12 @@ public class ProductModalViewModel
     public double Exist { get; set; }
 }
 
-public class ProductCompareViewModel
+public class ProductCompareViewModel : BaseProductPageViewModel
 {
     public string ArticleCode { get; set; }
-    public int Id { get; set; }
     public int ProductId { get; set; }
     public int PriceId { get; set; }
-    public string Name { get; set; }
     public decimal Price { get; set; }
-    public string ImagePath { get; set; }
-    public string Alt { get; set; }
-    public string? Description { get; set; }
-    public string? Review { get; set; }
-    public string Url { get; set; }
-    public string Brand { get; set; }
     public IEnumerable<int> ProductCategories {get; set;}
     public virtual List<ProductAttributeGroup> AttributeGroupProducts { get; set; }
 
@@ -219,12 +211,12 @@ public class ProductCompareViewModel
 
         return new ProductCompareViewModel
         {
-            //ArticleCode = x.ArticleCode,
             Id = x.Id,
             Name = x.Name,
             Description = x.Description,
             Review = x.Review,
             Price = !x.Prices.Any() ? 0 : x.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
+            Prices = x.Prices,
             ImagePath = $"{imagePath}/{imageName}",
             Url = x.Url,
             Brand = brandName,
