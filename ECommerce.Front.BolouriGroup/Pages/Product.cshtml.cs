@@ -99,5 +99,11 @@ public class ProductdetailsModel : PageModel
         }
         await Initial(productUrl);
     }
+    public IActionResult OnGetAddCompareList(int id)
+    {
+        List<int> productListId = new List<int>();
+        productListId.Add(id);
+        return RedirectToPage("/Compare", new { productListId = productListId });
+    }
 
 }

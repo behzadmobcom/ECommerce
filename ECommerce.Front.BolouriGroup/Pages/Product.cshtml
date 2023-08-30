@@ -229,9 +229,9 @@
                                                                                                          }>
                             <i class="fa fa-heart"></i><span>لیست علاقه مندی ها</span>
                             </a>
-                            <a class="view-compare" href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه این مورد">
+                            <a class="view-compare" asp-area="" asp-page="Product" asp-page-handler="AddCompareList" asp-route-Id="@Model.Product.Id" title="مقایسه محصول">
                                 <i class="far fa-exchange"></i><span>افزودن برای مقایسه</span>
-                            </a>                         
+                            </a>
                         </div>
                         <div class="details-list-group mt-4">
                             <label class="details-list-title">اشتراک گذاری:</label>
@@ -319,22 +319,22 @@
         <div class="tab-pane" id="tab-coma">
             <div class="row">
                 <div class="col-lg-12">
-                        <div class="blog-details-comment">
+                    <div class="blog-details-comment">
                         <h3 class="comment-title">@Model.ProductComments.PaginationDetails.TotalCount نظر</h3>
-                            <ul class="comment-list">
+                        <ul class="comment-list">
 
                             @foreach (var item in Model.ProductComments.ReturnData)
                             {
-                                    <li class="comment-item">
-                                        <div class="comment-media">
-                                            <a class="comment-avatar" href="#">
+                                <li class="comment-item">
+                                    <div class="comment-media">
+                                        <a class="comment-avatar" href="#">
                                             <img src="~/images/users/user-profile.png" alt="user-profile" loading="lazy" />
                                         </a>
-                                            <h5 class="comment-meta">
+                                        <h5 class="comment-meta">
                                             <a href="#">@item.Name</a><span>@item.DateTime.ToFa("f")</span>
                                         </h5>
                                     </div>
-                                        <div class="comment-desc">
+                                    <div class="comment-desc">
                                         @item.Text
                                         <p style="background-color:darkgrey">
                                             @{
@@ -347,30 +347,30 @@
                                 </li>
                             }
                         </ul>
-                       
-                        </div><div class="row" style="margin-bottom:20px"> 
+
+                    </div><div class="row" style="margin-bottom:20px">
+                        <div class="col-lg-12">
+                            <ul class="pagination">
+                                <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails" />
+                            </ul>
+                        </div>
+                    </div>
+                    <form class="blog-details-form" method="post" asp-page-handler="OnPost">
+                        <h3 class="details-form-title">ارسال نظر</h3>
+                        <a hidden>@Model.Product.Url</a>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group"><input type="text" class="form-control" asp-for="@Model.ProductComment.Name" placeholder="اسمت را وارد کن"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group"><input type="email" class="form-control" asp-for="@Model.ProductComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
+                            </div>
                             <div class="col-lg-12">
-                                <ul class="pagination">
-                                    <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails" />
-                                </ul>
+                                <div class="form-group"><textarea class="form-control" asp-for="@Model.ProductComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
                             </div>
                         </div>
-                        <form class="blog-details-form" method="post" asp-page-handler="OnPost">
-                            <h3 class="details-form-title">ارسال نظر</h3>
-                            <a hidden>@Model.Product.Url</a>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group"><input type="text" class="form-control" asp-for="@Model.ProductComment.Name" placeholder="اسمت را وارد کن"></div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group"><input type="email" class="form-control" asp-for="@Model.ProductComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group"><textarea class="form-control" asp-for="@Model.ProductComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
-                                </div>
-                            </div>
-                            <button class="form-btn">ارسال نظر</button>
-                        </form>
+                        <button class="form-btn">ارسال نظر</button>
+                    </form>
                 </div>
             </div>
         </div>

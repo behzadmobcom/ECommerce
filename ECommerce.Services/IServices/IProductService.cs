@@ -20,7 +20,7 @@ public interface IProductService : IEntityService<ProductViewModel>
     Task<ServiceResult<List<ProductIndexPageViewModel>>> TopRelatives(int productId, int count = 3, bool isWithoutBill = true);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill = true);
     Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList);
-    Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithCategoriesForCompare(List<int> categoryIdList);
+    Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithCategoriesForCompare(int categoryId);
     Task<ServiceResult<ProductViewModel>> GetById(int id);
     Task<ServiceResult<ProductModalViewModel>> GetByIdViewModel(int id);
     Task<ServiceResult<List<ProductIndexPageViewModel>>> GetProductList(int categoryId, List<int> brandsId,
