@@ -673,12 +673,12 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> ProductsWithIdsForCompare(List<int?> productIdList,
-        CancellationToken cancellationToken)
+    public async Task<IActionResult> ProductsWithIdsForCompare(List<int> productIdList, CancellationToken cancellationToken)
     {
         try
         {
-            var result = _productRepository.GetProductListWithAttribute(productIdList);
+            var resultFormRepository = _productRepository.GetProductListWithAttribute(productIdList);
+            var result = await _articleRepository.AddPriceAndExistFromHolooList(resultFormRepository.ToList(), true, false, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -698,13 +698,15 @@ public class ProductsController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
-    [HttpPost]
-    public async Task<IActionResult> ProductsWithCategoriesForCompare(List<int?> categoryIdList,
-        CancellationToken cancellationToken)
+    
+    [HttpGet]
+    public async Task<IActionResult> GetProductsWithCategoriesForCompare(int categoryId, CancellationToken cancellationToken)
     {
         try
         {
-            var result = _productRepository.GetProductsWithCategories(categoryIdList);
+            List<int> ProductsIds = _productRepository.GetProductsIdWithCategories(categoryId);
+            var resultFormRepository = _productRepository.GetProductListWithAttribute(ProductsIds);
+            var result = await _articleRepository.AddPriceAndExistFromHolooList(resultFormRepository.ToList(), true, false, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
                 {

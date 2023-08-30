@@ -173,7 +173,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         return productIndexPageViewModel;
     }
 
-    public IEnumerable<ProductCompareViewModel> GetProductListWithAttribute(List<int?> productIdList)
+    public IEnumerable<ProductCompareViewModel> GetProductListWithAttribute(List<int> productIdList)
     {
         var group = _context.ProductAttributeGroups.AsNoTracking()
             .Include(a => a.Attribute)
@@ -188,7 +188,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
         //        .ToListAsync(cancellationToken);
         //}
 
-        var productValues = _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId))
+        var productValues = _context.ProductAttributeValues.Where(x => productIdList.Contains(x.ProductId.Value))
             .ToList();
 
         var products = _context.Products.AsNoTracking()
@@ -202,6 +202,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                 Name = x.Name,
                 Description = x.Description,
                 Price = x.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
+                Prices = x.Prices,
                 ImagePath = $"{x.Images.FirstOrDefault().Path}/{x.Images.FirstOrDefault().Name}",
                 Url = x.Url,
                 Brand = x.Brand.Name,
@@ -212,28 +213,46 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
 
         foreach (var product in products)
         {
+            var newGroup = new List<ProductAttributeGroup>();
             foreach (var productAttributeGroup in group)
             {
+                var newProductAttributeGroup = new ProductAttributeGroup
+                {
+                    Id = productAttributeGroup.Id,
+                    Name = productAttributeGroup.Name,
+                    Products = productAttributeGroup.Products,
+                    Attribute = new List<ProductAttribute>()
+                };
                 foreach (var attribute in productAttributeGroup.Attribute)
                 {
-
+                    var productAttribute = new ProductAttribute
+                    {
+                        Title = attribute.Title,
+                        AttributeType = attribute.AttributeType,
+                        AttributeGroupId = attribute.AttributeGroupId,
+                        AttributeGroup = attribute.AttributeGroup
+                    };
                     var value = productValues.FirstOrDefault(x =>
                         x.ProductAttributeId == attribute.Id && x.ProductId == product.Id);
                     if (value != null)
                     {
-                        attribute.AttributeValue = new List<ProductAttributeValue> { value };
+                        productAttribute.AttributeValue = new List<ProductAttributeValue> { value };
                     }
                     else
                     {
-                        attribute.AttributeValue = new List<ProductAttributeValue>();
+                        productAttribute.AttributeValue = new List<ProductAttributeValue>();
                     }
+                    newProductAttributeGroup.Attribute.Add(productAttribute);
                 }
+                newGroup.Add(newProductAttributeGroup);
             }
 
-            product.AttributeGroupProducts = group;
-            yield return product;
+            product.AttributeGroupProducts = newGroup;
+            //yield return product;
+            productCompareViewModel.Add(product);
         }
 
+        return productCompareViewModel;
         //productCompareViewModel.AddRange(products.Select(product => product));
     }
 
@@ -591,60 +610,14 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
                                         .Include(x => x.Images).Include(x => x.ProductUserRanks);
         return products;
     }
-    public IEnumerable<ProductCompareViewModel> GetProductsWithCategories(List<int?> categoryIdList)
-    {
-        var group = _context.ProductAttributeGroups.AsNoTracking()
-            .Include(a => a.Attribute)
-            .ToList();
-
-        var productCompareViewModel = new List<ProductCompareViewModel>();
-        List<int> ProductsIds = _context.Products.Where(x => x.ProductCategories.Any(c => categoryIdList.Contains(c.Id))).Select(c=>c.Id)
-            .ToList();
-        var productValues = _context.ProductAttributeValues.Where(x => ProductsIds.Contains(x.Id))
-           .ToList();
-
-        var products = _context.Products.AsNoTracking()
-            .Where(x => x.ProductCategories.Any(c => categoryIdList.Contains(c.Id)))
+    public List<int> GetProductsIdWithCategories(int categoryId)
+    {        
+        List<int> ProductsIds = _context.Products
             .Include(x => x.ProductCategories)
-            .Include(x => x.Prices)
-            .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
-            .Select(x => new ProductCompareViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                Price = x.Prices.FirstOrDefault(y => !y.IsColleague && y.MinQuantity == 1).Amount,
-                ImagePath = $"{x.Images.FirstOrDefault().Path}/{x.Images.FirstOrDefault().Name}",
-                Url = x.Url,
-                Brand = x.Brand.Name,
-                Alt = x.Images.FirstOrDefault().Alt,
-                ProductCategories = x.ProductCategories.Select(x => x.Id)
-            })
+            .Where(x => x.ProductCategories.Any(c => c.Id == categoryId)).Select(c=>c.Id)
             .ToList();
-
-        foreach (var product in products)
-        {
-            foreach (var productAttributeGroup in group)
-            {
-                foreach (var attribute in productAttributeGroup.Attribute)
-                {
-
-                    var value = productValues.FirstOrDefault(x =>
-                        x.ProductAttributeId == attribute.Id && x.ProductId == product.Id);
-                    if (value != null)
-                    {
-                        attribute.AttributeValue = new List<ProductAttributeValue> { value };
-                    }
-                    else
-                    {
-                        attribute.AttributeValue = new List<ProductAttributeValue>();
-                    }
-                }
-            }
-
-            product.AttributeGroupProducts = group;
-            yield return product;
-        }
+        
+            return ProductsIds;    
     }
 
     #endregion

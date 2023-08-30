@@ -7,6 +7,6 @@ namespace ECommerce.Services.IServices;
 public interface ICompareService
 {
     ServiceResult Remove(HttpContext context, int productId);
-    Task<ServiceResult<List<ProductCompareViewModel>>> CompareList(List<int> productListId);
-    Task<ServiceResult<List<ProductCompareViewModel>>> GetProductsByCategories(List<int> categoryId);
+    Task<ServiceResult<List<ProductCompareViewModel>>> CompareList(List<int> productId);
+    Task<ServiceResult<List<ProductCompareViewModel>>> GetProductsByCategories(int categoryId);
 }
