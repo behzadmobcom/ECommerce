@@ -3,9 +3,15 @@
 @{
     ViewData["Title"] = "جزئیات وبلاگ";
 }
-
+@section Head{
+    <style>
+        .single-banner {
+            background: url(../img/single-banner.webp);
+        }
+    </style>
+}
 <section class="inner-section single-banner">
-colorss="container">
+    <div class="container">
         <h2>جزئیات وبلاگ</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -22,7 +28,9 @@ colorss="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <article class="blog-details">
-                    <a class="blog-details-thumb" href="#"><img src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image.Alt"loading="lazy"></a>
+                    <a class="blog-details-thumb" href="#">
+                        <img src="~/@($"{Model.Blog.Image?.Path}/{Model.Blog.Image?.Name}")" alt="@Model.Blog.Image.Alt"loading="lazy">
+                        </a>
                     <div class="blog-details-content">
                         <ul class="blog-details-meta">
                             <li><i class="far fa-calendar"></i><span> @Model.Blog.EditDateTime.ToFa()  </span></li>
