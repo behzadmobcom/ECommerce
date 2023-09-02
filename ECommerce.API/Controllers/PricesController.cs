@@ -134,7 +134,7 @@ public class PricesController : ControllerBase
             if(messages.Count > 0)
                 return Ok(new ApiResult
                 {
-                    Messages = new List<string> { },
+                    Messages = messages,
                     Code = ResultCode.BadRequest
                 });
 
