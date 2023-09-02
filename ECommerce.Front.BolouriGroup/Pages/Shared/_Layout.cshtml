@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <ul class="header-top-list">
-                        <li><a asp-area ="" asp-page="/Contact" >با ما تماس بگیرید</a></li>
+                        <li><a asp-area="" asp-page="/Contact">با ما تماس بگیرید</a></li>
                         <li><a href="offer.html">تخفیف</a></li>
                         <li><a asp-area="" asp-page="/Faq">کمک خواستن؟</a></li>
                     </ul>
@@ -55,14 +55,14 @@
             </div>
         </div>
     </div>
-<div class="header-part">
+    <div class="header-part">
         <div class="container">
             <div class="header-content-group">
                 <div class="header-widget-group left">
                     <button class="header-widget header-user" title="حساب من">
                         <img src="~/img/user.webp" alt="کاربر" width="40" height="40" loading="lazy">
                     </button>
-                
+
                     <a class="header-logo" asp-area="" asp-page="/Index">
                         <img id="BlueLogoImage" style="display: none;" src="~/img/BlueLogo.webp" width="107" height="50" alt="لوگو" loading="lazy">
                         <img id="WhiteLogoImage" style="display: inline;" src="~/img/BlueLogo.webp" width="107" height="50" alt="لوگو" loading="lazy">
@@ -120,7 +120,7 @@
                     <div class='search-result' style="display: none;"></div>
                 </form>
 
-            
+
                 <div class="header-widget-group right">
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -388,7 +388,7 @@
             </div>
         </div>
     </aside>
-<div class="mobile-menu">
+    <div class="mobile-menu">
         <button class="cart-btn" title="سبد خرید">
             <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">@TempData["cartLength"]</sup>
             <input hidden="hidden" value="@TempData["cartLength"]" id="Cart-Count-Value-Icon1" />
@@ -403,8 +403,8 @@
             <i class="far fa-heart"></i><span>لیست علاقه مندیها </span>
         </a>
     </div>
-@RenderBody()
-<footer class="footer-part">
+    @RenderBody()
+    <footer class="footer-part">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4">
@@ -435,10 +435,10 @@
                                 <li>
                                     <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
                                 </li>
-                            
-                                 <li>
+
+                                <li>
                                     <a referrerpolicy="origin" rel="noopener" target="_blank" href="https://trustseal.enamad.ir/?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa">
-                                    <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
+                                        <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
                                     </a>
                                 </li>
                             </ul>
@@ -517,7 +517,22 @@
     </a>
 
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.min.js"></script>
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/nice-select.min.js"></script>
+    <script src="~/js/venobox.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/finalcountdown.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <script src="~/js/nice-select.js"></script>
+    <script src="~/js/price-range.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/masonry/masonry.pkgd.min.js"></script>
+    <script src="~/js/accordion.js"></script>
+    <script src="~/js/venobox.js"></script>
+    <script src="~/js/slick.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/BolouriGroupJs.js"></script>
     @await RenderSectionAsync("Scripts", false)
     <script>
         toggleCheckout();

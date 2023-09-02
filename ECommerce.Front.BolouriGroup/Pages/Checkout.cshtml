@@ -110,12 +110,12 @@
                                     <img src="/img/payment/sadad.webp" alt="سداد" loading="lazy">
                                 </div>
                             </div>
-                            @*   <div class="row">
-                            <input type="radio" id="zarinpal" checked="checked" name="Portal" width="100" value="zarinpal">
-                            <div class="payment active">
-                            <h3>زرین پال</h3>
+                            <div class="row">
+                                <input type="radio" id="zarinpal" checked="checked" name="Portal" width="100" value="zarinpal">
+                                <div class="payment active">
+                                    <h3>زرین پال</h3>
+                                </div>
                             </div>
-                            </div>*@
                         </div>
                     </div>
                     <div class="account-card">
@@ -125,12 +125,24 @@
                             </div>
                             <ul>
                                 <li>
-                                    <span>کل </span><span>@Model.SumPrice.ToString("N0") تومان</span>
+                                    <span>کل </span><span>@Model.SumPrice.ToString("N0")</span><span>تومان</span>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="checkout-proced">
-                            <button type="submit" class="btn btn-inline"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
+
+                            <input type="text" name="discountCode" placeholder="کد تخفیف" class="form-control" id="discountCode" />
+                            <br />
+                            <div class="row">
+                                <button type="button" onclick="CalculateDiscount()" class="btn btn-inline col-md-6"> اعمال کد تخفیف</button>
+                                <button type="button" onclick="RemoveDiscount()" class="btn btn-warning col-md-6"> حذف تخفیف</button>
+                            </div>
+
+                            <ul>
+                                <li>
+                                    <span>با تخفیف </span><span id="sumPrice">@Model.SumPrice.ToString("N0")</span><span>تومان</span>
+                                </li>
+                            </ul>
+
+                            <button type="submit" class="btn btn-inline col-md-12"> <i class="fal fa-credit-card"></i>ثبت سفارش</button>
                         </div>
                         <div class="chekout-coupon">
                         </div>
@@ -163,8 +175,37 @@
         $(document).ready(function () {
             setCities();
         });
-    </script>
-    <script>
+
+        function CalculateDiscount() {
+            $.ajax({
+                type: "Get",
+                url: "/Checkout?handler=Discount&discountCode=" + $("#discountCode").val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#sumPrice").html(formatter.format(response.sumPrice));
+                    swal(response.description)
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+
+            });
+        }
+
+        function RemoveDiscount() {
+            $.ajax({
+                type: "Get",
+                url: "/Checkout?handler=RemoveDiscount",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#sumPrice").html(formatter.format(response));
+                    $("#discountCode").val('');
+                }
+            });
+        }
+
         function myFunction() {
             var x = document.getElementById("myDIV");
             if (x.style.display === "block") {

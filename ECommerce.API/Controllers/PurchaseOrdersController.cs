@@ -3,6 +3,7 @@ using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
+using ECommerce.API.Repository;
 using ECommerce.Application.Commands.Purchase.Purchases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +27,11 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IHolooCustomerRepository _holooCustomerRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IDiscountRepository _discountRepository;
 
 
     public PurchaseOrdersController(
-        IPurchaseOrderRepository discountRepository,
+        IPurchaseOrderRepository purchaseOrderRepository,
         IPurchaseOrderDetailRepository purchaseOrderDetailRepository,
         IProductRepository productRepository,
         ILogger<PurchaseOrdersController> logger,
@@ -41,9 +43,10 @@ public class PurchaseOrdersController : ControllerBase
         IHolooSanadListRepository holooSanadListRepository,
         IUserRepository userRepository,
         IHolooCustomerRepository holooCustomerRepository,
-        ITransactionRepository transactionRepository1)
+        ITransactionRepository transactionRepository,
+        IDiscountRepository discountRepository)
     {
-        _purchaseOrderRepository = discountRepository;
+        _purchaseOrderRepository = purchaseOrderRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
         _productRepository = productRepository;
         _logger = logger;
@@ -55,7 +58,8 @@ public class PurchaseOrdersController : ControllerBase
         _holooSanadListRepository = holooSanadListRepository;
         _userRepository = userRepository;
         _holooCustomerRepository = holooCustomerRepository;
-        _transactionRepository = transactionRepository1;
+        _transactionRepository = transactionRepository;
+        _discountRepository = discountRepository;
     }
 
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
@@ -437,7 +441,8 @@ public class PurchaseOrdersController : ControllerBase
             {
                 Amount = sumPrice,
                 Status = 0,
-                UserId = createPurchaseCommand.UserId
+                UserId = createPurchaseCommand.UserId,
+                DiscountAmount = createPurchaseCommand.DiscountAmount
             }, cancellationToken);
             purchaseOrderDetail = await _purchaseOrderDetailRepository.AddAsync(new PurchaseOrderDetail
             {
@@ -505,6 +510,20 @@ public class PurchaseOrdersController : ControllerBase
         }
     }
 
+    private double CalculateDiscount(Discount discount, double amount)
+    {
+        if (discount.Amount != null && discount.Amount > 0)
+        {
+            amount -= (int)discount.Amount;
+            if (amount < 0) amount = 0;
+        }
+        else
+        {
+            if (discount.Percent != null) amount -= discount.Percent.Value / 100 * amount;
+        }
+        return amount;
+    }
+
     [HttpPut]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Pay(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
@@ -517,10 +536,27 @@ public class PurchaseOrdersController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
             if (string.IsNullOrEmpty(purchaseOrder.Description)) purchaseOrder.Description = "";
-            purchaseOrder.PaymentDate = DateTime.Now;
+            Discount? discount = null;
+            if (purchaseOrder.DiscountId != null)
+            {
+                discount = _discountRepository.GetById(purchaseOrder.DiscountId);
+                if (!discount.IsActive ||
+                    discount.StartDate?.Date > DateTime.Now.Date ||
+                    discount.EndDate?.Date < DateTime.Now.Date)
+                {
+                    discount = null;
+                }
+            }
+            //purchaseOrder.PaymentDate = DateTime.Now;
             var resultUser = await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
+            var amount =  Convert.ToDouble(purchaseOrder.Amount);
+            double? Takhfif = null;
+            if (discount != null)
+            {
+                Takhfif = Convert.ToDouble(purchaseOrder.Amount) - CalculateDiscount(discount, amount);
+            }
             var fBail = await _holooFBailRepository.Add(new HolooFBail
             {
                 C_Code = cCode,
@@ -530,7 +566,8 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Date = DateTime.Now,
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
-                Sum_Price = Convert.ToDouble(purchaseOrder.Amount)
+                Sum_Price = (amount * 10),
+                Takhfif = (Takhfif * 10)
 
             }, cancellationToken);
 
@@ -546,7 +583,6 @@ public class PurchaseOrdersController : ControllerBase
                     A_Code = orderDetail.Price.ArticleCode,
                     ACode_C = orderDetail.Price.ArticleCodeCustomer,
                     A_Index = Convert.ToInt16(i++),
-                    DarsadTakhfif = Convert.ToDouble(orderDetail.DiscountAmount),
                     Fac_Code = fBail,
                     Fac_Type = "P",
                     Few_Article = orderDetail.Quantity,
@@ -577,9 +613,9 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
             }, cancellationToken);
-
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0009", "", Convert.ToDouble(purchaseOrder.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0009", "", Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Transaction.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
 

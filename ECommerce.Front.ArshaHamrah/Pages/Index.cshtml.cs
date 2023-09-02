@@ -109,7 +109,7 @@ public class IndexModel : PageModel
         {
             foreach (var product in result.ReturnData)
             {
-                decimal? discount = 0;
+               int? discount = 0;
                 if (product.Discount != null)
                 {
                     if (product.Discount.Amount > 0)
@@ -118,7 +118,7 @@ public class IndexModel : PageModel
                     }
                     else if (product.Discount.Percent > 0)
                     {
-                        discount = product.PriceAmount * (decimal)product.Discount.Percent / 100;
+                        discount = (int)(product.PriceAmount * (decimal)product.Discount.Percent / 100);
                     }
                 }
                 var priceAmount = product.PriceAmount - discount;

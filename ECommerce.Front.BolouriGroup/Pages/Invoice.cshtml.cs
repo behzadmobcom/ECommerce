@@ -42,6 +42,23 @@ public class InvoiceModel : PageModel
             var resultOrder = await _purchaseOrderService.GetByUserId();
             PurchaseOrder = resultOrder.ReturnData;
             var amount = Convert.ToInt32(PurchaseOrder.Amount);
+            if (PurchaseOrder.DiscountId != null && PurchaseOrder.Discount != null)
+            {
+                if (PurchaseOrder.Discount.Amount != null && PurchaseOrder.Discount.Amount > 0)
+                {
+                    amount -= (int)PurchaseOrder.Discount.Amount;
+                    if (amount < 0) amount = 0;
+                }
+                else
+                {
+                    if (PurchaseOrder.Discount.Percent != null)
+                        amount -= (int)(PurchaseOrder.Discount.Percent.Value / 100 * amount);
+                }
+            }
+            else
+            {
+                PurchaseOrder.DiscountAmount = 0;
+            }
             var statusInt = await new Payment(amount).Verification(authority);
             switch (statusInt.Status)
             {
@@ -65,10 +82,11 @@ public class InvoiceModel : PageModel
                     //Success
 
                     Refid = statusInt.RefId.ToString();
+                    PurchaseOrder.PaymentDate = DateTime.Now;
                     PurchaseOrder.Transaction = new()
                     {
                         RefId = Refid,
-                        Amount = amount,
+                        Amount = (amount * 10),
                         UserId = resultOrder.ReturnData.UserId
                     };
                     var result = await _purchaseOrderService.Pay(PurchaseOrder);
@@ -108,6 +126,23 @@ public class InvoiceModel : PageModel
         PurchaseOrder = resultOrder.ReturnData;
         PurchaseOrder.Amount *= 10;
         var amount = Convert.ToInt32(PurchaseOrder.Amount);
+        if (PurchaseOrder.DiscountId != null && PurchaseOrder.Discount != null)
+        {
+            if (PurchaseOrder.Discount.Amount != null && PurchaseOrder.Discount.Amount > 0)
+            {
+                amount -= (int)PurchaseOrder.Discount.Amount;
+                if (amount < 0) amount = 0;
+            }
+            else
+            {
+                if (PurchaseOrder.Discount.Percent != null)
+                    amount -= (int)(PurchaseOrder.Discount.Percent.Value / 100 * amount);
+            }
+        }
+        else
+        {
+            PurchaseOrder.DiscountAmount = 0;
+        }
         var ipgUri = "https://sadad.shaparak.ir/api/v0/Advice/Verify";
 
         var res = CallApi<VerifyResultData>(ipgUri, data);
@@ -144,10 +179,12 @@ public class InvoiceModel : PageModel
         }
         return RedirectToPage("Error", new { message = "مشکل در درگاه پرداخت " + res.Result.Description });
     }
+
     public IActionResult OnGetFactorPrint(long orderId)
     {
         return RedirectToPage("InvoiceReportPrint", new { orderId = orderId });
     }
+
     public static async Task<T> CallApi<T>(string apiUrl, object value)
     {
         using var client = new HttpClient();
