@@ -1,0 +1,31 @@
+﻿@model Ecommerce.Entities.Category
+
+<div class="col">
+    <div class="product-card">
+        <div class="product-media">
+            <div class="product-label">
+                <label class="label-text new">جدید</label>
+            </div>
+
+            @if (string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <a class="product-image" asp-area="" asp-page="Shop" asp-route-path="@Model.Path">
+                    <img src="~/img/BlueLogo.webp" alt="@Model.Name" width="177" height="177">
+                </a>
+            }
+            else
+            {
+                <a class="product-image" asp-area="" asp-page="Shop" asp-route-path="@Model.Path">
+                    <img src="~/@Model.ImagePath" alt="@Model.Name" width="177" height="177">
+                </a>
+            }
+
+        </div>
+        <div class="product-content">
+            <h6 class="product-name">
+                <a asp-area="" asp-page="Shop" asp-route-path="@Model.Path">@Model.Name</a>
+            </h6>
+
+        </div>
+    </div>
+</div>

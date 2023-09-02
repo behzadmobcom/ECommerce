@@ -27,6 +27,7 @@ public class ShopModel : PageModel
 
     public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
     public ServiceResult<List<Tag>> Tags { get; set; }
+    public List<Category>? Categories { get; set; }
     public Dictionary<int, string> Brands { get; set; }
     [BindProperty] public int Min { get; set; }
     [BindProperty] public int Max { get; set; }
@@ -65,6 +66,8 @@ public class ShopModel : PageModel
         }
         if (!string.IsNullOrEmpty(search) && !search.Contains('='))
         {
+            var resultSearchCategories = await _categoryService.Search(search);
+            Categories = resultSearchCategories.ReturnData;
             search = $"Name={search}";
         }
         Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);

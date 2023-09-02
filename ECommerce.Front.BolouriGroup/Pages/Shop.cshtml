@@ -57,31 +57,6 @@
                                                                                     <text>checked</text>}/>
                             <span class="slider round"></span>
                         </label><br />
-                   @*      <label class="widget-title border-left" style="font-size:14px">مرتب سازی :</label>
-						    <select name="ProductSort" id="ProductSort" value="@Model.ProductSort" class="select">
-							    @{
-								    bool sel1 = false;
-								    bool sel2 = false;
-								    bool sel3 = false;
-								    bool sel4 = false;
-								    if (Model.ProductSort == 1) sel1 = true;
-								    if (Model.ProductSort == 2) sel2 = true;
-								    if (Model.ProductSort == 3) sel3 = true;
-								    if (Model.ProductSort == 4) sel4 = true;
-							    }
-							    <option value="1" selected=@sel1>
-								    جدیدترین ها
-							    </option>
-							    <option value="2" selected=@sel2>
-								    محبوب ترین ها
-							    </option>							
-							    <option value="3" selected=@sel3>   
-								    ارزان ترین ها
-							    </option>
-							    <option value="4" selected=@sel4>
-								    گران ترین ها
-							    </option>
-						    </select>	 *@								
                         <br />     <label class="widget-title border-left" style="font-size:14px">مرتب سازی بر اساس ویژگی :</label>
                         <div class="shop-filter">
                             <select name="ProductSort" id="ProductSort" value="@Model.ProductSort" class="select">
@@ -139,11 +114,18 @@
                     </div>
                 </div>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
-                    @if (Model.Products != null)
+                    @if (Model.Categories is {Count: > 0 })
+                    {
+                        foreach (var category in Model.Categories)
+                        {
+                            <partial name="Components/_categoryCard" model="category" />
+                        }
+                    }
+                    @if (Model.Products is {ReturnData.Count: > 0 })
                     {
                         foreach (var product in Model.Products.ReturnData)
                         {
-                            <partial name="Components/_productCard" model="product" />
+                            <partial name="Components/_productCard" model="product"/>
                         }
                     }
                 </div>

@@ -29,8 +29,16 @@ public class CategoryRepository : AsyncRepository<Category>, ICategoryRepository
 
     public async Task<Category> GetByName(string name, CancellationToken cancellationToken, int? parentId = null)
     {
-        return await _context.Categories.Where(x => x.Name == name && x.ParentId == parentId && x.IsActive)
-            .FirstOrDefaultAsync(cancellationToken);
+        return await _context.Categories
+            .Where(x => x.Name == name && x.ParentId == parentId && x.IsActive)
+            .FirstAsync(cancellationToken);
+    }
+
+    public async Task<List<Category>> Search(string searchKeyword, CancellationToken cancellationToken)
+    {
+        return await _context.Categories
+            .Where(x => x.Name.Contains(searchKeyword) && x.IsActive)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<int> AddAll(IEnumerable<Category> categories, CancellationToken cancellationToken)

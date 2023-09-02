@@ -21,4 +21,6 @@ public interface ICategoryRepository : IAsyncRepository<Category>
     Task<List<CategoryParentViewModel>> Parents(int productId, CancellationToken cancellationToken);
 
     Task<List<int>> ChildrenCategory(int categoryId, CancellationToken cancellationToken);
+
+    Task<List<Category>> Search(string searchKeyword, CancellationToken cancellationToken);
 }
