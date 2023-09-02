@@ -12,7 +12,6 @@
     <Content Remove="wwwroot\js\shop.js" />
   </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
 		<PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.86" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />

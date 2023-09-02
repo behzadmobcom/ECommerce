@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
+using PersianDate.Standard;
 using ZarinpalSandbox;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
@@ -17,6 +18,7 @@ public class CheckoutModel : PageModel
     private readonly IStateService _stateService;
     private readonly IPurchaseOrderService _purchaseOrderService;
     private readonly ICartService _cartService;
+    private readonly IDiscountService _discountService;
 
 
     [BindProperty] public List<State> StateList { get; set; }
@@ -30,14 +32,22 @@ public class CheckoutModel : PageModel
     [TempData] public string Code { get; set; }
 
     public int SumPrice { get; set; }
+    public ServiceResult<Discount> DiscountResult { get; set; }
 
-    public CheckoutModel(ICartService cartService, ICityService cityService, ISendInformationService sendInformationService, IStateService stateService, IPurchaseOrderService purchaseOrderService)
+    public CheckoutModel(
+        ICartService cartService,
+        ICityService cityService,
+        ISendInformationService sendInformationService,
+        IStateService stateService,
+        IPurchaseOrderService purchaseOrderService,
+        IDiscountService discountService)
     {
         _cityService = cityService;
         _sendInformationService = sendInformationService;
         _stateService = stateService;
         _purchaseOrderService = purchaseOrderService;
         _cartService = cartService;
+        _discountService = discountService;
     }
 
     public async Task OnGet(string message, string code)
@@ -72,9 +82,73 @@ public class CheckoutModel : PageModel
         return new JsonResult(ret);
     }
 
-    public async Task<IActionResult> OnPost(string Portal, int PostPrice)
+    public async Task<JsonResult> OnGetDiscount(string discountCode)
     {
         await Initial();
+        var sumPriceResult = await DiscountCalculate(discountCode, SumPrice);
+       
+        return new JsonResult(sumPriceResult);
+    }
+
+    public async Task<JsonResult> OnGetRemoveDiscount()
+    {
+        await Initial();
+        return new JsonResult(SumPrice);
+    }
+
+    private async Task<VerifyResultData> DiscountCalculate(string discountCode, int sumPrice)
+    {
+        DiscountResult = await _discountService.GetByCode(discountCode);
+        var discount = DiscountResult.ReturnData;
+        VerifyResultData resultData = new();
+        if (DiscountResult.Code > 0 || DiscountResult.Status != 200)
+        {
+            resultData.SumPrice = sumPrice;
+            resultData.Succeed = false;
+            resultData.Description = "تخفیف مورد نظر یافت نشد";
+            return resultData;
+        }
+        if ( !DiscountResult.ReturnData.IsActive)
+        {
+            resultData.SumPrice = sumPrice;
+            resultData.Succeed = false;
+            resultData.Description = "تخفیف مورد نظر دیگر فعال نیست";
+            return resultData;
+
+        }
+        if (DiscountResult.ReturnData.StartDate?.Date > DateTime.Now.Date)
+        {
+            resultData.SumPrice = sumPrice;
+            resultData.Succeed = false;
+            resultData.Description = $"تخفیف مورد نظر هنوز شروع نشده است، لطفا بعد از تاریخ {DiscountResult.ReturnData.StartDate.ToFa()} دوباره تلاش کنید";
+            return resultData;
+        }
+        if (DiscountResult.ReturnData.EndDate?.Date < DateTime.Now.Date)
+        {
+            resultData.SumPrice = sumPrice;
+            resultData.Succeed = false;
+            resultData.Description = "تخفیف مورد نظر منقضی شده است";
+            return resultData;
+        }
+        if (discount.Amount is > 0)
+        {
+            sumPrice -= (int)discount.Amount;
+            if (sumPrice < 0) sumPrice = 0;
+        }
+        else
+        {
+            if (discount.Percent != null) sumPrice -= (int)((discount.Percent.Value / 100) * sumPrice);
+        }
+        resultData.SumPrice = sumPrice;
+        resultData.Succeed = true;
+        resultData.Description = "تخفیف بعد از پرداخت در فاکتور شما لحاظ خواهد شد";
+        return resultData;
+    }
+
+    public async Task<IActionResult> OnPost(string Portal, int PostPrice, string discountCode)
+    {
+        await Initial();
+
         string returnAction = "melisuccess";
         string url = $"https://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
@@ -91,6 +165,8 @@ public class CheckoutModel : PageModel
             }
             else
             {
+                Message = "لطفا یک آدرس جدید وارد کنید یا یک آدرس را انتخاب کنید";
+                Code = "Error";
                 return Page();
             }
         }
@@ -108,7 +184,9 @@ public class CheckoutModel : PageModel
         }
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
-        SumPrice = Convert.ToInt32(tempSumPrice);
+
+        var discountResult = await DiscountCalculate(discountCode, Convert.ToInt32(tempSumPrice));
+        SumPrice= discountResult.SumPrice;
         if (SumPrice >= 50000000)
         {
             Message = "مبلغ سفارش نمی تواند بیشتر از 50 میلیون تومان باشد";
@@ -118,28 +196,29 @@ public class CheckoutModel : PageModel
         var purchaseOrder = (await _purchaseOrderService.GetByUserId()).ReturnData;
         purchaseOrder.Amount = tempSumPrice;
         purchaseOrder.SendInformationId = SendInformation.Id;
+        if (DiscountResult.Code == 0 && DiscountResult.Status == 200 && DiscountResult.ReturnData.IsActive && (DiscountResult.ReturnData.StartDate?.Date <= DateTime.Now.Date || DiscountResult.ReturnData.StartDate == null) && (DiscountResult.ReturnData.EndDate?.Date >= DateTime.Now.Date || DiscountResult.ReturnData.EndDate == null))
+        {
+            purchaseOrder.DiscountId = DiscountResult.ReturnData.Id;
+            purchaseOrder.DiscountAmount = (int)tempSumPrice - SumPrice;
+        }
         if (resultSendInformation == 0)
         {
             string description = "";
             switch (Portal)
             {
-                //case "zarinpal":
-                //    //Zarinpal
-                //    returnAction = "ZarinPalSuccess";
-                //    description = "خرید تستی ";
-                //    purchaseOrder.OrderGuid = Guid.NewGuid();
-                //    byte[] gb1 = purchaseOrder.OrderGuid.ToByteArray();
-                //    purchaseOrder.OrderId = BitConverter.ToInt64(gb1, 0);
-                //    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
-                //    if (paymentZarinpal.Status == 100)
-                //    {
-                //        await _purchaseOrderService.Edit(purchaseOrder);
-                //        return Redirect(paymentZarinpal.Link);
-                //    }
-                //    else
-                //    {  //return errorPage;
-                //        return RedirectToPage("Error");
-                //    }
+                case "zarinpal":
+                    returnAction = "ZarinPalSuccess";
+                    description = "خرید تستی ";
+                    purchaseOrder.OrderGuid = Guid.NewGuid();
+                    byte[] gb1 = purchaseOrder.OrderGuid.ToByteArray();
+                    purchaseOrder.OrderId = BitConverter.ToInt64(gb1, 0);
+                    var paymentZarinpal = await new Payment(SumPrice).PaymentRequest(description, url + returnAction + "?Factor=" + purchaseOrder.Id);
+                    if (paymentZarinpal.Status == 100)
+                    {
+                        await _purchaseOrderService.Edit(purchaseOrder);
+                        return Redirect(paymentZarinpal.Link);
+                    }
+                    return RedirectToPage("Error");
                 case "sadad":
                     SumPrice *= 10;
                     purchaseOrder.OrderGuid = Guid.NewGuid();

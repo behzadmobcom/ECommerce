@@ -71,7 +71,7 @@ public class EditModel : PageModel
         var _image = await _imageService.GetImagesByBlogId(Blog.Id);
         Blog.Image = _image.ReturnData;
 
-        if (Upload != null && Blog.Image.Id!=0)
+        if (Upload != null && Blog.Image.Id != 0)
         {
             await _imageService.Delete($"Images/Blogs/{Blog.Image?.Name}", Blog.Image.Id, _environment.ContentRootPath);
             _image = await _imageService.GetImagesByBlogId(Blog.Id);
@@ -85,7 +85,7 @@ public class EditModel : PageModel
             {
                 Message = resultImage.Message;
                 Code = resultImage.Code.ToString();
-                ModelState.AddModelError("", resultImage.Message);               
+                ModelState.AddModelError("", resultImage.Message);
             }
 
             _image = await _imageService.GetImagesByBlogId(Blog.Id);
@@ -97,8 +97,8 @@ public class EditModel : PageModel
         {
             var result = await _blogService.Edit(Blog);
             if (result.Code == 0)
-            {                  
-                 
+            {
+
                 return RedirectToPage("/Blogs/Index",
                     new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             }
@@ -134,16 +134,16 @@ public class EditModel : PageModel
     }
 
     public async Task<IActionResult> OnPostDeleteImage(string imageName, int id, int blogId)
-    {        
-            var result = await _imageService.Delete($"Images/Blogs/{imageName}", id, _environment.ContentRootPath);
+    {
+        var result = await _imageService.Delete($"Images/Blogs/{imageName}", id, _environment.ContentRootPath);
 
-            if (result.Code == 0)
-                //return RedirectToPage("/Blogs/Edit",
-                //    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
+        if (result.Code == 0)
+            //return RedirectToPage("/Blogs/Edit",
+            //    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             Message = result.Message;
-            Code = result.Code.ToString();
-            ModelState.AddModelError("", result.Message);
-        
+        Code = result.Code.ToString();
+        ModelState.AddModelError("", result.Message);
+
         await Initial(blogId);
         return Page();
     }

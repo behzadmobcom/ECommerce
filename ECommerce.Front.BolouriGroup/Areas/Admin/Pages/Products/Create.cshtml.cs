@@ -95,6 +95,15 @@ public class CreateModel : PageModel
             Code = ServiceCode.Error.ToString();
             return Page();
         }
+
+        if (Product.CategoriesId.Count == 0)
+        {
+            Message = "لطفا حداقل یک دسته بندی انتخاب کنید";
+            Code = "Error";
+            await Initial();
+            return Page();
+        }
+
         foreach(var upload in Uploads)
         {
             if (upload.FileName.Split('.').Last().ToLower() != "webp")

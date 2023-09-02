@@ -12,4 +12,5 @@ public interface IDiscountService : IEntityService<Discount>
     Task<ServiceResult<Discount>> GetById(int id);
     Task<ServiceResult<Discount>> GetLast();
     Task<bool> Activate(int discountId);
+    Task<ServiceResult<Discount>> GetByCode(string code);
 }

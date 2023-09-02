@@ -45,6 +45,12 @@ public class DiscountService : EntityService<Discount>, IDiscountService
         return Return(result);
     }
 
+    public async Task<ServiceResult<Discount>> GetByCode(string code)
+    {
+        var result = await _http.GetAsync<Discount>(Url, $"GetByCode?code={code}");
+        return Return(result);
+    }
+
     public async Task<ServiceResult<Discount>> GetLast()
     {
         var result = await _http.GetAsync<Discount>(Url, $"GetLast");

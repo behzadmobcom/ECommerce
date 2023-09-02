@@ -23,6 +23,7 @@ public class DiscountsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
@@ -57,6 +58,7 @@ public class DiscountsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<Discount>> GetById(int id, CancellationToken cancellationToken)
     {
         try
@@ -82,8 +84,35 @@ public class DiscountsController : ControllerBase
         }
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
+    public async Task<ActionResult<Discount>> GetByCode(string code, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _discountRepository.GetByCode(code, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
 
     [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<Discount>> GetLast(CancellationToken cancellationToken)
     {
         try
@@ -120,6 +149,7 @@ public class DiscountsController : ControllerBase
 
 
     [HttpGet]
+    [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<Discount>> GetWithTime(CancellationToken cancellationToken)
     {
         try

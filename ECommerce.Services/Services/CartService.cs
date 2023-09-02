@@ -188,7 +188,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             UserId = currentUser.Id,
             Quantity = Convert.ToUInt16(count),
             ProductId = productId,
-            PriceId = priceId
+            PriceId = priceId,
+            DiscountAmount = 0
         };
         var result = await Create(Url, purchaseOrderViewModel);
         if (result.Code == ResultCode.Repetitive)

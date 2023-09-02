@@ -10,7 +10,8 @@ public class HolooABail
     public double Few_Article { get; set; }
     public double Price_BS { get; set; }
     public double Unit_Few { get; set; }
+    public double? DarsadTakhfif { get; set; }
+    public double? TAKHFIFSATRIR { get; set; }
     public Int16 VahedCode { get; set; }
-    public double DarsadTakhfif { get; set; }
     public string? ACode_C { get; set; }
 }
