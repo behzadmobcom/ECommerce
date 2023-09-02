@@ -20,7 +20,7 @@ public class PurchaseOrderViewModel
     public string ColorName { get; set; } = string.Empty;
     public bool IsColleague { get; set; }
     public Discount? Discount { get; set; }
-    public decimal DiscountAmount { get; set; }
+    public int DiscountAmount { get; set; }
 
     //ForeignKey
     public int UserId { get; set; }

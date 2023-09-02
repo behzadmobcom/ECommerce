@@ -4,6 +4,7 @@ using ECommerce.API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.API.Migrations
 {
     [DbContext(typeof(SunflowerECommerceDbContext))]
-    partial class SunflowerECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230902101749_ChangeDiscountAmountToRequaird")]
+    partial class ChangeDiscountAmountToRequaird
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -284,10 +286,6 @@ namespace Ecommerce.API.Migrations
 
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

@@ -7728,6 +7728,7 @@ tbody tr td:last-child {
 
 .checkout-proced .btn {
   width: 100%;
+    margin-top: 10px
 }
 
 .checkout-proced .btn:hover {

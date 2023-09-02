@@ -62,6 +62,13 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        if (Product.CategoriesId.Count == 0)
+        {
+            Message = "لطفا حداقل یک دسته بندی انتخاب کنید";
+            Code = "Error";
+            await Initial(Product.Id);
+            return Page();
+        }
         if (Uploads == null)
         {
             Message = "لطفا عکس را انتخاب کنید";

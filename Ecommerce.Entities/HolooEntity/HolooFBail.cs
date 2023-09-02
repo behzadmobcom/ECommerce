@@ -9,5 +9,6 @@ public class HolooFBail
     public DateTime? Fac_Time { get; set; }
     public string? C_Code { get; set; }
     public double? Sum_Price { get; set; }
+    public double? Takhfif { get; set; }
     public string? Fac_Comment { get; set; }
 }

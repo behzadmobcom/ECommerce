@@ -19,7 +19,7 @@ public class PurchaseOrder : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public decimal Amount { get; set; }
 
-    [Display(Name = "تخفیف")] public int? DiscountAmount { get; set; }
+    [Display(Name = "تخفیف")] public int DiscountAmount { get; set; } = 0;
 
     [Display(Name = "هزینه حمل")] public int? ShippingFee { get; set; }
 
