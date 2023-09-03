@@ -14,30 +14,55 @@
         </ol>
     </div>
 </section>
+
+@if (Model.Message != null)
+{
+    switch (Model.Code)
+    {
+        case "Error":
+            <div class="alert alert-danger"> @Model.Message </div>
+            break;
+        case "Warning":
+            <div class="alert alert-warning"> @Model.Message </div>
+            break;
+        case "Info":
+            <div class="alert alert-info"> @Model.Message </div>
+            break;
+        default:
+            <div class="alert alert-success"> @Model.Message </div>
+            break;
+    }
+
+    Model.Message = null;
+}
 <section class="inner-section contact-part">
     <div class="container">
         <div class="row">
             <div class="col-lg-6  titer">
-                <form class="contact-form" method="post" action="https://themes.lunartechit.com/ارگانیک/assets/php/contact.php" id="contact-form">
+                <form class="contact-form" method="post" asp-page-handler="OnPost">
                     <h4>پیام خود را ارسال کنید</h4>
                     <div class="form-group">
                         <div class="form-input-group">
-                            <input class="form-control" type="text" placeholder="اسم شما" required=""><i class="fal fa-user"></i>
+                            <input asp-for="@Model.Contact.Name" class="form-control" type="text" placeholder="اسم شما" required=""><i class="fal fa-user"></i>
+                            <span asp-validation-for="@Model.Contact.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="form-input-group">
-                            <input class="form-control" type="text" placeholder="ایمیل شما" required=""><i class="fal fa-envelope"></i>
+                            <input asp-for="@Model.Contact.Email" class="form-control" type="text" placeholder="ایمیل شما" required=""><i class="fal fa-envelope"></i>
+                            <span asp-validation-for="@Model.Contact.Email" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="form-input-group">
-                            <input class="form-control" type="text" placeholder="موضوع " required=""><i class="fal fa-bookmark"></i>
+                            <input asp-for="@Model.Contact.Subject" class="form-control" type="text" placeholder="موضوع " required=""><i class="fal fa-bookmark"></i>
+                            <span asp-validation-for="@Model.Contact.Subject" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="form-input-group">
-                            <textarea class="form-control" placeholder="پیغام تو" required=""></textarea><i class="fal fa-pen"></i>
+                            <textarea asp-for="@Model.Contact.Message" class="form-control" placeholder="پیغام تو" required=""></textarea><i class="fal fa-pen"></i>
+                            <span asp-validation-for="@Model.Contact.Message" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                     </div>
                     <button type="submit" class="form-btn-group">

@@ -29,6 +29,7 @@ public class SunflowerECommerceDbContext : IdentityDbContext<User, UserRole, int
     public virtual DbSet<City> Cities { get; set; }
     public virtual DbSet<Currency> Currencies { get; set; }
     public virtual DbSet<Color> Colors { get; set; }
+    public virtual DbSet<Contact> Contacts { get; set; }
     public virtual DbSet<Department> Departments { get; set; }
     public virtual DbSet<Discount> Discounts { get; set; }
     public virtual DbSet<Employee> Employees { get; set; }

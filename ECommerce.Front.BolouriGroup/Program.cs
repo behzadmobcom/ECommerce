@@ -80,6 +80,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IColorService, ColorService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICompareService, CompareService>();
 builder.Services.AddScoped<ICookieService, CookieService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
