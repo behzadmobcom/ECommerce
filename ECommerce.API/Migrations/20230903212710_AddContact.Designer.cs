@@ -4,6 +4,7 @@ using ECommerce.API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.API.Migrations
 {
     [DbContext(typeof(SunflowerECommerceDbContext))]
-    partial class SunflowerECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230903212710_AddContact")]
+    partial class AddContact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -3693,7 +3695,7 @@ namespace Ecommerce.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiscountAmount")
+                    b.Property<int?>("DiscountAmount")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiscountId")
@@ -4499,7 +4501,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "d585a3c9-e0f6-4ca8-9a07-d333c87cc02b",
+                            ConcurrencyStamp = "3ac938a2-0086-4d44-bf82-ba4c555e01d3",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -4514,10 +4516,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIQNV9Eb4ecnf4ex7lGHIeWENffd116Ype8Llo0ePx67bvV+1x0XdipMkQbIULL9Ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKSGvYabQ4MXs/TXK6Lc84N1Weg73c1xSCiEy5W+ZmQFRJ9kEQmhhqVfjNppjabLaw==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2023, 9, 2, 13, 47, 48, 663, DateTimeKind.Local).AddTicks(6779),
+                            RegisterDate = new DateTime(2023, 9, 4, 0, 57, 9, 603, DateTimeKind.Local).AddTicks(3841),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -4558,21 +4560,21 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "3bb1f7f4-cec2-46f8-90a9-419cdb61c426",
+                            ConcurrencyStamp = "089f0b8d-ced8-40e5-be12-e1e4776a268d",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "a34f3fb7-4b21-4957-ae76-a57b5d0fea36",
+                            ConcurrencyStamp = "bcfa2afd-6391-4968-ae3d-7b798101bc9d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "ee4b7bdd-4ed0-422a-a53f-9da8f1ab1bf6",
+                            ConcurrencyStamp = "e087ed3c-d5bc-4434-9e59-14067da7337d",
                             Name = "Client",
                             NormalizedName = "Client"
                         });

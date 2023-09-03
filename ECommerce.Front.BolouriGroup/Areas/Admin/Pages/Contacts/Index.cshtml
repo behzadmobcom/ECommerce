@@ -1,0 +1,97 @@
+﻿@page
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Contacts.IndexModel
+@{
+    var i = 1 + (Model.Contacts.PaginationDetails.CurrentPage - 1) * Model.Contacts.PaginationDetails.PageSize;
+}
+
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">لیست پیام های تماس با ما</h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--begin::نمونه-->
+        @if (Model.Message != null)
+        {
+            switch (Model.Code)
+            {
+                case "Error":
+                    <div class="alert alert-danger"> @Model.Message </div>
+                    break;
+                case "Warning":
+                    <div class="alert alert-warning"> @Model.Message </div>
+                    break;
+                case "Info":
+                    <div class="alert alert-info"> @Model.Message </div>
+                    break;
+                default:
+                    <div class="alert alert-success"> @Model.Message </div>
+                    break;
+            }
+
+            Model.Message = null;
+            Model.Code = null;
+        }
+        <div class="example mb-10">
+            <form asp-page="/Contacts/Index" method="get">
+                <div class="form-actions no-color">
+                    <p>
+                        جستجو بر اساس نام:
+                        <input type="text" name="search" value="@Model.Contacts.PaginationDetails.Search" />
+                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
+                        <input type="submit" value="بجو" class="btn btn-primary" /> |
+                        تعداد رکورد ها در صفحه :
+                        <a asp-page="/Contacts/Index" asp-route-quantityPerPage="5">5</a> -
+                        <a asp-page="/Contacts/Index" asp-route-quantityPerPage="10">10</a> -
+                        <a asp-page="/Contacts/Index" asp-route-quantityPerPage="15">15</a>
+                    </p>
+                </div>
+            </form>
+            <div class="example-preview">
+                <table id="productTableId" class="table table-bordered mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">نام  فرستنده</th>
+                            <th scope="col">ایمیل فرستنده</th>
+                            <th scope="col">پاسخ داده شده</th>
+                            <th scope="col">موضوع</th>
+                            <th scope="col">عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Contacts.ReturnData != null)
+                        {
+                            foreach (var contact in Model.Contacts.ReturnData)
+                            {
+                                <tr>
+                                    <th scope="row">@(i++)</th>
+                                    <td>@contact.Name</td>
+                                    <td>@contact.Email</td>
+                                    @if (!string.IsNullOrEmpty(contact.ReplayMessage))
+                                    {
+                                        <td>&#x2714</td>
+                                    }
+                                    else
+                                    {
+                                        <td>&cross;</td>
+                                    }
+                                    <td>@contact.Subject</td>
+                                    <td>
+                                        <a asp-page="Answer" asp-route-id="@contact.Id" class="label label-inline label-light-success font-weight-bold">پاسخ</a>
+                                        <a asp-page="Delete" asp-route-id="@contact.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <partial name="_Pagination" model="@Model.Contacts.PaginationDetails" />
+            </div>
+
+        </div>
+        <!--end::نمونه-->
+    </div>
+</div>
