@@ -5934,13 +5934,14 @@ tbody tr td:last-child {
 }
 
 .single-banner {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding: 100px 0;
-  position: relative;
-  text-align: center;
-  z-index: 1;
+    background: url(../img/single-banner.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 100px 0;
+    position: relative;
+    text-align: center;
+    z-index: 1;
 }
 .single-banner-404 {
   background: url(../img/Error404.png);
@@ -6572,6 +6573,20 @@ tbody tr td:last-child {
   margin-bottom: 5px;
   text-transform: capitalize;
 }
+.circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    border:1px solid black;
+}
+
+    
+
+    .circleSelected {
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0c4ca3;
+    }
 
 .details-name a {
   -moz-transition: all linear 0.3s;
