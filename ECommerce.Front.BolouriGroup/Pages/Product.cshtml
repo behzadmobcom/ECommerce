@@ -139,24 +139,8 @@
                                 <span id="price">@discountAmount?.ToString("###,###,###,###") تومان</span>
                             </h6>
 
-                        }
-                        <p class="details-desc">@Html.Raw(Model.Product.Description)</p>
-                        <br />
-                        <div class="details-list-group">
-                            <label class="details-list-title">برچسب ها:</label>
-                            <ul class="details-tag-list">
-                                @if (Model.Product.Tags != null)
-                                {
-                                    @foreach (var tag in Model.Product.Tags)
-                                    {
-                                        var path = $"/Shop/tag={tag.TagText}";
-                                        <li>
-                                            <a href="@path">@tag.TagText</a>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                        </div>
+                        }                        
+                       
                         @if (Model.Product.Prices.Count == 1)
                         {
                             <div class="details-list-group">
@@ -173,12 +157,12 @@
                                 </div>
                             </div>
                         }
-
+                        <div class="row">
                         @if (Model.Product.Prices != null)
                         {
                             @foreach (var price in Model.Product.Prices)
                             {
-                                <div class="row">
+                                <div>
                                     @{
                                         var select = price.Id == priceId ? "checked" : "";
                                         var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
@@ -196,20 +180,15 @@
                                     }
                                     else if (price.ColorId > 1)
                                     {
-                                        <div class="col-8" style="background-color: @price.Color.ColorCode">
-                                            <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                            <span for="price-@price.Id">@price.Color.Name - </span>
-                                            @{
-                                                string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
-                                            }
-                                            <span for="price-@price.Id">قیمت : @_priceAmount </span>
+                                        <div class="col-3" >
+                                               <button style="background-color: @price.Color.ColorCode" @disabled @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
                                         </div>
                                     }
                                     <div class="col-4">
                                         @switch (price.Exist)
                                         {
                                             case <= 0:
-                                                <span style="color: red">نا موجود</span>
+                                                <span style="color: red">ناموجود</span>
                                                 break;
                                             case <= 3:
                                                 <span style="color: red">باقیمانده @price.Exist عدد</span>
@@ -219,6 +198,22 @@
                                 </div>
                             }
                         }
+                        </div>
+                        <div class="details-list-group">
+                            <label class="details-list-title">برچسب ها:</label>
+                            <ul class="details-tag-list">
+                                @if (Model.Product.Tags != null)
+                                {
+                                    @foreach (var tag in Model.Product.Tags)
+                                    {
+                                        var path = $"/Shop/tag={tag.TagText}";
+                                        <li>
+                                            <a href="@path">@tag.TagText</a>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
                         <div class="details-add-group">
                             <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddSelectedPriceToCart(@Model.Product.Id)">
                                 <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
@@ -226,12 +221,12 @@
                         </div>                        
                         <div class="details-action-group heartChecked">                                                
                             <a href="javascript:void(0)"  onclick="InvertWishList('Product',[@priceId])" @{ 
-                                if (Model.WishListPriceId==null){
-                                    <text> class="view-wish wish" > </text>
-                                }else{
-                                    <text> class="view-wish wish active" > </text>
-                                }                                
-                            }
+                                                                                                             if (Model.WishListPriceId==null){
+                                                                                                                 <text> class="view-wish wish" </text>
+                                                                                                             }else{
+                                                                                                                 <text> class="view-wish wish active" </text>
+                                                                                                             }                                
+                                                                                                         }>
                             <i class="fa fa-heart"></i><span>لیست علاقه مندی ها</span>
                             </a>
                             <a class="view-compare" href="javascript:void(0)" onclick="AddCompareList(@Model.Product.Id)" title="مقایسه این مورد">
@@ -411,6 +406,7 @@
             $("#zoomModal").css("display", "none");
             $(".img-zoom-lens").css("display", "none");
         }
+
         function SetPriceId(id) {
             var price = prices.find(x => x.id == id);
             priceId = id;
@@ -421,7 +417,11 @@
                 $("#exist").text("عدم موجودی");
             }
             $("#price").text(price.amount + " تومان ");
+            $("[name='price.Id']").removeClass("circleSelected");
+            $("#price-" + id).addClass("circleSelected");
+
         }
+
         let copyText = document.querySelector(".copyright");
         copyText.querySelector("button").addEventListener("click", function () {
 
