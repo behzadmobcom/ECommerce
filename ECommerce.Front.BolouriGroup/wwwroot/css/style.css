@@ -6017,10 +6017,10 @@ tbody tr td:last-child {
   text-transform: uppercase;
 }
 .single-banner h2 {
-  color: var(--white);
-  font-size: 38px;
-  margin-bottom: 15px;
-  text-transform: uppercase;
+    color: var(--white);
+    font-size: 38px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 @media (max-width: 2500px) {
   .single-banner-404 {
