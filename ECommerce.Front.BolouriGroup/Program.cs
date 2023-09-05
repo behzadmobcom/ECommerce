@@ -3,6 +3,7 @@ using ECommerce.Front.BolouriGroup;
 using ECommerce.Services.IServices;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,8 +53,8 @@ builder.Services.Configure<IISServerOptions>(options => { options.AllowSynchrono
 //    options.LowercaseQueryStrings = true;
 //    //options.AppendTrailingSlash = true;
 //});
-builder.Services.AddMemoryCache();  
-builder.Services.AddTransient(_ => new HttpClient {BaseAddress = new Uri(_frontSetting.BaseAddress)});
+builder.Services.AddMemoryCache();
+builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(_frontSetting.BaseAddress) });
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<SmsIrSettings>(builder.Configuration.GetSection("SmsIr"));
@@ -105,11 +106,12 @@ builder.Services.AddScoped<IUnitService, UnitService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 builder.Services.AddScoped<IProductCommentService, ProductCommentService>();
+builder.Services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
 #endregion
 
 // Add services to the container.
-var mvcBuilder =builder.Services.AddRazorPages();
+var mvcBuilder = builder.Services.AddRazorPages();
 
 var app = builder.Build();
 

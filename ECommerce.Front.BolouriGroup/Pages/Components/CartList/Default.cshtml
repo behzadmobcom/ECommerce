@@ -1,0 +1,47 @@
+@using Ecommerce.Entities.ViewModel
+@model IEnumerable<PurchaseOrderViewModel>
+
+@{
+    decimal AllPrice = 0;
+}
+
+@if (Model != null)
+    @foreach (var product in Model)
+    {
+        <li class="cart-item" id="CartDrop-@product.Id">
+            <div class="cart-media">
+                <a asp-page="Product" asp-route-productUrl="@product.Url"><img src="/@product.ImagePath" alt="@product.Alt"></a>
+                <button class="cart-delete" onclick="DeleteCart(@product.Id,@product.ProductId,@product.PriceId)"><i
+                        class="far fa-times"></i></button>
+            </div>
+            <div class="cart-info-group">
+                <div class="cart-info">
+                    <h5><a asp-page="Product" asp-route-productUrl="@product.Url">@product.Name</a></h5>
+                    <h6>برند : @product.Brand</h6>
+                    <h6>رنگ : @product.ColorName</h6>
+                    <p>@product.PriceAmount.ToString("N0")</p>
+                </div>
+                <div class="cart-action-group">
+                    <div class="product-action">
+                        <button class="action-minus" onclick="DecreaseCart(@product.ProductId,@product.PriceId,@product.Id)"
+                            title="مقدار منهای"><i class="far fa-minus"></i></button>
+                        <input class="action-input" title="تعداد" type="text" name="quantity" value="@product.Quantity">
+                        <button class="action-plus" onclick="AddCart(@product.ProductId,@product.PriceId,@product.Id)"
+                            title="مقدار به علاوه"><i class="far fa-plus"></i></button>
+                    </div>
+                    <h6>@product.SumPrice.ToString("N0")</h6>
+                    <h6>تومان</h6>
+                    <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.Id" />
+                </div>
+            </div>
+        </li>
+        AllPrice += product.SumPrice;
+    }
+@{
+    TempData["cartAllPrice"] = AllPrice;
+    TempData["cartAllPrice-formatted"] = AllPrice.ToString("N0");
+}
+
+<script>
+    let cartList = @Json.Serialize(Model);
+</script>
