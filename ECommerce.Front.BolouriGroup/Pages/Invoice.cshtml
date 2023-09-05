@@ -1,12 +1,11 @@
 ﻿@page "/invoice"
 @model ECommerce.Front.BolouriGroup.Pages.InvoiceModel
 @{
-    ViewData["Title"] = "فاکتور سفارش";
+    ViewData["Title"] = "فروشگاه اینترنتی بلوری";
 }
-
 <section class="inner-section single-banner">
     <div class="container">
-        <h2>فاکتور سفارش</h2>
+        <h1>فاکتور سفارش</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
@@ -15,7 +14,6 @@
         </ol>
     </div>
 </section>
-
 <a class="btn btn-block btn-info" asp-page-handler="FactorPrint" asp-route-orderId="@Model.OrderId">چاپ فاکتور</a>
 <h2 style="color: rebeccapurple;text-align: center" >@Model.Refid</h2>
 @if (Model.Message != null)
