@@ -1,13 +1,12 @@
 ﻿@page "/product/{productUrl}"
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
-    ViewData["Title"] = "جزئیات محصول";
+    ViewData["Title"] = "مشخصات و قیمت و خرید "+@Model.Product.Name;
     int? priceId = Model.WishListPriceId==null ? Model.Product.Prices.OrderBy(x =>x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id : Model.WishListPriceId;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
 }
-
 @section Head{
     <meta name="description" content="@description" />
     <meta property="og:title" content="@Model.Product.Name" />
@@ -18,16 +17,14 @@
     <meta property="og:locale" content="fa_IR" />
     <meta property="og:site_name" content="بلوری" />
     <meta property="og:availability" content="in stock" />
-
     <meta property="twitter:title" content="@Model.Product.Name" />
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:image" content="@imagePath" />
-
 }
 
 <section class="inner-section single-banner">
     <div class="container">
-        <h2>جزئیات محصول</h2>
+        <h1>جزئیات محصول</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>

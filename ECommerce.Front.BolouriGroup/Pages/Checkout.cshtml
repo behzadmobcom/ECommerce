@@ -1,32 +1,11 @@
 ﻿@page
 @model ECommerce.Front.BolouriGroup.Pages.CheckoutModel
 @{
-    ViewData["Title"] = "پرداخت";
+    ViewData["Title"] = "فروشگاه اینترنتی بلوری";
 }
-<style>
-    .account-link {
-        font-size: 14px;
-        color: blue;
-        font-weight: 600;
-        cursor: pointer;
-        padding: 10px 0 15px 0;
-        display: block;
-    }
-
-        .account-link:hover {
-            color: black;
-        }
-
-    #myDIV {
-        display: none;
-        transition: all 0.4s;
-    }
-</style>
-
-
 <section class="inner-section single-banner">
     <div class="container">
-        <h2>پرداخت</h2>
+        <h1>پرداخت</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
@@ -35,8 +14,6 @@
         </ol>
     </div>
 </section>
-
-
 <section class="inner-section checkout-part">
     <div class="container">
         @if (Model.Message != null)

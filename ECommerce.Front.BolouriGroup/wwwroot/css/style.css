@@ -5960,11 +5960,17 @@ tbody tr td:last-child {
     width: 100%;
     z-index: -1;
 }
-.single-banner h2 {
+.single-banner h1 {
   color: var(--white);
   font-size: 38px;
   margin-bottom: 15px;
   text-transform: uppercase;
+}
+.single-banner h2 {
+    color: var(--white);
+    font-size: 38px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 @media (max-width: 2500px) {
     .single-banner-404 {
@@ -6336,7 +6342,7 @@ tbody tr td:last-child {
 }
 
 .partner-part {
-  background: url(../img/partner.jpg);
+  background: url(../img/partner.webp);
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -8943,4 +8949,22 @@ tbody tr td:last-child {
 .form-button > a {
   color: #008eb2;
   display: inline-block;
+}
+/*************ChechOut***********/
+.account-link {
+    font-size: 14px;
+    color: blue;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px 0 15px 0;
+    display: block;
+}
+
+    .account-link:hover {
+        color: black;
+    }
+
+#myDIV {
+    display: none;
+    transition: all 0.4s;
 }

@@ -1,19 +1,11 @@
 ﻿@page "/Blogs/{blogCategoryId}"
 @model ECommerce.Front.BolouriGroup.Pages.BlogModel
 @{
-    ViewData["Title"] = "وبلاگ";
-}
-
-@section Head{
-    <style>
-        .single-banner {
-            background: url(../img/single-banner.webp);
-        }
-    </style>
+    ViewData["Title"] = "وبلاگ مجموعه بلوری";
 }
 <section class="inner-section single-banner">
     <div class="container">
-        <h2>وبلاگ</h2>
+        <h1>وبلاگ</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
@@ -22,8 +14,6 @@
         </ol>
     </div>
 </section>
-
-
 <section class="inner-section blog-standard">
     <div class="container">
         <div class="row justify-content-center">

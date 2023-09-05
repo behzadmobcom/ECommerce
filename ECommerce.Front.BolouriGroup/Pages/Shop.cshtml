@@ -1,7 +1,7 @@
 ﻿@page "{**path}"
 @model ECommerce.Front.BolouriGroup.Pages.ShopModel
 @{
-    ViewData["Title"] = "فروشگاه";
+    ViewData["Title"] = "لیست محصولات مجموعه بلوری";
     @if (string.IsNullOrEmpty(Model.CategoryBannerImagePath))
     {
         Model.CategoryBannerImagePath = "/img/single-banner.webp";
@@ -11,7 +11,6 @@
         Model.CategoryBannerImagePath =  Model.CategoryBannerImagePath;
     }
 }
-
 @section Head{
     <link href="~/css/shop.css" rel="stylesheet" />
     <style>
@@ -20,7 +19,6 @@
         }
     </style>
 }
-
 <section class="inner-section single-banner">
    
     <div class="container">
@@ -33,7 +31,6 @@
         </ol>
     </div>
 </section>
-
 <section class="inner-section shop-part">
     <div class="container">
         <div class="row">
@@ -140,7 +137,6 @@
         </div>
     </div>
 </section>
-
 @section scripts{
     <script>
         window.onload = function () {
