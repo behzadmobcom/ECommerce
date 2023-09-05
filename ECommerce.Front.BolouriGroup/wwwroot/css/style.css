@@ -67,6 +67,15 @@ img {
   vertical-align: middle;
 }
 
+#Cart-List a {
+  color: black;
+}
+
+#Cart-List a:hover {
+  color: black;
+  text-decoration: underline;
+}
+
 a {
   display: inline-block;
   text-decoration: none;
@@ -5694,7 +5703,8 @@ tbody tr td:last-child {
   padding: 20px 5px;
 }
 
-.shop-filter .nice-select {width:100%;
+.shop-filter .nice-select {
+  width: 100%;
   background: var(--chalk);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -5933,14 +5943,14 @@ tbody tr td:last-child {
   z-index: 1;
 }
 .single-banner-404 {
-    background: url(../img/Error404.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 150px 0;
-    position: relative;
-    text-align: center;
-    z-index: 1;
+  background: url(../img/Error404.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 150px 0;
+  position: relative;
+  text-align: center;
+  z-index: 1;
 }
 .single-banner::before {
   content: '';
@@ -5952,13 +5962,13 @@ tbody tr td:last-child {
   z-index: -1;
 }
 .single-banner-404::before {
-    content: '';
-    height: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
-    z-index: -1;
+  content: '';
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 .single-banner h1 {
   color: var(--white);
@@ -5973,105 +5983,105 @@ tbody tr td:last-child {
     text-transform: uppercase;
 }
 @media (max-width: 2500px) {
-    .single-banner-404 {
-        padding: 100px 0;
-    }
-    .btn-inline-401 {
-        margin-top: 300px;
-        margin-right: 15%
-    }
-    .btn-inline-402 {
-        margin-top: 300px;
-    }
-   
+  .single-banner-404 {
+    padding: 100px 0;
+  }
+  .btn-inline-401 {
+    margin-top: 300px;
+    margin-right: 15%;
+  }
+  .btn-inline-402 {
+    margin-top: 300px;
+  }
 }
 @media (max-width: 1200px) {
-    .single-banner-404 {
-        padding: 50px 0;
-    }
-    .btn-inline-401 {
-        margin-top: 300px;
-        margin-right: 1%
-    }
+  .single-banner-404 {
+    padding: 50px 0;
+  }
+  .btn-inline-401 {
+    margin-top: 300px;
+    margin-right: 1%;
+  }
 
-    .btn-inline-402 {
-        margin-top: 300px;
-    }
+  .btn-inline-402 {
+    margin-top: 300px;
+  }
 }
 @media (max-width: 992px) {
-    .single-banner-404 {
-        padding: 50px 0;
-    }
+  .single-banner-404 {
+    padding: 50px 0;
+  }
 
-    .btn-inline-401 {
-        margin-top: 300px;
-        margin-right: 1%
-    }
+  .btn-inline-401 {
+    margin-top: 300px;
+    margin-right: 1%;
+  }
 
-    .btn-inline-402 {
-        margin-top: 300px;
-        margin-left: 30%
-    }
+  .btn-inline-402 {
+    margin-top: 300px;
+    margin-left: 30%;
+  }
 }
 @media (max-width: 767px) {
   .single-banner {
     padding: 40px 0;
   }
-    .single-banner-404 {
-        padding: 50px 0;
-    }
-    .btn-inline-401 {
-        margin-top: 200px;
-        font-size: 8px;
-    }
+  .single-banner-404 {
+    padding: 50px 0;
+  }
+  .btn-inline-401 {
+    margin-top: 200px;
+    font-size: 8px;
+  }
 
-    .btn-inline-402 {
-        margin-top: 200px;
-        font-size: 8px;
-        margin-left: 25%
-    }
+  .btn-inline-402 {
+    margin-top: 200px;
+    font-size: 8px;
+    margin-left: 25%;
+  }
 }
 @media (max-width: 575px) {
   .single-banner {
     padding: 0;
   }
-    .single-banner-404 {
-        padding: 0px;
-    }
-    .btn-inline-401 {
-        margin-top: 200px;
-        margin-bottom:20px;font-size:8px;
-    }
+  .single-banner-404 {
+    padding: 0px;
+  }
+  .btn-inline-401 {
+    margin-top: 200px;
+    margin-bottom: 20px;
+    font-size: 8px;
+  }
 
-    .btn-inline-402 {
-        margin-top: 200px;
-        margin-bottom: 20px;
-        font-size: 8px;
-        padding-left: 10px
-    }
+  .btn-inline-402 {
+    margin-top: 200px;
+    margin-bottom: 20px;
+    font-size: 8px;
+    padding-left: 10px;
+  }
 }
 @media (max-width: 413px) {
-    .single-banner {
-        padding: 0;
-    }
+  .single-banner {
+    padding: 0;
+  }
 
-    .single-banner-404 {
-        background-size: contain;
-        height: 170px;
-    }
+  .single-banner-404 {
+    background-size: contain;
+    height: 170px;
+  }
 
-    .btn-inline-401 {
-        margin-top: 100px;
-        font-size: 5px;
-        padding:8px 10px;
-    }
+  .btn-inline-401 {
+    margin-top: 100px;
+    font-size: 5px;
+    padding: 8px 10px;
+  }
 
-    .btn-inline-402 {
-        margin-top: 100px;
-        font-size: 5px;
-        padding-left: 10px;
-        padding: 8px 10px;
-    }
+  .btn-inline-402 {
+    margin-top: 100px;
+    font-size: 5px;
+    padding-left: 10px;
+    padding: 8px 10px;
+  }
 }
 .home-index-slider .slick-right {
   left: 30px;
