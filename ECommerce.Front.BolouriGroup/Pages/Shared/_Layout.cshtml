@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var cartList = await Component.InvokeAsync("CartList");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -159,8 +163,8 @@
                         </div>
                     }
                     <button class="header-widget header-cart" title="سبد خرید">
-                        <i class="far fa-shopping-cart"></i><sup id="Cart-Count">0</sup>
-                        <input hidden="hidden" value="0" id="Cart-Count-Value-Icon" />
+                        <i class="far fa-shopping-cart"></i><sup id="Cart-Count">@TempData["cartLength"]</sup>
+                        <input hidden="hidden" value="@TempData["cartLength"]" id="Cart-Count-Value-Icon" />
                     </button>
                 </div>
             </div>
@@ -262,18 +266,19 @@
         <div class="cart-container">
             <div class="cart-header">
                 <div class="cart-total">
-                    <i class="far fa-shopping-cart"></i><span id="Cart-Count2">کل مورد (0)</span>
-                    <input hidden="hidden" value="0" id="Cart-Count-Value" />
+                    <i class="far fa-shopping-cart"></i><span id="Cart-Count2">کل مورد (@TempData["cartLength"])</span>
+                    <input hidden="hidden" value="@TempData["cartLength"]" id="Cart-Count-Value" />
                 </div>
                 <button class="cart-close">
                     <i class="far fa-times"></i>
                 </button>
             </div>
             <ul id="Cart-List" class="cart-list">
+                @cartList
             </ul>
             <div class="cart-footer">
-                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price"></span><span class="checkout-text">تومان</span></a>
-                <input hidden="hidden" id="AllPrice-Value" value="0" />
+                <a class="cart-checkout-btn" asp-area="" asp-page="/Checkout"><span class="checkout-label">ادامه پرداخت </span><span id="All-Price" class="checkout-price">@TempData["cartAllPrice-formatted"]</span><span class="checkout-text">تومان</span></a>
+                <input hidden="hidden" id="AllPrice-Value" value="@TempData["cartAllPrice"]" />
             </div>
         </div>
     </aside>
@@ -384,8 +389,8 @@
     </aside>
 <div class="mobile-menu">
         <button class="cart-btn" title="سبد خرید">
-            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">0</sup>
-            <input hidden="hidden" value="0" id="Cart-Count-Value-Icon1" />
+            <i class="far fa-shopping-cart"></i><span>سبد خرید </span><sup id="Cart-Count1">@TempData["cartLength"]</sup>
+            <input hidden="hidden" value="@TempData["cartLength"]" id="Cart-Count-Value-Icon1" />
         </button>
         <button class="cate-btn" title="لیست دسته بندی">
             <i class="far fa-th-large"></i><span>دسته بندی</span>
@@ -514,7 +519,7 @@
     <script src="~/js/site.min.js"></script>
     @await RenderSectionAsync("Scripts", false)
     <script>
-        window.onload = loadCart();
+        toggleCheckout();
     </script>
 
 </body>

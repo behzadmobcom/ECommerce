@@ -1,8 +1,5 @@
 ﻿const formatter = new Intl.NumberFormat();
 
-// global variables
-let cartList = [];
-
 function RemoveWishList(id) {
     $.ajax({
         type: "Get",
@@ -168,7 +165,7 @@ function OpenProductModal(id) {
 function createCartItem(product) {
   return `<li class='cart-item' id='CartDrop-${product.id}'> 
             <div class='cart-media'> 
-              <a asp-page='Product' asp-route-productUrl='${product.url}'>
+              <a href='/product/${product.url}'>
                 <img src='/${product.imagePath}' alt='${product.alt}'>
               </a>
               <button class='cart-delete' onclick='DeleteCart(${product.id},${product.productId},${product.priceId})'>
@@ -177,7 +174,7 @@ function createCartItem(product) {
             </div>
             <div class='cart-info-group'>
               <div class='cart-info'>
-                <h5><a asp-page='Product' asp-route-productUrl=${product.url}'>${product.name}</a></h5>
+                <h5><a href="/product/${product.url}">${product.name}</a></h5>
                 <h6> برند : ${product.brand}</h6> 
                 <h6> رنگ : ${product.colorName}</h6>
                 <p id='cart-item-price-amount-${product.id}'>${formatter.format(product.priceAmount)}</p>
@@ -207,18 +204,18 @@ const toggleCheckout = () => {
 }
 
 async function loadCart() {
-  $("#Cart-List").text("");
-
+  
   const data = await $.get("/index?handler=LoadCart");
   cartList = data.returnData;
-
+  
   let allPrice = 0;
   const listToRender = cartList.map((product) => {
     const item = createCartItem(product);
     allPrice += product.sumPrice;
     return item;
   });
-
+  
+  $("#Cart-List").text("");
   $("#Cart-List").append(listToRender.join(""));
 
   $("#Cart-Count").text(cartList.length);
