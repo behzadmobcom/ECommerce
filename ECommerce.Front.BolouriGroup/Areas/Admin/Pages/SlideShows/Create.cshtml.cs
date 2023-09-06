@@ -68,7 +68,14 @@ public class CreateModel : PageModel
 
         var fileName = (await _imageService.Upload(Upload, "Images/SlideShows", _environment.ContentRootPath))
             .ReturnData;
+        if (fileName == null)
+        {
+            ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+            await Initial();
+            return Page();
+        }
         SlideShow.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
+      
         ModelState.Remove("SlideShow.ImagePath");
 
         if (ModelState.IsValid)
@@ -82,11 +89,16 @@ public class CreateModel : PageModel
             ModelState.AddModelError("", result.Message);
         }
 
+        await Initial();
+
+        return Page();
+    }
+
+    private async Task Initial()
+    {
         Products = await _productService.Search("", 1, 30);
         var resultCategory = await _categoryService.GetParents();
         Categories = resultCategory.ReturnData;
-
-        return Page();
     }
 
     public async Task<JsonResult> OnGetReturnProducts(string search = "")

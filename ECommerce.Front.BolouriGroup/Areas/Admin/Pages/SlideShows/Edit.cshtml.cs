@@ -23,7 +23,6 @@ public class EditModel : PageModel
     [BindProperty] public SlideShowViewModel SlideShow { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
-
     public async Task OnGet(int id)
     {
         var result = await _slideShowService.GetById(id);
@@ -36,6 +35,11 @@ public class EditModel : PageModel
         {
             var fileName = (await _imageService.Upload(Upload, "Images/SlideShows", _environment.ContentRootPath))
                 .ReturnData;
+            if (fileName == null)
+            {
+                ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+                return Page();
+            }
             SlideShow.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
         }
 
@@ -62,4 +66,5 @@ public class EditModel : PageModel
 
         return Page();
     }
+
 }

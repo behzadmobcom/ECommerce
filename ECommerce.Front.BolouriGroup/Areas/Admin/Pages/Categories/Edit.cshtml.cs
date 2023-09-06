@@ -36,6 +36,11 @@ public class EditModel : PageModel
         {
             var fileName = (await _imageService.Upload(Upload, "Images/Categories", _environment.ContentRootPath))
                 .ReturnData;
+            if (fileName == null)
+            {
+                ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+                return Page();
+            }
             Category.ImagePath = $"/{fileName[0]}/{fileName[1]}/{fileName[2]}";
         }
         if (Upload == null && Category.ImagePath == null)
