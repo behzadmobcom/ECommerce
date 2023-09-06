@@ -18,11 +18,12 @@ public class IndexModel : PageModel
     private readonly ISlideShowService _slideShowService;
     private readonly IWishListService _wishListService;
     private readonly IStarService _starService;
+    private readonly IDiscountService _discountService;
     private readonly IBlogService _blogService;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService, IBrandService brandService, IStarService starService, IBlogService blogService)
+        ICookieService cookieService, IBrandService brandService, IStarService starService, IBlogService blogService , IDiscountService discountServic)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -33,6 +34,7 @@ public class IndexModel : PageModel
         _brandService = brandService;
         _starService = starService;
         _blogService = blogService;
+        _discountService = discountServic;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
@@ -162,5 +164,10 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetStars(int id)
     {
         return new JsonResult(await _starService.SumStarsByProductId(id));
+    } 
+    
+    public async Task<IActionResult> OnGetDiscountActivate(int id)
+    {
+        return new JsonResult(await _discountService.Activate(id));
     }
 }

@@ -39,8 +39,6 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
         return null;
     }
 
-
-
     public async Task<Discount> GetByCode(string code, CancellationToken cancellationToken)
     {
         return await _context.Discounts.Where(x => x.Code == code).FirstOrDefaultAsync(cancellationToken);
@@ -84,5 +82,13 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
             Url = product.Url
         };
         return ret;
+    }
+
+    public bool Active(int id)
+    {
+        var discount = _context.Discounts.Find(id);
+        discount.IsActive = !discount.IsActive;
+       Update(discount);
+        return discount.IsActive;
     }
 }
