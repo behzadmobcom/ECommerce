@@ -50,4 +50,11 @@ public class DiscountService : EntityService<Discount>, IDiscountService
         var result = await _http.GetAsync<Discount>(Url, $"GetLast");
         return Return(result);
     }
+
+    public async Task<bool> Activate(int discountId)
+    {
+        var id = discountId;
+        var result = await _http.GetAsync<bool>(Url, $"ActiveDiscount?id={id}");
+        return result.ReturnData;
+    }
 }

@@ -53705,6 +53705,29 @@ code {
     color: #ffffff;
 }
 
+
+#discountSwitch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    border: 2px solid #ccc;
+    border-radius: 25px;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#discountToggle {
+    position: absolute;
+    top: 0px;
+    left: 1px;
+    width: 22px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: white;
+    transition: left 0.3s;
+}
 .label.label-inline {
     border-radius: 0.42rem;
     padding: 0.15rem 0.75rem;

@@ -41,9 +41,9 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.Discounts.PaginationDetails.Search"/>
-                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
-                        <input type="submit" value="بجو" class="btn btn-primary"/> |
+                        <input type="text" name="search" value="@Model.Discounts.PaginationDetails.Search" />
+                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
+                        <input type="submit" value="بجو" class="btn btn-primary" /> |
                         تعداد رکورد ها در صفحه :
                         <a asp-page="/Discounts/Index" asp-route-pageSize="10">10</a> -
                         <a asp-page="/Discounts/Index" asp-route-pageSize="20">20</a> -
@@ -56,33 +56,56 @@
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">نام</th>
-                        <th scope="col">درصد</th>
-                        <th scope="col">مبلغ</th>
-                        <th scope="col">عملیات</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">نام</th>
+                            <th scope="col">درصد</th>
+                            <th scope="col">مبلغ</th>
+                            <th scope="col">وضعیت تخفیف</th>
+                            <th scope="col">عملیات</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var discount in Model.Discounts.ReturnData)
-                    {
-                        <tr>
-                            <th scope="row">@(i++)</th>
-                            <td>@discount.Name</td>
-                            <td>@discount.Percent</td>
-                            <td>@discount.Amount</td>
-                            <td>
-                                <a asp-page="Edit" asp-route-id="@discount.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@discount.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@discount.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var discount in Model.Discounts.ReturnData)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@discount.Name</td>
+                                <td>@discount.Percent</td>
+
+                                <td>@discount.Amount</td>
+                                <td>
+
+                                    @if (discount.EndDate <= DateTime.Now && discount.EndDate != null)
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input disabled="disabled" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        </div>
+                                    }
+                                    else if (!discount.IsActive)
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input onclick="Activate(@discount.Id)" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check form-switch">
+                                            <input onclick="Activate(@discount.Id)" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@discount.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@discount.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@discount.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 
-                <partial name="_Pagination" model="@Model.Discounts.PaginationDetails"/>
+                <partial name="_Pagination" model="@Model.Discounts.PaginationDetails" />
 
 
             </div>
@@ -91,3 +114,47 @@
         <!--end::نمونه-->
     </div>
 </div>
+
+<script>
+    // const startTime = new Date("2023-08-18").getTime();
+    // const endTime = new Date("2023-08-20").getTime();
+    // const discountSwitch = $(".discountSwitch");
+    // const discountToggle = $(".discountToggle");
+    // let isDiscountActive = false;
+
+    // function checkDiscountStatus(discount) {
+    //     const currentTime = new Date().getTime();
+
+    //     if (currentTime >= startTime && currentTime <= endTime) {
+    //         isDiscountActive = true;
+    //         discountSwitch.style.backgroundColor = "green";
+    //         discountToggle.style.left = "23px";
+    //     } else {
+    //         isDiscountActive = false;
+    //         discountSwitch.style.backgroundColor = "red";
+    //         discountToggle.style.left = "1px";
+    //     }
+    // }
+    function Activate(id) {
+        $.ajax({
+            type: "Get",
+            url: "/index?handler=DiscountActivate&id=" + id,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+
+            success: function (response) {
+                swal(response);
+            },
+            failure: function (response) {
+                swal(response);
+            }
+
+        });
+    }
+
+            // discountSwitch.addEventListener("click", () => {
+            //     if (isDiscountActive) {
+            //         return;
+            //     }
+            // });
+</script>
