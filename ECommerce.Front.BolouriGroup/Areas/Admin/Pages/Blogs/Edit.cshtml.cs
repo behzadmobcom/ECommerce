@@ -40,18 +40,34 @@ public class EditModel : PageModel
 
 
     public async Task<IActionResult> OnGet(int id)
-    {
-        //var result = await _blogService.GetById(id);
-        //Blog = result.ReturnData;        
-        
+    {   
         var result = await Initial(id);
         if (result.Code == 0) return Page();
         return RedirectToPage("/Blogs/Index",
             new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
-
     public async Task<IActionResult> OnPost()
     {
+        if (Blog.BlogCategoryId == 0)
+        {
+            Message = "لطفا دسته بندی را انتخاب کنید";
+            Code = ServiceCode.Error.ToString();
+            await Initial(Blog.Id);
+            return Page();
+        }
+        if (Upload == null && Blog.Image.Id == 0)
+        {
+            Message = "لطفا عکس را انتخاب کنید";
+            Code = ServiceCode.Error.ToString();
+            await Initial(Blog.Id);
+            return Page();
+        }
+        if (Upload.FileName.Split('.').Last().ToLower() != "webp")
+        {
+            ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+            await Initial(Blog.Id);
+            return Page();
+        }
         var _image = await _imageService.GetImagesByBlogId(Blog.Id);
         Blog.Image = _image.ReturnData;
 
@@ -75,13 +91,7 @@ public class EditModel : PageModel
             _image = await _imageService.GetImagesByBlogId(Blog.Id);
             Blog.Image = _image.ReturnData;
         }
-        if (Upload == null && Blog.Image.Id == 0)
-        {
-            Message = "لطفا عکس را انتخاب کنید";
-            Code = ServiceCode.Error.ToString();
-            await Initial(Blog.Id);
-            return Page();
-        }
+     
 
         if (ModelState.IsValid)
         {

@@ -378,3 +378,4 @@ ECommerce.API/appsettings.json
 
 # Environment Variables
 .env
+/ECommerce.Front.BolouriGroup/ECommerce.Front.BolouriGroup.csproj

@@ -95,7 +95,16 @@ public class CreateModel : PageModel
             Code = ServiceCode.Error.ToString();
             return Page();
         }
-
+        foreach(var upload in Uploads)
+        {
+            if (upload.FileName.Split('.').Last().ToLower() != "webp")
+            {
+                ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+                await Initial();
+                return Page();
+            }
+        }
+      
         if (ModelState.IsValid)
         {
             var result = await _productService.Add(Product);
