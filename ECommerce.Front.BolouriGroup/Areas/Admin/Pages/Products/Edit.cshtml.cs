@@ -62,6 +62,22 @@ public class EditModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        if (Uploads == null)
+        {
+            Message = "لطفا عکس را انتخاب کنید";
+            Code = ServiceCode.Error.ToString();
+            await Initial(Product.Id);
+            return Page();
+        }
+        foreach (var upload in Uploads)
+        {
+            if (upload.FileName.Split('.').Last().ToLower() != "webp")
+            {
+                ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+                await Initial(Product.Id);
+                return Page();
+            }
+        }
         if (ModelState.IsValid)
         {
             var result = await _productService.Edit(Product);

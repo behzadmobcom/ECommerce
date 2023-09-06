@@ -20,12 +20,13 @@
                         </div>
                         <div class="form-group">
                             <label>متن مقاله</label>
-                            <textarea id="Description_Edit" asp-for="@Model.Blog.Text" class="form-control form-control-solid"></textarea>
+                            <label id="Description_Edit" class="form-control form-control-solid"> 
+                                @Html.Raw(Model.Blog.Text)</label>
                         </div>
 
                         <div class="form-group">
                             <label>خلاصه</label>
-                            <label  class="form-control form-control-solid">@Model.Blog.Summary</label>
+                            <label  class="form-control form-control-solid"> @Html.Raw(Model.Blog.Summary)</label>
                         </div>
                    
                       

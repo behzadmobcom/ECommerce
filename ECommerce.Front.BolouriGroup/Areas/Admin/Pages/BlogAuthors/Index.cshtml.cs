@@ -9,19 +9,13 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogAuthors;
 public class IndexModel : PageModel
 {
     private readonly IBlogAuthorService _blogAuthorService;
-
     public IndexModel(IBlogAuthorService blogAuthorService)
     {
         _blogAuthorService = blogAuthorService;
     }
-
     public ServiceResult<List<BlogAuthor>> BlogAuthors { get; set; }
-
-
     [TempData] public string Message { get; set; }
-
     [TempData] public string Code { get; set; }
-
     public async Task<IActionResult> OnGet(string search = "", int pageNumber = 1, int pageSize = 10,
         string message = null, string code = null)
     {
@@ -35,7 +29,6 @@ public class IndexModel : PageModel
             BlogAuthors = result;
             return Page();
         }
-
         return RedirectToPage("/index", new {message = result.Message, code = result.Code.ToString()});
     }
 }

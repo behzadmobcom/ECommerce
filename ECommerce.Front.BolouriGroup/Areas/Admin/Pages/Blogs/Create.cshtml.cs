@@ -64,30 +64,54 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
-        if (Upload == null)
+
+		if (Blog.BlogCategoryId == 0)
+		{
+			Message = "لطفا دسته بندی را انتخاب کنید";
+			Code = ServiceCode.Error.ToString();
+			await Initial();
+			return Page();
+		}
+
+		if (Upload == null)
         {
             Message = "لطفا عکس را انتخاب کنید";
             Code = ServiceCode.Error.ToString();
-            return Page();
+			await Initial();
+			return Page();
         }
-        
-        if (ModelState.IsValid)
+
+		if (Upload.FileName.Split('.').Last().ToLower() != "webp")
+		{
+			ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
+			await Initial();
+			return Page();
+		}
+
+
+		if (ModelState.IsValid)
         {
             var result = await _blogService.Add(Blog);
             if (result.Code == 0)
             {
-                var resultImage = await _imageService.Add(Upload, result.ReturnData.Id, "Images/Blogs",
+				var resultImage = await _imageService.Add(Upload, result.ReturnData.Id, "Images/Blogs",
                     _environment.ContentRootPath);
-                if (resultImage.Code == 0)
+				
+				if (resultImage.Code == 0)
                 {
                     return RedirectToPage("/Blogs/Index",
                         new { area = "Admin", message = result.Message, code = result.Code.ToString() });
                 }
-                Message = result.Message;
+				Message = result.Message;
                 Code = result.Code.ToString();
                 ModelState.AddModelError("", result.Message);
             }
-        }
+            else
+			{
+				Message = result.Message;
+				Code = result.Code.ToString();
+			}
+		}
         await Initial();
         return Page();
     }
