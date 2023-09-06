@@ -3564,6 +3564,37 @@ tbody tr td:last-child {
   font-size: 18px;
 }
 
+.search-result {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top:100%;
+  width: 100%;
+  height: 300px;
+  background-color: white;
+  z-index: 5;
+  box-shadow: #21212182 0px 8px 20px 0px;
+  border-radius: 0px 0px 5px 5px;
+  margin: 2px;
+  overflow-y: scroll;
+  gap: 2px;
+}
+
+.search-result div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-result a {
+  color: black;
+}
+
+.search-result a:hover {
+  text-decoration: underline;
+}
+
 .header-form {
   -moz-transition: all linear 0.3s;
   -ms-transition: all linear 0.3s;
@@ -3578,6 +3609,7 @@ tbody tr td:last-child {
   margin: 0 50px;
   transition: all linear 0.3s;
   width: 100%;
+  position: relative;
 }
 
 .header-form:focus-within {

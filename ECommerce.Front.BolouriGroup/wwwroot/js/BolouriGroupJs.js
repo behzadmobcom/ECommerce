@@ -504,8 +504,69 @@ function ChangeZoomImage(imageId) {
     $("#zoomModal").css("display", "none");
 }
 
+/**
+ * 
+ * @param {string} searchText 
+ */
+const searchChangeHandler = async (searchText) => {
+  if (searchText.length < 3) {
+    $(".search-result").hide("fast");
+    return;
+  }
+
+  const searchResult = await $.ajax("/shop?handler=search", {
+    url:"/",
+    data: {
+      page: 1,
+      quantityPerPage: 10,
+      searchText,
+    },
+    method: "GET"
+  });
+
+  if (searchResult.length === 0) {
+    $(".search-result").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
+  } else {
+    const results = searchResult.map((value, index) => {
+      return createSearchResultItem(value, index);
+    });
+    $(".search-result").html(results);
+  }
+
+  $('.search-result').show('fast')
+};
+
+const createSearchResultItem = (value, index) => {
+  return (
+    `<div id="search-result-${value.id}">
+      <img src="/${value.imagePath}" alt="${value.alt}" width="80px">
+      <a href="/product/${value.url}">${value.name}</a>
+    </div>`
+  );
+}
+
+$(() => {
+  let timer = null;
+  $("#searchBox").on("input", (event) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      timer = null;
+      searchChangeHandler(event.target.value);
+    }, 500);
+  });
+  $("#searchBox").on("blur", () => {
+    $(".search-result").hide("fast");
+  });
+  $("#searchBox").on("focus", () => {
+    const searchResult = $(".search-result");
+    if (searchResult.children().length > 0) searchResult.show("fast");
+  });
+});
+
 //////***fa-eye-slash***/////
-$(document).ready(function () {
+$(function () {
     $("#show_hide_password a").on('click', function (event) {
         event.preventDefault();
         if ($('#show_hide_password input').attr("type") == "text") {
@@ -520,7 +581,7 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
+$(function () {
     $("#show_hide_password1 a").on('click', function (event) {
         event.preventDefault();
         if ($('#show_hide_password1 input').attr("type") == "text") {
