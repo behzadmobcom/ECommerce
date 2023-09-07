@@ -16,7 +16,11 @@ public class ProductCommentService : EntityService<ProductComment>, IProductComm
 
     public async Task<ServiceResult> Add(ProductComment productComment)
     {
-        var result = await Create(Url, productComment);
+        productComment.IsAccepted = false;
+        productComment.IsRead = false;
+        productComment.IsAnswered = false;
+        productComment.DateTime = DateTime.Now;
+        var result = await CreateWithoutToken(Url, productComment);
         return Return(result);
     }
 

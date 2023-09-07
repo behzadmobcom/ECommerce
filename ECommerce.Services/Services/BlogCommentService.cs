@@ -59,8 +59,11 @@ public class BlogCommentService : EntityService<BlogComment>, IBlogCommentServic
 
     public async Task<ServiceResult> Add(BlogComment blogComment)
     {
-        var result = await Create(Url, blogComment);
-        _blogComments = null;
+        blogComment.IsAccepted = false;
+        blogComment.IsRead = false;
+        blogComment.IsAnswered = false;
+        blogComment.DateTime = DateTime.Now;
+        var result = await CreateWithoutToken(Url, blogComment);
         return Return(result);
     }
 

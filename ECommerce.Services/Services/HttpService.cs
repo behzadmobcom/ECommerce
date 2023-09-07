@@ -22,6 +22,16 @@ public class HttpService : IHttpService
 
     private JsonSerializerOptions DefaultJsonSerializerOptions => new() { PropertyNameCaseInsensitive = true };
 
+    public async Task<ApiResult<object>> PostAsyncWithoutToken<T>(string url, T data, string apiName = "Post")
+    {
+        var dataSerialize = JsonSerializer.Serialize(data);
+        var content = new StringContent(dataSerialize, Encoding.UTF8, "application/json");
+        var response = await _http.PostAsync($"{url}/{apiName}", content);
+
+        var responseDeserialized = await Deserialize<ApiResult<object>>(response, DefaultJsonSerializerOptions);
+        return responseDeserialized;
+    }
+
     public async Task<ApiResult<object>> PostAsync<T>(string url, T data, string apiName = "Post")
     {
         var loginResult = _cookieService.GetToken();

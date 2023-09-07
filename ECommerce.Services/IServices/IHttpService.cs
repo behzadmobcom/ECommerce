@@ -10,5 +10,5 @@ public interface IHttpService
     Task<ApiResult> DeleteAsync(string url, int id, string apiName = "Delete");
     Task<ApiResult<TResponse>> GetAsync<TResponse>(string url, string apiName = "Get");
     Task<TResponse> PostAsyncWithApiKeyByRequestModel<T, TResponse>(string apiName, string apiKey, T data, string url);
-
+    Task<ApiResult<object>> PostAsyncWithoutToken<T>(string url, T data, string apiName = "Post");
 }

@@ -109,13 +109,6 @@
                     </div>
                 </div>
                 <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
-                    @if (Model.Categories is {Count: > 0 })
-                    {
-                        foreach (var category in Model.Categories)
-                        {
-                            <partial name="Components/_categoryCard" model="category" />
-                        }
-                    }
                     @if (Model.Products is {ReturnData.Count: > 0 })
                     {
                         foreach (var product in Model.Products.ReturnData)

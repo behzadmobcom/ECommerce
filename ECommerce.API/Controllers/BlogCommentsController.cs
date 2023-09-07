@@ -83,7 +83,6 @@ public class BlogCommentsController : ControllerBase
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(BlogComment blogComment, CancellationToken cancellationToken)
     {
         try

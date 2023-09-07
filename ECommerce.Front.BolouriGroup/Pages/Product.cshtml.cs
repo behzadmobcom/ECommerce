@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
+using ECommerce.Front.BolouriGroup.Models;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,8 @@ public class ProductdetailsModel : PageModel
     public double Stars { get; set; }
     public List<ProductAttributeGroup> AttributeGroups { get; set; }
     public ProductComment? ProductComment { get; set; }
-    [BindProperty] public string? Message { get; set; }
+    [BindProperty] public string Message { get; set; }
+    [BindProperty] public string Code { get; set; }
     public ServiceResult<List<ProductComment>> ProductComments { get; set; }
 
     private async Task Initial(string productUrl, int pageNumber = 1, int pageSize = 10)
@@ -74,30 +76,65 @@ public class ProductdetailsModel : PageModel
         await Initial(productUrl, pageNumber, pageSize);
     }
 
-    public async Task OnPost(ProductComment productComment, string productUrl)
+    public async Task<IActionResult> OnGetComment(string productUrl, string name,string email,string text)
     {
+        VerifyResultData resultData = new();
+
+        if (string.IsNullOrEmpty(name))
+        {
+            resultData.Description = "لطفا نام خود را برای ثبت نظر وارد کنید";
+            resultData.Succeed = false;
+            return new JsonResult(resultData);
+        }
+        if (string.IsNullOrEmpty(email))
+        {
+            resultData.Description = "لطفا ایمیل خود را برای ثبت نظر وارد کنید";
+            resultData.Succeed = false;
+            return new JsonResult(resultData);
+        }
+        if (string.IsNullOrEmpty(text))
+        {
+            resultData.Description = "لطفا نظر خود را برای ثبت نظر وارد کنید";
+            resultData.Succeed = false;
+            return new JsonResult(resultData);
+        }
+        ProductComment productComment = new()
+        {
+            Email = email,
+            Name = name,
+            Text = text,
+            User = null,
+            UserId = null
+        };
+
         var user = await _userService.GetUser();
-        if (user != null)
+        if (user.Code == 0)
         {
             productComment.UserId = user.ReturnData.Id;
-            productComment.Name = user.ReturnData.UserName;
         }
 
-        var resultProduct = await _productService.GetProduct(productUrl,user.ReturnData.Id);
-        if (resultProduct.Code > 0) return;
+        var resultProduct = await _productService.GetProduct(productUrl, user.ReturnData.Id);
+        if (resultProduct.Code > 0)
+        {
+            resultData.Succeed = false;
+            resultData.Description = "ثبت نظر با مشکل مواجه شد. لطفا مجددا تست کنید";
+            return new JsonResult(resultData);
+        }
         Product = resultProduct.ReturnData;
         productComment.ProductId = Product.Id;
 
-        if (ModelState.IsValid)
+        var result = await _productCommandService.Add(productComment);
+        if (result.Code == 0)
         {
-            var result = await _productCommandService.Add(productComment);
-            Message = result.Message;
+            resultData.Description = "نظر شما ثبت شد، پس از تایید توسط ادمین سایت، نمایش داده می شود";
+            resultData.Succeed = true;
         }
         else
         {
-            Message = "نظر شما ثبت نگردید.";
+            resultData.Description = "ثبت نظر با مشکل مواجه شد. لطفا مجددا تست کنید";
+            resultData.Succeed = false;
         }
-        await Initial(productUrl);
+        return new JsonResult(resultData);
     }
     public IActionResult OnGetAddCompareList(int id)
     {
