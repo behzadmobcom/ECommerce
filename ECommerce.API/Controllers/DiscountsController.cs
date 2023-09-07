@@ -188,7 +188,7 @@ public class DiscountsController : ControllerBase
                     Messages = new List<string> {"نام تخفیف تکراری است"}
                 });
 
-            var repetitiveCode = await _discountRepository.GetByCode(discount.Name, cancellationToken);
+            var repetitiveCode = await _discountRepository.GetByCode(discount.Code, cancellationToken);
             if (repetitiveCode != null)
                 return Ok(new ApiResult
                 {
@@ -217,6 +217,22 @@ public class DiscountsController : ControllerBase
         try
         {
             await _discountRepository.UpdateAsync(discount, cancellationToken);
+
+            var repetitiveCode = await _discountRepository.GetByCode(discount.Code, cancellationToken);
+            if (repetitiveCode != null && repetitiveCode.Id != discount.Id)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> { "کد تخفیف تکراری است" }
+                });
+
+            var repetitiveName = await _discountRepository.GetByName(discount.Name, cancellationToken);
+            if (repetitiveName != null && repetitiveCode.Id != discount.Id)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.Repetitive,
+                    Messages = new List<string> { "نام تخفیف تکراری است" }
+                });
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
