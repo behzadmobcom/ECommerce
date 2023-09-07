@@ -110,8 +110,8 @@ namespace ECommerce.Front.BolouriGroup.Pages
 
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
-            var test = await _productService.Search(request.SearchText, request.Page, request.QuantityPerPage);
-            return new JsonResult(test.ReturnData);
+            var resutls = await _productService.TopProducts("", $"Name={request.SearchText}", request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
+            return new JsonResult(resutls.ReturnData);
         }
     }
 
