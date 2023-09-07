@@ -3594,7 +3594,7 @@ tbody tr td:last-child {
   gap: 2px;
 }
 
-.search-result div {
+.search-result a {
   display: flex;
   flex-direction: row;
   align-items: center;

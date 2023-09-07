@@ -535,10 +535,10 @@ const searchChangeHandler = async (searchText) => {
 
 const createSearchResultItem = (value, index) => {
   return (
-    `<div id="search-result-${value.id}">
+    `<a href="/product/${encodeURIComponent(value.url)}" id="search-result-${value.id}">
       <img src="/${value.imagePath}" alt="${value.alt}" width="80px">
-      <a href="/product/${encodeURIComponent(value.url)}">${value.name}</a>
-    </div>`
+      <div>${value.name}</div>
+    </a>`
   );
 }
 
@@ -553,12 +553,12 @@ $(() => {
       searchChangeHandler(event.target.value);
     }, 500);
   });
-  $("#searchBox").on("blur", () => {
-    $(".search-result").hide("fast");
-  });
-  $("#searchBox").on("focus", () => {
-    const searchResult = $(".search-result");
-    if (searchResult.children().length > 0) searchResult.show("fast");
+  $(document).on("click", (e) => {
+    if (!$(e.target).closest(".search-result").length) $(".search-result").hide();
+    if ($("#searchBox").is(":focus")) {
+      const searchResult = $(".search-result");
+      if (searchResult.children().length > 0) searchResult.show("fast");
+    }
   });
 });
 
