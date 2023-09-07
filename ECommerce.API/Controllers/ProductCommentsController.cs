@@ -1,6 +1,6 @@
-﻿using ECommerce.API.Interface;
-using Ecommerce.Entities;
+﻿using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
+using ECommerce.API.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,7 +14,7 @@ public class ProductCommentsController : ControllerBase
     private readonly IProductCommentRepository _productCommentRepository;
     private readonly IImageRepository _imageRepository;
 
-    public ProductCommentsController(IProductCommentRepository productCommentRepository, IProductRepository productRepository,
+    public ProductCommentsController(IProductCommentRepository productCommentRepository,
         ILogger<ProductCommentsController> logger, IImageRepository imageRepository)
     {
         _productCommentRepository = productCommentRepository;
@@ -50,15 +50,15 @@ public class ProductCommentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
-    [HttpGet]
+   [HttpGet]
     public async Task<ActionResult<ProductComment>> GetById(int id, CancellationToken cancellationToken)
     {
         try
-        {          
+        {
             var result = _productCommentRepository.GetByIdWithInclude("Answer,Product", id);
             result.Product.Images = await _imageRepository.GetByProductId(result.Product.Id, cancellationToken);
             if (result == null)
@@ -76,12 +76,11 @@ public class ProductCommentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductComment productComment, CancellationToken cancellationToken)
     {
         try
@@ -94,7 +93,7 @@ public class ProductCommentsController : ControllerBase
 
             productComment.IsAccepted = false;
             productComment.IsRead = false;
-            productComment.IsAnswered=false;
+            productComment.IsAnswered = false;
             productComment.DateTime = DateTime.Now;
 
             return Ok(new ApiResult
@@ -106,7 +105,7 @@ public class ProductCommentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -116,14 +115,14 @@ public class ProductCommentsController : ControllerBase
     {
         try
         {
-            
+
             ProductComment? _commentAnswer;
             if (productComment.AnswerId != null)
             {
-                _commentAnswer = await _productCommentRepository.GetByIdAsync(cancellationToken, productComment.AnswerId);            
+                _commentAnswer = await _productCommentRepository.GetByIdAsync(cancellationToken, productComment.AnswerId);
                 _commentAnswer.Text = productComment.Answer.Text;
                 _commentAnswer.DateTime = DateTime.Now;
-                await _productCommentRepository.UpdateAsync(_commentAnswer, cancellationToken);                 
+                await _productCommentRepository.UpdateAsync(_commentAnswer, cancellationToken);
             }
             else
             {
@@ -138,9 +137,9 @@ public class ProductCommentsController : ControllerBase
                     if (_commentAnswer != null) { productComment.Answer = _commentAnswer; productComment.AnswerId = _commentAnswer.Id; }
                 }
 
-            }     
-           
-                await _productCommentRepository.UpdateAsync(productComment, cancellationToken);
+            }
+
+            await _productCommentRepository.UpdateAsync(productComment, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
@@ -149,7 +148,7 @@ public class ProductCommentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 
@@ -168,7 +167,7 @@ public class ProductCommentsController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
+            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
         }
     }
 

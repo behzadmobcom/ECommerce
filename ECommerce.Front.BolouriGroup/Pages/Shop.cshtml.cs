@@ -28,7 +28,6 @@ namespace ECommerce.Front.BolouriGroup.Pages
 
         public ServiceResult<List<ProductIndexPageViewModel>> Products { get; set; }
         public ServiceResult<List<Tag>> Tags { get; set; }
-        public List<Category>? Categories { get; set; }
         public Dictionary<int, string> Brands { get; set; }
         [BindProperty] public int Min { get; set; }
         [BindProperty] public int Max { get; set; }
@@ -67,8 +66,6 @@ namespace ECommerce.Front.BolouriGroup.Pages
             }
             if (!string.IsNullOrEmpty(search) && !search.Contains('='))
             {
-                var resultSearchCategories = await _categoryService.Search(search);
-                Categories = resultSearchCategories.ReturnData;
                 search = $"Name={search}";
             }
             Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
@@ -113,8 +110,22 @@ namespace ECommerce.Front.BolouriGroup.Pages
 
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
-            var resutls = await _productService.TopProducts("", $"Name={request.SearchText}", request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
-            return new JsonResult(resutls.ReturnData);
+            var resultSearchProducts = await _productService.TopProducts("", $"Name={request.SearchText}", request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
+            return new JsonResult(resultSearchProducts.ReturnData);
+        }
+
+
+        public async Task<IActionResult> OnGetSearchCategory([FromQuery] Request request)
+        {
+            var resultSearchCategories = await _categoryService.Search(request.SearchText);
+            foreach (var resultSearchCategory in resultSearchCategories.ReturnData)
+            {
+                if (string.IsNullOrEmpty(resultSearchCategory.ImagePath))
+                {
+                    resultSearchCategory.ImagePath = "/img/BlueLogo.webp";
+                }
+            }
+            return new JsonResult(resultSearchCategories.ReturnData);
         }
     }
 

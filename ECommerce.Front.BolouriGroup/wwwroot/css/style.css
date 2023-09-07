@@ -9104,3 +9104,6 @@ tbody tr td:last-child {
   display: none;
   transition: all 0.4s;
 }
+.swal-modal .swal-text {
+    text-align: justify !important;
+}

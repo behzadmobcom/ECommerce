@@ -56,6 +56,15 @@ public class EntityService<T> : IEntityService<T>
         return response;
     }
 
+    public async Task<ApiResult<object>> CreateWithoutToken(string url, T entity)
+    {
+        var response = await _http.PostAsyncWithoutToken<T>(url, entity);
+        response.Messages = response.Code > 0
+            ? new List<string> { response.GetBody() }
+            : new List<string> { "با موفقیت ذخیره شد" };
+        return response;
+    }
+
     public async Task<ApiResult> UpdateWithReturnId(string url, T entity)
     {
         var response = await _http.PutAsync(url, entity);
