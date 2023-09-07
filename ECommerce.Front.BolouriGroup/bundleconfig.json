@@ -33,7 +33,8 @@
       "wwwroot/js/venobox.js",
       "wwwroot/js/slick.js",
       "wwwroot/js/main.js",
-      "wwwroot/js/BolouriGroupJs.js"
+      "wwwroot/js/BolouriGroupJs.js",
+      "wwwroot/js/shop.js"
     ],
     "minify": {
       "enabled": true,

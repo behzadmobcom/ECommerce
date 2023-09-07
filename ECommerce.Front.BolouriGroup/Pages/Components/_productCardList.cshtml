@@ -1,0 +1,10 @@
+﻿@model List<Ecommerce.Entities.ViewModel.ProductIndexPageViewModel>
+<div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+    @if (Model.Any())
+    {
+        foreach (var product in Model)
+        {
+            <partial name="Components/_productCard" model="product" />
+        }
+    }
+</div>

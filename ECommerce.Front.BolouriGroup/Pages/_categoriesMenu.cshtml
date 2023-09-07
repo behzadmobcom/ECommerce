@@ -27,7 +27,7 @@
         @if (category.Depth== 1)
         {
             <li>
-                <a href="@path">@category.Name</a>
+                <a href="@path" onclick="categoryChangeHandler(event)">@category.Name</a>
             </li>
         }
 

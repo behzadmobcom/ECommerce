@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\Admin\js\loadScript.js" />
+    <Content Remove="wwwroot\js\shop.js" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
@@ -35,6 +36,7 @@
 		<_ContentIncludedByDefault Remove="Pages\Components\Username\Default.cshtml" />
 		<_ContentIncludedByDefault Remove="wwwroot\Admin\css\styles.css" />
 		<_ContentIncludedByDefault Remove="wwwroot\Admin\js\loadScript.js" />
+		<_ContentIncludedByDefault Remove="wwwroot\js\shop.js" />
 		<_ContentIncludedByDefault Remove="wwwroot\Reports\Report.html" />
 	</ItemGroup>
 
@@ -68,6 +70,7 @@
 
 	<ItemGroup>
 	  <None Include="wwwroot\Admin\js\loadScript.js" />
+	  <None Include="wwwroot\js\shop.js" />
 	</ItemGroup>
 
 </Project>
