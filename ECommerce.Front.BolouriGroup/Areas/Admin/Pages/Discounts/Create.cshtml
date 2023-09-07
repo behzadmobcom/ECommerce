@@ -97,17 +97,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             @{
-                string sd;
-                string ed;
-                try {
-                    sd = Model.Discount.StartDate.Value.GetDateTimeFormats()[1];
-                } catch (Exception) {
-                    sd = "";
-                }
-                try {
-                    ed = Model.Discount.EndDate.Value.GetDateTimeFormats()[1];
-                } catch (Exception) {
-                    ed = "";
+                string sd = "";
+                string ed = "";
+                if (Model.Discount != null)
+                {
+                    if (Model.Discount.StartDate.HasValue)
+                        sd = Model.Discount.StartDate.Value.GetDateTimeFormats()[1];
+                    if (Model.Discount.EndDate.HasValue)
+                        ed = Model.Discount.EndDate.Value.GetDateTimeFormats()[1];
                 }
             }
             const startDate = "@sd" === "" ? undefined : new Date("@sd");
