@@ -21,7 +21,7 @@ public class BlogCommentRepository : AsyncRepository<BlogComment>, IBlogCommentR
     {
         return PagedList<BlogComment>.ToPagedList(
             await _context.BlogComments.Where(x => x.Name.Contains(paginationParameters.Search) && x.BlogId != null).Include(x=>x.Blog).AsNoTracking()
-                .OrderBy(on => on.Id).ToListAsync(cancellationToken),
+                .OrderByDescending(on => on.Id).ToListAsync(cancellationToken),
             paginationParameters.PageNumber,
             paginationParameters.PageSize);
     }

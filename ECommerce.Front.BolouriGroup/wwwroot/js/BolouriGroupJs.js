@@ -20,7 +20,7 @@ function RemoveWishList(id) {
 
 function InvertWishList(caller, ids) {
     var id = ids[0];
-    if (ids[1] != null) { id = ids[1];}
+    if (ids[1] != null) { id = ids[1]; }
     $.ajax({
         type: "Get",
         url: "/index?handler=InvertWishList&id=" + id,
@@ -163,7 +163,7 @@ function OpenProductModal(id) {
 }
 
 function createCartItem(product) {
-  return `<li class='cart-item' id='CartDrop-${product.id}'> 
+    return `<li class='cart-item' id='CartDrop-${product.id}'> 
             <div class='cart-media'> 
               <a href='/product/${product.url}'>
                 <img src='/${product.imagePath}' alt='${product.alt}'>
@@ -198,36 +198,36 @@ function createCartItem(product) {
 }
 
 const toggleCheckout = () => {
-  const checkoutBtn = $(".cart-checkout-btn");
-  if (cartList.length === 0) checkoutBtn.addClass("disable-a");
-  else checkoutBtn.removeClass("disable-a");
+    const checkoutBtn = $(".cart-checkout-btn");
+    if (cartList.length === 0) checkoutBtn.addClass("disable-a");
+    else checkoutBtn.removeClass("disable-a");
 }
 
 async function loadCart() {
-  
-  const data = await $.get("/index?handler=LoadCart");
-  cartList = data.returnData;
-  
-  let allPrice = 0;
-  const listToRender = cartList.map((product) => {
-    const item = createCartItem(product);
-    allPrice += product.sumPrice;
-    return item;
-  });
-  
-  $("#Cart-List").text("");
-  $("#Cart-List").append(listToRender.join(""));
 
-  $("#Cart-Count").text(cartList.length);
-  $("#Cart-Count1").text(cartList.length);
-  $("#Cart-Count-Value").val(cartList.length);
-  $("#Cart-Count-Value-Icon").val(cartList.length);
-  $("#Cart-Count-Value-Icon1").val(cartList.length);
-  $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
-  $("#All-Price").text(formatter.format(allPrice));
-  $("#AllPrice-Value").val(allPrice);
+    const data = await $.get("/index?handler=LoadCart");
+    cartList = data.returnData;
 
-  toggleCheckout();
+    let allPrice = 0;
+    const listToRender = cartList.map((product) => {
+        const item = createCartItem(product);
+        allPrice += product.sumPrice;
+        return item;
+    });
+
+    $("#Cart-List").text("");
+    $("#Cart-List").append(listToRender.join(""));
+
+    $("#Cart-Count").text(cartList.length);
+    $("#Cart-Count1").text(cartList.length);
+    $("#Cart-Count-Value").val(cartList.length);
+    $("#Cart-Count-Value-Icon").val(cartList.length);
+    $("#Cart-Count-Value-Icon1").val(cartList.length);
+    $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
+    $("#All-Price").text(formatter.format(allPrice));
+    $("#AllPrice-Value").val(allPrice);
+
+    toggleCheckout();
 }
 
 /**
@@ -237,84 +237,84 @@ async function loadCart() {
  * @param {number} productId
  */
 async function updateCartItem(id, action, productId) {
-  if (!id) {
-    const data = await $.get("/index?handler=LoadCart");
-    const newCartList = data.returnData;
-    const p = newCartList.filter((v1) => !cartList.some((v2) => v1.id === v2.id))[0];
-    if (p) {
-      cartList.push(p);
-      id = p.id;
-      action = "newItem";
-    } else {
-      action = "increment";
-      const prod = cartList.filter((v) => v.productId === productId)[0];
-      id = prod.id;
+    if (!id) {
+        const data = await $.get("/index?handler=LoadCart");
+        const newCartList = data.returnData;
+        const p = newCartList.filter((v1) => !cartList.some((v2) => v1.id === v2.id))[0];
+        if (p) {
+            cartList.push(p);
+            id = p.id;
+            action = "newItem";
+        } else {
+            action = "increment";
+            const prod = cartList.filter((v) => v.productId === productId)[0];
+            id = prod.id;
+        }
     }
-  }
-  let index;
-  const product = cartList.filter((v, i) => {
-    const res = v.id === id;
-    if (res) index = i;
-    return res;
-  })[0];
+    let index;
+    const product = cartList.filter((v, i) => {
+        const res = v.id === id;
+        if (res) index = i;
+        return res;
+    })[0];
 
-  if (action === "increment") {
-    product.quantity++;
-  } else if (action === "decrement") {
-    product.quantity--;
-  }
-  product.sumPrice = product.quantity * product.priceAmount;
+    if (action === "increment") {
+        product.quantity++;
+    } else if (action === "decrement") {
+        product.quantity--;
+    }
+    product.sumPrice = product.quantity * product.priceAmount;
 
-  if (product.quantity === 0) {
-    $(`#CartDrop-${product.id}`).remove();
-    cartList.splice(index, 1);
-  } else if (action === "newItem") {
-    $("#Cart-List").append(createCartItem(product));
-  } else if(action === 'remove') {
-    cartList.splice(index, 1);
-    $(`#CartDrop-${product.id}`).remove();
-  } else {
-    $(`#CartDrop-${product.id}`).replaceWith(createCartItem(product));
-  }
+    if (product.quantity === 0) {
+        $(`#CartDrop-${product.id}`).remove();
+        cartList.splice(index, 1);
+    } else if (action === "newItem") {
+        $("#Cart-List").append(createCartItem(product));
+    } else if (action === 'remove') {
+        cartList.splice(index, 1);
+        $(`#CartDrop-${product.id}`).remove();
+    } else {
+        $(`#CartDrop-${product.id}`).replaceWith(createCartItem(product));
+    }
 
-  const allPrice = cartList.reduce((prev, current) => prev + current.sumPrice, 0);
+    const allPrice = cartList.reduce((prev, current) => prev + current.sumPrice, 0);
 
-  $("#Cart-Count").text(cartList.length);
-  $("#Cart-Count1").text(cartList.length);
-  $("#Cart-Count-Value").val(cartList.length);
-  $("#Cart-Count-Value-Icon").val(cartList.length);
-  $("#Cart-Count-Value-Icon1").val(cartList.length);
-  $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
-  $("#All-Price").text(formatter.format(allPrice));
-  $("#AllPrice-Value").val(allPrice);
+    $("#Cart-Count").text(cartList.length);
+    $("#Cart-Count1").text(cartList.length);
+    $("#Cart-Count-Value").val(cartList.length);
+    $("#Cart-Count-Value-Icon").val(cartList.length);
+    $("#Cart-Count-Value-Icon1").val(cartList.length);
+    $("#Cart-Count2").text("کل مورد (" + cartList.length + ")");
+    $("#All-Price").text(formatter.format(allPrice));
+    $("#AllPrice-Value").val(allPrice);
 
-  toggleCheckout();
+    toggleCheckout();
 }
 
 function AddCart(productId, priceId, id, showMessage = false) {
-  $.ajax({
-    type: "Get",
-    url: "/index?handler=AddCart&id=" + productId + "&priceId=" + priceId,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (result) {
-      if (showMessage) {
-        swal(result.message);
-      }
-      if ($("#Cart-List").text() === "") {
-        loadCart();
-      } else {
-        if (result.code === 2 || result.code === 0) {
-          updateCartItem(id, "increment", productId);
-        } else {
-          swal(result.message);
-        }
-      }
-    },
-    failure: function (response) {
-      swal(response);
-    },
-  });
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=AddCart&id=" + productId + "&priceId=" + priceId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if (showMessage) {
+                swal(result.message);
+            }
+            if ($("#Cart-List").text() === "") {
+                loadCart();
+            } else {
+                if (result.code === 2 || result.code === 0) {
+                    updateCartItem(id, "increment", productId);
+                } else {
+                    swal(result.message);
+                }
+            }
+        },
+        failure: function (response) {
+            swal(response);
+        },
+    });
 }
 
 function DeleteCompare(id) {
@@ -335,40 +335,40 @@ function DeleteCompare(id) {
 }
 
 function DecreaseCart(productId, priceId, id) {
-  $.ajax({
-    type: "Get",
-    url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (result) {
-      if ($("#Cart-List").text() === "") {
-        loadCart();
-      } else {
-        updateCartItem(id, "decrement");
-      }
-    },
-    failure: function (response) {
-      swal(response);
-    },
-  });
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            if ($("#Cart-List").text() === "") {
+                loadCart();
+            } else {
+                updateCartItem(id, "decrement");
+            }
+        },
+        failure: function (response) {
+            swal(response);
+        },
+    });
 }
 
 function DeleteCart(id, productId, priceId) {
-  $.ajax({
-    type: "Get",
-    url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (result) {
-      swal(result.message);
-      if (result.code === 0) {
-        updateCartItem(id, "remove", productId);
-      }
-    },
-    failure: function (response) {
-      swal(response);
-    },
-  });
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            swal(result.message);
+            if (result.code === 0) {
+                updateCartItem(id, "remove", productId);
+            }
+        },
+        failure: function (response) {
+            swal(response);
+        },
+    });
 }
 
 function SendConfirmSms() {
@@ -430,41 +430,41 @@ function SendConfirmSms() {
 }
 
 function SaveStars(id, starNumber) {
-  $.ajax({
-    type: "Get",
-    url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: async function (result) {
-      if (result.code === 0) {
-        swal(result.message);
-        const stars = await (await fetch(`/index?handler=stars&id=${id}`)).json();
-        const styles = ["star-quarter", "star-half", "star-3-quarter", "star-full"];
-        for (let i = 1; i <= 5; i++) {
-          let cls = "";
-          if (Math.ceil(stars) === i) {
-            cls += styles[Math.floor((stars % 1) / 0.33)];
-          }
-          if (i <= stars) {
-            cls += " rankChecked";
-          }
-          const label = $(`#starLable-${i}[for='${id}-${i}']`);
-          label.removeClass();
-          label.addClass(cls);
-        }
-        $(`#starLable-1[for='${id}-1']`)
-          .parent()
-          .parent()
-          .find("a")
-          .text((_, v) => v.replace(/(\d+(?:[\/\.]\d+)?)/, (+stars.toFixed(2)).toString().replace(".", "/")));
-      } else {
-        swal(result.message);
-      }
-    },
-    failure: function (response) {
-      swal(response);
-    },
-  });
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=SaveStars&id=" + id + "&starNumber=" + starNumber,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: async function (result) {
+            if (result.code === 0) {
+                swal(result.message);
+                const stars = await (await fetch(`/index?handler=stars&id=${id}`)).json();
+                const styles = ["star-quarter", "star-half", "star-3-quarter", "star-full"];
+                for (let i = 1; i <= 5; i++) {
+                    let cls = "";
+                    if (Math.ceil(stars) === i) {
+                        cls += styles[Math.floor((stars % 1) / 0.33)];
+                    }
+                    if (i <= stars) {
+                        cls += " rankChecked";
+                    }
+                    const label = $(`#starLable-${i}[for='${id}-${i}']`);
+                    label.removeClass();
+                    label.addClass(cls);
+                }
+                $(`#starLable-1[for='${id}-1']`)
+                    .parent()
+                    .parent()
+                    .find("a")
+                    .text((_, v) => v.replace(/(\d+(?:[\/\.]\d+)?)/, (+stars.toFixed(2)).toString().replace(".", "/")));
+            } else {
+                swal(result.message);
+            }
+        },
+        failure: function (response) {
+            swal(response);
+        },
+    });
 }
 
 function CheckPassword() {
@@ -506,60 +506,85 @@ function ChangeZoomImage(imageId) {
  * @param {string} searchText 
  */
 const searchChangeHandler = async (searchText) => {
-  if (searchText.length < 3) {
-    $(".search-result").hide("fast");
-    return;
-  }
+    if (searchText.length < 3) {
+        $(".search-result").hide("fast");
+        $(".search-result").html("");
+        return;
+    }
 
-  const searchResult = await $.ajax("/shop?handler=search", {
-    url:"/",
-    data: {
-      page: 1,
-      quantityPerPage: 10,
-      searchText,
-    },
-    method: "GET"
-  });
-
-  if (searchResult.length === 0) {
-    $(".search-result").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
-  } else {
-    const results = searchResult.map((value, index) => {
-      return createSearchResultItem(value, index);
+    const searchResult = await $.ajax("/shop?handler=search", {
+        url: "/",
+        data: {
+            page: 1,
+            quantityPerPage: 10,
+            searchText,
+        },
+        method: "GET"
     });
-    $(".search-result").html(results);
-  }
 
-  $('.search-result').show('fast')
+    const searchResultCategory = await $.ajax("/shop?handler=searchCategory", {
+        url: "/",
+        data: {
+            page: 1,
+            quantityPerPage: 10,
+            searchText,
+        },
+        method: "GET"
+    });
+
+    const results = searchResultCategory.map((value, index) => {
+        return createSearchCategoryResultItem(value, index);
+    });
+    $(".search-result").append(results);
+
+    if (searchResult.length === 0)  {
+        $(".search-result").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
+    } else {
+        const results = searchResult.map((value, index) => {
+            return createSearchResultItem(value, index);
+        });
+        $(".search-result").append(results);
+    }
+
+    $('.search-result').show('fast')
 };
 
+const createSearchCategoryResultItem = (value, index) => {
+    return (
+        `<a href="/Shop/${encodeURIComponent(value.Path)}" id="search-category-result-${value.id}">
+      <img src="${value.imagePath}" alt="${value.name}" width="80px">
+      <div>${value.name}</div>
+    </a>`
+    );
+}
+
 const createSearchResultItem = (value, index) => {
-  return (
-    `<a href="/product/${encodeURIComponent(value.url)}" id="search-result-${value.id}">
+    return (
+        `<a href="/product/${encodeURIComponent(value.url)}" id="search-result-${value.id}">
       <img src="/${value.imagePath}" alt="${value.alt}" width="80px">
       <div>${value.name}</div>
     </a>`
-  );
+    );
 }
 
 $(() => {
-  let timer = null;
-  $("#searchBox").on("input", (event) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(() => {
-      timer = null;
-      searchChangeHandler(event.target.value);
-    }, 500);
-  });
-  $(document).on("click", (e) => {
-    if (!$(e.target).closest(".search-result").length) $(".search-result").hide();
-    if ($("#searchBox").is(":focus")) {
-      const searchResult = $(".search-result");
-      if (searchResult.children().length > 0) searchResult.show("fast");
-    }
-  });
+    let timer = null;
+    $("#searchBox").on("input", (event) => {
+        if (timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(() => {
+            timer = null;
+            searchChangeHandler(event.target.value);
+        }, 500);
+    });
+    $(document).on("click", (e) => {
+        if (!$(e.target).closest(".search-result").length) $(".search-result").hide();
+        if ($("#searchBox").is(":focus")) {
+            const searchResult = $(".search-result");
+            if (searchResult.children().length > 0) searchResult.show("fast");
+        }
+    });
 });
 
 //////***fa-eye-slash***/////

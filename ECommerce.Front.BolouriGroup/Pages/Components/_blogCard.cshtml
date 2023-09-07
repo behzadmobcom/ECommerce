@@ -4,7 +4,7 @@
     <div class="blog-media">
         <a class="blog-img" asp-area="" asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url">
             <img src="~/@($"{Model.Image?.Path}/{Model.Image?.Name}")" alt="@Model.Image?.Alt" width="330">
-            </a>
+        </a>
     </div>
     <div class="blog-content">
         <ul class="blog-meta">
@@ -16,7 +16,16 @@
         @{
             int positionOfNewLine = Model.Text.IndexOf("\r\n");
         }
-        <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text.Substring(0,positionOfNewLine))...</p>
+        @if (positionOfNewLine == -1)
+        {
+            <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text)...</p>
+
+        }
+        else
+        {
+            <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text.Substring(0,positionOfNewLine))...</p>
+
+        }
 
         <a class="blog-btn" asp-area="" asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url"><span> ادامه مطلب </span><i class="far fa-long-arrow-left"></i></a>
     </div>

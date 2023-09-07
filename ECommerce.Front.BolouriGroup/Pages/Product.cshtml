@@ -1,8 +1,8 @@
 ﻿@page "/product/{productUrl}"
 @model ECommerce.Front.BolouriGroup.Pages.ProductdetailsModel
 @{
-    ViewData["Title"] = "مشخصات و قیمت و خرید "+@Model.Product.Name;
-    int? priceId = Model.WishListPriceId==null ? Model.Product.Prices.OrderBy(x =>x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id : Model.WishListPriceId;
+    ViewData["Title"] = "مشخصات و قیمت و خرید " + @Model.Product.Name;
+    int? priceId = Model.WishListPriceId == null ? Model.Product.Prices.OrderBy(x => x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0)?.Id : Model.WishListPriceId;
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
@@ -82,22 +82,26 @@
                         </div>
                         <div class="pro-rating sin-pro-rating f-right">
                             <div>
-                            @{string[] starFillClasses = {"star-quarter", "star-half", "star-3-quarter", "star-full"};}
-                            @for (var i = 1; i <= 5; i++)
-                            {
-                                string cls = "";
-                                if (Math.Ceiling(Model.Stars) == i) {
-                                    var starD = (double)(Model.Stars % 1);
-                                    cls += starFillClasses[(int)Math.Floor(starD / 0.33)];
+                                @{
+                                    string[] starFillClasses = { "star-quarter", "star-half", "star-3-quarter", "star-full" };
                                 }
-                                if (i <= Model.Stars) {
-                                    cls += " rankChecked";
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    string cls = "";
+                                    if (Math.Ceiling(Model.Stars) == i)
+                                    {
+                                        var starD = (double)(Model.Stars % 1);
+                                        cls += starFillClasses[(int)Math.Floor(starD / 0.33)];
+                                    }
+                                    if (i <= Model.Stars)
+                                    {
+                                        cls += " rankChecked";
+                                    }
+                                    <label id="starLable-@i" for="@Model.Product.Id-@i" class="@cls">
+                                        <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@Model.Product.Id-@i" class="CheckboxStar" />
+                                        <i class="fas fa-star"></i>
+                                    </label>
                                 }
-                                <label id="starLable-@i" for="@Model.Product.Id-@i" class="@cls">
-                                    <input onclick="SaveStars(@Model.Product.Id,@i)" type="checkbox" id="@Model.Product.Id-@i" class="CheckboxStar"/>
-                                    <i class="fas fa-star"></i>
-                                </label>
-                            }
                             </div>
                             <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars.ToString("0.##"))امتیاز</a>
                         </div>
@@ -139,8 +143,8 @@
                                 <span id="price">@discountAmount?.ToString("###,###,###,###") تومان</span>
                             </h6>
 
-                        }                        
-                       
+                        }
+
                         @if (Model.Product.Prices.Count == 1)
                         {
                             <div class="details-list-group">
@@ -158,46 +162,46 @@
                             </div>
                         }
                         <div class="row">
-                        @if (Model.Product.Prices != null)
-                        {
-                            @foreach (var price in Model.Product.Prices)
+                            @if (Model.Product.Prices != null)
                             {
-                                <div>
-                                    @{
-                                        var select = price.Id == priceId ? "checked" : "";
-                                        var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
-                                    }
-                                    @if ((int)price.Grade > 1)
-                                    {
-                                        <div class="col-8" style="background-color: @price.Color.ColorCode">
-                                            <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
-                                            <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
-                                            @{
-                                                string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
-                                            }
-                                            <span for="price-@price.Id">قیمت : @_priceAmount </span>
-                                        </div>
-                                    }
-                                    else if (price.ColorId > 1)
-                                    {
-                                        <div class="col-3" >
-                                               <button style="background-color: @price.Color.ColorCode" @disabled @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
-                                        </div>
-                                    }
-                                    <div class="col-4">
-                                        @switch (price.Exist)
-                                        {
-                                            case <= 0:
-                                                <span style="color: red">ناموجود</span>
-                                                break;
-                                            case <= 3:
-                                                <span style="color: red">باقیمانده @price.Exist عدد</span>
-                                                break;
+                                @foreach (var price in Model.Product.Prices)
+                                {
+                                    <div>
+                                        @{
+                                            var select = price.Id == priceId ? "checked" : "";
+                                            var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
                                         }
+                                        @if ((int)price.Grade > 1)
+                                        {
+                                            <div class="col-8" style="background-color: @price.Color.ColorCode">
+                                                <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
+                                                <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
+                                                @{
+                                                    string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
+                                                }
+                                                <span for="price-@price.Id">قیمت : @_priceAmount </span>
+                                            </div>
+                                        }
+                                        else if (price.ColorId > 1)
+                                        {
+                                            <div class="col-3">
+                                                <button style="background-color: @price.Color.ColorCode" @disabled @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
+                                            </div>
+                                        }
+                                        <div class="col-4">
+                                            @switch (price.Exist)
+                                            {
+                                                case <= 0:
+                                                    <span style="color: red">ناموجود</span>
+                                                    break;
+                                                case <= 3:
+                                                    <span style="color: red">باقیمانده @price.Exist عدد</span>
+                                                    break;
+                                            }
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
-                        }
                         </div>
                         <div class="details-list-group">
                             <label class="details-list-title">برچسب ها:</label>
@@ -218,15 +222,18 @@
                             <button class="product-add w-100" title="افزودن به سبد خرید" href="javascript:void(0)" onclick="AddSelectedPriceToCart(@Model.Product.Id)">
                                 <i class="far fa-shopping-cart"></i><span>افزودن به سبد خرید</span>
                             </button>
-                        </div>                        
-                        <div class="details-action-group heartChecked">                                                
-                            <a href="javascript:void(0)"  onclick="InvertWishList('Product',[@priceId])" @{ 
-                                                                                                             if (Model.WishListPriceId==null){
-                                                                                                                 <text> class="view-wish wish" </text>
-                                                                                                             }else{
-                                                                                                                 <text> class="view-wish wish active" </text>
-                                                                                                             }                                
-                                                                                                         }>
+                        </div>
+                        <div class="details-action-group heartChecked">
+                            <a href="javascript:void(0)" onclick="InvertWishList('Product',[@priceId])" @{
+                                if (Model.WishListPriceId == null)
+                                {
+                                    <text> class="view-wish wish" </text>
+                                }
+                                else
+                                {
+                                    <text> class="view-wish wish active" </text>
+                                }
+                            }>
                             <i class="fa fa-heart"></i><span>لیست علاقه مندی ها</span>
                             </a>
                             <a class="view-compare" asp-area="" asp-page="Product" asp-page-handler="AddCompareList" asp-route-Id="@Model.Product.Id" title="مقایسه محصول">
@@ -348,29 +355,30 @@
                             }
                         </ul>
 
-                    </div><div class="row" style="margin-bottom:20px">
+                    </div>
+                    <div class="row" style="margin-bottom:20px">
                         <div class="col-lg-12">
                             <ul class="pagination">
                                 <partial name="_Pagination" model="@Model.ProductComments.PaginationDetails" />
                             </ul>
                         </div>
                     </div>
-                    <form class="blog-details-form" method="post" asp-page-handler="OnPost">
+                    <div class="blog-details-form">
                         <h3 class="details-form-title">ارسال نظر</h3>
-                        <a hidden>@Model.Product.Url</a>
+                        <input hidden id="comment_productUrl" value="@Model.Product.Url" />
                         <div class="row">
                             <div class="col-lg-6">
-                                <div class="form-group"><input type="text" class="form-control" asp-for="@Model.ProductComment.Name" placeholder="اسمت را وارد کن"></div>
+                                <div class="form-group"><input type="text" class="form-control" id="comment_name" placeholder="اسمت را وارد کن"></div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="form-group"><input type="email" class="form-control" asp-for="@Model.ProductComment.Email" placeholder="ایمیل خود را وارد کنید"></div>
+                                <div class="form-group"><input type="email" class="form-control" id="comment_email" placeholder="ایمیل خود را وارد کنید"></div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="form-group"><textarea class="form-control" asp-for="@Model.ProductComment.Text" placeholder="نظر خود را بنویسید"></textarea></div>
+                                <div class="form-group"><textarea class="form-control" id="comment_text" placeholder="نظر خود را بنویسید"></textarea></div>
                             </div>
                         </div>
-                        <button class="form-btn">ارسال نظر</button>
-                    </form>
+                        <button type="button" onclick="RegisterButton()" class="form-btn">ارسال نظر</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -435,5 +443,28 @@
         function AddSelectedPriceToCart(productId) {
             AddCart(productId, priceId, undefined, true)
         }
+
+        function RegisterButton() {
+            var name = $("#comment_name").val();
+            var text = $("#comment_text").val();
+            var productUrl = $("#comment_productUrl").val();
+            var email = encodeURIComponent($("#comment_email").val());
+            $.ajax({
+                type: "Get",
+                url: "/Product/" + productUrl + "?handler=Comment&name=" + name + "&email=" + email + "&text=" + text,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    swal(result.description);
+                    $("#comment_name").val("");
+                    $("#comment_text").val("");
+                    $("#comment_email").val("");
+                },
+                failure: function (response) {
+                    swal(response);
+                }
+            });
+        }
+
     </script>
 }
