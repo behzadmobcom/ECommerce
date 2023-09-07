@@ -36,9 +36,9 @@
         <div class="row">
             <div class="col-lg-3 order-1 order-lg-0">
 
-                <div class="shop-widget shop-widget-category">
+                <div class="shop-widget shop-widget-category" id="shop-widget-category">
                     <h6 class="shop-widget-title">دسته بندی</h6>
-                    @await Component.InvokeAsync("CategoriesList")
+                    @await Component.InvokeAsync("CategoriesMobile")
                     <h6 class="shop-widget-title">فیلتر</h6>
                         <form asp-page-handler="OnGet" method="get">
                         <label for="min-price" class="form-label  mt-3">حداقل قیمت (تومان) </label><br />
@@ -95,22 +95,20 @@
                                 if (endNumber > total) endNumber = total;
                             }
                             <div class="shop-filter-desktop">
-                                <p>نمایش @startNumber - @endNumber از @total نتیجه</p>
-                                <form asp-page="/Shop/Index" method="get">
-                                <p>
+                                <p id="shop-result-count">نمایش @startNumber - @endNumber از @total نتیجه</p>
+                                <p id="shop-records-count">
                                     تعداد رکورد ها در صفحه :
-                                        <a asp-page="/Shop" asp-route-pageSize="10">10</a> -
-                                        <a asp-page="/Shop" asp-route-pageSize="20">20</a> -
-                                        <a asp-page="/Shop" asp-route-pageSize="30">30</a> -
+                                    <a asp-page="/Shop" asp-route-pageSize="10">10</a> -
+                                    <a asp-page="/Shop" asp-route-pageSize="20">20</a> -
+                                    <a asp-page="/Shop" asp-route-pageSize="30">30</a> -
                                     <a asp-page="/Shop" asp-route-pageSize="40">40</a> -
                                     <a asp-page="/Shop" asp-route-pageSize="50">50</a>
                                 </p>
-                                </form>
                             </div>                           
                         </div>
                     </div>
                 </div>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
+                <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4">
                     @if (Model.Categories is {Count: > 0 })
                     {
                         foreach (var category in Model.Categories)

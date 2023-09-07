@@ -83,12 +83,38 @@ namespace ECommerce.Front.BolouriGroup.Pages
             Products.PaginationDetails.Search = search;
         }
 
+        public async Task<IActionResult> OnGetProducts(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+            string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isCheckExist = false)
+        {
+            await OnGet(path, search, pageNumber, pageSize, productSort, message, code, tagText, minprice, maxprice, isCheckExist);
+            return Partial("Components/_productCardList", Products.ReturnData);
+        }
+
+        public async Task<IActionResult> OnGetCounts(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+            string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isCheckExist = false)
+        {
+            await OnGet(path, search, pageNumber, pageSize, productSort, message, code, tagText, minprice, maxprice, isCheckExist);
+            var startNumber = (Products.PaginationDetails.CurrentPage - 1) * Products.PaginationDetails.PageSize + 1;
+            var endNumber = Products.PaginationDetails.CurrentPage * Products.PaginationDetails.PageSize;
+            var total = Products.PaginationDetails.TotalCount;
+            if (endNumber > total) endNumber = total;
+            return new JsonResult($"<p id=\"shop-result-count\">نمایش {startNumber} - {endNumber} از {total} نتیجه</p>");
+        }
+
+        public async Task<IActionResult> OnGetPagination(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
+            string? message = null, string? code = null, string tagText = "", int minprice = 0, int maxprice = 0, bool isCheckExist = false)
+        {
+            await OnGet(path, search, pageNumber, pageSize, productSort, message, code, tagText, minprice, maxprice, isCheckExist);
+            return Partial("_Pagination", Products.PaginationDetails);
+        }
+
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
             var test = await _productService.Search(request.SearchText, request.Page, request.QuantityPerPage);
             return new JsonResult(test.ReturnData);
         }
     }
+
     public class Request
     {
         public int Page { get; set; }

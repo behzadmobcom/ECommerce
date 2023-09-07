@@ -246,7 +246,7 @@
     </nav>
 
     <aside class="category-part">
-        <div class="category-container">
+        <div class="category-container" id="category-layout">
             <div class="category-header">
                 <a href="#">
                     <img src="~/img/logo.webp" alt="لوگو" width="86" height="40" loading="lazy">
@@ -256,7 +256,7 @@
                 </button>
             </div>
             <ul class="category-list">
-                @await Component.InvokeAsync("CategoriesList")
+                @await Component.InvokeAsync("CategoriesMobile")
             </ul>
             <div class="category-footer">
                 <p> &copy; 2021 - Boloori - <a asp-area="" asp-page="/Privacy">Privacy</a></p>
@@ -299,7 +299,7 @@
                         <img src="~/img/user.webp" height="85" width="85" alt="کاربر" loading="lazy">
                     </a>
                 </div>
-                <ul class="nav-list">
+                <ul class="nav-list" id="category-nav">
                     <li>
                         <a class="nav-link" asp-area="" asp-page="/Index">   <h3>خانه</h3></a>
                     </li>
