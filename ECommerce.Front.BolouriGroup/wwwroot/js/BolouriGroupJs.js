@@ -537,7 +537,7 @@ const createSearchResultItem = (value, index) => {
   return (
     `<div id="search-result-${value.id}">
       <img src="/${value.imagePath}" alt="${value.alt}" width="80px">
-      <a href="/product/${value.url}">${value.name}</a>
+      <a href="/product/${encodeURIComponent(value.url)}">${value.name}</a>
     </div>`
   );
 }
