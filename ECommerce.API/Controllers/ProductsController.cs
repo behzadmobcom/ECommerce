@@ -319,11 +319,12 @@ public class ProductsController : ControllerBase
                 foreach (var item in entity)
                 {
                     var price = item.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague);
-                    var wishlists = await _wishListRepository.Where(x => x.UserId == productListFilteredViewModel.UserId && x.PriceId == price.Id, cancellationToken);
-                    item.FirstPriceWichlist = wishlists.Any();
+                    var wishLists = await _wishListRepository.Where(x => x.UserId == productListFilteredViewModel.UserId && x.PriceId == price.Id, cancellationToken);
+                    item.FirstPriceWichlist = wishLists.Any();
                 }
             }
 
+            await Task.Delay(20000, cancellationToken);
 
             return Ok(new ApiResult
             {
@@ -585,7 +586,7 @@ public class ProductsController : ControllerBase
                 Tags = product.Tags.ToList(),
                 Keywords = product.Keywords.ToList(),
                 WishListPriceId = wish == null ? null : wish.PriceId
-        };
+            };
 
             return Ok(new ApiResult
             {
@@ -600,7 +601,7 @@ public class ProductsController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
-           
+
 
     [HttpGet]
     public async Task<ActionResult<ProductViewModel>> GetById(int id, bool isColleague,
