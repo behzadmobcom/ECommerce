@@ -73,14 +73,17 @@ namespace ECommerce.Front.BolouriGroup.Pages
             }
             Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
 
-            var brandResult = await _brandService.LoadDictionary();
-            if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
+            if (Products.Code == 0)
+            {
+                var brandResult = await _brandService.LoadDictionary();
+                if (brandResult.Code == ServiceCode.Success) Brands = brandResult.ReturnData;
 
-            Products.PaginationDetails.isCheckExist = isCheckExist;
-            Products.PaginationDetails.MinPrice = minprice;
-            Products.PaginationDetails.MaxPrice = maxprice;
-            Products.PaginationDetails.ProductSort = productSort;
-            Products.PaginationDetails.Search = search;
+                Products.PaginationDetails.isCheckExist = isCheckExist;
+                Products.PaginationDetails.MinPrice = minprice;
+                Products.PaginationDetails.MaxPrice = maxprice;
+                Products.PaginationDetails.ProductSort = productSort;
+                Products.PaginationDetails.Search = search;
+            }
         }
 
         public async Task<IActionResult> OnGetProducts(string path, string? search = null, int pageNumber = 1, int pageSize = 20, int productSort = 1,
