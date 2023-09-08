@@ -76,7 +76,7 @@
                                 <td>@discount.Amount</td>
                                 <td>
 
-                                    @if (discount.EndDate <= DateTime.Now && discount.EndDate != null)
+                                    @if (discount.EndDate?.Date < DateTime.Now.Date && discount.EndDate != null)
                                     {
                                         <div class="form-check form-switch">
                                             <input disabled="disabled" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
