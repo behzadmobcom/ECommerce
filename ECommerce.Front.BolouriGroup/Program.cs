@@ -8,9 +8,18 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 var _frontSetting = builder.Configuration.GetSection(nameof(FrontSetting)).Get<FrontSetting>();
+
+builder.Services.AddAuthorization(options =>
+{
+    // Create policies
+    
+    options.AddPolicy("Admin", p => p.RequireRole("SuperAdmin", "Admin"));
+    options.AddPolicy("Client", p => p.RequireRole("Client", "SuperAdmin", "Admin"));
+});
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/");
+    options.Conventions.AuthorizeFolder("/", "Client");
+    options.Conventions.AuthorizeAreaFolder("Admin", "/", "Admin");
     options.Conventions.AllowAnonymousToPage("/register");
     options.Conventions.AllowAnonymousToPage("/Shop");
     options.Conventions.AllowAnonymousToPage("/Login");
