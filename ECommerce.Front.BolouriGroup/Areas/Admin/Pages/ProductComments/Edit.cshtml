@@ -63,8 +63,7 @@
                             <input asp-for="@Model.ProductComment.DateTime" class="form-control form-control-solid"/>
                             <span asp-validation-for="@Model.ProductComment.DateTime" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
-                                          
-                    </div>
+                            
                       <div class="form-group">
                             <label>تصویر کالا</label>
                              <ul class="details-preview">                          
@@ -77,6 +76,7 @@
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
                         <a class="btn btn-secondary" asp-Page="/ProductComments/index" asp-area="Admin">لغو</a>
+                        </div>
                     </div>
                 </form>
                 <!--end::Form-->
