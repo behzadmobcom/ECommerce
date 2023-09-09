@@ -2,7 +2,9 @@
 @model ECommerce.Front.BolouriGroup.Pages.CompareModel
 @{
     ViewData["Title"] = "مقایسه کنید";
+    var singlePrice = Model.CompareProduct.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
 }
+
 <section class="inner-section single-banner">
     <div class="container">
         <h2>مقایسه کنید</h2>
@@ -44,8 +46,49 @@
                                 </tr>
                             </thead>
                             <tbody id="compareTableBody">
-                            <th hidden="hidden">Id</th>
-                            <td hidden="hidden">@Model.CompareProduct.Id</td>
+                                <th hidden="hidden">Id</th>
+                                <td hidden="hidden">@Model.CompareProduct.Id</td>
+                                <th id="amount" style="text-align:right; width: 20%">مبلغ</th>
+                                <td >
+                                    @{
+		                                decimal? discount = 0;
+		                                decimal? amount = 0;
+		                                decimal? discountAmount = 0;
+		         
+		                                if (singlePrice != null)
+		                                {
+			                                amount = singlePrice.Amount;
+
+
+			                                if (singlePrice.Discount != null)
+				                                if (singlePrice.Discount.Amount > 0)
+				                                {
+					                                discount = (decimal)singlePrice.Discount.Amount;
+				                                }
+				                                else if (singlePrice.Discount.Percent > 0)
+				                                {
+					                                discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+				                                }
+			                                discountAmount = amount - discount;
+		                                }
+
+	                                }
+	                                @if (singlePrice == null)
+	                                {
+		                                <h6 class="feature-price">ناموجود</h6>
+	                                }
+	                                else
+	                                {
+		                                @if (discount > 0)
+		                                {
+			                                <div>
+				                                <del>@amount?.ToString("###,###,###,###") تومان</del>
+			                                </div>
+		                                }
+		                                <h6>@discountAmount?.ToString("###,###,###,###") تومان</h6>
+		        
+	                                } 
+                                </td>
                                 @for (var g = 0; g < Model.CompareProduct.AttributeGroupProducts.Count; g++)
                                 {
                                     @for (var i = 0; i < Model.CompareProduct.AttributeGroupProducts[g].Attribute.Count; i++)
@@ -79,14 +122,16 @@
             <div class="modal-header">
                 <h3 class="modal-title">لیست محصولات</h3>
             </div>
-            <div class="modal-body row row-cols-3" id="modalTable">
-                 @if (Model.ProductsList != null)
-                    {
-                        foreach (var product in Model.ProductsList)
+            <div class="modal-body" id="modalTable">
+                <div class="row row-cols-3">
+                     @if (Model.ProductsList != null)
                         {
-                            <partial name="Components/_compareProductCard" model="product" />
+                            foreach (var product in Model.ProductsList)
+                            {
+                                <partial name="Components/_compareProductCard" model="product" />
+                            }
                         }
-                    }
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" id="closemodal" class="btn btn-danger" data-dismiss="modal" onclick="document.getElementById('compairModal').style.display='none'">خروج</button>
@@ -99,17 +144,23 @@
 <script>
 
     var myList = new Array();
-    var products = '@(Model.ProductsList == null ? "isNull" : "notNull")';
+    var nullProducts = '@(Model.ProductsList == null ? "isNull" : "notNull")';
     function ShowModal(){
-        if(products == 'notNull'){
-            var counter = document.getElementById('tblCompair').rows[0].cells.length;
-            if(counter < 5){
-                var modal = new bootstrap.Modal('#compairModal');
-                modal.show();
-                counter = counter+1;
+        if(nullProducts == 'notNull'){
+            var emptyProducts = '@(Model.ProductsList?.Count() == 0 ? "isNull" : "notNull")';
+            if(emptyProducts == 'notNull'){
+                var counter = document.getElementById('tblCompair').rows[0].cells.length;
+                if(counter < 5){
+                    var modal = new bootstrap.Modal('#compairModal');
+                    modal.show();
+                    counter = counter+1;
+                }
+                else{
+                    alert('امکان مقایسه بیش از چهار کالا نمی باشد')
+                }
             }
             else{
-                alert('امکان مقایسه بیش از چهار کالا نمی باشد')
+                 alert('محصولی برای مقایسه موجود نمی باشد')
             }
         }
         else{
@@ -119,7 +170,7 @@
     $('#closemodal').click(function() {
         $('#compairModal').modal('hide');
     });
-    function AddModalProduct(id){
+    function AddModalProduct(id,price){
         const products = @Html.Raw(Json.Serialize(Model.ProductsList));
         const product = products.find(x => x.id == id);
         const attributeGroupProductsCount = product.attributeGroupProducts.length;
@@ -163,6 +214,10 @@
             })
             .closest('tr')
             .append('<td hidden="hidden">col_'+ product.id +'</td>').end();
+        //درج مبلغ
+         $('#amount')
+            .closest('tr')
+            .append('<td>'+ (new Intl.NumberFormat().format(price)) + " تومان" +'</td>').end();
         for (var g = 0; g < attributeGroupProductsCount; g++){
             for (let i = 0; i < product.attributeGroupProducts[g].attribute.length; i++){
                 try {
