@@ -324,8 +324,6 @@ public class ProductsController : ControllerBase
                 }
             }
 
-            await Task.Delay(20000, cancellationToken);
-
             return Ok(new ApiResult
             {
                 PaginationDetails = paginationDetails,

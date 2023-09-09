@@ -307,6 +307,8 @@ function AddCart(productId, priceId, id, showMessage = false) {
                 if (result.code === 2 || result.code === 0) {
                     updateCartItem(id, "increment", productId);
                 } else {
+                    var count = parseInt($('#cart-item-quantity-' + productId).val()) - 1;
+                    $('#cart-item-quantity-' + productId).val(count);
                     swal(result.message);
                 }
             }
@@ -551,7 +553,7 @@ const searchChangeHandler = async (searchText) => {
 
 const createSearchCategoryResultItem = (value, index) => {
     return (
-        `<a href="/Shop/${encodeURIComponent(value.Path)}" id="search-category-result-${value.id}">
+        `<a href="/Shop/${value.path}" id="search-category-result-${value.id}">
       <img src="${value.imagePath}" alt="${value.name}" width="80px">
       <div>${value.name}</div>
     </a>`
