@@ -43,7 +43,7 @@ public class EntityService<T> : IEntityService<T>
             };
         response.Messages = response.Code > 0
             ? new List<string> { response.GetBody() }
-            : new List<string> { " نظر شما ثبت شد، پس از تایید توسط ادمین سایت، نمایش داده می شود" };
+            : new List<string> { "با موفقیت ذخیره شد" };
         return response;
     }
 

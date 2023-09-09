@@ -43,7 +43,7 @@ namespace ECommerce.Front.BolouriGroup.Pages
             ProductSort = productSort;
             string[]? resultPath = path?.Split('=');
             IsCheckExist = isCheckExist;
-            Min = minprice == 0 ? 100000 : minprice;
+            Min = minprice == 0 ? 1000 : minprice;
             Max = maxprice == 0 ? 200000000 : maxprice;
             if (resultPath != null && resultPath.Length > 0)
             {
