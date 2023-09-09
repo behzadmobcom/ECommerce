@@ -3,6 +3,7 @@ using Ecommerce.Entities;
 using Ecommerce.Entities.Helper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ECommerce.API.Repository;
 
 namespace ECommerce.API.Controllers;
 
@@ -11,12 +12,14 @@ namespace ECommerce.API.Controllers;
 public class ContactsController : ControllerBase
 {
     private readonly IContactRepository _contactRepository;
+    private readonly IEmailRepository _emailRepository;
     private readonly ILogger<ContactsController> _logger;
 
-    public ContactsController(IContactRepository contactRepository, ILogger<ContactsController> logger)
+    public ContactsController(IContactRepository contactRepository, ILogger<ContactsController> logger, IEmailRepository emailRepository)
     {
         _contactRepository = contactRepository;
         _logger = logger;
+        _emailRepository = emailRepository;
     }
 
     [HttpGet]
@@ -178,6 +181,7 @@ public class ContactsController : ControllerBase
         try
         {
             await _contactRepository.UpdateAsync(contact, cancellationToken);
+            await _emailRepository.SendEmailAsync(contact.Email, "پاسخ به تماس با ما", contact.ReplayMessage, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success

@@ -265,7 +265,9 @@ async function updateCartItem(id, action, productId) {
     }
     product.sumPrice = product.quantity * product.priceAmount;
 
-    if (product.quantity === 0) {
+    if (action === 'notChange') {
+        $(`#CartDrop-${product.id}`).replaceWith(createCartItem(product));
+    }else if (product.quantity === 0) {
         $(`#CartDrop-${product.id}`).remove();
         cartList.splice(index, 1);
     } else if (action === "newItem") {
@@ -307,8 +309,9 @@ function AddCart(productId, priceId, id, showMessage = false) {
                 if (result.code === 2 || result.code === 0) {
                     updateCartItem(id, "increment", productId);
                 } else {
-                    var count = parseInt($('#cart-item-quantity-' + productId).val()) - 1;
-                    $('#cart-item-quantity-' + productId).val(count);
+                    if (id) {
+                        updateCartItem(id, "notChange", productId);
+                    }
                     swal(result.message);
                 }
             }

@@ -1,6 +1,7 @@
 using Ecommerce.Entities;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
@@ -31,12 +32,12 @@ public class ContactModel : PageModel
             Code = result.Code.ToString();
             if (result.Code != 0)
             {
-                ModelState.AddModelError("", result.Message);
                 return Page();
             }
+            ModelState.Clear();
+            return Page();
         }
-        ModelState.Clear();
-        Contact = new Contact();
+
         return Page();
     }
 }

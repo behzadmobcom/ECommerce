@@ -148,7 +148,7 @@ public class CheckoutModel : PageModel
     public async Task<IActionResult> OnPost(string Portal, int PostPrice, string discountCode)
     {
         await Initial();
-
+        ModelState.Remove("discountCode");
         string returnAction = "melisuccess";
         string url = $"https://{Request.Host}{Request.PathBase}/";
         SendInformation.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);

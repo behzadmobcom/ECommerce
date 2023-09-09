@@ -14,18 +14,18 @@ public class EmailRepository : IEmailRepository
             var credentials = new NetworkCredential
             {
                 UserName = "info", // without @gmail.com
-                Password = "Arash1358"
+                Password = "5kDuerZUT2MlpI"
             };
 
             client.Credentials = credentials;
-            client.Host = "webmail.arshahamrah.com";
+            client.Host = "webmail.boloorico.com";
             client.Port = 587;
             client.EnableSsl = false;
 
             using var emailMessage = new MailMessage
             {
                 To = {new MailAddress(toEmail)},
-                From = new MailAddress("info@arshahamrah.com"), // with @gmail.com
+                From = new MailAddress("info@boloorico.com"), // with @gmail.com
                 Subject = subject,
                 Body = message,
                 IsBodyHtml = isMessageHtml

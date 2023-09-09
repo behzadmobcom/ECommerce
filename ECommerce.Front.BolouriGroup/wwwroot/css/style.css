@@ -8917,6 +8917,13 @@ tbody tr td:last-child {
     margin: 8px;
   }
 }
+@media (min-width:1599px) and (max-width:26000px) {
+    .banner-content {
+        position: absolute;
+        bottom: 300px;
+        right: 16px;
+    }
+}
 @media (min-width:1300px) and (max-width: 1600px) {
     .banner-content {
         position: absolute;
