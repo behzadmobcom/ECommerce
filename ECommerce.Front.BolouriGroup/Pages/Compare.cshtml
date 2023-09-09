@@ -4,6 +4,7 @@
     ViewData["Title"] = "مقایسه کنید";
     var singlePrice = Model.CompareProduct.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
 }
+
 <section class="inner-section single-banner">
     <div class="container">
         <h2>مقایسه کنید</h2>

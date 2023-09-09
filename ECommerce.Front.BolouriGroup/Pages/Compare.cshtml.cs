@@ -28,7 +28,7 @@ public class CompareModel : PageModel
             ProductsList = CategoriesResult.ReturnData;
         }        
         CompareProduct = result.ReturnData.First();
-        if (ProductsList != null)
+        if (ProductsList != null && ProductsList.Count() > 0)
         {
             int Index = ProductsList.FindIndex(a => a.Id == productListId.First());
             ProductsList.RemoveAt(Index);

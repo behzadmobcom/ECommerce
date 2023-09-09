@@ -193,14 +193,12 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
 
     public async Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithIdsForCompare(List<int> productIdList)
     {
-        //var result = await _http.GetAsync<List<ProductCompareViewModel>>(Url, $"GetProductsWithIdsForCompare?productId={productId}");
         var result = await _http.PostAsync<List<int>, List<ProductCompareViewModel>>("api/Products", productIdList, "ProductsWithIdsForCompare");
         return Return(result);
     }
     public async Task<ServiceResult<List<ProductCompareViewModel>>> ProductsWithCategoriesForCompare(int categoryId)
     {
         var result = await _http.GetAsync<List<ProductCompareViewModel>>(Url, $"GetProductsWithCategoriesForCompare?categoryId={categoryId}");
-        //var result = await _http.PostAsync<int, List<ProductCompareViewModel>>("api/Products", categoryId, "ProductsWithCategoriesForCompare");
         return Return(result);
     }
 
