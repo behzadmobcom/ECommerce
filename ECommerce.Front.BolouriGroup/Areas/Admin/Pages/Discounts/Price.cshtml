@@ -43,10 +43,10 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="Discount.Name" class="form-control form-control-solid" />
-                            <span asp-validation-for="Discount.Name" class="mt-5"
-                                style="color: red; margin-top: 10px"></span>
+                            <input asp-for="Discount.Name" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
+                        @Model.WithPrice
                         <div id="choose-either-container">
                             <div id="choose-either">
                                 @Html.RadioButtonFor(m => m.WithPrice, "false", new { id = "percent" })
@@ -55,49 +55,39 @@
                                 <label for="price">مبلغ</label>
                             </div>
                         </div>
-                        <div id="choose-false" style="@(Model.WithPrice ? "display: none;" : "")"
-                            class="form-group ch-ei">
+                        <div id="choose-false" style="@(Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
                             <label>درصد</label>
-                            <input asp-for="Discount.Percent" id="kt_touchspin_4" type="number"
-                                class="form-control bootstrap-touchspin-vertical-btn form-control-solid"
-                                placeholder="0" />
+                            <input asp-for="Discount.Percent" id="kt_touchspin_4" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
                         </div>
-                        <div id="choose-true" style="@(!Model.WithPrice ? "display: none;" : "")"
-                            class="form-group ch-ei">
+                        <div id="choose-true" style="@(!Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
                             <label>مبلغ</label>
-                            <input asp-for="Discount.Amount" min="0" type="number"
-                                class="form-control bootstrap-touchspin-vertical-btn form-control-solid"
-                                placeholder="0" />
+                            <input asp-for="Discount.Amount" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ شروع</label>
-                            <input id="startDate" name="Discount.StartDate" hidden="hidden" />
-                            <input class="form-control form-control-solid" id="startDatepicker"
-                                placeholder="تاریخ شروع" />
+                            <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="startDatepicker" placeholder="تاریخ شروع"/>
                         </div>
                         <div class="form-group">
                             <label>تاریخ پایان</label>
-                            <input id="endDate" name="Discount.EndDate" hidden="hidden" />
-                            <input class="form-control form-control-solid" id="endDatepicker"
-                                placeholder="تاریخ پایان" />
+                            <input id="endDate" name="Discount.EndDate" hidden="hidden"/>
+                            <input class="form-control form-control-solid" id="endDatepicker" placeholder="تاریخ پایان"/>
                         </div>
                         <div class="checkbox-inline">
                             <label class="checkbox checkbox-outline checkbox-success">
-                                <input asp-for="Discount.IsActive" type="checkbox" checked="checked" />
+                                <input asp-for="Discount.IsActive" type="checkbox" checked="checked"/>
                                 <span></span>
                                 فعال
                             </label>
-                        </div>
+                        </div>                      
                         <div class="form-group mt-4">
                             <label>کد تخفیف</label>
-                            <input asp-for="Discount.Code" class="form-control form-control-solid" />
-                            <span asp-validation-for="Discount.Code" class="mt-5"
-                                style="color: red; margin-top: 10px"></span>
+                            <input asp-for="Discount.Code" class="form-control form-control-solid"/>
+                            <span asp-validation-for="Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                                data-target="#ModalSelectArticle">انتخاب کالا</button>
-                        </div>
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#ModalSelectArticle">انتخاب کالا</button>
+                        </div>                        
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ثبت</button>
@@ -111,7 +101,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="example mb-10">
+                            <div class="example mb-10">       
                                 <div class="prices-preview">
                                     <table id="myTable" class="table table-bordered mb-6">
                                         <tr>
@@ -133,13 +123,12 @@
         </div>
     </div>
 </div>
-<br />
-<br />
+<br/>
+<br/>
 
 
 <!-- Modal Select Article-->
-<div class="modal fade" id="ModalSelectArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="ModalSelectArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -150,14 +139,14 @@
             </div>
             <div class="modal-body" id="ModalSelectArticleBodyId">
                 <div class="form-group">
-                    <label>انتخاب دسته</label>
+                    <label>انتخاب دسته</label>                        
                     <partial name="_categoriesMenu" model="Model.CategoryParentViewModel" />
                 </div>
                 <select id="sProductId" class="col-md-12 js-example-basic-single  form-control">
-                </select>
+                </select>              
                 <select id="articleId" class="col-md-12 js-example-basic-single  form-control">
                 </select>
-                <br />
+                <br/>
                 <div id="articleDescriptionId"></div>
             </div>
             <div class="modal-footer">
@@ -169,90 +158,83 @@
 </div>
 
 <style>
-    ul,
-    #myUL {
-        list-style-type: none;
-    }
+ul, #myUL {
+  list-style-type: none;
+}
 
-    #myUL {
-        margin: 0;
-        padding: 0;
-    }
+#myUL {
+  margin: 0;
+  padding: 0;
+}
 
-    .caret {
-        cursor: pointer;
-        -webkit-user-select: none;
-        /* Safari 3.1+ */
-        -moz-user-select: none;
-        /* Firefox 2+ */
-        -ms-user-select: none;
-        /* IE 10+ */
-        user-select: none;
-    }
+.caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
 
-    .caret::before {
-        content: "\25B6";
-        color: black;
-        display: inline-block;
-        margin-right: 6px;
-    }
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
 
-    .caret-down::before {
-        -ms-transform: rotate(90deg);
-        /* IE 9 */
-        -webkit-transform: rotate(90deg);
-        /* Safari */
-        '
- transform: rotate(90deg);
-    }
+.caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */'
+  transform: rotate(90deg);  
+}
 
-    .nested {
-        display: none;
-    }
+.nested {
+  display: none;
+}
 
-    .active {
-        display: block;
-    }
+.active {
+  display: block;
+}
 </style>
 
 @section Scripts
-    {
+{
     <script src="~/Admin/js/bootstrap-touchspin.js"></script>
     <script src="~/Admin/js/persianDatepicker.min.js"></script>
 
     <script type="text/javascript">
-        var toggler = document.getElementsByClassName("caret");
-        var selectableEl = document.getElementsByClassName("selectableoption");
-        var i;
-        for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function () {
+            var toggler = document.getElementsByClassName("caret");
+            var selectableEl = document.getElementsByClassName("selectableoption");
+            var i;
+            for (i = 0; i < toggler.length; i++) {
+              toggler[i].addEventListener("click", function() {
                 this.parentElement.querySelector(".nested").classList.toggle("active");
-                this.classList.toggle("caret-down");
-            });
-        }
+                this.classList.toggle("caret-down");     
+              });
+            }
 
-        for (i = 0; i < selectableEl.length; i++) {
-            selectableEl[i].addEventListener("click", function () {
+            for (i = 0; i < selectableEl.length; i++) {
+                selectableEl[i].addEventListener("click", function() {
                 var CategoryId = this.value;
                 $("#sProductId").empty();
                 $("#articleDescriptionId").empty();
-                $("#articleId").empty();
+                $("#articleId").empty();                
                 $("#sProductId").append("<option value=''>انتخاب کالا اصلی</option>");
                 $.getJSON(`?handler=ReturnProductByCategoryId&CategoryId=${CategoryId}`,
                     (data) => {
                         $.each(data,
-                            function (i, item) {
-                                $("#sProductId").append(`<option value="${item.id}">${item.name}</option>`);
+                            function(i, item) {
+                                $("#sProductId").append(`<option value="${item.id}">${item.name}</option>`);                       
                             });
                     });
-            });
-        }
+                });
+            }            
 
         var prices = new Array();
         var price = new Object();
         $('#sProductId').on("change",
-            function () {
-                $("#articleDescriptionId").empty();
+            function() {
+                $("#articleDescriptionId").empty();               
                 var code = $('#sProductId').val();
                 $("#articleId").empty();
                 $("#articleId").append("<option value=''>انتخاب کالا</option>");
@@ -260,50 +242,51 @@
                     (data) => {
                         prices = data;
                         $.each(data,
-                            function (i, item) {
-                                $("#articleId").append(`<option value="${item.id}">${item.color.name} ${item.amount}</option>`);
+                            function(i, item) {
+                                $("#articleId").append(`<option value="${item.id}">${item.color.name} ${item.amount}</option>`);                                
                             });
                     });
             });
 
         $('#articleId').on('change',
-            function (e) {
-                var valueSelected = this.value;
+            function(e) {
+                var valueSelected = this.value;                
                 price = prices.find(obj => {
                     return obj.id == valueSelected;
                 });
-                $("#articleDescriptionId").html(
-                    "<p>" +
-                    "کد کالا : " +
-                    price.id +
-                    "</p>" +
-                    "<p>" +
-                    "نام : " +
-                    price.product.name +
-                    "</p>" +
-                    "<p>" +
-                    "رنگ : " +
-                    price.color.name +
-                    "<div style='background-color: " + price.color.colorCode + "'> - </div>" +
-                    "</p>" +
-                    "<p>" +
-                    "مبلغ : " +
-                    price.amount +
-                    "</p>"
-                );
+                 $("#articleDescriptionId").html(
+                 "<p>" +
+                  "کد کالا : " +
+                  price.id +
+                  "</p>" +
+                  "<p>" +
+                  "نام : " +
+                  price.product.name +
+                  "</p>" +
+                  "<p>" +
+                  "رنگ : " +
+                  price.color.name +                                  
+                  "<div style='background-color: " + price.color.colorCode + "'> - </div>" +
+                  "</p>" +
+                  "<p>" +
+                  "مبلغ : " +
+                  price.amount +
+                  "</p>"
+                 );
             });
-
-        $("#selectArticleId").on("click",
-            function () {
+            
+            $("#selectArticleId").on("click",
+            function() {
                 var table = document.getElementById("myTable");
                 var isDuplicate = false;
                 for (var i = 1; i < table.rows.length; i++) {
                     if (table.rows[i].cells[0].innerHTML == price.id) {
-                        isDuplicate = true;
-                        break;
+                     isDuplicate = true;
+                     break;
                     }
                 }
-                if (!isDuplicate && price.id != null) {
+                if(!isDuplicate && price.id!=null )
+                {                    
                     var row = table.insertRow(-1);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
@@ -314,13 +297,13 @@
                     cell1.innerHTML = price.id;
                     cell2.innerHTML = price.product.name;
                     cell3.innerHTML = price.amount;
-                    cell4.innerHTML = price.color.name;
+                    cell4.innerHTML = price.color.name;                    
                     var button = document.createElement("button");
-                    button.innerHTML = "حذف";
-                    button.addEventListener("click", function (event) {
-                        var deletedIndex = this.parentNode.parentNode.rowIndex;
-                        table.deleteRow(deletedIndex);
-                    });
+                        button.innerHTML = "حذف";
+                        button.addEventListener("click", function(event) {
+                            var deletedIndex = this.parentNode.parentNode.rowIndex;
+                            table.deleteRow(deletedIndex);
+                        });
                     cell5.appendChild(button);
                     cell6.innerHTML = `<input style='visibility: hidden' name='Discount.PricesId' value="${price.id}"></input>`;
                     var ids = [];
@@ -333,7 +316,7 @@
             string sd = "";
             string ed = "";
             if (Model.Discount != null)
-            {
+                    {
                 if (Model.Discount.StartDate.HasValue)
                     sd = Model.Discount.StartDate.Value.GetDateTimeFormats()[1];
                 if (Model.Discount.EndDate.HasValue)
@@ -354,14 +337,14 @@
                     $("#startDatepicker").attr("data-gdate", "@sd")
                     $("#startDatepicker").attr("data-jdate", startDate.toLocaleDateString('fa-IR', { ...options, numberingSystem: "latn" }))
                     $("#startDate").val("@sd")
-                }
+                    }
 
                 if (endDate) {
                     $("#endDatepicker").val(endDate.toLocaleDateString('fa-IR', options));
                     $("#endDatepicker").attr("data-gdate", "@ed")
                     $("#endDatepicker").attr("data-jdate", endDate.toLocaleDateString('fa-IR', { ...options, numberingSystem: "latn" }))
                     $("#endDate").val("@ed")
-                }
+               }             
 
                 $('#startDatepicker').persianDatepicker({
                     theme: 'latoja',
