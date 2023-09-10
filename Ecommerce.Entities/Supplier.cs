@@ -12,10 +12,12 @@ public class Supplier : BaseEntity
     [Display(Name = "توضیحات")] public string? Description { get; set; }
 
     [Display(Name = "موبایل")]
+    [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا برای شماره موبایل فقط عدد وارد کنید")]
     [StringLength(11, MinimumLength = 11, ErrorMessage = "تعداد ارقام غلط است")]
     public string? Mobile { get; set; }
 
     [Display(Name = "تلفن")]
+    [RegularExpression("^[0-9]*$", ErrorMessage = "لطفا برای شماره تلفن فقط عدد وارد کنید")]
     [StringLength(11, MinimumLength = 11, ErrorMessage = "تعداد ارقام غلط است")]
     public string? Tell { get; set; }
 
@@ -23,12 +25,12 @@ public class Supplier : BaseEntity
 
     [Display(Name = "آدرس وب سایت")]
     [StringLength(300, ErrorMessage = "لطفا آدرس صفحه اول را وارد کنید، تعداد کاراکتر نباید بیشتر از 300 باشد")]
-    [Url]
+    [Url(ErrorMessage = "آدرس به صورت صحیح وارد نشده است")]
     public string? Website { get; set; }
 
     [Display(Name = "ایمیل")]
     [StringLength(50, ErrorMessage = "تعداد کاراکتر نباید بیشتر از 50 باشد")]
-    [EmailAddress]
+    [EmailAddress(ErrorMessage = "ایمیل به صورت صحیح وارد نشده است")]
     public string? Email { get; set; }
 
     [Display(Name = "نام رابط")]
