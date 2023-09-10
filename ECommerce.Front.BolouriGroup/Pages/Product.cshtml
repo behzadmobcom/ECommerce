@@ -6,6 +6,19 @@
     var imageTemp = Model.Product.Images.FirstOrDefault();
     string imagePath = $"{@Model.siteUrl}/{imageTemp.Path}/{imageTemp.Name}?x-oss-process=image/resize,m_lfit,h_350,w_350/quality,q_60";
     var description = @Html.Raw(Model.Product.Description).ToString();
+
+    int? categoryDiscountAmount = 0;
+    double? categoryDiscountPercent = 0;
+    if (@Model.Product.ProductCategories != null)
+    foreach(var category in @Model.Product.ProductCategories)
+    {
+        if (category.Discount != null && category.Discount.IsActive)
+        {
+            categoryDiscountAmount = category.Discount.Amount;
+            categoryDiscountPercent = category.Discount.Percent;
+        }
+    }
+
 }
 @section Head{
     <meta name="description" content="@description" />
@@ -122,6 +135,15 @@
                                     {
                                         discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
                                     }
+                              if (discount == 0 )
+                                if (categoryDiscountAmount > 0)
+                                {
+                                    discount = (decimal)categoryDiscountAmount;
+                                }
+                                else if (categoryDiscountPercent > 0)
+                                {
+                                    discount = singlePrice.Amount * (decimal)categoryDiscountPercent / 100;
+                                }
                                 discountAmount = amount - discount;
                             }
                         }

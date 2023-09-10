@@ -1,5 +1,5 @@
-﻿@page "/Admin/CreateDiscount"
-@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Discounts.CreateModel
+﻿@page "/Admin/CreateCouponDiscount"
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Discounts.CreateCouponModel
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -27,7 +27,7 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        ایجاد تخفیف جدید بر اساس دسته بندی
+                         ایجاد تخفیف جدید بر اساس کوپن
                     </h3>
                 </div>
                 @Html.ValidationSummary()
@@ -55,15 +55,7 @@
                         <div id="choose-true" style="@(!Model.WithPrice ? "display: none;" : "")" class="form-group ch-ei">
                             <label>مبلغ</label>
                             <input asp-for="Discount.Amount" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
-                        </div>
-                         <div class="form-group">
-                            <label>حداقل تعداد سفارش</label>
-                            <input asp-for="Discount.MinOrder" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
-                         </div>
-                         <div class="form-group">
-                            <label>حداکثر تعداد سفارش</label>
-                            <input asp-for="Discount.MaxOrder" min="0" type="number" class="form-control bootstrap-touchspin-vertical-btn form-control-solid" placeholder="0"/>
-                         </div>                                           
+                        </div>                                                     
                         <div class="form-group">
                             <label>تاریخ شروع</label>
                             <input id="startDate" name="Discount.StartDate" hidden="hidden"/>
@@ -85,13 +77,7 @@
                             <label>کد تخفیف</label>
                             <input asp-for="Discount.Code" class="form-control form-control-solid"/>
                             <span asp-validation-for="Discount.Code" class="mt-5" style="color: red; margin-top: 10px"></span>
-                        </div>
-                        <div class="form-group">
-                            <label>انتخاب دسته ها</label>
-                            <div class="checkbox-list">
-                                <partial name="_categoriesTree" model="Model.CategoryParentViewModel"/>
-                            </div>
-                        </div>                    
+                        </div>                   
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary mr-2">ثبت</button>
                             <a class="btn btn-secondary" asp-Page="/Discounts/index" asp-area="Admin">لغو</a>
@@ -113,16 +99,8 @@
             @{
                 string sd="";
                 string ed="";
-                try {
-                    //sd = Model.Discount.StartDate.Value.GetDateTimeFormats()[1];
-                } catch (Exception) {
-                    sd = "";
-                }
-                try {
-                    //ed = Model.Discount.EndDate.Value.GetDateTimeFormats()[1];
-                } catch (Exception) {
-                    ed = "";
-                }
+                //sd = Model.Discount.StartDate == null ? "" : Model.Discount.StartDate.Value.GetDateTimeFormats()[1];                    
+                //ed = Model.Discount.EndDate   == null ? "" : Model.Discount.EndDate.Value.GetDateTimeFormats()[1];                
             }
             const startDate = "@sd" === "" ? undefined : new Date("@sd");
             const endDate = "@ed" === "" ? undefined : new Date("@ed");

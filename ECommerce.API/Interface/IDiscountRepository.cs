@@ -17,5 +17,7 @@ public interface IDiscountRepository : IAsyncRepository<Discount>
 
     Task<DiscountWithTimeViewModel> GetWithTime(CancellationToken cancellationToken);
 
+    Task<Discount> AddWithRelations(DiscountViewModel discountViewModel, CancellationToken cancellationToken);
     bool Active(int id);
+
 }

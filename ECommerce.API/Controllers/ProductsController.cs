@@ -210,7 +210,8 @@ public class ProductsController : ControllerBase
                                 Id = p.Id,
                                 ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                                 Stars = p.Star,
-                                Url = p.Url
+                                Categories = p.ProductCategories.ToList(),
+                                Url = p.Url                                
                             })
                             .ToListAsync(cancellationToken));
                         break;
@@ -231,6 +232,7 @@ public class ProductsController : ControllerBase
                                     Id = p.Id,
                                     ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                                     Stars = p.Star,
+                                    Categories = p.ProductCategories.ToList(),
                                     Url = p.Url
                                 })
                                 .ToListAsync(cancellationToken));
@@ -274,6 +276,7 @@ public class ProductsController : ControllerBase
                         Id = p.Id,
                         ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
                         Stars = p.Star,
+                        Categories = p.ProductCategories.ToList(),
                         Url = p.Url
                     })
                     .ToListAsync(cancellationToken);
@@ -333,8 +336,29 @@ public class ProductsController : ControllerBase
             }
 
             productIndexPageViewModel = productIndexPageViewModel.OrderByDescending(x => x.Prices.Any(e => e.Exist > 0)).ToList();
+            foreach (var _product in productIndexPageViewModel)
+            {
+                foreach (var _price in _product.Prices)
+                {
+                    if (_price.Discount != null)
+                    {
+                        _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                                 _price.Discount.StartDate <= DateTime.UtcNow &&
+                                                 _price.Discount.EndDate >= DateTime.UtcNow);
+                    }
+                }
+                foreach (var _cat in _product.Categories)
+                {
+                    if (_cat.Discount != null)
+                    {
+                        _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                              _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                              _cat.Discount.EndDate >= DateTime.UtcNow);
+                    }
+                }
+            }
 
-            var entity = PagedList<ProductIndexPageViewModel>.ToPagedList(productIndexPageViewModel,
+                var entity = PagedList<ProductIndexPageViewModel>.ToPagedList(productIndexPageViewModel,
                 productListFilteredViewModel.PaginationParameters.PageNumber,
                 productListFilteredViewModel.PaginationParameters.PageSize);
 
@@ -601,6 +625,27 @@ public class ProductsController : ControllerBase
             });
             if (product.Prices.Any(p => p.ArticleCode != null)) product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isCheckExist, cancellationToken);
 
+            
+            foreach (var _price in product.Prices)
+            {
+                if (_price.Discount != null)
+                {
+                    _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                                _price.Discount.StartDate <= DateTime.UtcNow &&
+                                                _price.Discount.EndDate >= DateTime.UtcNow);
+                }
+            }
+            foreach (var _cat in product.ProductCategories)
+            {
+                if (_cat.Discount != null)
+                {
+                    _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                            _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                            _cat.Discount.EndDate >= DateTime.UtcNow);
+                }
+            }
+          
+
             var wish = await _wishListRepository.GetByProductUser(product.Id, userId, cancellationToken);
             var result = new ProductViewModel
             {
@@ -619,6 +664,7 @@ public class ProductsController : ControllerBase
                 Supplier = product.Supplier,
                 Tags = product.Tags.ToList(),
                 Keywords = product.Keywords.ToList(),
+                ProductCategories = product.ProductCategories.ToList(),
                 WishListPriceId = wish == null ? null : wish.PriceId
             };
 
@@ -644,6 +690,7 @@ public class ProductsController : ControllerBase
         try
         {
             var result = await _productRepository.GetProductByIdWithInclude(id).FirstOrDefaultAsync(cancellationToken);
+            
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -665,6 +712,34 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
+    public async Task<ActionResult<List<ProductViewModel>>> GetByCategoryId(int categoryId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _productRepository.GetByCategoryId(categoryId, cancellationToken);
+            if (result == null)
+                return Ok(new ApiResult
+                {
+                    Code = ResultCode.NotFound
+                });
+
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.Success,
+                ReturnData = result
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogCritical(e, e.Message);
+            return Ok(new ApiResult
+            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
+        }
+    }
+
+
+
+    [HttpGet]
     public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool? isCheckExist, bool isWithoutBill,
       CancellationToken cancellationToken)
     {
@@ -681,6 +756,47 @@ public class ProductsController : ControllerBase
             if (product.Prices.Any(p => p.ArticleCode != null))
                 product = await AddPriceAndExistFromHoloo(product, isWithoutBill, isCheckExist, cancellationToken);
 
+            decimal discountAmount = 0;
+            double discountPercent = 0;            
+
+            var _price = product.Prices.FirstOrDefault();
+            if (_price.Discount != null)
+            {
+                _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                            _price.Discount.StartDate <= DateTime.UtcNow &&
+                                            _price.Discount.EndDate >= DateTime.UtcNow);
+                if (_price.Discount.IsActive)
+                {
+                    discountAmount = _price.Discount.Amount != null ? (decimal) _price.Discount.Amount : 0 ;
+                    discountPercent = _price.Discount.Percent != null ? (double) _price.Discount.Percent : 0 ;
+                }
+            }else
+            {
+                foreach (var _cat in product.ProductCategories)
+                {
+                    if (_cat.Discount != null)
+                    {
+                        _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                                _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                                _cat.Discount.EndDate >= DateTime.UtcNow);
+                        if (_cat.Discount.IsActive)
+                        {
+                            discountAmount = _cat.Discount.Amount != null ? (decimal)_cat.Discount.Amount : 0 ;
+                            discountPercent = _cat.Discount.Percent != null ? (double)_cat.Discount.Percent : 0 ;
+                        }
+                    }
+                }
+            }
+            var _priceAmount = product.Prices.FirstOrDefault().Amount;
+            string _payableAmount = _priceAmount.ToString("###,###,###,###");
+            if (discountAmount > 0) { _payableAmount = (_priceAmount - discountAmount).ToString("###,###,###,###"); }
+            if (discountPercent > 0) 
+            {
+                _payableAmount = (_priceAmount - (product.Prices.FirstOrDefault().Amount * (decimal) discountPercent / 100)).ToString("###,###,###,###");
+            }
+
+         
+
             var productModalViewModel = new ProductModalViewModel
             {
                 Alt = product.Images.FirstOrDefault().Alt,
@@ -688,9 +804,12 @@ public class ProductsController : ControllerBase
                 Brand = product.Brand != null ? product.Brand.Name : "",
                 Description = product.Description ?? "",
                 Name = product.Name,
-                Price = product.Prices.FirstOrDefault().Amount.ToString("###,###,###,###"),
+                Price = product.Prices.FirstOrDefault().Amount.ToString("###,###,###,###")  ,
                 Url = product.Url,
-                Exist = product.Prices.FirstOrDefault().Exist
+                Exist = product.Prices.FirstOrDefault().Exist,
+                DiscountAmount = discountAmount > 0 ? " تخفیف: " + discountAmount.ToString("###,###,###,###") + " تومان " : null ,
+                DiscountPercent = discountPercent > 0 ? " تخفیف: " + discountPercent.ToString("###,###,###,###") + " درصد " : null,
+                PayableAmount = _payableAmount + " تومان "
             };
 
             return Ok(new ApiResult
@@ -1139,6 +1258,27 @@ public class ProductsController : ControllerBase
                         {
                             products = await _productRepository.TopNew(count, start, resultCount[0],
                                 cancellationToken);
+                            foreach (var _product in products)
+                            {                        
+                                foreach (var _price in _product.Prices)
+                                {
+                                    if (_price.Discount != null)
+                                    {
+                                       _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                                                _price.Discount.StartDate <= DateTime.UtcNow &&
+                                                                _price.Discount.EndDate >= DateTime.UtcNow);
+                                    }                                    
+                                }
+                                foreach (var _cat in _product.Categories)
+                                {
+                                   if (_cat.Discount != null)
+                                   {
+                                        _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                                              _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                                              _cat.Discount.EndDate >= DateTime.UtcNow);
+                                   }                                    
+                                }
+                            }
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
                                 products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,
@@ -1160,6 +1300,27 @@ public class ProductsController : ControllerBase
                         {
                             products = await _productRepository.TopPrices(count * 2, start, resultCount[0],
                             cancellationToken);
+                            foreach (var _product in products)
+                            {
+                                foreach (var _price in _product.Prices)
+                                {
+                                    if (_price.Discount != null)
+                                    {
+                                        _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                                                 _price.Discount.StartDate <= DateTime.UtcNow &&
+                                                                 _price.Discount.EndDate >= DateTime.UtcNow);
+                                    }
+                                }
+                                foreach (var _cat in _product.Categories)
+                                {
+                                    if (_cat.Discount != null)
+                                    {
+                                        _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                                              _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                                              _cat.Discount.EndDate >= DateTime.UtcNow);
+                                    }
+                                }
+                            }
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
                                 products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,
@@ -1194,6 +1355,27 @@ public class ProductsController : ControllerBase
                         {
                             products = await _productRepository.TopStars(count * 2, start, resultCount[0],
                                 cancellationToken);
+                            foreach (var _product in products)
+                            {
+                                foreach (var _price in _product.Prices)
+                                {
+                                    if (_price.Discount != null)
+                                    {
+                                        _price.Discount.IsActive = (_price.Discount.IsActive &&
+                                                                 _price.Discount.StartDate <= DateTime.UtcNow &&
+                                                                 _price.Discount.EndDate >= DateTime.UtcNow);
+                                    }
+                                }
+                                foreach (var _cat in _product.Categories)
+                                {
+                                    if (_cat.Discount != null)
+                                    {
+                                        _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                                              _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                                              _cat.Discount.EndDate >= DateTime.UtcNow);
+                                    }
+                                }
+                            }
                             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                             {
                                 products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true,

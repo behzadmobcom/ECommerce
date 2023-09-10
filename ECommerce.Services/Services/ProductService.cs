@@ -229,4 +229,11 @@ public class ProductService : EntityService<ProductViewModel>, IProductService
         var result = await _http.GetAsync<List<ProductIndexPageViewModel>>(Url, $"GetTops?includeProperties={includeProperties}&userid={currentUser.Id}");
         return Return(result);
     }
+
+    public async Task<ServiceResult<List<ProductViewModel>>> GetByCategoryId(int categoryId)
+    {
+        var result = await _http.GetAsync<List<ProductViewModel>>(Url, $"GetByCategoryId?categoryId={categoryId}");
+        return Return(result);
+    }
+
 }

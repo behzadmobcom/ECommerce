@@ -1,0 +1,33 @@
+﻿@model List<Ecommerce.Entities.ViewModel.CategoryParentViewModel>
+@using Ecommerce.Entities.ViewModel;
+@{
+    string CategoryMenu(CategoryParentViewModel category)
+    {
+        if (category.Children.Count == 0)
+        {
+            return $"<li class='selectableoption' value='{category.Id}'> {category.Name} </li>";
+        }
+
+        string result = $" <li> <span class='caret'> {category.Name} </span> ";
+        result = result + " <ul class='nested'> ";
+
+        foreach (var child in category.Children)
+        {
+           result = result + " " + CategoryMenu(child);
+        }
+
+        result = result + " </ul> </li> ";
+        return result ;
+
+    }
+    
+}
+<ul>
+    @if (Model != null)
+    {       
+        foreach (var Parent in Model)
+        {
+            @Html.Raw(@CategoryMenu(Parent));
+        }
+    }
+</ul>

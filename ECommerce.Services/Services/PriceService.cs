@@ -39,7 +39,7 @@ public class PriceService : EntityService<Price>, IPriceService
 
     public async Task<ServiceResult<List<Price>>> PriceOfProduct(int productId)
     {
-        var result = await ReadList(Url, $"Product/{productId}");
+        var result = await ReadList(Url, $"GetProductsPriceById?id={productId}");
         return Return(result);
     }
 }

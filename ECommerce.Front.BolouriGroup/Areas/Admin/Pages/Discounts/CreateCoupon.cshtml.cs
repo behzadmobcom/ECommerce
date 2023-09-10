@@ -8,14 +8,14 @@ using System.Collections;
 
 namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Discounts;
 
-public class CreateModel : PageModel
+public class CreateCouponModel : PageModel
 {
     private readonly IDiscountService _discountService;
     private readonly IProductService _productService;
     private readonly IPriceService _priceService;
     private readonly ICategoryService _categoryService;    
 
-    public CreateModel(IDiscountService discountService, IProductService productService, IPriceService priceService
+    public CreateCouponModel(IDiscountService discountService, IProductService productService, IPriceService priceService
         ,ICategoryService categoryService)
     {
         _discountService = discountService;
@@ -27,26 +27,22 @@ public class CreateModel : PageModel
     [BindProperty] public bool WithPrice { get; set; }
     [BindProperty] public DiscountViewModel Discount { get; set; }
 
-    [BindProperty] public List<CategoryParentViewModel> CategoryParentViewModel { get; set; }
-
     [TempData] public string Message { get; set; }
 
     [TempData] public string Code { get; set; }
 
     public async Task OnGet()
     {
-        CategoryParentViewModel = (await _categoryService.GetParents()).ReturnData;
     }
 
     public async Task<IActionResult> OnPost()
     {
         if (WithPrice && !Discount.Amount.HasValue) ModelState.AddModelError(string.Empty, "مبلغ نباید خالی باشد.");
         if (!WithPrice && !Discount.Percent.HasValue) ModelState.AddModelError(string.Empty, "درصد نباید خالی باشد.");
-        //if (!Discount.StartDate.HasValue) ModelState.AddModelError(string.Empty, "تاریخ شروع نباید خالی باشد.");
-        //if (!Discount.EndDate.HasValue) ModelState.AddModelError(string.Empty, "تاریخ پایان نباید خالی باشد.");
-        //if (Discount.StartDate > Discount.EndDate) ModelState.AddModelError(string.Empty, "تاریخ پایان نباید قبل از تاریخ شروع باشد.");
-        //if (Discount.MinOrder > Discount.MaxOrder) ModelState.AddModelError(string.Empty, "حداقل تعداد سفارش باید کم تر از حداکثر آن باشد.");
-        if (!Discount.CategoriesId.Any()) ModelState.AddModelError(string.Empty, "حداقل یک دسته را انتخاب نمایید.");
+        if (!Discount.StartDate.HasValue) ModelState.AddModelError(string.Empty, "تاریخ شروع نباید خالی باشد.");
+        if (!Discount.EndDate.HasValue) ModelState.AddModelError(string.Empty, "تاریخ پایان نباید خالی باشد.");
+        if (Discount.StartDate > Discount.EndDate) ModelState.AddModelError(string.Empty, "تاریخ پایان نباید قبل از تاریخ شروع باشد.");
+        if (Discount.MinOrder > Discount.MaxOrder) ModelState.AddModelError(string.Empty, "حداقل تعداد سفارش باید کم تر از حداکثر آن باشد.");
 
         if (ModelState.IsValid)
         {
@@ -60,9 +56,6 @@ public class CreateModel : PageModel
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
         }
-        
-        CategoryParentViewModel = (await _categoryService.GetParents()).ReturnData;
-        if (Discount.CategoriesId==null) Discount.CategoriesId?.Clear();
 
         return Page();
     }

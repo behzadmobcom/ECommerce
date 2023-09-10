@@ -39,6 +39,19 @@ public class DiscountRepository : AsyncRepository<Discount>, IDiscountRepository
         return null;
     }
 
+
+    public async Task<Discount> AddWithRelations(DiscountViewModel discountViewModel, CancellationToken cancellationToken)
+    {
+        Discount discount = discountViewModel;
+        discount.Categories = new List<Category>();
+        foreach (var id in discountViewModel.CategoriesId) discount.Categories.Add(await _context.Categories.FindAsync(id));
+        discount.Prices = new List<Price>();
+        foreach (var id in discountViewModel.PricesId) discount.Prices.Add(await _context.Prices.FindAsync(id));
+        await _context.Discounts.AddAsync(discount, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        return discount;
+    }
+
     public async Task<Discount> GetByCode(string code, CancellationToken cancellationToken)
     {
         return await _context.Discounts.Where(x => x.Code == code).FirstOrDefaultAsync(cancellationToken);

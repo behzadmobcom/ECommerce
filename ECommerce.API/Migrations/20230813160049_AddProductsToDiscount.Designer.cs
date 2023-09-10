@@ -4,6 +4,7 @@ using ECommerce.API.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.API.Migrations
 {
     [DbContext(typeof(SunflowerECommerceDbContext))]
-    partial class SunflowerECommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230813160049_AddProductsToDiscount")]
+    partial class AddProductsToDiscount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,17 +136,8 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("EnglishName")
                         .IsRequired()
@@ -159,9 +152,6 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("BlogAuthors");
@@ -175,20 +165,11 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Depth")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -197,9 +178,6 @@ namespace Ecommerce.API.Migrations
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -273,17 +251,8 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -292,9 +261,6 @@ namespace Ecommerce.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -312,12 +278,6 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Depth")
                         .HasColumnType("int");
 
@@ -326,13 +286,6 @@ namespace Ecommerce.API.Migrations
 
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -349,9 +302,6 @@ namespace Ecommerce.API.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -370,15 +320,6 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -387,9 +328,6 @@ namespace Ecommerce.API.Migrations
                     b.Property<int?>("StateId")
                         .IsRequired()
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -401,3450 +339,2588 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6809),
                             Name = "اهر",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6810)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6812),
                             Name = "عجبشير",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6813)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6814),
                             Name = "آذر شهر",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6814)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6815),
                             Name = "بناب",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6816)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6817),
                             Name = "بستان آباد",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6817)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6818),
                             Name = "چاراويماق",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6819)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 7,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6819),
                             Name = "هشترود",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6820)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 8,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6821),
                             Name = "هريس",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6821)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 9,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6822),
                             Name = "جلفا",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6823)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 10,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6823),
                             Name = "كليبر",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6824)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 11,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6826),
                             Name = "خداآفرين",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6826)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 12,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6827),
                             Name = "ملكان",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6827)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 13,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6828),
                             Name = "مراغه",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6829)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 14,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6830),
                             Name = "ميانه",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6830)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 15,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6831),
                             Name = "مرند",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6831)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 16,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6832),
                             Name = "اسكو",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6833)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 17,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6834),
                             Name = "سراب",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6834)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 18,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6835),
                             Name = "شبستر",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6835)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 19,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6836),
                             Name = "تبريز",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6837)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 20,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6838),
                             Name = "ورزقان",
-                            StateId = 1,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6838)
+                            StateId = 1
                         },
                         new
                         {
                             Id = 21,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6839),
                             Name = "اروميه",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6839)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 22,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6840),
                             Name = "نقده",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6841)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 23,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6841),
                             Name = "ماكو",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6842)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 24,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6843),
                             Name = "تكاب",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6843)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 25,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6872),
                             Name = "خوي",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6873)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 26,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6874),
                             Name = "مهاباد",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6875)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 27,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6876),
                             Name = "سر دشت",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6876)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 28,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6877),
                             Name = "چالدران",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6877)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 29,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6878),
                             Name = "بوكان",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6879)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 30,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6880),
                             Name = "مياندوآب",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6880)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 31,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6881),
                             Name = "سلماس",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6881)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 32,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6882),
                             Name = "شاهين دژ",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6883)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 33,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6883),
                             Name = "پيرانشهر",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6884)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 34,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6885),
                             Name = "اشنويه",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6885)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 35,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6886),
                             Name = "چايپاره",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6887)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 36,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6888),
                             Name = "پلدشت",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6889)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 37,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6890),
                             Name = "شوط",
-                            StateId = 2,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6890)
+                            StateId = 2
                         },
                         new
                         {
                             Id = 38,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6891),
                             Name = "اردبيل",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6891)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 39,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6892),
                             Name = "سرعين",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6893)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 40,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6894),
                             Name = "بيله سوار",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6894)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 41,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6895),
                             Name = "پارس آباد",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6895)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 42,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6896),
                             Name = "خلخال",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6897)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 43,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6898),
                             Name = "مشگين شهر",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6898)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 44,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6899),
                             Name = "نمين",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6899)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 45,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6900),
                             Name = "نير",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6901)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 46,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6901),
                             Name = "كوثر",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6902)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 47,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6903),
                             Name = "گرمي",
-                            StateId = 3,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6903)
+                            StateId = 3
                         },
                         new
                         {
                             Id = 48,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6904),
                             Name = "بوئين و مياندشت",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6905)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 49,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6905),
                             Name = "مباركه",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6906)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 50,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6907),
                             Name = "اردستان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6907)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 51,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6908),
                             Name = "خور و بيابانک",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6908)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 52,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6909),
                             Name = "فلاورجان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6910)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 53,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6911),
                             Name = "فريدون شهر",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6911)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 54,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6912),
                             Name = "كاشان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6912)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 55,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6913),
                             Name = "لنجان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6914)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 56,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6915),
                             Name = "گلپايگان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6915)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 57,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6916),
                             Name = "فريدن",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6916)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 58,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6917),
                             Name = "نايين",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6918)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 59,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6919),
                             Name = "اصفهان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6919)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 60,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6920),
                             Name = "نجف آباد",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6920)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 61,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6922),
                             Name = "آران و بيدگل",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6922)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 62,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6923),
                             Name = "چادگان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6924)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 63,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6925),
                             Name = "تيران و کرون",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6925)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 64,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6926),
                             Name = "شهرضا",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6926)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 65,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6927),
                             Name = "سميرم",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6928)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 66,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6929),
                             Name = "خميني شهر",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6929)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 67,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6930),
                             Name = "دهاقان",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6930)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 68,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6931),
                             Name = "نطنز",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6932)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 69,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6933),
                             Name = "برخوار",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6933)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 70,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6934),
                             Name = "شاهين شهر و ميمه",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6934)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 71,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6935),
                             Name = "خوانسار",
-                            StateId = 4,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6936)
+                            StateId = 4
                         },
                         new
                         {
                             Id = 72,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6937),
                             Name = "ايلام",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6937)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 73,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6938),
                             Name = "مهران",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6938)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 74,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6939),
                             Name = "دهلران",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6940)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 75,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6941),
                             Name = "آبدانان",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6941)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 76,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6942),
                             Name = "چرداول",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6942)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 77,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6943),
                             Name = "دره شهر",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6944)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 78,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6945),
                             Name = "ايوان",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6945)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 79,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6946),
                             Name = "بدره",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6946)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 80,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6947),
                             Name = "سيروان",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6948)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 81,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6949),
                             Name = "ملکشاهي",
-                            StateId = 6,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6949)
+                            StateId = 6
                         },
                         new
                         {
                             Id = 82,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6950),
                             Name = "عسلويه",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6951)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 83,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6952),
                             Name = "گناوه",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6952)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 84,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6953),
                             Name = "دشتي",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6953)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 85,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6954),
                             Name = "دشتستان",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6955)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 86,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6957),
                             Name = "دير",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6957)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 87,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6958),
                             Name = "بوشهر",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6959)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 88,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6959),
                             Name = "كنگان",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6960)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 89,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6961),
                             Name = "تنگستان",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6961)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 90,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6962),
                             Name = "ديلم",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6963)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 91,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6963),
                             Name = "جم",
-                            StateId = 7,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6964)
+                            StateId = 7
                         },
                         new
                         {
                             Id = 92,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6965),
                             Name = "قرچك",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6965)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 93,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6966),
                             Name = "پرديس",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6967)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 94,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6968),
                             Name = "بهارستان",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6968)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 95,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6969),
                             Name = "شميرانات",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6969)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 96,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6970),
                             Name = "رباط كريم",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6971)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 97,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6972),
                             Name = "فيروزكوه",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6972)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 98,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6973),
                             Name = "تهران",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6973)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 99,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6974),
                             Name = "ورامين",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6975)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 100,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6976),
                             Name = "اسلامشهر",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6976)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 101,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6977),
                             Name = "ري",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6978)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 102,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6979),
                             Name = "پاكدشت",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6979)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 103,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6980),
                             Name = "پيشوا",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6981)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 104,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6982),
                             Name = "قدس",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6982)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 105,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6983),
                             Name = "ملارد",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6983)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 106,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6984),
                             Name = "شهريار",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6985)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 107,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6986),
                             Name = "دماوند",
-                            StateId = 8,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6986)
+                            StateId = 8
                         },
                         new
                         {
                             Id = 108,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6987),
                             Name = "بن",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6988)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 109,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6988),
                             Name = "سامان",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6989)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 110,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7015),
                             Name = "کيار",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7016)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 111,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7017),
                             Name = "بروجن",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7017)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 112,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7018),
                             Name = "اردل",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7019)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 113,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7020),
                             Name = "شهركرد",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7020)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 114,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7021),
                             Name = "فارسان",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7021)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 115,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7022),
                             Name = "کوهرنگ",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7023)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 116,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7024),
                             Name = "لردگان",
-                            StateId = 9,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7024)
+                            StateId = 9
                         },
                         new
                         {
                             Id = 117,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7025),
                             Name = "داورزن",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7025)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 118,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7026),
                             Name = "كلات",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7027)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 119,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7028),
                             Name = "بردسكن",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7028)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 120,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7029),
                             Name = "مشهد",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7029)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 121,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7030),
                             Name = "نيشابور",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7031)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 122,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7031),
                             Name = "سبزوار",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7032)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 123,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7033),
                             Name = "كاشمر",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7033)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 124,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7034),
                             Name = "گناباد",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7034)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 125,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7035),
                             Name = "تربت حيدريه",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7036)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 126,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7037),
                             Name = "خواف",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7037)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 127,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7038),
                             Name = "تربت جام",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7038)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 128,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7039),
                             Name = "تايباد",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7040)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 129,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7041),
                             Name = "مه ولات",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7041)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 130,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7042),
                             Name = "چناران",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7042)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 131,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7043),
                             Name = "درگز",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7044)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 132,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7045),
                             Name = "فيروزه",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7045)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 133,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7046),
                             Name = "قوچان",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7046)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 134,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7047),
                             Name = "سرخس",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7048)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 135,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7050),
                             Name = "رشتخوار",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7050)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 136,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7051),
                             Name = "بينالود",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7052)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 137,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7053),
                             Name = "زاوه",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7053)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 138,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7054),
                             Name = "جوين",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7054)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 139,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7055),
                             Name = "بجستان",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7056)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 140,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7056),
                             Name = "باخزر",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7057)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 141,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7058),
                             Name = "فريمان",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7058)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 142,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7059),
                             Name = "خليل آباد",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7059)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 143,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7060),
                             Name = "جغتاي",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7061)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 144,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7062),
                             Name = "خوشاب",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7062)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 145,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7063),
                             Name = "زيرکوه",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7063)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 146,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7064),
                             Name = "خوسف",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7065)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 147,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7066),
                             Name = "درميان",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7066)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 148,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7067),
                             Name = "قائنات",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7067)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 149,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7068),
                             Name = "بشرويه",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7069)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 150,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7070),
                             Name = "فردوس",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7070)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 151,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7071),
                             Name = "بيرجند",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7071)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 152,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7072),
                             Name = "نهبندان",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7073)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 153,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7073),
                             Name = "سربيشه",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7074)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 154,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7075),
                             Name = "سرايان",
-                            StateId = 10,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7075)
+                            StateId = 10
                         },
                         new
                         {
                             Id = 155,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7076),
                             Name = "طبس",
-                            StateId = 11,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7077)
+                            StateId = 11
                         },
                         new
                         {
                             Id = 156,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7078),
                             Name = "بجنورد",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7078)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 157,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7079),
                             Name = "راز و جرگلان",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7079)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 158,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7080),
                             Name = "اسفراين",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7081)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 159,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7081),
                             Name = "جاجرم",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7082)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 160,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7084),
                             Name = "شيروان",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7084)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 161,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7085),
                             Name = "مانه و سملقان",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7085)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 162,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7086),
                             Name = "گرمه",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7087)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 163,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7088),
                             Name = "فاروج",
-                            StateId = 12,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7088)
+                            StateId = 12
                         },
                         new
                         {
                             Id = 164,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7089),
                             Name = "کارون",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7089)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 165,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7090),
                             Name = "حميديه",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7091)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 166,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7092),
                             Name = "آغاجري",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7092)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 167,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7093),
                             Name = "شوشتر",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7093)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 168,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7094),
                             Name = "دشت آزادگان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7095)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 169,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7095),
                             Name = "اميديه",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7096)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 170,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7097),
                             Name = "گتوند",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7097)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 171,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7098),
                             Name = "شادگان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7099)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 172,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7099),
                             Name = "دزفول",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7100)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 173,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7101),
                             Name = "رامشير",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7101)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 174,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7102),
                             Name = "بهبهان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7102)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 175,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7103),
                             Name = "باوي",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7104)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 176,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7105),
                             Name = "انديمشك",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7105)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 177,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7106),
                             Name = "اهواز",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7106)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 178,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7107),
                             Name = "انديکا",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7108)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 179,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7109),
                             Name = "شوش",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7109)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 180,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7110),
                             Name = "آبادان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7110)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 181,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7111),
                             Name = "هنديجان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7112)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 182,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7113),
                             Name = "خرمشهر",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7113)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 183,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7114),
                             Name = "مسجد سليمان",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7114)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 184,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7118),
                             Name = "ايذه",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7119)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 185,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7120),
                             Name = "رامهرمز",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7120)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 186,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7121),
                             Name = "باغ ملك",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7121)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 187,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7122),
                             Name = "هفتکل",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7123)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 188,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7124),
                             Name = "هويزه",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7124)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 189,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7125),
                             Name = "ماهشهر",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7125)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 190,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7126),
                             Name = "لالي",
-                            StateId = 13,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7127)
+                            StateId = 13
                         },
                         new
                         {
                             Id = 191,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7128),
                             Name = "زنجان",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7128)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 192,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7129),
                             Name = "ابهر",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7129)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 193,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7130),
                             Name = "خدابنده",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7131)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 194,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7131),
                             Name = "ماهنشان",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7132)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 195,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7156),
                             Name = "خرمدره",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7157)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 196,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7158),
                             Name = "ايجرود",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7158)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 197,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7159),
                             Name = "طارم",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7159)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 198,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7160),
                             Name = "سلطانيه",
-                            StateId = 14,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7161)
+                            StateId = 14
                         },
                         new
                         {
                             Id = 199,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7162),
                             Name = "سمنان",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7162)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 200,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7163),
                             Name = "شاهرود",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7163)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 201,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7164),
                             Name = "گرمسار",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7165)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 202,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7166),
                             Name = "سرخه",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7166)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 203,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7167),
                             Name = "دامغان",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7167)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 204,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7168),
                             Name = "آرادان",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7169)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 205,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7170),
                             Name = "مهدي شهر",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7170)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 206,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7171),
                             Name = "ميامي",
-                            StateId = 15,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7171)
+                            StateId = 15
                         },
                         new
                         {
                             Id = 207,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7172),
                             Name = "زاهدان",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7173)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 208,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7174),
                             Name = "بمپور",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7174)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 209,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7176),
                             Name = "چابهار",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7176)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 210,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7177),
                             Name = "خاش",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7178)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 211,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7179),
                             Name = "سراوان",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7179)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 212,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7180),
                             Name = "زابل",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7180)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 213,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7181),
                             Name = "سرباز",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7182)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 214,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7182),
                             Name = "قصر قند",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7183)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 215,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7184),
                             Name = "نيكشهر",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7184)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 216,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7185),
                             Name = "کنارک",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7186)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 217,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7186),
                             Name = "ايرانشهر",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7187)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 218,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7188),
                             Name = "زهک",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7188)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 219,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7189),
                             Name = "سيب و سوران",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7190)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 220,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7190),
                             Name = "ميرجاوه",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7191)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 221,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7192),
                             Name = "دلگان",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7192)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 222,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7193),
                             Name = "هيرمند",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7194)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 223,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7194),
                             Name = "مهرستان",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7195)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 224,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7196),
                             Name = "فنوج",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7197)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 225,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7198),
                             Name = "هامون",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7198)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 226,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7199),
                             Name = "نيمروز",
-                            StateId = 16,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7199)
+                            StateId = 16
                         },
                         new
                         {
                             Id = 227,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7200),
                             Name = "شيراز",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7201)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 228,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7201),
                             Name = "اقليد",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7202)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 229,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7203),
                             Name = "داراب",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7203)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 230,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7204),
                             Name = "فسا	",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7205)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 231,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7205),
                             Name = "مرودشت",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7206)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 232,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7207),
                             Name = "خرم بيد",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7207)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 233,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7208),
                             Name = "آباده",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7209)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 234,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7210),
                             Name = "كازرون",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7211)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 235,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7212),
                             Name = "گراش",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7212)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 236,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7213),
                             Name = "ممسني",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7213)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 237,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7214),
                             Name = "سپيدان",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7215)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 238,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7216),
                             Name = "لارستان",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7216)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 239,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7218),
                             Name = "فيروز آباد",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7218)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 240,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7219),
                             Name = "جهرم",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7220)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 241,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7220),
                             Name = "ني ريز",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7221)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 242,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7222),
                             Name = "استهبان",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7222)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 243,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7223),
                             Name = "لامرد",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7224)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 244,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7224),
                             Name = "مهر",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7225)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 245,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7226),
                             Name = "پاسارگاد",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7226)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 246,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7227),
                             Name = "ارسنجان",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7228)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 247,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7228),
                             Name = "قيروكارزين",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7229)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 248,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7230),
                             Name = "رستم",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7230)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 249,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7231),
                             Name = "فراشبند",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7232)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 250,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7232),
                             Name = "سروستان",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7233)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 251,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7234),
                             Name = "زرين دشت",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7235)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 252,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7235),
                             Name = "کوار",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7236)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 253,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7237),
                             Name = "بوانات",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7237)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 254,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7238),
                             Name = "خرامه",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7239)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 255,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7240),
                             Name = "خنج",
-                            StateId = 17,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7240)
+                            StateId = 17
                         },
                         new
                         {
                             Id = 256,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7241),
                             Name = "قزوين",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7241)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 257,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7242),
                             Name = "تاكستان",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7243)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 258,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7244),
                             Name = "آبيك",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7245)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 259,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7246),
                             Name = "بوئين زهرا",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7246)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 260,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7247),
                             Name = "البرز",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7248)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 261,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7248),
                             Name = "آوج",
-                            StateId = 18,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7249)
+                            StateId = 18
                         },
                         new
                         {
                             Id = 262,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7250),
                             Name = "قم",
-                            StateId = 19,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7250)
+                            StateId = 19
                         },
                         new
                         {
                             Id = 263,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7251),
                             Name = "طالقان",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7252)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 264,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7252),
                             Name = "اشتهارد",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7253)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 265,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7254),
                             Name = "كرج",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7254)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 266,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7255),
                             Name = "نظر آباد",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7256)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 267,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7256),
                             Name = "ساوجبلاغ‎",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7257)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 268,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7258),
                             Name = "فرديس",
-                            StateId = 5,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7258)
+                            StateId = 5
                         },
                         new
                         {
                             Id = 269,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7259),
                             Name = "سنندج",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7260)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 270,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7260),
                             Name = "ديواندره",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7261)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 271,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7262),
                             Name = "بانه",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7262)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 272,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7263),
                             Name = "بيجار",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7264)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 273,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7264),
                             Name = "سقز",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7265)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 274,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7266),
                             Name = "كامياران",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7266)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 275,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7267),
                             Name = "قروه",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7268)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 276,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7268),
                             Name = "مريوان",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7269)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 277,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7270),
                             Name = "سروآباد",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7270)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 278,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7271),
                             Name = "دهگلان‎",
-                            StateId = 20,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7272)
+                            StateId = 20
                         },
                         new
                         {
                             Id = 279,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7272),
                             Name = "كرمان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7273)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 280,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7297),
                             Name = "راور",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7297)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 281,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7298),
                             Name = "شهر بابک",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7299)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 282,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7300),
                             Name = "انار",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7300)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 283,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7302),
                             Name = "کوهبنان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7303)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 284,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7303),
                             Name = "رفسنجان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7304)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 285,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7305),
                             Name = "سيرجان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7305)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 286,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7306),
                             Name = "كهنوج",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7307)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 287,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7307),
                             Name = "زرند",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7308)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 288,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7309),
                             Name = "ريگان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7309)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 289,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7310),
                             Name = "بم",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7310)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 290,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7311),
                             Name = "جيرفت",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7312)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 291,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7313),
                             Name = "عنبرآباد",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7313)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 292,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7314),
                             Name = "بافت",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7314)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 293,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7315),
                             Name = "ارزوئيه",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7316)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 294,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7317),
                             Name = "بردسير",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7317)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 295,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7318),
                             Name = "فهرج",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7318)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 296,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7319),
                             Name = "فارياب",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7320)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 297,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7321),
                             Name = "منوجان",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7321)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 298,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7322),
                             Name = "نرماشير",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7322)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 299,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7323),
                             Name = "قلعه گنج",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7324)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 300,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7325),
                             Name = "رابر",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7325)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 301,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7326),
                             Name = "رودبار جنوب",
-                            StateId = 21,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7326)
+                            StateId = 21
                         },
                         new
                         {
                             Id = 302,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7327),
                             Name = "كرمانشاه",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7328)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 303,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7329),
                             Name = "اسلام آباد غرب",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7329)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 304,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7330),
                             Name = "سر پل ذهاب",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7330)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 305,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7331),
                             Name = "كنگاور",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7332)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 306,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7333),
                             Name = "سنقر",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7333)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 307,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7334),
                             Name = "قصر شيرين",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7334)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 308,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7336),
                             Name = "گيلان غرب",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7337)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 309,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7337),
                             Name = "هرسين",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7338)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 310,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7339),
                             Name = "صحنه",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7339)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 311,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7340),
                             Name = "پاوه",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7340)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 312,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7341),
                             Name = "جوانرود",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7342)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 313,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7343),
                             Name = "دالاهو",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7343)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 314,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7344),
                             Name = "روانسر",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7344)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 315,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7345),
                             Name = "ثلاث باباجاني",
-                            StateId = 22,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7346)
+                            StateId = 22
                         },
                         new
                         {
                             Id = 316,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7347),
                             Name = "ياسوج",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7347)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 317,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7348),
                             Name = "گچساران",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7348)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 318,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7349),
                             Name = "دنا",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7350)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 319,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7351),
                             Name = "کهگيلويه‎",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7351)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 320,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7352),
                             Name = "لنده",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7352)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 321,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7354),
                             Name = "بهمئي",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7354)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 322,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7355),
                             Name = "باشت",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7356)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 323,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7356),
                             Name = "بويراحمد",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7357)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 324,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7358),
                             Name = "چرام",
-                            StateId = 23,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7358)
+                            StateId = 23
                         },
                         new
                         {
                             Id = 325,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7359),
                             Name = "گرگان",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7360)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 326,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7361),
                             Name = "آق قلا",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7361)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 327,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7362),
                             Name = "گنبد كاووس",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7362)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 328,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7363),
                             Name = "علي آباد",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7364)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 329,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7365),
                             Name = "مينو دشت",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7365)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 330,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7366),
                             Name = "تركمن",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7366)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 331,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7367),
                             Name = "كردكوي",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7368)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 332,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7369),
                             Name = "بندر گز",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7370)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 333,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7371),
                             Name = "كلاله",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7371)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 334,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7372),
                             Name = "آزاد شهر",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7373)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 335,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7373),
                             Name = "راميان",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7374)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 336,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7375),
                             Name = "گاليکش‎",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7375)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 337,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7376),
                             Name = "مراوه تپه",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7377)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 338,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7377),
                             Name = "گميشان",
-                            StateId = 24,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7378)
+                            StateId = 24
                         },
                         new
                         {
                             Id = 339,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7379),
                             Name = "رشت",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7379)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 340,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7380),
                             Name = "لنگرود",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7381)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 341,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7381),
                             Name = "رودسر",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7382)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 342,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7383),
                             Name = "طوالش",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7383)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 343,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7384),
                             Name = "آستارا",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7384)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 344,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7385),
                             Name = "آستانه اشرفيه",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7386)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 345,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7387),
                             Name = "رودبار",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7387)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 346,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7388),
                             Name = "فومن",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7389)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 347,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7389),
                             Name = "صومعه سرا",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7390)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 348,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7391),
                             Name = "بندرانزلي",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7391)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 349,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7392),
                             Name = "رضوانشهر",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7393)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 350,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7393),
                             Name = "ماسال",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7394)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 351,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7395),
                             Name = "شفت",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7395)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 352,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7396),
                             Name = "سياهكل",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7396)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 353,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7397),
                             Name = "املش",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7398)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 354,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7399),
                             Name = "لاهيجان",
-                            StateId = 25,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7399)
+                            StateId = 25
                         },
                         new
                         {
                             Id = 355,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7400),
                             Name = "خرم آباد",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7400)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 356,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7401),
                             Name = "دلفان",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7402)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 357,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7403),
                             Name = "بروجرد",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7404)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 358,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7405),
                             Name = "دورود",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7405)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 359,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7406),
                             Name = "اليگودرز",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7407)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 360,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7407),
                             Name = "ازنا",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7408)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 361,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7409),
                             Name = "كوهدشت",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7409)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 362,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7410),
                             Name = "سلسله",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7411)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 363,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7411),
                             Name = "پلدختر",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7412)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 364,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7413),
                             Name = "دوره",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7413)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 365,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7457),
                             Name = "رومشکان",
-                            StateId = 26,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7458)
+                            StateId = 26
                         },
                         new
                         {
                             Id = 366,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7459),
                             Name = "ساري",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7459)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 367,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7460),
                             Name = "آمل",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7461)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 368,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7461),
                             Name = "بابل",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7462)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 369,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7463),
                             Name = "بابلسر",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7463)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 370,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7464),
                             Name = "بهشهر",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7465)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 371,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7465),
                             Name = "تنكابن",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7466)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 372,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7467),
                             Name = "جويبار",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7467)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 373,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7468),
                             Name = "چالوس",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7469)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 374,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7469),
                             Name = "رامسر",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7470)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 375,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7471),
                             Name = "سواد كوه",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7471)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 376,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7472),
                             Name = "قائم شهر",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7473)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 377,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7473),
                             Name = "نكا",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7474)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 378,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7475),
                             Name = "نور",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7475)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 379,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7476),
                             Name = "نوشهر",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7476)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 380,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7477),
                             Name = "محمودآباد",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7478)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 381,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7479),
                             Name = "فريدونکنار",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7479)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 382,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7481),
                             Name = "عباس آباد",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7481)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 383,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7482),
                             Name = "گلوگاه",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7483)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 384,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7484),
                             Name = "مياندورود",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7484)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 385,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7485),
                             Name = "سيمرغ",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7485)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 386,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7486),
                             Name = "کلاردشت",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7487)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 387,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7488),
                             Name = "سوادکوه شمالي",
-                            StateId = 27,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7488)
+                            StateId = 27
                         },
                         new
                         {
                             Id = 388,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7489),
                             Name = "اراك",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7489)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 389,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7490),
                             Name = "آشتيان",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7491)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 390,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7492),
                             Name = "تفرش",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7492)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 391,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7493),
                             Name = "خمين",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7493)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 392,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7494),
                             Name = "دليجان",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7495)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 393,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7496),
                             Name = "ساوه",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7496)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 394,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7497),
                             Name = "زرنديه",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7497)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 395,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7498),
                             Name = "محلات",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7499)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 396,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7499),
                             Name = "شازند",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7500)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 397,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7501),
                             Name = "فراهان",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7501)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 398,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7502),
                             Name = "خنداب",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7502)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 399,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7503),
                             Name = "کميجان",
-                            StateId = 28,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7504)
+                            StateId = 28
                         },
                         new
                         {
                             Id = 400,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7508),
                             Name = "بندرعباس",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7508)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 401,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7509),
                             Name = "قشم",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7510)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 402,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7511),
                             Name = "بندر لنگه",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7512)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 403,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7513),
                             Name = "بستك",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7513)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 404,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7514),
                             Name = "حاجي آباد هرمزگان",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7514)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 405,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7515),
                             Name = "رودان",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7516)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 406,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7516),
                             Name = "ميناب",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7517)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 407,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7518),
                             Name = "ابوموسي",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7518)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 408,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7519),
                             Name = "جاسک",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7520)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 409,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7520),
                             Name = "خمير",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7521)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 410,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7522),
                             Name = "پارسيان",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7522)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 411,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7523),
                             Name = "بشاگرد",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7524)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 412,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7524),
                             Name = "سيريک",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7525)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 413,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7526),
                             Name = "حاجي آباد",
-                            StateId = 29,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7526)
+                            StateId = 29
                         },
                         new
                         {
                             Id = 414,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7527),
                             Name = "همدان",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7527)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 415,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7528),
                             Name = "ملاير",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7529)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 416,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7530),
                             Name = "تويسركان",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7530)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 417,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7531),
                             Name = "نهاوند",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7531)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 418,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7532),
                             Name = "كبودر اهنگ",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7533)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 419,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7534),
                             Name = "رزن",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7534)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 420,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7535),
                             Name = "اسدآباد",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7536)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 421,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7536),
                             Name = "بهار",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7537)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 422,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7538),
                             Name = "فامنين",
-                            StateId = 30,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7538)
+                            StateId = 30
                         },
                         new
                         {
                             Id = 423,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7539),
                             Name = "يزد",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7539)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 424,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7540),
                             Name = "تفت",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7541)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 425,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7542),
                             Name = "اردكان",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7542)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 426,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7543),
                             Name = "ابركوه",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7543)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 427,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7544),
                             Name = "ميبد",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7545)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 428,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7546),
                             Name = "بافق",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7546)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 429,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7547),
                             Name = "صدوق",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7547)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 430,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7548),
                             Name = "مهريز",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7549)
+                            StateId = 31
                         },
                         new
                         {
                             Id = 431,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7551),
                             Name = "خاتم",
-                            StateId = 31,
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7551)
+                            StateId = 31
                         });
                 });
 
@@ -3861,22 +2937,10 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("nvarchar(7)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -3887,59 +2951,8 @@ namespace Ecommerce.API.Migrations
                         {
                             Id = 1,
                             ColorCode = "#FFFFFF",
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5354),
-                            Name = "بدون رنگ بندی",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5357)
+                            Name = "بدون رنگ بندی"
                         });
-                });
-
-            modelBuilder.Entity("Ecommerce.Entities.Contact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("ReplayMessage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Ecommerce.Entities.Currency", b =>
@@ -3953,21 +2966,9 @@ namespace Ecommerce.API.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -3978,17 +2979,13 @@ namespace Ecommerce.API.Migrations
                         {
                             Id = 1,
                             Amount = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5416),
-                            Name = "تومان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5416)
+                            Name = "تومان"
                         },
                         new
                         {
                             Id = 2,
                             Amount = 24000,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5437),
-                            Name = "دلار",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5438)
+                            Name = "دلار"
                         });
                 });
 
@@ -4000,15 +2997,6 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Location")
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
@@ -4017,9 +3005,6 @@ namespace Ecommerce.API.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -4095,12 +3080,6 @@ namespace Ecommerce.API.Migrations
                     b.Property<int>("Commission")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerCode")
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
@@ -4110,9 +3089,6 @@ namespace Ecommerce.API.Migrations
                         .HasColumnType("nvarchar(12)");
 
                     b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("HireDateTime")
@@ -4133,9 +3109,6 @@ namespace Ecommerce.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("UserRoleId")
                         .HasColumnType("int");
@@ -4228,22 +3201,10 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("KeywordText")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -4325,8 +3286,8 @@ namespace Ecommerce.API.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("BankCode")
                         .HasMaxLength(2)
@@ -4341,20 +3302,8 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PaymentMethodStatus")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -4527,22 +3476,10 @@ namespace Ecommerce.API.Migrations
                     b.Property<int>("AttributeType")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -4559,22 +3496,10 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -4618,17 +3543,8 @@ namespace Ecommerce.API.Migrations
                     b.Property<int?>("AnswerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
@@ -4656,9 +3572,6 @@ namespace Ecommerce.API.Migrations
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -4752,7 +3665,7 @@ namespace Ecommerce.API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiscountAmount")
+                    b.Property<int?>("DiscountAmount")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiscountId")
@@ -4978,25 +3891,13 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -5006,9 +3907,7 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5375),
-                            Name = "بدون سایز بندی",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5375)
+                            Name = "بدون سایز بندی"
                         });
                 });
 
@@ -5023,20 +3922,11 @@ namespace Ecommerce.API.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
@@ -5050,9 +3940,6 @@ namespace Ecommerce.API.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -5071,22 +3958,10 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -5096,219 +3971,157 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5438),
-                            Name = "آذربايجان شرقي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5451)
+                            Name = "آذربايجان شرقي"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5456),
-                            Name = "آذربايجان غربي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5456)
+                            Name = "آذربايجان غربي"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5457),
-                            Name = "اردبيل",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5458)
+                            Name = "اردبيل"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5459),
-                            Name = "اصفهان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5459)
+                            Name = "اصفهان"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5460),
-                            Name = "البرز",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5460)
+                            Name = "البرز"
                         },
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5461),
-                            Name = "ايلام",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5462)
+                            Name = "ايلام"
                         },
                         new
                         {
                             Id = 7,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5463),
-                            Name = "بوشهر",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5463)
+                            Name = "بوشهر"
                         },
                         new
                         {
                             Id = 8,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5464),
-                            Name = "تهران",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5464)
+                            Name = "تهران"
                         },
                         new
                         {
                             Id = 9,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5465),
-                            Name = "چهارمحال و بختياري",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5466)
+                            Name = "چهارمحال و بختياري"
                         },
                         new
                         {
                             Id = 10,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5466),
-                            Name = "خراسان جنوبي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5467)
+                            Name = "خراسان جنوبي"
                         },
                         new
                         {
                             Id = 11,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5468),
-                            Name = "خراسان رضوي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5468)
+                            Name = "خراسان رضوي"
                         },
                         new
                         {
                             Id = 12,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5469),
-                            Name = "خراسان شمالي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5469)
+                            Name = "خراسان شمالي"
                         },
                         new
                         {
                             Id = 13,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5500),
-                            Name = "خوزستان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5501)
+                            Name = "خوزستان"
                         },
                         new
                         {
                             Id = 14,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5502),
-                            Name = "زنجان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5502)
+                            Name = "زنجان"
                         },
                         new
                         {
                             Id = 15,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(5503),
-                            Name = "سمنان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6624)
+                            Name = "سمنان"
                         },
                         new
                         {
                             Id = 16,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6637),
-                            Name = "سيستان و بلوچستان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6638)
+                            Name = "سيستان و بلوچستان"
                         },
                         new
                         {
                             Id = 17,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6639),
-                            Name = "فارس",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6639)
+                            Name = "فارس"
                         },
                         new
                         {
                             Id = 18,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6640),
-                            Name = "قزوين",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6641)
+                            Name = "قزوين"
                         },
                         new
                         {
                             Id = 19,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6641),
-                            Name = "قم",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6642)
+                            Name = "قم"
                         },
                         new
                         {
                             Id = 20,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6643),
-                            Name = "کردستان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6643)
+                            Name = "کردستان"
                         },
                         new
                         {
                             Id = 21,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6644),
-                            Name = "کرمان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6644)
+                            Name = "کرمان"
                         },
                         new
                         {
                             Id = 22,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6645),
-                            Name = "کرمانشاه",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6646)
+                            Name = "کرمانشاه"
                         },
                         new
                         {
                             Id = 23,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6646),
-                            Name = "کهکيلويه و بويراحمد",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6647)
+                            Name = "کهکيلويه و بويراحمد"
                         },
                         new
                         {
                             Id = 24,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6648),
-                            Name = "گلستان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6648)
+                            Name = "گلستان"
                         },
                         new
                         {
                             Id = 25,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6649),
-                            Name = "گيلان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6649)
+                            Name = "گيلان"
                         },
                         new
                         {
                             Id = 26,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6650),
-                            Name = "لرستان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6651)
+                            Name = "لرستان"
                         },
                         new
                         {
                             Id = 27,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6651),
-                            Name = "مازندران",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6652)
+                            Name = "مازندران"
                         },
                         new
                         {
                             Id = 28,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6653),
-                            Name = "مرکزي",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6653)
+                            Name = "مرکزي"
                         },
                         new
                         {
                             Id = 29,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6654),
-                            Name = "هرمزگان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6654)
+                            Name = "هرمزگان"
                         },
                         new
                         {
                             Id = 30,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6655),
-                            Name = "همدان",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6656)
+                            Name = "همدان"
                         },
                         new
                         {
                             Id = 31,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6656),
-                            Name = "يزد",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(6657)
+                            Name = "يزد"
                         });
                 });
 
@@ -5324,22 +4137,10 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -5349,9 +4150,7 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5452),
-                            Name = "انبار پیش فرض",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5453)
+                            Name = "انبار پیش فرض"
                         });
                 });
 
@@ -5370,17 +4169,8 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .HasMaxLength(50)
@@ -5399,9 +4189,6 @@ namespace Ecommerce.API.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Website")
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
@@ -5414,9 +4201,7 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5474),
-                            Name = "تامین کننده پیش فرض",
-                            UpdatedDate = new DateTime(2023, 10, 11, 9, 22, 12, 244, DateTimeKind.Local).AddTicks(5474)
+                            Name = "تامین کننده پیش فرض"
                         });
                 });
 
@@ -5428,22 +4213,10 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TagText")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -5512,15 +4285,6 @@ namespace Ecommerce.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatorUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EditorUserId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Few")
                         .HasColumnType("float");
 
@@ -5537,9 +4301,6 @@ namespace Ecommerce.API.Migrations
 
                     b.Property<short?>("UnitWeight")
                         .HasColumnType("smallint");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<double?>("assay")
                         .HasColumnType("float");
@@ -5710,7 +4471,7 @@ namespace Ecommerce.API.Migrations
                             Id = 1,
                             AccessFailedCount = 0,
                             Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8c089081-c544-4bc6-aad7-b07aa8840588",
+                            ConcurrencyStamp = "4709711a-d839-433c-b8c2-af73559ed391",
                             Email = "sayyah.alireza@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Alireza",
@@ -5725,10 +4486,10 @@ namespace Ecommerce.API.Migrations
                             Mobile = "No Mobile",
                             NormalizedEmail = "SAYYAH.ALIREZA@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBnbLHgykAr1bjdiYYt382nlZNp8D1FmeVwLJDB0/r05hd95UuUhInNMwb9ArB6OyQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIe/roljtMlGECc/zVGYI7nWJfnRcdWOBUx6fdOPYIXqMiE/qSnSOdOmuWTFEqRNaA==",
                             PhoneNumber = "0911307006",
                             PhoneNumberConfirmed = true,
-                            RegisterDate = new DateTime(2023, 10, 11, 9, 22, 12, 242, DateTimeKind.Local).AddTicks(7775),
+                            RegisterDate = new DateTime(2023, 8, 13, 19, 30, 49, 187, DateTimeKind.Local).AddTicks(6636),
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "superadmin",
@@ -5769,21 +4530,21 @@ namespace Ecommerce.API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a3bfb494-d2b0-46d0-8e5f-8a625af349bf",
+                            ConcurrencyStamp = "98e4ad5c-ee23-46eb-86b2-5cb7dbf7ae8e",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "9a4569d0-553b-4ea2-b377-974daccda2da",
+                            ConcurrencyStamp = "f7b9b938-71d2-417f-8906-6f4f87a77143",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 4,
-                            ConcurrencyStamp = "884b40e3-8c44-4e58-9023-5d37768046b0",
+                            ConcurrencyStamp = "90fc3be5-7e4d-4e48-82cf-671c150c8b34",
                             Name = "Client",
                             NormalizedName = "Client"
                         });

@@ -29,7 +29,11 @@ public class Discount : BaseEntity
     [Required(ErrorMessage = @"{0} را وارد کنید")]
     public string Code { get; set; }
 
+    [Display(Name = "تعداد کوپن")] public int? CouponQty { get; set; }
+
     //ForeignKey
+
+    public ICollection<Product>? Products { get; set; }
     public ICollection<Price>? Prices { get; set; }
     public ICollection<Category>? Categories { get; set; }
     public ICollection<PurchaseOrder>? PurchaseOrders { get; set; }
