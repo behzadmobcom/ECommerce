@@ -5924,9 +5924,9 @@ tbody tr td:last-child {
 }
 
 .single-banner {
-  background-position: center;
+ /* background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover;*/
   padding: 100px 0;
   position: relative;
   text-align: center;
