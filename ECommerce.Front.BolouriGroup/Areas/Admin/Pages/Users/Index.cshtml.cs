@@ -31,12 +31,19 @@ public class IndexModel : PageModel
         if (result.Code == ServiceCode.Success)
         {
             result.PaginationDetails.Address = "/Users/Index";
-            //Message = result.Message;
-            //Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Users = result;
             return Page();
         }
-
         return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
 }

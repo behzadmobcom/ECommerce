@@ -30,8 +30,16 @@ public class IndexModel : PageModel
 
         if (result.Code == ServiceCode.Success)
         {
-            result.PaginationDetails.Address = "/Keywords/Index";
-            Message = result.Message;
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Code = result.Code.ToString();
             Keywords = result;
             return Page();

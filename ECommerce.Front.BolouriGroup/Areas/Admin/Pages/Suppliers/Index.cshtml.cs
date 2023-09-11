@@ -29,12 +29,20 @@ public class IndexModel : PageModel
         var result = await _supplierService.Load(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Suppliers = result;
             return Page();
-        }
 
-        return RedirectToPage("/index", new {message = result.Message, code = result.Code.ToString()});
+        }
+        return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
 }

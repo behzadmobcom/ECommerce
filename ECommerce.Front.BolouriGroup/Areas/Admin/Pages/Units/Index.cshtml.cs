@@ -30,8 +30,16 @@ public class IndexModel : PageModel
         if (result.Code == ServiceCode.Success)
         {
             result.PaginationDetails.Address = "/Units/Index";
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Units = result;
             return Page();
         }

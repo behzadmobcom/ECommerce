@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments;
- 
-    public class DeleteModel : PageModel
-    {
+
+public class DeleteModel : PageModel
+{
 
     private readonly IBlogService _blogService;
     private readonly IBlogCommentService _blogCommentService;
@@ -36,18 +36,12 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments;
         {
             if (BlogComment.AnswerId != null) await _blogCommentService.Delete(BlogComment.AnswerId ?? default(int));
             var result = await _blogCommentService.Delete(BlogComment.Id);
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
-                return RedirectToPage("/BlogComments/Index",
-                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-            Message = result.Message;
-            Code = result.Code.ToString();
-            ModelState.AddModelError("", result.Message);
+            return RedirectToPage("/BlogComments/Index",
+                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
         }
         return Page();
     }
 
 
 }
- 
+

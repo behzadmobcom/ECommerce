@@ -22,7 +22,7 @@ public class IndexModel : PageModel
 
     [TempData] public string Code { get; set; }
 
-    public async Task OnGet(string search = "", int pageNumber = 1, int pageSize = 10, string message = null,
+    public async Task<IActionResult> OnGet(string search = "", int pageNumber = 1, int pageSize = 10, string message = null,
         string code = null)
     {
         Message = message;
@@ -30,9 +30,19 @@ public class IndexModel : PageModel
         var result = await _productService.Search(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Products = result;
+            return Page();
         }
+        return RedirectToPage("/index", new { message = result.Message, code = result.Code.ToString() });
     }
 }

@@ -57,9 +57,21 @@ public class SizeService : EntityService<Size>, ISizeService
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
+        //var result = await Delete(Url, id);
+        //_sizes = null;
+        //return Return(result);
+        var result = await _http.DeleteAsync(Url, id);
+        if (result.Code == ResultCode.Success)
+        {
+            _sizes = null;
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت حذف شد"
+            };
+        }
         _sizes = null;
-        return Return(result);
+        return new ServiceResult { Code = ServiceCode.Error, Message = "به علت وابستگی با عناصر دیگر امکان حذف وجود ندارد" };
     }
 
     public async Task<ServiceResult<Size>> GetById(int id)

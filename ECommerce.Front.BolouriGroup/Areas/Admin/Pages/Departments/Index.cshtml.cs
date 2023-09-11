@@ -29,8 +29,16 @@ public class IndexModel : PageModel
         var result = await _departmentService.Load(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
-            result.PaginationDetails.Address = "/Departments/Index";
-            Message = result.Message;
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Code = result.Code.ToString();
             Departments = result;
             return Page();

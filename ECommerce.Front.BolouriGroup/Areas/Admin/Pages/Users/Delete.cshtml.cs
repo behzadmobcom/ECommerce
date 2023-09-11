@@ -34,14 +34,9 @@ public class DeleteModel : PageModel
         if (ModelState.IsValid)
         {
             var result = await _userService.Delete(id);
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
-                return RedirectToPage("/Users/Index",
-                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-            Message = result.Message;
-            Code = result.Code.ToString();
+            return RedirectToPage("/Users/Index",
+                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
         }
-        return RedirectToPage("/Users/RDelete",new { id = id });
+        return Page();
     }
 }

@@ -28,8 +28,16 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Contacts
             var result = await _contactService.GetAll(search, pageNumber, pageSize);
             if (result.Code == ServiceCode.Success)
             {
-                Message = result.Message;
-                Code = result.Code.ToString();
+                if (Message != null)
+                {
+                    Message = Message;
+                    Code = Code;
+                }
+                else
+                {
+                    Message = result.Message;
+                    Code = result.Code.ToString();
+                }
                 Contacts = result;
             }
         }

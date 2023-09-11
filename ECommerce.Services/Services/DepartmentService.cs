@@ -61,9 +61,21 @@ public class DepartmentService : EntityService<Department>, IDepartmentService
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
+        //var result = await Delete(Url, id);
+        //_departments = null;
+        //return Return(result);
+        var result = await _http.DeleteAsync(Url, id);
+        if (result.Code == ResultCode.Success)
+        {
+            _departments = null;
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت حذف شد"
+            };
+        }
         _departments = null;
-        return Return(result);
+        return new ServiceResult { Code = ServiceCode.Error, Message = "به علت وابستگی با عناصر دیگر امکان حذف وجود ندارد" };
     }
 
     public async Task<ServiceResult<Department>> GetById(int id)
