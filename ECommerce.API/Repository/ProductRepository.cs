@@ -195,7 +195,8 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Where(x => productIdList.Contains(x.Id))
             .Include(x=>x.ProductCategories)
             .Include(x => x.Prices)
-            .Include(x => x!.AttributeValues)!.ThenInclude(x => x.ProductAttribute)
+            .Include(x => x!.AttributeValues)!
+            .ThenInclude(x => x.ProductAttribute)
             .Select(x => new ProductCompareViewModel
             {
                 Id = x.Id,

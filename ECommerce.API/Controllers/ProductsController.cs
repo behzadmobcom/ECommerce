@@ -257,6 +257,7 @@ public class ProductsController : ControllerBase
                     .ToListAsync(cancellationToken);
             }
 
+            productIndexPageViewModel = productIndexPageViewModel.DistinctBy(x => x.Id).ToList();
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
             {
                 productIndexPageViewModel = await _articleRepository.AddPriceAndExistFromHolooList(productIndexPageViewModel, productListFilteredViewModel.isWithoutBill, productListFilteredViewModel.isCheckExist, cancellationToken);
@@ -323,6 +324,7 @@ public class ProductsController : ControllerBase
                     item.FirstPriceWichlist = wishLists.Any();
                 }
             }
+
 
             return Ok(new ApiResult
             {

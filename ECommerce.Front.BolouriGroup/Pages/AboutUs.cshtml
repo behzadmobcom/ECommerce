@@ -110,18 +110,20 @@
             </div>
             <div class="col-lg-12">
                 <ul class="partner-slider slider-arrow">
-	                @foreach (var brand in Model.Brands)
-	                {
-		                <li>
-			                <a asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
+                    @foreach (var brand in Model.Brands)
+                    {
+                        <li>
+                            <a asp-area="" asp-page="/Shop" asp-route-search="BrandId=@brand.Id">
                                 <img src="@brand.ImagePath" alt=@brand.Name width="133" height="61"loading="lazy">
 
-			                </a>
-		                </li>
-	                }
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </div>
 </section>
 
+ 
+   

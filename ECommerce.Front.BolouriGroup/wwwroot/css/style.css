@@ -3523,7 +3523,6 @@ tbody tr td:last-child {
 }
 
 .header-widget img {
-  border-radius: 50%;
   height: 40px;
   width: 40px;
 }
@@ -9077,6 +9076,7 @@ tbody tr td:last-child {
             transform: translate(-50%, -50%);
             top: -80px;
             right: -140px;
+            display:none;
         }
     }
 
