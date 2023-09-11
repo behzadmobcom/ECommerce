@@ -29,8 +29,16 @@ public class IndexModel : PageModel
         var result = await _employeeService.GetAll(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             Employees = result;
             return Page();
         }

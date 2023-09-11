@@ -29,8 +29,16 @@ public class IndexModel : PageModel
         var result = await _blogCategoryService.GetAll(search, pageNumber, pageSize);
         if (result.Code == ServiceCode.Success)
         {
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            }
             BlogCategories = result;
             return Page();
         }

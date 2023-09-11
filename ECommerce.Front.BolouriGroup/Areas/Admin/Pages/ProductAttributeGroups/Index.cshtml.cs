@@ -31,8 +31,16 @@ public class IndexModel : PageModel
         if (result.Code == ServiceCode.Success)
         {
             result.PaginationDetails.Address = "/ProductAttributeGroups/Index";
-            Message = result.Message;
-            Code = result.Code.ToString();
+            if (Message != null)
+            {
+                Message = Message;
+                Code = Code;
+            }
+            else
+            {
+                Message = result.Message;
+                Code = result.Code.ToString();
+            };
             ProductAttributeGroups = result;
             return Page();
         }

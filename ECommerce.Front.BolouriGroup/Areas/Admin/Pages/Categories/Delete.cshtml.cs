@@ -37,15 +37,9 @@ public class DeleteModel : PageModel
         if (ModelState.IsValid)
         {
             var result = await _categoryService.Delete(id);
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
-                return RedirectToPage("/Categories/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-            Message = result.Message;
-            Code = result.Code.ToString();
+            return RedirectToPage("/Categories/Index",
+                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
         }
-
         return Page();
     }
 }
