@@ -29,7 +29,7 @@ public class DeleteModel : PageModel
         }
 
         return RedirectToPage("/PaymentMethods/Index",
-            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
 
     public async Task<IActionResult> OnPost(int id)
@@ -37,13 +37,8 @@ public class DeleteModel : PageModel
         if (ModelState.IsValid)
         {
             var result = await _paymentMethodService.Delete(id);
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
-                return RedirectToPage("/PaymentMethods/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-            Message = result.Message;
-            Code = result.Code.ToString();
+            return RedirectToPage("/PaymentMethods/Index",
+                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
         }
 
         return Page();

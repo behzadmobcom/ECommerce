@@ -66,9 +66,19 @@ public class CityService : EntityService<City>, ICityService
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
-        _cities = null;
-        return Return(result);
+        //var result = await Delete(Url, id);
+        //_cities = null;
+        //return Return(result);
+        var result = await _http.DeleteAsync(Url, id);
+        if (result.Code == ResultCode.Success)
+        {
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت حذف شد"
+            };
+        }
+        return new ServiceResult { Code = ServiceCode.Error, Message = "به علت وابستگی با عناصر دیگر امکان حذف وجود ندارد" };
     }
     public async Task<ServiceResult<City>> GetByStateId(int id)
     {

@@ -76,9 +76,21 @@ public class BlogCommentService : EntityService<BlogComment>, IBlogCommentServic
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
+        //var result = await Delete(Url, id);
+        //_blogComments = null;
+        //return Return(result);
+        var result = await _http.DeleteAsync(Url, id);
+        if (result.Code == ResultCode.Success)
+        {
+            _blogComments = null;
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت حذف شد"
+            };
+        }
         _blogComments = null;
-        return Return(result);
+        return new ServiceResult { Code = ServiceCode.Error, Message = "به علت وابستگی با عناصر دیگر امکان حذف وجود ندارد" };
     }
 
     public async Task<ServiceResult<BlogComment>> GetById(int id)

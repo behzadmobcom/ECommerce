@@ -51,8 +51,16 @@ public class BlogCategoryService : EntityService<BlogCategory>, IBlogCategorySer
 
     public async Task<ServiceResult> Delete(int id)
     {
-        var result = await Delete(Url, id);
-        return Return(result);
+        var result = await _http.DeleteAsync(Url, id);
+        if (result.Code == ResultCode.Success)
+        {
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت حذف شد"
+            };
+        }
+        return new ServiceResult { Code = ServiceCode.Error, Message = "به علت وابستگی با عناصر دیگر امکان حذف وجود ندارد" };
     }
 
     public async Task<ServiceResult<BlogCategory>> GetById(int id)

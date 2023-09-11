@@ -41,9 +41,9 @@
                 <div class="form-actions no-color">
                     <p>
                         جستجو بر اساس نام:
-                        <input type="text" name="search" value="@Model.Suppliers.PaginationDetails.Search"/>
-                        <input type="text" hidden="hidden" name="pageIndex" value="1"/>
-                        <input type="submit" value="بجو" class="btn btn-primary"/> |
+                        <input type="text" name="search" value="@Model.Suppliers.PaginationDetails.Search" />
+                        <input type="text" hidden="hidden" name="pageIndex" value="1" />
+                        <input type="submit" value="بجو" class="btn btn-primary" /> |
                         تعداد رکورد ها در صفحه :
                         <a asp-page="/Suppliers/Index" asp-route-pageSize="10">10</a> -
                         <a asp-page="/Suppliers/Index" asp-route-pageSize="20">20</a> -
@@ -56,31 +56,30 @@
             <div class="example-preview">
                 <table class="table table-bordered mb-6">
                     <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">نام</th>
-                        <th scope="col">موبایل</th>
-                        <th scope="col">عملیات</th>
-                    </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">نام</th>
+                            <th scope="col">موبایل</th>
+                            <th scope="col">عملیات</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var supplier in Model.Suppliers.ReturnData)
-                    {
-                        <tr>
-                            <th scope="row">@(i++)</th>
-                            <td>@supplier.Name</td>
-                            <td>@supplier.Mobile</td>
-                            <td>
-                                <a asp-page="Edit" asp-route-id="@supplier.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
-                                <a asp-page="Delete" asp-route-id="@supplier.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
-                                <a asp-page="Detail" asp-route-id="@supplier.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var supplier in Model.Suppliers.ReturnData)
+                        {
+                            <tr>
+                                <th scope="row">@(i++)</th>
+                                <td>@supplier.Name</td>
+                                <td>@supplier.Mobile</td>
+                                <td>
+                                    <a asp-page="Edit" asp-route-id="@supplier.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
+                                    <a asp-page="Delete" asp-route-id="@supplier.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
+                                    <a asp-page="Detail" asp-route-id="@supplier.Id" class="label label-inline label-light-warning font-weight-bold">جزئیات</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
-                <partial name="_Pagination" model="@Model.Suppliers.PaginationDetails"/>
-
+                <partial name="_Pagination" model="@Model.Suppliers.PaginationDetails" />
 
             </div>
 

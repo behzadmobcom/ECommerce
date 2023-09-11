@@ -30,24 +30,13 @@ public class DeleteModel : PageModel
         }
 
         return RedirectToPage("/Products/Index",
-            new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+            new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
 
     public async Task<IActionResult> OnPost(int id)
     {
-        var result = await _productService.Delete(id);
-
-        Message = result.Message;
-        Code = result.Code.ToString();
-        if (result.Code == 0)
+            var result = await _productService.Delete(id);
             return RedirectToPage("/Products/Index",
-                new {area = "Admin", message = result.Message, code = result.Code.ToString()});
-
-        Message = result.Message;
-        Code = result.Code.ToString();
-        var resultProduct = await _productService.GetById(id);
-        Product = resultProduct.ReturnData;
-
-        return Page();
+                new { area = "Admin", message = result.Message, code = result.Code.ToString() });
     }
 }

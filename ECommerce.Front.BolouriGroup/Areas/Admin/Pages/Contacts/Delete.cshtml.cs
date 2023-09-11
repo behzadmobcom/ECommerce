@@ -32,19 +32,12 @@ namespace ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Contacts
 
         public async Task<IActionResult> OnPost(int id)
         {
-            var result = await _contactService.Delete(id);
-
-            Message = result.Message;
-            Code = result.Code.ToString();
-            if (result.Code == 0)
+            if (ModelState.IsValid)
+            {
+                var result = await _contactService.Delete(id);
                 return RedirectToPage("/Contacts/Index",
                     new { area = "Admin", message = result.Message, code = result.Code.ToString() });
-
-            Message = result.Message;
-            Code = result.Code.ToString();
-            var resultProduct = await _contactService.GetById(id);
-            Contact = resultProduct.ReturnData;
-
+            }
             return Page();
         }
     }
