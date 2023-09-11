@@ -1,7 +1,29 @@
 ﻿@model Ecommerce.Entities.ViewModel.ProductCompareViewModel
 
 @{
-    var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+	var singlePrice = Model.Prices.OrderBy(p => p.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
+	decimal? discount = 0;
+	decimal? amount = 0;
+	decimal? discountAmount = 0;
+	string resultAmount;
+	string resultDiscountAmount;
+
+	if (singlePrice != null)
+	{
+		amount = singlePrice.Amount;
+
+
+		if (singlePrice.Discount != null)
+			if (singlePrice.Discount.Amount > 0)
+			{
+				discount = (decimal)singlePrice.Discount.Amount;
+			}
+			else if (singlePrice.Discount.Percent > 0)
+			{
+				discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
+			}
+		discountAmount = amount - discount;
+	}
 }
 <div class="col">
     <div class="product-card">
@@ -20,43 +42,19 @@
                 }
             } >
             </div>
-            <a title='@Model.Name' class="product-image" onclick="OpenProductModal(@Model.Id)">
+            <div title='@Model.Name' class="product-image">
                 <img src="~/@Model.ImagePath" alt="@Model.Alt" width="177" height="177">
-            </a>
+            </div>
             <div class="product-widget">
 				<h1 hidden="hidden">col_@Model.Id</h1>
-                <a title="نمای محصول" href="javascript:void(0)" onclick="OpenProductModal(@Model.Id)" class="far fa-eye" data-bs-toggle="modal" data-bs-target="#product-view"></a>
-                <a title="اضافه به لیست مقایسه" class="far fa-exchange" onclick="AddModalProduct(@Model.Id)" ></a>
+                <a title="اضافه به لیست مقایسه" class="far fa-exchange" onclick="AddModalProduct(@Model.Id,@((singlePrice == null) ? "0" :  discountAmount?.ToString()) )" ></a>
             </div>
         </div>
         <div class="product-content">
             <h6 class="product-name">
-                <a title='@Model.Name' onclick="OpenProductModal(@Model.Id)" >@Model.Name</a>
+                <div title='@Model.Name'>@Model.Name</div>
             </h6>
-            <div class="product-price">
-	            @{
-		            decimal? discount = 0;
-		            decimal? amount = 0;
-		            decimal? discountAmount = 0;
-		         
-		            if (singlePrice != null)
-		            {
-			            amount = singlePrice.Amount;
-
-
-			            if (singlePrice.Discount != null)
-				            if (singlePrice.Discount.Amount > 0)
-				            {
-					            discount = (decimal)singlePrice.Discount.Amount;
-				            }
-				            else if (singlePrice.Discount.Percent > 0)
-				            {
-					            discount = singlePrice.Amount * (decimal)singlePrice.Discount.Percent / 100;
-				            }
-			            discountAmount = amount - discount;
-		            }
-
-	            }
+            <div class="product-price"> 
 	            @if (singlePrice == null)
 	            {
 		            <h6 class="feature-price">
