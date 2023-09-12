@@ -273,7 +273,7 @@ public class ProductsController : ControllerBase
                 var s = productIndexPageViewModel.Where(x => x.Prices.Any(e => e.Exist == 0)).ToList();
             }
 
-            if (search != null && !search[0].ToLower().Equals("name"))
+            if (search == null || (search != null && !search[0].ToLower().Equals("name")))
             {
                 switch (productListFilteredViewModel.ProductSort)
                 {
