@@ -258,6 +258,8 @@ async function updateCartItem(id, action, productId) {
         return res;
     })[0];
 
+    const cartItem = $(`#CartDrop-${product.id}`);
+    
     if (action === "increment") {
         product.quantity++;
     } else if (action === "decrement") {
@@ -266,17 +268,17 @@ async function updateCartItem(id, action, productId) {
     product.sumPrice = product.quantity * product.priceAmount;
 
     if (action === 'notChange') {
-        $(`#CartDrop-${product.id}`).replaceWith(createCartItem(product));
+        cartItem.replaceWith(createCartItem(product));
     }else if (product.quantity === 0) {
-        $(`#CartDrop-${product.id}`).remove();
+        cartItem.remove();
         cartList.splice(index, 1);
     } else if (action === "newItem") {
         $("#Cart-List").append(createCartItem(product));
     } else if (action === 'remove') {
         cartList.splice(index, 1);
-        $(`#CartDrop-${product.id}`).remove();
+        cartItem.remove();
     } else {
-        $(`#CartDrop-${product.id}`).replaceWith(createCartItem(product));
+        cartItem.replaceWith(createCartItem(product));
     }
 
     const allPrice = cartList.reduce((prev, current) => prev + current.sumPrice, 0);
@@ -294,12 +296,14 @@ async function updateCartItem(id, action, productId) {
 }
 
 function AddCart(productId, priceId, id, showMessage = false) {
+    $(`#CartDrop-${id}`).append(`<div id='loading-${id}' class='loading-indicator'><progress class='pure-material-progress-circular'/></div>`);
     $.ajax({
         type: "Get",
         url: "/index?handler=AddCart&id=" + productId + "&priceId=" + priceId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
+            $(`#loading-${id}`).remove();
             if (showMessage) {
                 swal(result.message);
             }
@@ -317,6 +321,7 @@ function AddCart(productId, priceId, id, showMessage = false) {
             }
         },
         failure: function (response) {
+            $(`#loading-${id}`).remove();
             swal(response);
         },
     });
@@ -340,12 +345,14 @@ function DeleteCompare(id) {
 }
 
 function DecreaseCart(productId, priceId, id) {
+    $(`#CartDrop-${id}`).append(`<div id='loading-${id}' class='loading-indicator'><progress class='pure-material-progress-circular'/></div>`);
     $.ajax({
         type: "Get",
         url: "/index?handler=DecreaseCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
+            $(`#loading-${id}`).remove();
             if ($("#Cart-List").text() === "") {
                 loadCart();
             } else {
@@ -353,24 +360,28 @@ function DecreaseCart(productId, priceId, id) {
             }
         },
         failure: function (response) {
+            $(`#loading-${id}`).remove();
             swal(response);
         },
     });
 }
 
 function DeleteCart(id, productId, priceId) {
+    $(`#CartDrop-${id}`).append(`<div id='loading-${id}' class='loading-indicator'><progress class='pure-material-progress-circular'/></div>`)
     $.ajax({
         type: "Get",
         url: "/index?handler=DeleteCart&id=" + id + "&productId=" + productId + "&priceId=" + priceId,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (result) {
+            $(`#loading-${id}`).remove();
             swal(result.message);
             if (result.code === 0) {
                 updateCartItem(id, "remove", productId);
             }
         },
         failure: function (response) {
+            $(`#loading-${id}`).remove();
             swal(response);
         },
     });
@@ -537,18 +548,17 @@ const searchChangeHandler = async (searchText) => {
         method: "GET"
     });
 
-    const results = searchResultCategory.map((value, index) => {
-        return createSearchCategoryResultItem(value, index);
-    });
-    $(".search-result").append(results);
-
-    if (searchResult.length === 0)  {
+    if (searchResult.length === 0 && searchResultCategory.length === 0)  {
         $(".search-result").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
     } else {
-        const results = searchResult.map((value, index) => {
+        const categoriesResults = searchResultCategory.map((value, index) => {
+            return createSearchCategoryResultItem(value, index);
+        });
+        const productsResults = searchResult.map((value, index) => {
             return createSearchResultItem(value, index);
         });
-        $(".search-result").append(results);
+        const resutls = [...categoriesResults, ...productsResults];
+        $(".search-result").html(resutls);
     }
 
     $('.search-result').show('fast')
