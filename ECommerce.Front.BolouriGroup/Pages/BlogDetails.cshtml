@@ -88,8 +88,8 @@
 
                     </ul>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
+                <div class="row"> 
+                    <div class="col-lg-12 col-12">
                         <ul class="pagination">
                             <partial name="_Pagination" model="@Model.BlogComments.PaginationDetails" />
                         </ul>
@@ -101,13 +101,13 @@
                     <h3 class="details-form-title">ارسال نظر</h3>
                     <input id="comment_blogUrl" hidden value="@Model.Blog.Url" />
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-6">
                             <div class="form-group"><input type="text" class="form-control" id="comment_name" placeholder="اسمت را وارد کن"></div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-6">
                             <div class="form-group"><input type="email" class="form-control" id="comment_email" placeholder="ایمیل خود را وارد کنید"></div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-12">
                             <div class="form-group"><textarea class="form-control" id="comment_text" placeholder="نظر خود را بنویسید"></textarea></div>
                         </div>
                     </div>

@@ -2512,11 +2512,6 @@ tbody tr td:last-child {
     padding: 8px 0;
   }
 
-  .product-add i,
-  .standard-wish i {
-    display: none;
-  }
-
   .standard-action input {
     height: 38px;
   }
@@ -6264,12 +6259,11 @@ tbody tr td:last-child {
   transform: scale(1.05);
 }
 
-@media (max-width: 950px) {
+@media (max-width: 992px) {
   .promo-img {
     margin: 12px 0;
   }
 }
-
 .new-slider li {
   margin: 0 12px;
 }
@@ -7390,10 +7384,6 @@ tbody tr td:last-child {
   .contact-card {
     padding: 15px;
     margin-right: 40px;
-  }
-
-  .contact-map {
-    width: 75%;
   }
 
   .partner-slider {
@@ -8790,6 +8780,7 @@ tbody tr td:last-child {
 
   .blog-details-form {
     padding: 20px;
+    margin-bottom:20px;
   }
 }
 
