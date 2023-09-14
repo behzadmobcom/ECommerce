@@ -64,11 +64,12 @@ namespace ECommerce.Front.BolouriGroup.Pages
                     CategoryBannerImagePath = resultCategory.ReturnData.ImagePath;
                 }
             }
+            var searchByName = search;
             if (!string.IsNullOrEmpty(search) && !search.Contains('='))
             {
-                search = $"Name={search}";
+                searchByName = $"Name={search}";
             }
-            Products = await _productService.TopProducts(categoryId, search, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
+            Products = await _productService.TopProducts(categoryId, searchByName, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
 
             if (Products.Code == 0)
             {
@@ -111,6 +112,7 @@ namespace ECommerce.Front.BolouriGroup.Pages
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
             var resultSearchProducts = await _productService.TopProducts("", $"Name={request.SearchText}", request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
+            Search = request.SearchText;
             return new JsonResult(resultSearchProducts.ReturnData);
         }
 
