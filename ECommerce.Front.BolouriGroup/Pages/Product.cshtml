@@ -20,6 +20,9 @@
     }
 
 }
+<input id="categoryDiscountAmount"  style="visibility:hidden" value="@categoryDiscountAmount" /> 
+<input id="categoryDiscountPercent" style="visibility:hidden" value="@categoryDiscountPercent" />
+
 @section Head{
     <meta name="description" content="@description" />
     <meta property="og:title" content="@Model.Product.Name" />
@@ -119,7 +122,7 @@
                             <a asp-area="" asp-page="Product" asp-route-productUrl="@Model.Url.ToString().Trim()" style="color: #39404a">(@Model.Stars.ToString("0.##"))امتیاز</a>
                         </div>
                         @{
-                            decimal? discount = 0;
+                            decimal discount = 0;
                             decimal? amount = 0;
                             decimal? discountAmount = 0;
                             var singlePrice = Model.Product.Prices.OrderBy(x => x.Amount).FirstOrDefault(x => !x.IsColleague && x.Exist > 0);
@@ -158,7 +161,7 @@
                             @if (discount > 0)
                             {
                                 <div class="details-price">
-                                    <del>@amount?.ToString("N0") تومان</del>
+                                    <del id="deletedprice" >@amount?.ToString("N0") تومان</del>
                                 </div>
                             }
                             <h6 class="details-price">
@@ -200,8 +203,31 @@
                                             <div class="col-8" style="background-color: @price.Color.ColorCode">
                                                 <input @disabled @select name="price.Id" type="radio" id="price-@price.Id" onclick="SetPriceId(@price.Id)" />
                                                 <span for="price-@price.Id">درجه کیفیت : @price.Grade - </span>
-                                                @{
-                                                    string _priceAmount = @price.Exist > 0 ? @price.Amount.ToString("N0") : "-";
+                                                @{   
+                                                    string _priceAmount = "-";
+                                                    if (@price.Exist > 0)
+                                                    {
+                                                        discount = 0;
+                                                        if (price.Discount != null)
+                                                            if (price.Discount.Amount > 0)
+                                                            {
+                                                                discount = (decimal)price.Discount.Amount;
+                                                            }
+                                                            else if (price.Discount.Percent > 0)
+                                                            {
+                                                                discount = price.Amount * (decimal)price.Discount.Percent / 100;
+                                                            }
+                                                        if (discount == 0 )
+                                                            if (categoryDiscountAmount > 0)
+                                                            {
+                                                                discount = (decimal)categoryDiscountAmount;
+                                                            }
+                                                            else if (categoryDiscountPercent > 0)
+                                                            {
+                                                                discount = price.Amount * (decimal)categoryDiscountPercent / 100;
+                                                            }
+                                                        _priceAmount = (price.Amount - discount).ToString("###,###,###,###");
+                                                    }                                          
                                                 }
                                                 <span for="price-@price.Id">قیمت : @_priceAmount </span>
                                             </div>
@@ -445,11 +471,38 @@
             if (price.exist > 0) {
                 $("#exist").text("در دسترس");
 
+                var discount = 0;
+                var _priceAmount = 0;
+                var categoryDiscountAmount = $("#categoryDiscountAmount").val();
+                var categoryDiscountPercent = $("#categoryDiscountPercent").val();
+                console.log(categoryDiscountPercent);
+              
+                if (price.discount != null)
+                    if (price.discount.amount > 0)
+                    {
+                        discount = price.discount.amount;
+                    }
+                    else if (price.discount.percent > 0)
+                    {
+                        discount = price.amount * price.discount.percent / 100;
+                    }
+                if (discount == 0 )
+                    if (categoryDiscountAmount > 0)
+                    {
+                        discount = categoryDiscountAmount;
+                    }
+                    else if (categoryDiscountPercent > 0)
+                    {
+                        discount = price.amount * categoryDiscountPercent / 100;
+                    }
+                _priceAmount = price.amount - discount;
+
             } else {
                 $("#exist").text("عدم موجودی");
             }
             const formatter = new Intl.NumberFormat();
-            $("#price").text(formatter.format(price.amount) + " تومان ");
+            $("#price").text(formatter.format(_priceAmount) + " تومان ");
+            $("#deletedprice").text(price.amount);
             $("[name='price.Id']").removeClass("circleSelected");
             $("#price-" + id).addClass("circleSelected");
 

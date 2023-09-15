@@ -439,7 +439,8 @@ public class PurchaseOrdersController : ControllerBase
                     ProductId = product.Id,
                     PriceId = price!.Id,
                     Quantity = createPurchaseCommand.Quantity,
-                    SumPrice = sumPrice
+                    SumPrice = sumPrice,
+                    DiscountAmount = createPurchaseCommand.DiscountAmount
                 }, cancellationToken);
                 await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
 
@@ -466,7 +467,8 @@ public class PurchaseOrdersController : ControllerBase
                 ProductId = product.Id,
                 PriceId = price!.Id,
                 Quantity = createPurchaseCommand.Quantity,
-                SumPrice = sumPrice
+                SumPrice = sumPrice,
+                DiscountAmount = createPurchaseCommand.DiscountAmount
             }, cancellationToken);
             purchaseOrder.PurchaseOrderDetails.Add(purchaseOrderDetail);
             return Ok(new ApiResult()

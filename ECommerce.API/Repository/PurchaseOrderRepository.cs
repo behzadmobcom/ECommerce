@@ -145,7 +145,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                     Quantity = p.Quantity,
                     SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
                     ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color!.Name,
-                    DiscountAmount = 0
+                    DiscountAmount = p.DiscountAmount != null ? (int)p.DiscountAmount : 0
                 })
                 .ToListAsync(cancellationToken);
             return purchaseOrderViewModel;

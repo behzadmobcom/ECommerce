@@ -171,7 +171,8 @@ public class ProductIndexPageViewModel : BaseProductPageViewModel
             Alt = imageAlt,
             Stars = x.ProductUserRanks.Count > 0 ? x.ProductUserRanks.Sum(s => s.Stars) / x.ProductUserRanks.Count : 0,
             MaxOrder = Convert.ToUInt16(x.MaxOrder),
-        };
+            Categories = x.ProductCategories.ToList(),
+        };       
     }
 }
 

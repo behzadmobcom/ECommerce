@@ -97,6 +97,29 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             var quantity = responseProduct.ReturnData[i].MaxOrder < product.ProductNumber && responseProduct.ReturnData[i].MaxOrder > 0
                 ? responseProduct.ReturnData[i].MaxOrder
                 : product.ProductNumber;
+
+            decimal? discount = 0;
+            var priceDiscount = price.Discount;
+            if (priceDiscount != null)
+            {
+                discount = priceDiscount.Amount > 0 ? priceDiscount.Amount : price.Amount * (decimal)priceDiscount.Percent / 100;
+            }
+            else
+            {
+                int? categoryDiscountAmount = 0;
+                double? categoryDiscountPercent = 0;
+                if (responseProduct.ReturnData[i].Categories != null)
+                    foreach (var category in responseProduct.ReturnData[i].Categories)
+                    {
+                        if (category.Discount != null && category.Discount.IsActive)
+                        {
+                            categoryDiscountAmount = category.Discount.Amount;
+                            categoryDiscountPercent = category.Discount.Percent;
+                        }
+                    }
+                discount = categoryDiscountAmount > 0 ? categoryDiscountAmount : price.Amount * (decimal)categoryDiscountPercent / 100;
+            }
+
             var tempPurchaseOrderDetail = new PurchaseOrderViewModel
             {
                 ProductId = responseProduct.ReturnData[i].Id,
@@ -111,7 +134,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 PriceAmount = price.Amount,
                 PriceId = priceId,
                 ColorName = price.Color.Name,
-                Id = responseProduct.ReturnData[i].Id
+                Id = responseProduct.ReturnData[i].Id,
+                DiscountAmount = (int)discount
             };
 
             carts.Add(tempPurchaseOrderDetail);
@@ -137,9 +161,34 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
     public async Task<ServiceResult> Add(HttpContext context, int productId, int priceId, int count)
     {
         var productResult = await _productService.ProductsWithIdsForCart(new List<int> { productId });
-        var productFromServer = productResult.ReturnData[0];
+        var productFromServer = productResult.ReturnData[0];     
 
-        var exist = productFromServer.Prices.First(x => x.Id == priceId).Exist;
+        var price = productFromServer.Prices.First(x => x.Id == priceId);
+        var exist = price.Exist;
+
+        decimal? discount = 0; 
+        var priceDiscount = productFromServer.Prices.First(x => x.Id == priceId).Discount;
+        if (priceDiscount != null)
+        {
+            discount = priceDiscount.Amount > 0 ? priceDiscount.Amount : price.Amount * (decimal)priceDiscount.Percent / 100;
+        }
+        else
+        {
+            int? categoryDiscountAmount = 0;
+            double? categoryDiscountPercent = 0;
+            if (productFromServer.Categories != null)
+                foreach (var category in productFromServer.Categories)
+                {
+                    if (category.Discount != null && category.Discount.IsActive)
+                    {
+                        categoryDiscountAmount = category.Discount.Amount;
+                        categoryDiscountPercent = category.Discount.Percent;
+                    }
+                }
+            discount = categoryDiscountAmount > 0 ? categoryDiscountAmount : price.Amount * (decimal)categoryDiscountPercent / 100;
+        }
+
+
         var maxOrder = productFromServer.MaxOrder;
 
         var currentUser = _cookieService.GetCurrentUser();
@@ -190,7 +239,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Quantity = Convert.ToUInt16(count),
             ProductId = productId,
             PriceId = priceId,
-            DiscountAmount = 0
+            DiscountAmount = (int) discount
         };
         var result = await Create(Url, purchaseOrderViewModel);
         if (result.Code == ResultCode.Repetitive)

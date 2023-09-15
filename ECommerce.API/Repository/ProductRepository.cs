@@ -169,6 +169,7 @@ public class ProductRepository : AsyncRepository<Product>, IProductRepository
             .Include(x => x.ProductUserRanks)
             .Include(x => x.Prices)
             .ThenInclude(c => c.Color)
+            .Include(x=>x.ProductCategories).ThenInclude(d=>d.Discount)
             .ToListAsync(cancellationToken);
         productIndexPageViewModel.AddRange(products.Select(product => (ProductIndexPageViewModel)product));
         return productIndexPageViewModel;

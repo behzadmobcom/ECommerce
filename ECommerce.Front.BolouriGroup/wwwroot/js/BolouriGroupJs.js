@@ -183,38 +183,39 @@ function OpenProductModal(id) {
 }
 
 function createCartItem(product) {
-  return `<li class='cart-item' id='CartDrop-${product.id}'> 
-  <div class='cart-media'> 
-    <a href='/product/${product.url}'>
-      <img src='/${product.imagePath}' alt='${product.alt}'>
-    </a>
-    <button class='cart-delete' onclick='DeleteCart(${product.id},${product.productId},${product.priceId})'>
-      <i class='far fa-times'></i>
-    </button>
-  </div>
-  <div class='cart-info-group'>
-    <div class='cart-info'>
-      <h5><a href="/product/${product.url}">${product.name}</a></h5>
-      <h6> برند : ${product.brand}</h6> 
-      <h6> رنگ : ${product.colorName}</h6>
-      <p id='cart-item-price-amount-${product.id}'>${formatter.format(product.priceAmount)}</p>
-    </div>
-    <div class='cart-action-group'>
-      <div class='product-action'>
-        <button class='action-minus' onclick='DecreaseCart(${product.productId},${product.priceId},${product.id})' title='مقدار منهای'>
-          <i class='far fa-minus'></i>
-        </button>
-        <input class='action-input' title='تعداد' type='text' name='quantity' id='cart-item-quantity-${product.id}' value='${product.quantity}' disabled> 
-        <button class='action-plus' onclick='AddCart(${product.productId},${product.priceId},${product.id})' title='مقدار به علاوه'>
-          <i class='far fa-plus'></i>
-        </button>
-      </div>
-      <h6 id='cart-item-sum-price-${product.id}'>${formatter.format(product.sumPrice)}</h6>
-      <h6>تومان</h6>
-      <input hidden='hidden' value='${product.sumPrice}' id='SumPrice-${product.id}'/>
-    </div>
-  </div>
-</li>`;
+    return `<li class='cart-item' id='CartDrop-${product.id}'> 
+            <div class='cart-media'> 
+              <a href='/product/${product.url}'>
+                <img src='/${product.imagePath}' alt='${product.alt}'>
+              </a>
+              <button class='cart-delete' onclick='DeleteCart(${product.id},${product.productId},${product.priceId})'>
+                <i class='far fa-times'></i>
+              </button>
+            </div>
+            <div class='cart-info-group'>
+              <div class='cart-info'>
+                <h5><a href="/product/${product.url}">${product.name}</a></h5>
+                <h6> برند : ${product.brand}</h6> 
+                <h6> رنگ : ${product.colorName}</h6>
+                <h6> تخفیف : ${formatter.format(product.discountAmount)}</h6>
+                <p id='cart-item-price-amount-${product.id}'>${formatter.format(product.priceAmount)}</p>
+              </div>
+              <div class='cart-action-group'>
+                <div class='product-action'>
+                  <button class='action-minus' onclick='DecreaseCart(${product.productId},${product.priceId},${product.id})' title='مقدار منهای'>
+                    <i class='far fa-minus'></i>
+                  </button>
+                  <input class='action-input' title='تعداد' type='text' name='quantity' id='cart-item-quantity-${product.id}' value='${product.quantity}'> 
+                  <button class='action-plus' onclick='AddCart(${product.productId},${product.priceId},${product.id})' title='مقدار به علاوه'>
+                    <i class='far fa-plus'></i>
+                  </button>
+                </div>
+                <h6 id='cart-item-sum-price-${product.id}'>${formatter.format(product.sumPrice)}</h6>
+                <h6>تومان</h6>
+                <input hidden='hidden' value='${product.sumPrice}' id='SumPrice-${product.id}'/>
+              </div>
+            </div>
+          </li>`;
 }
 
 const toggleCheckout = () => {
