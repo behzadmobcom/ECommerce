@@ -197,7 +197,7 @@ function createCartItem(product) {
                 <h5><a href="/product/${product.url}">${product.name}</a></h5>
                 <h6> برند : ${product.brand}</h6> 
                 <h6> رنگ : ${product.colorName}</h6>
-                <h6> تخفیف : ${formatter.format(product.discountAmount)}</h6>
+                <h6> مبلغ تخفیف کالا : ${formatter.format(product.discountAmount)}</h6>
                 <p id='cart-item-price-amount-${product.id}'>${formatter.format(product.priceAmount)}</p>
               </div>
               <div class='cart-action-group'>

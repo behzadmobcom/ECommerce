@@ -131,7 +131,7 @@ public class CheckoutModel : PageModel
     public async Task<JsonResult> OnGetDiscount(string discountCode)
     {
         await Initial();
-        var sumPriceResult = await DiscountCalculate(discountCode, SumPrice);
+        var sumPriceResult = await DiscountCalculate(discountCode, SumPrice - (int)DiscountAmount! );
        
         return new JsonResult(sumPriceResult);
     }
@@ -231,7 +231,7 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
 
-        var discountResult = await DiscountCalculate(discountCode, Convert.ToInt32(tempSumPrice));
+        var discountResult = await DiscountCalculate(discountCode, Convert.ToInt32(tempSumPrice - (int)DiscountAmount!));
         SumPrice= discountResult.SumPrice;
         if (SumPrice >= 50000000)
         {
@@ -245,7 +245,7 @@ public class CheckoutModel : PageModel
         if (DiscountResult.Code == 0 && DiscountResult.Status == 200 && DiscountResult.ReturnData.IsActive && (DiscountResult.ReturnData.StartDate?.Date <= DateTime.Now.Date || DiscountResult.ReturnData.StartDate == null) && (DiscountResult.ReturnData.EndDate?.Date >= DateTime.Now.Date || DiscountResult.ReturnData.EndDate == null))
         {
             purchaseOrder.DiscountId = DiscountResult.ReturnData.Id;
-            purchaseOrder.DiscountAmount = (int)tempSumPrice - SumPrice;
+            purchaseOrder.DiscountAmount = ((int)tempSumPrice - (int)DiscountAmount!) - SumPrice;
         }
         if (resultSendInformation == 0)
         {

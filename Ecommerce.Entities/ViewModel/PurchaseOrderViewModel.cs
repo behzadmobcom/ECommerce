@@ -19,6 +19,7 @@ public class PurchaseOrderViewModel
     public double Exist { get; set; }
     public string ColorName { get; set; } = string.Empty;
     public bool IsColleague { get; set; }
+    public int? DiscountId { get; set; }
     public Discount? Discount { get; set; }
     public int DiscountAmount { get; set; }
     public ICollection<Category> ProductCategories { get; set; }    

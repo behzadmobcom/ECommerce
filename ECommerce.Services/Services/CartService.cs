@@ -1,4 +1,5 @@
-﻿using Ecommerce.Entities.Helper;
+﻿using Ecommerce.Entities;
+using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Http;
@@ -166,11 +167,13 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         var price = productFromServer.Prices.First(x => x.Id == priceId);
         var exist = price.Exist;
 
-        decimal? discount = 0; 
+        decimal? discountAmount = 0;
+        Discount discount = new Discount();
         var priceDiscount = productFromServer.Prices.First(x => x.Id == priceId).Discount;
         if (priceDiscount != null)
         {
-            discount = priceDiscount.Amount > 0 ? priceDiscount.Amount : price.Amount * (decimal)priceDiscount.Percent / 100;
+            discountAmount = priceDiscount.Amount > 0 ? priceDiscount.Amount : price.Amount * (decimal)priceDiscount.Percent / 100;
+            discount = priceDiscount;
         }
         else
         {
@@ -183,9 +186,10 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                     {
                         categoryDiscountAmount = category.Discount.Amount;
                         categoryDiscountPercent = category.Discount.Percent;
+                        discount = category.Discount;
                     }
                 }
-            discount = categoryDiscountAmount > 0 ? categoryDiscountAmount : price.Amount * (decimal)categoryDiscountPercent / 100;
+            discountAmount = categoryDiscountAmount > 0 ? categoryDiscountAmount : price.Amount * (decimal)categoryDiscountPercent / 100;
         }
 
 
@@ -239,7 +243,8 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
             Quantity = Convert.ToUInt16(count),
             ProductId = productId,
             PriceId = priceId,
-            DiscountAmount = (int) discount
+            DiscountAmount = (int) discountAmount!,
+            DiscountId = discount.Id >0 ? discount.Id : null,
         };
         var result = await Create(Url, purchaseOrderViewModel);
         if (result.Code == ResultCode.Repetitive)

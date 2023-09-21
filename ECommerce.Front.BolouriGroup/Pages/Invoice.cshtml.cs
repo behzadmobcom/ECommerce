@@ -22,6 +22,7 @@ public class InvoiceModel : PageModel
 
     [TempData] public string Code { get; set; }
     public PurchaseOrder PurchaseOrder { get; set; }
+    public int OrderDetailsDiscount = 0;
 
     public InvoiceModel(IPurchaseOrderService purchaseOrderService, IUserService userService)
     {
@@ -42,6 +43,14 @@ public class InvoiceModel : PageModel
             var resultOrder = await _purchaseOrderService.GetByUserId();
             PurchaseOrder = resultOrder.ReturnData;
             var amount = Convert.ToInt32(PurchaseOrder.Amount);
+
+            foreach (var item in PurchaseOrder.PurchaseOrderDetails!)
+            {
+                OrderDetailsDiscount = OrderDetailsDiscount +
+                                       ((int)item.DiscountAmount! * item.Quantity);
+            }
+            amount = amount - OrderDetailsDiscount!;
+
             if (PurchaseOrder.DiscountId != null && PurchaseOrder.Discount != null)
             {
                 if (PurchaseOrder.Discount.Amount != null && PurchaseOrder.Discount.Amount > 0)
@@ -59,6 +68,7 @@ public class InvoiceModel : PageModel
             {
                 PurchaseOrder.DiscountAmount = 0;
             }
+
             var statusInt = await new Payment(amount).Verification(authority);
             switch (statusInt.Status)
             {

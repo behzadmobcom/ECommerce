@@ -440,7 +440,8 @@ public class PurchaseOrdersController : ControllerBase
                     PriceId = price!.Id,
                     Quantity = createPurchaseCommand.Quantity,
                     SumPrice = sumPrice,
-                    DiscountAmount = createPurchaseCommand.DiscountAmount
+                    DiscountAmount = createPurchaseCommand.DiscountAmount,
+                    DiscountId = createPurchaseCommand.DiscountId,
                 }, cancellationToken);
                 await _purchaseOrderRepository.UpdateAsync(repetitivePurchaseOrder, cancellationToken);
 
@@ -457,7 +458,6 @@ public class PurchaseOrdersController : ControllerBase
                 Amount = sumPrice,
                 Status = 0,
                 UserId = createPurchaseCommand.UserId,
-                DiscountAmount = createPurchaseCommand.DiscountAmount
             }, cancellationToken);
             purchaseOrderDetail = await _purchaseOrderDetailRepository.AddAsync(new PurchaseOrderDetail
             {
@@ -552,29 +552,42 @@ public class PurchaseOrdersController : ControllerBase
                     Code = ResultCode.BadRequest
                 });
             if (string.IsNullOrEmpty(purchaseOrder.Description)) purchaseOrder.Description = "";
-            Discount? discount = null;
+            Discount? orderDiscount = null;
             if (purchaseOrder.DiscountId != null)
             {
-                discount = await _discountRepository.GetByIdAsync(cancellationToken, purchaseOrder.DiscountId);
-                if (!discount.IsActive ||
-                    discount.StartDate?.Date > DateTime.Now.Date ||
-                    discount.EndDate?.Date < DateTime.Now.Date)
+                orderDiscount = await _discountRepository.GetByIdAsync(cancellationToken, purchaseOrder.DiscountId);
+                if (!orderDiscount.IsActive ||
+                    orderDiscount.StartDate?.Date > DateTime.Now.Date ||
+                    orderDiscount.EndDate?.Date < DateTime.Now.Date)
                 {
-                    discount = null;
+                    orderDiscount = null;
                 }
             }
+           
             //purchaseOrder.PaymentDate = DateTime.Now;
             var resultUser = await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
             var amount = Convert.ToDouble(purchaseOrder.Amount);
-            double? takhfif = null;
-            if (discount != null)
+            double? takhfif = 0;
+            
+            var orderDetailsDiscount = 0;
+            foreach (var item in purchaseOrder.PurchaseOrderDetails!)
             {
-                takhfif = (amount - CalculateDiscount(discount, amount)) * 10;
+                orderDetailsDiscount = orderDetailsDiscount + (int)item.DiscountAmount! * item.Quantity;
             }
 
+            takhfif = orderDetailsDiscount;
+
+            if (orderDiscount != null)
+            {
+                var amountWithOrderDetailsDiscount = amount - orderDetailsDiscount;
+                takhfif = takhfif + (amountWithOrderDetailsDiscount - CalculateDiscount(orderDiscount, amountWithOrderDetailsDiscount));
+            }
+
+            takhfif = takhfif > 0 ? takhfif*10 : null;
             amount *= 10;
+
             int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
             var fBail = await _holooFBailRepository.Add(new HolooFBail
             {
@@ -608,7 +621,8 @@ public class PurchaseOrdersController : ControllerBase
                     Few_Article = orderDetail.Quantity,
                     First_Article = orderDetail.Quantity,
                     Price_BS = Convert.ToDouble(orderDetail.UnitPrice) * 10,
-                    Unit_Few = 0
+                    Unit_Few = 0,
+                    TAKHFIFSATRIR = orderDetail.DiscountAmount
                 });
             }
             await _holooABailRepository.Add(aBail, cancellationToken);

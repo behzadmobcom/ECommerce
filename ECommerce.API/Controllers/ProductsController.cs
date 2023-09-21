@@ -345,6 +345,7 @@ public class ProductsController : ControllerBase
                         _price.Discount.IsActive = (_price.Discount.IsActive &&
                                                  _price.Discount.StartDate <= DateTime.UtcNow &&
                                                  _price.Discount.EndDate >= DateTime.UtcNow);
+                        if (!_price.Discount.IsActive) _price.Discount = null;
                     }
                 }
                 foreach (var _cat in _product.Categories)
@@ -354,6 +355,7 @@ public class ProductsController : ControllerBase
                         _cat.Discount.IsActive = (_cat.Discount.IsActive &&
                                               _cat.Discount.StartDate <= DateTime.UtcNow &&
                                               _cat.Discount.EndDate >= DateTime.UtcNow);
+                        if (!_cat.Discount.IsActive) _cat.Discount = null;
                     }
                 }
             }
@@ -633,6 +635,7 @@ public class ProductsController : ControllerBase
                     _price.Discount.IsActive = (_price.Discount.IsActive &&
                                                 _price.Discount.StartDate <= DateTime.UtcNow &&
                                                 _price.Discount.EndDate >= DateTime.UtcNow);
+                    if (!_price.Discount.IsActive) _price.Discount = null;
                 }
             }
             foreach (var _cat in product.ProductCategories)
@@ -642,6 +645,7 @@ public class ProductsController : ControllerBase
                     _cat.Discount.IsActive = (_cat.Discount.IsActive &&
                                             _cat.Discount.StartDate <= DateTime.UtcNow &&
                                             _cat.Discount.EndDate >= DateTime.UtcNow);
+                    if (!_cat.Discount.IsActive) _cat.Discount = null;
                 }
             }
           
@@ -769,7 +773,7 @@ public class ProductsController : ControllerBase
                 {
                     discountAmount = _price.Discount.Amount != null ? (decimal) _price.Discount.Amount : 0 ;
                     discountPercent = _price.Discount.Percent != null ? (double) _price.Discount.Percent : 0 ;
-                }
+                } else { _price.Discount = null; }
             }else
             {
                 foreach (var _cat in product.ProductCategories)
@@ -784,6 +788,7 @@ public class ProductsController : ControllerBase
                             discountAmount = _cat.Discount.Amount != null ? (decimal)_cat.Discount.Amount : 0 ;
                             discountPercent = _cat.Discount.Percent != null ? (double)_cat.Discount.Percent : 0 ;
                         }
+                        else { _cat.Discount = null; }
                     }
                 }
             }
@@ -1267,6 +1272,7 @@ public class ProductsController : ControllerBase
                                        _price.Discount.IsActive = (_price.Discount.IsActive &&
                                                                 _price.Discount.StartDate <= DateTime.UtcNow &&
                                                                 _price.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_price.Discount.IsActive) { _price.Discount = null; }
                                     }                                    
                                 }
                                 foreach (var _cat in _product.Categories)
@@ -1276,6 +1282,7 @@ public class ProductsController : ControllerBase
                                         _cat.Discount.IsActive = (_cat.Discount.IsActive &&
                                                               _cat.Discount.StartDate <= DateTime.UtcNow &&
                                                               _cat.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_cat.Discount.IsActive) _cat.Discount = null;
                                    }                                    
                                 }
                             }
@@ -1309,6 +1316,7 @@ public class ProductsController : ControllerBase
                                         _price.Discount.IsActive = (_price.Discount.IsActive &&
                                                                  _price.Discount.StartDate <= DateTime.UtcNow &&
                                                                  _price.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_price.Discount.IsActive) _price.Discount = null;
                                     }
                                 }
                                 foreach (var _cat in _product.Categories)
@@ -1318,6 +1326,7 @@ public class ProductsController : ControllerBase
                                         _cat.Discount.IsActive = (_cat.Discount.IsActive &&
                                                               _cat.Discount.StartDate <= DateTime.UtcNow &&
                                                               _cat.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_cat.Discount.IsActive) _cat.Discount = null;
                                     }
                                 }
                             }
@@ -1364,6 +1373,7 @@ public class ProductsController : ControllerBase
                                         _price.Discount.IsActive = (_price.Discount.IsActive &&
                                                                  _price.Discount.StartDate <= DateTime.UtcNow &&
                                                                  _price.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_price.Discount.IsActive) _price.Discount = null;
                                     }
                                 }
                                 foreach (var _cat in _product.Categories)
@@ -1373,6 +1383,7 @@ public class ProductsController : ControllerBase
                                         _cat.Discount.IsActive = (_cat.Discount.IsActive &&
                                                               _cat.Discount.StartDate <= DateTime.UtcNow &&
                                                               _cat.Discount.EndDate >= DateTime.UtcNow);
+                                        if (!_cat.Discount.IsActive) _cat.Discount = null;
                                     }
                                 }
                             }
