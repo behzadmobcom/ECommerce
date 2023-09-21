@@ -197,7 +197,7 @@ function createCartItem(product) {
                 <h5><a href="/product/${product.url}">${product.name}</a></h5>
                 <h6> برند : ${product.brand}</h6> 
                 <h6> رنگ : ${product.colorName}</h6>
-                <h6> تخفیف : ${formatter.format(product.discountAmount)}</h6>
+                <h6> مبلغ تخفیف کالا : ${formatter.format(product.discountAmount)}</h6>
                 <p id='cart-item-price-amount-${product.id}'>${formatter.format(product.priceAmount)}</p>
               </div>
               <div class='cart-action-group'>
@@ -210,9 +210,9 @@ function createCartItem(product) {
                     <i class='far fa-plus'></i>
                   </button>
                 </div>
-                <h6 id='cart-item-sum-price-${product.id}'>${formatter.format(product.sumPrice)}</h6>
+                <h6 id='cart-item-sum-price-${product.id}'>${formatter.format(product.sumPrice - (product.discountAmount * product.quantity) )}</h6>
                 <h6>تومان</h6>
-                <input hidden='hidden' value='${product.sumPrice}' id='SumPrice-${product.id}'/>
+                <input hidden='hidden' value='${product.sumPrice - (product.discountAmount * product.quantity)}' id='SumPrice-${product.id}'/>
               </div>
             </div>
           </li>`;
@@ -228,12 +228,12 @@ async function loadCart() {
   const data = await $.get("/index?handler=LoadCart");
   cartList = data.returnData;
 
-  let allPrice = 0;
-  const listToRender = cartList.map((product) => {
-    const item = createCartItem(product);
-    allPrice += product.sumPrice;
-    return item;
-  });
+    let allPrice = 0;
+    const listToRender = cartList.map((product) => {
+        const item = createCartItem(product);
+        allPrice += product.sumPrice - (product.discountAmount * product.quantity);
+        return item;
+    });
 
   $("#Cart-List").text("");
   $("#Cart-List").append(listToRender.join(""));
@@ -255,28 +255,29 @@ async function loadCart() {
  * @param {number} id
  * @param {"increment" | "decrement" | "newItem" | "remove"} action
  * @param {number} productId
+ * @param {number} priceId
  */
-async function updateCartItem(id, action, productId) {
-  if (!id) {
-    const data = await $.get("/index?handler=LoadCart");
-    const newCartList = data.returnData;
-    const p = newCartList.filter((v1) => !cartList.some((v2) => v1.id === v2.id))[0];
-    if (p) {
-      cartList.push(p);
-      id = p.id;
-      action = "newItem";
-    } else {
-      action = "increment";
-      const prod = cartList.filter((v) => v.productId === productId)[0];
-      id = prod.id;
+async function updateCartItem(id, action, productId, priceId) {
+    if (!id) {
+        const data = await $.get("/index?handler=LoadCart");
+        const newCartList = data.returnData;
+        const p = newCartList.filter((v1) => !cartList.some((v2) => v1.id === v2.id))[0];
+        if (p) {
+            cartList.push(p);
+            id = p.id;
+            action = "newItem";
+        } else {
+            action = "increment";
+            const prod = cartList.filter((v) => v.priceId === priceId)[0];
+            id = prod.id;
+        }
     }
-  }
-  let index;
-  const product = cartList.filter((v, i) => {
-    const res = v.id === id;
-    if (res) index = i;
-    return res;
-  })[0];
+    let index;
+    const product = cartList.filter((v, i) => {
+        const res = v.id === id;
+        if (res) index = i;
+        return res;
+    })[0];
 
   const cartItem = $(`#CartDrop-${product.id}`);
 
@@ -299,7 +300,7 @@ async function updateCartItem(id, action, productId) {
     cartItem.replaceWith(createCartItem(product));
   }
 
-  const allPrice = cartList.reduce((prev, current) => prev + current.sumPrice, 0);
+    const allPrice = cartList.reduce((prev, current) => prev + (current.sumPrice - (current.discountAmount * current.quantity)) , 0);
 
   $("#Cart-Count").text(cartList.length);
   $("#Cart-Count1").text(cartList.length);
@@ -314,32 +315,35 @@ async function updateCartItem(id, action, productId) {
 }
 
 function AddCart(productId, priceId, id, showMessage = false) {
-  $(`#CartDrop-${id}`).append(`<div id='loading-${id}' class='loading-indicator'><progress class='pure-material-progress-circular'/></div>`);
-  $.ajax({
-    type: "Get",
-    url: "/index?handler=AddCart&id=" + productId + "&priceId=" + priceId,
-    contentType: "application/json; charset=utf-8",
-    dataType: "json",
-    success: function (result) {
-      $(`#loading-${id}`).remove();
-      if (showMessage) {
-        swal(result.message);
-      }
-      if ($("#Cart-List").text() === "") {
-        loadCart();
-      } else {
-        if (result.code === 2 || result.code === 0) {
-          updateCartItem(id, "increment", productId);
-        } else {
-          swal(result.message);
-        }
-      }
-    },
-    failure: function (response) {
-      $(`#loading-${id}`).remove();
-      swal(response);
-    },
-  });
+    $(`#CartDrop-${id}`).append(`<div id='loading-${id}' class='loading-indicator'><progress class='pure-material-progress-circular'/></div>`);
+    $.ajax({
+        type: "Get",
+        url: "/index?handler=AddCart&id=" + productId + "&priceId=" + priceId,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $(`#loading-${id}`).remove();
+            if (showMessage) {
+                swal(result.message);
+            }
+            if ($("#Cart-List").text() === "") {
+                loadCart();
+            } else {
+                if (result.code === 2 || result.code === 0) {
+                    updateCartItem(id, "increment", productId, priceId);
+                } else {
+                    if (id) {
+                        updateCartItem(id, "notChange", productId);
+                    }
+                    swal(result.message);
+                }
+            }
+        },
+        failure: function (response) {
+            $(`#loading-${id}`).remove();
+            swal(response);
+        },
+    });
 }
 
 function DeleteCompare(id) {

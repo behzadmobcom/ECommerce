@@ -21,6 +21,7 @@ public class PurchaseOrderViewModel
     public bool IsColleague { get; set; }
     public Discount? Discount { get; set; }
     public int DiscountAmount { get; set; }
+    public ICollection<Category> ProductCategories { get; set; }    
 
     //ForeignKey
     public int UserId { get; set; }

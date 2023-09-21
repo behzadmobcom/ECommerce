@@ -22,6 +22,7 @@
 }
 <input id="categoryDiscountAmount"  style="visibility:hidden" value="@categoryDiscountAmount" /> 
 <input id="categoryDiscountPercent" style="visibility:hidden" value="@categoryDiscountPercent" />
+<input id="currentPriceId" style="visibility:hidden" value="@priceId" />
 
 @section Head{
     <meta name="description" content="@description" />
@@ -455,7 +456,7 @@
     <script src="~/js/Zoom.min.js"></script>
     <script>
         var prices = @Html.Raw(Json.Serialize(Model.Product.Prices));
-        var priceId = prices[0].id;
+        var priceId = $("#currentPriceId").val();
         if (!window.matchMedia('(max-width: 767px)').matches) {
             var arrayOfArrays = @Html.Raw(Json.Serialize(Model.Product.Images));
             var activeImageId = arrayOfArrays[0].id;
@@ -475,7 +476,6 @@
                 var _priceAmount = 0;
                 var categoryDiscountAmount = $("#categoryDiscountAmount").val();
                 var categoryDiscountPercent = $("#categoryDiscountPercent").val();
-                console.log(categoryDiscountPercent);
               
                 if (price.discount != null)
                     if (price.discount.amount > 0)

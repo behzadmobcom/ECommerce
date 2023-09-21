@@ -26,7 +26,7 @@
                 </h5>
                 <h6>برند : @product.Brand</h6>
                 <h6>رنگ : @product.ColorName</h6>
-                <h6>تخفیف : @product.DiscountAmount.ToString("N0")</h6>
+                <h6>مبلغ تخفیف کالا : @product.DiscountAmount.ToString("N0")</h6>
                 <p>@product.PriceAmount.ToString("N0")</p>
             </div>
             <div class="cart-action-group">
@@ -41,13 +41,13 @@
                         <i class="far fa-plus"></i>
                     </button>
                 </div>
-                <h6>@product.SumPrice.ToString("N0")</h6>
+                <h6> @((product.SumPrice- (product.DiscountAmount * product.Quantity)).ToString("N0"))</h6>
                 <h6>تومان</h6>
                 <input hidden="hidden" value="@product.SumPrice" id="SumPrice-@product.Id"/>
             </div>
         </div>
     </li>
-    allPrice += product.SumPrice;
+    allPrice += product.SumPrice - (product.DiscountAmount * product.Quantity);
 }
 }
 @{

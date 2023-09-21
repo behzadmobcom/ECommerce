@@ -128,7 +128,18 @@
                                     <span>کل </span><span>@Model.SumPrice.ToString("N0")</span><span>تومان</span>
                                 </li>
                             </ul>
-
+                            @{
+                                if (Model.DiscountAmount > 0 )
+                                {
+                                  <text>
+                                  <ul>
+                                    <li>
+                                        <span>جمع تخفیف سبد کالا </span><span>@Model.DiscountAmount</span><span>تومان</span>
+                                    </li>
+                                  </ul>
+                                  </text>
+                                }
+                            }                               
                             <input type="text" name="discountCode" placeholder="کد تخفیف" class="form-control" id="discountCode" />
                             <br />
                             <div class="row">

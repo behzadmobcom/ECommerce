@@ -126,10 +126,12 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
             var purchaseOrderViewModel = await _context.PurchaseOrderDetails
                 .Where(x => x.PurchaseOrder!.UserId == userId && !x.PurchaseOrder.IsPaid &&
                             x.PurchaseOrder.Status == Status.New)
+                            .Include(p=>p.Product).ThenInclude(c=>c.ProductCategories).ThenInclude(d=>d.Discount)
+                            .Include(p=>p.Price).ThenInclude(d=>d.Discount)
                 .Select(p => new PurchaseOrderViewModel
                 {
                     Id = p.Id,
-                    ProductId = p.ProductId,
+                    ProductId = p.ProductId, 
                     Url = p.Product.Url,
                     Name = p.Product.Name,
                     Price = p.Product.Prices!.First(x => x.Id == p.PriceId),
@@ -145,9 +147,32 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                     Quantity = p.Quantity,
                     SumPrice = p.Quantity * p.Product.Prices!.First(x => x.Id == p.PriceId).Amount,
                     ColorName = p.Product.Prices!.First(x => x.Id == p.PriceId).Color!.Name,
-                    DiscountAmount = p.DiscountAmount != null ? (int)p.DiscountAmount : 0
+                    DiscountAmount = p.DiscountAmount != null ? (int)p.DiscountAmount : 0,
+                    ProductCategories = p.Product.ProductCategories
                 })
                 .ToListAsync(cancellationToken);
+
+            foreach (var _product in purchaseOrderViewModel)
+            {                
+                    if (_product.Price.Discount != null)
+                    {
+                            _product.Price.Discount.IsActive = (_product.Price.Discount.IsActive &&
+                                                    _product.Price.Discount.StartDate <= DateTime.UtcNow &&
+                                                    _product.Price.Discount.EndDate >= DateTime.UtcNow);
+                            if (!_product.Price.Discount.IsActive) _product.Price.Discount = null;
+                    }                
+                    foreach (var _cat in _product.ProductCategories)
+                    {
+                        if (_cat.Discount != null)
+                        {
+                            _cat.Discount.IsActive = (_cat.Discount.IsActive &&
+                                                  _cat.Discount.StartDate <= DateTime.UtcNow &&
+                                                  _cat.Discount.EndDate >= DateTime.UtcNow);
+                            if (!_cat.Discount.IsActive) _cat.Discount = null;
+                        }
+                    }
+            }
+
             return purchaseOrderViewModel;
         }
         catch (Exception e)

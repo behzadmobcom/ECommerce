@@ -33,6 +33,8 @@ public class CheckoutModel : PageModel
 
     public int SumPrice { get; set; }
     public ServiceResult<Discount> DiscountResult { get; set; }
+    public decimal? DiscountAmount { get; set; } = 0;
+
 
     public CheckoutModel(
         ICartService cartService,
@@ -72,6 +74,50 @@ public class CheckoutModel : PageModel
         var cart = resultCart.ReturnData;
         decimal tempSumPrice = cart.Sum(x => x.SumPrice);
         SumPrice = Convert.ToInt32(tempSumPrice);
+
+        var _currentDiscountAmount = 0;
+        foreach (var item in cart)
+        {
+            int? categoryDiscountAmount = 0;
+            double? categoryDiscountPercent = 0;
+            _currentDiscountAmount = _currentDiscountAmount + (item.DiscountAmount * item.Quantity);             
+            if (item.ProductCategories != null)
+                foreach (var category in item.ProductCategories)
+                {
+                    if (category.Discount != null && category.Discount.IsActive)
+                    {
+                        categoryDiscountAmount = category.Discount.Amount;
+                        categoryDiscountPercent = category.Discount.Percent;
+                    }
+                }
+            decimal? discount = 0;
+            if (item.Price.Discount != null)
+                if (item.Price.Discount.Amount > 0)
+                {
+                    discount = item.Price.Discount.Amount;
+                }
+                else if (item.Price.Discount.Percent > 0)
+                {
+                    discount = item.PriceAmount * (decimal)item.Price.Discount.Percent / 100;
+                }
+            if (discount == 0)
+                if (categoryDiscountAmount > 0)
+                {
+                    discount = (decimal)categoryDiscountAmount;
+                }
+                else if (categoryDiscountPercent > 0)
+                {
+                    discount = item.PriceAmount * (decimal)categoryDiscountPercent / 100;
+                }
+
+            DiscountAmount = DiscountAmount +  (discount * item.Quantity);
+        }
+
+        if (_currentDiscountAmount != DiscountAmount)
+        {
+            // پیاده سازی مربوط به اصلاح سبد purchaseOrder
+            //}
+        }
     }
 
     public async Task<JsonResult> OnGetSendInformationLoad(int id)
