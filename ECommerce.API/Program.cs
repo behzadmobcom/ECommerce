@@ -14,6 +14,7 @@ using PersianTranslation.Identity;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using WebFramework.Middlewares;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var config = new ConfigurationBuilder()
@@ -225,6 +226,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+//app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 
