@@ -65,6 +65,10 @@ const getShopHandler = async (base, handler, firstPage, hasQuery) => {
   return await $.get(base + search);
 };
 
+const updateFilterLink = () => {
+  $("#shop-widget-category form").attr("action", (_, value) => `${window.location.pathname}?${value.split("?")[1]}`);
+};
+
 /**
  *
  * @param {Event | string} e
@@ -79,6 +83,7 @@ const categoryChangeHandler = async (e) => {
   updatePage(url, !isState);
   if (!window.history.state) window.history.replaceState(window.location.pathname, "", window.location.pathname + window.location.search);
   if (!isState) window.history.pushState(url, "", url + window.location.search.replace(/pageNumber=[0-9]+/g, "pageNumber=1"));
+  updateFilterLink();
 };
 
 /**
