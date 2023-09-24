@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Entities.Helper;
 
@@ -65,15 +66,35 @@ public class ApiResult<T>
 
 public enum ResultCode
 {
+    [Display(Name = "عملیات با موفقیت انجام شد")]
     Success = 0,
+
+    [Display(Name = "سرور در دسترس نمی باشد")]
     ServerDontResponse = 10,
+
+    [Display(Name = "خطایی در سرور رخ داده است")]
     Error = 1,
+
+    [Display(Name = "اطلاعات تکراری می باشد")]
     Repetitive = 3,
+
+    [Display(Name = "یافت نشد")]
     NotFound = 4,
+
+    [Display(Name = "خطایی در پردازش رخ داد ")]
     DatabaseError = 5,
+
+    [Display(Name = "پارامتر های ارسالی معتبر نیستند")]
     BadRequest = 6,
+
+    [Display(Name = "غیر فعال می باشد")]
     DeActive = 7,
-    NotExist = 8
+
+    [Display(Name = "اطلاعات خواسته شده وجود ندارد")]
+    NotExist = 8,
+
+    [Display(Name = "خطای احراز هویت")]
+    UnAuthorized = 6
 }
 
 public enum ServiceCode
