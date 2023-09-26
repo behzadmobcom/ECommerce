@@ -34,7 +34,7 @@
                             title="مقدار منهای">
                         <i class="far fa-minus"></i>
                     </button>
-                        <input class="action-input" title="تعداد" type="text" name="quantity" id="cart-item-quantity-@product.Id" value="@product.Quantity">
+                        <input class="action-input" title="تعداد" type="text" name="quantity" id="cart-item-quantity-@product.Id" value="@product.Quantity" disabled>
                     <button class="action-plus" onclick="AddCart(@product.ProductId,@product.PriceId,@product.Id)"
                             title="مقدار به علاوه">
                         <i class="far fa-plus"></i>

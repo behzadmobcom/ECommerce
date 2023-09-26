@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-	  <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="wwwroot\Admin\js\loadScript.js" />
-    <Content Remove="wwwroot\js\shop.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="wwwroot\Admin\js\loadScript.js" />
+		<Content Remove="wwwroot\js\shop.js" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.86" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
+			Version="6.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="PersianDate" Version="3.5.5" />
 		<PackageReference Include="PersianDateTimePicker" Version="1.0.1.1" />
 		<PackageReference Include="RazorEngineCore" Version="2022.8.1" />
-		<PackageReference Include="ZarinpalSandbox" Version="2.0.4" />	
+		<PackageReference Include="ZarinpalSandbox" Version="2.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -40,36 +41,68 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Areas\Admin\Pages\Cities\" />
-	  <Folder Include="wwwroot\Images\Banner\" />
-	  <Folder Include="wwwroot\Images\Blogs\" />
-	  <Folder Include="wwwroot\Images\Categories\" />
+		<Folder Include="Areas\Admin\Pages\Cities\" />
+		<Folder Include="wwwroot\Images\Banner\" />
+		<Folder Include="wwwroot\Images\Blogs\" />
+		<Folder Include="wwwroot\Images\Categories\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="wwwroot\css\Shop.css">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Reports\Report.cshtml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Reports\Report.html">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+		<Content Update="wwwroot\css\Shop.css">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\Reports\Report.cshtml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Reports\Report.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
+		<UpToDateCheckInput Remove="Pages\Components\CategoriesMobile\Default.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Components\Username\Default.cshtml" />
+		<UpToDateCheckInput Remove="Pages\Components\Username\Default.cshtml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="wwwroot\Admin\js\loadScript.js" />
-	  <None Include="wwwroot\js\shop.js" />
+		<None Include="wwwroot\Admin\js\loadScript.js" />
+		<None Include="wwwroot\js\shop.js" />
 	</ItemGroup>
+
+	<!--
+      1. Install npm packages
+      "Inputs" and "Outputs" are used for incremental builds. If all output items are up-to-date, MSBuild
+	skips the target.
+      The first time the task is executed. Then, it only runs when you change the package.json file.
+      Documentation:
+	https://learn.microsoft.com/en-us/visualstudio/msbuild/incremental-builds?WT.mc_id=DT-MVP-5003978
+   -->
+	<Target Name="NpmInstall" Inputs="package.json" Outputs="node_modules/.install-stamp">
+		<!--
+        Use npm install or npm ci depending on RestorePackagesWithLockFile value.
+        Uncomment the following lines if you want to use this feature:
+
+        <PropertyGroup>
+          <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        </PropertyGroup>
+     -->
+		<Exec Command="npm ci" Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
+		<Exec Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
+
+		<!-- Write the stamp file, so incremental builds work -->
+		<Touch Files="node_modules/.install-stamp" AlwaysCreate="true" />
+	</Target>
+
+	<!--
+      2. Run npm run build before building the .NET project.
+      MSBuild runs NpmInstall before this task because of the DependsOnTargets attribute.
+   -->
+	<Target Name="NpmRunBuild" DependsOnTargets="NpmInstall" BeforeTargets="BeforeBuild">
+		<Exec Command="npm run build" />
+	</Target>
 
 </Project>
