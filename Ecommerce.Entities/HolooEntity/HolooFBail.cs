@@ -11,4 +11,5 @@ public class HolooFBail
     public double? Sum_Price { get; set; }
     public double? Takhfif { get; set; }
     public string? Fac_Comment { get; set; }
+    public int? UserCode { get; set; }
 }
