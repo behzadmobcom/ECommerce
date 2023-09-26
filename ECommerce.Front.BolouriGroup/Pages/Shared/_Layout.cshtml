@@ -111,7 +111,7 @@
                     </button>
                 </div>
                 <form method="Get" action="~/Shop" class="header-form">
-                    <input type="text" name="search" id="searchBox" placeholder="مورد خود را در اینجا جستجو کنید ...">
+                    <input type="text" MinLength="3" oninvalid="setCustomValidity('تعداد کاراکترهای ورودی باید بیشتر از 3 باشد')" name="search" id="searchBox" placeholder="مورد خود را در اینجا جستجو کنید ...">
                     <button type="submit">
                         <i class="far fa-search"></i>
                     </button>
