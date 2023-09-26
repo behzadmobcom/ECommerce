@@ -21,6 +21,6 @@ public interface IHolooArticleRepository : IHolooRepository<HolooArticle>
     Task<List<T>> AddPriceAndExistFromHolooList<T>(
         IList<T> products, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken) where T : BaseProductPageViewModel;
 
-    Task<List<Price>> AddPrice(List<Price> prices, IEnumerable<HolooArticle> holooArticles, bool isWithoutBill, bool? isCheckExist,
+    Task<List<Price>> AddPrice(List<Price> prices, IEnumerable<HolooArticle> holooArticles, bool? isCheckExist,
         CancellationToken cancellationToken);
 }

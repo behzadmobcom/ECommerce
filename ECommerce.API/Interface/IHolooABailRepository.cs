@@ -8,5 +8,5 @@ public interface IHolooABailRepository : IHolooRepository<HolooABail>
 
     Task<List<HolooABail>> GetAll(CancellationToken cancellationToken);
 
-    Task<List<HolooABail>> GetWithACode(string aCode, CancellationToken cancellationToken);
+    double GetWithACode(int userCode, string aCode, CancellationToken cancellationToken);
 }

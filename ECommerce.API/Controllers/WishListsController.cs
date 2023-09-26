@@ -40,7 +40,6 @@ public class WishListsController : ControllerBase
                 var holooPrices = await _articleRepository.AddPrice(
                     new List<Price>{ wishListViewModel.Price },
                     holooArticle,
-                    true,
                     false,
                     cancellationToken);
             }
