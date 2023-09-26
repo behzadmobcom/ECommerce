@@ -85,4 +85,11 @@ public class PriceRepository : AsyncRepository<Price>, IPriceRepository
         //}
         return products;
     }
+    public List<int> GetProductIdWithsArticleCodeCustomer(string articleCodeCustomer)
+    {
+
+        var result =  _context.Prices.Where(x => x.ArticleCodeCustomer.StartsWith(articleCodeCustomer)).Select(c=>c.ProductId).ToList();
+        return result;
+
+    }
 }

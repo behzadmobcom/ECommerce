@@ -65,10 +65,16 @@ namespace ECommerce.Front.BolouriGroup.Pages
                 }
             }
             var searchByName = search;
-            if (!string.IsNullOrEmpty(search) && !search.Contains('='))
+            int articleCodeCustomer;
+            if (int.TryParse(search, out articleCodeCustomer))
             {
-                searchByName = $"Name={search}";
+                searchByName = $"articleCodeCustomer={search}";
             }
+            else
+                if (!string.IsNullOrEmpty(search) && !search.Contains('='))
+                {
+                    searchByName = $"Name={search}";
+                }
             Products = await _productService.TopProducts(categoryId, searchByName, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
 
             if (Products.Code == 0)
@@ -111,7 +117,17 @@ namespace ECommerce.Front.BolouriGroup.Pages
 
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
-            var resultSearchProducts = await _productService.TopProducts("", $"Name={request.SearchText}", request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
+            string SearchText;
+            int articleCodeCustomer;
+            if (int.TryParse(request.SearchText, out articleCodeCustomer))
+            {
+                SearchText = $"articleCodeCustomer={request.SearchText}";
+            }
+            else
+            {
+                SearchText = $"Name={request.SearchText}";
+            }
+            var resultSearchProducts = await _productService.TopProducts("", SearchText, request.Page, request.QuantityPerPage, 1, null, null, false, true, "");
             Search = request.SearchText;
             return new JsonResult(resultSearchProducts.ReturnData);
         }

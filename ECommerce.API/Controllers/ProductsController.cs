@@ -236,6 +236,28 @@ public class ProductsController : ControllerBase
                                 .ToListAsync(cancellationToken));
                         }
                         break;
+                    case "articlecodecustomer":
+                        var searchProducts = new List<string>() { search[1].Trim() };
+                        foreach (var searchProduct in searchProducts)
+                        {
+                            var productsIds = _priceRepository.GetProductIdWithsArticleCodeCustomer(searchProduct);
+                            productIndexPageViewModel.AddRange(await productQuery
+                                .Where(x => productsIds.Contains(x.Id))
+                                .Select(p => new ProductIndexPageViewModel
+                                {
+                                    Prices = p.Prices!,
+                                    Alt = p.Images!.First().Alt,
+                                    Brand = p.Brand!.Name,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Id = p.Id,
+                                    ImagePath = $"{p.Images!.First().Path}/{p.Images!.First().Name}",
+                                    Stars = p.Star,
+                                    Url = p.Url
+                                })
+                                .ToListAsync(cancellationToken));
+                        }
+                        break;
                 }
 
             }
