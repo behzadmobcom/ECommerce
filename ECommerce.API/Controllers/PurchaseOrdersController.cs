@@ -28,7 +28,8 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IUserRepository _userRepository;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IDiscountRepository _discountRepository;
-
+    private IConfiguration _configuration;
+    private readonly IHolooABailRepository _aBailRepository;
 
     public PurchaseOrdersController(
         IPurchaseOrderRepository purchaseOrderRepository,
@@ -44,7 +45,9 @@ public class PurchaseOrdersController : ControllerBase
         IUserRepository userRepository,
         IHolooCustomerRepository holooCustomerRepository,
         ITransactionRepository transactionRepository,
-        IDiscountRepository discountRepository)
+        IDiscountRepository discountRepository,
+        IHolooABailRepository aBailRepository,
+        IConfiguration configuration)
     {
         _purchaseOrderRepository = purchaseOrderRepository;
         _purchaseOrderDetailRepository = purchaseOrderDetailRepository;
@@ -60,6 +63,8 @@ public class PurchaseOrdersController : ControllerBase
         _holooCustomerRepository = holooCustomerRepository;
         _transactionRepository = transactionRepository;
         _discountRepository = discountRepository;
+        _configuration = configuration;
+        _aBailRepository = aBailRepository;
     }
 
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
@@ -371,11 +376,14 @@ public class PurchaseOrdersController : ControllerBase
 
             if (product.MinInStore == null) product.MinInStore = 0;
 
+            double soldExist = 0;
             if (price.ArticleCode != null)
             {
+                int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
+                soldExist = _aBailRepository.GetWithACode(userCode, price.ArticleCode, cancellationToken);
                 var holooPrice = await _articleRepository.GetHolooPrice(price.ArticleCodeCustomer,
                     (Price.HolooSellNumber)price.SellNumber);
-                if (repetitiveQuantity + createPurchaseCommand.Quantity > holooPrice.exist + product.MinInStore)
+                if (repetitiveQuantity + createPurchaseCommand.Quantity > holooPrice.exist + product.MinInStore - soldExist)
                     return Ok(new ApiResult
                     {
                         Code = ResultCode.NotExist,
@@ -551,12 +559,13 @@ public class PurchaseOrdersController : ControllerBase
             var resultUser = await _userRepository.GetByIdAsync(cancellationToken, purchaseOrder.UserId);
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
-            var amount =  Convert.ToDouble(purchaseOrder.Amount);
+            var amount = Convert.ToDouble(purchaseOrder.Amount);
             double? Takhfif = null;
             if (discount != null)
             {
                 Takhfif = Convert.ToDouble(purchaseOrder.Amount) - CalculateDiscount(discount, amount);
             }
+            int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
             var fBail = await _holooFBailRepository.Add(new HolooFBail
             {
                 C_Code = cCode,
@@ -567,7 +576,8 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
                 Sum_Price = (amount * 10),
-                Takhfif = (Takhfif * 10)
+                Takhfif = (Takhfif * 10),
+                UserCode = userCode
 
             }, cancellationToken);
 
@@ -613,7 +623,7 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
             }, cancellationToken);
-            
+
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0009", Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Transaction.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
@@ -629,7 +639,10 @@ public class PurchaseOrdersController : ControllerBase
         catch (Exception e)
         {
             _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
+            return Ok(new ApiResult
+            {
+                Code = ResultCode.DatabaseError
+            });
         }
     }
 

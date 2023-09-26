@@ -13,15 +13,18 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
     private readonly HolooDbContext _context;
     private readonly ILogger<ProductsController> _logger;
     private readonly IHolooABailRepository _aBailRepository;
+    private IConfiguration _configuration;
 
     public HolooArticleRepository(
         HolooDbContext context,
         ILogger<ProductsController> logger,
-        IHolooABailRepository aBailRepository) : base(context)
+        IHolooABailRepository aBailRepository,
+        IConfiguration configuration) : base(context)
     {
         _context = context;
         _logger = logger;
         _aBailRepository = aBailRepository;
+        _configuration = configuration;
     }
 
     public async Task<IEnumerable<HolooArticle>> GetAllArticleMCodeSCode(string code,
@@ -125,7 +128,7 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         List<T> newProducts = new();
         foreach (var product in products)
         {
-            List<Price> tempPriceList = await AddPrice(product.Prices, holooArticle, isWithoutBill, isCheckExist, cancellationToken);
+            List<Price> tempPriceList = await AddPrice(product.Prices, holooArticle, isCheckExist, cancellationToken);
 
             product.Prices.RemoveAll(x => !tempPriceList.Contains(x));
             if (product.Prices.Count != 0) newProducts.Add(product);
@@ -134,8 +137,9 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         return newProducts;
     }
 
-    public async Task<List<Price>> AddPrice(List<Price> prices, IEnumerable<HolooArticle> holooArticles, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
+    public async Task<List<Price>> AddPrice(List<Price> prices, IEnumerable<HolooArticle> holooArticles, bool? isCheckExist, CancellationToken cancellationToken)
     {
+
         List<Price> tempPriceList = new();
         foreach (var productPrices in prices)
         {
@@ -196,10 +200,10 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
 
                     productPrices.Amount = articlePrice / 10;
                     double soldExist = 0;
-                    if (!isWithoutBill && productPrices.ArticleCode != null)
+                    if ( productPrices.ArticleCode != null)
                     {
-                        var aBails = _aBailRepository.GetWithACode(productPrices.ArticleCode, cancellationToken).Result;
-                        soldExist = aBails.Sum(x => x.First_Article);
+                        int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
+                        soldExist = _aBailRepository.GetWithACode(userCode, productPrices.ArticleCode, cancellationToken);
                     }
 
                     productPrices.Exist = (double)article.Sum(x => x.Exist) - soldExist;
