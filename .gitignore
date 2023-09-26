@@ -371,11 +371,18 @@ ECommerce.API/appsettings.json
 **/site.min.js
 
 # VS Code settings
-.vscode/*
-
-# prettier config file
-.prettierrc
+!.vscode/*
 
 # Environment Variables
 .env
 /ECommerce.Front.BolouriGroup/ECommerce.Front.BolouriGroup.csproj
+
+# npm package manager
+!package.json
+!package-lock.json
+
+# typescript config file
+!tsconfig.json
+
+# dist folder (can be built)
+/ECommerce.Front.BolouriGroup/wwwroot/dist

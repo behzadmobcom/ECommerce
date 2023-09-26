@@ -58,14 +58,6 @@ $(window).on("scroll", function () {
   $(".wish").on("click", function () {
     $(this).toggleClass("active");
   }),
-  $(".action-plus").on("click", function () {
-    var i = $(this).closest(".product-action").children(".action-input").get(0).value++,
-      c = $(this).closest(".product-action").children(".action-minus");
-    i > 0 && c.removeAttr("disabled");
-  }),
-  $(".action-minus").on("click", function () {
-    2 == $(this).closest(".product-action").children(".action-input").get(0).value-- && $(this).attr("disabled", "disabled");
-  }),
   $(".review-widget-btn").on("click", function () {
     $(this).next(".review-widget-list").toggle();
   }),
