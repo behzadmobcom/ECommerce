@@ -285,10 +285,22 @@ public class ProductsController : ControllerBase
                         break;
                     case ProductSort.HighToLowPrice:
                         productIndexPageViewModel = productIndexPageViewModel
-                            .OrderByDescending(x => x.Prices.Max(p => p.Amount)).ToList();
+                            .OrderByDescending(x =>
+                            {
+                                var prices = x.Prices.FindAll(p => p.Exist > 0);
+                                if (prices.Count == 0)
+                                    return 0;
+                                return prices.Min(p => p.Amount);
+                            }).ToList();
                         break;
                     case ProductSort.LowToHighPrice:
-                        productIndexPageViewModel = productIndexPageViewModel.OrderBy(x => x.Prices.Min(p => p.Amount))
+                        productIndexPageViewModel = productIndexPageViewModel.OrderBy(x =>
+                        {
+                            var prices = x.Prices.FindAll(p => p.Exist > 0);
+                            if (prices.Count == 0)
+                                return 0;
+                            return prices.Min(p => p.Amount);
+                        })
                             .ToList();
                         break;
                     case ProductSort.Bestsellers:
@@ -699,7 +711,7 @@ public class ProductsController : ControllerBase
             { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
         }
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetProductsWithCategoriesForCompare(int categoryId, CancellationToken cancellationToken)
     {
