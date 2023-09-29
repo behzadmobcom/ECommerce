@@ -29,19 +29,6 @@
       }
     },
     {
-      "name": "bundle: ECommerce.Front.BolouriGroup",
-      "type": "coreclr",
-      "request": "launch",
-      "cwd": "${workspaceFolder}\\ECommerce.Front.BolouriGroup",
-      "program": "bundle",
-      "args": ["watch"],
-      "presentation": {
-        "hidden": false,
-        "group": "ECommerce",
-        "order": 1
-      }
-    },
-    {
       // Use IntelliSense to find out which attributes exist for C# debugging
       // Use hover for the description of the existing attributes
       // For further information visit https://github.com/dotnet/vscode-csharp/blob/main/debugger-launchjson.md
