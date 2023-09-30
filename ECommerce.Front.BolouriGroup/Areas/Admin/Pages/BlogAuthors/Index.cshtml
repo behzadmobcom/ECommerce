@@ -58,7 +58,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">نام</th>
-                        <th scope="col">توضیحات</th>
                         <th scope="col">عملیات</th>
                     </tr>
                     </thead>
@@ -68,11 +67,7 @@
                         <tr>
                             <th scope="row">@(i++)</th>
                             <td>@blogAuthor.Name</td>
-                            <td >
-                                <div >
-                                    <h2>@Html.Raw(blogAuthor.Description)</h2>
-                                </div>
-                            </td>
+                          
                             <td>
                                 <a asp-page="Edit" asp-route-id="@blogAuthor.Id" class="label label-inline label-light-success font-weight-bold">ویرایش</a>
                                 <a asp-page="Delete" asp-route-id="@blogAuthor.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
