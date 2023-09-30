@@ -14,10 +14,12 @@ public class PaymentMethod : BaseEntity
     [Display(Name = "نام بانک")]
     [StringLength(50)]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
+    [RegularExpression("^[\\u0600-\\u06FF\\s]+$$", ErrorMessage = "لطفا برای {0} فقط حروف فارسی وارد کنید")]
     public string BankName { get; set; }
 
     [Display(Name = "نام شعبه")]
     [StringLength(50)]
+
     public string? BrunchName { get; set; }
 
     [Display(Name = "کد بانک")]
