@@ -206,7 +206,7 @@ button:focus {
 
 @media (max-width: 575px) {
   .col {
-    padding: 10px 100px;
+    padding: 10px 50px;
   }
 }
 
