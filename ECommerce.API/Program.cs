@@ -14,6 +14,7 @@ using PersianTranslation.Identity;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", false)
@@ -39,7 +40,16 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) => loggerConfigura
     .ReadFrom.Configuration(hostingContext.Configuration)
 );
 
-var _siteSetting = builder.Configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
+//builder.WebHost.ConfigureKestrel((context, options) =>
+//{
+//    options.ConfigureEndpointDefaults(listenOptions =>
+//    {
+//        listenOptions.Protocols = HttpProtocols.Http1AndHttp2AndHttp3;
+//        listenOptions.UseHttps();
+//    });
+//});
+
+var siteSetting = builder.Configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
 builder.Services.AddControllers();
 builder.Services.AddControllers()
@@ -89,7 +99,7 @@ builder.Services.AddSwaggerGen(swagger =>
 
 builder.Services.AddDataProtection();
 
-builder.Services.AddSingleton(_siteSetting);
+builder.Services.AddSingleton(siteSetting);
 
 builder.Services.AddIdentity<User, UserRole>(identityOption =>
     {
@@ -114,10 +124,10 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = _siteSetting.IdentitySetting.Audience,
-        ValidIssuer = _siteSetting.IdentitySetting.Issuer,
+        ValidAudience = siteSetting.IdentitySetting.Audience,
+        ValidIssuer = siteSetting.IdentitySetting.Issuer,
         IssuerSigningKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_siteSetting.IdentitySetting.IdentitySecretKey))
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(siteSetting.IdentitySetting.IdentitySecretKey))
     };
 });
 
