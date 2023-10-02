@@ -8817,15 +8817,18 @@ tbody tr td:last-child {
     padding: 3px !important;
   }
 }
+.TitleSlide {
+    font-size: 35px !important
+}
 .home-classic-slider .banner-content p {
   color: var(--white);
   font-size: 18px;
-  line-height: 28px;
+  line-height: 50px;
   margin-bottom: 50px;
 }
 
 .home-classic-slider .banner-btn .btn {
-  margin-left: 15px;
+    margin-left: 15px;
 }
 
 .home-classic-slider .banner-btn .btn:last-child {
