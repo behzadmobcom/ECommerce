@@ -150,7 +150,7 @@ public class ContactsController : ControllerBase
                 return Ok(new ApiResult
                 {
                     Code = ResultCode.BadRequest,
-                    Messages = new List<string> { "پیام تکراری از این فرستنده تکراری است" }
+                    Messages = new List<string> { "پیام ارسالی از این فرستنده تکراری است" }
                 });
 
             if (string.IsNullOrEmpty(contact.Email) || string.IsNullOrEmpty(contact.Message))

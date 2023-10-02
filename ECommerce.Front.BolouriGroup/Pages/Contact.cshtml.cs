@@ -27,6 +27,7 @@ public class ContactModel : PageModel
     {
         if (ModelState.IsValid)
         {
+            
             var result = await _contactService.Add(Contact);
             Message = result.Message;
             Code = result.Code.ToString();

@@ -19,6 +19,7 @@ namespace Ecommerce.Entities
         [StringLength(50, MinimumLength = 3, ErrorMessage = @"حداقل 3 و حداکثر 50 کاراکتر")]
         [EmailAddress(ErrorMessage = @"لطفا یک آدرس ایمیل صحیح وارد کنید")]
         public string Email { get; set; } = string.Empty;
+        public DateTime CreateDateTime { get; set; } = DateTime.Now;
 
         [Display(Name = "موضوع")]
         [Required(ErrorMessage = @"{0} را وارد کنید")]
