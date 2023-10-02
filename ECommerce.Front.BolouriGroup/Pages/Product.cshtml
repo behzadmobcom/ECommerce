@@ -425,7 +425,8 @@
             } else {
                 $("#exist").text("عدم موجودی");
             }
-            $("#price").text(price.amount + " تومان ");
+            const formatter = new Intl.NumberFormat();
+            $("#price").text(formatter.format(price.amount) + " تومان ");
             $("[name='price.Id']").removeClass("circleSelected");
             $("#price-" + id).addClass("circleSelected");
 
