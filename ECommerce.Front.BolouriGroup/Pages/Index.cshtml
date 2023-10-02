@@ -4,7 +4,6 @@
     ViewData["Title"] = "فروشگاه اینترنتی بلوری";
     ViewData["TopHeaderWelcome"] = Model.TopHeaderWelcome;
 }
-
 <section class="home-classic-slider slider-arrow">
 
     @{
@@ -28,7 +27,7 @@
                         <div class="row rtl">
                                 <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6" >
                                     <div class="banner-content">
-                                    <h1>@slide.Title</h1>
+                                        <P class="TitleSlide">@slide.Title</P>
                                     <p>@Html.Raw(slide.Description)</p>
                                     <div class="banner-btn">
                                         <a class="btn btn-inline" asp-area="" asp-page="Product" asp-route-productUrl="@slide.Product.Url"><i class="far fa-shopping-cart"></i><span>الان خرید کن</span></a>
