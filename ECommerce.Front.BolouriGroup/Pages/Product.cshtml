@@ -136,11 +136,11 @@
                             @if (discount > 0)
                             {
                                 <div class="details-price">
-                                    <del>@amount?.ToString("###,###,###,###") تومان</del>
+                                    <del>@amount?.ToString("N0") تومان</del>
                                 </div>
                             }
                             <h6 class="details-price">
-                                <span id="price">@discountAmount?.ToString("###,###,###,###") تومان</span>
+                                <span id="price">@discountAmount?.ToString("N0") تومان</span>
                             </h6>
 
                         }
@@ -166,10 +166,11 @@
                             {
                                 @foreach (var price in Model.Product.Prices)
                                 {
-                                    <div>
+                                    <div style="font-size:13px">
                                         @{
                                             var select = price.Id == priceId ? "checked" : "";
-                                            var disabled = price.Exist <= 0 ? "disabled='disabled'" : "";
+                                            var disabled = price.Exist <= 0 ? $"disabled='disabled'" : "";
+                                            var style = price.Exist <= 0 ? $"background-color: {@price.Color.ColorCode}; opacity: 0.3" : $"background-color: {@price.Color.ColorCode} ";
                                         }
                                         @if ((int)price.Grade > 1)
                                         {
@@ -185,24 +186,24 @@
                                         else if (price.ColorId > 1)
                                         {
                                             <div class="col-3">
-                                                <button style="background-color: @price.Color.ColorCode" @disabled @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
+                                                <button @disabled style="@style" @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
                                             </div>
                                         }
-                                        <div class="col-4">
+                                        <div class="col-12">
                                             @switch (price.Exist)
                                             {
                                                 case <= 0:
                                                     <span style="color: red">ناموجود</span>
                                                     break;
                                                 case <= 3:
-                                                    <span style="color: red">باقیمانده @price.Exist عدد</span>
+                                                    <span style="color: blue">@price.Exist عدد</span>
                                                     break;
                                             }
                                         </div>
                                     </div>
                                 }
                             }
-                        </div>
+                        </div><br />
                         <div class="details-list-group">
                             <label class="details-list-title">برچسب ها:</label>
                             <ul class="details-tag-list">
@@ -428,7 +429,7 @@
             $("[name='price.Id']").removeClass("circleSelected");
             $("#price-" + id).addClass("circleSelected");
 
-        }
+        } 
 
         let copyText = document.querySelector(".copyright");
         copyText.querySelector("button").addEventListener("click", function () {
