@@ -1,4 +1,5 @@
 ﻿import "../css/style.css";
+import "../css/searchBox.scss";
 
 const formatter = new Intl.NumberFormat();
 
@@ -520,7 +521,8 @@ function ChangeZoomImage(imageId) {
 const searchChangeHandler = async (searchText) => {
   if (searchText.length < 3) {
     $(".search-result").hide("fast");
-    $(".search-result").html("");
+    $(".search-result-items").html("");
+    $(".search-result-all-btn").html("");
     return;
   }
 
@@ -545,7 +547,7 @@ const searchChangeHandler = async (searchText) => {
   });
 
   if (searchResult.length === 0 && searchResultCategory.length === 0) {
-    $(".search-result").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
+    $(".search-result-items").html("<p style='text-align:center;height:100%;padding-top:10px;'>نتیجه ای یافت نشد.</p>");
   } else {
     const categoriesResults = searchResultCategory.map((value, index) => {
       return createSearchCategoryResultItem(value, index);
@@ -554,7 +556,8 @@ const searchChangeHandler = async (searchText) => {
       return createSearchResultItem(value, index);
     });
     const resutls = [...categoriesResults, ...productsResults];
-    $(".search-result").html(resutls);
+    $(".search-result-items").html(resutls);
+    $(".search-result-all-btn").html(`<a role="button" class="btn btn-primary search-all-btn" href="/shop?search=${searchText}">همه نتایج</a>`);
   }
 
   $(".search-result").show("fast");
@@ -588,8 +591,8 @@ $(() => {
   $(document).on("click", (e) => {
     if (!$(e.target).closest(".search-result").length) $(".search-result").hide();
     if ($("#searchBox").is(":focus")) {
-      const searchResult = $(".search-result");
-      if (searchResult.children().length > 0) searchResult.show("fast");
+      const searchResult = $(".search-result-items");
+      if (searchResult.children().length > 0) searchResult.parent().show("fast");
     }
   });
 });
