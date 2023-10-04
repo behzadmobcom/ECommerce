@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "ms-dotnettools.csdevkit",
+    "mhutchie.git-graph",
+    "donjayamanne.githistory",
+    "github.vscode-github-actions",
+    "GitHub.vscode-pull-request-github",
+    "eamodio.gitlens",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "PKief.material-icon-theme",
+    "esbenp.prettier-vscode"
+  ]
+}
