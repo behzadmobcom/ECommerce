@@ -169,6 +169,7 @@
                                     <div style="font-size:13px">
                                         @{
                                             var select = price.Id == priceId ? "checked" : "";
+                                            var circleSelected = price.Id == priceId ? "circleSelected" : "";
                                             var disabled = price.Exist <= 0 ? $"disabled='disabled'" : "";
                                             var style = price.Exist <= 0 ? $"background-color: {@price.Color.ColorCode}; opacity: 0.3" : $"background-color: {@price.Color.ColorCode} ";
                                         }
@@ -186,7 +187,7 @@
                                         else if (price.ColorId > 1)
                                         {
                                             <div class="col-3">
-                                                <button @disabled style="@style" @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle"></button>
+                                                <button @disabled style="@style" @select name="price.Id" id="price-@price.Id" onclick="SetPriceId(@price.Id)" class="circle @circleSelected"></button>
                                             </div>
                                         }
                                         <div class="col-12">
