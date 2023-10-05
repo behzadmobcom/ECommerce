@@ -183,7 +183,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    $("#sumPrice").html(formatter.format(response.sumPrice));
+                    $("#sumPrice").html(new Intl.NumberFormat().format(response.sumPrice));
                     swal(response.description)
                 },
                 failure: function (response) {
@@ -200,7 +200,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    $("#sumPrice").html(formatter.format(response));
+                    $("#sumPrice").html(new Intl.NumberFormat().format(response.sumPrice));
                     $("#discountCode").val('');
                 }
             });
