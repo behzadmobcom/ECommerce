@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class Color : BaseEntity
+public class Color : RootEntity
 {
     [Display(Name = "نام رنگ")]
     [StringLength(50, MinimumLength = 2, ErrorMessage = @"حداقل 2 و حداکثر 50 کاراکتر")]
