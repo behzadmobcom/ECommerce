@@ -86,7 +86,7 @@ public class InvoiceModel : PageModel
                     PurchaseOrder.Transaction = new()
                     {
                         RefId = Refid,
-                        Amount = (amount * 10),
+                        Amount = amount,
                         UserId = resultOrder.ReturnData.UserId
                     };
                     var result = await _purchaseOrderService.Pay(PurchaseOrder);
@@ -95,7 +95,7 @@ public class InvoiceModel : PageModel
                     //CartList = (await _cartService.CartListFromServer()).ReturnData;
                     if (result.Code == 0 && result.Message != null)
                     {
-                        await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToFa());
+                        await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToString("MM/dd/yyyy"));
                     }
                     OrderId = PurchaseOrder.OrderId;
                     Message = "سفارش شما با موفقیت ثبت شد";
@@ -107,7 +107,7 @@ public class InvoiceModel : PageModel
 
     private async Task<ActionResult> pay(PurchaseResult result)
     {
-      var dataBytes = Encoding.UTF8.GetBytes(result.Token);
+        var dataBytes = Encoding.UTF8.GetBytes(result.Token);
         var symmetric = SymmetricAlgorithm.Create("TripleDes");
         symmetric.Mode = CipherMode.ECB;
         symmetric.Padding = PaddingMode.PKCS7;
@@ -124,11 +124,10 @@ public class InvoiceModel : PageModel
 
         var resultOrder = await _purchaseOrderService.GetByUserId();
         PurchaseOrder = resultOrder.ReturnData;
-        PurchaseOrder.Amount *= 10;
         var amount = Convert.ToInt32(PurchaseOrder.Amount);
         if (PurchaseOrder.DiscountId != null && PurchaseOrder.Discount != null)
         {
-            if (PurchaseOrder.Discount.Amount != null && PurchaseOrder.Discount.Amount > 0)
+            if (PurchaseOrder.Discount.Amount is > 0)
             {
                 amount -= (int)PurchaseOrder.Discount.Amount;
                 if (amount < 0) amount = 0;
