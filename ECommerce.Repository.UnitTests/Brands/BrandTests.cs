@@ -1,18 +1,18 @@
 ﻿using Ecommerce.Entities;
-using ECommerce.API.DataContext;
+using ECommerce.API.Interface;
 using ECommerce.API.Repository;
+using ECommerce.Repository.UnitTests.Base;
 using Xunit;
 
 namespace ECommerce.Repository.UnitTests.Brands
 {
-    public class BrandTests
+    public class BrandTests : BaseTests
     {
-        private readonly SunflowerECommerceDbContext _dbContext;
+        private readonly IBrandRepository _brandRepository;
 
         public BrandTests()
         {
-            var db = new DbContextFake();
-            _dbContext = db.GetDatabaseContext();
+            _brandRepository = new BrandRepository(DbContext);
         }
 
         [Fact]
@@ -21,7 +21,6 @@ namespace ECommerce.Repository.UnitTests.Brands
             //Arrange
             int id = 1;
             string name = "Brand for test";
-            var brandRepository = new BrandRepository(_dbContext);
             Brand brand = new Brand
             {
                 Id = id,
@@ -29,7 +28,7 @@ namespace ECommerce.Repository.UnitTests.Brands
             };
 
             //Act
-            var newBrand = await brandRepository.AddAsync(brand,new CancellationToken());
+            var newBrand = await _brandRepository.AddAsync(brand,new CancellationToken());
 
             //Assert
             Assert.Equal(newBrand.Id,id);

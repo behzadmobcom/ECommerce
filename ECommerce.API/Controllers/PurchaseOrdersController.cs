@@ -314,7 +314,10 @@ public class PurchaseOrdersController : ControllerBase
                 });
 
             if (result.Any(x => x.Price.ArticleCode != null))
+            {
                 result = await AddPriceAndExistFromHolooList(result.ToList());
+                await _purchaseOrderDetailRepository.UpdateUserCart(result, cancellationToken);
+            }
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
@@ -520,7 +523,7 @@ public class PurchaseOrdersController : ControllerBase
 
     private double CalculateDiscount(Discount discount, double amount)
     {
-        if (discount.Amount != null && discount.Amount > 0)
+        if (discount.Amount is > 0)
         {
             amount -= (int)discount.Amount;
             if (amount < 0) amount = 0;
@@ -547,7 +550,7 @@ public class PurchaseOrdersController : ControllerBase
             Discount? discount = null;
             if (purchaseOrder.DiscountId != null)
             {
-                discount = _discountRepository.GetById(purchaseOrder.DiscountId);
+                discount = await _discountRepository.GetByIdAsync(cancellationToken, purchaseOrder.DiscountId);
                 if (!discount.IsActive ||
                     discount.StartDate?.Date > DateTime.Now.Date ||
                     discount.EndDate?.Date < DateTime.Now.Date)
@@ -560,11 +563,13 @@ public class PurchaseOrdersController : ControllerBase
             var cCode = resultUser.CustomerCode;
             var (fCode, fCodeC) = await _holooFBailRepository.GetFactorCode(cancellationToken);
             var amount = Convert.ToDouble(purchaseOrder.Amount);
-            double? Takhfif = null;
+            double? takhfif = null;
             if (discount != null)
             {
-                Takhfif = Convert.ToDouble(purchaseOrder.Amount) - CalculateDiscount(discount, amount);
+                takhfif = (amount - CalculateDiscount(discount, amount)) * 10;
             }
+
+            amount *= 10;
             int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
             var fBail = await _holooFBailRepository.Add(new HolooFBail
             {
@@ -575,8 +580,8 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Date = DateTime.Now,
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
-                Sum_Price = (amount * 10),
-                Takhfif = (Takhfif * 10),
+                Sum_Price = amount,
+                Takhfif = takhfif
                 UserCode = userCode
 
             }, cancellationToken);
@@ -597,7 +602,7 @@ public class PurchaseOrdersController : ControllerBase
                     Fac_Type = "P",
                     Few_Article = orderDetail.Quantity,
                     First_Article = orderDetail.Quantity,
-                    Price_BS = Convert.ToDouble(orderDetail.UnitPrice),
+                    Price_BS = Convert.ToDouble(orderDetail.UnitPrice) * 10,
                     Unit_Few = 0
                 });
             }
@@ -610,6 +615,7 @@ public class PurchaseOrdersController : ControllerBase
             var sanadCodes = await _holooSanadRepository.Add(sanad, cancellationToken);
             var sanadCode = Convert.ToInt32(sanadCodes.Item1);
             var sanadCodeCustomer = Convert.ToInt32(sanadCodes.Item2);
+            purchaseOrder.Transaction.Amount *= 10;
             await _transactionRepository.AddAsync(new Transaction
             {
                 Amount = purchaseOrder.Transaction.Amount,
@@ -623,7 +629,7 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
             }, cancellationToken);
-
+            
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0009", Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Transaction.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
