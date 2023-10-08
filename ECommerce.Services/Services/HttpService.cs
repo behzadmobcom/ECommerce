@@ -24,6 +24,14 @@ public class HttpService : IHttpService
 
     public async Task<ApiResult<object>> PostAsyncWithoutToken<T>(string url, T data, string apiName = "Post")
     {
+        var CreatorUserId = data.GetType().GetProperty("CreatorUserId");
+        if (CreatorUserId != null)
+        {
+            var resultCurrentUser = _cookieService.GetCurrentUser();
+            if (CreatorUserId.GetValue(data) == null)
+                CreatorUserId.SetValue(data, resultCurrentUser.Id);
+        }
+
         var dataSerialize = JsonSerializer.Serialize(data);
         var content = new StringContent(dataSerialize, Encoding.UTF8, "application/json");
         var response = await _http.PostAsync($"{url}/{apiName}", content);
@@ -37,6 +45,14 @@ public class HttpService : IHttpService
         var loginResult = _cookieService.GetToken();
         _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult);
 
+        var CreatorUserId = data.GetType().GetProperty("CreatorUserId");
+        if (CreatorUserId != null)
+        {
+            var resultCurrentUser = _cookieService.GetCurrentUser();
+            if (CreatorUserId.GetValue(data) == null)
+                CreatorUserId.SetValue(data, resultCurrentUser.Id);
+        }
+
         var dataSerialize = JsonSerializer.Serialize(data);
         var content = new StringContent(dataSerialize, Encoding.UTF8, "application/json");
         var response = await _http.PostAsync($"{url}/{apiName}", content);
@@ -49,6 +65,14 @@ public class HttpService : IHttpService
     {
         var loginResult = _cookieService.GetToken();
         _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult);
+
+        var CreatorUserId = data.GetType().GetProperty("CreatorUserId");
+        if (CreatorUserId != null)
+        {
+            var resultCurrentUser = _cookieService.GetCurrentUser();
+            if (CreatorUserId.GetValue(data) == null)
+                CreatorUserId.SetValue(data, resultCurrentUser.Id);
+        }
 
         var dataSerialize = JsonSerializer.Serialize(data);
         var content = new StringContent(dataSerialize, Encoding.UTF8, "application/json");
@@ -70,6 +94,13 @@ public class HttpService : IHttpService
     {
         var loginResult = _cookieService.GetToken();
         _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult);
+
+        var EditorUserId = data.GetType().GetProperty("EditorUserId");
+        if (EditorUserId != null)
+        {
+            var resultCurrentUser = _cookieService.GetCurrentUser();
+            EditorUserId.SetValue(data, resultCurrentUser.Id);
+        }
 
         var dataSerialize = JsonSerializer.Serialize(data);
         var content = new StringContent(dataSerialize, Encoding.UTF8, "application/json");
