@@ -27,8 +27,8 @@ public class PurchaseOrdersController : ControllerBase
     private readonly IUserRepository _userRepository;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IDiscountRepository _discountRepository;
-    private IConfiguration _configuration;
     private readonly IHolooABailRepository _aBailRepository;
+    private readonly IConfiguration _configuration;
 
     public PurchaseOrdersController(
         IPurchaseOrderRepository purchaseOrderRepository,
@@ -628,8 +628,12 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
             }, cancellationToken);
-            
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0009", Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+
+            string col_Code = _configuration.GetValue<string>("SanadSettings:col_Code");
+            string moien_Code = _configuration.GetValue<string>("SanadSettings:moien_Code");
+            string tafzili_Code = _configuration.GetValue<string>("SanadSettings:tafzili_Code");
+
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, col_Code, moien_Code, tafzili_Code, Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Transaction.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
