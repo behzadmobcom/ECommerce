@@ -3,7 +3,6 @@ using Ecommerce.Entities.Helper;
 using Ecommerce.Entities.HolooEntity;
 using Ecommerce.Entities.ViewModel;
 using ECommerce.API.Interface;
-using ECommerce.API.Repository;
 using ECommerce.Application.Commands.Purchase.Purchases;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -581,7 +580,7 @@ public class PurchaseOrdersController : ControllerBase
                 Fac_Time = DateTime.Now,
                 Fac_Type = "P",
                 Sum_Price = amount,
-                Takhfif = takhfif
+                Takhfif = takhfif,
                 UserCode = userCode
 
             }, cancellationToken);
