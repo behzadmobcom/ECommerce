@@ -72,7 +72,11 @@
                                 <img style="width: 25%" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt">   
                                 }                               
                             </ul>
-                        </div>                   
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="@Model.ProductComment.CreatedDate" type="datetime" hidden="hidden" />
+                            <input asp-for="@Model.ProductComment.CreatorUserId" type="number" hidden="hidden" />                            
+                        </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
                         <a class="btn btn-secondary" asp-Page="/ProductComments/index" asp-area="Admin">لغو</a>

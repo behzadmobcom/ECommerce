@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class ProductAttribute : BaseEntity
+public class ProductAttribute : RootEntity
 {
     [Display(Name = "عنوان")]
     [StringLength(500, MinimumLength = 2, ErrorMessage = @"حداقل 2 و حداکثر 050 کاراکتر")]

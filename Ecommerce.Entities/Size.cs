@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class Size : BaseEntity
+public class Size : RootEntity
 {
     [Display(Name = "سایز")]
     [StringLength(50, MinimumLength = 1, ErrorMessage = @"حداقل 1 و حداکثر 50 کاراکتر")]

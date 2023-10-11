@@ -53,6 +53,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">تاریخ</th>
                             <th scope="col">نام  فرستنده</th>
                             <th scope="col">ایمیل فرستنده</th>
                             <th scope="col">پاسخ داده شده</th>
@@ -67,6 +68,7 @@
                             {
                                 <tr>
                                     <th scope="row">@(i++)</th>
+                                    <td>@contact.CreatedDate</td>
                                     <td>@contact.Name</td>
                                     <td>@contact.Email</td>
                                     @if (!string.IsNullOrEmpty(contact.ReplayMessage))

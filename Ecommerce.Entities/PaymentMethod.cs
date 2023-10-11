@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Entities;
 
-public class PaymentMethod : BaseEntity
+public class PaymentMethod : RootEntity
 {
     [StringLength(26, MinimumLength = 8, ErrorMessage = "حداقل 8 و حداکثر 26 کاراکتر")]
     [Display(Name = "شماره حساب")]

@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Entities;
 
-public class Employee : BaseEntity
+public class Employee : RootEntity
 {
     [Display(Name = "نام")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = @"حداقل 3 و حداکثر 50 کاراکتر")]
