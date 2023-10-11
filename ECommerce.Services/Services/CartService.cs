@@ -23,7 +23,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         _priceService = priceService;
     }
 
-    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> Load(HttpContext context)
+    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> Load(HttpContext context,bool shouldUpdatePurchaseOrderDetails = false)
     {
         var currentUser = _cookieService.GetCurrentUser();
         var carts = await ReadFromCookies(context);
@@ -39,7 +39,7 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
                 }
             }
 
-            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
+            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}&shouldUpdatePurchaseOrderDetails={shouldUpdatePurchaseOrderDetails}");
             return Return(result);
         }
 
@@ -120,12 +120,12 @@ public class CartService : EntityService<PurchaseOrderViewModel>, ICartService
         return carts;
     }
 
-    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer()
+    public async Task<ServiceResult<List<PurchaseOrderViewModel>>> CartListFromServer(bool shouldUpdatePurchaseOrderDetails = false)
     {
         var currentUser = _cookieService.GetCurrentUser();
         if (currentUser.Id != 0)
         {
-            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}");
+            var result = await ReadList(Url, $"UserCart?userId={currentUser.Id}&shouldUpdatePurchaseOrderDetails={shouldUpdatePurchaseOrderDetails}");
             return Return(result);
         }
         return new ServiceResult<List<PurchaseOrderViewModel>>
