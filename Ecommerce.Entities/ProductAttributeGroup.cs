@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Entities;
 
-public class ProductAttributeGroup : BaseEntity
+public class ProductAttributeGroup : RootEntity
 {
     [StringLength(50, MinimumLength = 2, ErrorMessage = @"حداقل 2 و حداکثر 50 کاراکتر")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]
