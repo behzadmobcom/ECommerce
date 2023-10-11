@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class State : BaseEntity
+public class State : RootEntity
 {
     [Display(Name = "نام استان")]
     [StringLength(30, ErrorMessage = @"حداکثر 30 کاراکتر")]

@@ -44,6 +44,10 @@
                             <label>توضیحات</label>
                             <textarea asp-for="@Model.Size.Description" class="form-control form-control-solid" rows="6"></textarea>
                         </div>
+                        <div class="form-group">
+                            <input asp-for="@Model.Size.CreatedDate" type="datetime" hidden="hidden" />
+                            <input asp-for="@Model.Size.CreatorUserId" type="number" hidden="hidden" />                            
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>

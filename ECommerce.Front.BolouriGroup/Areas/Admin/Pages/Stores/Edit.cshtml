@@ -45,6 +45,10 @@
                             <input asp-for="@Model.Store.Address" class="form-control form-control-solid" rows="6"/>
                             <span asp-validation-for="@Model.Store.Address" class="mt-5" style="color: red; margin-top: 10px"></span>
                         </div>
+                        <div class="form-group">
+                            <input asp-for="@Model.Store.CreatedDate" type="datetime" hidden="hidden" />
+                            <input asp-for="@Model.Store.CreatorUserId" type="number" hidden="hidden" />                            
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>

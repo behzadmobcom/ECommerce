@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class Currency : BaseEntity
+public class Currency : RootEntity
 {
     [Display(Name = "نام")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]

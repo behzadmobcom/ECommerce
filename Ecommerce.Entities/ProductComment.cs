@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Entities;
 
-public class ProductComment : BaseEntity
+public class ProductComment : RootEntity
 {
     [Display(Name = "کامنت")]
     [Required(ErrorMessage = @"{0} را وارد کنید")]

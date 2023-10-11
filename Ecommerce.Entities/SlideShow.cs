@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Entities;
 
-public class SlideShow : BaseEntity
+public class SlideShow : RootEntity
 {
     [Display(Name = "عنوان")]
     [StringLength(50, ErrorMessage = @"حداکثر 50 کاراکتر")]

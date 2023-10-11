@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Ecommerce.Entities;
 
-public class Keyword : BaseEntity
+public class Keyword : RootEntity
 {
     [Display(Name = "کلمه کلیدی")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = @"حداقل 3 و حداکثر 50 کاراکتر")]

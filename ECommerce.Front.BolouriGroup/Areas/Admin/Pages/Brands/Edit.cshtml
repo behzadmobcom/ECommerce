@@ -57,6 +57,10 @@
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <input asp-for="@Model.Brand.CreatedDate" type="datetime" hidden="hidden" />
+                            <input asp-for="@Model.Brand.CreatorUserId" type="number" hidden="hidden" />                            
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary mr-2">ویرایش</button>
