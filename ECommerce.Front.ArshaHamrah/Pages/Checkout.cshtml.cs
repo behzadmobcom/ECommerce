@@ -103,7 +103,7 @@ public class CheckoutModel : PageModel
 
         //CartList = await _cartService.Load(HttpContext);
         //var amount = CartList.ReturnData.Sum(x => x.SumPrice);
-        var resultCart = await _cartService.CartListFromServer();
+        var resultCart = await _cartService.CartListFromServer(true);
         if (resultCart.Code > 0)
         {
             Message = resultCart.Message;

@@ -63,7 +63,7 @@ public class CheckoutModel : PageModel
         var cityServiceResponse = await _cityService.LoadAllCity();
         CityList = cityServiceResponse.ReturnData;
         SendInformationList = (await _sendInformationService.Load()).ReturnData;
-        var resultCart = await _cartService.CartListFromServer();
+        var resultCart = await _cartService.CartListFromServer(true);
         if (resultCart.Code > 0)
         {
             Message = resultCart.Message;

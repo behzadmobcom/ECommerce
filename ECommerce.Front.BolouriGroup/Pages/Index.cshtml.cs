@@ -21,11 +21,10 @@ public class IndexModel : PageModel
     private readonly IStarService _starService;
     private readonly IDiscountService _discountService;
     private readonly IBlogService _blogService;
-    private IConfiguration _configuration;
 
     public IndexModel(ISlideShowService slideShowService, IProductService productService,
         IWishListService wishListService, ICartService cartService, ICompareService compareService,
-        ICookieService cookieService, IBrandService brandService, IStarService starService, IBlogService blogService , IDiscountService discountServic, IConfiguration configuration)
+        ICookieService cookieService, IBrandService brandService, IStarService starService, IBlogService blogService , IDiscountService discountService)
     {
         _slideShowService = slideShowService;
         _productService = productService;
@@ -36,8 +35,7 @@ public class IndexModel : PageModel
         _brandService = brandService;
         _starService = starService;
         _blogService = blogService;
-        _discountService = discountServic;
-        _configuration = configuration;
+        _discountService = discountService;
     }
 
     public List<SlideShowViewModel> SlideShowViewModels { get; set; }
@@ -46,11 +44,9 @@ public class IndexModel : PageModel
     public ServiceResult<List<BlogViewModel>> Blogs { get; set; }
     public List<Brand> Brands { get; set; }
     public bool IsColleague { get; set; }
-    public string TopHeaderWelcome { get; set; }
 
     public async Task OnGetAsync()
     {
-        TopHeaderWelcome = _configuration["TopHeaderWelcome"];
         //var productTops = (await _productService.GetTops("TopNew:8,TopPrices:4,TopStars:10")).ReturnData;
         var productTops = (await _productService.GetTops("TopPrices:4,TopNew:10")).ReturnData;
         foreach (var top in productTops)

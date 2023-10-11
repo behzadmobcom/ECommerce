@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration;
+@{
     var cartList = await Component.InvokeAsync("CartList");
 }
 
@@ -10,7 +12,7 @@
     <meta name="description" content="Website for selling kitchen appliances and equipment">
     <meta name="google-site-verification" content="z3ydWsuK_iOyw9Qjy_D8cYh2K7UC1UP5szESjLB5mVg" />
     <meta name="robots" content="index,follow">
-    <title>@ViewData["Title"] - Boloori</title>
+    <title>@Html.Raw(ViewData["Title"]) - Boloori</title>
 
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Title"/>
@@ -20,7 +22,7 @@
     <meta property="og:site_name" content="مجموعه بلوری"/>
 
 
-    <link rel="canonical" href="https://boloorico.com />
+    <link rel="canonical" href="https://boloorico.com" />
     <link rel="icon" href="~/img/favicon.webp" />
     <link href="~/css/flaticon.css" rel="stylesheet" onload="this.media='all'" />
     <link href="~/css/fontawesome.min.css" rel="stylesheet" onload="this.media='all'" />
@@ -42,7 +44,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-5 col-lg-5">
-                    <div class="header-top-welcome"><p>@ViewData["TopHeaderWelcome"]</p></div>
+                    <div class="header-top-welcome"><p>@Configuration.GetSection("TopHeaderWelcome").Value</p></div>
                 </div>
                 <div class="col-md-4 col-lg-4">
                     <ul class="header-top-list">
@@ -448,11 +450,11 @@
                                     <a asp-area="" asp-page="/Wishlist">لیست علاقه مندیها</a>
                                 </li>
 
-                                <li>
+                            @*     <li>
                                     <a referrerpolicy="origin" rel="noopener" target="_blank" href="https://trustseal.enamad.ir/?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa">
-                                        <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
+                                <img referrerpolicy="origin" src="https://Trustseal.eNamad.ir/logo.aspx?id=303389&amp;Code=4pI0nWt9IaoFM0izrXoa" alt="enamad.boloorico" style="cursor: pointer" id="4pI0nWt9IaoFM0izrXoa" width="125" height="136">
                                     </a>
-                                </li>
+                                </li> *@
                             </ul>
                             <ul>
                                 <li>

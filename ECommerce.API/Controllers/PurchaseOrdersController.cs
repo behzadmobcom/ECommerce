@@ -299,7 +299,7 @@ public class PurchaseOrdersController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
-    public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId, CancellationToken cancellationToken)
+    public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId,bool shouldUpdatePurchaseOrderDetails, CancellationToken cancellationToken)
     {
         try
         {
@@ -315,6 +315,10 @@ public class PurchaseOrdersController : ControllerBase
             if (result.Any(x => x.Price.ArticleCode != null))
             {
                 result = await AddPriceAndExistFromHolooList(result.ToList());
+            }
+
+            if (shouldUpdatePurchaseOrderDetails)
+            {
                 await _purchaseOrderDetailRepository.UpdateUserCart(result, cancellationToken);
             }
             return Ok(new ApiResult

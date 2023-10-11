@@ -24,7 +24,7 @@
 
 <section class="inner-section single-banner">
     <div class="container">
-        <h1>جزئیات محصول</h1>
+        <p class="SizeFont">جزئیات محصول</p>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a asp-area="" asp-page="/Index">خانه</a>
@@ -71,9 +71,9 @@
                 }
                 <div class="col-lg-7 col-md-10">
                     <div class="details-content">
-                        <h3 class="details-name">
+                        <h1 class="details-name">
                             <a href="#">@Model.Product.Name</a>
-                        </h3>
+                        </h1>
                         <div class="details-meta">
                             @if (Model.Product.Brand != null && string.IsNullOrEmpty(Model.Product.Brand.Name))
                             {
@@ -144,7 +144,7 @@
                             </h6>
 
                         }
-
+                        <p class="view-desc"> @Html.Raw(Model.Product.Description)</p>
                         @if (Model.Product.Prices.Count == 1)
                         {
                             <div class="details-list-group">
@@ -470,6 +470,48 @@
         }
 
     </script>
-
+    <script type="application/ld+json">
+        {
+          "context": "https://schema.org",
+          "type": "Product",
+          "aggregateRating": {
+            "type": "AggregateRating",
+            "ratingValue": "3.5",
+            "reviewCount": "11"
+          },
+          "description": "French press coffee maker is one of the oldest and simplest devices for brewing drinks.",
+          "name": "French press 600 ml BV090 - Coffee",
+          "image": "e8d441de-1e31-4850-80f7-9e5728bac3e5.webp",
+  
+          "review": [
+            {
+              "type": "Review",
+              "author": "علیرضا",
+              "datePublished": "2023-09-01",
+              "reviewBody": "Its unique ability to prepare and brew quickly.",
+              "name": "Unique Ability",
+              "reviewRating": {
+                "type": "Rating",
+                "bestRating": "5",
+                "ratingValue": "4",
+                "worstRating": "1"
+              }
+            },
+            {
+              "type": "Review",
+              "author": "محمد",
+              "datePublished": "2023-10-25",
+              "reviewBody": "Beautiful design, easy and fast washing and small volume.",
+              "name": "Beautiful and durable body of this product",
+              "reviewRating": {
+                "type": "Rating",
+                "bestRating": "5",
+                "ratingValue": "4",
+                "worstRating": "1"
+              }
+            }
+          ]
+        }
+    </script>
    
 }
