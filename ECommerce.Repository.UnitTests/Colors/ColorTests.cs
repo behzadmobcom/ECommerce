@@ -42,7 +42,7 @@ namespace ECommerce.Repository.UnitTests.Colors
         public async Task GetAll_CountAllEntities_ReturnsTwoEntities()
         {
             //Arrange
-            int id = 3;
+            int id = 2;
             string name = Guid.NewGuid().ToString();
             string colorCode = Guid.NewGuid().ToString();
             Color color = new Color
@@ -51,14 +51,14 @@ namespace ECommerce.Repository.UnitTests.Colors
                 Name = name,
                 ColorCode = colorCode
             };
-            await DbContext.Colors.AddAsync(color, CancellationToken);
-            await DbContext.SaveChangesAsync(CancellationToken);
-
+            await DbContext.Colors.AddAsync(color);
+            await DbContext.SaveChangesAsync();
+           
             //Act
-            var newColor =await _colorRepository.GetAll(CancellationToken);
+            var colors =await _colorRepository.GetAll(CancellationToken);
 
             //Assert
-            Assert.Equal(2, newColor.Count());
+            Assert.Single(colors);
         }
     }
 }

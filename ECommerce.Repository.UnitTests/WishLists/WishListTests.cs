@@ -63,6 +63,31 @@ public class WishListTests : BaseTests
     }
 
     [Fact]
+    public async Task DeleteAsync_DeleteNullEntity_ReturnFaulted()
+    {
+        //Arrange
+        int falseId = 2;
+        int id = 1;
+        int userId = 1;
+        int priceId = 1;
+
+        WishList wishList = new WishList
+        {
+            Id = id,
+            UserId = userId,
+            PriceId = priceId,
+        };
+
+        //Act
+        await DbContext.WishLists.AddAsync(wishList, CancellationToken);
+        await DbContext.SaveChangesAsync();
+        var newWishList = _wishListRepository.DeleteAsync(falseId, CancellationToken);
+
+        //Assert
+        Assert.Equal(TaskStatus.Faulted, newWishList.Status);
+    }
+
+    [Fact]
     public async Task EditAsync_EditOneEntity_ReturnUpdatedEntity()
     {
         //Arrange
@@ -89,6 +114,41 @@ public class WishListTests : BaseTests
         //Assert
         Assert.Equal(editUserId, newWishList.UserId);
         Assert.Equal(editWishList, newWishList);
+    }
+
+    [Fact]
+    public async Task EditAsync_EditNotExistEntity_ThrowException()
+    {
+        //Arrange
+        int falseId = 3;
+        int id = 1;
+        int userId = 1;
+        int priceId = 1;
+
+        WishList wishList = new WishList
+        {
+            Id = id,
+            UserId = userId,
+            PriceId = priceId,
+        };
+
+        var editWishList = new WishList() { Id = falseId };
+
+        //Act
+        await DbContext.WishLists.AddAsync(wishList, CancellationToken);
+        await DbContext.SaveChangesAsync();
+        Exception exception = null;
+        try
+        {
+            await _wishListRepository.UpdateAsync(editWishList, CancellationToken.None, true);
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+        }
+
+        //Assert
+        Assert.NotNull(exception);
     }
 
     [Fact]
