@@ -36,6 +36,7 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPost()
     {
+        await OnGet();
         Category.Depth++;
         if (Category.ParentId == 0)
         {
@@ -63,9 +64,9 @@ public class CreateModel : PageModel
         if (ModelState.IsValid)
         {
             var result = await _categoryService.Add(Category);
-            if (result.Code == 0)
+            if (result.Code == ServiceCode.Success)
                 return RedirectToPage("/Categories/Index",
-                    new {area = "Admin", message = result.Message, code = result.Code.ToString()});
+                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
             Message = result.Message;
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
