@@ -55,6 +55,9 @@ public class EditModel : PageModel
             await Initial(Blog.Id);
             return Page();
         }
+        var _image = await _imageService.GetImagesByBlogId(Blog.Id);
+        Blog.Image = _image.ReturnData;
+
         if (Upload == null && Blog.Image.Id == 0)
         {
             Message = "لطفا عکس را انتخاب کنید";
@@ -62,14 +65,14 @@ public class EditModel : PageModel
             await Initial(Blog.Id);
             return Page();
         }
+        if (Upload!=null)
         if (Upload.FileName.Split('.').Last().ToLower() != "webp")
         {
             ModelState.AddModelError("IvalidFileExtention", "فرمت فایل پشتیبانی نمی‌شود.");
             await Initial(Blog.Id);
             return Page();
         }
-        var _image = await _imageService.GetImagesByBlogId(Blog.Id);
-        Blog.Image = _image.ReturnData;
+  
 
         if (Upload != null && Blog.Image.Id != 0)
         {
