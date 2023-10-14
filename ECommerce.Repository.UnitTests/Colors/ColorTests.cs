@@ -6,11 +6,11 @@ using Xunit;
 
 namespace ECommerce.Repository.UnitTests.Colors
 {
-    public class ColorTests : BaseTests
+    public class ProductTests : BaseTests
     {
         private readonly IColorRepository _colorRepository;
 
-        public ColorTests()
+        public ProductTests()
         {
             _colorRepository = new ColorRepository(DbContext);
         }
