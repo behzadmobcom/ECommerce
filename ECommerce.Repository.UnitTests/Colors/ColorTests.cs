@@ -51,7 +51,9 @@ namespace ECommerce.Repository.UnitTests.Colors
                 Name = name,
                 ColorCode = colorCode
             };
-            await _colorRepository.AddAsync(color, CancellationToken);
+            await DbContext.Colors.AddAsync(color, CancellationToken);
+            await DbContext.SaveChangesAsync(CancellationToken);
+
             //Act
             var newColor =await _colorRepository.GetAll(CancellationToken);
 
