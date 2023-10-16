@@ -30,7 +30,7 @@
                             <li><i class="far fa-user"></i><span> @($"توسط {Model.Blog.BlogAuthor.Name}")  </span></li>
                             <li><i class="far fa-comments"></i><span>@Model.BlogComments.ReturnData.Count نظر</span></li>
                         </ul>
-                        <h1 class="blog-details-title">@Model.Blog.Title</h1>
+                        <h1 class="blog-details-title">@Html.Raw(Model.Blog.Title)</h1>
                         <p class="blog-details-desc">
                             @(Html.Raw(Model.Blog.Text))
                         </p>

@@ -12,18 +12,18 @@
             <li><i class="far fa-user"></i><span> <a asp-area="" asp-page="Blog">@($"توسط {Model.BlogAuthor?.Name}")</a> </span></li>
             <li><i class="far fa-comments"></i><span>@Model.CommentCount نظر</span></li>
         </ul>
-        <h4 class="blog-title"><a asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url" asp-page="Blog"> @Model.Title</a></h4>
+        <strong class="blog-title"><a asp-page="/BlogDetails" asp-route-blogUrl="@Model.Url" asp-page="Blog"> @Model.Title</a></strong>
         @{
             int positionOfNewLine = Model.Text.IndexOf("\r\n");
         }
         @if (positionOfNewLine == -1)
         {
-            <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text)...</p>
+            <b asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text)...</b>
 
         }
         else
         {
-            <p asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text.Substring(0,positionOfNewLine))...</p>
+            <b asp-area="" class="blog-desc" asp-page="Blog">@Html.Raw(Model.Text.Substring(0,positionOfNewLine))...</b>
 
         }
 
