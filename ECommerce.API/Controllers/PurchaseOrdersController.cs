@@ -632,8 +632,12 @@ public class PurchaseOrdersController : ControllerBase
                 SanadCodeCustomer = sanadCodeCustomer,
                 PurchaseOrderId = purchaseOrder.Id
             }, cancellationToken);
-            
-            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "102", "0001", "0009", Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
+
+            string col_Code = _configuration.GetValue<string>("SiteSettings:SanadSettings:col_Code");
+            string moien_Code = _configuration.GetValue<string>("SiteSettings:SanadSettings:moien_Code");
+            string tafzili_Code = _configuration.GetValue<string>("SiteSettings:SanadSettings:tafzili_Code");
+
+            await _holooSanadListRepository.Add(new HolooSndList(sanadCode, col_Code, moien_Code, tafzili_Code, Convert.ToDouble(purchaseOrder.Transaction.Amount), 0, $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
             await _holooSanadListRepository.Add(new HolooSndList(sanadCode, "103", customer.Moien_Code_Bed, "", 0, Convert.ToDouble(purchaseOrder.Transaction.Amount), $"فاکتور شماره {fCodeC} سفارش در سایت به شماره {purchaseOrder.OrderGuid}"), cancellationToken);
 
             purchaseOrder.IsPaid = true;
