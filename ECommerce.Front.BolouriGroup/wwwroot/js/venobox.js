@@ -1,6 +1,3 @@
-
-
-
-$(document).ready(function() {
-    $(".venobox").venobox();
+$(function () {
+  $(".venobox").venobox();
 });

@@ -24,6 +24,9 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "bootstrap3": "npm:bootstrap@^3.3.7",
+    "bootstrap5": "npm:bootstrap@^5.0.1",
+    "jquery": "^3.6.0",
     "sass": "^1.68.0",
     "sass-loader": "^13.3.2"
   }

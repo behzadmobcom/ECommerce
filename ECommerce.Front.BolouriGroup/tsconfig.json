@@ -7,6 +7,6 @@
     "allowJs": true,
     "moduleResolution": "node"
   },
-  "include": ["./node_modules/@types", "./src"],
+  "include": ["./node_modules/@types", "./wwwroot"],
   "exclude": ["./node_modules"]
 }

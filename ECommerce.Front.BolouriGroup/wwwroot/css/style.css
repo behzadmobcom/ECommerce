@@ -898,6 +898,7 @@ button:focus {
   border-radius: 8px;
   justify-content: center;
   padding: 20px 25px;
+  display: flex;
 }
 
 .page-item {
@@ -1054,17 +1055,20 @@ button:focus {
   cursor: pointer;
   font-size: 20px;
   height: 45px;
-  line-height: 45px;
+  width: 45px;
   opacity: 0;
   position: absolute;
   text-align: center;
+  line-height: 45px;
   text-shadow: var(--primary-tshadow);
   top: 50%;
   transform: translateY(-50%);
   transition: all linear 0.3s;
   visibility: hidden;
-  width: 45px;
   z-index: 1;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .slick-right:hover,
@@ -6144,11 +6148,11 @@ tbody tr td:last-child {
 .banner-2 .banner-content {
   text-align: left;
 }
-.SizeFont{font-size:30px;color:white}
+
 .banner-content h1 {
-    color: var(--white);
-    margin-bottom: 22px;
-    text-transform: capitalize;
+  color: var(--white);
+  margin-bottom: 22px;
+  text-transform: capitalize;
 }
 
 .banner-content p {
@@ -8818,7 +8822,7 @@ tbody tr td:last-child {
   }
 }
 .TitleSlide {
-    font-size: 35px !important
+  font-size: 35px !important;
 }
 .home-classic-slider .banner-content p {
   color: var(--white);
@@ -8828,7 +8832,7 @@ tbody tr td:last-child {
 }
 
 .home-classic-slider .banner-btn .btn {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .home-classic-slider .banner-btn .btn:last-child {

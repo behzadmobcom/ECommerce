@@ -3,9 +3,10 @@ const mode = process.env.NODE_ENV || "development";
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const { ProvidePlugin } = require("webpack");
 
 const entry = {
-  bolouriGroup: "./src/js/BolouriGroupJs.js",
+  index: "./wwwroot/js/index.js",
 };
 
 const output = {
@@ -18,6 +19,10 @@ const _plugins = [
   new MiniCssExtractPlugin({
     filename: "styles.css",
   }),
+  new ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery",
+  }),
 ];
 const _module = {
   rules: [
@@ -29,7 +34,7 @@ const _module = {
       test: /.(jpg|jpeg|png|svg|webp)$/,
       type: "asset/resource",
       generator: {
-        filename: "img/[hash][ext][query]",
+        filename: "img/[hash][ext]",
       },
     },
     {
