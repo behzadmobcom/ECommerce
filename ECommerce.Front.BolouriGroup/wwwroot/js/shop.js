@@ -114,3 +114,5 @@ const updatePage = async (url, firstPage, noSearch) => {
   $(`#shop-widget-category a[href='${baseUrl}'], #category-layout a[href='${baseUrl}'], #category-nav a[href='${baseUrl}']`).addClass("category-item-selected");
   attachToPagination();
 };
+
+window.categoryChangeHandler = categoryChangeHandler;

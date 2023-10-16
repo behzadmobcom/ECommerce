@@ -1,1 +1,1 @@
-$(document).ready(function() { $(".select").niceSelect(); });
+$(function() { $(".select").niceSelect(); });
