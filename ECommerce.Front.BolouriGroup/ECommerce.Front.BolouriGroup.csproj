@@ -10,8 +10,7 @@
 	
 	<ItemGroup>
 		<PackageReference Include="Haukcode.WkHtmlToPdfDotNet" Version="1.5.86" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
-			Version="6.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
 		<PackageReference Include="PersianDate" Version="3.5.5" />
 		<PackageReference Include="PersianDateTimePicker" Version="1.0.1.1" />

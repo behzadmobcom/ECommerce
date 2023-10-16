@@ -6144,11 +6144,11 @@ tbody tr td:last-child {
 .banner-2 .banner-content {
   text-align: left;
 }
-
+.SizeFont{font-size:30px;color:white}
 .banner-content h1 {
-  color: var(--white);
-  margin-bottom: 22px;
-  text-transform: capitalize;
+    color: var(--white);
+    margin-bottom: 22px;
+    text-transform: capitalize;
 }
 
 .banner-content p {
