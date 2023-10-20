@@ -1367,11 +1367,12 @@ tbody tr td:last-child {
 }
 
 .modal-dialog {
-  max-width: max-content;
+  max-width: 100%;
 }
 
 .modal-content {
   background: 100% 0;
+  height: 100%;
   border: none;
   border-radius: 0;
 }
@@ -1418,10 +1419,6 @@ tbody tr td:last-child {
 }
 
 @media (max-width: 1100px) {
-  .modal-dialog {
-    margin: 80px auto 50px;
-  }
-
   .modal-close {
     left: 50%;
     top: -45px;
@@ -1699,6 +1696,7 @@ tbody tr td:last-child {
 
 .product-image img {
   width: 100%;
+  object-fit: cover;
 }
 
 .product-widget {
