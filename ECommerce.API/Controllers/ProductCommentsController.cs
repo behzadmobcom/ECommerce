@@ -61,6 +61,10 @@ public class ProductCommentsController : ControllerBase
         {
             var result = _productCommentRepository.GetByIdWithInclude("Answer,Product", id);
             result.Product.Images = await _imageRepository.GetByProductId(result.Product.Id, cancellationToken);
+            if (result.Answer == null)
+            {
+                result.Answer = new ProductComment();
+            }
             if (result == null)
                 return Ok(new ApiResult
                 {

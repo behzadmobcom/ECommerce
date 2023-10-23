@@ -1,4 +1,4 @@
-using Ecommerce.Entities;
+﻿using Ecommerce.Entities;
 using ECommerce.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,6 +19,7 @@ public class AcceptModel : PageModel
     [BindProperty] public BlogComment BlogComment { get; set; }
     [TempData] public string Message { get; set; }
     [TempData] public string Code { get; set; }
+    public Blog Blog { get; set; }
 
     public async Task OnGet(int id, string message = null, string code = null)
     {
@@ -26,5 +27,30 @@ public class AcceptModel : PageModel
         Code = code;
         var BlogCommentResult = await _blogCommentService.GetById(id);
         BlogComment = BlogCommentResult.ReturnData;
+        int _blogId = BlogComment.BlogId ?? default(int);
+        var ProductResult = await _blogService.GetById(_blogId);
+        Blog = ProductResult.ReturnData;
+    }
+    public async Task<IActionResult> OnPost()
+    {
+        try
+        {
+            var result = await _blogCommentService.Edit(BlogComment);
+            Message = result.Message;
+            Code = result.Code.ToString();
+            if (result.Code == 0)
+                return RedirectToPage("/BlogComments/Index",
+                    new { area = "Admin", message = result.Message, code = result.Code.ToString() });
+            Message = result.Message;
+            Code = result.Code.ToString();
+            ModelState.AddModelError("", result.Message);
+            return RedirectToPage("/BlogComments/Edit",
+                        new { id = BlogComment.Id, area = "Admin", message = $"پیغام خطا:{Message}", code = Code });
+        }
+        catch (Exception ex)
+        {
+            return RedirectToPage("/BlogComments/Edit",
+                        new { id = BlogComment.Id, area = "Admin", message = "پیغام خطای غیر منتظره", code = "Error" });
+        }
     }
 }

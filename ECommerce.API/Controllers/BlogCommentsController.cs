@@ -62,7 +62,10 @@ public class BlogCommentsController : ControllerBase
         {
             var result = _blogCommentRepository.GetByIdWithInclude("Answer,Blog",id);
             result.Blog.Image = await _imageRepository.GetByBlogId(result.Blog.Id, cancellationToken);
-
+            if (result.Answer == null)
+            {
+                result.Answer = new BlogComment();
+            }
             if (result == null)
                 return Ok(new ApiResult
                 {
@@ -121,7 +124,6 @@ public class BlogCommentsController : ControllerBase
             if (blogComment.AnswerId != null)
             {
                 _commentAnswer = await _blogCommentRepository.GetByIdAsync(cancellationToken, blogComment.AnswerId);
-                _commentAnswer.Text = blogComment.Answer.Text;
                 _commentAnswer.DateTime = DateTime.Now;
                 await _blogCommentRepository.UpdateAsync(_commentAnswer, cancellationToken);
             }

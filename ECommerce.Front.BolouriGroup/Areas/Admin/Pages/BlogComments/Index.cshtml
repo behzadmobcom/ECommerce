@@ -75,11 +75,11 @@
                             </td>
                             <td>@Comment.Blog?.Title</td>
                                 @{string acceptResult=""; if (Comment.IsAccepted) acceptResult="√";  }
-                                <td> @acceptResult </td>
-                                <td>                                
+                            <td> @acceptResult </td>
+                            <td>                                
                                 <a asp-page="Delete" asp-route-id="@Comment.Id" class="label label-inline label-light-danger font-weight-bold">حذف</a>
                                 <a asp-page="Edit" asp-route-id="@Comment.Id" class="label label-inline label-light-warning font-weight-bold">ویرایش</a>
-                                <a asp-page="Accept" asp-route-id="@Comment.Id" class="label label-inline label-light-warning font-weight-bold">تایید</a>
+                                <a asp-page="Accept" asp-route-id="@Comment.Id" class="label label-inline label-light-success font-weight-bold">تایید</a>
                             </td>
                         </tr>
                     }

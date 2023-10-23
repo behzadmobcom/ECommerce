@@ -1,5 +1,5 @@
 ﻿@page
-@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments.DeleteModel
+@model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.BlogComments.AcceptModel
 @{
 }
 @if (Model.Message != null)
@@ -28,12 +28,18 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        حذف کامنت
+                        تایید کامنت
                     </h3>
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
                     <input hidden="hidden" asp-for="@Model.BlogComment.Id" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.IsAnswered" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.Email" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.UserId" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.AnswerId" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.BlogId" />
+                    <input hidden="hidden" asp-for="@Model.BlogComment.EmployeeId" />
                     <div class="card-body" disabled="disabled">
                         <div class="form-group">
                             <label>نام</label>
