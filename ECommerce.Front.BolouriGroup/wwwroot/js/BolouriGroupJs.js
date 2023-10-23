@@ -585,6 +585,18 @@ const createSearchResultItem = (value, index) => {
     </a>`;
 };
 
+const checkCartRemoved = () => {
+  const soldOuts = cartList.filter((val) => val.price.exist === 0);
+  if (soldOuts.length > 0) {
+    const names = soldOuts.map((val) => val.name);
+    const message = `موجودی کالاهای زیر به اتمام رسیده و از سبد خرید شما حذف گردید.\n\n${names.join("\n")}`;
+    swal(message);
+    soldOuts.forEach((val) => {
+      updateCartItem(val.id, "remove", val.productId);
+    });
+  }
+};
+
 $(() => {
   let timer = null;
   $("#searchBox").on("input", (event) => {
@@ -656,3 +668,4 @@ window.closeZoom = closeZoom;
 window.openZoom = openZoom;
 window.ChangeZoomImage = ChangeZoomImage;
 window.searchChangeHandler = searchChangeHandler;
+window.checkCartRemoved = checkCartRemoved;

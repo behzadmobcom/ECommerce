@@ -525,6 +525,102 @@
     <script src="~/dist/index.bundle.js"></script>
     @await RenderSectionAsync("Scripts", false)
     <script>
+        // this is just for test and should be removed TODO #520@sayyah
+        // test start
+        const test = [
+            {
+                "id": 16417,
+                "productId": 7545,
+                "url": "ماگ-بلور-2عددی",
+                "name": "ماگ 2 عددی 330 میل پاشاباغچه 55753",
+                "brand": "بدون برند",
+                "imagePath": "Images/Products/68ee85e5-71e3-4c9d-a0c1-04201dddc2bd.webp",
+                "alt": "ماگ-جفتی-330-میل-پاشاباغچه-03136190.webp",
+                "priceId": 7921,
+                "price": {
+                    "amount": 0,
+                    "minQuantity": 1,
+                    "maxQuantity": 0,
+                    "isColleague": false,
+                    "isDefault": false,
+                    "sellNumber": 1,
+                    "articleCode": "3135288",
+                    "articleCodeCustomer": "03136190",
+                    "exist": 0, // testing here
+                    "grade": 1,
+                    "productId": 7545,
+                    "product": null,
+                    "unitId": 1,
+                    "unit": null,
+                    "sizeId": 1,
+                    "size": null,
+                    "colorId": 1,
+                    "color": null,
+                    "currencyId": 1,
+                    "currency": null,
+                    "discountId": null,
+                    "discount": null,
+                    "id": 7921
+                },
+                "priceAmount": 234000,
+                "sumPrice": 234000,
+                "quantity": 1,
+                "exist": 40,
+                "colorName": "بدون رنگ بندی",
+                "isColleague": false,
+                "discount": null,
+                "discountAmount": 0,
+                "userId": 1044
+            },
+            {
+                "id": 16420,
+                "productId": 7544,
+                "url": "لیوانblink-max-ktzb17",
+                "name": "لیوان پوپ بشکه بلینک مکس ktzb17",
+                "brand": "بدون برند",
+                "imagePath": "Images/Products/7951b13a-33cf-46ee-81bf-779a715ebda8.webp",
+                "alt": "03132095-لیوان-پوپ-بشکه.webp",
+                "priceId": 7920,
+                "price": {
+                    "amount": 0,
+                    "minQuantity": 1,
+                    "maxQuantity": 0,
+                    "isColleague": false,
+                    "isDefault": false,
+                    "sellNumber": 1,
+                    "articleCode": "3132085",
+                    "articleCodeCustomer": "03132095",
+                    "exist": 0, // testing here
+                    "grade": 1,
+                    "productId": 7544,
+                    "product": null,
+                    "unitId": 1,
+                    "unit": null,
+                    "sizeId": 1,
+                    "size": null,
+                    "colorId": 1,
+                    "color": null,
+                    "currencyId": 1,
+                    "currency": null,
+                    "discountId": null,
+                    "discount": null,
+                    "id": 7920
+                },
+                "priceAmount": 175000,
+                "sumPrice": 175000,
+                "quantity": 1,
+                "exist": 24,
+                "colorName": "بدون رنگ بندی",
+                "isColleague": false,
+                "discount": null,
+                "discountAmount": 0,
+                "userId": 1044
+            }
+        ];
+        cartList = [...test, ...cartList.filter((val) => val.id !== 16420 && val.id !== 16417)]
+        // test end
+
+        checkCartRemoved();
         toggleCheckout();
     </script>
 </body>
