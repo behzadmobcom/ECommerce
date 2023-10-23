@@ -1,0 +1,4 @@
+User-agent:*
+allow:/
+DisAllow:/.gif$
+sitemap:https://boloorico.com/sitemap.xml
