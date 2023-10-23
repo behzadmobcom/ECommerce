@@ -33,10 +33,14 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost">
-                    <input hidden="hidden" asp-for="@Model.BlogComment.Id"/>
+                     <input hidden="hidden" asp-for="@Model.BlogComment.Id"/>
+                    <input hidden="hidden" asp-for="@Model.BlogComment.IsAccepted"/>
+                    <input hidden="hidden" asp-for="@Model.BlogComment.IsAnswered"/>
+                    <input hidden="hidden" asp-for="@Model.BlogComment.Email"/>
                     <input hidden="hidden" asp-for="@Model.BlogComment.UserId"/>
-                    <input hidden="hidden" asp-for="@Model.BlogComment.BlogId"/>                   
                     <input hidden="hidden" asp-for="@Model.BlogComment.AnswerId"/>
+                    <input hidden="hidden" asp-for="@Model.BlogComment.BlogId"/> 
+                    <input hidden="hidden" asp-for="@Model.BlogComment.EmployeeId"/>
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
