@@ -147,7 +147,7 @@ function OpenProductModal(id) {
           "</div>" +
           "</div>" +
           '<div class="row">' +
-          '<div class="col-md-10 col-md-offset-1">' +
+          '<div class="col-md-12" style="padding: 50px;">' +
           '<p class="view-desc">' +
           result.returnData.description +
           "</p>" +
