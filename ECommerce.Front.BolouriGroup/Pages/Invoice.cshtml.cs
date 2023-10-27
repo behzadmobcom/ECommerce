@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using PersianDate.Standard;
 using ZarinpalSandbox;
+using Ecommerce.Entities.Helper;
 
 namespace ECommerce.Front.BolouriGroup.Pages;
 
@@ -80,8 +81,8 @@ public class InvoiceModel : PageModel
                 case 100:
                 case 101:
                     //Success
-
                     Refid = statusInt.RefId.ToString();
+                    OrderId = PurchaseOrder.OrderId;
                     PurchaseOrder.PaymentDate = DateTime.Now;
                     PurchaseOrder.Transaction = new()
                     {
@@ -90,15 +91,18 @@ public class InvoiceModel : PageModel
                         UserId = resultOrder.ReturnData.UserId
                     };
                     var result = await _purchaseOrderService.Pay(PurchaseOrder);
-                    Message = result.Message;
-                    Code = result.Code.ToString();
-                    //CartList = (await _cartService.CartListFromServer()).ReturnData;
-                    if (result.Code == 0 && result.Message != null)
+
+                    if (result.Code == ServiceCode.Error)
                     {
-                        await _userService.SendInvocieSms(result.Message, "09111307006", DateTime.Now.ToString("MM/dd/yyyy"));
+                        Message = "مشکل در هنگام ثبت سفارش. لطفا با پشتیبانی سایت تماس حاصل فرمایید.";
+                        Code = result.Code.ToString();
                     }
-                    OrderId = PurchaseOrder.OrderId;
-                    Message = "سفارش شما با موفقیت ثبت شد";
+                    else if (result.Code == ServiceCode.Success)
+                    {
+                        await _userService.SendInvocieSms(result.Message ?? "", "09111307006", DateTime.Now.ToString("MM/dd/yyyy"));
+                        Code = result.Code.ToString();
+                        Message = "سفارش شما با موفقیت ثبت شد";
+                    }
                     return Page();
             }
         }
@@ -149,6 +153,7 @@ public class InvoiceModel : PageModel
         {
             if (res.Result.ResCode == "0")
             {
+                OrderId = PurchaseOrder.OrderId;
                 result.VerifyResultData = res.Result;
                 res.Result.Succeed = true;
                 SystemTraceNo = res.Result.SystemTraceNo;
@@ -160,19 +165,21 @@ public class InvoiceModel : PageModel
                     UserId = resultOrder.ReturnData.UserId
                 };
                 var resulPay = await _purchaseOrderService.Pay(PurchaseOrder);
-                Message = resulPay.Message;
-                Code = resulPay.Code.ToString();
 
-                if (resulPay.Code == 0 && resulPay.Message != null)
+                if (resulPay.Code == ServiceCode.Error)
                 {
-                    await _userService.SendInvocieSms(resulPay.Message, "09118876347", DateTime.Now.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09909052454", DateTime.Now.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09119384108", DateTime.Now.ToFa());
-                    await _userService.SendInvocieSms(resulPay.Message, "09111307006", DateTime.Now.ToFa());
+                    Message = "مشکل در هنگام ثبت سفارش. لطفا با پشتیبانی سایت تماس حاصل فرمایید.";
+                    Code = resulPay.Code.ToString();
                 }
-
-                OrderId = PurchaseOrder.OrderId;
-                Message = "سفارش شما با موفقیت ثبت شد";
+                else if (resulPay.Code == ServiceCode.Success)
+                {
+                    await _userService.SendInvocieSms(resulPay.Message ?? "", "09118876347", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message ?? "", "09909052454", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message ?? "", "09119384108", DateTime.Now.ToFa());
+                    await _userService.SendInvocieSms(resulPay.Message ?? "", "09111307006", DateTime.Now.ToFa());
+                    Code = resulPay.Code.ToString();
+                    Message = "سفارش شما با موفقیت ثبت شد";
+                }
                 return Page();
             }
         }
