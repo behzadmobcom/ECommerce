@@ -180,6 +180,7 @@ public class InvoiceModel : PageModel
                     Code = resulPay.Code.ToString();
                     Message = "سفارش شما با موفقیت ثبت شد";
                 }
+                Refid = res.Result.RetrivalRefNo;
                 return Page();
             }
         }
