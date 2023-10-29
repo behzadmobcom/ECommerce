@@ -21,6 +21,8 @@ public class ContactModel : PageModel
 
     public void OnGet()
     {
+        if(Contact == null)
+            Contact = new Contact();
     }
 
     public async Task<IActionResult> OnPost()
