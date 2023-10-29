@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using FluentAssertions;
 using System.Text.Json;
+using System.Data;
+using System.Linq.Expressions;
 
 namespace ECommerce.Repository.UnitTests.Products;
 
@@ -65,6 +67,93 @@ public class ProductTests : BaseTests
     {
         _productRepository = new ProductRepository(DbContext, HolooDbContext);
 
+        List<Price> prices = new() {
+            new Price()
+            {
+                Id = 2,
+                ProductId = 4,
+                Amount = 200,
+                Exist = 20,
+                MaxQuantity = 20,
+                MinQuantity = 1,
+            },
+            new Price()
+            {
+                Id = 3,
+                ProductId = 5,
+                Amount = 1000,
+                Exist = 5,
+                MaxQuantity = 5,
+                MinQuantity = 1,
+            },
+            new Price()
+            {
+                Id = 4,
+                ProductId = 398,
+                Amount = 10010,
+                Exist = 20,
+                MaxQuantity = 20,
+                MinQuantity = 1,
+            },
+            new Price()
+            {
+                Id = 5,
+                ProductId = -92764,
+                Amount = 2222,
+                Exist = 5,
+                MaxQuantity = 5,
+                MinQuantity = 1,
+            },
+            new Price()
+            {
+                Id = 6,
+                ProductId = 420,
+                Amount = 92784,
+                Exist = 5,
+                MaxQuantity = 5,
+                MinQuantity = 1,
+            },
+        };
+
+        List<Category> categories = new() {
+            new Category()
+            {
+                Id = 10,
+                Name = "test category 1",
+                Depth = 0,
+                Path = "test1",
+                IsActive = true,
+                ParentId = null,
+            },
+            new Category()
+            {
+                Id = 20,
+                Name = "test category 2",
+                Depth = 1,
+                Path = "test1/test2",
+                IsActive = true,
+                ParentId = 10,
+            },
+            new Category()
+            {
+                Id = 30,
+                Name = "test category 3",
+                Depth = 1,
+                Path = "test1/test3",
+                IsActive = true,
+                ParentId = 10,
+            },
+            new Category()
+            {
+                Id = 40,
+                Name = "test category 4",
+                Depth = 1,
+                Path = "test1/test4",
+                IsActive = false,
+                ParentId = 10,
+            },
+        };
+
         _testSets.Add("null_test", new() {
             {"null_object", null!}
         });
@@ -76,10 +165,10 @@ public class ProductTests : BaseTests
         _testSets.Add("duplicate_url", new() {
             {"test_1", new Product
                 {
-                    Id = 1,
+                    Id = 4,
                     Name = "this has name",
                     IsShowInIndexPage = true,
-                    Description = new string('*', 500000),
+                    Description = new string('*', 500),
                     Review = "I'll let this one be short :>",
                     Star = -2, // should it accept this?!
                     MinOrder = 10,
@@ -88,16 +177,18 @@ public class ProductTests : BaseTests
                     ReorderingLevel = 20,
                     IsDiscontinued = true,
                     IsActive = true,
-                    Url = "some random-url/w.[/\\:D]"
+                    Url = "some random-url/w.[/\\:D]",
+                    Prices = new List<Price> {prices[0]},
+                    ProductCategories = new List<Category> {categories[1]}
                 }
             },
             {"test_2", new Product
                 {
-                    Id = 2,
+                    Id = 5,
                     Name = "this name",
                     IsShowInIndexPage = true,
                     Description = "This time I'll let this one be short :>",
-                    Review = new string('*', 500000),
+                    Review = new string('*', 500),
                     Star = 2,
                     MinOrder = 10,
                     MaxOrder = 255,
@@ -105,7 +196,9 @@ public class ProductTests : BaseTests
                     ReorderingLevel = 20,
                     IsDiscontinued = true,
                     IsActive = true,
-                    Url = "some random-url/w.[/\\:D]" // should it accept the same url as test_1?!
+                    Url = "some random-url/w.[/\\:D]", // should it accept the same url as test_1?!
+                    Prices = new List<Price> {prices[1]},
+                    ProductCategories = new List<Category> {categories[2]}
                 }
             },
         });
@@ -115,7 +208,9 @@ public class ProductTests : BaseTests
                     Id = 398,
                     Name = "this has name",
                     MinOrder = 10,
-                    Url = "some random-url/w.[/\\:D]"
+                    Url = "some random-url/w.[/\\:D]",
+                    Prices = new List<Price> {prices[2]},
+                    ProductCategories = new List<Category> {categories[2]}
                 }
             },
             {"test_2", new Product
@@ -123,7 +218,9 @@ public class ProductTests : BaseTests
                     Id = -92764,
                     Name = "this name",
                     MinOrder = 10,
-                    Url = "random-url"
+                    Url = "random-url",
+                    Prices = new List<Price> {prices[3]},
+                    ProductCategories = new List<Category> {categories[2]}
                 }
             },
             {"test_3", new Product
@@ -131,7 +228,9 @@ public class ProductTests : BaseTests
                     Id = 420,
                     Name = "such product",
                     MinOrder = 69,
-                    Url = "much wow"
+                    Url = "much wow",
+                    Prices = new List<Price> {prices[4]},
+                    ProductCategories = new List<Category> {categories[3]}
                 }
             },
         });
@@ -423,7 +522,10 @@ public class ProductTests : BaseTests
             actual.Add(entry.Key, DbContext.Products.FirstOrDefault(x => x.Id == entry.Value.Id));
         }
 
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "AddAsync: Add product async")]
@@ -440,7 +542,10 @@ public class ProductTests : BaseTests
         }
 
         // Assert
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "AddAll: Add products all together")]
@@ -472,7 +577,10 @@ public class ProductTests : BaseTests
             actual.Add(entry.Key, DbContext.Products.FirstOrDefault(x => x.Id == entry.Value.Id));
         }
 
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "AddRange: No save")]
@@ -503,7 +611,10 @@ public class ProductTests : BaseTests
             actual.Add(entry.Key, DbContext.Products.FirstOrDefault(x => x.Id == entry.Value.Id));
         }
 
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "AddRangeAsync: Add products all together")]
@@ -522,7 +633,10 @@ public class ProductTests : BaseTests
             actual.Add(entry.Key, DbContext.Products.FirstOrDefault(x => x.Id == entry.Value.Id));
         }
 
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "AddRangeAsync: No save")]
@@ -553,7 +667,10 @@ public class ProductTests : BaseTests
             actual.Add(entry.Key, DbContext.Products.FirstOrDefault(x => x.Id == entry.Value.Id));
         }
 
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "GetAll: Get all products")]
@@ -571,7 +688,10 @@ public class ProductTests : BaseTests
         var actuals = _productRepository.GetAll(CancellationToken).Result;
 
         // Assert
-        actuals.Should().BeEquivalentTo(expected.Values);
+        actuals.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "GetById: Get products by Id")]
@@ -593,7 +713,10 @@ public class ProductTests : BaseTests
         }
 
         // Assert
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "GetByName: Get products by Name")]
@@ -615,7 +738,10 @@ public class ProductTests : BaseTests
         }
 
         // Assert
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "GetByName: Non existing name")]
@@ -661,7 +787,11 @@ public class ProductTests : BaseTests
         // Assert
         actual.Values.Should().BeEquivalentTo(expected.Values, options => options.Excluding(x => x.Images)
         .Excluding(x => x.Keywords)
-        .Excluding(x => x.Tags));
+        .Excluding(x => x.Tags)
+        .For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "GetByName: Non existing url")]
@@ -705,7 +835,10 @@ public class ProductTests : BaseTests
         }
 
         // Assert
-        actual.Values.Should().BeEquivalentTo(expected.Values);
+        actual.Values.Should().BeEquivalentTo(expected.Values, options => options.For(x => x.ProductCategories)
+        .Exclude(x => x.Products)
+        .For(x => x.Prices)
+        .Exclude(x => x.Product));
     }
 
     [Fact(DisplayName = "Delete: Delete product from repository")]
