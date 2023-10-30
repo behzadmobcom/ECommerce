@@ -593,22 +593,55 @@ public class PurchaseOrdersController : ControllerBase
             var i = 1;
 
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByPurchaseOrderId(purchaseOrder.Id, cancellationToken);
+            var holooArticle = await _articleRepository.GetHolooArticlesDefaultWarehouse(purchaseOrderDetails.Select(c => c.Price.ArticleCodeCustomer).ToList(), cancellationToken);
             foreach (var orderDetail in purchaseOrderDetails)
             {
-
-                aBail.Add(new HolooABail
+                bool twoFactor = false;
+                double defaultWarehouseCount = orderDetail.Quantity;
+                double otherWarehouseCount = orderDetail.Quantity;
+                var holoo_A = holooArticle.Where(c => c.A_Code_C == orderDetail.Price.ArticleCodeCustomer).FirstOrDefault();
+                if (holoo_A.Exist > 0)
                 {
-                    A_Code = orderDetail.Price.ArticleCode,
-                    ACode_C = orderDetail.Price.ArticleCodeCustomer,
-                    A_Index = Convert.ToInt16(i++),
-                    Fac_Code = fBail,
-                    Fac_Type = "P",
-                    Few_Article = orderDetail.Quantity,
-                    First_Article = orderDetail.Quantity,
-                    Price_BS = Convert.ToDouble(orderDetail.UnitPrice) * 10,
-                    Unit_Few = 0
-                });
+                    if (holoo_A.Exist < orderDetail.Quantity)
+                    {
+                        twoFactor = true;
+                        defaultWarehouseCount = (double)holoo_A.Exist;
+                        otherWarehouseCount = orderDetail.Quantity - defaultWarehouseCount;
+                        
+                    }
+                    aBail.Add(new HolooABail
+                    {                        
+                        A_Code = holoo_A.A_Code,
+                        ACode_C = orderDetail.Price.ArticleCodeCustomer,
+                        A_Index = Convert.ToInt16(i++),
+                        Fac_Code = fBail,
+                        Fac_Type = "P",
+                        Few_Article = defaultWarehouseCount,
+                        First_Article = defaultWarehouseCount,
+                        Price_BS = Convert.ToDouble(orderDetail.UnitPrice) * 10,
+                        Unit_Few = 0
+                    });
+                }
+                if (holoo_A.Exist == 0 || twoFactor == true)
+                {
+                    var holooArticleOthere = await _articleRepository.GetHolooArticlesOthereWarehouse(purchaseOrderDetails.Select(c => c.Price.ArticleCodeCustomer).ToList(), cancellationToken);
+                    var holoo_A_Othere = holooArticleOthere.Where(c => c.A_Code_C == orderDetail.Price.ArticleCodeCustomer).FirstOrDefault();
+                    aBail.Add(new HolooABail
+                    {
+                        A_Code = holoo_A_Othere.A_Code,
+                        ACode_C = orderDetail.Price.ArticleCodeCustomer,
+                        A_Index = Convert.ToInt16(i++),
+                        Fac_Code = fBail,
+                        Fac_Type = "P",
+                        Few_Article = otherWarehouseCount,
+                        First_Article = otherWarehouseCount,
+                        Price_BS = Convert.ToDouble(orderDetail.UnitPrice) * 10,
+                        Unit_Few = 0
+                    });
+                } 
             }
+
+
             await _holooABailRepository.Add(aBail, cancellationToken);
             purchaseOrder.FBailCode = fBail;
 

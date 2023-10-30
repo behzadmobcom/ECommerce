@@ -45,8 +45,8 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
 
     public async Task SyncHolooWebId(string aCodeC, int productId, CancellationToken cancellationToken)
     {
-        var articles =  _context.ARTICLE.Where(x => x.A_Code_C == aCodeC);
-        foreach(var article in articles)
+        var articles = _context.ARTICLE.Where(x => x.A_Code_C == aCodeC);
+        foreach (var article in articles)
         {
             article.WebId = productId;
             _context.ARTICLE.Update(article);
@@ -62,7 +62,22 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
         var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
         return await temp.Where(x => Convert.ToInt32(x.A_Code) < 3400000 || !bolooryFlag).ToListAsync(cancellationToken);
     }
-
+    public async Task<IEnumerable<HolooArticle>> GetHolooArticlesDefaultWarehouse(List<string> aCodeCs, CancellationToken cancellationToken)
+    {
+        var temp = _context.ARTICLE.Where(
+            x => aCodeCs.Any(
+                aCodeC => aCodeC == x.A_Code_C));
+        var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
+        return await temp.Where(x => (Convert.ToInt32(x.A_Code) < 3400000 && Convert.ToInt32(x.A_Code) > 2400000) || !bolooryFlag).ToListAsync(cancellationToken);
+    }
+    public async Task<IEnumerable<HolooArticle>> GetHolooArticlesOthereWarehouse(List<string> aCodeCs, CancellationToken cancellationToken)
+    {
+        var temp = _context.ARTICLE.Where(
+            x => aCodeCs.Any(
+                aCodeC => aCodeC == x.A_Code_C));
+        var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
+        return await temp.Where(x => Convert.ToInt32(x.A_Code) < 900000 || !bolooryFlag).ToListAsync(cancellationToken);
+    }
     public async Task<(decimal price, double? exist)> GetHolooPrice(string aCodeC, Price.HolooSellNumber sellPrice)
     {
         var bolooryFlag = (await _context.Customer.FirstAsync()).C_Name == "گروه تجهيزات صنعتي بلوري";
@@ -200,7 +215,7 @@ public class HolooArticleRepository : HolooRepository<HolooArticle>, IHolooArtic
 
                     productPrices.Amount = articlePrice / 10;
                     double soldExist = 0;
-                    if ( productPrices.ArticleCode != null)
+                    if (productPrices.ArticleCode != null)
                     {
                         int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
                         soldExist = _aBailRepository.GetWithACode(userCode, productPrices.ArticleCode, cancellationToken);

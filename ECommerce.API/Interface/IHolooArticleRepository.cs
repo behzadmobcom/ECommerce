@@ -23,4 +23,6 @@ public interface IHolooArticleRepository : IHolooRepository<HolooArticle>
 
     Task<List<Price>> AddPrice(List<Price> prices, IEnumerable<HolooArticle> holooArticles, bool? isCheckExist,
         CancellationToken cancellationToken);
+    Task<IEnumerable<HolooArticle>> GetHolooArticlesDefaultWarehouse(List<string> aCodeCs, CancellationToken cancellationToken);
+    Task<IEnumerable<HolooArticle>> GetHolooArticlesOthereWarehouse(List<string> aCodeCs, CancellationToken cancellationToken);
 }
