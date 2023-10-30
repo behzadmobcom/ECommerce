@@ -28,8 +28,7 @@ public class PricesController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _priceRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -49,20 +48,12 @@ public class PricesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<Price>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _priceRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -75,20 +66,12 @@ public class PricesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProductsPriceById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _priceRepository.PriceOfProduct(id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -101,21 +84,13 @@ public class PricesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Price price, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var messages = new List<string>();
             if (price == null)
                 return Ok(new ApiResult
@@ -145,21 +120,13 @@ public class PricesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = newPrice
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Price price, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var messages = new List<string>();
             if (price.ArticleCode == null && price.Amount == 0)
                 messages.Add("لطفا یا کد کالا وارد کنید یا مبلغ");
@@ -183,33 +150,18 @@ public class PricesController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _priceRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     private async Task<List<string>> CheckPrice(Price price, CancellationToken cancellationToken)

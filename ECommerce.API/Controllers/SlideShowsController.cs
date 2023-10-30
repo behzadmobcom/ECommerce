@@ -39,8 +39,7 @@ public class SlideShowsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Get(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var slideShowsList = await _slideShowRepository.GetAllWithInclude(pageNumber, pageSize, cancellationToken);
             var returnSlideShow = new List<SlideShowViewModel>();
             var slideShowViewModelList = slideShowsList.Select(s => new SlideShowViewModel
@@ -72,20 +71,12 @@ public class SlideShowsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = returnSlideShow
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<SlideShow>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _slideShowRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -98,21 +89,13 @@ public class SlideShowsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(SlideShow slideShow, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (slideShow == null) return BadRequest();
             slideShow.Title = slideShow.Title.Trim();
 
@@ -138,21 +121,13 @@ public class SlideShowsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(SlideShow slideShow, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitiveTitle = await _slideShowRepository.GetByTitle(slideShow.Title, cancellationToken);
             if (repetitiveTitle != null && repetitiveTitle.Id != slideShow.Id)
                 return Ok(new ApiResult
@@ -179,32 +154,17 @@ public class SlideShowsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _slideShowRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 }

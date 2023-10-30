@@ -26,8 +26,7 @@ public class ImagesController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _imageRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -46,12 +45,6 @@ public class ImagesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
@@ -75,8 +68,8 @@ public class ImagesController : ControllerBase
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Image image, CancellationToken cancellationToken)
     {
-        try
-        {
+       try
+        { 
             var addedImage = await _imageRepository.AddAsync(image, cancellationToken);
             return Ok(new ApiResult
             {
@@ -94,9 +87,10 @@ public class ImagesController : ControllerBase
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Put(Image image, CancellationToken cancellationToken)
     {
-        try
-        {
-            var addedImage = await _imageRepository.AddAsync(image, cancellationToken);
+     
+            try
+            {
+                var addedImage = await _imageRepository.AddAsync(image, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,

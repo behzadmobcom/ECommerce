@@ -24,8 +24,7 @@ public class BlogsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";     
             var entity = await _blogRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -44,20 +43,13 @@ public class BlogsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetByTagText([FromQuery] PaginationParameters paginationParameters,
     CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.TagText)) paginationParameters.TagText = "";
             var entity = await _blogRepository.GetByTagText(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -76,20 +68,14 @@ public class BlogsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     public async Task<ActionResult<BlogViewModel>> GetById(int id, bool isColleague,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _blogRepository.GetBlogByIdWithInclude(id).FirstOrDefaultAsync(cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -102,20 +88,13 @@ public class BlogsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(BlogViewModel blogViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (blogViewModel == null)
                 return Ok(new ApiResult
                 {
@@ -143,20 +122,13 @@ public class BlogsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _blogRepository.AddWithRelations(blogViewModel, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<int>> Put(BlogViewModel blogViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (blogViewModel == null) return BadRequest();
 
 
@@ -181,57 +153,36 @@ public class BlogsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _blogRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetByCategory(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = await _blogRepository.GetWithInclude(id, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<BlogViewModel>> GetByUrl(string blogUrl, bool isColleague,
      CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _blogRepository.GetBlogByUrlWithInclude(blogUrl).FirstOrDefaultAsync(cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -244,11 +195,6 @@ public class BlogsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 }

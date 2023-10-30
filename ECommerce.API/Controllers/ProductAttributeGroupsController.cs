@@ -24,8 +24,7 @@ public class ProductAttributeGroupsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _productAttributeGroupRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -44,38 +43,24 @@ public class ProductAttributeGroupsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = await _productAttributeGroupRepository.GetAll(cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<ProductAttributeGroup>> GetByProductId(int productId,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result =
                 await _productAttributeGroupRepository.GetAllAttributeWithProductId(productId, cancellationToken);
             if (result == null)
@@ -89,19 +74,12 @@ public class ProductAttributeGroupsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<ProductAttributeGroup>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productAttributeGroupRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -114,12 +92,6 @@ public class ProductAttributeGroupsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
@@ -127,8 +99,7 @@ public class ProductAttributeGroupsController : ControllerBase
     public async Task<IActionResult> Post(ProductAttributeGroup productAttributeGroup,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productAttributeGroup == null)
                 return Ok(new ApiResult
                 {
@@ -150,12 +121,6 @@ public class ProductAttributeGroupsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _productAttributeGroupRepository.AddAsync(productAttributeGroup, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
@@ -163,8 +128,7 @@ public class ProductAttributeGroupsController : ControllerBase
     public async Task<IActionResult> AddWithAttributeValue(List<ProductAttributeGroup> productAttributeGroups,
         [FromQuery] int ProductId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productAttributeGroups == null)
                 return Ok(new ApiResult
                 {
@@ -178,12 +142,6 @@ public class ProductAttributeGroupsController : ControllerBase
                     await _productAttributeGroupRepository.AddWithAttributeValue(productAttributeGroups, ProductId,
                         cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
@@ -191,8 +149,7 @@ public class ProductAttributeGroupsController : ControllerBase
     public async Task<ActionResult<bool>> Put(ProductAttributeGroup productAttributeGroup,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitive =
                 await _productAttributeGroupRepository.GetByName(productAttributeGroup.Name, cancellationToken);
             if (repetitive != null && repetitive.Id != productAttributeGroup.Id)
@@ -207,30 +164,17 @@ public class ProductAttributeGroupsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _productAttributeGroupRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

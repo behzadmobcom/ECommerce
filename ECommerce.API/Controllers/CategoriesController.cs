@@ -25,8 +25,7 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _categoryRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -45,19 +44,12 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<Category>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _categoryRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -70,19 +62,12 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetParents(int productId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _categoryRepository.Parents(productId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -95,20 +80,13 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<IActionResult> Search(string searchKeyword, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _categoryRepository.Search(searchKeyword, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -121,21 +99,13 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
 
     [HttpGet]
     public async Task<ActionResult<CategoryViewModel>> GetByUrl(string url, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _categoryRepository.GetByUrl(url, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -148,20 +118,13 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<IActionResult> GetCategoriesByProduct(int productId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var categoryList = _categoryRepository.GetAll("Products")
                 .Where(x => x.Products.Any(p => p.Id == productId));
             return Ok(await categoryList.Select(x => new CategoryViewModel
@@ -173,20 +136,13 @@ public class CategoriesController : ControllerBase
                 Parent = x.Parent,
                 Categories = x.Categories.Select(category => category.Id).ToList()
             }).ToListAsync(cancellationToken));
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Category category, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (category == null)
                 return Ok(new ApiResult
                 {
@@ -208,49 +164,29 @@ public class CategoriesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _categoryRepository.AddAsync(category, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Category category, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _categoryRepository.UpdateAsync(category, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _categoryRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

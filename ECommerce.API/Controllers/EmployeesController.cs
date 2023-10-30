@@ -26,8 +26,7 @@ public class EmployeesController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _employeeRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -47,20 +46,13 @@ public class EmployeesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<ActionResult<Employee>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _employeeRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -73,13 +65,7 @@ public class EmployeesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
 
@@ -87,8 +73,7 @@ public class EmployeesController : ControllerBase
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Employee employee, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (employee == null)
                 return Ok(new ApiResult
                 {
@@ -110,52 +95,32 @@ public class EmployeesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _employeeRepository.AddAsync(employee, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Employee employee, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _employeeRepository.UpdateAsync(employee, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _employeeRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 }

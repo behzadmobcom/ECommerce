@@ -226,7 +226,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-//app.UseCustomExceptionHandler();
+app.UseCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 

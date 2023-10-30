@@ -62,8 +62,7 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult> Login([FromBody] LoginViewModel model, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var ipAddress = GetIpAddress();
 
             if (ModelState.IsValid)
@@ -156,23 +155,13 @@ public class UsersController : ControllerBase
             }
 
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.DatabaseError
-            });
-        }
     }
 
     [HttpPost]
     [AllowAnonymous]
     public async Task<ActionResult> Register([FromBody] RegisterViewModel register, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (!ModelState.IsValid)
             {
                 var list = new List<string>();
@@ -311,51 +300,28 @@ public class UsersController : ControllerBase
 
 
             return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> CheckEmail(string email)
     {
-        try
-        {
+        
             var repetitiveEmail = await _userManager.FindByEmailAsync(email);
             if (repetitiveEmail != null) return BadRequest("ایمیل تکراری است");
 
             return Ok();
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> CheckUserName(string userName)
     {
-        try
-        {
+        
             if (userName.ToLower().Contains("admin"))
                 return BadRequest("در نام کربری نمی توانید از کلمه admin استفاده کنید");
             var repetitiveUsername = await _userManager.FindByNameAsync(userName);
             if (repetitiveUsername != null) return BadRequest("نام کاربری تکراری است");
 
             return Ok();
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
@@ -374,8 +340,7 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> Get(int id)
     {
-        try
-        {
+        
             var result = await _userManager.FindByIdAsync(id.ToString());
             if (result == null) return NotFound();
 
@@ -384,24 +349,13 @@ public class UsersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.DatabaseError,
-                Messages = new List<string> { "اشکال در سمت سرور" }
-            });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] UserFilterdParameters userFilterdParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(userFilterdParameters.PaginationParameters.Search)) userFilterdParameters.PaginationParameters.Search = "";
             var entity = await _userRepository.Search(userFilterdParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -421,13 +375,6 @@ public class UsersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
@@ -443,8 +390,7 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> PutOld(MyAccountViewModel accountViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (!ModelState.IsValid)
             {
                 var list = new List<string>();
@@ -499,30 +445,15 @@ public class UsersController : ControllerBase
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded) return Ok(new ApiResult { Code = ResultCode.Success });
             return Ok(new ApiResult { Code = ResultCode.Error, Messages = result.Errors.Select(p => p.Description) });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _userRepository.DeleteAsync(id, cancellationToken);
             return NoContent();
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
@@ -567,8 +498,7 @@ public class UsersController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> ResetForgotPassword([FromBody] ResetForgotPasswordViewModel model, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (ModelState.IsValid)
             {
                 var user = await _userRepository.GetByEmailOrUserName(model.Email, cancellationToken);
@@ -596,13 +526,6 @@ public class UsersController : ControllerBase
                 //}
             }
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
         return Ok();
 
     }
@@ -612,8 +535,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(model.Username))
@@ -639,13 +561,6 @@ public class UsersController : ControllerBase
             }
 
             return Ok(new ApiResult { Code = ResultCode.BadRequest });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     private string GetIpAddress()
@@ -661,8 +576,7 @@ public class UsersController : ControllerBase
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult> Put(User user, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (!ModelState.IsValid)
             {
                 var list = new List<string>();
@@ -688,21 +602,13 @@ public class UsersController : ControllerBase
             }
 
             return Ok(new ApiResult { Code = ResultCode.Error, Messages = new List<string> { "ویرایش با مشکل مواجه شد" } });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<User>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _userRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -715,20 +621,14 @@ public class UsersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     public async Task<ActionResult<bool>> SetConfirmCodeByUsername(string username, int confirmCode, CancellationToken cancellationToken)
     {
         var codeConfirmExpairDate = DateTime.Now.AddSeconds(130);
-        try
-        {
+        
             var result = await _userRepository.SetConfirmCodeByUsername(username, confirmCode, codeConfirmExpairDate, cancellationToken);
             if (result == false)
                 return Ok(new ApiResult
@@ -741,21 +641,12 @@ public class UsersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.NotFound
-            });
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<int?>> GetSecondsLeftConfirmCodeExpire(string username, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _userRepository.GetSecondsLeftConfirmCodeExpire(username, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -768,13 +659,5 @@ public class UsersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.NotFound
-            });
-        }
     }
 }

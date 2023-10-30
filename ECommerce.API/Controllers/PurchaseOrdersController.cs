@@ -113,8 +113,7 @@ public class PurchaseOrdersController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PurchaseFiltreOrderViewModel purchaseFiltreOrderViewModel,
        CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(purchaseFiltreOrderViewModel.PaginationParameters.Search)) purchaseFiltreOrderViewModel.PaginationParameters.Search = "";
             var entity = await _purchaseOrderRepository.Search(purchaseFiltreOrderViewModel, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -134,19 +133,11 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
     [HttpGet]
     public async Task<ActionResult<PurchaseOrder>> GetByUserAndOrderId(int userId, long orderId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetByUserAndOrderId(userId, orderId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -159,20 +150,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -185,20 +170,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<List<PurchaseOrder>>> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById(id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -211,20 +190,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByUserId(int userId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetByUser(userId, Status.New, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -237,20 +210,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByOrderId(long orderId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetByOrderId(orderId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -263,20 +230,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     //[Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrder>> GetByOrderIdWithInclude(long orderId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetByOrderIdWithInclude(orderId, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -289,20 +250,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<PurchaseOrderViewModel>> UserCart(int userId,bool shouldUpdatePurchaseOrderDetails, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _purchaseOrderRepository.GetProductListByUserId(userId, cancellationToken);
 
             if (result == null)
@@ -326,12 +281,7 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpPost]
@@ -339,8 +289,7 @@ public class PurchaseOrdersController : ControllerBase
     public async Task<IActionResult> Post(CreatePurchaseCommand createPurchaseCommand,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (createPurchaseCommand == null)
                 return Ok(new ApiResult
                 {
@@ -475,20 +424,14 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success
 
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpPut]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Decrease(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, purchaseOrder.Id);
             purchaseOrder = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById((int)purchaseOrderDetails.PurchaseOrderId, cancellationToken);
             purchaseOrderDetails.Quantity -= 1;
@@ -516,12 +459,7 @@ public class PurchaseOrdersController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     private double CalculateDiscount(Discount discount, double amount)
@@ -542,8 +480,7 @@ public class PurchaseOrdersController : ControllerBase
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Pay(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (purchaseOrder == null)
                 return Ok(new ApiResult
                 {
@@ -648,42 +585,26 @@ public class PurchaseOrdersController : ControllerBase
                 Code = ResultCode.Success,
                 Messages = new List<string> { fBail }
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            {
-                Code = ResultCode.DatabaseError
-            });
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(PurchaseOrder purchaseOrder, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _purchaseOrderRepository.UpdateAsync(purchaseOrder, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpDelete]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var purchaseOrderDetails = await _purchaseOrderDetailRepository.GetByIdAsync(cancellationToken, id);
             await _purchaseOrderDetailRepository.DeleteAsync(id, cancellationToken);
             var purchaseOrder = await _purchaseOrderRepository.GetPurchaseOrderWithIncludeById((int)purchaseOrderDetails.PurchaseOrderId, cancellationToken);
@@ -693,12 +614,7 @@ public class PurchaseOrdersController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
 

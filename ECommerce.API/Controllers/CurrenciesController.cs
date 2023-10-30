@@ -23,8 +23,7 @@ public class CurrenciesController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _currencyRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -44,19 +43,12 @@ public class CurrenciesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<Currency>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _currencyRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -69,20 +61,13 @@ public class CurrenciesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Currency currency, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (currency == null)
                 return Ok(new ApiResult
                 {
@@ -95,20 +80,13 @@ public class CurrenciesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _currencyRepository.AddAsync(currency, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Currency currency, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (currency.Id == 1)
                 return Ok(new ApiResult
                 {
@@ -128,20 +106,13 @@ public class CurrenciesController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (id == 1)
                 return Ok(new ApiResult
                 {
@@ -153,11 +124,5 @@ public class CurrenciesController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

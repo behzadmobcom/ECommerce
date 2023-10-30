@@ -23,8 +23,7 @@ public class BlogAuthorsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _blogAuthorRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -44,20 +43,13 @@ public class BlogAuthorsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<ActionResult<BlogAuthor>> GetAll(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _blogAuthorRepository.GetAll(cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -70,20 +62,12 @@ public class BlogAuthorsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<BlogAuthor>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _blogAuthorRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -96,21 +80,14 @@ public class BlogAuthorsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(BlogAuthor blogAuthor, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (blogAuthor == null)
                 return Ok(new ApiResult
                 {
@@ -131,52 +108,32 @@ public class BlogAuthorsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _blogAuthorRepository.AddAsync(blogAuthor, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(BlogAuthor blogAuthor, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _blogAuthorRepository.UpdateAsync(blogAuthor, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _blogAuthorRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 }

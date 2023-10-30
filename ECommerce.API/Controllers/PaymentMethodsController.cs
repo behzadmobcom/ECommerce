@@ -28,8 +28,7 @@ public class PaymentMethodsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _paymentMethodRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -48,19 +47,12 @@ public class PaymentMethodsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<PaymentMethod>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _paymentMethodRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -73,20 +65,13 @@ public class PaymentMethodsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(PaymentMethod paymentMethod, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (paymentMethod == null)
             {
                 return Ok(new ApiResult
@@ -112,20 +97,13 @@ public class PaymentMethodsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _paymentMethodRepository.AddAsync(paymentMethod, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(PaymentMethod paymentMethod, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitive =
                 await _paymentMethodRepository.GetByAccountNumber(paymentMethod.AccountNumber, cancellationToken);
             if (repetitive != null && repetitive.Id != paymentMethod.Id)
@@ -140,57 +118,36 @@ public class PaymentMethodsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _paymentMethodRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetHolooAccountNumbers(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = await _accountNumberRepository.GetAll(cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<HolooAccountNumber>> GetHolooAccountNumberById(string key,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _accountNumberRepository.GetByAccountNumberAndBankCode(key, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -203,20 +160,13 @@ public class PaymentMethodsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> ConvertHolooToSunflower(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var paymentMethods = (await _accountNumberRepository.GetAll(cancellationToken))!.Select(x =>
                 new PaymentMethod
                 {
@@ -237,11 +187,5 @@ public class PaymentMethodsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

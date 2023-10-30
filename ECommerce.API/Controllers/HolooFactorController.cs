@@ -26,8 +26,7 @@ public class HolooFactorController : ControllerBase
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Post(FactorViewModel factor, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (factor == null)
                 return Ok(new ApiResult
                 {
@@ -56,12 +55,6 @@ public class HolooFactorController : ControllerBase
                 Code = ResultCode.Error,
                 Messages = new List<string> {"مشکل در ثبت فاکتور"}
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 }

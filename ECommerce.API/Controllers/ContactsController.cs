@@ -27,8 +27,7 @@ public class ContactsController : ControllerBase
     public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
           CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _contactRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -48,21 +47,13 @@ public class ContactsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<Contact>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _contactRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -75,21 +66,13 @@ public class ContactsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<Contact>> GetByName(string name, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _contactRepository.GetByName(name, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -103,21 +86,13 @@ public class ContactsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<Contact>> GetByEmail(string email, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _contactRepository.GetByEmail(email, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -131,20 +106,12 @@ public class ContactsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     public async Task<IActionResult> Post(Contact contact, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _contactRepository.GetRepetitive(contact, cancellationToken);
             if (result != null)
                 return Ok(new ApiResult
@@ -165,53 +132,30 @@ public class ContactsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _contactRepository.AddAsync(contact, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Contact contact, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _contactRepository.UpdateAsync(contact, cancellationToken);
             await _emailRepository.SendEmailAsync(contact.Email, "پاسخ به تماس با ما", contact.ReplayMessage, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _contactRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 }

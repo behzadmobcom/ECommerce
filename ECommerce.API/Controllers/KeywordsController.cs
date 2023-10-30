@@ -23,8 +23,7 @@ public class KeywordsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _keywordRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -43,56 +42,35 @@ public class KeywordsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = await _keywordRepository.GetAll(cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetKeywordsByProductId(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var keywordList = await _keywordRepository.GetByProductId(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = keywordList
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<Keyword>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _keywordRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -105,20 +83,13 @@ public class KeywordsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Keyword keywords, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (keywords == null)
                 return Ok(new ApiResult
                 {
@@ -139,20 +110,13 @@ public class KeywordsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _keywordRepository.AddAsync(keywords, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Keyword keyword, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitive = await _keywordRepository.GetByKeywordText(keyword.KeywordText, cancellationToken);
             if (repetitive != null && repetitive.Id != keyword.Id)
                 return Ok(new ApiResult
@@ -166,30 +130,17 @@ public class KeywordsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _keywordRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

@@ -7,6 +7,7 @@ using Ecommerce.Entities.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Common.Exceptions;
 
 namespace ECommerce.API.Controllers;
 
@@ -57,8 +58,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _productRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -80,20 +80,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     public async Task<IActionResult> Search([FromBody] PageViewModel pageViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var pagination = new PaginationViewModel { SearchText = pageViewModel.SearchText };
             var query = _productRepository.TableNoTracking.OrderByDescending(x => x.Id);
 
@@ -156,13 +148,6 @@ public class ProductsController : ControllerBase
             //    Code = ResultCode.Success,
             //    ReturnData = pagination
             //});
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     /// <summary>
@@ -174,8 +159,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetProducts([FromQuery] ProductListFilteredViewModel productListFilteredViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             //var products = await _productRepository.TopNew(Convert.ToInt32(productListFilteredViewModel.PaginationParameters.Search), cancellationToken);
 
             if (!string.IsNullOrEmpty(productListFilteredViewModel.PaginationParameters.TagText))
@@ -366,18 +350,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails = new PaginationDetails(), Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllProducts(bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var productQuery = _productRepository.GetAllProducts();
             var productIndexPageViewModel = new List<ShopPageViewModel>();
             productIndexPageViewModel.AddRange(await productQuery
@@ -409,18 +387,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message); return Ok(new ApiResult { PaginationDetails = new PaginationDetails(), Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopNew(int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var products = await _productRepository.TopNew(count, 0, null, cancellationToken);
             if (products.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
                 products = await _articleRepository.AddPriceAndExistFromHolooList(products, isWithoutBill, true, cancellationToken);
@@ -432,20 +404,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = products
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopPrice(int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var products = await _productRepository.TopPrices(count, 0, null, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
@@ -459,20 +423,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = products
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopDiscounts(int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var products = await _priceRepository.TopDiscounts(count, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
@@ -485,20 +441,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopRelatives(int productId, int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var products = await _productRepository.TopRelatives(productId, count, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
@@ -511,20 +459,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopSells(int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var products = await _productRepository.TopSells(count, cancellationToken);
 
             var productIndexPageViewModel = new List<ProductIndexPageViewModel>();
@@ -537,20 +477,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> TopStars(int count, bool isWithoutBill, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var productIndexPageViewModel = await _productRepository.TopStars(count, 0, null, cancellationToken);
 
             if (productIndexPageViewModel.Any(x => x.Prices.Any(p => p.ArticleCode != null)))
@@ -561,39 +493,23 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productIndexPageViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public IActionResult GetCategoryProductCount(int categoryId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = _productRepository.GetCategoryProductCount(categoryId, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<ProductViewModel>> GetByProductUrl(string productUrl, int userId, bool isWithoutBill, bool? isCheckExist, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var product = await _productRepository.GetByUrl(productUrl, cancellationToken);
             if (product == null) return Ok(new ApiResult
             {
@@ -627,13 +543,6 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
 
@@ -641,8 +550,7 @@ public class ProductsController : ControllerBase
     public async Task<ActionResult<ProductViewModel>> GetById(int id, bool isColleague,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productRepository.GetProductByIdWithInclude(id).FirstOrDefaultAsync(cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -655,21 +563,13 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetByIdViewModel(int id, bool isColleague, bool? isCheckExist, bool isWithoutBill,
       CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var product = await _productRepository.GetProductById(id, cancellationToken);
 
             if (product == null)
@@ -698,20 +598,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productModalViewModel
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     public async Task<IActionResult> ProductsWithIdsForCompare(List<int> productIdList, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var resultFormRepository = _productRepository.GetProductListWithAttribute(productIdList);
             var result = await _articleRepository.AddPriceAndExistFromHolooList(resultFormRepository.ToList(), true, false, cancellationToken);
             if (result == null)
@@ -725,20 +617,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetProductsWithCategoriesForCompare(int categoryId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             List<int> ProductsIds = _productRepository.GetProductsIdWithCategories(categoryId);
             var resultFormRepository = _productRepository.GetProductListWithAttribute(ProductsIds);
             var result = await _articleRepository.AddPriceAndExistFromHolooList(resultFormRepository.ToList(), true, false, cancellationToken);
@@ -753,21 +637,13 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     public async Task<IActionResult> ProductsWithIdsForCart(List<int> productIdList, bool isWithoutBill,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productRepository.GetProductList(productIdList, cancellationToken);
             result = await _articleRepository.AddPriceAndExistFromHolooList(result, isWithoutBill, true, cancellationToken);
             if (result == null)
@@ -781,21 +657,13 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productViewModel == null)
                 return Ok(new ApiResult
                 {
@@ -824,21 +692,13 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _productRepository.AddWithRelations(productViewModel, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<int>> Put(ProductViewModel productViewModel, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productViewModel == null) return BadRequest();
 
             var repetitiveName = await _productRepository.GetByName(productViewModel.Name, cancellationToken);
@@ -868,59 +728,35 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _productRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetMGroup(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData = await _mGroupRepository.GetAll(cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetSGroupByMGroupCode(string mCode, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _sGroupRepository.GetSGroupByMCode(mCode, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -933,20 +769,12 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllArticleMCodeSCode(string code, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             //var products = (await _articleRepository.GetAllArticleMCodeSCode(code, cancellationToken))!.
             //    Select(x => new Product()
             //    {
@@ -976,13 +804,6 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = products
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
@@ -990,8 +811,7 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> ConvertHolooToSunflower([FromBody] string mCode,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var mCodeLis = new List<HolooMGroup>();
             if (mCode.Equals(""))
                 mCodeLis = (await _mGroupRepository.GetAll(cancellationToken))!.ToList();
@@ -1077,19 +897,9 @@ public class ProductsController : ControllerBase
                             }
                         }
                     });
-                    try
-                    {
+                    
                         await _productRepository.AddRangeAsync(products, cancellationToken);
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogCritical(e, e.Message);
-                        return Ok(new ApiResult
-                        {
-                            Code = ResultCode.Error,
-                            Messages = new List<string> { "افزودن اتوماتیک به مشکل برخورد کرد", e.Message }
-                        });
-                    }
+                  
                 }
 
                 //var allHolooProducts = (await productRepository.GetAllHolooProducts())!.Select(x => new HolooArticle()
@@ -1106,20 +916,12 @@ public class ProductsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetTops(string includeProperties, bool isWithoutBill, int? userid, CancellationToken cancellationToken)
     {
-        try
-        {
+        throw new AppException();
             List<ProductIndexPageViewModel> selectedProducts = new List<ProductIndexPageViewModel>();
 
             string[] parameters = includeProperties.Split(",");
@@ -1226,13 +1028,6 @@ public class ProductsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = selectedProducts
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
 }

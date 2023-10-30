@@ -26,8 +26,7 @@ public class ProductCommentsController : ControllerBase
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _productCommentRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -46,19 +45,13 @@ public class ProductCommentsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
    [HttpGet]
     public async Task<ActionResult<ProductComment>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = _productCommentRepository.GetByIdWithInclude("Answer,Product", id);
             result.Product.Images = await _imageRepository.GetByProductId(result.Product.Id, cancellationToken);
             if (result == null)
@@ -72,19 +65,13 @@ public class ProductCommentsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpPost]
     public async Task<IActionResult> Post(ProductComment productComment, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productComment == null)
                 return Ok(new ApiResult
                 {
@@ -101,20 +88,14 @@ public class ProductCommentsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _productCommentRepository.AddAsync(productComment, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(ProductComment productComment, CancellationToken cancellationToken)
     {
-        try
-        {
+        
 
             ProductComment? _commentAnswer;
             if (productComment.AnswerId != null)
@@ -144,39 +125,27 @@ public class ProductCommentsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpDelete]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _productCommentRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllAccesptedComments([FromQuery] PaginationParameters paginationParameters,
     CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _productCommentRepository.GetAllAccesptedComments(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -195,12 +164,7 @@ public class ProductCommentsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-        }
+       
     }
 
 }

@@ -23,8 +23,7 @@ public class ProductAttributesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll(int groupId, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var entity = await _productAttributeRepository.GetAll(cancellationToken);
 
             return Ok(new ApiResult
@@ -32,40 +31,26 @@ public class ProductAttributesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllAttributeByGroupId(int groupId, int productId,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success,
                 ReturnData =
                     await _productAttributeRepository.GetAllAttributeWithGroupId(groupId, productId, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _productAttributeRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -84,19 +69,12 @@ public class ProductAttributesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpGet]
     public async Task<ActionResult<ProductAttribute>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productAttributeRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
                 return Ok(new ApiResult
@@ -109,20 +87,13 @@ public class ProductAttributesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductAttribute productAttribute, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productAttribute == null)
                 return Ok(new ApiResult
                 {
@@ -144,20 +115,13 @@ public class ProductAttributesController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _productAttributeRepository.AddAsync(productAttribute, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(ProductAttribute productAttribute, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitive = await _productAttributeRepository.GetByTitle(productAttribute.Title, cancellationToken);
             if (repetitive != null && repetitive.Id != productAttribute.Id)
                 return Ok(new ApiResult
@@ -171,30 +135,17 @@ public class ProductAttributesController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _productAttributeRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult {Code = ResultCode.DatabaseError});
-        }
     }
 }

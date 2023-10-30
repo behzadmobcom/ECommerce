@@ -24,8 +24,7 @@ public class StarsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetByProductId(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productUserRankRepository.Where(x => x.ProductId == id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -38,20 +37,12 @@ public class StarsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetBySumProductId(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productUserRankRepository.Where(x => x.ProductId == id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -65,20 +56,12 @@ public class StarsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = average
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetByUserId(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _productUserRankRepository.Where(x => x.UserId == id, cancellationToken);
             if (result == null)
                 return Ok(new ApiResult
@@ -91,21 +74,13 @@ public class StarsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpPost]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Post(ProductUserRank productUserRank, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (productUserRank == null)
                 return Ok(new ApiResult
                 {
@@ -139,32 +114,17 @@ public class StarsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = productUserRanks
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 
     [HttpDelete]
     [Authorize(Roles = "Client,Admin,SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _productUserRankRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-            { Code = ResultCode.DatabaseError, Messages = new List<string> { "اشکال در سمت سرور" } });
-        }
     }
 }

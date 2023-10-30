@@ -26,8 +26,7 @@ namespace ECommerce.API.Controllers
         [Authorize(Roles = "Client,Admin,SuperAdmin")]
         public async Task<ActionResult<PurchaseOrder>> GetById(int id, CancellationToken cancellationToken)
         {
-            try
-            {
+            
                 var result = await _transactionRepository.GetByIdAsync(cancellationToken, id);
                 if (result == null)
                     return Ok(new ApiResult
@@ -40,12 +39,6 @@ namespace ECommerce.API.Controllers
                     Code = ResultCode.Success,
                     ReturnData = result
                 });
-            }
-            catch (Exception e)
-            {
-                _logger.LogCritical(e, e.Message);
-                return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-            }
         }
 
         [HttpGet]
@@ -53,8 +46,7 @@ namespace ECommerce.API.Controllers
        public async Task<IActionResult> Get([FromQuery] TransactionFiltreViewModel transactionFiltreViewModel,
            CancellationToken cancellationToken)
        {
-           try
-           {
+           
                if (string.IsNullOrEmpty(transactionFiltreViewModel.PaginationParameters.Search)) transactionFiltreViewModel.PaginationParameters.Search = "";
                var entity = await _transactionRepository.Search(transactionFiltreViewModel, cancellationToken);
                var paginationDetails = new PaginationDetails
@@ -74,31 +66,18 @@ namespace ECommerce.API.Controllers
                    Code = ResultCode.Success,
                    ReturnData = entity
                });
-           }
-           catch (Exception e)
-           {
-               _logger.LogCritical(e, e.Message);
-               return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-           }
        }
 
        [HttpGet]
        [Authorize(Roles = "Client,Admin,SuperAdmin")]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
        {
-           try
-           {
+           
                return Ok(new ApiResult
                {
                    Code = ResultCode.Success,
                    ReturnData = await _transactionRepository.GetAll(cancellationToken)
                });
-           }
-           catch (Exception e)
-           {
-               _logger.LogCritical(e, e.Message);
-               return Ok(new ApiResult { Code = ResultCode.DatabaseError });
-           }
        }
 
     }

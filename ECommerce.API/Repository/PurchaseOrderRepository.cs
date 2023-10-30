@@ -121,8 +121,7 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
     public async Task<IEnumerable<PurchaseOrderViewModel>> GetProductListByUserId(int userId,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var purchaseOrderViewModel = await _context.PurchaseOrderDetails
                 .Where(x => x.PurchaseOrder!.UserId == userId && !x.PurchaseOrder.IsPaid &&
                             x.PurchaseOrder.Status == Status.New)
@@ -149,12 +148,6 @@ public class PurchaseOrderRepository : AsyncRepository<PurchaseOrder>, IPurchase
                 })
                 .ToListAsync(cancellationToken);
             return purchaseOrderViewModel;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
     }
 
     public async Task<PurchaseOrder> GetPurchaseOrderWithIncludeById(int id, CancellationToken cancellationToken)

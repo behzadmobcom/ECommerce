@@ -25,8 +25,7 @@ public class BrandsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var result = await _brandRepository.GetAll(cancellationToken);
          var brands =   result.ToList();
          brands.Insert(0,new Brand
@@ -38,21 +37,14 @@ public class BrandsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = brands
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllWithPagination([FromQuery] PaginationParameters paginationParameters,
         CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (string.IsNullOrEmpty(paginationParameters.Search)) paginationParameters.Search = "";
             var entity = await _brandRepository.Search(paginationParameters, cancellationToken);
             var paginationDetails = new PaginationDetails
@@ -83,20 +75,13 @@ public class BrandsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = entity
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpGet]
     public async Task<ActionResult<Brand>> GetById(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var x = User.Identity.Name;
             var result = await _brandRepository.GetByIdAsync(cancellationToken, id);
             if (result == null)
@@ -110,21 +95,14 @@ public class BrandsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = result
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpPost]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> Post(Brand brand, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             if (brand == null)
                 return Ok(new ApiResult
                 {
@@ -145,21 +123,14 @@ public class BrandsController : ControllerBase
                 Code = ResultCode.Success,
                 ReturnData = await _brandRepository.AddAsync(brand, cancellationToken)
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpPut]
     [Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<ActionResult<bool>> Put(Brand brand, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             var repetitive = await _brandRepository.GetByName(brand.Name, cancellationToken);
             if (repetitive != null && repetitive.Id != brand.Id)
                 return Ok(new ApiResult
@@ -173,32 +144,19 @@ public class BrandsController : ControllerBase
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 
     [HttpDelete]
     [Authorize(Roles = "SuperAdmin")]
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        try
-        {
+        
             await _brandRepository.DeleteAsync(id, cancellationToken);
             return Ok(new ApiResult
             {
                 Code = ResultCode.Success
             });
-        }
-        catch (Exception e)
-        {
-            _logger.LogCritical(e, e.Message);
-            return Ok(new ApiResult
-                {Code = ResultCode.DatabaseError, Messages = new List<string> {"اشکال در سمت سرور"}});
-        }
+       
     }
 }
