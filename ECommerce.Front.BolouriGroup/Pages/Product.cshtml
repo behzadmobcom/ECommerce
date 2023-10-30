@@ -37,38 +37,6 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                @if (Model.Product.Images.Any())
-                {
-                    <div class="col-lg-5 col-md-10 col-sm-12">
-                        <div class="details-gallery img-zoom-container">
-                            <div class="details-label-group">
-                                <label class="details-label new">جدید</label>
-                            </div>
-                            <ul class="details-preview">
-                                @foreach (var image in Model.Product.Images)
-                                {
-                                    var imageId = "myimage" + image.Id;
-                                    <li>
-                                        <img onmouseover="openZoom()" onmouseout="closeZoom()" id="@imageId" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
-                                    </li>
-                                }
-
-                            </ul>
-                            <ul class="details-thumb">
-                                @foreach (var image in Model.Product.Images)
-                                {
-                                    <li>
-                                        <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
-                                    </li>
-                                }
-                            </ul>
-
-                            <div id="zoomModal" class="pos-absolute">
-                                <div id="myresult" class="img-zoom-result"></div>
-                            </div>
-                        </div>
-                    </div>
-                }
                 <div class="col-lg-7 col-md-10">
                     <div class="details-content">
                         <h1 class="details-name">
@@ -270,6 +238,38 @@
                         </div>
                     </div>
                 </div>
+                @if (Model.Product.Images.Any())
+                {
+                    <div class="col-lg-5 col-md-10 col-sm-12">
+                        <div class="details-gallery img-zoom-container">
+                            <div class="details-label-group">
+                                <label class="details-label new">جدید</label>
+                            </div>
+                            <ul class="details-preview">
+                                @foreach (var image in Model.Product.Images)
+                                {
+                                    var imageId = "myimage" + image.Id;
+                                    <li>
+                                        <img onmouseover="openZoom()" onmouseout="closeZoom()" id="@imageId" src="/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
+                                    </li>
+                                }
+
+                            </ul>
+                            <ul class="details-thumb">
+                                @foreach (var image in Model.Product.Images)
+                                {
+                                    <li>
+                                        <img id="@image.Id" onclick="ChangeZoomImage(@image.Id)" src="~/@($"{image.Path}/{image.Name}")" alt="@image.Alt" loading="lazy">
+                                    </li>
+                                }
+                            </ul>
+
+                            <div id="zoomModal" class="pos-absolute">
+                                <div id="myresult" class="img-zoom-result"></div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
 
         </div>
