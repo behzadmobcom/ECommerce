@@ -64,18 +64,20 @@ namespace ECommerce.Front.BolouriGroup.Pages
                     CategoryBannerImagePath = resultCategory.ReturnData.ImagePath;
                 }
             }
-            var searchByName = search;
-            int articleCodeCustomer;
-            if (int.TryParse(search, out articleCodeCustomer))
+            string searchExpression = search;
+            if (int.TryParse(search, out _))
             {
-                searchByName = $"articleCodeCustomer={search}";
+                searchExpression = $"articleCodeCustomer={search}";
             }
-            else
-                if (!string.IsNullOrEmpty(search) && !search.Contains('='))
-                {
-                    searchByName = $"Name={search}";
-                }
-            Products = await _productService.TopProducts(categoryId, searchByName, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
+            else if (!string.IsNullOrEmpty(search) && !search.Contains('='))
+            {
+                searchExpression = $"Name={search}";
+            }
+            else if (search.Contains("BrandId"))
+            {
+                Search = "";
+            }
+            Products = await _productService.TopProducts(categoryId, searchExpression, pageNumber, pageSize, productSort, maxprice, minprice, IsCheckExist, isWithoutBill: true, tagText: tagText);
 
             if (Products.Code == 0)
             {
@@ -118,8 +120,7 @@ namespace ECommerce.Front.BolouriGroup.Pages
         public async Task<IActionResult> OnGetSearch([FromQuery] Request request)
         {
             string SearchText;
-            int articleCodeCustomer;
-            if (int.TryParse(request.SearchText, out articleCodeCustomer))
+            if (int.TryParse(request.SearchText, out _))
             {
                 SearchText = $"articleCodeCustomer={request.SearchText}";
             }
@@ -131,7 +132,6 @@ namespace ECommerce.Front.BolouriGroup.Pages
             Search = request.SearchText;
             return new JsonResult(resultSearchProducts.ReturnData);
         }
-
 
         public async Task<IActionResult> OnGetSearchCategory([FromQuery] Request request)
         {
