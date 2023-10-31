@@ -67,15 +67,17 @@ public class PurchaseOrdersController : ControllerBase
     }
 
     private async Task<List<PurchaseOrderViewModel>> AddPriceAndExistFromHolooList(
-        List<PurchaseOrderViewModel> products)
+        List<PurchaseOrderViewModel> products, CancellationToken cancellationToken)
     {
+        int userCode = Convert.ToInt32(_configuration.GetValue<string>("UserCode"));
         foreach (var product in products.Where(x => x.Price.ArticleCode != null))
             if (product.Price.SellNumber != null && product.Price.SellNumber != Price.HolooSellNumber.خالی)
             {
                 var article = await _articleRepository.GetHolooPrice(product.Price.ArticleCodeCustomer!,
                     product.Price.SellNumber!.Value);
                 product.PriceAmount = article.price / 10;
-                product.Exist = (double)article.exist;
+                double soldExist = _aBailRepository.GetWithACode(userCode, product.Price.ArticleCode, cancellationToken);
+                product.Exist = (double)article.exist - soldExist;
                 product.SumPrice = product.PriceAmount * product.Quantity;
             }
 
@@ -314,7 +316,7 @@ public class PurchaseOrdersController : ControllerBase
 
             if (result.Any(x => x.Price.ArticleCode != null))
             {
-                result = await AddPriceAndExistFromHolooList(result.ToList());
+                result = await AddPriceAndExistFromHolooList(result.ToList(), cancellationToken);
             }
 
             if (shouldUpdatePurchaseOrderDetails)
