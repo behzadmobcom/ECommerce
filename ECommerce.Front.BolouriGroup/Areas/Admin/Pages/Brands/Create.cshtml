@@ -37,24 +37,29 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Brand.Name" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Brand.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.Brand.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Brand.Name" class="mt-5"
+                                style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>آدرس اینترنتی</label>
-                            <input asp-for="@Model.Brand.Url" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Brand.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.Brand.Url" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Brand.Url" class="mt-5"
+                                style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
-                            <textarea asp-for="@Model.Brand.Description" id="Description_Add" class="form-control form-control-solid" rows="6"></textarea>
+                            <textarea asp-for="@Model.Brand.Description" id="Description_Add"
+                                class="form-control form-control-solid" rows="6"></textarea>
 
                         </div>
                         <div class="form-group">
                             <label>تصویر برند</label>
                             <div class="custom-file">
-                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="selectFile" accept=".webp"/>
+                                <input asp-for="@Model.Upload" type="file" class="custom-file-input" id="selectFile"
+                                    accept=".webp" />
                                 <label class="custom-file-label" for="selectFile">انتخاب فایل</label>
+                                @Html.ValidationMessage("IvalidFileExtention")
                             </div>
                         </div>
                     </div>
@@ -71,10 +76,10 @@
 
 @section Scripts
 {
-<script src="~/Admin/js/ckeditor/ckeditor.js"></script>
+    <script src="~/Admin/js/ckeditor/ckeditor.js"></script>
 
     <script type="text/javascript">
-        window.onload = function() {
+        window.onload = function () {
             CKEDITOR.replace('Description_Add');
         };
     </script>

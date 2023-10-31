@@ -1,7 +1,5 @@
 ﻿@page "/Admin/EditBrand/{handler?}"
 @model ECommerce.Front.BolouriGroup.Areas.Admin.Pages.Brands.EditModel
-@{
-}
 @if (Model.Message != null)
 {
     switch (Model.Code)
@@ -33,33 +31,38 @@
                 </div>
                 <!--begin::Form-->
                 <form class="form" method="post" asp-page-handler="OnPost" enctype="multipart/form-data">
-                    <input hidden="hidden" asp-for="@Model.Brand.Id"/>
-                    <input hidden="hidden" asp-for="@Model.Brand.ImagePath"/>
+                    <input hidden="hidden" asp-for="@Model.Brand.Id" />
+                    <input hidden="hidden" asp-for="@Model.Brand.ImagePath" />
                     <div class="card-body">
                         <div class="form-group">
                             <label>نام</label>
-                            <input asp-for="@Model.Brand.Name" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Brand.Name" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.Brand.Name" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Brand.Name" class="mt-5"
+                                style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>آدرس اینترنتی</label>
-                            <input asp-for="@Model.Brand.Url" class="form-control form-control-solid"/>
-                            <span asp-validation-for="@Model.Brand.Url" class="mt-5" style="color: red; margin-top: 10px"></span>
+                            <input asp-for="@Model.Brand.Url" class="form-control form-control-solid" />
+                            <span asp-validation-for="@Model.Brand.Url" class="mt-5"
+                                style="color: red; margin-top: 10px"></span>
                         </div>
                         <div class="form-group">
                             <label>توضیحات</label>
-                            <textarea asp-for="@Model.Brand.Description" id="Description_Edit" class="form-control form-control-solid" rows="6"></textarea>
+                            <textarea asp-for="@Model.Brand.Description" id="Description_Edit"
+                                class="form-control form-control-solid" rows="6"></textarea>
                         </div>
                         <div class="form-group">
                             <label>تصویر برند</label> <img style="width: 200px" src="@Model.Brand.ImagePath">
                             <div class="custom-file">
-                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل"/>
+                                <input asp-for="Upload" type="file" class="custom-file-input" id="customفایل"
+                                    accept=".webp" />
                                 <label class="custom-file-label" for="customفایل">انتخاب فایل</label>
+                                @Html.ValidationMessage("IvalidFileExtention")
                             </div>
                         </div>
                         <div class="form-group">
                             <input asp-for="@Model.Brand.CreatedDate" type="datetime" hidden="hidden" />
-                            <input asp-for="@Model.Brand.CreatorUserId" type="number" hidden="hidden" />                            
+                            <input asp-for="@Model.Brand.CreatorUserId" type="number" hidden="hidden" />
                         </div>
                     </div>
                     <div class="card-footer">
@@ -75,10 +78,10 @@
 
 @section Scripts
 {
-<script src="~/Admin/js/ckeditor/ckeditor.js"></script>
+    <script src="~/Admin/js/ckeditor/ckeditor.js"></script>
 
     <script type="text/javascript">
-        window.onload = function() {
+        window.onload = function () {
             CKEDITOR.replace('Description_Edit');
         };
     </script>
