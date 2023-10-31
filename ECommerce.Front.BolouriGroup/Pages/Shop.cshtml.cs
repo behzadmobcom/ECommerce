@@ -64,7 +64,7 @@ namespace ECommerce.Front.BolouriGroup.Pages
                     CategoryBannerImagePath = resultCategory.ReturnData.ImagePath;
                 }
             }
-            string searchExpression = search;
+            string searchExpression = search??"";
             if (int.TryParse(search, out _))
             {
                 searchExpression = $"articleCodeCustomer={search}";
@@ -73,7 +73,7 @@ namespace ECommerce.Front.BolouriGroup.Pages
             {
                 searchExpression = $"Name={search}";
             }
-            else if (search.Contains("BrandId"))
+            else if (searchExpression.Contains("BrandId"))
             {
                 Search = "";
             }
