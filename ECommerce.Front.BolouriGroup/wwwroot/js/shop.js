@@ -62,6 +62,7 @@ const getShopHandler = async (base, handler, firstPage, hasQuery) => {
   else search += `&handler=${handler}`;
   if (firstPage) search = search.replace(/pageNumber=[0-9]+/g, "pageNumber=1");
   if (hasQuery) base = base.split("?")[0];
+  search = search.replace(/(search=).*?(&|$)/g, "$1$2");
   return await $.get(base + search);
 };
 
@@ -79,10 +80,14 @@ const categoryChangeHandler = async (e) => {
   const isState = typeof e === "string";
   if (!isState) e.preventDefault();
 
+  $("#searchBox").val("");
+
   const url = !isState ? e.target.attributes.href.value : e;
   updatePage(url, !isState);
-  if (!window.history.state) window.history.replaceState(window.location.pathname, "", window.location.pathname + window.location.search);
-  if (!isState) window.history.pushState(url, "", url + window.location.search.replace(/pageNumber=[0-9]+/g, "pageNumber=1"));
+  if (!window.history.state)
+    window.history.replaceState(window.location.pathname, "", window.location.pathname + window.location.search.replace(/(search=).*?(&|$)/g, "$1$2"));
+  if (!isState)
+    window.history.pushState(url, "", url + window.location.search.replace(/pageNumber=[0-9]+/g, "pageNumber=1").replace(/(search=).*?(&|$)/g, "$1$2"));
   updateFilterLink();
 };
 
