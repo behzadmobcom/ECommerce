@@ -27,6 +27,11 @@ const _plugins = [
 const _module = {
   rules: [
     {
+      test: /\.tsx?$/,
+      use: "ts-loader",
+      exclude: /node_modules/,
+    },
+    {
       test: /.s?css$/,
       use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
     },
@@ -52,6 +57,9 @@ module.exports = {
   mode,
   plugins: _plugins,
   module: _module,
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
   output,
   optimization: {
     minimize: true,

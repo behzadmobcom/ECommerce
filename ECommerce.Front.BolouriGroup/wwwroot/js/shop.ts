@@ -6,30 +6,20 @@ window.onpopstate = (e) => {
   categoryChangeHandler(e.state);
 };
 
-/**
- *
- * @param {Event} e
- * @param {boolean | undefined | null} isClickable
- */
-const shopPaginationHandler = (e, isClickable) => {
+const shopPaginationHandler = (e: Event, isClickable?: boolean) => {
   if (!isShopPage || !isClickable) return;
   e.preventDefault();
 
-  const url = e.target.attributes.href.value;
+  const url = (e.target as Element).getAttribute("href");
   updatePage(url, false, true);
   if (!window.history.state) window.history.replaceState(window.location.pathname, "", window.location.pathname + window.location.search);
   window.history.pushState(url, "", url);
 };
 
-/**
- *
- * @param {Event} e
- * @returns
- */
-const shopRecordsCountHandler = (e) => {
+const shopRecordsCountHandler = (e: Event) => {
   if (!isShopPage) return;
   e.preventDefault();
-  const count = e.target.innerHTML;
+  const count = (e.target as Element).innerHTML;
 
   const search = window.location.search === "" ? "?pageSize=20" : window.location.search;
   const url = (window.location.pathname + search).replace(/pageSize=[0-9]+/g, `pageSize=${count}`).replace(/pageNumber=[0-9]+/g, "pageNumber=1");
@@ -39,9 +29,14 @@ const shopRecordsCountHandler = (e) => {
 };
 
 const attachToPagination = () =>
-  $(".pagination li").each((_, el) => (el.onclick = (event) => shopPaginationHandler(event, !["active", "disabled"].some((v) => el.classList.contains(v)))));
+  $(".pagination li").each((_, el) => {
+    el.onclick = (event) => shopPaginationHandler(event, !["active", "disabled"].some((v) => el.classList.contains(v)));
+  });
 
-const attachToRecordsCount = () => $("#shop-records-count a").each((_, el) => (el.onclick = (e) => shopRecordsCountHandler(e)));
+const attachToRecordsCount = () =>
+  $("#shop-records-count a").each((_, el) => {
+    el.onclick = (e) => shopRecordsCountHandler(e);
+  });
 
 if (isShopPage) {
   attachToPagination(), attachToRecordsCount();
@@ -49,13 +44,13 @@ if (isShopPage) {
 
 /**
  *
- * @param {string} base Base URL or complete URL with query.
- * @param {"products" | "counts" | "pagination"} handler Which handler method to use?
- * @param {boolean | undefined | null} firstPage Should try loading first page?
- * @param {boolean | undefined | null} hasQuery If url already has query string attached on it?
+ * @param base Base URL or complete URL with query.
+ * @param handler Which handler method to use?
+ * @param firstPage Should try loading first page?
+ * @param hasQuery If url already has query string attached on it?
  * @returns
  */
-const getShopHandler = async (base, handler, firstPage, hasQuery) => {
+const getShopHandler = async (base: string, handler: "products" | "counts" | "pagination", firstPage?: boolean, hasQuery?: boolean) => {
   if (!isShopPage) return;
   let search = hasQuery ? "?" + base.split("?")[1] : window.location.search;
   if (search === "") search += `?handler=${handler}`;
@@ -72,17 +67,17 @@ const updateFilterLink = () => {
 
 /**
  *
- * @param {Event | string} e
+ * @param e
  * @returns
  */
-const categoryChangeHandler = async (e) => {
+const categoryChangeHandler = async (e: Event | string) => {
   if (!isShopPage) return;
   const isState = typeof e === "string";
   if (!isState) e.preventDefault();
 
   $("#searchBox").val("");
 
-  const url = !isState ? e.target.attributes.href.value : e;
+  const url = !isState ? (e.target as Element).getAttribute("href") : e;
   updatePage(url, !isState);
   if (!window.history.state)
     window.history.replaceState(window.location.pathname, "", window.location.pathname + window.location.search.replace(/(search=).*?(&|$)/g, "$1$2"));
@@ -93,11 +88,11 @@ const categoryChangeHandler = async (e) => {
 
 /**
  *
- * @param {string} url Base URL or URL with query.
- * @param {boolean | undefined | null} firstPage Should try loading first page?
- * @param {boolean | undefined | null} noSearch Should use window.history.search?
+ * @param url Base URL or URL with query.
+ * @param firstPage Should try loading first page?
+ * @param noSearch Should use window.history.search?
  */
-const updatePage = async (url, firstPage, noSearch) => {
+const updatePage = async (url: string, firstPage?: boolean, noSearch?: boolean) => {
   const container = $("#productsContainer");
   const currentItems = $(".category-item-selected");
 
@@ -120,4 +115,4 @@ const updatePage = async (url, firstPage, noSearch) => {
   attachToPagination();
 };
 
-window.categoryChangeHandler = categoryChangeHandler;
+(window as any).categoryChangeHandler = categoryChangeHandler;
