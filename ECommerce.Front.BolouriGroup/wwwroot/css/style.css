@@ -325,6 +325,7 @@ button:focus {
   content: "\f100";
   font-family: "font awesome 5 pro";
   padding: 0 8px;
+  float:right
 }
 
 .btn {
