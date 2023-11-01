@@ -49,7 +49,7 @@ public class BlogCommentService : EntityService<BlogComment>, IBlogCommentServic
 
         var result = _blogComments.Where(x => x.Name.Contains(filter)).ToList();
         if (result.Count == 0)
-            return new ServiceResult<List<BlogComment>> {Code = ServiceCode.Info, Message = "برندی یافت نشد"};
+            return new ServiceResult<List<BlogComment>> { Code = ServiceCode.Info, Message = "برندی یافت نشد" };
         return new ServiceResult<List<BlogComment>>
         {
             Code = ServiceCode.Success,
@@ -70,6 +70,30 @@ public class BlogCommentService : EntityService<BlogComment>, IBlogCommentServic
     public async Task<ServiceResult> Edit(BlogComment blogComment)
     {
         var result = await Update(Url, blogComment);
+        _blogComments = null;
+        return Return(result);
+    }
+    public async Task<ServiceResult> Accept(BlogComment blogComment)
+    {
+        var result = await Update(Url, blogComment);
+        if (result.Code == ResultCode.Success && blogComment.IsAccepted == true)
+        {
+            _blogComments = null;
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت تایید شد"
+            };
+        }
+        if (result.Code == ResultCode.Success && blogComment.IsAccepted == false)
+        {
+            _blogComments = null;
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "وضعیت پیام به عدم تایید تغییر یافت"
+            };
+        }
         _blogComments = null;
         return Return(result);
     }

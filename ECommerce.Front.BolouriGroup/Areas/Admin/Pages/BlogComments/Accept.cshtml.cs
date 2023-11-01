@@ -17,7 +17,7 @@ public class AcceptModel : PageModel
     }
 
     [BindProperty] public BlogComment BlogComment { get; set; }
-    [TempData] public string Message { get; set; }
+    [TempData] public string? Message { get; set; }
     [TempData] public string Code { get; set; }
     public Blog Blog { get; set; }
 
@@ -35,7 +35,8 @@ public class AcceptModel : PageModel
     {
         try
         {
-            var result = await _blogCommentService.Edit(BlogComment);
+            if (BlogComment.Answer!.Text == null && BlogComment.AnswerId == null) BlogComment.Answer = null;
+            var result = await _blogCommentService.Accept(BlogComment);
             Message = result.Message;
             Code = result.Code.ToString();
             if (result.Code == 0)
@@ -44,12 +45,12 @@ public class AcceptModel : PageModel
             Message = result.Message;
             Code = result.Code.ToString();
             ModelState.AddModelError("", result.Message);
-            return RedirectToPage("/BlogComments/Edit",
+            return RedirectToPage("/BlogComments/Accept",
                         new { id = BlogComment.Id, area = "Admin", message = $"پیغام خطا:{Message}", code = Code });
         }
-        catch (Exception ex)
+        catch
         {
-            return RedirectToPage("/BlogComments/Edit",
+            return RedirectToPage("/BlogComments/Accept",
                         new { id = BlogComment.Id, area = "Admin", message = "پیغام خطای غیر منتظره", code = "Error" });
         }
     }

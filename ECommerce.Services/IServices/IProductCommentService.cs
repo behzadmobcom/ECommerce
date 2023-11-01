@@ -10,5 +10,6 @@ public interface IProductCommentService : IEntityService<ProductComment>
     Task<ServiceResult<List<ProductComment>>> Load(string search = "", int pageNumber = 0, int pageSize = 10);
     Task<ServiceResult<ProductComment>> GetById(int id);
     Task<ServiceResult> Edit(ProductComment productComment);
+    Task<ServiceResult> Accept(ProductComment productComment);
     Task<ServiceResult> Delete(int id);
 }

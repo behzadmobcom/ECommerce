@@ -46,6 +46,27 @@ public class ProductCommentService : EntityService<ProductComment>, IProductComm
         //_productAttributes = null;
         return Return(result);
     }
+    public async Task<ServiceResult> Accept(ProductComment productComment)
+    {
+        var result = await Update(Url, productComment);
+        if (result.Code == ResultCode.Success && productComment.IsAccepted == true)
+        {
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "با موفقیت تایید شد"
+            };
+        }
+        if (result.Code == ResultCode.Success && productComment.IsAccepted == false)
+        {
+            return new ServiceResult
+            {
+                Code = ServiceCode.Success,
+                Message = "وضعیت پیام به عدم تایید تغییر یافت"
+            };
+        }
+        return Return(result);
+    }
 
     public async Task<ServiceResult<List<ProductComment>>> GetAllAccesptedComments(string search = "", int pageNumber = 0, int pageSize = 10)
     {
